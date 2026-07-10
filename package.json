@@ -22,7 +22,9 @@
     "seed": "npx ts-node database/prisma/seed.ts"
   },
   "devDependencies": {
-    "prisma": "^6.2.1"
+    "prisma": "^6.2.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   },
   "dependencies": {
     "@prisma/client": "^6.2.1"
