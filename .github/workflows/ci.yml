@@ -16,6 +16,24 @@ jobs:
     name: Build and Test
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgis/postgis:15-3.3-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: metroradar
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/metroradar?schema=public"
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -31,6 +49,12 @@ jobs:
 
       - name: Generate Database Client
         run: npm run db:generate
+
+      - name: Run Prisma Migrations
+        run: npx prisma migrate deploy --schema=database/prisma/schema.prisma
+
+      - name: Seed Database
+        run: npx prisma db seed
 
       - name: Lint Check
         run: npm run lint

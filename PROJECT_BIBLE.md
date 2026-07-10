@@ -96,12 +96,24 @@ MetroRadar/
 
 ## Chapter 5: Database Rules
 
-All database schemas must follow strict normalization and optimization guidelines, particularly for spatial data:
+All database schemas must follow strict normalization and optimization guidelines, particularly for spatial data and relationships:
 
-1. **Spatial Queries**: Use PostGIS geometries for spatial coordinates (`GEOMETRY(Point, 4326)`). All queries searching stations nearby must use spatial index operators (`&&` or `<->`).
-2. **Strict Foreign Keys**: Foreign keys must be defined on all relationships with cascade rules documented explicitly.
-3. **Optimized Indexes**: Every query target must be indexed. Spatial indices (`GIST`) are mandatory for geolocation columns.
-4. **Timeseries Data**: Live telemetry data (historical train locations) must utilize partition-by-range configurations to maintain fast query speeds.
+### Core Database Architecture
+- **Global Identifiers**: Every database entity uses a `UUID` primary key (`@id @db.Uuid`). No integer auto-increments.
+- **Audit Fields**: Every table includes `createdAt` and `updatedAt` timestamps in timezone format (`DateTime @db.Timestamptz`).
+- **Soft Deletion**: Records must never be hard-deleted. Instead, use an `isActive` Boolean flag (default `true`) and a nullable `deletedAt` timestamp (`DateTime? @db.Timestamptz`).
+- **Unique Codes**: Every entity code field (e.g. `code` for Systems, Lines, Stations) must be unique.
+- **Indices Guidelines**:
+  - Every Foreign Key (FK) must be indexed.
+  - Every Entity `name` must be indexed to support fast textual lookups.
+  - `StationSequence` uses a unique composite index on `(lineId, sequence)`.
+
+### PostGIS Geospatial Integration Strategy
+Geospatial fields (`geom`) are stored as native PostGIS geometries using the `geometry(Point, 4326)` format. To resolve the limitations of writing binary spatial objects via Prisma Client:
+1. **Latitude/Longitude**: Standard floats (`latitude` and `longitude`) are exposed in the Prisma schema for simple reading and seeding.
+2. **Unsupported Field**: The geometry column is defined in Prisma using `geom Unsupported("geometry")?`.
+3. **Spatial Indexing**: A `GIST` index is attached to the `geom` column inside PostgreSQL to accelerate geographic radius searches.
+4. **Trigger-Based Sync**: The database implements an automatic trigger function that calculates and synchronizes the binary `geom` column using `ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)` whenever latitude or longitude are modified.
 
 ---
 

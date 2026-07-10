@@ -18,8 +18,12 @@
     "build": "npm run build:backend && npm run build:frontend",
     "test": "npm run test --workspaces --if-present"
   },
+  "prisma": {
+    "seed": "node node_modules/.bin/ts-node database/prisma/seed.ts"
+  },
   "devDependencies": {
-    "prisma": "^6.2.1"
+    "prisma": "^6.2.1",
+    "ts-node": "^10.9.2"
   },
   "dependencies": {
     "@prisma/client": "^6.2.1"
