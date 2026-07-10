@@ -24,7 +24,9 @@ async function bootstrap() {
 
   await app.listen(port);
   console.log(`Backend is running on: http://localhost:${port}`);
-  console.log(`Swagger documentation is running on: http://localhost:${port}/api`);
+  console.log(
+    `Swagger documentation is running on: http://localhost:${port}/api`,
+  );
   console.log(`Health endpoint is running on: http://localhost:${port}/health`);
 }
-bootstrap();
+bootstrap().catch((err) => console.error(err));

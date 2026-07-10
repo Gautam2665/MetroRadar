@@ -29,13 +29,14 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Generate Database Client
+        run: npm run db:generate
+
       - name: Lint Check
         run: npm run lint
 
       - name: Build Backend
-        run: |
-          npm run db:generate || true
-          npm run build:backend
+        run: npm run build:backend
 
       - name: Build Frontend
         run: npm run build:frontend

@@ -29,9 +29,14 @@ export default function Home() {
   };
 
   useEffect(() => {
-    checkHealth();
-    const interval = setInterval(checkHealth, 3000);
-    return () => clearInterval(interval);
+    const timeoutId = setTimeout(() => {
+      checkHealth();
+    }, 0);
+    const intervalId = setInterval(checkHealth, 3000);
+    return () => {
+      clearTimeout(timeoutId);
+      clearInterval(intervalId);
+    };
   }, []);
 
   const isDbConnected = health?.database === "connected";
