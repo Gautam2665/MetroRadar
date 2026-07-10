@@ -7,8 +7,379 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model SystemStatus {
-  id        String   @id @default(uuid())
+enum SystemStatus {
+  ACTIVE
+  INACTIVE
+  CONSTRUCTION
+  PLANNED
+}
+
+enum LineStatus {
+  ACTIVE
+  SUSPENDED
+  MAINTENANCE
+  PLANNED
+}
+
+enum TractionType {
+  THIRD_RAIL
+  OVERHEAD_CATENARY
+  DIESEL
+  OTHER
+}
+
+enum SignallingType {
+  CBTC
+  ATC
+  ATP
+  MANUAL
+}
+
+enum LevelType {
+  STREET
+  CONCOURSE
+  PLATFORM
+  BASEMENT
+  MEZZANINE
+  OTHER
+}
+
+enum PlatformStatus {
+  ACTIVE
+  SUSPENDED
+  MAINTENANCE
+  PLANNED
+}
+
+enum AmenityType {
+  ATM
+  WASHROOM
+  POLICE
+  WATER
+  CHARGING
+  PRAYER
+  BABY_CARE
+  OTHER
+}
+
+enum CommercialSpaceStatus {
+  VACANT
+  OCCUPIED
+  UNDER_MAINTENANCE
+}
+
+model System {
+  id        String       @id @default(uuid()) @db.Uuid
+  code      String       @unique
+  name      String
+  city      String
+  country   String
+  timezone  String
+  logo      String?
+  website   String?
+  status    SystemStatus @default(ACTIVE)
+  isActive  Boolean      @default(true)
+  deletedAt DateTime?    @db.Timestamptz
+  createdAt DateTime     @default(now()) @db.Timestamptz
+  updatedAt DateTime     @updatedAt @db.Timestamptz
+
+  lines    Line[]
+  stations Station[]
+
+  @@index([name])
+  @@map("systems")
+}
+
+model Agency {
+  id           String    @id @default(uuid()) @db.Uuid
+  code         String    @unique
+  name         String
+  website      String?
+  contactEmail String?
+  phone        String?
+  logo         String?
+  isActive     Boolean   @default(true)
+  deletedAt    DateTime? @db.Timestamptz
+  createdAt    DateTime  @default(now()) @db.Timestamptz
+  updatedAt    DateTime  @updatedAt @db.Timestamptz
+
+  lines Line[]
+
+  @@index([name])
+  @@map("agencies")
+}
+
+model AssetOwner {
+  id        String    @id @default(uuid()) @db.Uuid
+  code      String    @unique
+  name      String
+  website   String?
+  isActive  Boolean   @default(true)
+  deletedAt DateTime? @db.Timestamptz
+  createdAt DateTime  @default(now()) @db.Timestamptz
+  updatedAt DateTime  @updatedAt @db.Timestamptz
+
+  lines Line[]
+
+  @@index([name])
+  @@map("asset_owners")
+}
+
+model Line {
+  id           String         @id @default(uuid()) @db.Uuid
+  systemId     String         @db.Uuid
+  agencyId     String         @db.Uuid
+  assetOwnerId String         @db.Uuid
+  code         String         @unique
+  name         String
+  color        String
+  status       LineStatus     @default(ACTIVE)
+  traction     TractionType
+  signalling   SignallingType
+  gauge        String?
+  length       Float?
+  openingDate  DateTime?      @db.Date
+  website      String?
+  isActive     Boolean        @default(true)
+  deletedAt    DateTime?      @db.Timestamptz
+  createdAt    DateTime       @default(now()) @db.Timestamptz
+  updatedAt    DateTime       @updatedAt @db.Timestamptz
+
+  system     System            @relation(fields: [systemId], references: [id])
+  agency     Agency            @relation(fields: [agencyId], references: [id])
+  assetOwner AssetOwner        @relation(fields: [assetOwnerId], references: [id])
+  sequences  StationSequence[]
+  platforms  Platform[]
+
+  @@index([systemId])
+  @@index([agencyId])
+  @@index([assetOwnerId])
+  @@index([name])
+  @@map("lines")
+}
+
+model Station {
+  id                   String                  @id @default(uuid()) @db.Uuid
+  systemId             String                  @db.Uuid
+  code                 String                  @unique
+  name                 String
+  latitude             Float
+  longitude            Float
+  geom                 Unsupported("geometry")?
+  timezone             String
+  address              String?
+  city                 String
+  state                String
+  country              String
+  openingTime          String?
+  closingTime          String?
+  wheelchairAccessible Boolean                 @default(false)
+  parking              Boolean                 @default(false)
+  bikeParking          Boolean                 @default(false)
+  isActive             Boolean                 @default(true)
+  deletedAt            DateTime?               @db.Timestamptz
+  createdAt            DateTime                @default(now()) @db.Timestamptz
+  updatedAt            DateTime                @updatedAt @db.Timestamptz
+
+  system           System            @relation(fields: [systemId], references: [id])
+  sequences        StationSequence[] @relation("StationSequenceStation")
+  nextSequences    StationSequence[] @relation("StationSequenceNextStation")
+  towardsPlatforms Platform[]        @relation("PlatformTowardsStation")
+  levels           Level[]
+  entrances        Entrance[]
+  amenities        Amenity[]
+  commercialSpaces CommercialSpace[]
+
+  @@index([systemId])
+  @@index([name])
+  @@map("stations")
+}
+
+model StationSequence {
+  id                     String    @id @default(uuid()) @db.Uuid
+  lineId                 String    @db.Uuid
+  stationId              String    @db.Uuid
+  sequence               Int
+  distanceFromPrevious   Float
+  travelTimeFromPrevious Int
+  nextStationId          String?   @db.Uuid
+  isActive               Boolean   @default(true)
+  deletedAt              DateTime? @db.Timestamptz
+  createdAt              DateTime  @default(now()) @db.Timestamptz
+  updatedAt              DateTime  @updatedAt @db.Timestamptz
+
+  line        Line     @relation(fields: [lineId], references: [id])
+  station     Station  @relation("StationSequenceStation", fields: [stationId], references: [id])
+  nextStation Station? @relation("StationSequenceNextStation", fields: [nextStationId], references: [id])
+
+  @@unique([lineId, sequence])
+  @@index([lineId])
+  @@index([stationId])
+  @@index([nextStationId])
+  @@map("station_sequences")
+}
+
+model Level {
+  id          String    @id @default(uuid()) @db.Uuid
+  stationId   String    @db.Uuid
+  name        String
+  levelNumber Int
+  type        LevelType
+  description String?
+  isActive    Boolean   @default(true)
+  deletedAt   DateTime? @db.Timestamptz
+  createdAt   DateTime  @default(now()) @db.Timestamptz
+  updatedAt   DateTime  @updatedAt @db.Timestamptz
+
+  station          Station           @relation(fields: [stationId], references: [id])
+  platforms        Platform[]
+  amenities        Amenity[]
+  commercialSpaces CommercialSpace[]
+
+  @@index([stationId])
+  @@index([name])
+  @@map("levels")
+}
+
+model Platform {
+  id                 String         @id @default(uuid()) @db.Uuid
+  levelId            String         @db.Uuid
+  lineId             String         @db.Uuid
+  platformNumber     String
+  towardsStationId   String         @db.Uuid
+  length             Float?
+  screenDoors        Boolean        @default(false)
+  wheelchairBoarding Boolean        @default(false)
+  status             PlatformStatus @default(ACTIVE)
+  isActive           Boolean        @default(true)
+  deletedAt          DateTime?      @db.Timestamptz
+  createdAt          DateTime       @default(now()) @db.Timestamptz
+  updatedAt          DateTime       @updatedAt @db.Timestamptz
+
+  level            Level         @relation(fields: [levelId], references: [id])
+  line             Line          @relation(fields: [lineId], references: [id])
+  towardsStation   Station       @relation("PlatformTowardsStation", fields: [towardsStationId], references: [id])
+  interchangesFrom Interchange[] @relation("InterchangeFromPlatform")
+  interchangesTo   Interchange[] @relation("InterchangeToPlatform")
+
+  @@index([levelId])
+  @@index([lineId])
+  @@index([towardsStationId])
+  @@map("platforms")
+}
+
+model Interchange {
+  id               String    @id @default(uuid()) @db.Uuid
+  fromPlatformId   String    @db.Uuid
+  toPlatformId     String    @db.Uuid
+  walkingDistance  Float
+  walkingTime      Int
+  accessible       Boolean   @default(false)
+  verticalMovement Boolean   @default(false)
+  isActive         Boolean   @default(true)
+  deletedAt        DateTime? @db.Timestamptz
+  createdAt        DateTime  @default(now()) @db.Timestamptz
+  updatedAt        DateTime  @updatedAt @db.Timestamptz
+
+  fromPlatform Platform @relation("InterchangeFromPlatform", fields: [fromPlatformId], references: [id])
+  toPlatform   Platform @relation("InterchangeToPlatform", fields: [toPlatformId], references: [id])
+
+  @@index([fromPlatformId])
+  @@index([toPlatformId])
+  @@map("interchanges")
+}
+
+model Entrance {
+  id          String                   @id @default(uuid()) @db.Uuid
+  stationId   String                   @db.Uuid
+  name        String
+  latitude    Float
+  longitude   Float
+  geom        Unsupported("geometry")?
+  parking     Boolean                  @default(false)
+  lift        Boolean                  @default(false)
+  escalator   Boolean                  @default(false)
+  accessible  Boolean                  @default(false)
+  openingTime String?
+  closingTime String?
+  isActive    Boolean                  @default(true)
+  deletedAt   DateTime?                @db.Timestamptz
+  createdAt   DateTime                 @default(now()) @db.Timestamptz
+  updatedAt   DateTime                 @updatedAt @db.Timestamptz
+
+  station Station @relation(fields: [stationId], references: [id])
+
+  @@index([stationId])
+  @@index([name])
+  @@map("entrances")
+}
+
+model Amenity {
+  id        String                   @id @default(uuid()) @db.Uuid
+  stationId String                   @db.Uuid
+  levelId   String                   @db.Uuid
+  type      AmenityType
+  name      String
+  latitude  Float?
+  longitude Float?
+  geom      Unsupported("geometry")?
   status    String
-  createdAt DateTime @default(now())
+  isActive  Boolean                  @default(true)
+  deletedAt DateTime?                @db.Timestamptz
+  createdAt DateTime                 @default(now()) @db.Timestamptz
+  updatedAt DateTime                 @updatedAt @db.Timestamptz
+
+  station Station @relation(fields: [stationId], references: [id])
+  level   Level   @relation(fields: [levelId], references: [id])
+
+  @@index([stationId])
+  @@index([levelId])
+  @@index([name])
+  @@map("amenities")
+}
+
+model CommercialSpace {
+  id        String                 @id @default(uuid()) @db.Uuid
+  stationId String                 @db.Uuid
+  levelId   String                 @db.Uuid
+  unitNumber String
+  area      Float?
+  status    CommercialSpaceStatus  @default(VACANT)
+  latitude  Float?
+  longitude Float?
+  geom      Unsupported("geometry")?
+  isActive  Boolean                @default(true)
+  deletedAt DateTime?              @db.Timestamptz
+  createdAt DateTime               @default(now()) @db.Timestamptz
+  updatedAt DateTime               @updatedAt @db.Timestamptz
+
+  station Station            @relation(fields: [stationId], references: [id])
+  level   Level              @relation(fields: [levelId], references: [id])
+  outlets CommercialOutlet[]
+
+  @@index([stationId])
+  @@index([levelId])
+  @@index([unitNumber])
+  @@map("commercial_spaces")
+}
+
+model CommercialOutlet {
+  id                String    @id @default(uuid()) @db.Uuid
+  commercialSpaceId String    @db.Uuid
+  brand             String
+  category          String
+  openingTime       String?
+  closingTime       String?
+  averageVisitTime  Int?
+  rating            Float?
+  isActive          Boolean   @default(true)
+  deletedAt         DateTime? @db.Timestamptz
+  createdAt         DateTime  @default(now()) @db.Timestamptz
+  updatedAt         DateTime  @updatedAt @db.Timestamptz
+
+  commercialSpace CommercialSpace @relation(fields: [commercialSpaceId], references: [id])
+
+  @@index([commercialSpaceId])
+  @@index([brand])
+  @@map("commercial_outlets")
 }

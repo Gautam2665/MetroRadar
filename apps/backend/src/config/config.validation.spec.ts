@@ -16,6 +16,8 @@ describe('validateEnv', () => {
 
   it('should throw an error if parameters are missing', () => {
     const invalidConfig = {};
-    expect(() => validateEnv(invalidConfig)).toThrow('Environment validation failed');
+    expect(() => validateEnv(invalidConfig)).toThrow(
+      'Environment validation failed',
+    );
   });
 });
