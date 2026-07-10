@@ -1,0 +1,27 @@
+{
+  "name": "metroradar",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Urban Mobility Intelligence Platform",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "backend:dev": "npm run start:dev --workspace=apps/backend",
+    "frontend:dev": "npm run dev --workspace=apps/frontend",
+    "db:generate": "prisma generate --schema=database/prisma/schema.prisma",
+    "db:push": "prisma db push --schema=database/prisma/schema.prisma",
+    "lint": "npm run lint --workspaces --if-present",
+    "build:backend": "npm run build --workspace=apps/backend",
+    "build:frontend": "npm run build --workspace=apps/frontend",
+    "build": "npm run build:backend && npm run build:frontend",
+    "test": "npm run test --workspaces --if-present"
+  },
+  "devDependencies": {
+    "prisma": "^6.2.1"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.2.1"
+  }
+}
