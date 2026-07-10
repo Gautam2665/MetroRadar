@@ -93,10 +93,13 @@ describe('GtfsService', () => {
 
     it('should parse CSV lines correctly', async () => {
       const rows: Record<string, string>[] = [];
-      await service.parseCsvFile(testFile, async (row: Record<string, string>) => {
-        rows.push(row);
-        await Promise.resolve();
-      });
+      await service.parseCsvFile(
+        testFile,
+        async (row: Record<string, string>) => {
+          rows.push(row);
+          await Promise.resolve();
+        },
+      );
 
       expect(rows).toHaveLength(1);
       expect(rows[0]['agency_id']).toBe('MMMOCL');

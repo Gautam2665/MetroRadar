@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from '../database/database.service';
@@ -8,7 +9,12 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as readline from 'readline';
 import { execSync } from 'child_process';
-import { LineStatus, TractionType, SignallingType, LevelType } from '@prisma/client';
+import {
+  LineStatus,
+  TractionType,
+  SignallingType,
+  LevelType,
+} from '@prisma/client';
 
 @Injectable()
 export class GtfsService {
@@ -32,7 +38,9 @@ export class GtfsService {
       await Promise.resolve();
       return destDir;
     } catch (error) {
-      throw new Error(`Failed to extract GTFS ZIP: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to extract GTFS ZIP: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   }
 
@@ -102,8 +110,13 @@ export class GtfsService {
   /**
    * Importer: Load GTFS files sequentially to preserve FK integrity
    */
-  async importGtfs(systemId: string, extractedDir: string): Promise<{ success: boolean; stats: any }> {
-    const system = await this.prisma.system.findUnique({ where: { id: systemId } });
+  async importGtfs(
+    systemId: string,
+    extractedDir: string,
+  ): Promise<{ success: boolean; stats: any }> {
+    const system = await this.prisma.system.findUnique({
+      where: { id: systemId },
+    });
     if (!system) {
       throw new Error(`Target System ID ${systemId} not found in database.`);
     }
@@ -157,7 +170,7 @@ export class GtfsService {
     const stationsMap = new Map<string, string>(); // gtfs_stop_id (parent) -> db_station_id
     const stopsMap = new Map<string, string>(); // gtfs_stop_id (child) -> db_platform_id / db_station_id
     const stopsFile = path.join(extractedDir, 'stops.txt');
-    
+
     if (fs.existsSync(stopsFile)) {
       // First pass: parent stations (location_type = 1)
       const parentStops: any[] = [];
@@ -206,7 +219,9 @@ export class GtfsService {
 
       // Second pass: child stops / platforms
       for (const stop of childStops) {
-        let parentDbId = stop.parent_station ? stationsMap.get(stop.parent_station) : null;
+        let parentDbId = stop.parent_station
+          ? stationsMap.get(stop.parent_station)
+          : null;
 
         // If no parent station was defined in GTFS, create a default station container
         if (!parentDbId) {
@@ -261,7 +276,7 @@ export class GtfsService {
     // 3. IMPORT ROUTES (LINES)
     const linesMap = new Map<string, string>(); // gtfs_route_id -> db_line_id
     const routesFile = path.join(extractedDir, 'routes.txt');
-    
+
     // Resolve standard AssetOwner for lines (fall back to MMRDA or system owner)
     let assetOwner = await this.prisma.assetOwner.findFirst();
     if (!assetOwner) {
@@ -273,7 +288,10 @@ export class GtfsService {
     if (fs.existsSync(routesFile)) {
       await this.parseCsvFile(routesFile, async (row) => {
         const agencyCode = row.agency_id || 'default';
-        const agencyDbId = agenciesMap.get(agencyCode) || agenciesMap.values().next().value || null;
+        const agencyDbId =
+          agenciesMap.get(agencyCode) ||
+          agenciesMap.values().next().value ||
+          null;
         if (!agencyDbId) return;
 
         const code = row.route_id;
@@ -310,7 +328,7 @@ export class GtfsService {
     if (fs.existsSync(calendarFile)) {
       await this.parseCsvFile(calendarFile, async (row) => {
         const serviceId = row.service_id;
-        
+
         const parseDate = (dStr: string) => {
           const yr = parseInt(dStr.substring(0, 4));
           const mo = parseInt(dStr.substring(4, 6)) - 1;
@@ -395,7 +413,9 @@ export class GtfsService {
           latitude: parseFloat(row.shape_pt_lat),
           longitude: parseFloat(row.shape_pt_lon),
           sequence: parseInt(row.shape_pt_sequence),
-          distTraveled: row.shape_dist_traveled ? parseFloat(row.shape_dist_traveled) : null,
+          distTraveled: row.shape_dist_traveled
+            ? parseFloat(row.shape_dist_traveled)
+            : null,
         });
         await Promise.resolve();
       });
