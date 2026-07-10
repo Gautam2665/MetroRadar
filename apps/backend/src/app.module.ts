@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { HealthModule } from './health/health.module';
+import { GtfsModule } from './gtfs/gtfs.module';
 import { validateEnv } from './config/config.validation';
 
 @Module({
@@ -12,6 +13,7 @@ import { validateEnv } from './config/config.validation';
     }),
     DatabaseModule,
     HealthModule,
+    GtfsModule,
   ],
 })
 export class AppModule {}
