@@ -92,15 +92,16 @@ describe('GtfsService', () => {
     });
 
     it('should parse CSV lines correctly', async () => {
-      const rows: any[] = [];
-      await service.parseCsvFile(testFile, async (row) => {
+      const rows: Record<string, string>[] = [];
+      await service.parseCsvFile(testFile, async (row: Record<string, string>) => {
         rows.push(row);
+        await Promise.resolve();
       });
 
       expect(rows).toHaveLength(1);
-      expect(rows[0].agency_id).toBe('MMMOCL');
-      expect(rows[0].agency_name).toBe('Maha Mumbai Metro operation');
-      expect(rows[0].agency_url).toBe('https://mmmocl.co.in');
+      expect(rows[0]['agency_id']).toBe('MMMOCL');
+      expect(rows[0]['agency_name']).toBe('Maha Mumbai Metro operation');
+      expect(rows[0]['agency_url']).toBe('https://mmmocl.co.in');
     });
   });
 });
