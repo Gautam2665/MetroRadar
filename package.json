@@ -19,7 +19,9 @@
     "test": "npm run test --workspaces --if-present"
   },
   "devDependencies": {
-    "prisma": "^6.2.1"
+    "prisma": "^6.2.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   },
   "dependencies": {
     "@prisma/client": "^6.2.1"
