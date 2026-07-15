@@ -1,0 +1,38 @@
+{
+  "city": "Kochi",
+  "operator": "KMRL",
+  "network": "Kochi Metro Rail Limited",
+  "source": "KMRL Official Open Data Portal",
+  "sourceUrl": "https://kochimetro.org",
+  "backupUrl": "https://mobilitydatabase.org",
+  "format": "GTFS_STATIC",
+  "trustTier": "A",
+  "licenseFile": "datasets/kochi/license.json",
+  "lastDownloaded": null,
+  "feedVersion": null,
+  "sha256": null,
+  "filesIncluded": [
+    "agency.txt",
+    "stops.txt",
+    "routes.txt",
+    "trips.txt",
+    "stop_times.txt",
+    "fare_attributes.txt",
+    "fare_rules.txt"
+  ],
+  "expectedCounts": {
+    "agencies": 1,
+    "stops": null,
+    "routes": null,
+    "trips": null,
+    "stopTimes": null
+  },
+  "gtfsRealtime": {
+    "available": false,
+    "notes": "No official GTFS-RT feed published by KMRL as of 2026-07-15"
+  },
+  "ctmMappingStatus": "NOT_STARTED",
+  "importStatus": "NOT_STARTED",
+  "importSessionId": null,
+  "validationReportFile": "datasets/kochi/processed/validation-report.json"
+}

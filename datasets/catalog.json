@@ -1,0 +1,65 @@
+{
+  "version": "1.0.0",
+  "description": "MetroRadar Data Catalog — authoritative registry of all transit datasets",
+  "lastUpdated": "2026-07-15",
+  "datasets": [
+    {
+      "id": "delhi-dmrc-gtfs-static",
+      "city": "Delhi",
+      "operator": "DMRC",
+      "network": "Delhi Metro Rail Corporation",
+      "format": "GTFS_STATIC",
+      "trustTier": "A",
+      "portal": "https://transportstack.delhi.gov.in",
+      "licenseFile": "datasets/delhi/license.json",
+      "status": "ACTIVE",
+      "lastDownloaded": null,
+      "feedVersion": null,
+      "sha256": null,
+      "importStatus": "NOT_STARTED",
+      "importSessionId": null,
+      "notes": "Primary portal shifted from otd.delhi.gov.in to transportstack.delhi.gov.in. Static download requires no login."
+    },
+    {
+      "id": "kochi-kmrl-gtfs-static",
+      "city": "Kochi",
+      "operator": "KMRL",
+      "network": "Kochi Metro Rail Limited",
+      "format": "GTFS_STATIC",
+      "trustTier": "A",
+      "portal": "https://kochimetro.org",
+      "licenseFile": "datasets/kochi/license.json",
+      "status": "ACTIVE",
+      "lastDownloaded": null,
+      "feedVersion": null,
+      "sha256": null,
+      "importStatus": "NOT_STARTED",
+      "importSessionId": null,
+      "notes": "First Indian metro to publish official GTFS (~2018). Integrated with Google Maps."
+    },
+    {
+      "id": "mumbai-metro-curated",
+      "city": "Mumbai",
+      "operator": "MMRDA / MMMOCL / MMRC / MMOPL",
+      "network": "Mumbai Metro (multiple operators)",
+      "format": "CURATED",
+      "trustTier": "B",
+      "portal": null,
+      "status": "RESEARCH_PENDING",
+      "importStatus": "NOT_STARTED",
+      "notes": "No official GTFS from any Mumbai operator. Must be manually curated from PDFs, OSM, and operator websites. Deferred to Sprint 4+."
+    },
+    {
+      "id": "bangalore-bmrcl-gtfs-static",
+      "city": "Bangalore",
+      "operator": "BMRCL",
+      "network": "Namma Metro / Bengaluru Metro Rail Corporation Limited",
+      "format": "GTFS_STATIC",
+      "trustTier": "B",
+      "portal": "https://iudx.org.in",
+      "status": "RESEARCH_PENDING",
+      "importStatus": "NOT_STARTED",
+      "notes": "Data available via India Urban Data Exchange (IUDX). Developer registration required. Deferred pending IUDX registration."
+    }
+  ]
+}

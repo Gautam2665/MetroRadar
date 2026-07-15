@@ -1,0 +1,45 @@
+{
+  "city": "Mumbai",
+  "operator": "MMRDA / MMMOCL / MMRC / MMOPL",
+  "network": "Mumbai Metro (multiple operators)",
+  "source": "CURATED — no official GTFS exists",
+  "sourceUrl": null,
+  "format": "CURATED",
+  "trustTier": "B",
+  "licenseFile": "datasets/mumbai/license.json",
+  "lastDownloaded": null,
+  "feedVersion": null,
+  "sha256": null,
+  "status": "RESEARCH_PENDING",
+  "ctmMappingStatus": "NOT_STARTED",
+  "importStatus": "NOT_STARTED",
+  "importSessionId": null,
+  "notes": "No official GTFS from any Mumbai Metro operator. Dataset must be manually curated from official PDFs, OSM data, and operator websites. Deferred to Sprint 4+. See source.md for strategy.",
+  "sources": [
+    {
+      "type": "PDF",
+      "operator": "MMRDA",
+      "description": "Route maps, station lists",
+      "url": "https://mmrda.maharashtra.gov.in"
+    },
+    {
+      "type": "PDF",
+      "operator": "MMMOCL (Lines 2A & 7)",
+      "description": "Station maps, timetables",
+      "url": "https://www.mmmocl.co.in"
+    },
+    {
+      "type": "PDF",
+      "operator": "MMRC (Line 3 / Aqua Line)",
+      "description": "Station lists, operational data",
+      "url": "https://mmrcl.com"
+    },
+    {
+      "type": "OSM",
+      "operator": "OpenStreetMap community",
+      "description": "Geometry, coordinates, entrances",
+      "url": "https://www.openstreetmap.org",
+      "license": "ODbL"
+    }
+  ]
+}
