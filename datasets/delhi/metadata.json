@@ -8,9 +8,9 @@
   "format": "GTFS_STATIC",
   "trustTier": "A",
   "licenseFile": "datasets/delhi/license.json",
-  "lastDownloaded": null,
+  "lastDownloaded": "2026-07-15",
   "feedVersion": null,
-  "sha256": null,
+  "sha256": "bd184a7e13907a223032b3b7886babe52ac16b6149f8404f508712b87492fc1b",
   "filesIncluded": [
     "agency.txt",
     "stops.txt",
@@ -24,11 +24,11 @@
   ],
   "expectedCounts": {
     "agencies": 1,
-    "stops": null,
-    "routes": null,
-    "trips": null,
-    "stopTimes": null,
-    "shapes": null
+    "stops": 262,
+    "routes": 36,
+    "trips": 5438,
+    "stopTimes": 128434,
+    "shapes": 6643
   },
   "gtfsRealtime": {
     "available": true,
@@ -36,8 +36,8 @@
     "registrationUrl": "https://otd.delhi.gov.in",
     "documentationFile": "datasets/delhi/realtime.md"
   },
-  "ctmMappingStatus": "NOT_STARTED",
-  "importStatus": "NOT_STARTED",
-  "importSessionId": null,
+  "ctmMappingStatus": "VALIDATED",
+  "importStatus": "IMPORTED",
+  "importSessionId": "5adb03e7-1898-490f-8e44-daca2820b7c3",
   "validationReportFile": "datasets/delhi/processed/validation-report.json"
 }

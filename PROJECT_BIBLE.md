@@ -177,15 +177,34 @@ AI components are kept until the very end, following a **Data-First** developmen
 
 ## Chapter 10: Development Roadmap
 
-Development runs in 10 sequential, modular "LEGO" sprints:
+Development runs in 11 sequential, modular sprints:
 
-1.  **Sprint 1: Infrastructure**: Git/Monorepo configs, linting, docker containers.
-2.  **Sprint 2: Database**: Database migrations, tables structure, PostGIS setups.
-3.  **Sprint 3: Authentication**: Security tokens, login API, secure routes.
-4.  **Sprint 4: Stations**: CRUD endpoints, station lookup, layout maps.
-5.  **Sprint 5: Lines**: Track geometry mapping, route definitions, line timetables.
-6.  **Sprint 6: Maps**: Map visualization frontend, station plotting, UI styling.
-7.  **Sprint 7: GTFS Ingestion**: GTFS static/real-time parsers and sync pipelines.
-8.  **Sprint 8: Routing**: Pathfinding (Dijkstra/A*), connection transfers, trip duration forecasting.
-9.  **Sprint 9: Commercial**: Station advertisements, store integrations, deals board.
-10. **Sprint 10: AI Integration**: Context-aware commuter recommendations and predictive delays.
+1. **Sprint 1: Infrastructure**: Git/Monorepo configs, linting, Docker containers.
+2. **Sprint 2: Transit Core Schema**: Database structure, PostGIS setups, initial tables.
+3. **Sprint 3: GTFS Ingestion Engine**: Database upgrades, enums, triggers, and CTM models.
+4. **Sprint 3.5: Transit Data Acquisition & Validation**: Authoritative Data Catalog, validation CLI, and real-world imports (Delhi, Kochi).
+5. **Sprint 4: Frontend Maps**: Map visualization frontend, station plotting, UI styling.
+6. **Sprint 5: Routing & Pathfinding**: Pathfinding (Dijkstra/A*), connection transfers, trip duration forecasting.
+7. **Sprint 6: Realtime Engine**: GTFS-RT connectors, vehicle positions, TripUpdates, Redis cache overlay, WebSockets.
+8. **Sprint 7: Authentication**: Security tokens, login API, secure routes.
+9. **Sprint 8: Stations Detail**: Layout maps, exits, levels, amenities, entrances.
+10. **Sprint 9: Commercial**: Station advertisements, store integrations, deals board.
+11. **Sprint 10: AI Integration**: Context-aware commuter recommendations and predictive delays.
+
+---
+
+## Chapter 11: Ingestion & Data Architecture
+
+### Dual-Pipeline Strategy
+MetroRadar splits Static (planned network) and Realtime (live state) transit data into completely independent systems:
+
+1. **Static Ingestion Pipeline**:
+   - Sourced from official static feeds (GTFS Static, manual operator PDFs, or OSM).
+   - Validated against schema, bounding boxes, checksums, and reference constraints.
+   - Imported into PostgreSQL as the persistent database "source of truth".
+2. **Realtime Overlay Engine**:
+   - Sourced from official live feeds (GTFS-RT Protocol Buffers).
+   - Polled periodically, cached in memory (Redis), and automatically expired.
+   - Pushed directly to client web browsers via WebSockets.
+   - **Never persisted in PostgreSQL** to maintain a clean database schema and avoid transaction choke.
+

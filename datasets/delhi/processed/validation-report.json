@@ -1,0 +1,65 @@
+{
+  "dataset": "delhi-gtfs-static",
+  "city": "delhi",
+  "validatedAt": "2026-07-15T05:20:07.905Z",
+  "passed": true,
+  "stages": {
+    "schema": {
+      "passed": true,
+      "details": {
+        "missingRequired": [],
+        "presentOptional": [
+          "calendar.txt",
+          "shapes.txt"
+        ]
+      }
+    },
+    "coordinates": {
+      "passed": true,
+      "details": {
+        "totalStops": 262,
+        "outOfBoundsCount": 0,
+        "outOfBounds": []
+      }
+    },
+    "duplicates": {
+      "passed": true,
+      "details": {
+        "duplicates": {}
+      }
+    },
+    "references": {
+      "passed": true,
+      "details": {
+        "brokenRefsCount": 0,
+        "brokenRefs": []
+      }
+    },
+    "license": {
+      "passed": true,
+      "details": {
+        "missingFields": [],
+        "licenseFile": "C:\\Users\\HP\\OneDrive\\Desktop\\MetroRadar\\datasets\\delhi\\license.json"
+      }
+    },
+    "checksum": {
+      "passed": true,
+      "details": {
+        "expected": "bd184a7e13907a223032b3b7886babe52ac16b6149f8404f508712b87492fc1b",
+        "actual": "bd184a7e13907a223032b3b7886babe52ac16b6149f8404f508712b87492fc1b",
+        "match": true
+      }
+    }
+  },
+  "counts": {
+    "agencies": 1,
+    "stops": 262,
+    "routes": 36,
+    "trips": 5438,
+    "stopTimes": 128434,
+    "shapes": 6643,
+    "calendars": 3
+  },
+  "warnings": [],
+  "errors": []
+}

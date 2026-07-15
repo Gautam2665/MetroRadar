@@ -1,0 +1,67 @@
+{
+  "dataset": "kochi-gtfs-static",
+  "city": "kochi",
+  "validatedAt": "2026-07-15T05:51:46.854Z",
+  "passed": true,
+  "stages": {
+    "schema": {
+      "passed": true,
+      "details": {
+        "missingRequired": [],
+        "presentOptional": [
+          "calendar.txt",
+          "shapes.txt",
+          "fare_attributes.txt",
+          "feed_info.txt"
+        ]
+      }
+    },
+    "coordinates": {
+      "passed": true,
+      "details": {
+        "totalStops": 25,
+        "outOfBoundsCount": 0,
+        "outOfBounds": []
+      }
+    },
+    "duplicates": {
+      "passed": true,
+      "details": {
+        "duplicates": {}
+      }
+    },
+    "references": {
+      "passed": true,
+      "details": {
+        "brokenRefsCount": 0,
+        "brokenRefs": []
+      }
+    },
+    "license": {
+      "passed": true,
+      "details": {
+        "missingFields": [],
+        "licenseFile": "C:\\Users\\HP\\OneDrive\\Desktop\\MetroRadar\\datasets\\kochi\\license.json"
+      }
+    },
+    "checksum": {
+      "passed": true,
+      "details": {
+        "expected": "26347766f41574bbde22e57c1ac12d8c169baed10ea7ea232008ffb428fcb158",
+        "actual": "26347766f41574bbde22e57c1ac12d8c169baed10ea7ea232008ffb428fcb158",
+        "match": true
+      }
+    }
+  },
+  "counts": {
+    "agencies": 1,
+    "stops": 25,
+    "routes": 1,
+    "trips": 450,
+    "stopTimes": 10726,
+    "shapes": 1018,
+    "calendars": 2
+  },
+  "warnings": [],
+  "errors": []
+}
