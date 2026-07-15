@@ -82,9 +82,13 @@ model System {
   deletedAt DateTime?    @db.Timestamptz
   createdAt DateTime     @default(now()) @db.Timestamptz
   updatedAt DateTime     @updatedAt @db.Timestamptz
+  version   Int          @default(1)
 
-  lines    Line[]
-  stations Station[]
+  lines          Line[]
+  stations       Station[]
+  calendars      Calendar[]
+  shapes         Shape[]
+  importSessions ImportSession[]
 
   @@index([name])
   @@map("systems")
@@ -102,6 +106,7 @@ model Agency {
   deletedAt    DateTime? @db.Timestamptz
   createdAt    DateTime  @default(now()) @db.Timestamptz
   updatedAt    DateTime  @updatedAt @db.Timestamptz
+  version      Int       @default(1)
 
   lines Line[]
 
@@ -118,6 +123,7 @@ model AssetOwner {
   deletedAt DateTime? @db.Timestamptz
   createdAt DateTime  @default(now()) @db.Timestamptz
   updatedAt DateTime  @updatedAt @db.Timestamptz
+  version   Int       @default(1)
 
   lines Line[]
 
@@ -144,12 +150,14 @@ model Line {
   deletedAt    DateTime?      @db.Timestamptz
   createdAt    DateTime       @default(now()) @db.Timestamptz
   updatedAt    DateTime       @updatedAt @db.Timestamptz
+  version      Int            @default(1)
 
   system     System            @relation(fields: [systemId], references: [id])
   agency     Agency            @relation(fields: [agencyId], references: [id])
   assetOwner AssetOwner        @relation(fields: [assetOwnerId], references: [id])
   sequences  StationSequence[]
   platforms  Platform[]
+  trips      Trip[]
 
   @@index([systemId])
   @@index([agencyId])
@@ -159,13 +167,13 @@ model Line {
 }
 
 model Station {
-  id                   String                  @id @default(uuid()) @db.Uuid
-  systemId             String                  @db.Uuid
-  code                 String                  @unique
+  id                   String                   @id @default(uuid()) @db.Uuid
+  systemId             String                   @db.Uuid
+  code                 String                   @unique
   name                 String
   latitude             Float
   longitude            Float
-  geom                 Unsupported("geometry")?
+  geom                 Unsupported("geometry(Point, 4326)")?
   timezone             String
   address              String?
   city                 String
@@ -173,13 +181,14 @@ model Station {
   country              String
   openingTime          String?
   closingTime          String?
-  wheelchairAccessible Boolean                 @default(false)
-  parking              Boolean                 @default(false)
-  bikeParking          Boolean                 @default(false)
-  isActive             Boolean                 @default(true)
-  deletedAt            DateTime?               @db.Timestamptz
-  createdAt            DateTime                @default(now()) @db.Timestamptz
-  updatedAt            DateTime                @updatedAt @db.Timestamptz
+  wheelchairAccessible Boolean                  @default(false)
+  parking              Boolean                  @default(false)
+  bikeParking          Boolean                  @default(false)
+  isActive             Boolean                  @default(true)
+  deletedAt            DateTime?                @db.Timestamptz
+  createdAt            DateTime                 @default(now()) @db.Timestamptz
+  updatedAt            DateTime                 @updatedAt @db.Timestamptz
+  version              Int                      @default(1)
 
   system           System            @relation(fields: [systemId], references: [id])
   sequences        StationSequence[] @relation("StationSequenceStation")
@@ -189,6 +198,8 @@ model Station {
   entrances        Entrance[]
   amenities        Amenity[]
   commercialSpaces CommercialSpace[]
+  stopTimes        StopTime[]
+  walkingEdges     WalkingEdge[]
 
   @@index([systemId])
   @@index([name])
@@ -207,6 +218,7 @@ model StationSequence {
   deletedAt              DateTime? @db.Timestamptz
   createdAt              DateTime  @default(now()) @db.Timestamptz
   updatedAt              DateTime  @updatedAt @db.Timestamptz
+  version                Int       @default(1)
 
   line        Line     @relation(fields: [lineId], references: [id])
   station     Station  @relation("StationSequenceStation", fields: [stationId], references: [id])
@@ -230,11 +242,14 @@ model Level {
   deletedAt   DateTime? @db.Timestamptz
   createdAt   DateTime  @default(now()) @db.Timestamptz
   updatedAt   DateTime  @updatedAt @db.Timestamptz
+  version     Int       @default(1)
 
   station          Station           @relation(fields: [stationId], references: [id])
   platforms        Platform[]
   amenities        Amenity[]
   commercialSpaces CommercialSpace[]
+  walkingEdgesFrom WalkingEdge[]     @relation("WalkingEdgeFromLevel")
+  walkingEdgesTo   WalkingEdge[]     @relation("WalkingEdgeToLevel")
 
   @@index([stationId])
   @@index([name])
@@ -255,12 +270,15 @@ model Platform {
   deletedAt          DateTime?      @db.Timestamptz
   createdAt          DateTime       @default(now()) @db.Timestamptz
   updatedAt          DateTime       @updatedAt @db.Timestamptz
+  version            Int            @default(1)
 
   level            Level         @relation(fields: [levelId], references: [id])
   line             Line          @relation(fields: [lineId], references: [id])
   towardsStation   Station       @relation("PlatformTowardsStation", fields: [towardsStationId], references: [id])
   interchangesFrom Interchange[] @relation("InterchangeFromPlatform")
   interchangesTo   Interchange[] @relation("InterchangeToPlatform")
+  walkingEdgesFrom WalkingEdge[] @relation("WalkingEdgeFromPlatform")
+  walkingEdgesTo   WalkingEdge[] @relation("WalkingEdgeToPlatform")
 
   @@index([levelId])
   @@index([lineId])
@@ -280,6 +298,7 @@ model Interchange {
   deletedAt        DateTime? @db.Timestamptz
   createdAt        DateTime  @default(now()) @db.Timestamptz
   updatedAt        DateTime  @updatedAt @db.Timestamptz
+  version          Int       @default(1)
 
   fromPlatform Platform @relation("InterchangeFromPlatform", fields: [fromPlatformId], references: [id])
   toPlatform   Platform @relation("InterchangeToPlatform", fields: [toPlatformId], references: [id])
@@ -295,7 +314,7 @@ model Entrance {
   name        String
   latitude    Float
   longitude   Float
-  geom        Unsupported("geometry")?
+  geom        Unsupported("geometry(Point, 4326)")?
   parking     Boolean                  @default(false)
   lift        Boolean                  @default(false)
   escalator   Boolean                  @default(false)
@@ -306,8 +325,11 @@ model Entrance {
   deletedAt   DateTime?                @db.Timestamptz
   createdAt   DateTime                 @default(now()) @db.Timestamptz
   updatedAt   DateTime                 @updatedAt @db.Timestamptz
+  version     Int                      @default(1)
 
-  station Station @relation(fields: [stationId], references: [id])
+  station          Station       @relation(fields: [stationId], references: [id])
+  walkingEdgesFrom WalkingEdge[] @relation("WalkingEdgeFromEntrance")
+  walkingEdgesTo   WalkingEdge[] @relation("WalkingEdgeToEntrance")
 
   @@index([stationId])
   @@index([name])
@@ -322,12 +344,13 @@ model Amenity {
   name      String
   latitude  Float?
   longitude Float?
-  geom      Unsupported("geometry")?
+  geom      Unsupported("geometry(Point, 4326)")?
   status    String
   isActive  Boolean                  @default(true)
   deletedAt DateTime?                @db.Timestamptz
   createdAt DateTime                 @default(now()) @db.Timestamptz
   updatedAt DateTime                 @updatedAt @db.Timestamptz
+  version   Int                      @default(1)
 
   station Station @relation(fields: [stationId], references: [id])
   level   Level   @relation(fields: [levelId], references: [id])
@@ -347,11 +370,12 @@ model CommercialSpace {
   status    CommercialSpaceStatus  @default(VACANT)
   latitude  Float?
   longitude Float?
-  geom      Unsupported("geometry")?
+  geom      Unsupported("geometry(Point, 4326)")?
   isActive  Boolean                @default(true)
   deletedAt DateTime?              @db.Timestamptz
   createdAt DateTime               @default(now()) @db.Timestamptz
   updatedAt DateTime               @updatedAt @db.Timestamptz
+  version   Int                    @default(1)
 
   station Station            @relation(fields: [stationId], references: [id])
   level   Level              @relation(fields: [levelId], references: [id])
@@ -376,6 +400,7 @@ model CommercialOutlet {
   deletedAt         DateTime? @db.Timestamptz
   createdAt         DateTime  @default(now()) @db.Timestamptz
   updatedAt         DateTime  @updatedAt @db.Timestamptz
+  version           Int       @default(1)
 
   commercialSpace CommercialSpace @relation(fields: [commercialSpaceId], references: [id])
 
@@ -383,3 +408,264 @@ model CommercialOutlet {
   @@index([brand])
   @@map("commercial_outlets")
 }
+
+// ----------------- GTFS Ingestion Models & Reserved WalkingEdge -----------------
+
+model Trip {
+  id            String    @id @default(uuid()) @db.Uuid
+  lineId        String    @db.Uuid
+  serviceId     String
+  tripId        String    @unique
+  tripHeadsign  String?
+  directionId   Int?
+  shapeId       String?
+  isActive      Boolean   @default(true)
+  deletedAt     DateTime? @db.Timestamptz
+  createdAt     DateTime  @default(now()) @db.Timestamptz
+  updatedAt     DateTime  @updatedAt @db.Timestamptz
+  version       Int       @default(1)
+
+  line        Line        @relation(fields: [lineId], references: [id])
+  calendar    Calendar?   @relation(fields: [serviceId], references: [serviceId])
+  stopTimes   StopTime[]
+  frequencies Frequency[]
+
+  @@index([lineId])
+  @@index([serviceId])
+  @@index([tripId])
+  @@index([shapeId])
+  @@map("trips")
+}
+
+model StopTime {
+  id             String    @id @default(uuid()) @db.Uuid
+  tripId         String    @db.Uuid
+  stationId      String    @db.Uuid
+  arrivalTime    String
+  departureTime  String
+  stopSequence   Int
+  stopHeadsign   String?
+  pickupType     Int       @default(0)
+  dropOffType    Int       @default(0)
+  isActive       Boolean   @default(true)
+  deletedAt      DateTime? @db.Timestamptz
+  createdAt      DateTime  @default(now()) @db.Timestamptz
+  updatedAt      DateTime  @updatedAt @db.Timestamptz
+  version        Int       @default(1)
+
+  trip    Trip    @relation(fields: [tripId], references: [id])
+  station Station @relation(fields: [stationId], references: [id])
+
+  @@unique([tripId, stopSequence])
+  @@index([tripId])
+  @@index([stationId])
+  @@map("stop_times")
+}
+
+model Calendar {
+  id        String    @id @default(uuid()) @db.Uuid
+  systemId  String    @db.Uuid
+  serviceId String    @unique
+  monday    Boolean
+  tuesday   Boolean
+  wednesday Boolean
+  thursday  Boolean
+  friday    Boolean
+  saturday  Boolean
+  sunday    Boolean
+  startDate DateTime  @db.Date
+  endDate   DateTime  @db.Date
+  isActive  Boolean   @default(true)
+  deletedAt DateTime? @db.Timestamptz
+  createdAt DateTime  @default(now()) @db.Timestamptz
+  updatedAt DateTime  @updatedAt @db.Timestamptz
+  version   Int       @default(1)
+
+  system     System         @relation(fields: [systemId], references: [id])
+  trips      Trip[]
+  exceptions CalendarDate[]
+
+  @@index([systemId])
+  @@index([serviceId])
+  @@map("calendars")
+}
+
+model CalendarDate {
+  id            String    @id @default(uuid()) @db.Uuid
+  calendarId    String    @db.Uuid
+  date          DateTime  @db.Date
+  exceptionType Int
+  isActive      Boolean   @default(true)
+  deletedAt     DateTime? @db.Timestamptz
+  createdAt     DateTime  @default(now()) @db.Timestamptz
+  updatedAt     DateTime  @updatedAt @db.Timestamptz
+  version       Int       @default(1)
+
+  calendar Calendar @relation(fields: [calendarId], references: [id])
+
+  @@index([calendarId])
+  @@map("calendar_dates")
+}
+
+model Shape {
+  id           String                   @id @default(uuid()) @db.Uuid
+  systemId     String                   @db.Uuid
+  shapeId      String
+  latitude     Float
+  longitude    Float
+  sequence     Int
+  distTraveled Float?
+  geom         Unsupported("geometry(Point, 4326)")?
+  isActive     Boolean                  @default(true)
+  deletedAt    DateTime?                @db.Timestamptz
+  createdAt    DateTime                 @default(now()) @db.Timestamptz
+  updatedAt    DateTime                 @updatedAt @db.Timestamptz
+  version      Int                      @default(1)
+
+  system System @relation(fields: [systemId], references: [id])
+
+  @@unique([shapeId, sequence])
+  @@index([systemId])
+  @@index([shapeId])
+  @@map("shapes")
+}
+
+model Frequency {
+  id          String    @id @default(uuid()) @db.Uuid
+  tripId      String    @db.Uuid
+  startTime   String
+  endTime     String
+  headwaySecs Int
+  exactTimes  Int       @default(0)
+  isActive    Boolean   @default(true)
+  deletedAt   DateTime? @db.Timestamptz
+  createdAt   DateTime  @default(now()) @db.Timestamptz
+  updatedAt   DateTime  @updatedAt @db.Timestamptz
+  version     Int       @default(1)
+
+  trip Trip @relation(fields: [tripId], references: [id])
+
+  @@index([tripId])
+  @@map("frequencies")
+}
+
+model WalkingEdge {
+  id               String    @id @default(uuid()) @db.Uuid
+  stationId        String    @db.Uuid
+  fromLevelId      String?   @db.Uuid
+  fromPlatformId   String?   @db.Uuid
+  fromEntranceId   String?   @db.Uuid
+  toLevelId        String?   @db.Uuid
+  toPlatformId     String?   @db.Uuid
+  toEntranceId     String?   @db.Uuid
+  walkingDistance  Float
+  walkingTime      Int
+  accessible       Boolean   @default(false)
+  verticalMovement Boolean   @default(false)
+  isActive         Boolean   @default(true)
+  deletedAt        DateTime? @db.Timestamptz
+  createdAt        DateTime  @default(now()) @db.Timestamptz
+  updatedAt        DateTime  @updatedAt @db.Timestamptz
+  version          Int       @default(1)
+
+  station      Station   @relation(fields: [stationId], references: [id])
+  fromLevel    Level?    @relation("WalkingEdgeFromLevel", fields: [fromLevelId], references: [id])
+  toLevel      Level?    @relation("WalkingEdgeToLevel", fields: [toLevelId], references: [id])
+  fromPlatform Platform? @relation("WalkingEdgeFromPlatform", fields: [fromPlatformId], references: [id])
+  toPlatform   Platform? @relation("WalkingEdgeToPlatform", fields: [toPlatformId], references: [id])
+  fromEntrance Entrance? @relation("WalkingEdgeFromEntrance", fields: [fromEntranceId], references: [id])
+  toEntrance   Entrance? @relation("WalkingEdgeToEntrance", fields: [toEntranceId], references: [id])
+
+  @@index([stationId])
+  @@index([fromLevelId])
+  @@index([toLevelId])
+  @@index([fromPlatformId])
+  @@index([toPlatformId])
+  @@index([fromEntranceId])
+  @@index([toEntranceId])
+  @@map("walking_edges")
+}
+
+enum ImportSessionStatus {
+  PENDING
+  RUNNING
+  SUCCESS
+  PARTIAL
+  FAILED
+}
+
+enum ImportErrorSeverity {
+  WARNING
+  ERROR
+  CRITICAL
+}
+
+model ImportSession {
+  id               String              @id @default(uuid()) @db.Uuid
+  systemId         String              @db.Uuid
+  type             String              // e.g. "GTFS_STATIC"
+  filename         String
+  status           ImportSessionStatus @default(PENDING)
+  startedAt        DateTime            @default(now()) @db.Timestamptz
+  finishedAt       DateTime?           @db.Timestamptz
+  duration         Int?                // In milliseconds
+  recordsProcessed Int                 @default(0)
+  recordsInserted  Int                 @default(0)
+  recordsUpdated   Int                 @default(0)
+  recordsDeleted   Int                 @default(0)
+  recordsSkipped   Int                 @default(0)
+  errorsCount      Int                 @default(0)
+  warningsCount    Int                 @default(0)
+  report           Json?
+  isActive         Boolean             @default(true)
+  deletedAt        DateTime?           @db.Timestamptz
+  createdAt        DateTime            @default(now()) @db.Timestamptz
+  updatedAt        DateTime            @updatedAt @db.Timestamptz
+  version          Int                 @default(1)
+
+  system           System              @relation(fields: [systemId], references: [id])
+  errors           ImportError[]
+  audits           ImportAudit[]
+
+  @@index([systemId])
+  @@map("import_sessions")
+}
+
+model ImportError {
+  id         String              @id @default(uuid()) @db.Uuid
+  sessionId  String              @db.Uuid
+  file       String
+  line       Int?
+  message    String
+  severity   ImportErrorSeverity @default(ERROR)
+  rawData    String?
+  isActive   Boolean             @default(true)
+  deletedAt  DateTime?           @db.Timestamptz
+  createdAt  DateTime            @default(now()) @db.Timestamptz
+  updatedAt  DateTime            @updatedAt @db.Timestamptz
+  version    Int                 @default(1)
+
+  session    ImportSession       @relation(fields: [sessionId], references: [id])
+
+  @@index([sessionId])
+  @@map("import_errors")
+}
+
+model ImportAudit {
+  id         String        @id @default(uuid()) @db.Uuid
+  sessionId  String        @db.Uuid
+  entity     String        // e.g. "Agency", "Station"
+  operation  String        // e.g. "INSERT", "UPDATE", "DELETE"
+  count      Int
+  isActive   Boolean       @default(true)
+  deletedAt  DateTime?     @db.Timestamptz
+  createdAt  DateTime      @default(now()) @db.Timestamptz
+  updatedAt  DateTime      @updatedAt @db.Timestamptz
+  version    Int           @default(1)
+
+  session    ImportSession @relation(fields: [sessionId], references: [id])
+
+  @@index([sessionId])
+  @@map("import_audits")
+}
+
