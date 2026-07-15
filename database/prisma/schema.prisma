@@ -84,10 +84,11 @@ model System {
   updatedAt DateTime     @updatedAt @db.Timestamptz
   version   Int          @default(1)
 
-  lines     Line[]
-  stations  Station[]
-  calendars Calendar[]
-  shapes    Shape[]
+  lines          Line[]
+  stations       Station[]
+  calendars      Calendar[]
+  shapes         Shape[]
+  importSessions ImportSession[]
 
   @@index([name])
   @@map("systems")
@@ -584,3 +585,87 @@ model WalkingEdge {
   @@index([toEntranceId])
   @@map("walking_edges")
 }
+
+enum ImportSessionStatus {
+  PENDING
+  RUNNING
+  SUCCESS
+  PARTIAL
+  FAILED
+}
+
+enum ImportErrorSeverity {
+  WARNING
+  ERROR
+  CRITICAL
+}
+
+model ImportSession {
+  id               String              @id @default(uuid()) @db.Uuid
+  systemId         String              @db.Uuid
+  type             String              // e.g. "GTFS_STATIC"
+  filename         String
+  status           ImportSessionStatus @default(PENDING)
+  startedAt        DateTime            @default(now()) @db.Timestamptz
+  finishedAt       DateTime?           @db.Timestamptz
+  duration         Int?                // In milliseconds
+  recordsProcessed Int                 @default(0)
+  recordsInserted  Int                 @default(0)
+  recordsUpdated   Int                 @default(0)
+  recordsDeleted   Int                 @default(0)
+  recordsSkipped   Int                 @default(0)
+  errorsCount      Int                 @default(0)
+  warningsCount    Int                 @default(0)
+  report           Json?
+  isActive         Boolean             @default(true)
+  deletedAt        DateTime?           @db.Timestamptz
+  createdAt        DateTime            @default(now()) @db.Timestamptz
+  updatedAt        DateTime            @updatedAt @db.Timestamptz
+  version          Int                 @default(1)
+
+  system           System              @relation(fields: [systemId], references: [id])
+  errors           ImportError[]
+  audits           ImportAudit[]
+
+  @@index([systemId])
+  @@map("import_sessions")
+}
+
+model ImportError {
+  id         String              @id @default(uuid()) @db.Uuid
+  sessionId  String              @db.Uuid
+  file       String
+  line       Int?
+  message    String
+  severity   ImportErrorSeverity @default(ERROR)
+  rawData    String?
+  isActive   Boolean             @default(true)
+  deletedAt  DateTime?           @db.Timestamptz
+  createdAt  DateTime            @default(now()) @db.Timestamptz
+  updatedAt  DateTime            @updatedAt @db.Timestamptz
+  version    Int                 @default(1)
+
+  session    ImportSession       @relation(fields: [sessionId], references: [id])
+
+  @@index([sessionId])
+  @@map("import_errors")
+}
+
+model ImportAudit {
+  id         String        @id @default(uuid()) @db.Uuid
+  sessionId  String        @db.Uuid
+  entity     String        // e.g. "Agency", "Station"
+  operation  String        // e.g. "INSERT", "UPDATE", "DELETE"
+  count      Int
+  isActive   Boolean       @default(true)
+  deletedAt  DateTime?     @db.Timestamptz
+  createdAt  DateTime      @default(now()) @db.Timestamptz
+  updatedAt  DateTime      @updatedAt @db.Timestamptz
+  version    Int           @default(1)
+
+  session    ImportSession @relation(fields: [sessionId], references: [id])
+
+  @@index([sessionId])
+  @@map("import_audits")
+}
+

@@ -1,39 +1,3 @@
--- Drop existing foreign keys to allow table drops
-ALTER TABLE IF EXISTS "lines" DROP CONSTRAINT IF EXISTS "lines_systemId_fkey";
-ALTER TABLE IF EXISTS "lines" DROP CONSTRAINT IF EXISTS "lines_agencyId_fkey";
-ALTER TABLE IF EXISTS "lines" DROP CONSTRAINT IF EXISTS "lines_assetOwnerId_fkey";
-ALTER TABLE IF EXISTS "stations" DROP CONSTRAINT IF EXISTS "stations_systemId_fkey";
-ALTER TABLE IF EXISTS "station_sequences" DROP CONSTRAINT IF EXISTS "station_sequences_lineId_fkey";
-ALTER TABLE IF EXISTS "station_sequences" DROP CONSTRAINT IF EXISTS "station_sequences_stationId_fkey";
-ALTER TABLE IF EXISTS "station_sequences" DROP CONSTRAINT IF EXISTS "station_sequences_nextStationId_fkey";
-ALTER TABLE IF EXISTS "levels" DROP CONSTRAINT IF EXISTS "levels_stationId_fkey";
-ALTER TABLE IF EXISTS "platforms" DROP CONSTRAINT IF EXISTS "platforms_levelId_fkey";
-ALTER TABLE IF EXISTS "platforms" DROP CONSTRAINT IF EXISTS "platforms_lineId_fkey";
-ALTER TABLE IF EXISTS "platforms" DROP CONSTRAINT IF EXISTS "platforms_towardsStationId_fkey";
-ALTER TABLE IF EXISTS "interchanges" DROP CONSTRAINT IF EXISTS "interchanges_fromPlatformId_fkey";
-ALTER TABLE IF EXISTS "interchanges" DROP CONSTRAINT IF EXISTS "interchanges_toPlatformId_fkey";
-ALTER TABLE IF EXISTS "entrances" DROP CONSTRAINT IF EXISTS "entrances_stationId_fkey";
-ALTER TABLE IF EXISTS "amenities" DROP CONSTRAINT IF EXISTS "amenities_stationId_fkey";
-ALTER TABLE IF EXISTS "amenities" DROP CONSTRAINT IF EXISTS "amenities_levelId_fkey";
-ALTER TABLE IF EXISTS "commercial_spaces" DROP CONSTRAINT IF EXISTS "commercial_spaces_stationId_fkey";
-ALTER TABLE IF EXISTS "commercial_spaces" DROP CONSTRAINT IF EXISTS "commercial_spaces_levelId_fkey";
-ALTER TABLE IF EXISTS "commercial_outlets" DROP CONSTRAINT IF EXISTS "commercial_outlets_commercialSpaceId_fkey";
-
--- Drop existing tables
-DROP TABLE IF EXISTS "commercial_outlets";
-DROP TABLE IF EXISTS "commercial_spaces";
-DROP TABLE IF EXISTS "amenities";
-DROP TABLE IF EXISTS "entrances";
-DROP TABLE IF EXISTS "interchanges";
-DROP TABLE IF EXISTS "platforms";
-DROP TABLE IF EXISTS "levels";
-DROP TABLE IF EXISTS "station_sequences";
-DROP TABLE IF EXISTS "stations";
-DROP TABLE IF EXISTS "lines";
-DROP TABLE IF EXISTS "asset_owners";
-DROP TABLE IF EXISTS "agencies";
-DROP TABLE IF EXISTS "systems";
-
 -- CreateEnum
 CREATE TYPE "SystemStatus" AS ENUM ('ACTIVE', 'INACTIVE', 'CONSTRUCTION', 'PLANNED');
 
@@ -57,6 +21,15 @@ CREATE TYPE "AmenityType" AS ENUM ('ATM', 'WASHROOM', 'POLICE', 'WATER', 'CHARGI
 
 -- CreateEnum
 CREATE TYPE "CommercialSpaceStatus" AS ENUM ('VACANT', 'OCCUPIED', 'UNDER_MAINTENANCE');
+
+-- CreateEnum
+CREATE TYPE "ImportSessionStatus" AS ENUM ('PENDING', 'RUNNING', 'SUCCESS', 'PARTIAL', 'FAILED');
+
+-- CreateEnum
+CREATE TYPE "ImportErrorSeverity" AS ENUM ('WARNING', 'ERROR', 'CRITICAL');
+
+-- DropTable
+DROP TABLE "SystemStatus";
 
 -- CreateTable
 CREATE TABLE "systems" (
@@ -454,6 +427,67 @@ CREATE TABLE "walking_edges" (
     CONSTRAINT "walking_edges_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "import_sessions" (
+    "id" UUID NOT NULL,
+    "systemId" UUID NOT NULL,
+    "type" TEXT NOT NULL,
+    "filename" TEXT NOT NULL,
+    "status" "ImportSessionStatus" NOT NULL DEFAULT 'PENDING',
+    "startedAt" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "finishedAt" TIMESTAMPTZ,
+    "duration" INTEGER,
+    "recordsProcessed" INTEGER NOT NULL DEFAULT 0,
+    "recordsInserted" INTEGER NOT NULL DEFAULT 0,
+    "recordsUpdated" INTEGER NOT NULL DEFAULT 0,
+    "recordsDeleted" INTEGER NOT NULL DEFAULT 0,
+    "recordsSkipped" INTEGER NOT NULL DEFAULT 0,
+    "errorsCount" INTEGER NOT NULL DEFAULT 0,
+    "warningsCount" INTEGER NOT NULL DEFAULT 0,
+    "report" JSONB,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "deletedAt" TIMESTAMPTZ,
+    "createdAt" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMPTZ NOT NULL,
+    "version" INTEGER NOT NULL DEFAULT 1,
+
+    CONSTRAINT "import_sessions_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "import_errors" (
+    "id" UUID NOT NULL,
+    "sessionId" UUID NOT NULL,
+    "file" TEXT NOT NULL,
+    "line" INTEGER,
+    "message" TEXT NOT NULL,
+    "severity" "ImportErrorSeverity" NOT NULL DEFAULT 'ERROR',
+    "rawData" TEXT,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "deletedAt" TIMESTAMPTZ,
+    "createdAt" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMPTZ NOT NULL,
+    "version" INTEGER NOT NULL DEFAULT 1,
+
+    CONSTRAINT "import_errors_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "import_audits" (
+    "id" UUID NOT NULL,
+    "sessionId" UUID NOT NULL,
+    "entity" TEXT NOT NULL,
+    "operation" TEXT NOT NULL,
+    "count" INTEGER NOT NULL,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "deletedAt" TIMESTAMPTZ,
+    "createdAt" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMPTZ NOT NULL,
+    "version" INTEGER NOT NULL DEFAULT 1,
+
+    CONSTRAINT "import_audits_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "systems_code_key" ON "systems"("code");
 
@@ -628,6 +662,15 @@ CREATE INDEX "walking_edges_fromEntranceId_idx" ON "walking_edges"("fromEntrance
 -- CreateIndex
 CREATE INDEX "walking_edges_toEntranceId_idx" ON "walking_edges"("toEntranceId");
 
+-- CreateIndex
+CREATE INDEX "import_sessions_systemId_idx" ON "import_sessions"("systemId");
+
+-- CreateIndex
+CREATE INDEX "import_errors_sessionId_idx" ON "import_errors"("sessionId");
+
+-- CreateIndex
+CREATE INDEX "import_audits_sessionId_idx" ON "import_audits"("sessionId");
+
 -- AddForeignKey
 ALTER TABLE "lines" ADD CONSTRAINT "lines_systemId_fkey" FOREIGN KEY ("systemId") REFERENCES "systems"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -730,6 +773,18 @@ ALTER TABLE "walking_edges" ADD CONSTRAINT "walking_edges_fromEntranceId_fkey" F
 -- AddForeignKey
 ALTER TABLE "walking_edges" ADD CONSTRAINT "walking_edges_toEntranceId_fkey" FOREIGN KEY ("toEntranceId") REFERENCES "entrances"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
+-- AddForeignKey
+ALTER TABLE "import_sessions" ADD CONSTRAINT "import_sessions_systemId_fkey" FOREIGN KEY ("systemId") REFERENCES "systems"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "import_errors" ADD CONSTRAINT "import_errors_sessionId_fkey" FOREIGN KEY ("sessionId") REFERENCES "import_sessions"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "import_audits" ADD CONSTRAINT "import_audits_sessionId_fkey" FOREIGN KEY ("sessionId") REFERENCES "import_sessions"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- Enable PostGIS extension
+CREATE EXTENSION IF NOT EXISTS postgis;
+
 -- Create GIST spatial indexes on Unsupported geometry columns
 CREATE INDEX IF NOT EXISTS stations_geom_gist_idx ON "stations" USING GIST ("geom");
 CREATE INDEX IF NOT EXISTS entrances_geom_gist_idx ON "entrances" USING GIST ("geom");
@@ -751,31 +806,38 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Bind trigger to stations
-CREATE OR REPLACE TRIGGER stations_geom_sync_trigger
+DROP TRIGGER IF EXISTS stations_geom_sync_trigger ON "stations";
+CREATE TRIGGER stations_geom_sync_trigger
 BEFORE INSERT OR UPDATE OF latitude, longitude ON "stations"
 FOR EACH ROW
 EXECUTE FUNCTION update_geom_from_lat_lon();
 
 -- Bind trigger to entrances
-CREATE OR REPLACE TRIGGER entrances_geom_sync_trigger
+DROP TRIGGER IF EXISTS entrances_geom_sync_trigger ON "entrances";
+CREATE TRIGGER entrances_geom_sync_trigger
 BEFORE INSERT OR UPDATE OF latitude, longitude ON "entrances"
 FOR EACH ROW
 EXECUTE FUNCTION update_geom_from_lat_lon();
 
 -- Bind trigger to amenities
-CREATE OR REPLACE TRIGGER amenities_geom_sync_trigger
+DROP TRIGGER IF EXISTS amenities_geom_sync_trigger ON "amenities";
+CREATE TRIGGER amenities_geom_sync_trigger
 BEFORE INSERT OR UPDATE OF latitude, longitude ON "amenities"
 FOR EACH ROW
 EXECUTE FUNCTION update_geom_from_lat_lon();
 
 -- Bind trigger to commercial_spaces
-CREATE OR REPLACE TRIGGER commercial_spaces_geom_sync_trigger
+DROP TRIGGER IF EXISTS commercial_spaces_geom_sync_trigger ON "commercial_spaces";
+CREATE TRIGGER commercial_spaces_geom_sync_trigger
 BEFORE INSERT OR UPDATE OF latitude, longitude ON "commercial_spaces"
 FOR EACH ROW
 EXECUTE FUNCTION update_geom_from_lat_lon();
 
 -- Bind trigger to shapes
-CREATE OR REPLACE TRIGGER shapes_geom_sync_trigger
+DROP TRIGGER IF EXISTS shapes_geom_sync_trigger ON "shapes";
+CREATE TRIGGER shapes_geom_sync_trigger
 BEFORE INSERT OR UPDATE OF latitude, longitude ON "shapes"
 FOR EACH ROW
 EXECUTE FUNCTION update_geom_from_lat_lon();
+
+
