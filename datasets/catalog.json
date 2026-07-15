@@ -13,11 +13,11 @@
       "portal": "https://transportstack.delhi.gov.in",
       "licenseFile": "datasets/delhi/license.json",
       "status": "ACTIVE",
-      "lastDownloaded": null,
+      "lastDownloaded": "2026-07-15",
       "feedVersion": null,
-      "sha256": null,
-      "importStatus": "NOT_STARTED",
-      "importSessionId": null,
+      "sha256": "bd184a7e13907a223032b3b7886babe52ac16b6149f8404f508712b87492fc1b",
+      "importStatus": "IMPORTED",
+      "importSessionId": "5adb03e7-1898-490f-8e44-daca2820b7c3",
       "notes": "Primary portal shifted from otd.delhi.gov.in to transportstack.delhi.gov.in. Static download requires no login."
     },
     {
@@ -30,11 +30,11 @@
       "portal": "https://kochimetro.org",
       "licenseFile": "datasets/kochi/license.json",
       "status": "ACTIVE",
-      "lastDownloaded": null,
+      "lastDownloaded": "2026-07-15",
       "feedVersion": null,
-      "sha256": null,
-      "importStatus": "NOT_STARTED",
-      "importSessionId": null,
+      "sha256": "26347766f41574bbde22e57c1ac12d8c169baed10ea7ea232008ffb428fcb158",
+      "importStatus": "IMPORTED",
+      "importSessionId": "b2dc9721-b22e-4f31-a56a-2ff187db5bbf",
       "notes": "First Indian metro to publish official GTFS (~2018). Integrated with Google Maps."
     },
     {
