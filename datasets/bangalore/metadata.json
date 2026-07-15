@@ -1,0 +1,24 @@
+{
+  "city": "Bangalore",
+  "operator": "BMRCL",
+  "network": "Namma Metro / Bengaluru Metro Rail Corporation Limited",
+  "source": "BMRCL via IUDX (India Urban Data Exchange)",
+  "sourceUrl": "https://iudx.org.in",
+  "backupUrl": "https://bmrcl.co.in",
+  "format": "GTFS_STATIC",
+  "trustTier": "B",
+  "licenseFile": "datasets/bangalore/license.json",
+  "status": "RESEARCH_PENDING",
+  "lastDownloaded": null,
+  "feedVersion": null,
+  "sha256": null,
+  "ctmMappingStatus": "NOT_STARTED",
+  "importStatus": "NOT_STARTED",
+  "importSessionId": null,
+  "notes": "IUDX developer registration required. Data is used by Namma Yatri and Tummoc apps — strong signal of quality. Deferred until IUDX registration is completed.",
+  "iudxRegistration": {
+    "status": "NOT_STARTED",
+    "registrationUrl": "https://iudx.org.in",
+    "notes": "Register as a developer, search 'BMRCL' in the catalog, request access to the GTFS Static feed."
+  }
+}

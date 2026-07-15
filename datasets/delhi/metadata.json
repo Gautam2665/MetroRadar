@@ -1,0 +1,43 @@
+{
+  "city": "Delhi",
+  "operator": "DMRC",
+  "network": "Delhi Metro Rail Corporation",
+  "source": "Delhi Transport Stack (Official Government GTFS)",
+  "sourceUrl": "https://transportstack.delhi.gov.in",
+  "backupUrl": "https://otd.delhi.gov.in",
+  "format": "GTFS_STATIC",
+  "trustTier": "A",
+  "licenseFile": "datasets/delhi/license.json",
+  "lastDownloaded": null,
+  "feedVersion": null,
+  "sha256": null,
+  "filesIncluded": [
+    "agency.txt",
+    "stops.txt",
+    "routes.txt",
+    "trips.txt",
+    "stop_times.txt",
+    "shapes.txt",
+    "calendar.txt",
+    "calendar_dates.txt",
+    "feed_info.txt"
+  ],
+  "expectedCounts": {
+    "agencies": 1,
+    "stops": null,
+    "routes": null,
+    "trips": null,
+    "stopTimes": null,
+    "shapes": null
+  },
+  "gtfsRealtime": {
+    "available": true,
+    "requiresApiKey": true,
+    "registrationUrl": "https://otd.delhi.gov.in",
+    "documentationFile": "datasets/delhi/realtime.md"
+  },
+  "ctmMappingStatus": "NOT_STARTED",
+  "importStatus": "NOT_STARTED",
+  "importSessionId": null,
+  "validationReportFile": "datasets/delhi/processed/validation-report.json"
+}

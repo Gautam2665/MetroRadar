@@ -1,0 +1,9 @@
+{
+  "name": "IUDX Platform Terms",
+  "sourceUrl": "https://iudx.org.in",
+  "lastReviewed": "2026-07-15",
+  "allowsCommercialUse": true,
+  "requiresAttribution": true,
+  "allowsRedistribution": null,
+  "notes": "BMRCL data is accessed via the India Urban Data Exchange (IUDX) platform. The exact license terms depend on the specific dataset entry in the IUDX catalog. Verify current terms after registration at https://iudx.org.in. IUDX operates under open data principles intended for MaaS (Mobility-as-a-Service) integration. Commercial use is allowed for registered developers."
+}

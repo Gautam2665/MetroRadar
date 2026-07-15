@@ -1,0 +1,9 @@
+{
+  "name": "OTD LicenceAgreement1.0",
+  "sourceUrl": "https://transportstack.delhi.gov.in",
+  "lastReviewed": "2026-07-15",
+  "allowsCommercialUse": true,
+  "requiresAttribution": true,
+  "allowsRedistribution": false,
+  "notes": "GTFS Static feed used under official Delhi Open Transit Data / Transport Stack terms. Full license text is bundled as LicenceAgreement1.0.pdf inside the downloaded ZIP. Review the PDF before use. Data is available for research, development, and commercial application development."
+}

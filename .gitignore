@@ -10,3 +10,11 @@ coverage/
 .idea/
 .prisma/client
 .DS_Store
+
+# Real operator GTFS datasets — large ZIPs never committed
+# Use datasets/{city}/source.md for download instructions
+datasets/*/raw/
+datasets/*/raw/**
+
+# Temp extraction folders created by the ingestion engine
+temp_extracts/

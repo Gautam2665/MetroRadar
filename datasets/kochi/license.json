@@ -1,0 +1,9 @@
+{
+  "name": "KMRL Open Data License",
+  "sourceUrl": "https://kochimetro.org/open-data/",
+  "lastReviewed": "2026-07-15",
+  "allowsCommercialUse": true,
+  "requiresAttribution": true,
+  "allowsRedistribution": true,
+  "notes": "KMRL provides a free, non-exclusive, worldwide license for both commercial and non-commercial use. Allows: use, adapt, reproduce, store, display, transmit, redistribute. Exclusions: KMRL logo, personal data, RTI-restricted data. Terms may be modified by KMRL without prior notice — verify current terms at sourceUrl before each import."
+}
