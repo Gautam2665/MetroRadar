@@ -1,6 +1,7 @@
 "use client";
 
 import { Clock, Navigation, MapPin, Footprints, Train, ArrowDown } from "lucide-react";
+import { formatLineName } from "./DigitalTwinInspector";
 
 type JourneyLeg = {
   from: string;
@@ -151,7 +152,7 @@ export default function JourneyTimeline({ result, onClose }: JourneyTimelineProp
                             className="text-xs font-black px-2 py-0.5 rounded shadow-sm"
                             style={{ backgroundColor: `${lineColor}22`, color: lineColor }}
                           >
-                            {leg.lineName}
+                            {formatLineName(leg.lineName)}
                           </span>
                           <span className="text-[10px] text-zinc-500">
                             {leg.lineCode}

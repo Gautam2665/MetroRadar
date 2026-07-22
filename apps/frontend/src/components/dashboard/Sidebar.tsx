@@ -18,6 +18,7 @@ import {
   GitCompare,
   Footprints,
   Hexagon,
+  ChevronRight,
 } from "lucide-react";
 import {
   JourneyPlannerForm,
@@ -26,6 +27,7 @@ import {
   JourneyResult,
 } from "./JourneyPlanner";
 import JourneyTimeline from "./JourneyTimeline";
+import { formatLineName } from "./DigitalTwinInspector";
 
 export type CityConfig = {
   name: string;
@@ -305,13 +307,35 @@ export default function Sidebar({
                               onStationSelect(props.id);
                               onFlyToCoordinates(f.geometry.coordinates as [number, number], 14.5);
                             }}
-                            className="w-full text-left p-2.5 rounded-xl bg-zinc-900/40 hover:bg-zinc-900 border border-zinc-800 hover:border-zinc-700/80 transition-all flex items-start space-x-2"
+                            className="w-full text-left p-3 rounded-2xl bg-zinc-900/60 hover:bg-zinc-900 border border-zinc-800 hover:border-sky-500/40 transition-all duration-200 group flex items-center justify-between"
                           >
-                            <MapPin className="h-3.5 w-3.5 text-zinc-500 mt-0.5 flex-shrink-0" />
-                            <div className="flex-1 min-w-0">
-                              <p className="text-xs font-bold text-zinc-200 truncate">{props.name}</p>
-                              {props.city && <p className="text-[9px] text-zinc-500">{props.city}</p>}
+                            <div className="flex items-start space-x-3 min-w-0 flex-1">
+                              <div className="p-2 rounded-xl bg-zinc-850 border border-zinc-800 text-sky-400 shrink-0">
+                                <MapPin className="h-4 w-4" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs font-bold text-zinc-100 group-hover:text-sky-400 transition truncate">
+                                  {props.name}
+                                </p>
+                                <p className="text-[10px] text-zinc-500">
+                                  {props.city || "Delhi"}, India
+                                </p>
+                                {props.lines && props.lines.length > 0 && (
+                                  <div className="flex flex-wrap gap-1 mt-1.5">
+                                    {props.lines.map((l) => (
+                                      <span
+                                        key={l.code}
+                                        className="inline-block px-2 py-0.5 rounded-full text-[8px] font-black text-white shadow-sm"
+                                        style={{ backgroundColor: l.color || "#3b82f6" }}
+                                      >
+                                        {formatLineName(l.name)}
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
                             </div>
+                            <ChevronRight className="h-4 w-4 text-zinc-600 group-hover:text-zinc-300 shrink-0 ml-2 transition" />
                           </button>
                         );
                       })

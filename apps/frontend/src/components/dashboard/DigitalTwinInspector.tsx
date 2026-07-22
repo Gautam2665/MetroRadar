@@ -12,13 +12,31 @@ import {
   ChevronRight,
   ShieldAlert,
   Navigation,
-  Sparkles,
   Building2,
-  Layers,
-  Utensils,
-  ShoppingBag,
-  Info,
 } from "lucide-react";
+
+// ── Line Name Normalizer ─────────────────────────────────────────────────────
+
+export function formatLineName(name: string | null | undefined): string {
+  if (!name) return "Metro Line";
+  const nameUpper = name.toUpperCase();
+
+  if (nameUpper.includes("BLUE")) return "Blue Line";
+  if (nameUpper.includes("YELLOW") || nameUpper.includes("LINE 2A")) return "Yellow Line";
+  if (nameUpper.includes("RED")) return "Red Line";
+  if (nameUpper.includes("PINK")) return "Pink Line";
+  if (nameUpper.includes("MAGENTA")) return "Magenta Line";
+  if (nameUpper.includes("VIOLET")) return "Violet Line";
+  if (nameUpper.includes("GREEN")) return "Green Line";
+  if (nameUpper.includes("AQUA")) return "Aqua Line";
+  if (nameUpper.includes("ORANGE") || nameUpper.includes("AIRPORT")) return "Airport Express";
+  if (nameUpper.includes("GOLD")) return "Gold Line";
+  if (nameUpper.includes("GRAY") || nameUpper.includes("GREY")) return "Gray Line";
+  if (nameUpper.includes("RAPID") || nameUpper.includes("TEAL")) return "Rapid Metro";
+
+  const clean = name.split("_")[0] || name;
+  return clean.replace(/([A-Z]+)/g, "$1 ").trim();
+}
 
 type LineInfo = {
   id: string;
@@ -194,9 +212,9 @@ export default function DigitalTwinInspector({
     );
   }
 
-  const { station, physical, services, operational } = data;
-  const lines = station.lines ?? [];
-  const isInterchange = lines.length > 1;
+  const { station, physical, services } = data;
+  const rawLines = station.lines ?? [];
+  const isInterchange = rawLines.length > 1;
 
   const tabs = [
     { id: "overview", name: "Overview" },
@@ -223,7 +241,7 @@ export default function DigitalTwinInspector({
               </span>
             </div>
 
-            {/* Station Title & Announce Icon */}
+            {/* Station Title & Announcement Icon */}
             <div className="flex items-center space-x-2 pt-1">
               <h2 className="text-2xl font-black tracking-tight text-zinc-100">
                 {station.name}
@@ -263,7 +281,7 @@ export default function DigitalTwinInspector({
           </button>
         </div>
 
-        {/* ── 2. METRIC CARDS ROW (Grid of 3) ── */}
+        {/* ── 2. LIVE STATUS WIDGETS ROW (Grid of 3) ── */}
         <div className="grid grid-cols-3 gap-2.5 mt-5">
           {/* Weather */}
           <div className="p-3 rounded-2xl bg-zinc-900/60 border border-zinc-850 flex items-center justify-between">
@@ -338,14 +356,14 @@ export default function DigitalTwinInspector({
                   Lines Served
                 </span>
                 <div className="flex flex-wrap gap-1.5">
-                  {lines.length > 0 ? (
-                    lines.map((l) => (
+                  {rawLines.length > 0 ? (
+                    rawLines.map((l) => (
                       <span
-                        key={l.code}
-                        className="px-2.5 py-1 rounded-lg text-[10px] font-black text-white shadow-sm"
+                        key={l.code || l.id}
+                        className="px-2.5 py-1 rounded-full text-[10px] font-black text-white shadow-sm border border-white/10"
                         style={{ backgroundColor: l.color || "#3b82f6" }}
                       >
-                        {l.name}
+                        {formatLineName(l.name)}
                       </span>
                     ))
                   ) : (
@@ -361,7 +379,7 @@ export default function DigitalTwinInspector({
                 </span>
                 <div>
                   <span className="text-xl font-black text-zinc-100 font-mono">
-                    {station.code || `ST_${station.id.slice(0, 3)}`}
+                    {station.code || `ST_${station.id.slice(0, 3).toUpperCase()}`}
                   </span>
                   <span className="text-[10px] text-zinc-500 font-mono block mt-0.5">
                     Elev. 214 m
@@ -372,28 +390,30 @@ export default function DigitalTwinInspector({
 
             {/* ROW 2: Interchanges (Left) + Quick Facts (Right) */}
             <div className="grid grid-cols-2 gap-3">
-              {/* Interchanges */}
+              {/* Interchanges List */}
               <div className="p-4 rounded-2xl bg-zinc-900/40 border border-zinc-850 space-y-3">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 block">
                   Interchanges
                 </span>
                 <div className="space-y-2.5">
-                  {lines.length > 0 ? (
-                    lines.map((l) => (
-                      <div key={l.code} className="flex items-center justify-between text-xs">
+                  {rawLines.length > 0 ? (
+                    rawLines.map((l, idx) => (
+                      <div key={l.code || idx} className="flex items-center justify-between text-xs">
                         <div className="flex items-center gap-2 min-w-0">
                           <span
-                            className="h-4 w-4 rounded-full flex items-center justify-center text-[9px] font-black text-white shrink-0"
+                            className="h-4 w-4 rounded-full flex items-center justify-center text-[9px] font-black text-white shrink-0 shadow-sm"
                             style={{ backgroundColor: l.color || "#3b82f6" }}
                           >
-                            {l.code.slice(0, 1)}
+                            {formatLineName(l.name).slice(0, 1)}
                           </span>
                           <div className="min-w-0">
-                            <p className="font-bold text-zinc-200 truncate">{l.name}</p>
+                            <p className="font-bold text-zinc-200 truncate">
+                              {formatLineName(l.name)}
+                            </p>
                           </div>
                         </div>
                         <span className="text-[10px] text-zinc-400 font-mono shrink-0 flex items-center gap-1">
-                          <Footprints size={10} className="text-zinc-500" /> 1-2 min
+                          <Footprints size={10} className="text-zinc-500" /> {1 + (idx % 2)} min · {120 + idx * 40} m
                         </span>
                       </div>
                     ))
@@ -427,13 +447,13 @@ export default function DigitalTwinInspector({
                   </div>
                   <div className="flex justify-between">
                     <span className="text-zinc-500">Tracks</span>
-                    <span className="font-bold text-zinc-300">4</span>
+                    <span className="font-bold text-zinc-300">{rawLines.length > 1 ? 4 : 2}</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* ROW 3: Station Layout Graphic Schematic */}
+            {/* ROW 3: Station Layout Schematic */}
             <div className="p-4 rounded-2xl bg-zinc-900/40 border border-zinc-850 space-y-3">
               <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 block">
                 Station Layout
@@ -453,26 +473,26 @@ export default function DigitalTwinInspector({
                   </div>
                 </div>
 
-                {/* Concourse Divider */}
+                {/* Concourse Level Facilities */}
                 <div className="py-2 border-y border-dashed border-zinc-800 text-center">
                   <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-zinc-500">
                     Concourse Level
                   </span>
-                  <div className="flex justify-center gap-4 mt-2 text-[10px] text-zinc-400">
-                    <span>Escalator</span>
-                    <span>Lift</span>
-                    <span>Stairs</span>
-                    <span>Restrooms</span>
-                    <span>Tickets</span>
-                    <span>ATM</span>
+                  <div className="flex justify-center flex-wrap gap-2.5 mt-2 text-[10px] text-zinc-400 font-medium">
+                    <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800">Lift</span>
+                    <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800">Escalator</span>
+                    <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800">Stairs</span>
+                    <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800">Restrooms</span>
+                    <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800">Tickets</span>
+                    <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800">ATM</span>
                   </div>
                 </div>
 
-                {/* Platforms Row */}
+                {/* Platform Blocks */}
                 <div className="space-y-2">
-                  {lines.map((l, i) => (
+                  {rawLines.map((l, i) => (
                     <div
-                      key={l.code}
+                      key={l.code || i}
                       className="p-2.5 rounded-xl border flex items-center justify-between text-xs font-bold text-white shadow-sm"
                       style={{
                         backgroundColor: `${l.color || "#3b82f6"}22`,
@@ -480,7 +500,7 @@ export default function DigitalTwinInspector({
                       }}
                     >
                       <span style={{ color: l.color || "#3b82f6" }}>
-                        {l.name} Platform {i + 1} ↑
+                        {formatLineName(l.name)} Platform {i + 1} ↑
                       </span>
                       <span className="text-[10px] text-zinc-400 font-mono">
                         Platform {i + 2} ↓
@@ -491,7 +511,7 @@ export default function DigitalTwinInspector({
               </div>
             </div>
 
-            {/* ROW 4: Next Trains (Live) + Station Image */}
+            {/* ROW 4: Next Trains (Live) + Station Image Carousel */}
             <div className="grid grid-cols-2 gap-3">
               {/* Next Trains */}
               <div className="p-4 rounded-2xl bg-zinc-900/40 border border-zinc-850 space-y-3">
@@ -499,22 +519,23 @@ export default function DigitalTwinInspector({
                   <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
                     Next Trains (Live)
                   </span>
-                  <button className="text-[10px] font-bold text-sky-400 hover:underline">
-                    View all &gt;
+                  <button className="text-[10px] font-bold text-sky-400 hover:underline flex items-center">
+                    <span>View all</span>
+                    <ChevronRight size={10} />
                   </button>
                 </div>
                 <div className="space-y-2 text-xs">
-                  {lines.slice(0, 3).map((l, i) => (
+                  {rawLines.slice(0, 3).map((l, i) => (
                     <div key={i} className="flex items-center justify-between">
                       <div className="flex items-center gap-2 min-w-0">
                         <span
-                          className="h-4 w-4 rounded-full flex items-center justify-center text-[9px] font-black text-white shrink-0"
+                          className="h-4 w-4 rounded-full flex items-center justify-center text-[9px] font-black text-white shrink-0 shadow-sm"
                           style={{ backgroundColor: l.color || "#3b82f6" }}
                         >
-                          {l.code.slice(0, 1)}
+                          {formatLineName(l.name).slice(0, 1)}
                         </span>
                         <span className="font-bold text-zinc-300 truncate">
-                          {l.name}
+                          {formatLineName(l.name)}
                         </span>
                       </div>
                       <span className="text-[10px] font-mono font-bold text-emerald-400 shrink-0">
@@ -525,7 +546,7 @@ export default function DigitalTwinInspector({
                 </div>
               </div>
 
-              {/* Station Image */}
+              {/* Station Image Carousel */}
               <div className="p-4 rounded-2xl bg-zinc-900/40 border border-zinc-850 flex flex-col justify-between">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
@@ -538,12 +559,12 @@ export default function DigitalTwinInspector({
                 <div className="h-20 w-full rounded-xl bg-zinc-950 border border-zinc-800 overflow-hidden relative flex items-center justify-center">
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-80 z-10" />
                   <Train size={24} className="text-zinc-700" />
-                  <span className="absolute bottom-2 left-2 text-[9px] font-bold text-zinc-300 z-20">
+                  <span className="absolute bottom-2 left-2 text-[9px] font-bold text-zinc-300 z-20 truncate pr-2">
                     {station.name} Exterior
                   </span>
                 </div>
-                {/* Dots */}
-                <div className="flex justify-center gap-1 mt-2">
+                {/* Carousel Pagination Dots */}
+                <div className="flex justify-center gap-1.5 mt-2">
                   <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
                   <span className="h-1.5 w-1.5 rounded-full bg-zinc-700" />
                   <span className="h-1.5 w-1.5 rounded-full bg-zinc-700" />
@@ -578,10 +599,10 @@ export default function DigitalTwinInspector({
                   </div>
                   {p.line && (
                     <span
-                      className="px-2.5 py-1 rounded-lg text-[10px] font-black text-white shadow-sm"
+                      className="px-2.5 py-1 rounded-full text-[10px] font-black text-white shadow-sm"
                       style={{ backgroundColor: p.line.color }}
                     >
-                      {p.line.code}
+                      {formatLineName(p.line.name)}
                     </span>
                   )}
                 </div>

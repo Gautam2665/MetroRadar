@@ -11,6 +11,7 @@ import {
   ArrowRight,
   Clock,
 } from "lucide-react";
+import { formatLineName } from "./DigitalTwinInspector";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -412,7 +413,7 @@ export function JourneySummaryCard({
                         borderColor: `${leg.lineColor}44`,
                       }}
                     >
-                      {leg.lineCode ?? leg.lineName?.split(" ")[0]}
+                      {formatLineName(leg.lineName)}
                     </span>
                   ) : leg.type === "WALK" ? (
                     <span className="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
