@@ -82,7 +82,7 @@ flowchart TD
     end
 
     subgraph Clients["Frontend Interfaces (Next.js Dashboard)"]
-        DynamicMaps["Interactive Leaflet Map"]:::client
+        DynamicMaps["Interactive MapLibre GL Map"]:::client
         AdminDashboard["Analytics Dashboard"]:::client
         CommuterApp["Passenger Routes App"]:::client
     end

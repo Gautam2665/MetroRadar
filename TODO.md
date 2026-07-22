@@ -38,7 +38,7 @@ Follow this sprint-by-sprint checklist to build MetroRadar as a set of modular b
 - [ ] Associate station lists to distinct subway line sequences.
 
 ### 🏃 Sprint 6: Maps
-- [ ] Install map-rendering libraries (Leaflet / Mapbox GL) in `apps/web`.
+- [ ] Install map-rendering libraries (MapLibre GL) in `apps/web`.
 - [ ] Build map viewport layout showing station points and color-coded line tracks.
 - [ ] Develop station overlay details panel showing facility details.
 - [ ] Standardize deep dark-mode design variables.
