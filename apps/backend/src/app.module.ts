@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { HealthModule } from './health/health.module';
 import { IngestionModule } from './modules/ingestion/ingestion.module';
+import { RedisModule } from './redis/redis.module';
+import { GisModule } from './modules/gis/gis.module';
 import { validateEnv } from './config/config.validation';
 
 @Module({
@@ -12,8 +14,10 @@ import { validateEnv } from './config/config.validation';
       validate: validateEnv,
     }),
     DatabaseModule,
+    RedisModule,
     HealthModule,
     IngestionModule,
+    GisModule,
   ],
 })
 export class AppModule {}

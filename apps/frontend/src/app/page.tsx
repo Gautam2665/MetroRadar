@@ -1,134 +1,117 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
-type HealthResponse = {
-  status: string;
-  database: string;
-  redis: string;
-  version: string;
-};
+import { useState, useRef } from "react";
+import maplibregl from "maplibre-gl";
+import Sidebar, { CityConfig } from "@/components/dashboard/Sidebar";
+import MapContainer from "@/components/map/MapContainer";
+import DigitalTwinInspector from "@/components/dashboard/DigitalTwinInspector";
+import DiagnosticsHud from "@/components/dashboard/DiagnosticsHud";
+import DeveloperDashboard from "@/components/dashboard/DeveloperDashboard";
 
 export default function Home() {
-  const [health, setHealth] = useState<HealthResponse | null>(null);
-  const [backendOnline, setBackendOnline] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
+  // Map Viewport state
+  const [activeCity, setActiveCity] = useState<CityConfig>({
+    name: "Delhi Metro",
+    code: "delhi",
+    center: [77.209, 28.6139],
+    zoom: 11.5,
+  });
 
-  const checkHealth = async () => {
-    try {
-      const response = await fetch("http://localhost:3001/health");
-      setBackendOnline(true);
-      const data = await response.json();
-      setHealth(data);
-    } catch {
-      setBackendOnline(false);
-      setHealth(null);
-    } finally {
-      setLoading(false);
-    }
+  const [mapViewport, setMapViewport] = useState<{
+    center: [number, number];
+    zoom: number;
+  }>({
+    center: [77.209, 28.6139],
+    zoom: 11.5,
+  });
+
+  // Selection & Layer states
+  const [selectedStationId, setSelectedStationId] = useState<string | null>(null);
+  const [activeLayers, setActiveLayers] = useState<string[]>(["lines", "stations"]);
+  const [loadedLayersCount, setLoadedLayersCount] = useState(0);
+
+  // Diagnostics & Dev states
+  const [developerConsoleOpen, setDeveloperConsoleOpen] = useState(false);
+  const [apiLatency, setApiLatency] = useState(0);
+  const [cacheHit, setCacheHit] = useState(false);
+
+  // Map Instance Ref
+  const mapRef = useRef<maplibregl.Map | null>(null);
+
+  // Keep track of cache hit status based on request duration patterns (e.g. < 25ms usually indicates Redis hit)
+  const updateApiLatency = (ms: number) => {
+    setApiLatency(ms);
+    setCacheHit(ms < 25);
   };
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      checkHealth();
-    }, 0);
-    const intervalId = setInterval(checkHealth, 3000);
-    return () => {
-      clearTimeout(timeoutId);
-      clearInterval(intervalId);
-    };
-  }, []);
+  const handleFlyTo = (coords: [number, number], customZoom?: number) => {
+    setMapViewport({
+      center: coords,
+      zoom: customZoom || 13,
+    });
+  };
 
-  const isDbConnected = health?.database === "connected";
-  const isRedisConnected = health?.redis === "connected";
+  const handleToggleLayer = (layerId: string) => {
+    setActiveLayers((prev) =>
+      prev.includes(layerId) ? prev.filter((id) => id !== layerId) : [...prev, layerId]
+    );
+  };
+
+  const handleTrackEntrance = (lat: number, lon: number, _name: string) => {
+    handleFlyTo([lon, lat], 17);
+  };
 
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-[#09090b] text-[#f4f4f5] px-4 font-sans relative overflow-hidden">
-      {/* Dynamic Background Glow Effects */}
-      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-sky-950/20 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-emerald-950/20 blur-[120px] pointer-events-none" />
+    <div className="flex w-screen h-screen overflow-hidden bg-[#09090b]">
+      {/* 1. Sidebar Panel (Left) */}
+      <Sidebar
+        activeCity={activeCity}
+        onCityChange={setActiveCity}
+        onStationSelect={setSelectedStationId}
+        activeLayers={activeLayers}
+        onToggleLayer={handleToggleLayer}
+        onDeveloperConsoleOpen={() => setDeveloperConsoleOpen(true)}
+        onFlyToCoordinates={handleFlyTo}
+        apiLatencySetter={updateApiLatency}
+      />
 
-      {/* Main Container */}
-      <main className="w-full max-w-lg p-8 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.4)] transition-all duration-300">
-        
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center p-2.5 bg-zinc-800/40 rounded-xl border border-zinc-700/50 mb-4">
-            <span className="text-3xl">🚇</span>
-            <span className="text-lg font-bold text-sky-400 ml-2 tracking-widest uppercase">Radar</span>
-          </div>
-          <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-            MetroRadar
-          </h1>
-          <p className="mt-2 text-zinc-400 font-medium tracking-wide">
-            Urban Mobility Intelligence Platform
-          </p>
+      {/* 2. Interactive Map Container (Center/Right) */}
+      <MapContainer
+        center={mapViewport.center}
+        zoom={mapViewport.zoom}
+        activeLayers={activeLayers}
+        selectedStationId={selectedStationId}
+        onStationSelect={setSelectedStationId}
+        onViewportChange={(c, z) => setMapViewport({ center: c, zoom: z })}
+        apiLatencySetter={updateApiLatency}
+        setLoadedLayersCount={setLoadedLayersCount}
+        mapRef={mapRef}
+      />
+
+      {/* 3. Station Digital Twin Inspector Drawer (Collapsible Right) */}
+      {selectedStationId && (
+        <div className="w-[450px] bg-zinc-900 border-l border-zinc-800/80 backdrop-blur-md flex flex-col h-full shadow-2xl relative z-10 transition-all duration-300 animate-slide-in">
+          <DigitalTwinInspector
+            stationId={selectedStationId}
+            onClose={() => setSelectedStationId(null)}
+            onTrackEntrance={handleTrackEntrance}
+          />
         </div>
+      )}
 
-        {/* Status Dashboard Panel */}
-        <div className="space-y-4">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
-            System Infrastructure Status
-          </h2>
+      {/* 4. Diagnostics HUD Overlay (Ctrl+Shift+D) */}
+      <DiagnosticsHud
+        zoom={mapViewport.zoom}
+        center={mapViewport.center}
+        loadedLayersCount={loadedLayersCount}
+        apiLatency={apiLatency}
+        cacheHit={cacheHit}
+      />
 
-          {/* Backend Status Card */}
-          <div className="flex items-center justify-between p-4 rounded-xl bg-zinc-900/60 border border-zinc-800 transition-all hover:bg-zinc-800/20">
-            <div className="flex items-center space-x-3">
-              <span className="text-xl">⚙️</span>
-              <div>
-                <p className="font-semibold text-zinc-100">Backend API</p>
-                <p className="text-xs text-zinc-500">Port 3001 — NestJS</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <span className={`h-2.5 w-2.5 rounded-full ${backendOnline ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'} block`} />
-              <span className={`text-sm font-medium ${backendOnline ? 'text-emerald-400' : 'text-rose-400'}`}>
-                {loading ? 'Probing...' : backendOnline ? 'Online' : 'Offline'}
-              </span>
-            </div>
-          </div>
-
-          {/* Database Status Card */}
-          <div className="flex items-center justify-between p-4 rounded-xl bg-zinc-900/60 border border-zinc-800 transition-all hover:bg-zinc-800/20">
-            <div className="flex items-center space-x-3">
-              <span className="text-xl">🐘</span>
-              <div>
-                <p className="font-semibold text-zinc-100">Database</p>
-                <p className="text-xs text-zinc-500">PostgreSQL + PostGIS</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <span className={`h-2.5 w-2.5 rounded-full ${isDbConnected ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'} block`} />
-              <span className={`text-sm font-medium ${isDbConnected ? 'text-emerald-400' : 'text-rose-400'}`}>
-                {loading ? 'Probing...' : isDbConnected ? 'Connected' : 'Disconnected'}
-              </span>
-            </div>
-          </div>
-
-          {/* Redis Status Card */}
-          <div className="flex items-center justify-between p-4 rounded-xl bg-zinc-900/60 border border-zinc-800 transition-all hover:bg-zinc-800/20">
-            <div className="flex items-center space-x-3">
-              <span className="text-xl">⚡</span>
-              <div>
-                <p className="font-semibold text-zinc-100">Cache Cache</p>
-                <p className="text-xs text-zinc-500">Redis In-Memory</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <span className={`h-2.5 w-2.5 rounded-full ${isRedisConnected ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'} block`} />
-              <span className={`text-sm font-medium ${isRedisConnected ? 'text-emerald-400' : 'text-rose-400'}`}>
-                {loading ? 'Probing...' : isRedisConnected ? 'Connected' : 'Disconnected'}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Footer info */}
-        <div className="mt-8 pt-4 border-t border-zinc-800 text-center text-xs text-zinc-600 flex justify-between">
-          <span>Sprint 1 — Foundation</span>
-          <span>v{health?.version || "0.1.0"}</span>
-        </div>
-      </main>
+      {/* 5. Developer & Diagnostics Admin Console */}
+      {developerConsoleOpen && (
+        <DeveloperDashboard onClose={() => setDeveloperConsoleOpen(false)} />
+      )}
     </div>
   );
 }

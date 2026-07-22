@@ -1,4 +1,5 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, Optional } from '@nestjs/common';
+import { RedisService } from '../../../redis/redis.service';
 import * as path from 'path';
 import * as fs from 'fs';
 import { ImportSessionStatus } from '@prisma/client';
@@ -93,6 +94,7 @@ export class IngestionService {
     private readonly calendarDatesTransformer: CalendarDatesTransformer,
     private readonly shapesTransformer: ShapesTransformer,
     private readonly frequenciesTransformer: FrequenciesTransformer,
+    @Optional() private readonly redisService: RedisService,
   ) {}
 
   async ingestGtfs(
@@ -287,6 +289,16 @@ export class IngestionService {
         warnCount,
         report,
       );
+
+      if (finalStatus === ImportSessionStatus.SUCCESS && this.redisService) {
+        await this.redisService.delByPattern('geojson:*');
+        await this.redisService.delByPattern('digitaltwin:*');
+        await this.redisService.delByPattern('search:*');
+        await this.redisService.delByPattern('nearby:*');
+        logger.log(
+          'Redis caches for GeoJSON, digital twins, and searches invalidated.',
+        );
+      }
 
       logger.log('Report Generated');
       return report;

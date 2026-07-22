@@ -117,6 +117,19 @@ export class TransitImporter {
 
     // Persist inserts
     if (inserts.length > 0) {
+      // Query system to resolve dynamic city and state fallback
+      const system = await this.prisma.system.findUnique({
+        where: { id: context.systemId },
+        select: { city: true },
+      });
+      const city = system?.city || 'Mumbai';
+      const state =
+        city.toLowerCase() === 'delhi'
+          ? 'Delhi'
+          : city.toLowerCase() === 'kochi'
+            ? 'Kerala'
+            : 'Maharashtra';
+
       const data = inserts.map((s) => ({
         systemId: context.systemId,
         code: s.code,
@@ -124,8 +137,8 @@ export class TransitImporter {
         latitude: s.latitude,
         longitude: s.longitude,
         timezone: s.timezone || 'Asia/Kolkata',
-        city: 'Mumbai', // fallback
-        state: 'Maharashtra',
+        city,
+        state,
         country: 'India',
         wheelchairAccessible: s.wheelchairAccessible || false,
       }));

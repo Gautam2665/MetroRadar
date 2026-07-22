@@ -159,13 +159,12 @@ MetroRadar/ (TransitOS Monorepo)
 | **Database** | PostGIS coordinates configuration, migration rules, Prisma seeds | Sprint 2 | ✅ Complete |
 | **Feeds** | GTFS static ingestion pipelines, import session audit trails | Sprint 3 | ✅ Complete |
 | **Validation** | Dataset validation suite, imports (Mumbai Metro, Kochi Metro) | Sprint 3.5 | ✅ Complete |
-| **Maps** | Map layout renderers, station plotting, route visualization layers | Sprint 4 | 🚧 In Progress |
+| **Maps** | Map layout renderers, station plotting, route visualization layers | Sprint 4 | ✅ Complete |
 | **Routing** | Dijkstra pathfinder, multi-station walk interfaces | Sprint 5 | 🚧 In Progress |
 | **Realtime** | WebSocket streams, live Redis caching, trip update relays | Sprint 6 | ⏳ Planned |
 | **Security** | Secure registration, JSON Web Token (JWT) authorization guards | Sprint 7 | ⏳ Planned |
 | **Stations** | Detailed platform directions, level mappings | Sprint 8 | ⏳ Planned |
 | **Commerce** | Vendor promotions portal, ads engine layout | Sprint 9 | ⏳ Planned |
-| **AI** | Commuter recommendation model, delay predictive engine | Sprint 10 | ⏳ Planned |
 
 ---
 
@@ -217,17 +216,18 @@ MetroRadar/ (TransitOS Monorepo)
     Start backend APIs and Next.js frontend interfaces concurrently:
     ```bash
     # Run Backend API (NestJS)
-    npm run backend:dev
+    npm run start:dev --workspace=apps/backend
 
     # Run Frontend Dashboard (Next.js)
-    npm run frontend:dev
+    npm run dev --workspace=apps/frontend
     ```
-    - NestJS APIs will be accessible at: `http://localhost:3000/api`
-    - Next.js dashboard client will be accessible at: `http://localhost:4000/`
+    - NestJS APIs will be accessible at: `http://localhost:3001`
+    - Next.js dashboard client will be accessible at: `http://localhost:3000`
 
 ---
 
 ## 🗺️ Master Documentation References
-- [PROJECT_BIBLE.md](./PROJECT_BIBLE.md) - Architectural deep dives, design guidelines, coding principles.
-- [ROADMAP.md](./ROADMAP.md) - Full 6-month vision breakdown and sprint deliverables.
+- [ARCHITECTURE.md](./ARCHITECTURE.md) - Deep dive into systems design, data flow, GeoJSON philosophy, and caching strategy.
+- [PROJECT_BIBLE.md](./PROJECT_BIBLE.md) - Master architectural reference document, design guidelines, coding principles.
+- [ROADMAP.md](./ROADMAP.md) - Full 6-month vision breakdown and sprint schedules.
 - [TODO.md](./TODO.md) - Active developer checklist and backlog status tracker.
