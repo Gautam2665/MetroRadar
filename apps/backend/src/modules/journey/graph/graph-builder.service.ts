@@ -178,6 +178,42 @@ export class GraphBuilderService {
     }
     this.logger.log(`  Built ${transferEdgeCount} TRANSFER edges (interchange stations)`);
 
+    // ── 5. Build WALK edges for nearby stations (geospatial transfers) ────────
+    let walkEdgeCount = 0;
+    const WALKING_THRESHOLD_METERS = 1000; // 1 km max walk
+    const WALKING_SPEED_MPS = 1.2; // 1.2 m/s (~4.3 km/h)
+
+    const stationList = [...nodes.values()];
+    for (let i = 0; i < stationList.length; i++) {
+      const s1 = stationList[i];
+      for (let j = i + 1; j < stationList.length; j++) {
+        const s2 = stationList[j];
+
+        // Calculate walking distance
+        const dist = this.getDistanceMeters(s1.lat, s1.lng, s2.lat, s2.lng);
+        if (dist <= WALKING_THRESHOLD_METERS) {
+          const duration = Math.round(dist / WALKING_SPEED_MPS);
+
+          addEdge({
+            from: s1.id,
+            to: s2.id,
+            type: EdgeType.WALK,
+            duration,
+          });
+
+          addEdge({
+            from: s2.id,
+            to: s1.id,
+            type: EdgeType.WALK,
+            duration,
+          });
+
+          walkEdgeCount += 2;
+        }
+      }
+    }
+    this.logger.log(`  Built ${walkEdgeCount} WALK edges (nearby station transfers)`);
+
     const graph: TransitGraph = {
       systemId,
       systemCode: system.code,
@@ -272,5 +308,24 @@ export class GraphBuilderService {
       return parts[0] * 3600 + parts[1] * 60 + (parts[2] ?? 0);
     };
     return toSeconds(arrival) - toSeconds(departure);
+  }
+
+  /** Calculate Haversine distance in meters between two lat/lng pairs */
+  private getDistanceMeters(lat1: number, lon1: number, lat2: number, lon2: number): number {
+    const R = 6371000; // Earth radius in meters
+    const phi1 = (lat1 * Math.PI) / 180;
+    const phi2 = (lat2 * Math.PI) / 180;
+    const deltaPhi = ((lat2 - lat1) * Math.PI) / 180;
+    const deltaLambda = ((lon2 - lon1) * Math.PI) / 180;
+
+    const a =
+      Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
+      Math.cos(phi1) *
+        Math.cos(phi2) *
+        Math.sin(deltaLambda / 2) *
+        Math.sin(deltaLambda / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c;
   }
 }

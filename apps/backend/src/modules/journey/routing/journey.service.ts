@@ -65,7 +65,7 @@ export interface JourneyResponse {
 @Injectable()
 export class JourneyService {
   private readonly logger = new Logger(JourneyService.name);
-  private readonly GRAPH_VERSION = 'v1';
+  private readonly GRAPH_VERSION = 'v2';
 
   constructor(
     private readonly db: DatabaseService,
