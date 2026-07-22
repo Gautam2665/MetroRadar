@@ -139,7 +139,48 @@ export class JourneyService {
         })
       : [];
 
-    const lineMap = new Map(lines.map((l) => [l.id, l]));
+    const normalizedLines = lines.map((l) => {
+      const nameUpper = (l.name || '').toUpperCase();
+      let color = l.color || '#3b82f6';
+      if (
+        color === '' ||
+        ['#000000', '000000', '#ffffff', 'ffffff'].includes(color.toLowerCase())
+      ) {
+        if (nameUpper.includes('YELLOW') || nameUpper.includes('LINE 2A')) {
+          color = '#facc15';
+        } else if (nameUpper.includes('BLUE')) {
+          color = '#3b82f6';
+        } else if (nameUpper.includes('PINK')) {
+          color = '#ec4899';
+        } else if (nameUpper.includes('MAGENTA')) {
+          color = '#d946ef';
+        } else if (nameUpper.includes('RED')) {
+          color = '#ef4444';
+        } else if (nameUpper.includes('VIOLET')) {
+          color = '#8b5cf6';
+        } else if (nameUpper.includes('GREEN')) {
+          color = '#22c55e';
+        } else if (nameUpper.includes('AQUA')) {
+          color = '#06b6d4';
+        } else if (nameUpper.includes('GOLD')) {
+          color = '#eab308'; // Amber/Gold
+        } else if (
+          nameUpper.includes('ORANGE') ||
+          nameUpper.includes('AIRPORT')
+        ) {
+          color = '#f97316'; // Orange Express
+        } else if (nameUpper.includes('TEAL') || nameUpper.includes('RAPID')) {
+          color = '#14b8a6';
+        } else if (nameUpper.includes('KOCHI')) {
+          color = '#0ea5e9';
+        } else {
+          color = '#3b82f6';
+        }
+      }
+      return { ...l, color };
+    });
+
+    const lineMap = new Map(normalizedLines.map((l) => [l.id, l]));
 
     // ── 6. Build ordered station list ────────────────────────────────────────
     const visitedStationIds = this.extractStationIds(path, fromId);
