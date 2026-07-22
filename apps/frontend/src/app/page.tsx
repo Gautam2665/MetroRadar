@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import maplibregl from "maplibre-gl";
 import Sidebar, { CityConfig } from "@/components/dashboard/Sidebar";
 import MapContainer from "@/components/map/MapContainer";
@@ -42,6 +42,22 @@ export default function Home() {
   // Map Instance Ref
   const mapRef = useRef<maplibregl.Map | null>(null);
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="flex w-screen h-screen items-center justify-center bg-[#09090b]">
+        <div className="text-center space-y-3">
+          <div className="h-6 w-6 border-2 border-sky-400 border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-xs text-zinc-500 font-mono tracking-wider uppercase">Initializing digital twin dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
   // Keep track of cache hit status based on request duration patterns (e.g. < 25ms usually indicates Redis hit)
   const updateApiLatency = (ms: number) => {
     setApiLatency(ms);
@@ -81,7 +97,6 @@ export default function Home() {
         onDeveloperConsoleOpen={() => setDeveloperConsoleOpen(true)}
         onFlyToCoordinates={handleFlyTo}
         apiLatencySetter={updateApiLatency}
-        onJourneyResult={handleJourneyResult}
       />
 
       {/* 2. Interactive Map Container (Center/Right) */}
