@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { Compass } from "lucide-react";
 
 type MapContainerProps = {
   center: [number, number];
@@ -29,8 +30,13 @@ export default function MapContainer({
   mapRef,
   journeyGeojson,
 }: MapContainerProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [mapStyle, setMapStyle] = useState<"3D" | "Satellite" | "Dark">("Dark");
+
+  const handleZoomIn = () => mapRef.current?.zoomIn();
+  const handleZoomOut = () => mapRef.current?.zoomOut();
+  const handleResetNorth = () => mapRef.current?.resetNorthPitch();
 
   const initialCenterRef = useRef(center);
   const initialZoomRef = useRef(zoom);
@@ -418,6 +424,59 @@ export default function MapContainer({
   return (
     <div className="flex-1 h-full relative bg-zinc-950">
       <div ref={containerRef} className="absolute inset-0 w-full h-full" />
+
+      {/* Top-Right Navigation Controls */}
+      <div className="absolute top-4 right-4 z-20 flex flex-col space-y-1.5 bg-zinc-950/80 border border-zinc-800/80 backdrop-blur-md p-1.5 rounded-2xl shadow-2xl">
+        <button
+          onClick={handleZoomIn}
+          className="h-8 w-8 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white flex items-center justify-center transition border border-zinc-800/60 font-bold text-sm"
+          title="Zoom In"
+        >
+          +
+        </button>
+        <button
+          onClick={handleZoomOut}
+          className="h-8 w-8 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white flex items-center justify-center transition border border-zinc-800/60 font-bold text-sm"
+          title="Zoom Out"
+        >
+          -
+        </button>
+        <button
+          onClick={handleResetNorth}
+          className="h-8 w-8 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white flex items-center justify-center transition border border-zinc-800/60"
+          title="Reset Bearing"
+        >
+          <Compass size={14} />
+        </button>
+      </div>
+
+      {/* Bottom-Center Map Style Switcher */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center p-1 bg-zinc-950/80 border border-zinc-800/80 backdrop-blur-md rounded-2xl shadow-2xl space-x-1 text-xs">
+        <button
+          onClick={() => setMapStyle("3D")}
+          className={`px-3 py-1.5 rounded-xl font-bold transition ${
+            mapStyle === "3D" ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-400 hover:text-zinc-200"
+          }`}
+        >
+          3D
+        </button>
+        <button
+          onClick={() => setMapStyle("Satellite")}
+          className={`px-3 py-1.5 rounded-xl font-bold transition ${
+            mapStyle === "Satellite" ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-400 hover:text-zinc-200"
+          }`}
+        >
+          Satellite
+        </button>
+        <button
+          onClick={() => setMapStyle("Dark")}
+          className={`px-3 py-1.5 rounded-xl font-bold transition ${
+            mapStyle === "Dark" ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-400 hover:text-zinc-200"
+          }`}
+        >
+          Dark
+        </button>
+      </div>
       
       {!mapLoaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-[#09090b] z-30">
