@@ -220,7 +220,7 @@ export class JourneyService {
     });
 
     // ── 8. Assemble GeoJSON for map highlight ────────────────────────────────
-    const geojson = this.buildGeoJson(orderedStations, legs, lineMap);
+    const geojson = await this.buildGeoJson(orderedStations, legs, lineMap);
 
     const fromRef: StationRef = {
       id: fromStation.id,
@@ -279,11 +279,11 @@ export class JourneyService {
    * Generates one LineString per line segment (different colors per line),
    * plus Point features for origin, destination, and transfer stations.
    */
-  private buildGeoJson(
+  private async buildGeoJson(
     stations: StationRef[],
     legs: JourneyLeg[],
     lineMap: Map<string, { id: string; name: string; color: string; code: string }>,
-  ): GeoJSON.FeatureCollection {
+  ): Promise<GeoJSON.FeatureCollection> {
     const features: GeoJSON.Feature[] = [];
 
     // Build a lookup of stationId → coordinates
@@ -313,6 +313,21 @@ export class JourneyService {
       const toCoord = coordMap.get(leg.to);
       if (!fromCoord || !toCoord) continue;
 
+      let segmentCoords: [number, number][] = [fromCoord, toCoord];
+
+      if (leg.type === EdgeType.TRANSIT && leg.lineId) {
+        const shapeCoords = await this.getShapeSegmentCoords(
+          leg.lineId,
+          leg.from,
+          leg.to,
+          fromCoord,
+          toCoord,
+        );
+        if (shapeCoords && shapeCoords.length > 1) {
+          segmentCoords = shapeCoords;
+        }
+      }
+
       const color = leg.lineColor ?? '#94a3b8'; // slate-400 fallback
 
       if (
@@ -321,7 +336,7 @@ export class JourneyService {
       ) {
         // Start a new segment
         currentSegment = {
-          coords: [fromCoord, toCoord],
+          coords: [...segmentCoords],
           lineId: leg.lineId,
           color,
           lineName: leg.lineName,
@@ -329,7 +344,7 @@ export class JourneyService {
         segments.push(currentSegment);
       } else {
         // Extend existing segment
-        currentSegment.coords.push(toCoord);
+        currentSegment.coords.push(...segmentCoords.slice(1));
       }
     }
 
@@ -396,5 +411,103 @@ export class JourneyService {
     }
 
     return { type: 'FeatureCollection', features };
+  }
+
+  /**
+   * Resolves the coordinate sub-sequence along a line's track shape
+   * connecting fromStationId to toStationId.
+   */
+  private async getShapeSegmentCoords(
+    lineId: string,
+    fromStationId: string,
+    toStationId: string,
+    fromCoord: [number, number],
+    toCoord: [number, number],
+  ): Promise<[number, number][] | null> {
+    try {
+      // Find a trip on this line that has a shapeId and serves both stations
+      const trip = await this.db.trip.findFirst({
+        where: {
+          lineId,
+          shapeId: { not: null },
+          isActive: true,
+          AND: [
+            { stopTimes: { some: { stationId: fromStationId, isActive: true } } },
+            { stopTimes: { some: { stationId: toStationId, isActive: true } } },
+          ],
+        },
+        select: { shapeId: true },
+      });
+
+      let shapeId = trip?.shapeId;
+      if (!shapeId) {
+        // Fallback to any active trip on this line with shapeId
+        const fallbackTrip = await this.db.trip.findFirst({
+          where: { lineId, shapeId: { not: null }, isActive: true },
+          select: { shapeId: true },
+        });
+        shapeId = fallbackTrip?.shapeId;
+      }
+
+      if (!shapeId) return null;
+
+      // Load all shape points for this shapeId, ordered by sequence
+      const shapes = await this.db.shape.findMany({
+        where: { shapeId, isActive: true },
+        select: { latitude: true, longitude: true, sequence: true },
+        orderBy: { sequence: 'asc' },
+      });
+
+      if (shapes.length < 2) return null;
+
+      // Find closest shape point index to fromCoord and toCoord
+      let minDistanceToFrom = Infinity;
+      let minDistanceToTo = Infinity;
+      let idxFrom = -1;
+      let idxTo = -1;
+
+      for (let i = 0; i < shapes.length; i++) {
+        const p = shapes[i];
+        
+        // Simple Euclidean distance
+        const dFrom = Math.pow(p.longitude - fromCoord[0], 2) + Math.pow(p.latitude - fromCoord[1], 2);
+        const dTo = Math.pow(p.longitude - toCoord[0], 2) + Math.pow(p.latitude - toCoord[1], 2);
+
+        if (dFrom < minDistanceToFrom) {
+          minDistanceToFrom = dFrom;
+          idxFrom = i;
+        }
+        if (dTo < minDistanceToTo) {
+          minDistanceToTo = dTo;
+          idxTo = i;
+        }
+      }
+
+      if (idxFrom === -1 || idxTo === -1 || idxFrom === idxTo) return null;
+
+      const coords: [number, number][] = [];
+      
+      // Ensure starting coordinate matches exact station center
+      coords.push(fromCoord);
+
+      // Extract shapes between from and to indices
+      if (idxFrom < idxTo) {
+        for (let i = idxFrom + 1; i < idxTo; i++) {
+          coords.push([shapes[i].longitude, shapes[i].latitude]);
+        }
+      } else {
+        for (let i = idxFrom - 1; i > idxTo; i--) {
+          coords.push([shapes[i].longitude, shapes[i].latitude]);
+        }
+      }
+
+      // Ensure ending coordinate matches exact station center
+      coords.push(toCoord);
+
+      return coords;
+    } catch (err) {
+      this.logger.warn(`Failed to resolve shape segment for line ${lineId}: ${err}`);
+      return null;
+    }
   }
 }
