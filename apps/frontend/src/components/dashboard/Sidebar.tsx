@@ -13,6 +13,11 @@ import {
   User,
   ArrowLeft,
   Navigation,
+  Train,
+  CircleDot,
+  GitCompare,
+  Footprints,
+  Hexagon,
 } from "lucide-react";
 import {
   JourneyPlannerForm,
@@ -33,6 +38,14 @@ const CITIES: CityConfig[] = [
   { name: "Delhi Metro", code: "delhi", center: [77.209, 28.6139], zoom: 11.5 },
   { name: "Kochi Metro", code: "kochi", center: [76.3244, 9.9816], zoom: 12.5 },
   { name: "Mumbai Metro", code: "mumbai", center: [72.8777, 19.076], zoom: 11.5 },
+];
+
+const MAP_LAYERS = [
+  { id: "lines", name: "Metro Lines", icon: Train },
+  { id: "stations", name: "Stations", icon: CircleDot },
+  { id: "interchanges", name: "Interchanges", icon: GitCompare },
+  { id: "walks", name: "Walk Connections", icon: Footprints },
+  { id: "zones", name: "Zones", icon: Hexagon },
 ];
 
 type LayerOption = {
@@ -316,6 +329,36 @@ export default function Sidebar({
                   Plan A Journey
                 </button>
               </div>
+
+              {/* Map Layers */}
+              <div className="pt-5 border-t border-zinc-850/60">
+                <h2 className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-3 flex items-center">
+                  <Layers className="h-3.5 w-3.5 mr-1.5 text-zinc-500" /> Map Layers
+                </h2>
+                <div className="space-y-1">
+                  {MAP_LAYERS.map((layer) => {
+                    const isVisible = activeLayers.includes(layer.id);
+                    const Icon = layer.icon;
+                    return (
+                      <button
+                        key={layer.id}
+                        onClick={() => onToggleLayer(layer.id)}
+                        className="w-full flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-zinc-900/50 text-xs font-semibold transition-all duration-200 text-left"
+                      >
+                        <div className="flex items-center gap-3 text-zinc-300">
+                          <Icon size={14} className={isVisible ? "text-sky-400" : "text-zinc-500"} />
+                          <span>{layer.name}</span>
+                        </div>
+                        {isVisible ? (
+                          <Eye className="h-4 w-4 text-sky-400" />
+                        ) : (
+                          <EyeOff className="h-4 w-4 text-zinc-700" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           )}
 
@@ -515,20 +558,20 @@ export default function Sidebar({
             <h2 className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-3 flex items-center">
               <Layers className="h-3.5 w-3.5 mr-1 text-zinc-500" /> GIS Layer Controls
             </h2>
-            <div className="space-y-2">
-              {layers.map((layer) => {
+            <div className="space-y-1">
+              {MAP_LAYERS.map((layer) => {
                 const isVisible = activeLayers.includes(layer.id);
+                const Icon = layer.icon;
                 return (
                   <button
                     key={layer.id}
                     onClick={() => onToggleLayer(layer.id)}
-                    className={`w-full flex items-center justify-between p-2.5 rounded-xl border text-xs font-semibold transition-all duration-300 ${
-                      isVisible
-                        ? "bg-zinc-900 border-zinc-800 text-zinc-200"
-                        : "bg-transparent border-transparent text-zinc-500 hover:text-zinc-400"
-                    }`}
+                    className="w-full flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-zinc-900/50 text-xs font-semibold transition-all duration-200 text-left"
                   >
-                    <span>{layer.name}</span>
+                    <div className="flex items-center gap-3 text-zinc-300">
+                      <Icon size={14} className={isVisible ? "text-sky-400" : "text-zinc-500"} />
+                      <span>{layer.name}</span>
+                    </div>
                     {isVisible ? (
                       <Eye className="h-4 w-4 text-sky-400" />
                     ) : (
