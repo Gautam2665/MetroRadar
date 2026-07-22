@@ -5,6 +5,7 @@ import { HealthModule } from './health/health.module';
 import { IngestionModule } from './modules/ingestion/ingestion.module';
 import { RedisModule } from './redis/redis.module';
 import { GisModule } from './modules/gis/gis.module';
+import { JourneyModule } from './modules/journey/journey.module';
 import { validateEnv } from './config/config.validation';
 
 @Module({
@@ -18,6 +19,7 @@ import { validateEnv } from './config/config.validation';
     HealthModule,
     IngestionModule,
     GisModule,
+    JourneyModule,
   ],
 })
 export class AppModule {}

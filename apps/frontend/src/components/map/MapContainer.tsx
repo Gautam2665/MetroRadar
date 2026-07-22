@@ -14,6 +14,7 @@ type MapContainerProps = {
   apiLatencySetter: (ms: number) => void;
   setLoadedLayersCount: (count: number) => void;
   mapRef: React.MutableRefObject<maplibregl.Map | null>;
+  journeyGeojson?: GeoJSON.FeatureCollection | null;
 };
 
 export default function MapContainer({
@@ -26,6 +27,7 @@ export default function MapContainer({
   apiLatencySetter,
   setLoadedLayersCount,
   mapRef,
+  journeyGeojson,
 }: MapContainerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -265,6 +267,139 @@ export default function MapContainer({
 
     syncLayers();
   }, [activeLayers, selectedStationId, mapLoaded, apiLatencySetter, onStationSelect, setLoadedLayersCount, mapRef]);
+
+  // ── Journey Highlight Layer ──────────────────────────────────────────────
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapLoaded) return;
+
+    const JOURNEY_LINE_SOURCE = "journey-highlight-source";
+    const JOURNEY_LINE_LAYER = "journey-highlight-layer";
+    const JOURNEY_LINE_GLOW = "journey-highlight-glow";
+    const JOURNEY_POINTS_SOURCE = "journey-points-source";
+    const JOURNEY_ORIGIN_LAYER = "journey-origin-layer";
+    const JOURNEY_DEST_LAYER = "journey-dest-layer";
+    const JOURNEY_TRANSFER_LAYER = "journey-transfer-layer";
+
+    const cleanupJourneyLayers = () => {
+      [
+        JOURNEY_LINE_GLOW,
+        JOURNEY_LINE_LAYER,
+        JOURNEY_ORIGIN_LAYER,
+        JOURNEY_DEST_LAYER,
+        JOURNEY_TRANSFER_LAYER,
+      ].forEach((l) => { if (map.getLayer(l)) map.removeLayer(l); });
+      [JOURNEY_LINE_SOURCE, JOURNEY_POINTS_SOURCE].forEach((s) => {
+        if (map.getSource(s)) map.removeSource(s);
+      });
+    };
+
+    if (!journeyGeojson) {
+      cleanupJourneyLayers();
+      return;
+    }
+
+    // Separate segment features from point features
+    const segmentFeatures = journeyGeojson.features.filter(
+      (f) => f.geometry.type === "LineString"
+    );
+    const pointFeatures = journeyGeojson.features.filter(
+      (f) => f.geometry.type === "Point"
+    );
+
+    const lineCollection: GeoJSON.FeatureCollection = {
+      type: "FeatureCollection",
+      features: segmentFeatures,
+    };
+    const pointCollection: GeoJSON.FeatureCollection = {
+      type: "FeatureCollection",
+      features: pointFeatures,
+    };
+
+    // Render line source + glow + main layer
+    if (map.getSource(JOURNEY_LINE_SOURCE)) {
+      (map.getSource(JOURNEY_LINE_SOURCE) as maplibregl.GeoJSONSource).setData(lineCollection);
+    } else {
+      map.addSource(JOURNEY_LINE_SOURCE, { type: "geojson", data: lineCollection });
+
+      // Glow (thick, low opacity)
+      map.addLayer({
+        id: JOURNEY_LINE_GLOW,
+        type: "line",
+        source: JOURNEY_LINE_SOURCE,
+        paint: {
+          "line-color": ["coalesce", ["get", "color"], "#06b6d4"],
+          "line-width": 14,
+          "line-opacity": 0.15,
+          "line-blur": 4,
+        },
+        layout: { "line-join": "round", "line-cap": "round" },
+      });
+
+      // Main route line
+      map.addLayer({
+        id: JOURNEY_LINE_LAYER,
+        type: "line",
+        source: JOURNEY_LINE_SOURCE,
+        paint: {
+          "line-color": ["coalesce", ["get", "color"], "#06b6d4"],
+          "line-width": 5,
+          "line-opacity": 0.95,
+          "line-dasharray": [1, 0],
+        },
+        layout: { "line-join": "round", "line-cap": "round" },
+      });
+    }
+
+    // Render point markers
+    if (map.getSource(JOURNEY_POINTS_SOURCE)) {
+      (map.getSource(JOURNEY_POINTS_SOURCE) as maplibregl.GeoJSONSource).setData(pointCollection);
+    } else {
+      map.addSource(JOURNEY_POINTS_SOURCE, { type: "geojson", data: pointCollection });
+
+      // Transfer markers
+      map.addLayer({
+        id: JOURNEY_TRANSFER_LAYER,
+        type: "circle",
+        source: JOURNEY_POINTS_SOURCE,
+        filter: ["==", ["get", "featureType"], "journey-transfer"],
+        paint: {
+          "circle-color": "#f59e0b",
+          "circle-radius": 7,
+          "circle-stroke-color": "#09090b",
+          "circle-stroke-width": 2,
+        },
+      });
+
+      // Origin marker
+      map.addLayer({
+        id: JOURNEY_ORIGIN_LAYER,
+        type: "circle",
+        source: JOURNEY_POINTS_SOURCE,
+        filter: ["==", ["get", "featureType"], "journey-origin"],
+        paint: {
+          "circle-color": "#22c55e",
+          "circle-radius": 9,
+          "circle-stroke-color": "#09090b",
+          "circle-stroke-width": 2.5,
+        },
+      });
+
+      // Destination marker
+      map.addLayer({
+        id: JOURNEY_DEST_LAYER,
+        type: "circle",
+        source: JOURNEY_POINTS_SOURCE,
+        filter: ["==", ["get", "featureType"], "journey-destination"],
+        paint: {
+          "circle-color": "#ef4444",
+          "circle-radius": 9,
+          "circle-stroke-color": "#09090b",
+          "circle-stroke-width": 2.5,
+        },
+      });
+    }
+  }, [journeyGeojson, mapLoaded, mapRef]);
 
   return (
     <div className="flex-1 h-full relative bg-zinc-950">

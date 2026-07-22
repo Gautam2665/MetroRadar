@@ -35,6 +35,9 @@ export default function Home() {
   const [apiLatency, setApiLatency] = useState(0);
   const [cacheHit, setCacheHit] = useState(false);
 
+  // Journey Intelligence state
+  const [journeyGeojson, setJourneyGeojson] = useState<GeoJSON.FeatureCollection | null>(null);
+
   // Map Instance Ref
   const mapRef = useRef<maplibregl.Map | null>(null);
 
@@ -61,6 +64,10 @@ export default function Home() {
     handleFlyTo([lon, lat], 17);
   };
 
+  const handleJourneyResult = (result: any) => {
+    setJourneyGeojson(result?.journey?.geojson ?? null);
+  };
+
   return (
     <div className="flex w-screen h-screen overflow-hidden bg-[#09090b]">
       {/* 1. Sidebar Panel (Left) */}
@@ -73,6 +80,7 @@ export default function Home() {
         onDeveloperConsoleOpen={() => setDeveloperConsoleOpen(true)}
         onFlyToCoordinates={handleFlyTo}
         apiLatencySetter={updateApiLatency}
+        onJourneyResult={handleJourneyResult}
       />
 
       {/* 2. Interactive Map Container (Center/Right) */}
@@ -86,6 +94,7 @@ export default function Home() {
         apiLatencySetter={updateApiLatency}
         setLoadedLayersCount={setLoadedLayersCount}
         mapRef={mapRef}
+        journeyGeojson={journeyGeojson}
       />
 
       {/* 3. Station Digital Twin Inspector Drawer (Collapsible Right) */}
