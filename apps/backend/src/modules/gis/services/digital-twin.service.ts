@@ -137,7 +137,12 @@ export class DigitalTwinService {
     }));
 
     const platformsMapped = platforms.map((p) => {
-      let lineMapped = null;
+      let lineMapped: {
+        id: string;
+        name: string;
+        color: string;
+        code: string;
+      } | null = null;
       if (p.line) {
         const nameUpper = (p.line.name || '').toUpperCase();
         let color = p.line.color || '#3b82f6';
