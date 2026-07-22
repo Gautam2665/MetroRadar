@@ -275,6 +275,7 @@ export default function MapContainer({
 
     const JOURNEY_LINE_SOURCE = "journey-highlight-source";
     const JOURNEY_LINE_LAYER = "journey-highlight-layer";
+    const JOURNEY_LINE_CASING = "journey-highlight-casing";
     const JOURNEY_LINE_GLOW = "journey-highlight-glow";
     const JOURNEY_POINTS_SOURCE = "journey-points-source";
     const JOURNEY_ORIGIN_LAYER = "journey-origin-layer";
@@ -284,6 +285,7 @@ export default function MapContainer({
     const cleanupJourneyLayers = () => {
       [
         JOURNEY_LINE_GLOW,
+        JOURNEY_LINE_CASING,
         JOURNEY_LINE_LAYER,
         JOURNEY_ORIGIN_LAYER,
         JOURNEY_DEST_LAYER,
@@ -316,7 +318,7 @@ export default function MapContainer({
       features: pointFeatures,
     };
 
-    // Render line source + glow + main layer
+    // Render line source + casing + glow + main layer
     if (map.getSource(JOURNEY_LINE_SOURCE)) {
       (map.getSource(JOURNEY_LINE_SOURCE) as maplibregl.GeoJSONSource).setData(lineCollection);
     } else {
@@ -336,6 +338,19 @@ export default function MapContainer({
         layout: { "line-join": "round", "line-cap": "round" },
       });
 
+      // Casing / Halo (thick black line underneath to separate overlapping routes)
+      map.addLayer({
+        id: JOURNEY_LINE_CASING,
+        type: "line",
+        source: JOURNEY_LINE_SOURCE,
+        paint: {
+          "line-color": "#09090b",
+          "line-width": 7.5,
+          "line-opacity": 0.95,
+        },
+        layout: { "line-join": "round", "line-cap": "round" },
+      });
+
       // Main route line
       map.addLayer({
         id: JOURNEY_LINE_LAYER,
@@ -343,9 +358,8 @@ export default function MapContainer({
         source: JOURNEY_LINE_SOURCE,
         paint: {
           "line-color": ["coalesce", ["get", "color"], "#06b6d4"],
-          "line-width": 5,
+          "line-width": 3.5,
           "line-opacity": 0.95,
-          "line-dasharray": [1, 0],
         },
         layout: { "line-join": "round", "line-cap": "round" },
       });

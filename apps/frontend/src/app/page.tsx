@@ -8,6 +8,7 @@ import DigitalTwinInspector from "@/components/dashboard/DigitalTwinInspector";
 import DiagnosticsHud from "@/components/dashboard/DiagnosticsHud";
 import DeveloperDashboard from "@/components/dashboard/DeveloperDashboard";
 import JourneyPlanner from "@/components/dashboard/JourneyPlanner";
+import JourneyTimeline from "@/components/dashboard/JourneyTimeline";
 
 export default function Home() {
   // Map Viewport state
@@ -37,6 +38,7 @@ export default function Home() {
   const [cacheHit, setCacheHit] = useState(false);
 
   // Journey Intelligence state
+  const [journeyResult, setJourneyResult] = useState<any | null>(null);
   const [journeyGeojson, setJourneyGeojson] = useState<GeoJSON.FeatureCollection | null>(null);
 
   // Map Instance Ref
@@ -82,6 +84,7 @@ export default function Home() {
   };
 
   const handleJourneyResult = (result: any) => {
+    setJourneyResult(result);
     setJourneyGeojson(result?.journey?.geojson ?? null);
   };
 
@@ -120,6 +123,19 @@ export default function Home() {
           onFlyToCoordinates={handleFlyTo}
         />
       </div>
+
+      {/* 4. Floating Journey Timeline Overlay */}
+      {journeyResult && (
+        <div className="absolute top-4 left-[796px] z-10 w-[360px] bg-zinc-950/80 border border-zinc-800/80 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden transition-all duration-300">
+          <JourneyTimeline
+            result={journeyResult}
+            onClose={() => {
+              setJourneyResult(null);
+              setJourneyGeojson(null);
+            }}
+          />
+        </div>
+      )}
 
       {/* 3. Station Digital Twin Inspector Drawer (Collapsible Right) */}
       {selectedStationId && (

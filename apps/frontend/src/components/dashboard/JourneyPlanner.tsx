@@ -28,13 +28,16 @@ type StationRef = {
 
 type JourneyLeg = {
   from: string;
+  fromStationName: string;
   to: string;
+  toStationName: string;
   type: "TRANSIT" | "TRANSFER" | "WALK";
   duration: number; // seconds
   lineId: string | null;
   lineName: string | null;
   lineColor: string | null;
   lineCode: string | null;
+  stationsCount: number;
 };
 
 type JourneyResult = {
@@ -458,17 +461,27 @@ function JourneyResultCard({ result }: { result: JourneyResult }) {
             {/* Leg label */}
             <div className="flex-1 min-w-0">
               {leg.type === "TRANSIT" && leg.lineName ? (
-                <span
-                  className="text-xs font-medium px-2 py-0.5 rounded"
-                  style={{
-                    backgroundColor: `${leg.lineColor ?? "#3b82f6"}22`,
-                    color: leg.lineColor ?? "#3b82f6",
-                  }}
-                >
-                  {leg.lineName}
-                </span>
+                <div className="flex flex-col">
+                  <span
+                    className="text-xs font-bold px-1.5 py-0.5 rounded w-max"
+                    style={{
+                      backgroundColor: `${leg.lineColor ?? "#3b82f6"}22`,
+                      color: leg.lineColor ?? "#3b82f6",
+                    }}
+                  >
+                    {leg.lineName}
+                  </span>
+                  <span className="text-[10px] text-zinc-400 mt-0.5 truncate">
+                    {leg.fromStationName} → {leg.toStationName} ({leg.stationsCount} stop{leg.stationsCount > 1 ? "s" : ""})
+                  </span>
+                </div>
               ) : leg.type === "WALK" ? (
-                <span className="text-xs text-emerald-400">Walk</span>
+                <div className="flex flex-col">
+                  <span className="text-xs text-emerald-400 font-bold">Walk</span>
+                  <span className="text-[10px] text-zinc-500 mt-0.5 truncate">
+                    Transfer to {leg.toStationName}
+                  </span>
+                </div>
               ) : (
                 <span className="text-xs text-amber-400">Change line</span>
               )}

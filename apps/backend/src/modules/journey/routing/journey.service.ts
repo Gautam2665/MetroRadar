@@ -22,13 +22,16 @@ export interface StationRef {
 
 export interface JourneyLeg {
   from: string;
+  fromStationName: string;
   to: string;
+  toStationName: string;
   type: EdgeType;
   duration: number;
   lineId: string | null;
   lineName: string | null;
   lineColor: string | null;
   lineCode: string | null;
+  stationsCount: number;
 }
 
 export interface JourneyResponse {
@@ -204,20 +207,51 @@ export class JourneyService {
       })
       .filter(Boolean) as StationRef[];
 
-    // ── 7. Build enriched legs ───────────────────────────────────────────────
-    const legs: JourneyLeg[] = path.map((edge) => {
+    // ── 7. Build enriched collapsed legs ────────────────────────────────────
+    const legs: JourneyLeg[] = [];
+    let currentLeg: JourneyLeg | null = null;
+
+    for (const edge of path) {
       const line = edge.lineId ? lineMap.get(edge.lineId) : undefined;
-      return {
-        from: edge.from,
-        to: edge.to,
-        type: edge.type,
-        duration: edge.duration,
-        lineId: edge.lineId ?? null,
-        lineName: line?.name ?? null,
-        lineColor: line?.color ?? null,
-        lineCode: line?.code ?? null,
-      };
-    });
+      const fromSt = stationMap.get(edge.from);
+      const toSt = stationMap.get(edge.to);
+
+      const fromName = fromSt?.name ?? edge.from;
+      const toName = toSt?.name ?? edge.to;
+
+      if (
+        currentLeg !== null &&
+        currentLeg.type === edge.type &&
+        currentLeg.lineId === (edge.lineId ?? null)
+      ) {
+        // Extend current leg
+        currentLeg.to = edge.to;
+        currentLeg.toStationName = toName;
+        currentLeg.duration += edge.duration;
+        currentLeg.stationsCount += 1;
+      } else {
+        // Push previous leg and start a new one
+        if (currentLeg) {
+          legs.push(currentLeg);
+        }
+        currentLeg = {
+          from: edge.from,
+          fromStationName: fromName,
+          to: edge.to,
+          toStationName: toName,
+          type: edge.type,
+          duration: edge.duration,
+          lineId: edge.lineId ?? null,
+          lineName: line?.name ?? null,
+          lineColor: line?.color ?? null,
+          lineCode: line?.code ?? null,
+          stationsCount: 1,
+        };
+      }
+    }
+    if (currentLeg) {
+      legs.push(currentLeg);
+    }
 
     // ── 8. Assemble GeoJSON for map highlight ────────────────────────────────
     const geojson = await this.buildGeoJson(orderedStations, legs, lineMap);
