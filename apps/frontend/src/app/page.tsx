@@ -7,8 +7,6 @@ import MapContainer from "@/components/map/MapContainer";
 import DigitalTwinInspector from "@/components/dashboard/DigitalTwinInspector";
 import DiagnosticsHud from "@/components/dashboard/DiagnosticsHud";
 import DeveloperDashboard from "@/components/dashboard/DeveloperDashboard";
-import JourneyPlanner from "@/components/dashboard/JourneyPlanner";
-import JourneyTimeline from "@/components/dashboard/JourneyTimeline";
 
 export default function Home() {
   // Map Viewport state
@@ -33,6 +31,7 @@ export default function Home() {
   const [loadedLayersCount, setLoadedLayersCount] = useState(0);
 
   // Diagnostics & Dev states
+  const [appMode, setAppMode] = useState<"passenger" | "developer">("passenger");
   const [developerConsoleOpen, setDeveloperConsoleOpen] = useState(false);
   const [apiLatency, setApiLatency] = useState(0);
   const [cacheHit, setCacheHit] = useState(false);
@@ -100,6 +99,8 @@ export default function Home() {
         onDeveloperConsoleOpen={() => setDeveloperConsoleOpen(true)}
         onFlyToCoordinates={handleFlyTo}
         apiLatencySetter={updateApiLatency}
+        onJourneyResult={handleJourneyResult}
+        onModeChange={setAppMode}
       />
 
       {/* 2. Interactive Map Container (Center/Right) */}
@@ -116,26 +117,7 @@ export default function Home() {
         journeyGeojson={journeyGeojson}
       />
 
-      {/* 3. Floating Journey Planner Overlay */}
-      <div className="absolute top-4 left-[404px] z-10 w-[380px] bg-zinc-950/80 border border-zinc-800/80 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden transition-all duration-300">
-        <JourneyPlanner
-          onJourneyResult={handleJourneyResult}
-          onFlyToCoordinates={handleFlyTo}
-        />
-      </div>
 
-      {/* 4. Floating Journey Timeline Overlay */}
-      {journeyResult && (
-        <div className="absolute top-4 left-[796px] z-10 w-[360px] bg-zinc-950/80 border border-zinc-800/80 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden transition-all duration-300">
-          <JourneyTimeline
-            result={journeyResult}
-            onClose={() => {
-              setJourneyResult(null);
-              setJourneyGeojson(null);
-            }}
-          />
-        </div>
-      )}
 
       {/* 3. Station Digital Twin Inspector Drawer (Collapsible Right) */}
       {selectedStationId && (
@@ -149,16 +131,18 @@ export default function Home() {
       )}
 
       {/* 4. Diagnostics HUD Overlay (Ctrl+Shift+D) */}
-      <DiagnosticsHud
-        zoom={mapViewport.zoom}
-        center={mapViewport.center}
-        loadedLayersCount={loadedLayersCount}
-        apiLatency={apiLatency}
-        cacheHit={cacheHit}
-      />
+      {appMode === "developer" && (
+        <DiagnosticsHud
+          zoom={mapViewport.zoom}
+          center={mapViewport.center}
+          loadedLayersCount={loadedLayersCount}
+          apiLatency={apiLatency}
+          cacheHit={cacheHit}
+        />
+      )}
 
       {/* 5. Developer & Diagnostics Admin Console */}
-      {developerConsoleOpen && (
+      {appMode === "developer" && developerConsoleOpen && (
         <DeveloperDashboard onClose={() => setDeveloperConsoleOpen(false)} />
       )}
     </div>
