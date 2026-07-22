@@ -7,6 +7,7 @@ import MapContainer from "@/components/map/MapContainer";
 import DigitalTwinInspector from "@/components/dashboard/DigitalTwinInspector";
 import DiagnosticsHud from "@/components/dashboard/DiagnosticsHud";
 import DeveloperDashboard from "@/components/dashboard/DeveloperDashboard";
+import JourneyPlanner from "@/components/dashboard/JourneyPlanner";
 
 export default function Home() {
   // Map Viewport state
@@ -96,6 +97,14 @@ export default function Home() {
         mapRef={mapRef}
         journeyGeojson={journeyGeojson}
       />
+
+      {/* 3. Floating Journey Planner Overlay */}
+      <div className="absolute top-4 left-[404px] z-10 w-[380px] bg-zinc-950/80 border border-zinc-800/80 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden transition-all duration-300">
+        <JourneyPlanner
+          onJourneyResult={handleJourneyResult}
+          onFlyToCoordinates={handleFlyTo}
+        />
+      </div>
 
       {/* 3. Station Digital Twin Inspector Drawer (Collapsible Right) */}
       {selectedStationId && (

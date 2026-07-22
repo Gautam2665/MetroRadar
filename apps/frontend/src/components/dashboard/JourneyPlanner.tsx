@@ -298,7 +298,7 @@ export default function JourneyPlanner({
   };
 
   return (
-    <div className="border-t border-zinc-800/60 mt-1">
+    <div className="w-full flex flex-col h-full bg-zinc-950/40">
       {/* Header */}
       <button
         onClick={() => setExpanded((e) => !e)}

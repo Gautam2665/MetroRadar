@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { Search, Layers, Compass, Terminal, MapPin, Eye, EyeOff } from "lucide-react";
-import JourneyPlanner from "./JourneyPlanner";
 
 export type CityConfig = {
   name: string;
@@ -32,7 +31,6 @@ type SidebarProps = {
   onDeveloperConsoleOpen: () => void;
   onFlyToCoordinates: (coords: [number, number], zoom?: number) => void;
   apiLatencySetter: (ms: number) => void;
-  onJourneyResult: (result: any) => void;
 };
 
 type SearchFeature = {
@@ -60,7 +58,6 @@ export default function Sidebar({
   onDeveloperConsoleOpen,
   onFlyToCoordinates,
   apiLatencySetter,
-  onJourneyResult,
 }: SidebarProps) {
   const [layers, setLayers] = useState<LayerOption[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -252,12 +249,6 @@ export default function Sidebar({
           )}
         </div>
       </div>
-
-      {/* Journey Planner */}
-      <JourneyPlanner
-        onJourneyResult={onJourneyResult}
-        onFlyToCoordinates={onFlyToCoordinates}
-      />
 
       {/* Layer System Manager */}
       <div className="px-6 py-5 border-t border-zinc-850 bg-zinc-950/20">
