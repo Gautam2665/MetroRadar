@@ -42,6 +42,6 @@ export interface JourneyWeights {
 
 export const DEFAULT_WEIGHTS: JourneyWeights = {
   travelTimeWeight: 1.0,
-  walkingWeight: 1.0,
-  transferPenalty: 300, // 5 minutes per line transfer penalty
+  walkingWeight: 0.8,    // 0.8 multiplier on pedestrian interchange travelator walkways
+  transferPenalty: 180,  // 3 minutes transfer penalty per line change
 };
