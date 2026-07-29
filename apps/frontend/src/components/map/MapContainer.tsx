@@ -104,88 +104,6 @@ export default function MapContainer({
     }
   }, [center, zoom, mapLoaded, mapRef]);
 
-  // Helper renderers & Fallback GIS data
-  const renderLinesLayer = (geojson: GeoJSON.FeatureCollection) => {
-    const map = mapRef.current;
-    if (!map) return;
-    if (map.getSource("lines-source")) {
-      (map.getSource("lines-source") as maplibregl.GeoJSONSource).setData(geojson);
-    } else {
-      map.addSource("lines-source", { type: "geojson", data: geojson });
-      map.addLayer({
-        id: "lines-layer",
-        type: "line",
-        source: "lines-source",
-        paint: {
-          "line-color": ["coalesce", ["get", "color"], "#3b82f6"],
-          "line-width": [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
-            10,
-            3,
-            14,
-            5,
-            18,
-            9,
-          ],
-          "line-opacity": 0.9,
-        },
-        layout: {
-          "line-join": "round",
-          "line-cap": "round",
-        },
-      });
-    }
-  };
-
-  const renderStationsLayer = (geojson: GeoJSON.FeatureCollection) => {
-    const map = mapRef.current;
-    if (!map) return;
-    if (map.getSource("stations-source")) {
-      (map.getSource("stations-source") as maplibregl.GeoJSONSource).setData(geojson);
-    } else {
-      map.addSource("stations-source", { type: "geojson", data: geojson });
-      map.addLayer({
-        id: "stations-layer",
-        type: "circle",
-        source: "stations-source",
-        paint: {
-          "circle-color": "#06b6d4",
-          "circle-radius": [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
-            10,
-            5,
-            14,
-            8,
-            18,
-            13,
-          ],
-          "circle-stroke-color": "#09090b",
-          "circle-stroke-width": 2.5,
-        },
-      });
-
-      map.on("click", "stations-layer", (e) => {
-        const features = map.queryRenderedFeatures(e.point, { layers: ["stations-layer"] });
-        if (features.length > 0) {
-          const id = features[0].properties?.id;
-          if (id) onStationSelect(id);
-        }
-      });
-
-      map.on("mouseenter", "stations-layer", () => {
-        if (map.getCanvas()) map.getCanvas().style.cursor = "pointer";
-      });
-
-      map.on("mouseleave", "stations-layer", () => {
-        if (map.getCanvas()) map.getCanvas().style.cursor = "";
-      });
-    }
-  };
-
   // Load and style GIS Layers
   useEffect(() => {
     const map = mapRef.current;
@@ -200,16 +118,43 @@ export default function MapContainer({
         try {
           const start = performance.now();
           const res = await fetch(`${backendUrl}/map/lines?t=${Date.now()}`);
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
           const ms = Math.round(performance.now() - start);
           apiLatencySetter(ms);
+
           const geojson = await res.json();
-          renderLinesLayer(geojson);
+
+          if (map.getSource("lines-source")) {
+            (map.getSource("lines-source") as maplibregl.GeoJSONSource).setData(geojson);
+          } else {
+            map.addSource("lines-source", { type: "geojson", data: geojson });
+            map.addLayer({
+              id: "lines-layer",
+              type: "line",
+              source: "lines-source",
+              paint: {
+                "line-color": ["coalesce", ["get", "color"], "#3b82f6"],
+                "line-width": [
+                  "interpolate",
+                  ["linear"],
+                  ["zoom"],
+                  10,
+                  2,
+                  14,
+                  4,
+                  18,
+                  8,
+                ],
+                "line-opacity": 0.85,
+              },
+              layout: {
+                "line-join": "round",
+                "line-cap": "round",
+              },
+            });
+          }
           layersLoaded++;
         } catch (err) {
-          console.warn("Using offline fallback lines layer data:", err);
-          renderLinesLayer(FALLBACK_LINES_GEOJSON);
-          layersLoaded++;
+          console.error("Failed to load lines GIS layer:", err);
         }
       } else {
         if (map.getLayer("lines-layer")) map.removeLayer("lines-layer");
@@ -221,16 +166,57 @@ export default function MapContainer({
         try {
           const start = performance.now();
           const res = await fetch(`${backendUrl}/map/stations?t=${Date.now()}`);
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
           const ms = Math.round(performance.now() - start);
           apiLatencySetter(ms);
+
           const geojson = await res.json();
-          renderStationsLayer(geojson);
+
+          if (map.getSource("stations-source")) {
+            (map.getSource("stations-source") as maplibregl.GeoJSONSource).setData(geojson);
+          } else {
+            map.addSource("stations-source", { type: "geojson", data: geojson });
+            map.addLayer({
+              id: "stations-layer",
+              type: "circle",
+              source: "stations-source",
+              paint: {
+                "circle-color": "#06b6d4",
+                "circle-radius": [
+                  "interpolate",
+                  ["linear"],
+                  ["zoom"],
+                  10,
+                  4,
+                  14,
+                  7,
+                  18,
+                  12,
+                ],
+                "circle-stroke-color": "#09090b",
+                "circle-stroke-width": 2,
+              },
+            });
+
+            // Handle Interaction
+            map.on("click", "stations-layer", (e) => {
+              const features = map.queryRenderedFeatures(e.point, { layers: ["stations-layer"] });
+              if (features.length > 0) {
+                const id = features[0].properties?.id;
+                if (id) onStationSelect(id);
+              }
+            });
+
+            map.on("mouseenter", "stations-layer", () => {
+              map.getCanvas().style.cursor = "pointer";
+            });
+
+            map.on("mouseleave", "stations-layer", () => {
+              map.getCanvas().style.cursor = "";
+            });
+          }
           layersLoaded++;
         } catch (err) {
-          console.warn("Using offline fallback stations layer data:", err);
-          renderStationsLayer(FALLBACK_STATIONS_GEOJSON);
-          layersLoaded++;
+          console.error("Failed to load stations GIS layer:", err);
         }
       } else {
         if (map.getLayer("stations-layer")) map.removeLayer("stations-layer");
@@ -242,10 +228,6 @@ export default function MapContainer({
         try {
           const start = performance.now();
           const res = await fetch(`${backendUrl}/map/stations/${selectedStationId}?t=${Date.now()}`);
-          if (!res.ok) {
-            console.warn(`Selection overlay fetch returned HTTP ${res.status} for ${selectedStationId}`);
-            return;
-          }
           const ms = Math.round(performance.now() - start);
           apiLatencySetter(ms);
 
@@ -279,7 +261,7 @@ export default function MapContainer({
             });
           }
         } catch (err) {
-          console.warn("Failed to load selection overlay:", err);
+          console.error("Failed to load selection overlay:", err);
         }
       } else {
         if (map.getLayer("selected-station-glow")) map.removeLayer("selected-station-glow");
@@ -507,77 +489,3 @@ export default function MapContainer({
     </div>
   );
 }
-
-const FALLBACK_LINES_GEOJSON: GeoJSON.FeatureCollection = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      properties: { name: "Yellow Line", color: "#eab308" },
-      geometry: {
-        type: "LineString",
-        coordinates: [
-          [77.135, 28.74],
-          [77.17, 28.705],
-          [77.228, 28.667],
-          [77.23, 28.65],
-          [77.21, 28.61],
-          [77.085, 28.46],
-        ],
-      },
-    },
-    {
-      type: "Feature",
-      properties: { name: "Red Line", color: "#ef4444" },
-      geometry: {
-        type: "LineString",
-        coordinates: [
-          [77.11, 28.71],
-          [77.17, 28.67],
-          [77.228, 28.667],
-          [77.27, 28.67],
-        ],
-      },
-    },
-    {
-      type: "Feature",
-      properties: { name: "Violet Line", color: "#8b5cf6" },
-      geometry: {
-        type: "LineString",
-        coordinates: [
-          [77.228, 28.667],
-          [77.24, 28.63],
-          [77.25, 28.58],
-          [77.32, 28.4],
-        ],
-      },
-    },
-  ],
-};
-
-const FALLBACK_STATIONS_GEOJSON: GeoJSON.FeatureCollection = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      properties: { id: "kashmere-gate", name: "Kashmere Gate", code: "KSG" },
-      geometry: { type: "Point", coordinates: [77.228, 28.667] },
-    },
-    {
-      type: "Feature",
-      properties: { id: "rithala", name: "Rithala", code: "RTL" },
-      geometry: { type: "Point", coordinates: [77.11, 28.71] },
-    },
-    {
-      type: "Feature",
-      properties: { id: "samaypur-badli", name: "Samaypur Badli", code: "SPB" },
-      geometry: { type: "Point", coordinates: [77.135, 28.74] },
-    },
-    {
-      type: "Feature",
-      properties: { id: "huda-city-centre", name: "HUDA City Centre", code: "HCC" },
-      geometry: { type: "Point", coordinates: [77.085, 28.46] },
-    },
-  ],
-};
-

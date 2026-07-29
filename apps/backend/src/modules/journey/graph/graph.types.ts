@@ -42,6 +42,6 @@ export interface JourneyWeights {
 
 export const DEFAULT_WEIGHTS: JourneyWeights = {
   travelTimeWeight: 1.0,
-  walkingWeight: 1.5,
-  transferPenalty: 600, // 10 minutes per transfer
+  walkingWeight: 1.0,
+  transferPenalty: 300, // 5 minutes per line transfer penalty
 };

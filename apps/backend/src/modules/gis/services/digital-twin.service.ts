@@ -97,6 +97,16 @@ export class DigitalTwinService {
       };
     });
 
+    // Deduplicate serving lines by line name key (e.g. BLUE, PINK, RED)
+    const uniqueServingLinesMap = new Map<string, typeof servingLines[0]>();
+    for (const line of servingLines) {
+      const nameKey = line.name.split('_')[0].trim().toUpperCase();
+      if (!uniqueServingLinesMap.has(nameKey)) {
+        uniqueServingLinesMap.set(nameKey, line);
+      }
+    }
+    const uniqueServingLines = Array.from(uniqueServingLinesMap.values());
+
     // Load platforms and their corresponding line metadata
     const platforms = await this.prisma.platform.findMany({
       where: {
@@ -252,7 +262,7 @@ export class DigitalTwinService {
         wheelchairAccessible: station.wheelchairAccessible,
         parking: station.parking,
         bikeParking: station.bikeParking,
-        lines: servingLines,
+        lines: uniqueServingLines,
       },
       physical: {
         levels: levelsMapped,
