@@ -189,6 +189,10 @@ export class GraphBuilderService {
       for (let j = i + 1; j < stationList.length; j++) {
         const s2 = stationList[j];
 
+        // Skip if stations share any transit line (on the same metro line)
+        const sharesLine = s1.lineIds.some((l1) => s2.lineIds.includes(l1));
+        if (sharesLine) continue;
+
         // Calculate walking distance
         const dist = this.getDistanceMeters(s1.lat, s1.lng, s2.lat, s2.lng);
         if (dist <= WALKING_THRESHOLD_METERS) {

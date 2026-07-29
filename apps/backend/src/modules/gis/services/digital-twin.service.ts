@@ -105,6 +105,81 @@ export class DigitalTwinService {
         uniqueServingLinesMap.set(nameKey, line);
       }
     }
+
+    // Query nearby walking transfer stations (< 1000m) serving other lines
+    const nearbyInterchanges = await this.prisma.$queryRawUnsafe<
+      {
+        id: string;
+        name: string;
+        lineId: string;
+        lineCode: string;
+        lineName: string;
+        lineColor: string | null;
+        distMeters: number;
+      }[]
+    >(
+      `SELECT DISTINCT s2.id, s2.name, l.id as "lineId", l.code as "lineCode", l.name as "lineName", l.color as "lineColor",
+              ROUND(ST_DistanceSphere(ST_MakePoint(s1.longitude, s1.latitude), ST_MakePoint(s2.longitude, s2.latitude))::numeric, 0)::int as "distMeters"
+       FROM stations s1
+       JOIN stations s2 ON s1.id != s2.id AND s1."systemId" = s2."systemId"
+       JOIN stop_times st ON st."stationId" = s2.id
+       JOIN trips t ON t.id = st."tripId"
+       JOIN lines l ON l.id = t."lineId"
+       WHERE s1.id = $1::uuid
+         AND s2."isActive" = true
+         AND l."isActive" = true
+         AND ST_DistanceSphere(ST_MakePoint(s1.longitude, s1.latitude), ST_MakePoint(s2.longitude, s2.latitude)) <= 1000
+       ORDER BY "distMeters" ASC`,
+      id,
+    );
+
+    for (const item of nearbyInterchanges) {
+      const nameUpper = (item.lineName || '').toUpperCase();
+      let color = item.lineColor || '#3b82f6';
+      if (
+        color === '' ||
+        ['#000000', '000000', '#ffffff', 'ffffff'].includes(color.toLowerCase())
+      ) {
+        if (nameUpper.includes('YELLOW') || nameUpper.includes('LINE 2A')) {
+          color = '#facc15';
+        } else if (nameUpper.includes('BLUE')) {
+          color = '#3b82f6';
+        } else if (nameUpper.includes('PINK')) {
+          color = '#ec4899';
+        } else if (nameUpper.includes('MAGENTA')) {
+          color = '#d946ef';
+        } else if (nameUpper.includes('RED')) {
+          color = '#ef4444';
+        } else if (nameUpper.includes('VIOLET')) {
+          color = '#8b5cf6';
+        } else if (nameUpper.includes('GREEN')) {
+          color = '#22c55e';
+        } else if (nameUpper.includes('AQUA')) {
+          color = '#06b6d4';
+        } else if (
+          nameUpper.includes('ORANGE') ||
+          nameUpper.includes('AIRPORT')
+        ) {
+          color = '#f97316';
+        } else if (nameUpper.includes('RAPID')) {
+          color = '#14b8a6';
+        } else if (nameUpper.includes('KOCHI')) {
+          color = '#0ea5e9';
+        } else {
+          color = '#3b82f6';
+        }
+      }
+      const nameKey = item.lineName.split('_')[0].trim().toUpperCase();
+      if (!uniqueServingLinesMap.has(nameKey)) {
+        uniqueServingLinesMap.set(nameKey, {
+          id: item.lineId,
+          code: item.lineCode,
+          name: item.lineName,
+          color,
+        });
+      }
+    }
+
     const uniqueServingLines = Array.from(uniqueServingLinesMap.values());
 
     // Load platforms and their corresponding line metadata

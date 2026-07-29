@@ -18,7 +18,7 @@ import { TransitGraph } from './graph.types';
 @Injectable()
 export class GraphProviderService {
   private readonly logger = new Logger(GraphProviderService.name);
-  private readonly GRAPH_VERSION = 'v4';
+  private readonly GRAPH_VERSION = 'v5';
   private readonly GRAPH_TTL_SECONDS = 4 * 60 * 60; // 4 hours
 
   constructor(
