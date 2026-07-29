@@ -242,6 +242,10 @@ export default function MapContainer({
         try {
           const start = performance.now();
           const res = await fetch(`${backendUrl}/map/stations/${selectedStationId}?t=${Date.now()}`);
+          if (!res.ok) {
+            console.warn(`Selection overlay fetch returned HTTP ${res.status} for ${selectedStationId}`);
+            return;
+          }
           const ms = Math.round(performance.now() - start);
           apiLatencySetter(ms);
 
@@ -275,7 +279,7 @@ export default function MapContainer({
             });
           }
         } catch (err) {
-          console.error("Failed to load selection overlay:", err);
+          console.warn("Failed to load selection overlay:", err);
         }
       } else {
         if (map.getLayer("selected-station-glow")) map.removeLayer("selected-station-glow");

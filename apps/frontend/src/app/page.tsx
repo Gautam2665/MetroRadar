@@ -27,7 +27,7 @@ export default function Home() {
   });
 
   // Selection & Layer states
-  const [selectedStationId, setSelectedStationId] = useState<string | null>("kashmere-gate");
+  const [selectedStationId, setSelectedStationId] = useState<string | null>(null);
   const [activeLayers, setActiveLayers] = useState<string[]>(["lines", "stations"]);
   const [loadedLayersCount, setLoadedLayersCount] = useState(0);
 
