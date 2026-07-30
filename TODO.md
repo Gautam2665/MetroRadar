@@ -73,13 +73,16 @@ Follow this unified Sprint & Version checklist to build **TransitOS** (formerly 
 - [ ] Build multimodal trip planning view with transfer timeline step cards.
 - [ ] Build placeholder pages (`/passes`, `/alerts`, `/analytics`, `/settings`) with "Coming Soon (Sprint 6+)" platform cards.
 
-### ⏳ Sprint 6 - v0.6: Fare Intelligence & Mock Booking Platform
+### ⏳ Sprint 6 - v0.6: Fare Intelligence, Wallet & Booking Platform
 - [ ] Build `FareService` calculating zone pricing, flat rates, and transfer discounts.
 - [ ] Build `BookingService` with standard JSON schema: `bookJourney()`, `cancelJourney()`, `refundTicket()`.
 - [ ] Implement Provider Adapter Layer (`MockOndcAdapter`, `MockDmrcAdapter`) returning SVG/Base64 QR pass barcodes.
-- [ ] Build `PaymentService` routing between UPI/card (via Razorpay/Cashfree aggregator), and pass-based journeys.
-- [ ] Build `PassengerWallet` as a **non-custodial usage ledger** — tracks pass consumption and usage history, charges real amounts via UPI/card per journey. TransitOS never holds a stored-value balance (avoids PPI/RBI licensing).
-- [ ] Store NCMC card number (`ncmcCardNumber`) as a reference display field only — no live balance query or recharge (no public developer API exists for this without NPCI/bank partnership).
+- [ ] Build `PassengerWallet` as a **pre-loaded stored-value wallet** (key UX rationale: bypasses per-transaction OTP/biometric auth on smartwatch and voice interfaces — user tops up once, subsequent deductions are instant). v1.0 = mock balance; production path = UPI AutoPay mandate via Razorpay/Cashfree.
+- [ ] Build `RewardsService` tracking points/cashback accumulation in TransitOS database.
+- [ ] Build `PassService` issuing TransitOS digital passes (Monthly/Weekly/Daily) tracked in DB with journey consumption counter (`journeysUsed / journeysTotal`). For QR-capable operators (KMRL), generate scannable QR. For NCMC-only operators (DMRC), serve as booking record only.
+- [ ] Build `PaymentService` routing between: (1) pre-loaded wallet deduction, (2) UPI AutoPay mandate, (3) UPI/card direct (via Razorpay/Cashfree aggregator).
+- [ ] Store NCMC card number (`ncmcCardNumber`) as saved top-up method reference only — displayed in UI for wallet recharge flow; no live balance query or gate-tap payment possible.
+- [ ] Build `TripHistoryService` recording journeys **originated through TransitOS** (planned, booked, or QR-validated). Scope clearly: NCMC gate-tap journeys from physical card are invisible — no public API exists to fetch them.
 
 ### ⏳ Sprint 7 - v0.7: AI & Language Gateway (Sarvam AI)
 - [ ] Implement `AIGatewayService` as a thin explanation wrapper.
