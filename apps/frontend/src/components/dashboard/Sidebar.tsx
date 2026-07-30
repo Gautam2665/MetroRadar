@@ -38,6 +38,7 @@ export const AVAILABLE_CITIES: CityConfig[] = [
 export const MAP_LAYERS = [
   { id: "lines", name: "Metro Lines", icon: Layers },
   { id: "stations", name: "Passenger Stations", icon: MapPin },
+  { id: "realtime", name: "Live Trains (GTFS-RT)", icon: Sparkles },
 ];
 
 type SearchFeature = {

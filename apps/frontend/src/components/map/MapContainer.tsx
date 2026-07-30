@@ -9,6 +9,7 @@ type MapContainerProps = {
   center: [number, number];
   zoom: number;
   activeLayers: string[];
+  activeCity?: string;
   selectedStationId: string | null;
   onStationSelect: (stationId: string) => void;
   onViewportChange: (center: [number, number], zoom: number) => void;
@@ -22,6 +23,7 @@ export default function MapContainer({
   center,
   zoom,
   activeLayers,
+  activeCity = "delhi",
   selectedStationId,
   onStationSelect,
   onViewportChange,
@@ -268,11 +270,138 @@ export default function MapContainer({
         if (map.getSource("selected-station-source")) map.removeSource("selected-station-source");
       }
 
+      // 4. LIVE TRAINS LAYER (GTFS-RT Telemetry)
+      if (activeLayers.includes("realtime")) {
+        try {
+          const start = performance.now();
+          const systemCode = activeCity === "kochi" ? "KMRL" : "DMRC";
+          const res = await fetch(`${backendUrl}/realtime/vehicles?system=${systemCode}&t=${Date.now()}`);
+          const ms = Math.round(performance.now() - start);
+          apiLatencySetter(ms);
+
+          const data = await res.json();
+          const vehicles: any[] = data.vehicles || [];
+
+          const geojson: GeoJSON.FeatureCollection = {
+            type: "FeatureCollection",
+            features: vehicles.map((v) => ({
+              type: "Feature",
+              geometry: {
+                type: "Point",
+                coordinates: [v.longitude, v.latitude],
+              },
+              properties: {
+                id: v.vehicleId,
+                tripId: v.tripId || "",
+                routeId: v.routeId || "",
+                lineName: v.lineName || "Metro Train",
+                lineColor: v.lineColor || "#f43f5e",
+                status: v.currentStatus || "IN_TRANSIT",
+                speed: v.speed || 0,
+              },
+            })),
+          };
+
+          if (map.getSource("realtime-vehicles-source")) {
+            (map.getSource("realtime-vehicles-source") as maplibregl.GeoJSONSource).setData(geojson);
+          } else {
+            map.addSource("realtime-vehicles-source", { type: "geojson", data: geojson });
+
+            // Outer Glowing Aura
+            map.addLayer({
+              id: "realtime-vehicles-aura",
+              type: "circle",
+              source: "realtime-vehicles-source",
+              paint: {
+                "circle-color": ["coalesce", ["get", "lineColor"], "#f43f5e"],
+                "circle-radius": [
+                  "interpolate",
+                  ["linear"],
+                  ["zoom"],
+                  10, 8,
+                  14, 13,
+                  18, 20,
+                ],
+                "circle-opacity": 0.35,
+                "circle-blur": 0.5,
+              },
+            });
+
+            // Core Train Dot
+            map.addLayer({
+              id: "realtime-vehicles-core",
+              type: "circle",
+              source: "realtime-vehicles-source",
+              paint: {
+                "circle-color": "#ffffff",
+                "circle-radius": [
+                  "interpolate",
+                  ["linear"],
+                  ["zoom"],
+                  10, 4,
+                  14, 6,
+                  18, 9,
+                ],
+                "circle-stroke-color": ["coalesce", ["get", "lineColor"], "#f43f5e"],
+                "circle-stroke-width": 3,
+              },
+            });
+
+            // Interactive Train Info Popup
+            map.on("click", "realtime-vehicles-core", (e) => {
+              const features = map.queryRenderedFeatures(e.point, { layers: ["realtime-vehicles-core"] });
+              if (features.length > 0) {
+                const props = features[0].properties;
+                const coords = (features[0].geometry as any).coordinates;
+                new maplibregl.Popup({ closeButton: true })
+                  .setLngLat(coords)
+                  .setHTML(`
+                    <div style="padding: 10px; color: #fff; font-family: system-ui, sans-serif; background: #09090b; border-radius: 8px;">
+                      <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #38bdf8; margin-bottom: 4px;">🚆 LIVE METRO TRAIN</div>
+                      <div style="font-size: 14px; font-weight: 800; color: #f4f4f5;">ID: ${props?.id || "Train"}</div>
+                      <div style="font-size: 11px; color: #a1a1aa; margin-top: 4px;">Line: <span style="color: ${props?.lineColor || "#38bdf8"}; font-weight: 700;">${props?.lineName || props?.routeId || "Metro Line"}</span></div>
+                      <div style="font-size: 11px; color: #a1a1aa; margin-top: 2px;">Status: <span style="color: #22c55e; font-weight: 700;">${props?.status}</span></div>
+                    </div>
+                  `)
+                  .addTo(map);
+              }
+            });
+
+            map.on("mouseenter", "realtime-vehicles-core", () => {
+              map.getCanvas().style.cursor = "pointer";
+            });
+
+            map.on("mouseleave", "realtime-vehicles-core", () => {
+              map.getCanvas().style.cursor = "";
+            });
+          }
+          layersLoaded++;
+        } catch (err) {
+          console.error("Failed to load GTFS-RT live vehicles layer:", err);
+        }
+      } else {
+        if (map.getLayer("realtime-vehicles-core")) map.removeLayer("realtime-vehicles-core");
+        if (map.getLayer("realtime-vehicles-aura")) map.removeLayer("realtime-vehicles-aura");
+        if (map.getSource("realtime-vehicles-source")) map.removeSource("realtime-vehicles-source");
+      }
+
       setLoadedLayersCount(layersLoaded);
     };
 
     syncLayers();
-  }, [activeLayers, selectedStationId, mapLoaded, apiLatencySetter, onStationSelect, setLoadedLayersCount, mapRef]);
+
+    // Auto-refresh live vehicle telemetry every 10 seconds when realtime layer is active
+    let intervalId: NodeJS.Timeout | null = null;
+    if (activeLayers.includes("realtime")) {
+      intervalId = setInterval(() => {
+        syncLayers();
+      }, 10000);
+    }
+
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [activeLayers, activeCity, selectedStationId, mapLoaded, apiLatencySetter, onStationSelect, setLoadedLayersCount, mapRef]);
 
   // ── Journey Highlight Layer ──────────────────────────────────────────────
   useEffect(() => {
