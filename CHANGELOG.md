@@ -5,6 +5,20 @@ All notable changes to the MetroRadar project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-07-29
+### Added
+- **Journey Intelligence Routing Engine (`GET /journeys`)**: Multi-modal Dijkstra pathfinding engine supporting station-to-station graph traversal, line transfers, and walking connections.
+- **Graph Builder Service (`GraphBuilderService`)**: In-memory transit graph construction supporting custom node line associations, multi-station walk connections, transfer penalties, and Redis graph version caching (`transit:graph:v7:${systemId}`).
+- **Routing & Scoring Engine (`RoutingService`, `ScoringService`)**: Implemented configurable Dijkstra pathfinding algorithm with custom weights (`walkingWeight: 0.8`, `transferPenalty: 180s`) and multi-criteria journey scoring.
+- **GeoJSON Journey Highlighting**: Added automatic GeoJSON feature collection generation for calculated journey routes, highlighting line segment tracks and transfer station nodes.
+- **Interchange & Station Twin Enrichment**: Updated `DigitalTwinService` spatial query (`ST_DistanceSphere <= 1000`) to detect and display nearby walking transfer lines (e.g. Airport Express travelator connection at Durgabai Deshmukh South Campus).
+
+### Fixed
+- **Dhaula Kuan Travelator Routing**: Fixed Pink Line to Airport Express transfer routing ( Sarai Kale Khan ➔ Dhaula Kuan ➔ IGI Airport) to choose the direct 3-leg route via South Campus travelator connection.
+- **Same-Line Walk Edge Elimination**: Resolved graph building issue that generated fake 0-minute walk steps between stations on the same metro line.
+- **Digital Twin Redis Cache Versioning**: Bumped Redis cache key in `StationsController` to `digitaltwin:v2:station:${id}` to flush stale single-line payloads and immediately serve updated interchange data.
+- **CI Build & Lint Standardization**: Fixed all TypeScript compile errors, React hook warnings (`set-state-in-effect`), and unused variables across backend and frontend workspaces.
+
 ---
 
 ## [0.4.0] - 2026-07-22
