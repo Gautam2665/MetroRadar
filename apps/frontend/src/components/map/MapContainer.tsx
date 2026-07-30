@@ -69,9 +69,13 @@ export default function MapContainer({
 
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-left");
 
-    map.on("load", () => {
+    const handleLoad = () => setMapLoaded(true);
+    if (map.isStyleLoaded()) {
       setMapLoaded(true);
-    });
+    } else {
+      map.on("load", handleLoad);
+      map.on("styledata", handleLoad);
+    }
 
     map.on("moveend", () => {
       const c = map.getCenter();
@@ -109,7 +113,7 @@ export default function MapContainer({
   // Load and style GIS Layers
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !mapLoaded) return;
+    if (!map || !map.isStyleLoaded()) return;
 
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
     let layersLoaded = 0;
