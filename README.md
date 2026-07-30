@@ -153,18 +153,19 @@ MetroRadar/ (TransitOS Monorepo)
 
 ## 🚦 Current Progress & Status
 
-| Phase | Milestone | Sprint | Status |
+| Sprint | Version | Milestone | Status |
 | :--- | :--- | :--- | :---: |
-| **Infra** | Development container setups, workspace routing, monorepo linters | Sprint 1 | ✅ Complete |
-| **Database** | PostGIS coordinates configuration, migration rules, Prisma seeds | Sprint 2 | ✅ Complete |
-| **Feeds** | GTFS static ingestion pipelines, import session audit trails | Sprint 3 | ✅ Complete |
-| **Validation** | Dataset validation suite, imports (Mumbai Metro, Kochi Metro) | Sprint 3.5 | ✅ Complete |
-| **Maps** | Map layout renderers, station plotting, route visualization layers | Sprint 4 | ✅ Complete |
-| **Routing** | Dijkstra pathfinder, multi-station walk interfaces | Sprint 5 | 🚧 In Progress |
-| **Realtime** | WebSocket streams, live Redis caching, trip update relays | Sprint 6 | ⏳ Planned |
-| **Security** | Secure registration, JSON Web Token (JWT) authorization guards | Sprint 7 | ⏳ Planned |
-| **Stations** | Detailed platform directions, level mappings | Sprint 8 | ⏳ Planned |
-| **Commerce** | Vendor promotions portal, ads engine layout | Sprint 9 | ⏳ Planned |
+| **Sprint 1** | **v0.1** | Development container setups, workspace routing, monorepo linters | ✅ Complete |
+| **Sprint 2** | **v0.2** | PostGIS coordinates configuration, migration rules, Prisma seeds | ✅ Complete |
+| **Sprint 3** | **v0.3** | GTFS static ingestion pipelines, import session audit trails | ✅ Complete |
+| **Sprint 3.5** | **v0.4** | Dataset validation suite, imports (Mumbai Metro, Kochi Metro, Delhi Metro) | ✅ Complete |
+| **Sprint 4** | **v0.4.5** | Map layout renderers, station plotting, Digital Twin drawer | ✅ Complete |
+| **Sprint 5** | **v0.5** | Dijkstra pathfinder, multi-station walk interfaces, routing API | ✅ Complete |
+| **Sprint 5.1** | **v0.5.1** | GTFS-RT Telemetry infrastructure (FeedPoller, Redis, GET /realtime/vehicles) | 🚧 Architecture Ready |
+| **Sprint 5.2** | **v0.5.2** | Stitch Passenger UI Translation (Next.js Command-Center UI) | ⏳ Planned |
+| **Sprint 6** | **v0.6** | Fare Engine, Pass Recommender & Mock Booking/Payment Platform | ⏳ Planned |
+| **Sprint 7** | **v0.7** | AI & Language Gateway (Sarvam AI speech/translation, Gemini vision) | ⏳ Planned |
+| **Sprint 8** | **v0.8** | Ambient Computing (Smartwatch layouts, Calendar connectors) | ⏳ Planned |
 
 ---
 
