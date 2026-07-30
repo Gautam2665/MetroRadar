@@ -21,3 +21,8 @@ temp_extracts/
 
 # SQL database backups
 *.sql
+
+# Private sync notes and API key dumps
+live tracking api delhi.txt
+stich and antigravity syn.txt
+
