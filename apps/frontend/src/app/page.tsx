@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useSyncExternalStore } from "react";
 import maplibregl from "maplibre-gl";
-import Sidebar, { CityConfig } from "@/components/dashboard/Sidebar";
+import Sidebar from "@/components/dashboard/Sidebar";
 import MapContainer from "@/components/map/MapContainer";
 import DigitalTwinInspector from "@/components/dashboard/DigitalTwinInspector";
 import DiagnosticsHud from "@/components/dashboard/DiagnosticsHud";
@@ -10,19 +10,13 @@ import DeveloperDashboard from "@/components/dashboard/DeveloperDashboard";
 
 export default function Home() {
   // Map Viewport state
-  const [activeCity, setActiveCity] = useState<CityConfig>({
-    name: "Delhi Metro",
-    code: "delhi",
-    center: [77.209, 28.6139],
-    zoom: 11.5,
-  });
-
+  const [activeCity, setActiveCity] = useState("delhi");
   const [mapViewport, setMapViewport] = useState<{
     center: [number, number];
     zoom: number;
   }>({
-    center: [77.209, 28.6139],
-    zoom: 11.5,
+    center: [77.228, 28.667], // Delhi center
+    zoom: 12,
   });
 
   // Selection & Layer states
@@ -31,12 +25,33 @@ export default function Home() {
   const [loadedLayersCount, setLoadedLayersCount] = useState(0);
 
   // Diagnostics & Dev states
+  const [appMode, setAppMode] = useState<"passenger" | "developer">("passenger");
   const [developerConsoleOpen, setDeveloperConsoleOpen] = useState(false);
   const [apiLatency, setApiLatency] = useState(0);
   const [cacheHit, setCacheHit] = useState(false);
 
+  // Journey Intelligence state
+  const [journeyGeojson, setJourneyGeojson] = useState<GeoJSON.FeatureCollection | null>(null);
+
   // Map Instance Ref
   const mapRef = useRef<maplibregl.Map | null>(null);
+
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
+
+  if (!mounted) {
+    return (
+      <div className="flex w-screen h-screen items-center justify-center bg-[#09090b]">
+        <div className="text-center space-y-3">
+          <div className="h-6 w-6 border-2 border-sky-400 border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-xs text-zinc-500 font-mono tracking-wider uppercase">Initializing digital twin dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
   // Keep track of cache hit status based on request duration patterns (e.g. < 25ms usually indicates Redis hit)
   const updateApiLatency = (ms: number) => {
@@ -57,8 +72,12 @@ export default function Home() {
     );
   };
 
-  const handleTrackEntrance = (lat: number, lon: number, _name: string) => {
+  const handleTrackEntrance = (lat: number, lon: number) => {
     handleFlyTo([lon, lat], 17);
+  };
+
+  const handleJourneyResult = (result: { journey?: { geojson?: GeoJSON.FeatureCollection } } | null) => {
+    setJourneyGeojson(result?.journey?.geojson ?? null);
   };
 
   return (
@@ -66,13 +85,22 @@ export default function Home() {
       {/* 1. Sidebar Panel (Left) */}
       <Sidebar
         activeCity={activeCity}
-        onCityChange={setActiveCity}
+        onCityChange={(cityCode, center, zoom) => {
+          setActiveCity(cityCode);
+          handleFlyTo(center, zoom);
+        }}
+        selectedStationId={selectedStationId}
         onStationSelect={setSelectedStationId}
         activeLayers={activeLayers}
         onToggleLayer={handleToggleLayer}
-        onDeveloperConsoleOpen={() => setDeveloperConsoleOpen(true)}
+        loadedLayersCount={loadedLayersCount}
         onFlyToCoordinates={handleFlyTo}
+        onJourneyResult={handleJourneyResult}
+        apiLatency={apiLatency}
+        cacheHit={cacheHit}
         apiLatencySetter={updateApiLatency}
+        onToggleDevConsole={() => setDeveloperConsoleOpen(true)}
+        onModeChange={setAppMode}
       />
 
       {/* 2. Interactive Map Container (Center/Right) */}
@@ -86,7 +114,10 @@ export default function Home() {
         apiLatencySetter={updateApiLatency}
         setLoadedLayersCount={setLoadedLayersCount}
         mapRef={mapRef}
+        journeyGeojson={journeyGeojson}
       />
+
+
 
       {/* 3. Station Digital Twin Inspector Drawer (Collapsible Right) */}
       {selectedStationId && (
@@ -100,16 +131,18 @@ export default function Home() {
       )}
 
       {/* 4. Diagnostics HUD Overlay (Ctrl+Shift+D) */}
-      <DiagnosticsHud
-        zoom={mapViewport.zoom}
-        center={mapViewport.center}
-        loadedLayersCount={loadedLayersCount}
-        apiLatency={apiLatency}
-        cacheHit={cacheHit}
-      />
+      {appMode === "developer" && (
+        <DiagnosticsHud
+          zoom={mapViewport.zoom}
+          center={mapViewport.center}
+          loadedLayersCount={loadedLayersCount}
+          apiLatency={apiLatency}
+          cacheHit={cacheHit}
+        />
+      )}
 
       {/* 5. Developer & Diagnostics Admin Console */}
-      {developerConsoleOpen && (
+      {appMode === "developer" && developerConsoleOpen && (
         <DeveloperDashboard onClose={() => setDeveloperConsoleOpen(false)} />
       )}
     </div>

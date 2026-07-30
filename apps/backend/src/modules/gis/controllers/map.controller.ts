@@ -28,7 +28,7 @@ export class MapController {
   @Get('systems')
   @ApiOperation({ summary: 'Get systems GeoJSON Features' })
   async getSystems(): Promise<unknown> {
-    const cacheKey = 'geojson:systems';
+    const cacheKey = 'geojson:systems:v3';
     const cached =
       await this.redisService.get<Record<string, unknown>>(cacheKey);
     if (cached) return cached;
@@ -43,7 +43,7 @@ export class MapController {
     summary: 'Get lines GeoJSON Features (reconstructed polylines)',
   })
   async getLines(): Promise<unknown> {
-    const cacheKey = 'geojson:lines';
+    const cacheKey = 'geojson:lines:v3';
     const cached =
       await this.redisService.get<Record<string, unknown>>(cacheKey);
     if (cached) return cached;
@@ -56,7 +56,7 @@ export class MapController {
   @Get('stations')
   @ApiOperation({ summary: 'Get active stations GeoJSON Features' })
   async getStations(): Promise<unknown> {
-    const cacheKey = 'geojson:stations';
+    const cacheKey = 'geojson:stations:v3';
     const cached =
       await this.redisService.get<Record<string, unknown>>(cacheKey);
     if (cached) return cached;
