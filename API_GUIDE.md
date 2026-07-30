@@ -1,6 +1,6 @@
-# MetroRadar API Documentation Guide (v0.4.0)
+# MetroRadar API Documentation Guide (v0.5.0)
 
-This guide documents the geospatial API contracts exposed by the MetroRadar backend. All endpoints are designed to maintain decoupling; the frontend consumes these GeoJSON layers and composite digital-twin payloads directly.
+This guide documents the API contracts exposed by the MetroRadar backend. All endpoints are designed to maintain decoupling; the frontend consumes these GeoJSON layers, composite digital-twin payloads, and journey routing results directly.
 
 ---
 
@@ -136,3 +136,61 @@ All GeoJSON layers are returned inside a versioned FeatureCollection envelope:
 ## 🧼 Cache Invalidation Policy
 
 All cached keys prefixed with `geojson:*`, `digitaltwin:*`, `search:*`, and `nearby:*` are automatically cleared when a new transit dataset is successfully imported via the `IngestionService`.
+
+---
+
+## 🗺️ Journey Planning & Routing
+
+*Added in v0.5.0 — Sprint 5*
+
+### `GET /journeys?from=<stationId>&to=<stationId>`
+- **Purpose**: Computes the optimal transit path between two stations using Dijkstra's algorithm, with multi-line transfer support and interchange walk connections.
+- **Query Parameters**:
+  - `from`: Origin station UUID (Required).
+  - `to`: Destination station UUID (Required).
+  - `systemId`: Restrict routing to a specific transit system UUID (Optional).
+- **Cache Key**: None (computed on-demand from in-memory graph)
+- **Response Format**:
+  ```json
+  {
+    "from": { "id": "...", "name": "Sarojini Nagar", "code": "YL-22" },
+    "to": { "id": "...", "name": "IGI Airport T3", "code": "OL-07" },
+    "totalDurationSeconds": 2820,
+    "totalStops": 14,
+    "transferCount": 2,
+    "legs": [
+      {
+        "type": "TRANSIT",
+        "line": { "name": "Yellow Line", "color": "#facc15" },
+        "from": { "name": "Sarojini Nagar" },
+        "to": { "name": "Durgabai Deshmukh South Campus" },
+        "stops": 3,
+        "durationSeconds": 360
+      },
+      {
+        "type": "WALK",
+        "from": { "name": "Durgabai Deshmukh South Campus" },
+        "to": { "name": "Dhaula Kuan" },
+        "durationSeconds": 300,
+        "distanceMeters": 380
+      },
+      {
+        "type": "TRANSIT",
+        "line": { "name": "Airport Express", "color": "#f97316" },
+        "from": { "name": "Dhaula Kuan" },
+        "to": { "name": "IGI Airport T3" },
+        "stops": 2,
+        "durationSeconds": 720
+      }
+    ],
+    "geojson": {
+      "type": "FeatureCollection",
+      "features": []
+    }
+  }
+  ```
+- **Notes**:
+  - Walking transfer edges are inserted automatically for stations within 1000m of each other on different lines.
+  - Transfer penalty of 180 seconds is applied per interchange to bias routes toward fewer transfers.
+  - Walking weight of `0.8x` is applied to reduce walking leg cost relative to riding.
+  - Returns `404` if no path exists between the given stations.

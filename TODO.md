@@ -77,7 +77,9 @@ Follow this unified Sprint & Version checklist to build **TransitOS** (formerly 
 - [ ] Build `FareService` calculating zone pricing, flat rates, and transfer discounts.
 - [ ] Build `BookingService` with standard JSON schema: `bookJourney()`, `cancelJourney()`, `refundTicket()`.
 - [ ] Implement Provider Adapter Layer (`MockOndcAdapter`, `MockDmrcAdapter`) returning SVG/Base64 QR pass barcodes.
-- [ ] Build `PaymentService` & `PassengerWallet` managing simulated stored value balances and reference NCMC card numbers (`ncmcCardNumber`).
+- [ ] Build `PaymentService` routing between UPI/card (via Razorpay/Cashfree aggregator), and pass-based journeys.
+- [ ] Build `PassengerWallet` as a **non-custodial usage ledger** — tracks pass consumption and usage history, charges real amounts via UPI/card per journey. TransitOS never holds a stored-value balance (avoids PPI/RBI licensing).
+- [ ] Store NCMC card number (`ncmcCardNumber`) as a reference display field only — no live balance query or recharge (no public developer API exists for this without NPCI/bank partnership).
 
 ### ⏳ Sprint 7 - v0.7: AI & Language Gateway (Sarvam AI)
 - [ ] Implement `AIGatewayService` as a thin explanation wrapper.

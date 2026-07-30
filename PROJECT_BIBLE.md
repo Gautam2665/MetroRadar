@@ -212,7 +212,11 @@ Development is organized into phased milestones that build capabilities from the
 - **v0.7 — Prediction & Notifications**: Aggregate history logs to predict delay propagation, build the notification scheduler, and add custom traveler alerts.
 - **v0.8 — Fare Intelligence Engine**: Implement zone rules, pass eligibility check, cost calculation, and transfer discounts to recommend the cheapest fares.
 - **v0.9 — Booking Platform**: Build generic ticket interfaces, implement the Booking Engine (`bookJourney`, `cancelJourney`), and structure the Provider Adapter Layer for ONDC / official operator APIs.
-- **v1.0 — Payment Platform**: Develop the Payment Intelligence Engine, the Payment Adapter Layer (UPI, NCMC, card networks), and the virtual Passenger Profile / Wallet abstraction.
+- **v1.0 — Payment Platform**: Develop the Payment Intelligence Engine and the Payment Adapter Layer. Payment method feasibility is explicitly scoped:
+  - **UPI & Cards** ✅: Fully buildable via a payment aggregator (Razorpay / Cashfree). Requires standard business KYC registration — no banking license needed.
+  - **NCMC (Reference Display)** ⚠️: TransitOS stores and displays a passenger's NCMC card number as a reference field. No live balance query or recharge is implemented — there is no public developer API for this without a direct NPCI or issuing-bank operator partnership.
+  - **NCMC (Live Payment Rail)** ❌: Not implementable without NPCI/bank operator partnership. Parked indefinitely.
+  - **Passenger Wallet** ✅: Implemented as a **non-custodial usage ledger**. TransitOS tracks pass consumption and usage history (e.g., "3 passes used this month") and charges the real amount per journey via UPI/card at the point of use. TransitOS never holds a stored-value balance on behalf of the user — this avoids PPI/RBI licensing requirements entirely.
 - **v1.1 — AI & Voice Platform**: Standardize the Intelligence Gateway, integrate voice models (Sarvam), translate dialects, and add reasoning helpers (OpenAI/Gemini).
 - **v1.2 — Ambient Computing**: Support smartwatch notifications, active calendar scan for proactive routes, and AR station indoor navigation.
 
