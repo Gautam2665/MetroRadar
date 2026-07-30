@@ -84,9 +84,20 @@ export class RealtimeService {
 
       const lineMap = new Map(lines.map((l) => [l.code, l] as const));
 
-      // Strictly filter to ONLY include vehicles matching registered Metro lines
+      // Fetch station coordinates for spatial proximity verification
+      const stations = await this.db.station.findMany({
+        select: { latitude: true, longitude: true },
+      });
+
+      // Filter: Vehicle must match a registered Metro line AND be within 2.0km of a Metro station
       return vehicles
-        .filter((v) => v.routeId && lineMap.has(v.routeId))
+        .filter((v) => {
+          if (!v.routeId || !lineMap.has(v.routeId)) return false;
+          return stations.some(
+            (s) =>
+              this.haversineKm(v.latitude, v.longitude, s.latitude, s.longitude) <= 2.0,
+          );
+        })
         .map((v) => {
           const line = lineMap.get(v.routeId!);
           return {
@@ -100,5 +111,23 @@ export class RealtimeService {
       this.logger.warn(`[RealtimeService] DB enrichment failed: ${msg}`);
       return [];
     }
+  }
+
+  private haversineKm(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number,
+  ): number {
+    const R = 6371;
+    const dLat = ((lat2 - lat1) * Math.PI) / 180;
+    const dLon = ((lon2 - lon1) * Math.PI) / 180;
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((lat1 * Math.PI) / 180) *
+        Math.cos((lat2 * Math.PI) / 180) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   }
 }
