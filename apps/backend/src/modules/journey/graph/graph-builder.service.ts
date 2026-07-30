@@ -1,11 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { DatabaseService } from '../../../database/database.service';
 import { EdgeType } from './edge.types';
-import {
-  GraphEdge,
-  StationNode,
-  TransitGraph,
-} from './graph.types';
+import { GraphEdge, StationNode, TransitGraph } from './graph.types';
 
 /**
  * GraphBuilderService — builds the station-level transit graph from the
@@ -52,14 +48,37 @@ export class GraphBuilderService {
       },
     });
 
+    // Also load line IDs from trips & stop_times for system stations
+    const stopTimeLineRows = await this.db.$queryRawUnsafe<
+      { stationId: string; lineId: string }[]
+    >(
+      `SELECT DISTINCT st."stationId", t."lineId"
+       FROM stop_times st
+       JOIN trips t ON t.id = st."tripId"
+       JOIN lines l ON l.id = t."lineId"
+       WHERE l."systemId" = $1::uuid`,
+      systemId,
+    );
+
+    const stationLinesMap = new Map<string, Set<string>>();
+    for (const row of stopTimeLineRows) {
+      const set = stationLinesMap.get(row.stationId) ?? new Set<string>();
+      set.add(row.lineId);
+      stationLinesMap.set(row.stationId, set);
+    }
+
     const nodes = new Map<string, StationNode>();
     for (const s of stations) {
+      const seqLineIds = s.sequences.map((seq) => seq.lineId);
+      const stLineIds = Array.from(stationLinesMap.get(s.id) ?? []);
+      const allLineIds = [...new Set([...seqLineIds, ...stLineIds])];
+
       nodes.set(s.id, {
         id: s.id,
         code: s.code,
         name: s.name,
         systemId: s.systemId,
-        lineIds: [...new Set(s.sequences.map((seq) => seq.lineId))],
+        lineIds: allLineIds,
         lat: s.latitude,
         lng: s.longitude,
       });
@@ -176,7 +195,9 @@ export class GraphBuilderService {
       });
       transferEdgeCount++;
     }
-    this.logger.log(`  Built ${transferEdgeCount} TRANSFER edges (interchange stations)`);
+    this.logger.log(
+      `  Built ${transferEdgeCount} TRANSFER edges (interchange stations)`,
+    );
 
     // ── 5. Build WALK edges for nearby stations (geospatial transfers) ────────
     let walkEdgeCount = 0;
@@ -216,7 +237,9 @@ export class GraphBuilderService {
         }
       }
     }
-    this.logger.log(`  Built ${walkEdgeCount} WALK edges (nearby station transfers)`);
+    this.logger.log(
+      `  Built ${walkEdgeCount} WALK edges (nearby station transfers)`,
+    );
 
     const graph: TransitGraph = {
       systemId,
@@ -278,7 +301,10 @@ export class GraphBuilderService {
       for (let i = 0; i < stops.length - 1; i++) {
         const curr = stops[i];
         const next = stops[i + 1];
-        const duration = this.parseTimeDiff(curr.departureTime, next.arrivalTime);
+        const duration = this.parseTimeDiff(
+          curr.departureTime,
+          next.arrivalTime,
+        );
         if (duration <= 0 || duration > 3600) continue; // sanity bounds (0-60 min)
 
         const key = `${curr.stationId}:${next.stationId}:${trip.lineId}`;
@@ -298,8 +324,20 @@ export class GraphBuilderService {
     for (const [key, bucket] of durationBuckets) {
       const [fromId, toId, lineId] = key.split(':');
       const duration = this.median(bucket);
-      addEdge({ from: fromId, to: toId, type: EdgeType.TRANSIT, duration, lineId });
-      addEdge({ from: toId, to: fromId, type: EdgeType.TRANSIT, duration, lineId });
+      addEdge({
+        from: fromId,
+        to: toId,
+        type: EdgeType.TRANSIT,
+        duration,
+        lineId,
+      });
+      addEdge({
+        from: toId,
+        to: fromId,
+        type: EdgeType.TRANSIT,
+        duration,
+        lineId,
+      });
     }
 
     return edges;
@@ -315,7 +353,12 @@ export class GraphBuilderService {
   }
 
   /** Calculate Haversine distance in meters between two lat/lng pairs */
-  private getDistanceMeters(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  private getDistanceMeters(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number,
+  ): number {
     const R = 6371000; // Earth radius in meters
     const phi1 = (lat1 * Math.PI) / 180;
     const phi2 = (lat2 * Math.PI) / 180;

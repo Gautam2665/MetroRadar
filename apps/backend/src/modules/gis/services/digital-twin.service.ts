@@ -98,7 +98,7 @@ export class DigitalTwinService {
     });
 
     // Deduplicate serving lines by line name key (e.g. BLUE, PINK, RED)
-    const uniqueServingLinesMap = new Map<string, typeof servingLines[0]>();
+    const uniqueServingLinesMap = new Map<string, (typeof servingLines)[0]>();
     for (const line of servingLines) {
       const nameKey = line.name.split('_')[0].trim().toUpperCase();
       if (!uniqueServingLinesMap.has(nameKey)) {

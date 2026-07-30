@@ -1,8 +1,13 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-function getDistanceMeters(lat1: number, lon1: number, lat2: number, lon2: number): number {
+function getDistanceMeters(
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number,
+): number {
   const R = 6371000;
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
   const dLon = ((lon2 - lon1) * Math.PI) / 180;
@@ -24,7 +29,7 @@ async function main() {
         take: 1,
         include: {
           stopTimes: {
-            orderBy: { stopSequence: "asc" },
+            orderBy: { stopSequence: 'asc' },
             include: { station: true },
           },
         },
@@ -32,7 +37,9 @@ async function main() {
     },
   });
 
-  console.log(`Checking ${lines.length} lines for zig-zag spatial anomalies...\n`);
+  console.log(
+    `Checking ${lines.length} lines for zig-zag spatial anomalies...\n`,
+  );
 
   for (const line of lines) {
     if (!line.trips[0]) continue;
@@ -44,16 +51,33 @@ async function main() {
       const s2 = stopTimes[i + 1].station;
       const s3 = stopTimes[i + 2].station;
 
-      const d12 = getDistanceMeters(s1.latitude, s1.longitude, s2.latitude, s2.longitude);
-      const d23 = getDistanceMeters(s2.latitude, s2.longitude, s3.latitude, s3.longitude);
-      const d13 = getDistanceMeters(s1.latitude, s1.longitude, s3.latitude, s3.longitude);
+      const d12 = getDistanceMeters(
+        s1.latitude,
+        s1.longitude,
+        s2.latitude,
+        s2.longitude,
+      );
+      const d23 = getDistanceMeters(
+        s2.latitude,
+        s2.longitude,
+        s3.latitude,
+        s3.longitude,
+      );
+      const d13 = getDistanceMeters(
+        s1.latitude,
+        s1.longitude,
+        s3.latitude,
+        s3.longitude,
+      );
 
       // If going s1 -> s2 -> s3 travels significantly MORE distance than s1 -> s3 directly,
       // it indicates a zig-zag overshoot (s2 is misplaced relative to s1 and s3)
       if (d12 + d23 > 2.2 * d13 && (d12 > 1000 || d23 > 1000)) {
         console.log(`ANOMALY in Line ${line.name} (${line.code}):`);
         console.log(`  [1] ${s1.name} (${s1.latitude}, ${s1.longitude})`);
-        console.log(`  [2] ${s2.name} (${s2.latitude}, ${s2.longitude}) <-- POSSIBLY MISPLACED (d12=${Math.round(d12)}m, d23=${Math.round(d23)}m vs d13=${Math.round(d13)}m)`);
+        console.log(
+          `  [2] ${s2.name} (${s2.latitude}, ${s2.longitude}) <-- POSSIBLY MISPLACED (d12=${Math.round(d12)}m, d23=${Math.round(d23)}m vs d13=${Math.round(d13)}m)`,
+        );
         console.log(`  [3] ${s3.name} (${s3.latitude}, ${s3.longitude})\n`);
       }
     }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useRef } from "react";
 import {
   MapPin,
   Navigation,
@@ -101,19 +101,18 @@ export function StationInput({
   onSelect: (station: StationSuggestion | null) => void;
   placeholder: string;
 }) {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(value?.name ?? "");
   const [suggestions, setSuggestions] = useState<StationSuggestion[]>([]);
   const [searching, setSearching] = useState(false);
   const [open, setOpen] = useState(false);
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
-    if (value) {
-      setQuery(value.name);
-    } else {
-      setQuery("");
-    }
-  }, [value]);
+  // Sync internal input string when controlled value prop changes externally
+  const prevValueNameRef = useRef(value?.name);
+  if (value?.name !== prevValueNameRef.current) {
+    prevValueNameRef.current = value?.name;
+    setQuery(value?.name ?? "");
+  }
 
   const search = useCallback(async (q: string) => {
     if (q.trim().length < 2) {
@@ -129,9 +128,9 @@ export function StationInput({
       if (data?.features) {
         setSuggestions(
           data.features
-            .filter((f: any) => f.properties?.type === "station")
+            .filter((f: { properties?: { type?: string } }) => f.properties?.type === "station")
             .slice(0, 8)
-            .map((f: any) => ({
+            .map((f: { properties: { id: string; name: string; code?: string; city?: string; lines?: Array<{ code: string; color: string; name: string }> } }) => ({
               id: f.properties.id,
               name: f.properties.name,
               code: f.properties.code,
@@ -264,8 +263,8 @@ export function JourneyPlannerForm({
       }
       const data: JourneyResult = await res.json();
       onPlanResult(data);
-    } catch (err: any) {
-      setError(err.message ?? "Failed to plan journey");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to plan journey");
     } finally {
       setLoading(false);
     }
@@ -293,7 +292,7 @@ export function JourneyPlannerForm({
         <div className="flex justify-center my-0.5">
           <button
             onClick={handleSwap}
-            className="h-7 w-7 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:bg-zinc-800 hover:border-zinc-700 transition-colors"
+            className="h-7 w-7 rounded-full bg-zinc-900 border border-zinc-850 flex items-center justify-center hover:bg-zinc-800 hover:border-zinc-700 transition-colors"
             title="Swap origin and destination"
             id="journey-swap-btn"
           >
@@ -365,9 +364,6 @@ export function JourneySummaryCard({
   onReset,
 }: JourneySummaryCardProps) {
   const { journey } = result;
-
-  // Filter transit leg lines to render transit badges
-  const transitLegs = journey.legs.filter((leg) => leg.type === "TRANSIT");
 
   return (
     <div className="space-y-4 px-6 py-2" id="journey-summary-card">

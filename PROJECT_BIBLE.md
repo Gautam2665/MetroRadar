@@ -12,49 +12,53 @@
 *   [Chapter 6: API Standards](#chapter-6-api-standards)
 *   [Chapter 7: Coding Standards](#chapter-7-coding-standards)
 *   [Chapter 8: UI Design System](#chapter-8-ui-design-system)
-*   [Chapter 9: AI Modules](#chapter-9-ai-modules)
+*   [Chapter 9: AI & Intelligence Gateway](#chapter-9-ai--intelligence-gateway)
 *   [Chapter 10: Development Roadmap](#chapter-10-development-roadmap)
 
 ---
 
 ## Chapter 1: Project Vision
 
-MetroRadar is not just a simple metro map application. Over the next 6 months, it will be built as an **Urban Mobility Intelligence Platform**. 
+TransitOS (formerly MetroRadar) is an **Urban Intelligence Platform** designed to build a complete digital twin of city transit networks. Instead of a simple map application, the platform is divided into three distinct vertical platform layers that build on top of each other:
 
-The platform is structured into six progressive layers:
 ```
+                         TransitOS Platform
 ┌─────────────────────────────────────────────────────────┐
-│                   Analytics Layer                       │  <- Insights, reports, passenger flow data
+│              Layer 3: Transit Experience                │  <- Passenger App, Operator Dashboard, Watch, AR
 ├─────────────────────────────────────────────────────────┤
-│                      AI Layer                           │  <- Predictions, smart routing, recommender
+│             Layer 2: Transit Intelligence               │  <- Journey, Predictions, Fares, Payments, Booking
 ├─────────────────────────────────────────────────────────┤
-│                   Passenger Layer                       │  <- Commuter context, alerts, search history
-├─────────────────────────────────────────────────────────┤
-│                  Commercial Layer                       │  <- Transit retail, station ads, services
-├─────────────────────────────────────────────────────────┤
-│                   Station Layer                         │  <- Station layouts, platform stats, access
-├─────────────────────────────────────────────────────────┤
-│                    Transit Layer                        │  <- Train schedules, routes, real-time feeds
+│               Layer 1: Transit Data                     │  <- GTFS Static, GTFS-RT, PostGIS Database, APIs
 └─────────────────────────────────────────────────────────┘
 ```
 
-1. **Transit Layer**: Real-time train positions, static route schedules, and delay data.
-2. **Station Layer**: Detailed station directories, platform connectivity, layouts, and facilities.
-3. **Commercial Layer**: Stores, advertisements, services, and commercial activities in or near stations.
-4. **Passenger Layer**: Commuter journeys, bookmark preferences, search history, and live contexts.
-5. **AI Layer**: Real-time predictions, smart scheduling assistance, route optimizations, and context-aware suggestions.
-6. **Analytics Layer**: Comprehensive intelligence dashboard reporting crowd densities, efficiency logs, and commercial footfall.
+### The Three Platform Layers
+1. **Layer 1: Transit Data Platform**: Owns GTFS Static and GTFS-Realtime data ingestion, CTM (Canonical Transit Model) mapping, data validation, database persistence (PostgreSQL/PostGIS), and public REST/WebSocket APIs.
+2. **Layer 2: Transit Intelligence Platform**: Owns journey pathfinding engines, travel-time delay predictions, fare calculations (including transfer discounts and passes), notifications orchestration, booking abstraction, and platform analytics.
+3. **Layer 3: Transit Experience Platform**: Owns the end-user interfaces including the passenger web/mobile app, transit operator dashboards, AI assistants, smartwatch integrations, and future ambient interfaces (AR/calendar).
+
+### The Six Data Maturity Layers
+Within the platform layers, TransitOS structures transit features into six progressive data maturity layers built step-by-step:
+1. **Transit Layer**: Train schedules, planned routes, track geometries, and real-time feeds.
+2. **Station Layer**: Detailed station directories, platform configurations, access paths, and facility metadata.
+3. **Commercial Layer**: Station ads bidding, localized vendor details, retail promocodes, and terminal services.
+4. **Passenger Layer**: Commuter trip histories, bookmark preferences, and route contexts.
+5. **AI Layer**: Real-time delay propagation modeling, conversational helpers, and context-aware suggestions.
+6. **Analytics Layer**: Crowd density indices, line efficiency statistics, and performance dashboards.
 
 ---
 
 ## Chapter 2: Architecture
 
-MetroRadar follows a **modular LEGO architecture**. The platform is constructed from independent building blocks that plug into one another.
+TransitOS follows a **modular LEGO architecture**. The platform is constructed from independent building blocks (engines, gateways, and adapters) that plug into one another.
 
 ### Design Principles
-- **Loose Coupling**: Each block operates independently. For example, the maps module does not care about the database engine; it consumes standardized APIs.
-- **Strict Data Dependencies**: High-level modules (like AI and routing) cannot be run without verifying the status of lower-level blocks (data ingestion, static stations).
-- **Single Source of Truth**: All shared configurations (TypeScript types, linter standards, and design styles) live in centralized packages.
+- **Loose Coupling**: Each block operates independently. For example, the routing engine operates on generic graph nodes and does not care about the underlying database engine.
+- **Strict Data Dependencies**: High-level modules (like AI and routing) cannot run without verifying the status and integrity of lower-level blocks (GTFS ingestion, static stations).
+- **Single Source of Truth**: All shared configurations (TypeScript types, linter standards, and UI variables) live in centralized packages.
+- **The Golden Rule (TransitOS Computes, AI Communicates)**: Every core user feature must function deterministically even if all external LLMs disappear tomorrow. AI is an interface translation layer; computations (such as routing, fare calculations, and delay forecasts) are strictly executed by TransitOS core engines, not by LLMs.
+- **Stable Engine APIs**: Every engine exposes capabilities through stable APIs. Core engines never call UI components, and UI components never implement business logic.
+- **Provider Agnosticism (Adapter Pattern)**: Third-party ticketing providers (e.g., ONDC, operator APIs) and payment systems are isolated behind standard Adapter Layers. The core engines (Booking Engine, Payment Intelligence Engine) interact only with generic interfaces, keeping the core platform immune to external integration changes.
 
 ---
 
@@ -155,41 +159,62 @@ MetroRadar prioritizes a premium, beautiful aesthetic:
 
 ---
 
-## Chapter 9: AI Modules
+## Chapter 9: AI & Intelligence Gateway
 
-AI components are kept until the very end, following a **Data-First** development strategy. We will not build an AI chatbot without rich context.
+AI components are deferred until core database and logic engines are stable, adhering to a **Data-First** architecture. We do not use LLMs as computation engines; instead, they serve as natural language interfaces on top of our deterministic APIs.
 
-### Data Accumulation Flow
+### The Intelligence Gateway
+The **Intelligence Gateway** serves as the single point of entry for user queries. Instead of routing everything to expensive LLMs, the gateway classifies the query to decide if it can be answered directly by our high-performance APIs or if an LLM is required.
+
 ```
-┌───────────┐    ┌─────────┐    ┌──────────┐    ┌────────────┐    ┌───────────────────┐    ┌──────┐
-│ Stations  │───>│  Trips  │───>│  Routes  │───>│ Commercial │───>│ Passenger Context │───>│  AI  │
-└───────────┘    └─────────┘    └──────────┘    └────────────┘    └───────────────────┘    └──────┘
+                               User Request
+                                    │
+                                    ▼
+                          Intelligence Gateway
+                                    │
+           ┌────────────────────────┴────────────────────────┐
+           ▼                                                 ▼
+[Can TransitOS answer directly?]                    [Natural language / Voice]
+           │                                                 │
+          YES                                                NO
+           │                                                 │
+           ▼                                                 ▼
+  Query Journey/Fare Engines                       Select Provider via Registry
+   (Response in <50ms)                               (Sarvam, Gemini, OpenAI)
+           │                                                 │
+           └────────────────────────┬────────────────────────┘
+                                    ▼
+                           Formatted Response
 ```
 
-1. **Stations Data**: Physical platforms, exit logs, crowd density capacity.
-2. **Trips Data**: Timetables, actual transit durations, real-time arrival discrepancies.
-3. **Routes Data**: Connections, transfer durations, train occupancy logs.
-4. **Commercial Data**: In-station vendor listings, retail promotions, advertisements.
-5. **Passenger Context**: Habitual routes, user commute times, live travel coordinates.
-6. **AI Layer**: Cross-references passengers, stations, routes, and commercial incentives to offer intelligent delay forecasting, station routing, and target commuter suggestions.
+### AI Capability Registry
+Rather than hardcoding LLM clients inside individual services, TransitOS uses a registry that specifies the preferred LLM provider and fallback for each capability.
+
+| Capability | Default Provider | Fallback Provider | Purpose / Rationale |
+| :--- | :--- | :--- | :--- |
+| **Speech Recognition** | Sarvam AI | Whisper / Other | Translates voice commands with Indian accents and local languages. |
+| **Translation** | Sarvam AI | Gemini | Multi-lingual support for regional queries. |
+| **Voice Output** | Sarvam AI | Default TTS | Synthesizes response speech for smartwatch and voice feedback. |
+| **Reasoning & Synthesis** | OpenAI | Gemini | Explains complex multi-criteria passenger trip selections. |
+| **Vision & Image QA** | Gemini | OpenAI | Reads station signage, entrances, physical schedules. |
+| **OCR Processing** | Native OCR | Gemini | Digitizes operator timetables, static maps, tickets. |
+| **Summarization** | OpenAI | Gemini | Summarizes heavy operator reports, administrative analytics. |
 
 ---
 
 ## Chapter 10: Development Roadmap
 
-Development runs in 11 sequential, modular sprints:
+Development is organized into phased milestones that build capabilities from the data layer up to experience and intelligence features.
 
-1. **Sprint 1: Infrastructure**: Git/Monorepo configs, linting, Docker containers.
-2. **Sprint 2: Transit Core Schema**: Database structure, PostGIS setups, initial tables.
-3. **Sprint 3: GTFS Ingestion Engine**: Database upgrades, enums, triggers, and CTM models.
-4. **Sprint 3.5: Transit Data Acquisition & Validation**: Authoritative Data Catalog, validation CLI, and real-world imports (Delhi, Kochi).
-5. **Sprint 4: Frontend Maps**: Map visualization frontend, station plotting, UI styling.
-6. **Sprint 5: Routing & Pathfinding**: Pathfinding (Dijkstra/A*), connection transfers, trip duration forecasting.
-7. **Sprint 6: Realtime Engine**: GTFS-RT connectors, vehicle positions, TripUpdates, Redis cache overlay, WebSockets.
-8. **Sprint 7: Authentication**: Security tokens, login API, secure routes.
-9. **Sprint 8: Stations Detail**: Layout maps, exits, levels, amenities, entrances.
-10. **Sprint 9: Commercial**: Station advertisements, store integrations, deals board.
-11. **Sprint 10: AI Integration**: Context-aware commuter recommendations and predictive delays.
+- **v0.5 — Journey Intelligence**: Initialize core transit schemas, build the static GTFS parser, and implement basic offline pathfinding routing (Dijkstra/A*).
+- **v0.5.1 — Realtime Infrastructure**: Establish GTFS-RT connectors, build the active vehicle polling engine, integrate Redis caching for real-time telemetry, and set up WebSocket broadcast servers.
+- **v0.6 — Passenger Experience (UI)**: Initialize Next.js frontend workspaces, integrate map layers (Leaflet/MapLibre), render stations, and connect visual line overlays.
+- **v0.7 — Prediction & Notifications**: Aggregate history logs to predict delay propagation, build the notification scheduler, and add custom traveler alerts.
+- **v0.8 — Fare Intelligence Engine**: Implement zone rules, pass eligibility check, cost calculation, and transfer discounts to recommend the cheapest fares.
+- **v0.9 — Booking Platform**: Build generic ticket interfaces, implement the Booking Engine (`bookJourney`, `cancelJourney`), and structure the Provider Adapter Layer for ONDC / official operator APIs.
+- **v1.0 — Payment Platform**: Develop the Payment Intelligence Engine, the Payment Adapter Layer (UPI, NCMC, card networks), and the virtual Passenger Profile / Wallet abstraction.
+- **v1.1 — AI & Voice Platform**: Standardize the Intelligence Gateway, integrate voice models (Sarvam), translate dialects, and add reasoning helpers (OpenAI/Gemini).
+- **v1.2 — Ambient Computing**: Support smartwatch notifications, active calendar scan for proactive routes, and AR station indoor navigation.
 
 ---
 

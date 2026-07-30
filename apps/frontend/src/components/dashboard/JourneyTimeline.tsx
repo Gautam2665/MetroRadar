@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, Navigation, MapPin, Footprints, Train, ArrowDown } from "lucide-react";
+import { Navigation, MapPin, Footprints, Train } from "lucide-react";
 import { formatLineName } from "./DigitalTwinInspector";
 
 type JourneyLeg = {
@@ -44,7 +44,7 @@ function formatDuration(seconds: number): string {
 }
 
 export default function JourneyTimeline({ result, onClose }: JourneyTimelineProps) {
-  const { journey, metadata } = result;
+  const { journey } = result;
 
   return (
     <div

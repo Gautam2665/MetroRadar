@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { RedisService } from '../../../redis/redis.service';
 import { GraphBuilderService } from './graph-builder.service';
-import { TransitGraph } from './graph.types';
+import { GraphEdge, StationNode, TransitGraph } from './graph.types';
 
 /**
  * GraphProviderService — the single entry point for obtaining a transit graph.
@@ -41,7 +41,11 @@ export class GraphProviderService {
 
     this.logger.log(`Cache MISS for graph:${cacheKey} — building from DB`);
     const graph = await this.graphBuilder.build(systemId);
-    await this.redis.set(cacheKey, this.serialize(graph), this.GRAPH_TTL_SECONDS);
+    await this.redis.set(
+      cacheKey,
+      this.serialize(graph),
+      this.GRAPH_TTL_SECONDS,
+    );
     return graph;
   }
 
@@ -82,8 +86,8 @@ export class GraphProviderService {
       systemId: raw.systemId,
       systemCode: raw.systemCode,
       builtAt: raw.builtAt,
-      nodes: new Map(raw.nodes),
-      edges: new Map(raw.edges),
+      nodes: new Map<string, StationNode>(raw.nodes),
+      edges: new Map<string, GraphEdge[]>(raw.edges),
     };
   }
 }
@@ -93,6 +97,6 @@ interface SerializableGraph {
   systemId: string;
   systemCode: string;
   builtAt: number;
-  nodes: [string, any][];
-  edges: [string, any[]][];
+  nodes: [string, StationNode][];
+  edges: [string, GraphEdge[]][];
 }

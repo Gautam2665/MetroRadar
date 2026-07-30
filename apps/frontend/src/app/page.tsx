@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useSyncExternalStore } from "react";
 import maplibregl from "maplibre-gl";
-import Sidebar, { CityConfig } from "@/components/dashboard/Sidebar";
+import Sidebar from "@/components/dashboard/Sidebar";
 import MapContainer from "@/components/map/MapContainer";
 import DigitalTwinInspector from "@/components/dashboard/DigitalTwinInspector";
 import DiagnosticsHud from "@/components/dashboard/DiagnosticsHud";
@@ -10,19 +10,13 @@ import DeveloperDashboard from "@/components/dashboard/DeveloperDashboard";
 
 export default function Home() {
   // Map Viewport state
-  const [activeCity, setActiveCity] = useState<CityConfig>({
-    name: "Delhi Metro",
-    code: "delhi",
-    center: [77.209, 28.6139],
-    zoom: 11.5,
-  });
-
+  const [activeCity, setActiveCity] = useState("delhi");
   const [mapViewport, setMapViewport] = useState<{
     center: [number, number];
     zoom: number;
   }>({
-    center: [77.209, 28.6139],
-    zoom: 11.5,
+    center: [77.228, 28.667], // Delhi center
+    zoom: 12,
   });
 
   // Selection & Layer states
@@ -37,16 +31,16 @@ export default function Home() {
   const [cacheHit, setCacheHit] = useState(false);
 
   // Journey Intelligence state
-  const [journeyResult, setJourneyResult] = useState<any | null>(null);
   const [journeyGeojson, setJourneyGeojson] = useState<GeoJSON.FeatureCollection | null>(null);
 
   // Map Instance Ref
   const mapRef = useRef<maplibregl.Map | null>(null);
 
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
 
   if (!mounted) {
     return (
@@ -78,12 +72,11 @@ export default function Home() {
     );
   };
 
-  const handleTrackEntrance = (lat: number, lon: number, _name: string) => {
+  const handleTrackEntrance = (lat: number, lon: number) => {
     handleFlyTo([lon, lat], 17);
   };
 
-  const handleJourneyResult = (result: any) => {
-    setJourneyResult(result);
+  const handleJourneyResult = (result: { journey?: { geojson?: GeoJSON.FeatureCollection } } | null) => {
     setJourneyGeojson(result?.journey?.geojson ?? null);
   };
 
@@ -92,14 +85,21 @@ export default function Home() {
       {/* 1. Sidebar Panel (Left) */}
       <Sidebar
         activeCity={activeCity}
-        onCityChange={setActiveCity}
+        onCityChange={(cityCode, center, zoom) => {
+          setActiveCity(cityCode);
+          handleFlyTo(center, zoom);
+        }}
+        selectedStationId={selectedStationId}
         onStationSelect={setSelectedStationId}
         activeLayers={activeLayers}
         onToggleLayer={handleToggleLayer}
-        onDeveloperConsoleOpen={() => setDeveloperConsoleOpen(true)}
+        loadedLayersCount={loadedLayersCount}
         onFlyToCoordinates={handleFlyTo}
-        apiLatencySetter={updateApiLatency}
         onJourneyResult={handleJourneyResult}
+        apiLatency={apiLatency}
+        cacheHit={cacheHit}
+        apiLatencySetter={updateApiLatency}
+        onToggleDevConsole={() => setDeveloperConsoleOpen(true)}
         onModeChange={setAppMode}
       />
 

@@ -1,6 +1,4 @@
-"use client";
-
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import {
   Search,
   Layers,
@@ -13,21 +11,17 @@ import {
   User,
   ArrowLeft,
   Navigation,
-  Train,
-  CircleDot,
-  GitCompare,
-  Footprints,
-  Hexagon,
+  Sparkles,
   ChevronRight,
 } from "lucide-react";
+import DigitalTwinInspector, { formatLineName } from "./DigitalTwinInspector";
 import {
   JourneyPlannerForm,
   JourneySummaryCard,
-  StationSuggestion,
-  JourneyResult,
+  type JourneyResult,
+  type StationSuggestion,
 } from "./JourneyPlanner";
 import JourneyTimeline from "./JourneyTimeline";
-import { formatLineName } from "./DigitalTwinInspector";
 
 export type CityConfig = {
   name: string;
@@ -36,67 +30,61 @@ export type CityConfig = {
   zoom: number;
 };
 
-const CITIES: CityConfig[] = [
-  { name: "Delhi Metro", code: "delhi", center: [77.209, 28.6139], zoom: 11.5 },
-  { name: "Kochi Metro", code: "kochi", center: [76.3244, 9.9816], zoom: 12.5 },
-  { name: "Mumbai Metro", code: "mumbai", center: [72.8777, 19.076], zoom: 11.5 },
+export const AVAILABLE_CITIES: CityConfig[] = [
+  { name: "Delhi Metro (DMRC)", code: "delhi", center: [77.209, 28.6139], zoom: 11.5 },
+  { name: "Kochi Metro (KMRL)", code: "kochi", center: [76.2711, 9.9816], zoom: 12.5 },
 ];
 
-const MAP_LAYERS = [
-  { id: "lines", name: "Metro Lines", icon: Train },
-  { id: "stations", name: "Stations", icon: CircleDot },
-  { id: "interchanges", name: "Interchanges", icon: GitCompare },
-  { id: "walks", name: "Walk Connections", icon: Footprints },
-  { id: "zones", name: "Zones", icon: Hexagon },
+export const MAP_LAYERS = [
+  { id: "lines", name: "Metro Lines", icon: Layers },
+  { id: "stations", name: "Passenger Stations", icon: MapPin },
 ];
 
-type LayerOption = {
-  id: string;
-  name: string;
-  visible: boolean;
+type SearchFeature = {
+  geometry: { coordinates: number[] };
+  properties: {
+    id?: string;
+    name: string;
+    code?: string;
+    type: "station" | "system" | "line";
+    city?: string;
+    lines?: Array<{ code: string; color: string; name: string }>;
+  };
 };
 
 type SidebarProps = {
-  activeCity: CityConfig;
-  onCityChange: (city: CityConfig) => void;
-  onStationSelect: (stationId: string) => void;
+  activeCity: string;
+  onCityChange: (cityCode: string, center: [number, number], zoom: number) => void;
+  selectedStationId: string | null;
+  onStationSelect: (stationId: string | null) => void;
   activeLayers: string[];
   onToggleLayer: (layerId: string) => void;
-  onDeveloperConsoleOpen: () => void;
+  loadedLayersCount: number;
   onFlyToCoordinates: (coords: [number, number], zoom?: number) => void;
-  apiLatencySetter: (ms: number) => void;
   onJourneyResult: (result: JourneyResult | null) => void;
+  apiLatency: number;
+  cacheHit: boolean;
+  apiLatencySetter: (ms: number) => void;
+  onToggleDevConsole: () => void;
   onModeChange: (mode: "passenger" | "developer") => void;
 };
 
-type SearchFeature = {
-  id: string;
-  properties: {
-    id: string;
-    name: string;
-    code: string;
-    type: string;
-    city?: string;
-    lines?: { code: string; color: string; name: string }[];
-  };
-  geometry: {
-    coordinates: number[];
-  };
-};
-
-const BACKEND_URL =
-  process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
 
 export default function Sidebar({
   activeCity,
   onCityChange,
+  selectedStationId,
   onStationSelect,
   activeLayers,
   onToggleLayer,
-  onDeveloperConsoleOpen,
+  loadedLayersCount,
   onFlyToCoordinates,
-  apiLatencySetter,
   onJourneyResult,
+  apiLatency,
+  cacheHit,
+  apiLatencySetter,
+  onToggleDevConsole,
   onModeChange,
 }: SidebarProps) {
   // App Mode & State
@@ -111,7 +99,6 @@ export default function Sidebar({
   const [journeyResultState, setJourneyResultState] = useState<JourneyResult | null>(null);
 
   // Original Developer states
-  const [layers, setLayers] = useState<LayerOption[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchFeature[]>([]);
   const [searching, setSearching] = useState(false);
@@ -120,30 +107,11 @@ export default function Sidebar({
   const fetchLayers = useCallback(async () => {
     try {
       const res = await fetch(`${BACKEND_URL}/map/layers`);
-      const data = await res.json();
-      if (data?.layers) {
-        setLayers(
-          data.layers.map((l: any) => ({
-            id: l.id,
-            name: l.name,
-            visible: activeLayers.includes(l.id),
-          }))
-        );
-      }
+      await res.json();
     } catch {
       // fallback
-      setLayers([
-        { id: "lines", name: "Metro Lines", visible: activeLayers.includes("lines") },
-        { id: "stations", name: "Passenger Stations", visible: activeLayers.includes("stations") },
-      ]);
     }
-  }, [activeLayers]);
-
-  useEffect(() => {
-    if (appMode === "developer") {
-      fetchLayers();
-    }
-  }, [appMode, fetchLayers]);
+  }, []);
 
   // Unified Search Handler (Developer / Explore mode)
   const handleSearch = async (q: string) => {
@@ -172,6 +140,9 @@ export default function Sidebar({
   const handleModeChange = (mode: "passenger" | "developer") => {
     setAppMode(mode);
     onModeChange(mode);
+    if (mode === "developer") {
+      void fetchLayers();
+    }
     if (mode === "passenger") {
       setSidebarState("explore");
       // Clear journey if switching back to passenger to keep it clean
@@ -253,15 +224,15 @@ export default function Sidebar({
                   <Compass className="h-3.5 w-3.5 mr-1.5 text-zinc-500" /> Select Network
                 </h2>
                 <div className="grid grid-cols-3 gap-2">
-                  {CITIES.map((city) => (
+                  {AVAILABLE_CITIES.map((city) => (
                     <button
                       key={city.code}
                       onClick={() => {
-                        onCityChange(city);
+                        onCityChange(city.code, city.center, city.zoom);
                         onFlyToCoordinates(city.center, city.zoom);
                       }}
                       className={`py-2 px-1 rounded-xl text-center text-xs font-bold transition-all duration-300 border ${
-                        activeCity.code === city.code
+                        activeCity === city.code
                           ? "bg-sky-500/10 border-sky-400 text-sky-400"
                           : "bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700"
                       }`}
@@ -304,7 +275,7 @@ export default function Sidebar({
                           <button
                             key={props.id}
                             onClick={() => {
-                              onStationSelect(props.id);
+                              onStationSelect(props.id ?? null);
                               onFlyToCoordinates(f.geometry.coordinates as [number, number], 14.5);
                             }}
                             className="w-full text-left p-3 rounded-2xl bg-zinc-900/60 hover:bg-zinc-900 border border-zinc-800 hover:border-sky-500/40 transition-all duration-200 group flex items-center justify-between"
@@ -475,15 +446,15 @@ export default function Sidebar({
               <Compass className="h-3.5 w-3.5 mr-1 text-zinc-500" /> Select Network
             </h2>
             <div className="grid grid-cols-3 gap-2">
-              {CITIES.map((city) => (
+              {AVAILABLE_CITIES.map((city) => (
                 <button
                   key={city.code}
                   onClick={() => {
-                    onCityChange(city);
+                    onCityChange(city.code, city.center, city.zoom);
                     onFlyToCoordinates(city.center, city.zoom);
                   }}
                   className={`py-2 px-1 rounded-xl text-center text-xs font-bold transition-all duration-300 border ${
-                    activeCity.code === city.code
+                    activeCity === city.code
                       ? "bg-sky-500/10 border-sky-400 text-sky-400"
                       : "bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700"
                   }`}
@@ -524,7 +495,7 @@ export default function Sidebar({
                       key={props.id || props.code}
                       onClick={() => {
                         if (props.type === "station") {
-                          onStationSelect(props.id);
+                          onStationSelect(props.id ?? null);
                           onFlyToCoordinates(f.geometry.coordinates as [number, number], 14.5);
                         } else if (props.type === "system") {
                           onFlyToCoordinates(f.geometry.coordinates as [number, number], 12);

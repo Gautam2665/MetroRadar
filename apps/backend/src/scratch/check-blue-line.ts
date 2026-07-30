@@ -1,19 +1,19 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 async function main() {
   const line = await prisma.line.findFirst({
     where: {
-      name: { contains: "BLUE", mode: "insensitive" },
+      name: { contains: 'BLUE', mode: 'insensitive' },
     },
     include: {
       trips: {
-        where: { shapeId: "shp_1_14" },
+        where: { shapeId: 'shp_1_14' },
         take: 1,
         include: {
           stopTimes: {
-            orderBy: { stopSequence: "asc" },
+            orderBy: { stopSequence: 'asc' },
             include: { station: true },
           },
         },
@@ -22,15 +22,15 @@ async function main() {
   });
 
   if (!line || !line.trips[0]) {
-    console.log("No trip found.");
+    console.log('No trip found.');
     return;
   }
 
-  console.log("All stations on Blue Line trip:");
+  console.log('All stations on Blue Line trip:');
   const stopTimes = line.trips[0].stopTimes;
   for (const st of stopTimes) {
     console.log(
-      `${st.stopSequence}: ${st.station.name} (${st.station.code}) - lat: ${st.station.latitude}, lon: ${st.station.longitude}`
+      `${st.stopSequence}: ${st.station.name} (${st.station.code}) - lat: ${st.station.latitude}, lon: ${st.station.longitude}`,
     );
   }
 }

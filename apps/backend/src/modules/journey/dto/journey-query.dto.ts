@@ -20,7 +20,9 @@ export class JourneyOptionsDto {
   @Transform(({ value }) => value === 'true' || value === true)
   avoidWalking?: boolean;
 
-  @ApiPropertyOptional({ description: 'Avoid line transfers (direct routes only)' })
+  @ApiPropertyOptional({
+    description: 'Avoid line transfers (direct routes only)',
+  })
   @IsOptional()
   @IsBoolean()
   @Transform(({ value }) => value === 'true' || value === true)

@@ -32,7 +32,9 @@ export class RoutingService {
     weights: JourneyWeights,
   ): GraphEdge[] | null {
     if (fromStationId === toStationId) {
-      this.logger.warn(`Routing called with identical from/to: ${fromStationId}`);
+      this.logger.warn(
+        `Routing called with identical from/to: ${fromStationId}`,
+      );
       return [];
     }
 

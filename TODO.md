@@ -1,68 +1,66 @@
-# MetroRadar Backlog (10 LEGO Sprints)
-
-Follow this sprint-by-sprint checklist to build MetroRadar as a set of modular blocks.
+# TransitOS Development Backlog
+Follow this version-by-version checklist to build TransitOS (formerly MetroRadar) as a set of modular blocks.
 
 ---
 
 ## 🧱 Active Checklist
 
-### 🏃 Sprint 1: Infrastructure
+### 🏃 v0.5: Journey Intelligence
 - [ ] Configure monorepo environments (npm workspaces, Turbo / Lerna config).
 - [ ] Create shared tooling configurations (`packages/config` containing eslint, tsconfig).
 - [ ] Build local developer container environments in `docker/dev`.
-- [ ] Initialize frontend application boilerplate (`apps/web`).
-- [ ] Initialize backend API service boilerplate (`apps/api`).
-
-### 🏃 Sprint 2: Database
-- [ ] Initialize PostgreSQL database connection configurations.
 - [ ] Enable PostGIS extension and verify geographic coordinate query support.
-- [ ] Write migrations for core schemas (stations, routes, trips, timetables, ads).
-- [ ] Create migration seed data scripts.
+- [ ] Write migrations for core CTM schemas (stations, routes, trips, calendars, shapes).
+- [ ] Create migration seed data scripts (e.g. Mumbai Metro Line 2A seed).
+- [ ] Implement static GTFS schedule importer in `apps/backend`.
+- [ ] Design dataset validation CLI for importing real-world feeds (Kochi, Delhi Metro).
+- [ ] Build Dijkstra/A* offline routing algorithms to find paths across subway lines.
+- [ ] Develop stations lookup API (`GET /api/v1/stations`) and geographical proximity search.
 
-### 🏃 Sprint 3: Authentication
-- [ ] Create user credentials schema and bcrypt hashing utilities.
-- [ ] Build `/api/v1/auth/register` and `/api/v1/auth/login` endpoints.
-- [ ] Write middleware authorization guards for verifying JWT tokens.
-- [ ] Define session token renewal policies.
+### 🏃 v0.5.1: Realtime Infrastructure
+- [ ] Establish feed reader pipeline for GTFS-RT (real-time vehicle positions & service alerts).
+- [ ] Create ingestion sync worker threads in `apps/backend` or separate background worker.
+- [ ] Integrate Redis caching for live vehicle coordinates to bypass PostgreSQL write locks.
+- [ ] Develop WebSocket gateway channels to push real-time train positions to client web app.
 
-### 🏃 Sprint 4: Stations
-- [ ] Create stations schema validation schemas.
-- [ ] Write station lookup APIs (`GET /api/v1/stations`).
-- [ ] Develop proximity search endpoint (`GET /api/v1/stations/nearby?lat=x&lng=y`).
-- [ ] Add layout and facility data columns for stations.
-
-### 🏃 Sprint 5: Lines
-- [ ] Map out geographical track geometry paths.
-- [ ] Establish routes and line connection relationships in the database.
-- [ ] Develop line search APIs (`GET /api/v1/lines`).
-- [ ] Associate station lists to distinct subway line sequences.
-
-### 🏃 Sprint 6: Maps
-- [ ] Install map-rendering libraries (MapLibre GL) in `apps/web`.
+### 🏃 v0.6: Passenger Experience (UI)
+- [ ] Initialize Next.js frontend application workspace in `apps/frontend`.
+- [ ] Install map-rendering libraries (Leaflet / MapLibre GL) in the web workspace.
 - [ ] Build map viewport layout showing station points and color-coded line tracks.
-- [ ] Develop station overlay details panel showing facility details.
-- [ ] Standardize deep dark-mode design variables.
+- [ ] Develop station overlay details panel showing facility directories and exits.
+- [ ] Standardize deep dark-mode design variables (Matte Charcoal background, neon accents).
 
-### 🏃 Sprint 7: GTFS Ingestion
-- [ ] Write static GTFS scheduling importer.
-- [ ] Establish feed reader for GTFS-RT (real-time vehicle updates & service warnings).
-- [ ] Set up ingestion service sync daemon in `apps/ingest`.
-- [ ] Create WebSocket channels to push real-time changes to the frontend.
+### ⏳ v0.7: Prediction & Live Notifications
+- [ ] Aggregate historical delay records to feed regression models.
+- [ ] Develop transit delay prediction modules to estimate actual arrival timelines.
+- [ ] Build notification scheduler pushing alerts on service interruptions or route deviations.
+- [ ] Link saved routes and station notifications to Passenger Profiles.
 
-### 🏃 Sprint 8: Routing
-- [ ] Model transit network map as a graph structure.
-- [ ] Implement Dijkstra/A* routing algorithm.
-- [ ] Support multi-line transfers in route lookup responses.
-- [ ] Integrate delay telemetry parameters into path travel time estimations.
+### ⏳ v0.8: Fare Intelligence Engine
+- [ ] Create database tables for fares (Zone tables, Flat fares, Distance matrices).
+- [ ] Build fare calculations module incorporating line sequences and transfers.
+- [ ] Write concession rules evaluation logic (e.g., student/senior discount rates).
+- [ ] Build the Pass Recommendation Engine analyzing scheduled meetings and saved route histories.
 
-### 🏃 Sprint 9: Commercial
-- [ ] Build commercial vendor model in the database.
-- [ ] Develop station-specific vendor listing APIs (`GET /api/v1/stations/:id/shops`).
-- [ ] Design ad layout zones on station dashboards and route planners.
-- [ ] Integrate promotional offering notifications.
+### ⏳ v0.9: Booking Engine & Adapters
+- [ ] Define a generic `Ticket` JSON model for platform-wide tickets.
+- [ ] Write standard Booking Engine logic: `bookJourney()`, `cancelJourney()`, `refundTicket()`.
+- [ ] Implement generic Provider Adapter Interfaces.
+- [ ] Construct adapters for ticketing brokers (ONDC API, DMRC official API).
 
-### 🏃 Sprint 10: AI Integration
-- [ ] Aggregate historical delay records to feed prediction inputs.
-- [ ] Develop transit delay regression prediction model.
-- [ ] Assemble passenger profiles context logs (common routes, peak commute hours).
-- [ ] Create personalized recommender API for optimized paths and shop discounts.
+### ⏳ v1.0: Payment Intelligence & Wallet
+- [ ] Develop virtual Passenger Payment Profile to track passes, NCMC cards, and UPI links.
+- [ ] Build the Payment Intelligence Engine to calculate the cheapest payment mechanism.
+- [ ] Implement Payment Adapter Layer interfaces (UPI, cards, corporate accounts).
+- [ ] Integrate mock payment verification flows (supporting interactive and silent payments).
+
+### ⏳ v1.1: AI & Language Gateway
+- [ ] Implement the **Intelligence Gateway** as the single entry point for conversational helpers.
+- [ ] Integrate query classification models to bypass LLM processing for simple API lookups.
+- [ ] Integrate Sarvam AI for natural language voice recognition and regional translations.
+- [ ] Integrate OpenAI/Gemini reasoning models to explain route options and layout diagrams.
+
+### ⏳ v1.2: Ambient & Proactive Computing
+- [ ] Port live transit ETAs and ticket barcodes to smartwatch layouts.
+- [ ] Connect calendar API to suggest proactive journeys and day pass recommendations.
+- [ ] Prototype AR station pathing navigation overlays using Gemini vision.

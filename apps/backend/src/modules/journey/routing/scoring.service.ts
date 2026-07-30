@@ -7,8 +7,8 @@ import {
 } from '../graph/graph.types';
 
 export interface JourneyScore {
-  score: number;          // 0-100
-  totalDuration: number;  // seconds
+  score: number; // 0-100
+  totalDuration: number; // seconds
   transfers: number;
   walkingDuration: number; // seconds
 }

@@ -90,15 +90,32 @@ export class JourneyService {
     const [fromStation, toStation] = await Promise.all([
       this.db.station.findUnique({
         where: { id: fromId },
-        select: { id: true, code: true, name: true, systemId: true, latitude: true, longitude: true, system: { select: { id: true, code: true } } },
+        select: {
+          id: true,
+          code: true,
+          name: true,
+          systemId: true,
+          latitude: true,
+          longitude: true,
+          system: { select: { id: true, code: true } },
+        },
       }),
       this.db.station.findUnique({
         where: { id: toId },
-        select: { id: true, code: true, name: true, systemId: true, latitude: true, longitude: true, system: { select: { id: true, code: true } } },
+        select: {
+          id: true,
+          code: true,
+          name: true,
+          systemId: true,
+          latitude: true,
+          longitude: true,
+          system: { select: { id: true, code: true } },
+        },
       }),
     ]);
 
-    if (!fromStation) throw new NotFoundException(`Station not found: ${fromId}`);
+    if (!fromStation)
+      throw new NotFoundException(`Station not found: ${fromId}`);
     if (!toStation) throw new NotFoundException(`Station not found: ${toId}`);
 
     if (fromStation.systemId !== toStation.systemId) {
@@ -133,14 +150,17 @@ export class JourneyService {
     const journeyScore = this.scorer.score(path, weights);
 
     // ── 5. Collect unique line IDs for DB enrichment ─────────────────────────
-    const lineIds = [...new Set(path.map((e) => e.lineId).filter(Boolean))] as string[];
+    const lineIds = [
+      ...new Set(path.map((e) => e.lineId).filter(Boolean)),
+    ] as string[];
 
-    const lines = lineIds.length > 0
-      ? await this.db.line.findMany({
-          where: { id: { in: lineIds } },
-          select: { id: true, name: true, color: true, code: true },
-        })
-      : [];
+    const lines =
+      lineIds.length > 0
+        ? await this.db.line.findMany({
+            where: { id: { in: lineIds } },
+            select: { id: true, name: true, color: true, code: true },
+          })
+        : [];
 
     const normalizedLines = lines.map((l) => {
       const nameUpper = (l.name || '').toUpperCase();
@@ -189,7 +209,13 @@ export class JourneyService {
     const visitedStationIds = this.extractStationIds(path, fromId);
     const stationDetails = await this.db.station.findMany({
       where: { id: { in: visitedStationIds } },
-      select: { id: true, code: true, name: true, latitude: true, longitude: true },
+      select: {
+        id: true,
+        code: true,
+        name: true,
+        latitude: true,
+        longitude: true,
+      },
     });
     const stationMap = new Map(stationDetails.map((s) => [s.id, s]));
 
@@ -205,7 +231,7 @@ export class JourneyService {
           lng: detail?.longitude ?? node?.lng ?? 0,
         };
       })
-      .filter(Boolean) as StationRef[];
+      .filter(Boolean);
 
     // ── 7. Build enriched collapsed legs ────────────────────────────────────
     const legs: JourneyLeg[] = [];
@@ -254,7 +280,7 @@ export class JourneyService {
     }
 
     // ── 8. Assemble GeoJSON for map highlight ────────────────────────────────
-    const geojson = await this.buildGeoJson(orderedStations, legs, lineMap);
+    const geojson = await this.buildGeoJson(orderedStations, legs);
 
     const fromRef: StationRef = {
       id: fromStation.id,
@@ -298,7 +324,10 @@ export class JourneyService {
    * Extract the ordered list of station IDs from a path.
    * The path is a list of edges; we collect from + the final to.
    */
-  private extractStationIds(path: { from: string; to: string }[], origin: string): string[] {
+  private extractStationIds(
+    path: { from: string; to: string }[],
+    origin: string,
+  ): string[] {
     const ids: string[] = [origin];
     for (const edge of path) {
       if (ids[ids.length - 1] !== edge.to) {
@@ -316,7 +345,6 @@ export class JourneyService {
   private async buildGeoJson(
     stations: StationRef[],
     legs: JourneyLeg[],
-    lineMap: Map<string, { id: string; name: string; color: string; code: string }>,
   ): Promise<GeoJSON.FeatureCollection> {
     const features: GeoJSON.Feature[] = [];
 
@@ -364,10 +392,7 @@ export class JourneyService {
 
       const color = leg.lineColor ?? '#94a3b8'; // slate-400 fallback
 
-      if (
-        currentSegment === null ||
-        currentSegment.lineId !== leg.lineId
-      ) {
+      if (currentSegment === null || currentSegment.lineId !== leg.lineId) {
         // Start a new segment
         currentSegment = {
           coords: [...segmentCoords],
@@ -406,12 +431,20 @@ export class JourneyService {
 
       features.push({
         type: 'Feature',
-        properties: { featureType: 'journey-origin', name: first.name, code: first.code },
+        properties: {
+          featureType: 'journey-origin',
+          name: first.name,
+          code: first.code,
+        },
         geometry: { type: 'Point', coordinates: [first.lng, first.lat] },
       });
       features.push({
         type: 'Feature',
-        properties: { featureType: 'journey-destination', name: last.name, code: last.code },
+        properties: {
+          featureType: 'journey-destination',
+          name: last.name,
+          code: last.code,
+        },
         geometry: { type: 'Point', coordinates: [last.lng, last.lat] },
       });
     }
@@ -466,7 +499,9 @@ export class JourneyService {
           shapeId: { not: null },
           isActive: true,
           AND: [
-            { stopTimes: { some: { stationId: fromStationId, isActive: true } } },
+            {
+              stopTimes: { some: { stationId: fromStationId, isActive: true } },
+            },
             { stopTimes: { some: { stationId: toStationId, isActive: true } } },
           ],
         },
@@ -502,10 +537,14 @@ export class JourneyService {
 
       for (let i = 0; i < shapes.length; i++) {
         const p = shapes[i];
-        
+
         // Simple Euclidean distance
-        const dFrom = Math.pow(p.longitude - fromCoord[0], 2) + Math.pow(p.latitude - fromCoord[1], 2);
-        const dTo = Math.pow(p.longitude - toCoord[0], 2) + Math.pow(p.latitude - toCoord[1], 2);
+        const dFrom =
+          Math.pow(p.longitude - fromCoord[0], 2) +
+          Math.pow(p.latitude - fromCoord[1], 2);
+        const dTo =
+          Math.pow(p.longitude - toCoord[0], 2) +
+          Math.pow(p.latitude - toCoord[1], 2);
 
         if (dFrom < minDistanceToFrom) {
           minDistanceToFrom = dFrom;
@@ -520,7 +559,7 @@ export class JourneyService {
       if (idxFrom === -1 || idxTo === -1 || idxFrom === idxTo) return null;
 
       const coords: [number, number][] = [];
-      
+
       // Ensure starting coordinate matches exact station center
       coords.push(fromCoord);
 
@@ -540,7 +579,9 @@ export class JourneyService {
 
       return coords;
     } catch (err) {
-      this.logger.warn(`Failed to resolve shape segment for line ${lineId}: ${err}`);
+      this.logger.warn(
+        `Failed to resolve shape segment for line ${lineId}: ${err}`,
+      );
       return null;
     }
   }

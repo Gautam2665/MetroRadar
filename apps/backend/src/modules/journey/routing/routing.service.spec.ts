@@ -1,5 +1,10 @@
 import { EdgeType } from '../graph/edge.types';
-import { DEFAULT_WEIGHTS, GraphEdge, StationNode, TransitGraph } from '../graph/graph.types';
+import {
+  DEFAULT_WEIGHTS,
+  GraphEdge,
+  StationNode,
+  TransitGraph,
+} from '../graph/graph.types';
 import { RoutingService } from './routing.service';
 
 function buildTestGraph(): TransitGraph {
@@ -11,27 +16,119 @@ function buildTestGraph(): TransitGraph {
   //                        --[Yellow,240s]--> D
   //
   const nodes = new Map<string, StationNode>([
-    ['A', { id: 'A', code: 'A', name: 'Station A', systemId: 'sys1', lineIds: ['L1'], lat: 0, lng: 0 }],
-    ['B', { id: 'B', code: 'B', name: 'Station B', systemId: 'sys1', lineIds: ['L1', 'L2'], lat: 0, lng: 1 }],
-    ['C', { id: 'C', code: 'C', name: 'Station C', systemId: 'sys1', lineIds: ['L1'], lat: 0, lng: 2 }],
-    ['D', { id: 'D', code: 'D', name: 'Station D', systemId: 'sys1', lineIds: ['L2'], lat: 1, lng: 1 }],
+    [
+      'A',
+      {
+        id: 'A',
+        code: 'A',
+        name: 'Station A',
+        systemId: 'sys1',
+        lineIds: ['L1'],
+        lat: 0,
+        lng: 0,
+      },
+    ],
+    [
+      'B',
+      {
+        id: 'B',
+        code: 'B',
+        name: 'Station B',
+        systemId: 'sys1',
+        lineIds: ['L1', 'L2'],
+        lat: 0,
+        lng: 1,
+      },
+    ],
+    [
+      'C',
+      {
+        id: 'C',
+        code: 'C',
+        name: 'Station C',
+        systemId: 'sys1',
+        lineIds: ['L1'],
+        lat: 0,
+        lng: 2,
+      },
+    ],
+    [
+      'D',
+      {
+        id: 'D',
+        code: 'D',
+        name: 'Station D',
+        systemId: 'sys1',
+        lineIds: ['L2'],
+        lat: 1,
+        lng: 1,
+      },
+    ],
   ]);
 
   const edges = new Map<string, GraphEdge[]>([
-    ['A', [
-      { from: 'A', to: 'B', type: EdgeType.TRANSIT, duration: 120, lineId: 'L1' },
-    ]],
-    ['B', [
-      { from: 'B', to: 'A', type: EdgeType.TRANSIT, duration: 120, lineId: 'L1' },
-      { from: 'B', to: 'C', type: EdgeType.TRANSIT, duration: 180, lineId: 'L1' },
-      { from: 'B', to: 'D', type: EdgeType.TRANSIT, duration: 240, lineId: 'L2' },
-    ]],
-    ['C', [
-      { from: 'C', to: 'B', type: EdgeType.TRANSIT, duration: 180, lineId: 'L1' },
-    ]],
-    ['D', [
-      { from: 'D', to: 'B', type: EdgeType.TRANSIT, duration: 240, lineId: 'L2' },
-    ]],
+    [
+      'A',
+      [
+        {
+          from: 'A',
+          to: 'B',
+          type: EdgeType.TRANSIT,
+          duration: 120,
+          lineId: 'L1',
+        },
+      ],
+    ],
+    [
+      'B',
+      [
+        {
+          from: 'B',
+          to: 'A',
+          type: EdgeType.TRANSIT,
+          duration: 120,
+          lineId: 'L1',
+        },
+        {
+          from: 'B',
+          to: 'C',
+          type: EdgeType.TRANSIT,
+          duration: 180,
+          lineId: 'L1',
+        },
+        {
+          from: 'B',
+          to: 'D',
+          type: EdgeType.TRANSIT,
+          duration: 240,
+          lineId: 'L2',
+        },
+      ],
+    ],
+    [
+      'C',
+      [
+        {
+          from: 'C',
+          to: 'B',
+          type: EdgeType.TRANSIT,
+          duration: 180,
+          lineId: 'L1',
+        },
+      ],
+    ],
+    [
+      'D',
+      [
+        {
+          from: 'D',
+          to: 'B',
+          type: EdgeType.TRANSIT,
+          duration: 240,
+          lineId: 'L2',
+        },
+      ],
+    ],
   ]);
 
   return {
@@ -82,7 +179,15 @@ describe('RoutingService', () => {
   it('should return null for disconnected stations', () => {
     const graph = buildTestGraph();
     // Add an isolated node
-    graph.nodes.set('Z', { id: 'Z', code: 'Z', name: 'Station Z', systemId: 'sys1', lineIds: [], lat: 9, lng: 9 });
+    graph.nodes.set('Z', {
+      id: 'Z',
+      code: 'Z',
+      name: 'Station Z',
+      systemId: 'sys1',
+      lineIds: [],
+      lat: 9,
+      lng: 9,
+    });
     graph.edges.set('Z', []);
     const path = service.solve(graph, 'A', 'Z', DEFAULT_WEIGHTS);
     expect(path).toBeNull();
@@ -96,7 +201,11 @@ describe('RoutingService', () => {
 
   it('should prefer shortest path with custom weights', () => {
     // If walking weight is very high, it should still pick transit
-    const weights = { ...DEFAULT_WEIGHTS, travelTimeWeight: 1.0, walkingWeight: 10.0 };
+    const weights = {
+      ...DEFAULT_WEIGHTS,
+      travelTimeWeight: 1.0,
+      walkingWeight: 10.0,
+    };
     const graph = buildTestGraph();
     const path = service.solve(graph, 'A', 'C', weights);
     expect(path).not.toBeNull();
