@@ -282,6 +282,22 @@ export default function MapContainer({
           const data = await res.json();
           const vehicles: any[] = data.vehicles || [];
 
+          const resolveTrainColor = (lineName?: string, lineColor?: string): string => {
+            if (lineColor && lineColor !== "#000000" && lineColor !== "#000") return lineColor;
+            const name = (lineName || "").toUpperCase();
+            if (name.includes("YELLOW")) return "#eab308";
+            if (name.includes("BLUE")) return "#3b82f6";
+            if (name.includes("RED")) return "#ef4444";
+            if (name.includes("PINK")) return "#ec4899";
+            if (name.includes("VIOLET")) return "#8b5cf6";
+            if (name.includes("GREEN")) return "#22c55e";
+            if (name.includes("MAGENTA")) return "#d946ef";
+            if (name.includes("ORANGE") || name.includes("AIRPORT")) return "#f97316";
+            if (name.includes("GREY") || name.includes("GRAY")) return "#9ca3af";
+            if (name.includes("AQUA")) return "#06b6d4";
+            return "#38bdf8";
+          };
+
           const geojson: GeoJSON.FeatureCollection = {
             type: "FeatureCollection",
             features: vehicles.map((v) => ({
@@ -295,7 +311,7 @@ export default function MapContainer({
                 tripId: v.tripId || "",
                 routeId: v.routeId || "",
                 lineName: v.lineName || "Metro Train",
-                lineColor: v.lineColor || "#f43f5e",
+                lineColor: resolveTrainColor(v.lineName, v.lineColor),
                 status: v.currentStatus || "IN_TRANSIT",
                 speed: v.speed || 0,
               },

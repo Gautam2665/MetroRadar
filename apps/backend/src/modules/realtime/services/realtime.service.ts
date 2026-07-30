@@ -74,7 +74,7 @@ export class RealtimeService {
       ...new Set(vehicles.map((v) => v.routeId).filter(Boolean)),
     ] as string[];
 
-    if (routeIds.length === 0) return vehicles;
+    if (routeIds.length === 0) return [];
 
     try {
       const lines = await this.db.line.findMany({
@@ -84,18 +84,21 @@ export class RealtimeService {
 
       const lineMap = new Map(lines.map((l) => [l.code, l] as const));
 
-      return vehicles.map((v) => {
-        const line = v.routeId ? lineMap.get(v.routeId) : undefined;
-        return {
-          ...v,
-          lineName: line?.name ?? null,
-          lineColor: line?.color ?? null,
-        };
-      });
+      // Strictly filter to ONLY include vehicles matching registered Metro lines
+      return vehicles
+        .filter((v) => v.routeId && lineMap.has(v.routeId))
+        .map((v) => {
+          const line = lineMap.get(v.routeId!);
+          return {
+            ...v,
+            lineName: line?.name ?? null,
+            lineColor: line?.color ?? null,
+          };
+        });
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
       this.logger.warn(`[RealtimeService] DB enrichment failed: ${msg}`);
-      return vehicles;
+      return [];
     }
   }
 }
