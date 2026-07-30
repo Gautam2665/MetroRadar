@@ -137,7 +137,7 @@ export class GeojsonService {
             'coordinates', (
                SELECT json_agg(json_build_array(sh.longitude, sh.latitude) ORDER BY sh.sequence)
                FROM shapes sh
-               WHERE sh."shapeId" = s."shapeId"
+               WHERE sh."shapeId" = s."shapeId" AND sh."systemId" = l."systemId"
             )
           ),
           'properties', json_build_object(
