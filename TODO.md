@@ -1,66 +1,91 @@
-# TransitOS Development Backlog
-Follow this version-by-version checklist to build TransitOS (formerly MetroRadar) as a set of modular blocks.
+# TransitOS Development Backlog & Milestone Tracker
+
+Follow this unified Sprint & Version checklist to build **TransitOS** (formerly MetroRadar) as a modular set of platform blocks.
 
 ---
 
-## 🧱 Active Checklist
+## 🚦 Unified Sprint & Version Mapping
 
-### 🏃 v0.5: Journey Intelligence
-- [ ] Configure monorepo environments (npm workspaces, Turbo / Lerna config).
-- [ ] Create shared tooling configurations (`packages/config` containing eslint, tsconfig).
-- [ ] Build local developer container environments in `docker/dev`.
-- [ ] Enable PostGIS extension and verify geographic coordinate query support.
-- [ ] Write migrations for core CTM schemas (stations, routes, trips, calendars, shapes).
-- [ ] Create migration seed data scripts (e.g. Mumbai Metro Line 2A seed).
-- [ ] Implement static GTFS schedule importer in `apps/backend`.
-- [ ] Design dataset validation CLI for importing real-world feeds (Kochi, Delhi Metro).
-- [ ] Build Dijkstra/A* offline routing algorithms to find paths across subway lines.
-- [ ] Develop stations lookup API (`GET /api/v1/stations`) and geographical proximity search.
+| Sprint | Version | Scope / Milestone Name | Status |
+| :--- | :--- | :--- | :---: |
+| **Sprint 1** | **v0.1** | **Infra & Monorepo Foundation** | ✅ Complete |
+| **Sprint 2** | **v0.2** | **Spatial Database & CTM Schema** | ✅ Complete |
+| **Sprint 3** | **v0.3** | **GTFS Static Ingestion Engine** | ✅ Complete |
+| **Sprint 3.5** | **v0.4** | **Dataset Validation CLI** | ✅ Complete |
+| **Sprint 4** | **v0.4.5** | **GIS Map Engine & Digital Twin** | ✅ Complete |
+| **Sprint 5** | **v0.5** | **Journey Intelligence Pathfinder** | ✅ Complete |
+| **Sprint 5.1** | **v0.5.1** | **GTFS-Realtime Telemetry Infrastructure** | 🚧 Architecture Ready |
+| **Sprint 5.2** | **v0.5.2** | **Stitch Passenger UI Translation** | ⏳ Planned |
+| **Sprint 6** | **v0.6** | **Fare Engine & Mock Ticketing** | ⏳ Planned |
+| **Sprint 7** | **v0.7** | **AI & Language Gateway (Sarvam)** | ⏳ Planned |
+| **Sprint 8** | **v0.8** | **Ambient & Smartwatch Computing** | ⏳ Planned |
 
-### 🏃 v0.5.1: Realtime Infrastructure
-- [ ] Establish feed reader pipeline for GTFS-RT (real-time vehicle positions & service alerts).
-- [ ] Create ingestion sync worker threads in `apps/backend` or separate background worker.
-- [ ] Integrate Redis caching for live vehicle coordinates to bypass PostgreSQL write locks.
-- [ ] Develop WebSocket gateway channels to push real-time train positions to client web app.
+---
 
-### 🏃 v0.6: Passenger Experience (UI)
-- [ ] Initialize Next.js frontend application workspace in `apps/frontend`.
-- [ ] Install map-rendering libraries (Leaflet / MapLibre GL) in the web workspace.
-- [ ] Build map viewport layout showing station points and color-coded line tracks.
-- [ ] Develop station overlay details panel showing facility directories and exits.
-- [ ] Standardize deep dark-mode design variables (Matte Charcoal background, neon accents).
+## 🧱 Completed Milestones (Authoritative Record)
 
-### ⏳ v0.7: Prediction & Live Notifications
-- [ ] Aggregate historical delay records to feed regression models.
-- [ ] Develop transit delay prediction modules to estimate actual arrival timelines.
-- [ ] Build notification scheduler pushing alerts on service interruptions or route deviations.
-- [ ] Link saved routes and station notifications to Passenger Profiles.
+### ✅ Sprint 1 - v0.1: Monorepo & Infrastructure Foundation
+- [x] Configure monorepo environments (`npm` workspaces, root `package.json`).
+- [x] Create shared tooling configurations (`packages/config` containing eslint, tsconfig).
+- [x] Build local developer container environments in `docker/dev`.
+- [x] Establish NestJS backend framework (`apps/backend`) and Next.js frontend framework (`apps/frontend`).
 
-### ⏳ v0.8: Fare Intelligence Engine
-- [ ] Create database tables for fares (Zone tables, Flat fares, Distance matrices).
-- [ ] Build fare calculations module incorporating line sequences and transfers.
-- [ ] Write concession rules evaluation logic (e.g., student/senior discount rates).
-- [ ] Build the Pass Recommendation Engine analyzing scheduled meetings and saved route histories.
+### ✅ Sprint 2 - v0.2: Spatial Database & Canonical Transit Model
+- [x] Enable PostGIS extension (`CREATE EXTENSION IF NOT EXISTS postgis`) and verify spatial queries (`ST_DistanceSphere`).
+- [x] Write Prisma CTM schemas (systems, stations, lines, trips, stop_times, calendars, shapes, entrances, levels, platforms).
+- [x] Create initial database seeding scripts (`prisma/seed.ts` for Mumbai Metro Line 2A & 7).
 
-### ⏳ v0.9: Booking Engine & Adapters
-- [ ] Define a generic `Ticket` JSON model for platform-wide tickets.
-- [ ] Write standard Booking Engine logic: `bookJourney()`, `cancelJourney()`, `refundTicket()`.
-- [ ] Implement generic Provider Adapter Interfaces.
-- [ ] Construct adapters for ticketing brokers (ONDC API, DMRC official API).
+### ✅ Sprint 3 - v0.3: GTFS Static Ingestion Engine
+- [x] Implement static GTFS schedule importer in `apps/backend/src/modules/ingestion`.
+- [x] Build zip feed archive validator (`gtfs-archive.validator.ts`) and station normalizer.
+- [x] Implement database transaction locks for safe feed ingestion session tracking (`IngestionSession`).
 
-### ⏳ v1.0: Payment Intelligence & Wallet
-- [ ] Develop virtual Passenger Payment Profile to track passes, NCMC cards, and UPI links.
-- [ ] Build the Payment Intelligence Engine to calculate the cheapest payment mechanism.
-- [ ] Implement Payment Adapter Layer interfaces (UPI, cards, corporate accounts).
-- [ ] Integrate mock payment verification flows (supporting interactive and silent payments).
+### ✅ Sprint 3.5 - v0.4: Dataset Validation CLI & City Imports
+- [x] Build GTFS dataset validation CLI to parse, test, and import real-world operator feeds.
+- [x] Validate and ingest official GTFS feeds for **Kochi Metro (KMRL)** and **Delhi Metro (DMRC)**.
 
-### ⏳ v1.1: AI & Language Gateway
-- [ ] Implement the **Intelligence Gateway** as the single entry point for conversational helpers.
-- [ ] Integrate query classification models to bypass LLM processing for simple API lookups.
-- [ ] Integrate Sarvam AI for natural language voice recognition and regional translations.
-- [ ] Integrate OpenAI/Gemini reasoning models to explain route options and layout diagrams.
+### ✅ Sprint 4 - v0.4.5: GIS Map Engine & Digital Twin Inspector
+- [x] Integrated MapLibre GL JS vector map engine with CartoDB dark-matter styling.
+- [x] Created `DigitalTwinService` and `StationsController` (`GET /stations/:id/digital-twin`).
+- [x] Created interactive visual station inspector drawer with serving line badges, physical levels, entrances, and amenity tags.
 
-### ⏳ v1.2: Ambient & Proactive Computing
-- [ ] Port live transit ETAs and ticket barcodes to smartwatch layouts.
-- [ ] Connect calendar API to suggest proactive journeys and day pass recommendations.
-- [ ] Prototype AR station pathing navigation overlays using Gemini vision.
+### ✅ Sprint 5 - v0.5: Journey Intelligence Engine
+- [x] Built graph-builder service (`GraphBuilderService`) supporting multi-line transfers and interchange walk connections.
+- [x] Developed Dijkstra routing engine (`RoutingService`, `ScoringService`) with configurable walking weights (`0.8`) and transfer penalties (`180s`).
+- [x] Fixed station interchange walking edges ( Sarai Kale Khan ➔ Dhaula Kuan ➔ IGI Airport travelator connection).
+- [x] Exposed REST endpoint `GET /journeys?from=:originId&to=:destId` returning GeoJSON feature collections and leg timelines.
+
+---
+
+## 🏃 Active & Upcoming Backlog
+
+### 🚧 Sprint 5.1 - v0.5.1: GTFS-Realtime Telemetry Infrastructure (Backend)
+- [x] Architecture & Implementation Plan finalized (`implementation_plan.md`).
+- [ ] Create dedicated `RealtimeModule` (`apps/backend/src/modules/realtime/`).
+- [ ] Implement `FeedPollerService` background scheduler (polled asynchronously every 30s).
+- [ ] Implement `GtfsRtParserService` decoding binary `.pb` streams into `NormalizedVehicle` objects.
+- [ ] Store telemetry in Redis (`realtime:vehicles:OTD:DMRC`) to guarantee sub-5ms client reads.
+- [ ] Expose `GET /realtime/vehicles` with fallback serving last cached data (`isStale: true`) if government feeds fail.
+
+### ⏳ Sprint 5.2 - v0.5.2: Passenger Experience UI Translation
+- [ ] Implement command-center UI design system (`#080C14` matte background, neon line pills, glassmorphism drawers).
+- [ ] Integrate live real-time vehicle markers and next-train ETA badges into the map container.
+- [ ] Build multimodal trip planning view with transfer timeline step cards.
+- [ ] Build placeholder pages (`/passes`, `/alerts`, `/analytics`, `/settings`) with "Coming Soon (Sprint 6+)" platform cards.
+
+### ⏳ Sprint 6 - v0.6: Fare Intelligence & Mock Booking Platform
+- [ ] Build `FareService` calculating zone pricing, flat rates, and transfer discounts.
+- [ ] Build `BookingService` with standard JSON schema: `bookJourney()`, `cancelJourney()`, `refundTicket()`.
+- [ ] Implement Provider Adapter Layer (`MockOndcAdapter`, `MockDmrcAdapter`) returning SVG/Base64 QR pass barcodes.
+- [ ] Build `PaymentService` & `PassengerWallet` managing simulated stored value balances and reference NCMC card numbers (`ncmcCardNumber`).
+
+### ⏳ Sprint 7 - v0.7: AI & Language Gateway (Sarvam AI)
+- [ ] Implement `AIGatewayService` as a thin explanation wrapper.
+- [ ] Enforce Golden Rule: **TransitOS computes, AI communicates** (AI reads structured JSON output, zero direct DB access or route computation).
+- [ ] Integrate Sarvam AI for Indian regional voice recognition and speech/text translation.
+- [ ] Integrate OpenAI/Gemini for route rationale synthesis and station signage image QA.
+
+### ⏳ Sprint 8 - v0.8: Ambient & Proactive Computing
+- [ ] Develop smartwatch layout endpoints for active QR ticket barcodes and live train ETAs.
+- [ ] Connect calendar API to suggest proactive route options (e.g. "Airport meeting tomorrow: Day Pass recommended").
+- [ ] Prototype AR station indoor navigation overlays.
