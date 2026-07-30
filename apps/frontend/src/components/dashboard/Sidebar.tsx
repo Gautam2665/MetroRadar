@@ -540,7 +540,7 @@ export default function Sidebar({
           {/* Dev Console Button (Cleaned up in passenger mode) */}
           <div className="px-6 py-4 border-t border-zinc-850 flex justify-end">
             <button
-              onClick={onDeveloperConsoleOpen}
+              onClick={onToggleDevConsole}
               className="flex items-center space-x-1.5 px-3 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-200 transition text-xs font-semibold hover:border-zinc-700"
             >
               <Terminal className="h-3.5 w-3.5" />
