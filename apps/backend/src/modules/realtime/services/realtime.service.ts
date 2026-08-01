@@ -95,7 +95,12 @@ export class RealtimeService {
           if (!v.routeId || !lineMap.has(v.routeId)) return false;
           return stations.some(
             (s) =>
-              this.haversineKm(v.latitude, v.longitude, s.latitude, s.longitude) <= 2.0,
+              this.haversineKm(
+                v.latitude,
+                v.longitude,
+                s.latitude,
+                s.longitude,
+              ) <= 2.0,
           );
         })
         .map((v) => {

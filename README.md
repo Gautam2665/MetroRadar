@@ -160,12 +160,13 @@ MetroRadar/ (TransitOS Monorepo)
 | **Sprint 3** | **v0.3** | GTFS static ingestion pipelines, import session audit trails | ✅ Complete |
 | **Sprint 3.5** | **v0.4** | Dataset validation suite, imports (Mumbai Metro, Kochi Metro, Delhi Metro) | ✅ Complete |
 | **Sprint 4** | **v0.4.5** | Map layout renderers, station plotting, Digital Twin drawer | ✅ Complete |
-| **Sprint 5** | **v0.5** | Dijkstra pathfinder, multi-station walk interfaces, routing API | ✅ Complete |
-| **Sprint 5.1** | **v0.5.1** | GTFS-RT Telemetry infrastructure (FeedPoller, Redis, GET /realtime/vehicles) | 🚧 Architecture Ready |
-| **Sprint 5.2** | **v0.5.2** | Stitch Passenger UI Translation (Next.js Command-Center UI) | ⏳ Planned |
-| **Sprint 6** | **v0.6** | Fare Engine, Pass Recommender & Mock Booking/Payment Platform | ⏳ Planned |
-| **Sprint 7** | **v0.7** | AI & Language Gateway (Sarvam AI speech/translation, Gemini vision) | ⏳ Planned |
-| **Sprint 8** | **v0.8** | Ambient Computing (Smartwatch layouts, Calendar connectors) | ⏳ Planned |
+| **Sprint 5** | **v0.5** | Journey Intelligence Dijkstra pathfinder & routing API | ✅ Complete |
+| **Sprint 5.5** | **v0.5.5** | National GTFS Certification (6 Metros Ingested) & CTM v1.0 Schema Freeze | ✅ Complete |
+| **Sprint 6** | **v0.6** | Stitch Passenger Experience UI (Next.js Dashboard) | 🚧 Up Next |
+| **Sprint 7** | **v0.7** | Operational State Platform & TDSE Document Synthesis | ⏳ Planned |
+| **Sprint 8** | **v0.8** | Fare Intelligence Engine, Wallet & Booking Platform | ⏳ Planned |
+| **Sprint 9** | **v0.9** | AI & Language Gateway (Sarvam AI speech/translation) | ⏳ Planned |
+| **Sprint 10** | **v1.0** | Ambient & Smartwatch Computing | ⏳ Planned |
 
 ---
 
