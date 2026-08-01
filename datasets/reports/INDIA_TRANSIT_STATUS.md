@@ -13,10 +13,10 @@ $$\text{DISCOVERED} \longrightarrow \text{ACQUIRED} \longrightarrow \text{VALIDA
 |:---|:---|:---|:---|:---|:---:|:---:|:---:|
 | **DMRC** | Delhi-NCR | Delhi Metro Rail Corporation | `OFFICIAL` | `TIER_A` | 🥇 Gold | **90/100** | `IMPORTED` |
 | **KMRL** | Kochi | Kochi Metro Rail Limited | `OFFICIAL` | `TIER_A` | 🥇 Gold | **90/100** | `IMPORTED` |
-| **HMRL** | Hyderabad | Hyderabad Metro Rail Limited | `OFFICIAL` | `TIER_A` | 🥇 Gold | **N/A** | `CERTIFIED` |
-| **BMRCL** | Bengaluru | Namma Metro / BMRCL | `COMMUNITY` | `TIER_B` | 🥈 Silver | **N/A** | `CERTIFIED` |
-| **CMRL** | Chennai | Chennai Metro Rail Limited | `COMMUNITY` | `TIER_B` | 🥈 Silver | **N/A** | `CERTIFIED` |
-| **GMRC** | Ahmedabad | Gujarat Metro Rail Corporation | `COMMUNITY` | `TIER_B` | 🥈 Silver | **N/A** | `CERTIFIED` |
+| **HMRL** | Hyderabad | Hyderabad Metro Rail Limited | `OFFICIAL` | `TIER_A` | 🥇 Gold | **100/100** | `CERTIFIED` |
+| **BMRCL** | Bengaluru | Namma Metro / BMRCL | `COMMUNITY` | `TIER_B` | 🥈 Silver | **100/100** | `CERTIFIED` |
+| **CMRL** | Chennai | Chennai Metro Rail Limited | `COMMUNITY` | `TIER_B` | 🥈 Silver | **100/100** | `CERTIFIED` |
+| **GMRC** | Ahmedabad | Gujarat Metro Rail Corporation | `COMMUNITY` | `TIER_B` | 🥈 Silver | **85/100** | `CERTIFIED` |
 | **MMRDA** | Mumbai | Mumbai Metro | `SYNTHESIZED` | `TIER_X` | ❌ Uncertified | **N/A** | `PLANNED` |
 
 ---
