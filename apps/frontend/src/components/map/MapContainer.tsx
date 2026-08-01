@@ -283,8 +283,20 @@ export default function MapContainer({
           const ms = Math.round(performance.now() - start);
           apiLatencySetter(ms);
 
+          type VehicleData = {
+            vehicleId: string;
+            tripId?: string;
+            routeId?: string;
+            longitude: number;
+            latitude: number;
+            lineName?: string;
+            lineColor?: string;
+            currentStatus?: string;
+            speed?: number;
+          };
+
           const data = await res.json();
-          const vehicles: any[] = data.vehicles || [];
+          const vehicles: VehicleData[] = (data.vehicles as VehicleData[]) || [];
 
           const resolveTrainColor = (lineName?: string, lineColor?: string): string => {
             if (lineColor && lineColor !== "#000000" && lineColor !== "#000") return lineColor;
@@ -372,7 +384,8 @@ export default function MapContainer({
               const features = map.queryRenderedFeatures(e.point, { layers: ["realtime-vehicles-core"] });
               if (features.length > 0) {
                 const props = features[0].properties;
-                const coords = (features[0].geometry as any).coordinates;
+                const pointGeom = features[0].geometry as GeoJSON.Point;
+                const coords = pointGeom.coordinates as [number, number];
                 new maplibregl.Popup({ closeButton: true })
                   .setLngLat(coords)
                   .setHTML(`

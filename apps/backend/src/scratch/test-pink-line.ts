@@ -43,4 +43,4 @@ async function main() {
   }
 }
 
-main().finally(() => db.$disconnect());
+void main().finally(() => db.$disconnect());

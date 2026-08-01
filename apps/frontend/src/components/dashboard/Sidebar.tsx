@@ -14,12 +14,11 @@ import {
   Sparkles,
   ChevronRight,
 } from "lucide-react";
-import DigitalTwinInspector, { formatLineName } from "./DigitalTwinInspector";
+import { formatLineName } from "./DigitalTwinInspector";
 import {
   JourneyPlannerForm,
   JourneySummaryCard,
   type JourneyResult,
-  type StationSuggestion,
 } from "./JourneyPlanner";
 import JourneyTimeline from "./JourneyTimeline";
 
@@ -75,15 +74,11 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:300
 export default function Sidebar({
   activeCity,
   onCityChange,
-  selectedStationId,
   onStationSelect,
   activeLayers,
   onToggleLayer,
-  loadedLayersCount,
   onFlyToCoordinates,
   onJourneyResult,
-  apiLatency,
-  cacheHit,
   apiLatencySetter,
   onToggleDevConsole,
   onModeChange,

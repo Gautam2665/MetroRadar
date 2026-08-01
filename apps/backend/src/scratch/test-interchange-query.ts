@@ -39,4 +39,4 @@ async function main() {
   console.log('Query result:', nearbyInterchanges);
 }
 
-main().finally(() => db.$disconnect());
+void main().finally(() => db.$disconnect());
