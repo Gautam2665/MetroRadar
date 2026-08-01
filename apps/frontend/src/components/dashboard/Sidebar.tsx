@@ -19,6 +19,7 @@ import {
   JourneyPlannerForm,
   JourneySummaryCard,
   type JourneyResult,
+  type StationSuggestion,
 } from "./JourneyPlanner";
 import JourneyTimeline from "./JourneyTimeline";
 
