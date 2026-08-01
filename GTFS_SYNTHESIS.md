@@ -665,14 +665,14 @@ The passenger app does not expose raw confidence numbers. Instead, it translates
 
 TransitOS's GTFS availability, source mapping, and synthesis strategy across all Indian metro systems:
 
-### Indian Metro GTFS Availability Matrix
+### Indian Metro & Regional Rail GTFS Availability Matrix
 
-| # | Metro System | City | Status | Static GTFS Source | RT Source / Status | TransitOS Strategy | Importer Compatibility |
+| # | System Name | City / Region | Status | Static GTFS Source | RT Source / Status | TransitOS Strategy | Importer Compatibility |
 |:--|:---|:---|:---|:---|:---|:---|:---|
-| 1 | **DMRC** | Delhi | Operational | ✅ Official ([otd.delhi.gov.in](https://otd.delhi.gov.in)) | ⚠️ OTD API (poor quality) | Import static; Level 2 filtering / SEE | ✅ 100% (In CTM) |
+| 1 | **DMRC** | Delhi-NCR | Operational | ✅ Official ([transportstack.delhi.gov.in](https://transportstack.delhi.gov.in)) | ⚠️ OTD API (poor quality) | Import static; Level 2 filtering / SEE | ✅ 100% (In CTM) |
 | 2 | **KMRL** | Kochi | Operational | ✅ Official ([kochimetro.org](https://kochimetro.org)) | ⚠️ Partial | Import static; Level 3 SEE | ✅ 100% (In CTM) |
 | 3 | **HMRL** | Hyderabad | Operational | ✅ Official ([hmrl.co.in/open-data](https://hmrl.co.in/open-data.html)) | ⚠️ Limited | Import static; Level 3 SEE | ✅ 100% Compatible |
-| 4 | **NCRTC** | Delhi-NCR | Operational | ✅ Official ([otd.delhi.gov.in](https://otd.delhi.gov.in)) | ❌ None | Import static; Level 3 SEE | ✅ 100% Compatible |
+| 4 | **NCRTC RRTS (Namo Bharat)** | Delhi-Ghaziabad-Meerut | Operational (since Oct 2023) | 🔶 Separate Regional Agency | ❌ None | TDSE Synthesis / Regional Transit Adapter | 🔄 Separate System ID |
 | 5 | **BMRCL** | Bengaluru | Operational | 🌐 Community ([Vonter/bmrcl-gtfs](https://github.com/Vonter/bmrcl-gtfs)) | ❌ None | Import community GTFS; Level 3 SEE | ✅ 100% Compatible |
 | 6 | **CMRL** | Chennai | Operational | 🌐 Community ([ungalsoththu/ChennaiGTFS](https://github.com/ungalsoththu/ChennaiGTFS)) | ❌ None | Import community GTFS (`frequencies.txt`); Level 3 SEE | ✅ 100% Compatible |
 | 7 | **GMRC** | Ahmedabad | Operational | 🌐 Community ([notnamansinha/ahmedabad-transit-gtfs-pipeline](https://github.com/notnamansinha/ahmedabad-transit-gtfs-pipeline)) | ❌ None | Import community ETL GTFS; Level 3 SEE | ✅ 100% Compatible |
