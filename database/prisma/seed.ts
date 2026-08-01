@@ -1,43 +1,82 @@
-import { PrismaClient, SystemStatus, LineStatus, TractionType, SignallingType, LevelType, PlatformStatus } from '@prisma/client';
+import { PrismaClient, SystemStatus, LineStatus, TractionType, SignallingType, LevelType, PlatformStatus, SourceType, TrustTier } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('Seeding MetroRadar database...');
+  console.log('Seeding MetroRadar database (Idempotent CTM v1.0 Seed)...');
 
-  // 1. Create System
-  const system = await prisma.system.create({
-    data: {
+  // 1. Upsert System
+  const system = await prisma.system.upsert({
+    where: { code: 'MM' },
+    update: {
+      name: 'Mumbai Metro',
+      city: 'Mumbai',
+      country: 'India',
+      timezone: 'Asia/Kolkata',
+      status: SystemStatus.ACTIVE,
+      sourceType: SourceType.SYNTHESIZED,
+      trustTier: TrustTier.TIER_X,
+      qualityScore: 80.0,
+      badgeTier: 'Silver',
+    },
+    create: {
       code: 'MM',
       name: 'Mumbai Metro',
       city: 'Mumbai',
       country: 'India',
       timezone: 'Asia/Kolkata',
       status: SystemStatus.ACTIVE,
+      sourceType: SourceType.SYNTHESIZED,
+      trustTier: TrustTier.TIER_X,
+      qualityScore: 80.0,
+      badgeTier: 'Silver',
     },
   });
 
-  // 2. Create Agency
-  const agency = await prisma.agency.create({
-    data: {
+  // 2. Upsert Agency
+  const agency = await prisma.agency.upsert({
+    where: { code: 'MMMOCL' },
+    update: {
+      name: 'Maha Mumbai Metro Operation Corporation Limited',
+      website: 'https://www.mmmocl.co.in',
+    },
+    create: {
       code: 'MMMOCL',
       name: 'Maha Mumbai Metro Operation Corporation Limited',
       website: 'https://www.mmmocl.co.in',
     },
   });
 
-  // 3. Create AssetOwner
-  const assetOwner = await prisma.assetOwner.create({
-    data: {
+  // 3. Upsert AssetOwner
+  const assetOwner = await prisma.assetOwner.upsert({
+    where: { code: 'MMRDA' },
+    update: {
+      name: 'Mumbai Metropolitan Region Development Authority',
+      website: 'https://mmrda.maharashtra.gov.in',
+    },
+    create: {
       code: 'MMRDA',
       name: 'Mumbai Metropolitan Region Development Authority',
       website: 'https://mmrda.maharashtra.gov.in',
     },
   });
 
-  // 4. Create Line
-  const line = await prisma.line.create({
-    data: {
+  // 4. Upsert Line
+  const line = await prisma.line.upsert({
+    where: { code: 'LINE_2A' },
+    update: {
+      systemId: system.id,
+      agencyId: agency.id,
+      assetOwnerId: assetOwner.id,
+      name: 'Line 2A (Yellow Line)',
+      color: '#FFD700',
+      status: LineStatus.ACTIVE,
+      traction: TractionType.OVERHEAD_CATENARY,
+      signalling: SignallingType.CBTC,
+      gauge: '1435mm',
+      length: 18.6,
+    },
+    create: {
       systemId: system.id,
       agencyId: agency.id,
       assetOwnerId: assetOwner.id,
@@ -52,156 +91,38 @@ async function main() {
     },
   });
 
-  // 5. Create Stations
-  // Dahisar East
-  const dahisar = await prisma.station.create({
-    data: {
-      systemId: system.id,
-      code: 'DAHISAR_EAST',
-      name: 'Dahisar East',
-      latitude: 19.2682,
-      longitude: 72.8631,
-      timezone: 'Asia/Kolkata',
-      city: 'Mumbai',
-      state: 'Maharashtra',
-      country: 'India',
-      wheelchairAccessible: true,
-    },
-  });
-
-  // Kandarpada
-  const kandarpada = await prisma.station.create({
-    data: {
-      systemId: system.id,
-      code: 'KANDARPADA',
-      name: 'Kandarpada',
-      latitude: 19.2558,
-      longitude: 72.8532,
-      timezone: 'Asia/Kolkata',
-      city: 'Mumbai',
-      state: 'Maharashtra',
-      country: 'India',
-      wheelchairAccessible: true,
-    },
-  });
-
-  // Borivali West
-  const borivali = await prisma.station.create({
-    data: {
-      systemId: system.id,
-      code: 'BORIVALI_WEST',
-      name: 'Borivali West',
-      latitude: 19.2312,
-      longitude: 72.8465,
-      timezone: 'Asia/Kolkata',
-      city: 'Mumbai',
-      state: 'Maharashtra',
-      country: 'India',
-      wheelchairAccessible: true,
-    },
-  });
-
-  // 6. StationSequence
-  // Dahisar East -> Kandarpada -> Borivali West
-  await prisma.stationSequence.create({
-    data: {
-      lineId: line.id,
-      stationId: dahisar.id,
-      sequence: 1,
-      distanceFromPrevious: 0.0,
-      travelTimeFromPrevious: 0,
-      nextStationId: kandarpada.id,
-    },
-  });
-
-  await prisma.stationSequence.create({
-    data: {
-      lineId: line.id,
-      stationId: kandarpada.id,
-      sequence: 2,
-      distanceFromPrevious: 1600.0,
-      travelTimeFromPrevious: 120,
-      nextStationId: borivali.id,
-    },
-  });
-
-  await prisma.stationSequence.create({
-    data: {
-      lineId: line.id,
-      stationId: borivali.id,
-      sequence: 3,
-      distanceFromPrevious: 2700.0,
-      travelTimeFromPrevious: 210,
-    },
-  });
-
-  // 7. Station Container Elements (Levels, Platforms, Entrances)
-  const stationContainers = [
-    { station: dahisar, name: 'Dahisar East' },
-    { station: kandarpada, name: 'Kandarpada' },
-    { station: borivali, name: 'Borivali West' }
+  // 5. Upsert Stations
+  const stationDefs = [
+    { code: 'DAHISAR_EAST', name: 'Dahisar East', lat: 19.2682, lon: 72.8631 },
+    { code: 'KANDARPADA', name: 'Kandarpada', lat: 19.2558, lon: 72.8532 },
+    { code: 'BORIVALI_WEST', name: 'Borivali West', lat: 19.2312, lon: 72.8465 },
   ];
 
-  for (const s of stationContainers) {
-    // One Concourse level
-    await prisma.level.create({
-      data: {
-        stationId: s.station.id,
-        name: 'Concourse Level',
-        levelNumber: 1,
-        type: LevelType.CONCOURSE,
-        description: `Main ticketing and fare control level for ${s.name}`,
+  for (const s of stationDefs) {
+    await prisma.station.upsert({
+      where: { code: s.code },
+      update: {
+        systemId: system.id,
+        name: s.name,
+        latitude: s.lat,
+        longitude: s.lon,
+        timezone: 'Asia/Kolkata',
+        city: 'Mumbai',
+        state: 'Maharashtra',
+        country: 'India',
+        wheelchairAccessible: true,
       },
-    });
-
-    // One Platform level
-    const platformLevel = await prisma.level.create({
-      data: {
-        stationId: s.station.id,
-        name: 'Platform Level',
-        levelNumber: 2,
-        type: LevelType.PLATFORM,
-        description: `Train boarding level for ${s.name}`,
-      },
-    });
-
-    // Two Platforms on Platform Level
-    // Platform 1: Towards Borivali West / Andheri West
-    await prisma.platform.create({
-      data: {
-        levelId: platformLevel.id,
-        lineId: line.id,
-        platformNumber: 'Platform 1',
-        towardsStationId: borivali.id,
-        status: PlatformStatus.ACTIVE,
-        screenDoors: true,
-        wheelchairBoarding: true,
-      },
-    });
-
-    // Platform 2: Towards Dahisar East
-    await prisma.platform.create({
-      data: {
-        levelId: platformLevel.id,
-        lineId: line.id,
-        platformNumber: 'Platform 2',
-        towardsStationId: dahisar.id,
-        status: PlatformStatus.ACTIVE,
-        screenDoors: true,
-        wheelchairBoarding: true,
-      },
-    });
-
-    // One Entrance on Street Level
-    await prisma.entrance.create({
-      data: {
-        stationId: s.station.id,
-        name: 'Entrance A',
-        latitude: s.station.latitude + 0.0001,
-        longitude: s.station.longitude + 0.0001,
-        accessible: true,
-        escalator: true,
-        lift: true,
+      create: {
+        systemId: system.id,
+        code: s.code,
+        name: s.name,
+        latitude: s.lat,
+        longitude: s.lon,
+        timezone: 'Asia/Kolkata',
+        city: 'Mumbai',
+        state: 'Maharashtra',
+        country: 'India',
+        wheelchairAccessible: true,
       },
     });
   }
@@ -211,7 +132,7 @@ async function main() {
 
 main()
   .catch((e) => {
-    console.error(e);
+    console.error('Seeding error:', e);
     process.exit(1);
   })
   .finally(async () => {
