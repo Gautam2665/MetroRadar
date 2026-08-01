@@ -1,10 +1,12 @@
 # TransitOS Roadmap
-This roadmap documents the multi-phase product vision, the three vertical platform layers, and the version-based roadmap (v0.5 to v1.2) for the **TransitOS** platform.
+This roadmap documents the multi-phase product vision, the four vertical platform layers, and the version-based roadmap (v0.5 to v1.2) for the **TransitOS** platform.
+
+> **See [GTFS_SYNTHESIS.md](./GTFS_SYNTHESIS.md)** for the complete specification of the Transit Data Synthesis Engine (TDSE), document classification system, and the all-metro synthesis strategy.
 
 ---
 
-## 📅 Platform Vision: The Three Vertical Layers
-Instead of a simple map application, TransitOS is structured as three independent, integrated platform layers that stack on top of each other:
+## 📅 Platform Vision: The Four Vertical Layers
+TransitOS is India's GTFS Infrastructure Platform, structured as four independent, integrated platform layers:
 
 ```mermaid
 graph TD
@@ -17,21 +19,31 @@ graph TD
 
     subgraph Layer2["Layer 2: Transit Intelligence Platform"]
         E["Journey Intelligence Engine"]
+        SE["State Estimation Engine"]
         F["Fare Intelligence Engine"]
         G["Prediction Engine (Delay Propagation)"]
         H["Booking Engine & Payment Intelligence"]
     end
 
     subgraph Layer1["Layer 1: Transit Data Platform"]
-        I["GTFS Ingestion Pipeline (Static & Realtime)"]
+        I["GTFS Pipeline (Official / Synthesized)"]
         J["Canonical Transit Model (CTM)"]
         K["PostgreSQL + PostGIS Spatial DB"]
         L["REST & WebSocket Public APIs"]
     end
 
+    subgraph Layer0["Layer 0: Transit Knowledge Platform"]
+        TDSE["Transit Data Synthesis Engine (TDSE)"]
+        DC["Document Classifier (Cat. A–I + X)"]
+        PV["Provenance & Confidence Engine"]
+        KG["Knowledge Graph"]
+    end
+
+    Layer0 --> Layer1
     Layer1 --> Layer2
     Layer2 --> Layer3
 
+    style Layer0 fill:#1e293b,stroke:#a855f7,stroke-width:2px,color:#f8fafc
     style Layer1 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#f8fafc
     style Layer2 fill:#1e293b,stroke:#06b6d4,stroke-width:2px,color:#f8fafc
     style Layer3 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#f8fafc
@@ -59,13 +71,16 @@ v1.2 (Ambient) <── v1.1 (Voice & AI Gateway) <── v1.0 (Payments) <──
     *   GTFS Static importer pipeline with transaction-safe validation CLI.
     *   Core graph-based routing engine utilizing Dijkstra/A* for station paths.
 
-#### **v0.5.1 — Realtime Ingestion & Cache**
-*   **Goal**: Feed live vehicle positions and service warnings into the system.
+#### **v0.5.1 — Realtime Infrastructure**
+*   **Goal**: Build a multi-level realtime feed infrastructure that works for metros with official feeds, noisy official feeds, AND metros with no realtime at all.
 *   **Deliverables**:
-    *   GTFS-Realtime Protobuf parsers (Vehicle Positions & Trip Updates).
-    *   Redis cache layer configuration for telemetry overlays (avoiding PostgreSQL write locks).
+    *   **Official Feed Adapter (Level 1)**: GTFS-Realtime Protobuf parsers (Vehicle Positions & Trip Updates) for metros publishing official feeds.
+    *   **Enhanced Official Adapter (Level 2)**: Validation and filtering layer for noisy/poor-quality official feeds (e.g., Delhi Metro DTC false-positive filtering, Haversine distance thresholds).
+    *   **State Estimation Engine scaffold (Level 3)**: Schedule-driven estimated vehicle position generator for metros with no official realtime (Mumbai, Pune, Nagpur, etc.).
+    *   Redis cache layer for all telemetry overlays (avoiding PostgreSQL write locks).
     *   Background pollers and synchronization workers.
-    *   WebSocket broadcast channels for pushing real-time alerts directly to browsers.
+    *   WebSocket broadcast channels for pushing real-time positions to browsers.
+    *   `source` and `confidence` metadata on every realtime payload (`official` / `enhanced` / `estimated`).
 
 #### **v0.6 — Passenger Experience (UI)**
 *   **Goal**: Build a premium dark-mode web application and administrative analytics dashboard.
@@ -125,3 +140,36 @@ v1.2 (Ambient) <── v1.1 (Voice & AI Gateway) <── v1.0 (Payments) <──
     *   Smartwatch remote interface for ticketing and ETAs.
     *   Calendar connector to preemptively book rides or issue alerts (e.g., "Airport meeting tomorrow: Day Pass recommended").
     *   AR indoor routing prototypes using Gemini vision features.
+
+---
+
+### 🔬 Phase 4: GTFS Synthesis & All-Metro Expansion (Future Sprints)
+
+> These sprints are **long-term architecture**, not upcoming execution work. They represent the next frontier after v1.2 and will be scoped into discrete sprints as earlier phases complete.
+
+#### **v1.3 — Transit Data Synthesis Engine (TDSE) v1**
+*   **Goal**: Build the first production version of the document ingestion and GTFS synthesis pipeline.
+*   **Deliverables**:
+    *   Document Repository with Category A–I classification UI
+    *   Extraction pipelines for PDF timetables, DPR tables, and GIS shapefiles
+    *   Physics modeler (distance + rolling stock → travel times)
+    *   GTFS Schedule generator validated against `gtfs-validator`
+    *   Provenance Engine: `ProvenanceRecord` attached to every synthesized field
+    *   Confidence Scorer with passenger-facing label mapping (`Live` / `Approx.` / `Estimated` / `Scheduled`)
+    *   First synthesized metro: **Mumbai Metro Line 1** (MMRDA)
+
+#### **v1.4 — All-Metro Synthesis Rollout**
+*   **Goal**: Onboard all operational Indian metro systems into TransitOS.
+*   **Deliverables**:
+    *   Phase 3 metros synthesized: Pune, Nagpur, Chennai, Lucknow, Ahmedabad, Jaipur, Kolkata, Kanpur
+    *   Pre-synthesis for opening metros: Navi Mumbai, Agra, Indore, Surat, Patna, Bhopal
+    *   Open data publication of all synthesized GTFS feeds
+    *   Knowledge Graph covering full Indian metro network
+
+#### **v1.5 — Full State Estimation & Estimated GTFS-Realtime**
+*   **Goal**: Generate estimated GTFS-Realtime for metros with no official feed.
+*   **Deliverables**:
+    *   Full State Estimation Engine (SEE) with historical calibration
+    *   Estimated GTFS-Realtime feeds for all synthesis-based metros
+    *   Category I observation fusion (crowdsource + GPS traces)
+    *   TransitOS becomes first community platform providing both GTFS Schedule AND estimated GTFS-RT for metros without official data
