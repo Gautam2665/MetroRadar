@@ -14,11 +14,12 @@ Follow this unified Sprint & Version checklist to build **TransitOS** (formerly 
 | **Sprint 3.5** | **v0.4** | **Dataset Validation CLI** | ✅ Complete |
 | **Sprint 4** | **v0.4.5** | **GIS Map Engine & Digital Twin** | ✅ Complete |
 | **Sprint 5** | **v0.5** | **Journey Intelligence Pathfinder** | ✅ Complete |
-| **Sprint 5.1** | **v0.5.1** | **GTFS-Realtime Telemetry Infrastructure** | 🚧 Architecture Ready |
-| **Sprint 5.2** | **v0.5.2** | **Stitch Passenger UI Translation** | ⏳ Planned |
-| **Sprint 6** | **v0.6** | **Fare Engine & Mock Ticketing** | ⏳ Planned |
-| **Sprint 7** | **v0.7** | **AI & Language Gateway (Sarvam)** | ⏳ Planned |
-| **Sprint 8** | **v0.8** | **Ambient & Smartwatch Computing** | ⏳ Planned |
+| **Sprint 5.5** | **v0.5.5** | **National GTFS Certification & CTM v1.0 Schema Freeze** | ✅ Complete |
+| **Sprint 6** | **v0.6** | **Stitch Passenger Experience UI** | 🚧 Up Next |
+| **Sprint 7** | **v0.7** | **Operational State Platform & TDSE Engine** | ⏳ Planned |
+| **Sprint 8** | **v0.8** | **Fare Engine, Wallet & Booking Platform** | ⏳ Planned |
+| **Sprint 9** | **v0.9** | **AI & Language Gateway (Sarvam AI)** | ⏳ Planned |
+| **Sprint 10** | **v1.0** | **Ambient & Smartwatch Computing** | ⏳ Planned |
 
 ---
 
@@ -52,8 +53,16 @@ Follow this unified Sprint & Version checklist to build **TransitOS** (formerly 
 ### ✅ Sprint 5 - v0.5: Journey Intelligence Engine
 - [x] Built graph-builder service (`GraphBuilderService`) supporting multi-line transfers and interchange walk connections.
 - [x] Developed Dijkstra routing engine (`RoutingService`, `ScoringService`) with configurable walking weights (`0.8`) and transfer penalties (`180s`).
-- [x] Fixed station interchange walking edges ( Sarai Kale Khan ➔ Dhaula Kuan ➔ IGI Airport travelator connection).
+- [x] Fixed station interchange walking edges (Sarai Kale Khan ➔ Dhaula Kuan ➔ IGI Airport travelator connection).
 - [x] Exposed REST endpoint `GET /journeys?from=:originId&to=:destId` returning GeoJSON feature collections and leg timelines.
+
+### ✅ Sprint 5.5 - v0.5.5: National Transit Data Certification & CTM v1.0 Schema Freeze
+- [x] Built 5-stage lifecycle governance pipeline (`DISCOVERED` ➔ `ACQUIRED` ➔ `VALIDATED` ➔ `CERTIFIED` ➔ `IMPORTED`).
+- [x] Established Trust Tier system (`OFFICIAL` / Tier A, `COMMUNITY` / Tier B, `SYNTHESIZED` / Tier X).
+- [x] Implemented pure static 100-pt GTFS Quality Scorer (`tools/quality-scorer.ts`) & National Certification CLI (`tools/certify-national-gtfs.ts`).
+- [x] Certified and imported 6 Indian metro networks into PostgreSQL (Delhi, Kochi, Hyderabad, Bengaluru, Chennai, Ahmedabad).
+- [x] Generated Master National Dashboard (`INDIA_TRANSIT_STATUS.md`) and individual audit reports (`CERTIFICATION_*.md`).
+- [x] Officially declared **Canonical Transit Model (CTM v1.0) PostgreSQL Database Schema FROZEN**.
 
 ---
 
