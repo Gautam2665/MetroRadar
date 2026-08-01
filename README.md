@@ -191,7 +191,7 @@ MetroRadar/ (TransitOS Monorepo)
     ```
     Configure the variables inside `.env` to match your local setup:
     ```env
-    DATABASE_URL="postgresql://postgres:postgres@localhost:5432/metroradar?schema=public"
+    DATABASE_URL="postgresql://<username>:<password>@localhost:5432/metroradar?schema=public"
     ```
 3.  **Install dependencies:**
     ```bash
