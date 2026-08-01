@@ -1,32 +1,45 @@
 # MetroRadar Architecture Manual
 
-This document details the architectural principles, design patterns, data schemas, and engineering strategies powering the MetroRadar Urban Mobility Platform.
+This document details the architectural principles, design patterns, data schemas, and engineering strategies powering the TransitOS Urban Mobility Platform.
+
+> **Major Architecture Update (2026-08)**: TransitOS has adopted a four-layer platform model with the addition of **Layer 0: Transit Knowledge Platform**. See [GTFS_SYNTHESIS.md](./GTFS_SYNTHESIS.md) for the full Transit Data Synthesis Engine (TDSE) specification.
 
 ---
 
 ## 🗺️ System Overview
 
-MetroRadar is structured as a modular, containerized monorepo composed of a NestJS backend application, a Next.js frontend dashboard, and a PostGIS/Redis data layer.
+TransitOS is structured as a modular, containerized monorepo composed of a NestJS backend application, a Next.js frontend dashboard, a PostGIS/Redis data layer, and a Transit Data Synthesis Engine (TDSE) that generates GTFS feeds from operator documents.
 
 ```mermaid
 graph TD
-    Client[Next.js Frontend Dashboard]
+    Documents["Operator Documents / GIS / DPRs"]
+    TDSE["Transit Data Synthesis Engine (TDSE)\nLayer 0: Transit Knowledge Platform"]
+    OfficialGTFS["Official GTFS Feeds"]
+    CTM["Canonical Transit Model (CTM)\nPostgreSQL + PostGIS"]
     API[NestJS API Gateway / Controllers]
+    JourneyEngine["Journey Intelligence Engine"]
+    SEE["State Estimation Engine"]
     GeoService[GeojsonService]
     TwinService[DigitalTwinService]
     SearchService[SearchService]
     Redis[Redis Cache Layer]
-    Postgres[(PostgreSQL + PostGIS)]
+    Client[Next.js Frontend Dashboard]
     
-    Client -->|REST / WebSocket| API
+    Documents --> TDSE
+    OfficialGTFS --> CTM
+    TDSE --> CTM
+    CTM --> API
     API -->|Read/Write Cache| Redis
+    API --> JourneyEngine
+    API --> SEE
     API -->|GeoJSON Requests| GeoService
     API -->|Twin Inspector Requests| TwinService
     API -->|Search Indexes| SearchService
-    
-    GeoService --> Postgres
-    TwinService --> Postgres
-    SearchService --> Postgres
+    SEE --> Redis
+    GeoService --> CTM
+    TwinService --> CTM
+    SearchService --> CTM
+    API -->|REST / WebSocket| Client
 ```
 
 ---
@@ -156,3 +169,62 @@ The GIS module enforces strict separation of concerns to keep the codebase highl
 *   **URL Versioning**: All production routes will eventually follow `/api/v1/...` to guarantee backward compatibility for third-party integrations.
 *   **Strict Contracts**: Output schemas use TypeScript interfaces and class-validator DTOs, keeping schema contracts secure.
 *   **Automatic Fallbacks**: Data mismatches (such as missing GTFS route colors) are captured and normalized at the service layer before reaching the client, preventing runtime crashes.
+
+---
+
+## 🧠 8. Transit Data Synthesis Engine (TDSE) — Layer 0
+
+The TDSE is the newest architectural layer in TransitOS. It sits beneath Layer 1 (Transit Data) and is responsible for transforming raw operator documents into standards-compliant GTFS feeds and CTM records.
+
+> For the full specification, see **[GTFS_SYNTHESIS.md](./GTFS_SYNTHESIS.md)**.
+
+### Core Insight
+
+Most journey planners are **consumers** of GTFS. TransitOS is a **producer** of GTFS. This is the fundamental competitive advantage — instead of waiting for operators to publish a feed, TransitOS synthesizes one from whatever authoritative documentation is publicly available (DPRs, timetable PDFs, GIS data, rolling stock specs).
+
+### TDSE Data Flow
+
+```
+Category A — Network Topology (DPRs, alignment drawings)
+Category B — Station Infrastructure (platform plans)
+Category C — Operations (timetables, headways)
+Category D — Rolling Stock (train specs, max speed, acceleration)
+Category E — Signalling (CBTC manuals, speed restrictions)
+Category F — GIS & Spatial (shapefiles, OSM, GPS surveys)
+Category G — Commercial (fare charts, amenities)
+Category H — Historical Operations (archived timetables, delay reports)
+Category I — Live Observations (GTFS-RT, crowdsource, GPS)
+         │
+         ▼
+  Transit Data Synthesis Engine
+  ┌─────────────────────────────────────┐
+  │ Extractor → Physics Modeler         │
+  │ Schedule Generator → Validator      │
+  │ Provenance Engine → Confidence Scorer│
+  └─────────────────────────────────────┘
+         │
+         ├── GTFS Schedule (stops.txt, trips.txt, stop_times.txt ...)
+         ├── Canonical Transit Model (CTM)
+         └── Category X: ProvenanceRecords + Confidence Scores
+```
+
+### Realtime Level Architecture
+
+TransitOS does not assume realtime data exists. It defines three levels:
+
+| Level | Name | Source | Confidence | Used For |
+|:---|:---|:---|:---|:---|
+| **1** | Official | Operator GTFS-RT | 95–99% | Kochi, Hyderabad |
+| **2** | Enhanced Official | Official + filtering/validation | 85–99% | Delhi (DTC bus false-positive removal) |
+| **3** | Estimated | State Estimation Engine | 60–90% | Mumbai, Pune, Nagpur, all synthesis metros |
+
+Every realtime API response carries `source` and `confidence` fields. The frontend never assumes live data is official.
+
+### State Estimation Engine (SEE)
+
+The SEE generates estimated vehicle positions for metros with no official realtime feed. It uses:
+- The synthesized GTFS schedule from TDSE
+- Learned dwell times from Category H (historical data)
+- Category I observations (GPS traces, crowdsource) to improve estimates
+
+Output: an **Estimated GTFS-Realtime** feed, clearly labeled as `source: "estimated"`, published alongside official feeds where they exist.
