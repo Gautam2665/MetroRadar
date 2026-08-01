@@ -68,21 +68,39 @@ enum CommercialSpaceStatus {
   UNDER_MAINTENANCE
 }
 
+enum SourceType {
+  OFFICIAL
+  COMMUNITY
+  SYNTHESIZED
+  TRANSITOS_GENERATED
+}
+
+enum TrustTier {
+  TIER_A
+  TIER_B
+  TIER_C
+  TIER_X
+}
+
 model System {
-  id        String       @id @default(uuid()) @db.Uuid
-  code      String       @unique
-  name      String
-  city      String
-  country   String
-  timezone  String
-  logo      String?
-  website   String?
-  status    SystemStatus @default(ACTIVE)
-  isActive  Boolean      @default(true)
-  deletedAt DateTime?    @db.Timestamptz
-  createdAt DateTime     @default(now()) @db.Timestamptz
-  updatedAt DateTime     @updatedAt @db.Timestamptz
-  version   Int          @default(1)
+  id          String       @id @default(uuid()) @db.Uuid
+  code        String       @unique
+  name        String
+  city        String
+  country     String
+  timezone    String
+  logo        String?
+  website     String?
+  status      SystemStatus @default(ACTIVE)
+  sourceType  SourceType   @default(OFFICIAL)
+  trustTier   TrustTier    @default(TIER_A)
+  qualityScore Float?
+  badgeTier   String?
+  isActive    Boolean      @default(true)
+  deletedAt   DateTime?    @db.Timestamptz
+  createdAt   DateTime     @default(now()) @db.Timestamptz
+  updatedAt   DateTime     @updatedAt @db.Timestamptz
+  version     Int          @default(1)
 
   lines          Line[]
   stations       Station[]

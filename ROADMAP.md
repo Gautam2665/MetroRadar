@@ -55,10 +55,10 @@ graph TD
 We build TransitOS by crafting independent, loosely-coupled blocks that connect through stable APIs.
 
 ```
-v0.5 (Journey API) ──> v0.5.1 (Realtime) ──> v0.6 (Web UI) ──> v0.7 (Predictions) ──> v0.8 (Fare Engine)
-                                                                                            │
-                                                                                            ▼
-v1.2 (Ambient) <── v1.1 (Voice & AI Gateway) <── v1.0 (Payments) <── v0.9 (Booking Platform) <──┘
+v0.5 (Journey API) ──> v0.5.5 (National GTFS Certification) ──> v0.6 (Stitch Web UI) ──> v0.7 (Operational State Platform)
+                                                                                                        │
+                                                                                                        ▼
+v1.2 (Ambient) <── v1.1 (Voice & AI Gateway) <── v1.0 (Payments) <── v0.9 (Booking Platform) <── v0.8 (Fare Engine)
 ```
 
 ### 🏁 Phase 1: Core Transit & Maps (Immediate MVP Sprints)
@@ -71,23 +71,23 @@ v1.2 (Ambient) <── v1.1 (Voice & AI Gateway) <── v1.0 (Payments) <──
     *   GTFS Static importer pipeline with transaction-safe validation CLI.
     *   Core graph-based routing engine utilizing Dijkstra/A* for station paths.
 
-#### **v0.5.1 — Realtime Infrastructure**
-*   **Goal**: Build a multi-level realtime feed infrastructure that works for metros with official feeds, noisy official feeds, AND metros with no realtime at all.
+#### **v0.5.5 — Sprint 5.5: National Transit Data Certification (COMPLETED ✅)**
+*   **Goal**: Governance, quality scoring, and certification across all available Indian GTFS datasets to freeze CTM v1.0.
 *   **Deliverables**:
-    *   **Official Feed Adapter (Level 1)**: GTFS-Realtime Protobuf parsers (Vehicle Positions & Trip Updates) for metros publishing official feeds.
-    *   **Enhanced Official Adapter (Level 2)**: Validation and filtering layer for noisy/poor-quality official feeds (e.g., Delhi Metro DTC false-positive filtering, Haversine distance thresholds).
-    *   **State Estimation Engine scaffold (Level 3)**: Schedule-driven estimated vehicle position generator for metros with no official realtime (Mumbai, Pune, Nagpur, etc.).
-    *   Redis cache layer for all telemetry overlays (avoiding PostgreSQL write locks).
-    *   Background pollers and synchronization workers.
-    *   WebSocket broadcast channels for pushing real-time positions to browsers.
-    *   `source` and `confidence` metadata on every realtime payload (`official` / `enhanced` / `estimated`).
+    *   **5-Stage Governance Pipeline**: `DISCOVERED` ➔ `ACQUIRED` ➔ `VALIDATED` ➔ `CERTIFIED` ➔ `IMPORTED`.
+    *   **Trust Tiers & Provenance**: `OFFICIAL` (`Trust Tier A`), `COMMUNITY` (`Trust Tier B`), `SYNTHESIZED` (`Trust Tier X`).
+    *   **4-Tier Dataset Versioning**: `feedVersion`, `schemaVersion` (`CTM v1.0`), `importVersion` (`Sprint 5.5`), `datasetVersion`.
+    *   **Pure Static Quality Scorer**: 5-dimension 100-pt quality score + coverage metrics.
+    *   **Badge Tiers**: 🥇 Gold (90+), 🥈 Silver (80–89), 🥉 Bronze (70–79).
+    *   **National Transit Status Dashboard**: Generated `INDIA_TRANSIT_STATUS.md` and individual system audit reports.
+    *   **CTM v1.0 Schema Freeze**: Relational PostgreSQL database schema officially frozen.
 
 #### **v0.6 — Passenger Experience (UI)**
-*   **Goal**: Build a premium dark-mode web application and administrative analytics dashboard.
+*   **Goal**: Build a premium dark-mode web application and administrative analytics dashboard displaying certified Indian metro networks.
 *   **Deliverables**:
     *   Next.js frontend template with responsive layout structures.
     *   Interactive map layout using Leaflet/MapLibre.
-    *   Dynamic path plotting, color-coded lines, and station markers.
+    *   Dynamic path plotting, color-coded lines, and station markers for certified cities.
     *   Detailed station layout panel showcasing platform lists and entrance status.
 
 ---
