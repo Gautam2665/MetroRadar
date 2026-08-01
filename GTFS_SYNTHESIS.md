@@ -661,41 +661,53 @@ The passenger app does not expose raw confidence numbers. Instead, it translates
 
 ---
 
-## 8. All 20 Indian Metro Systems Strategy
+## 8. All 20 Indian Metro Systems Strategy & Data Availability
 
-TransitOS's GTFS availability and synthesis strategy across Indian metro systems:
+TransitOS's GTFS availability, source mapping, and synthesis strategy across all Indian metro systems:
 
-| # | Metro System | City | Status | Official GTFS Static | Official GTFS-RT | TransitOS Strategy |
-|:--|:---|:---|:---|:---|:---|:---|
-| 1 | DMRC | Delhi | Operational | ✅ Available | ⚠️ Poor quality | Import static; Enhanced RT (Level 2) |
-| 2 | KMRL | Kochi | Operational | ✅ Available | ⚠️ Partial | Import static; Supplement RT |
-| 3 | HMRL | Hyderabad | Operational | ✅ Available | ⚠️ Limited | Import static; Supplement RT |
-| 4 | BMRCL | Bengaluru | Operational | 🌐 Community | ❌ None | Import community GTFS; Estimated RT |
-| 5 | MMRDA | Mumbai (Line 1) | Operational | ❌ None | ❌ None | Reconstruct from DPR + timetable |
-| 6 | MahaMetro Pune | Pune | Operational | ❌ None | ❌ None | Reconstruct from DPR + timetable |
-| 7 | MahaMetro Nagpur | Nagpur | Operational | ❌ None | ❌ None | Reconstruct from DPR + timetable |
-| 8 | CMRL | Chennai | Operational | 🔶 Limited | ❌ None | Supplement and reconstruct |
-| 9 | LMRCL | Lucknow | Operational | 🔶 Limited | ❌ None | Supplement and reconstruct |
-| 10 | MEGA | Ahmedabad | Operational | 🔶 Limited | ❌ None | Supplement and reconstruct |
-| 11 | JMRC | Jaipur | Operational | ❌ None | ❌ None | Reconstruct from DPR + timetable |
-| 12 | NE Railway Kolkata | Kolkata Metro | Operational | ❌ None | ❌ None | Reconstruct from timetable |
-| 13 | MMLP | Mumbai Line 2/7 | Operational | ❌ None | ❌ None | Reconstruct from DPR + timetable |
-| 14 | NMRCL | Navi Mumbai | Under construction | ❌ None | ❌ None | Pre-synthesize from DPR |
-| 15 | AGRA Metro | Agra | Opening 2026 | ❌ None | ❌ None | Pre-synthesize from DPR |
-| 16 | Kanpur Metro | Kanpur | Operational | ❌ None | ❌ None | Reconstruct from DPR |
-| 17 | Indore Metro | Indore | Under construction | ❌ None | ❌ None | Pre-synthesize from DPR |
-| 18 | Surat Metro | Surat | Under construction | ❌ None | ❌ None | Pre-synthesize from DPR |
-| 19 | Patna Metro | Patna | Under construction | ❌ None | ❌ None | Pre-synthesize from DPR |
-| 20 | Bhopal Metro | Bhopal | Under construction | ❌ None | ❌ None | Pre-synthesize from DPR |
+### Indian Metro GTFS Availability Matrix
 
-> **The strategic insight**: Official GTFS is the exception, not the rule. TransitOS is designed for the reality of Indian transit data, not the ideal case.
+| # | Metro System | City | Status | Static GTFS Source | RT Source / Status | TransitOS Strategy | Importer Compatibility |
+|:--|:---|:---|:---|:---|:---|:---|:---|
+| 1 | **DMRC** | Delhi | Operational | ✅ Official ([otd.delhi.gov.in](https://otd.delhi.gov.in)) | ⚠️ OTD API (poor quality) | Import static; Level 2 filtering / SEE | ✅ 100% (In CTM) |
+| 2 | **KMRL** | Kochi | Operational | ✅ Official ([kochimetro.org](https://kochimetro.org)) | ⚠️ Partial | Import static; Level 3 SEE | ✅ 100% (In CTM) |
+| 3 | **HMRL** | Hyderabad | Operational | ✅ Official ([hmrl.co.in/open-data](https://hmrl.co.in/open-data.html)) | ⚠️ Limited | Import static; Level 3 SEE | ✅ 100% Compatible |
+| 4 | **NCRTC** | Delhi-NCR | Operational | ✅ Official ([otd.delhi.gov.in](https://otd.delhi.gov.in)) | ❌ None | Import static; Level 3 SEE | ✅ 100% Compatible |
+| 5 | **BMRCL** | Bengaluru | Operational | 🌐 Community ([Vonter/bmrcl-gtfs](https://github.com/Vonter/bmrcl-gtfs)) | ❌ None | Import community GTFS; Level 3 SEE | ✅ 100% Compatible |
+| 6 | **CMRL** | Chennai | Operational | 🌐 Community ([ungalsoththu/ChennaiGTFS](https://github.com/ungalsoththu/ChennaiGTFS)) | ❌ None | Import community GTFS (`frequencies.txt`); Level 3 SEE | ✅ 100% Compatible |
+| 7 | **GMRC** | Ahmedabad | Operational | 🌐 Community ([notnamansinha/ahmedabad-transit-gtfs-pipeline](https://github.com/notnamansinha/ahmedabad-transit-gtfs-pipeline)) | ❌ None | Import community ETL GTFS; Level 3 SEE | ✅ 100% Compatible |
+| 8 | **MMRDA / MMRC** | Mumbai | Operational | ❌ None (OSM geometry available) | ❌ None | TDSE Synthesis from DPR + Timetables | 🔄 Needs TDSE |
+| 9 | **MahaMetro** | Pune | Operational | ❌ None (PDF timetables available) | ❌ None | TDSE Synthesis from DPR + Timetables | 🔄 Needs TDSE |
+| 10 | **MahaMetro** | Nagpur | Operational | ❌ None (PDF timetables available) | ❌ None | TDSE Synthesis from DPR + Timetables | 🔄 Needs TDSE |
+| 11 | **Kolkata Metro** | Kolkata | Operational | ❌ None (OSM geometry available) | ❌ None | TDSE Synthesis from Timetables + OSM | 🔄 Needs TDSE |
+| 12 | **UPMRC** | Lucknow | Operational | ❌ None (PDF timetables available) | ❌ None | TDSE Synthesis from DPR + Timetables | 🔄 Needs TDSE |
+| 13 | **UPMRC** | Kanpur | Operational | ❌ None | ❌ None | TDSE Synthesis (share UPMRC pipeline) | 🔄 Needs TDSE |
+| 14 | **UPMRC** | Agra | Operational | ❌ None | ❌ None | TDSE Pre-synthesis from DPR | 🔄 Needs TDSE |
+| 15 | **JMRC** | Jaipur | Operational | ❌ None | ❌ None | TDSE Synthesis from Timetables | 🔄 Needs TDSE |
+| 16 | **NMMC / CIDCO** | Navi Mumbai | Operational | ❌ None | ❌ None | TDSE Synthesis from DPR | 🔄 Needs TDSE |
+| 17 | **MPRDC** | Indore | Under const. | ❌ None | ❌ None | TDSE Pre-synthesis from DPR | 🔄 Needs TDSE |
+| 18 | **SMCL** | Surat | Under const. | ❌ None | ❌ None | TDSE Pre-synthesis from DPR | 🔄 Needs TDSE |
+| 19 | **PMDCL** | Patna | Under const. | ❌ None | ❌ None | TDSE Pre-synthesis from DPR | 🔄 Needs TDSE |
+| 20 | **BCLL** | Bhopal | Under const. | ❌ None | ❌ None | TDSE Pre-synthesis from DPR | 🔄 Needs TDSE |
+
+> **The Strategic Insight**: Official GTFS is available for 4 systems (Delhi, Kochi, Hyderabad, NCRTC). Community GTFS feeds exist for 3 systems (Bengaluru, Chennai, Ahmedabad). Together, **7 Indian transit systems can be imported immediately into TransitOS without writing any custom parsing code**, because the CTM schema and `IngestionService` fully support standard GTFS archives (including `frequencies.txt`, `shapes.txt`, `calendar_dates.txt`, `trips.txt`, `stop_times.txt`).
+
+### Verification of Existing GTFS Importer Compatibility
+
+The TransitOS `IngestionService` and relational PostgreSQL schema (Prisma) were verified against available GTFS specifications:
+
+1. **Hyderabad Metro (HMRL)**: Official ZIP contains `agency.txt`, `stops.txt`, `routes.txt`, `trips.txt`, `stop_times.txt`, `calendar.txt`. Matches `IngestionService` stage 3–10 directly.
+2. **NCRTC Namo Bharat**: Official ZIP on Delhi OTD portal uses exact same schema as Delhi DMRC. Matches `IngestionService` directly.
+3. **Bengaluru Metro (Vonter/bmrcl-gtfs)**: Community GTFS contains `agency.txt`, `stops.txt`, `routes.txt`, `trips.txt`, `stop_times.txt`, `shapes.txt`, `calendar.txt`. Matches `IngestionService` stage 3–10 directly.
+4. **Chennai Metro (ungalsoththu/ChennaiGTFS)**: Community GTFS utilizes `frequencies.txt` for headway representation. Matches `IngestionService` stage 11 (`FrequenciesParser` / `FrequenciesNormalizer` / `FrequenciesTransformer`) and `Frequency` Prisma model.
+5. **Ahmedabad Metro (notnamansinha pipeline)**: Community ETL outputs standard GTFS files. Matches `IngestionService` directly.
 
 ### Priority Onboarding Order
 
-1. **Phase 1** — Systems with official GTFS (Delhi, Kochi, Hyderabad): Import and enhance
-2. **Phase 2** — Systems with community GTFS (Bengaluru): Import and add estimated RT
-3. **Phase 3** — Operational systems without any GTFS (Mumbai, Pune, Nagpur, Chennai, Lucknow, Ahmedabad, Jaipur, Kolkata, Kanpur): Full synthesis
-4. **Phase 4** — Pre-opening systems (Navi Mumbai, Agra, Indore, Surat, Patna, Bhopal): Pre-synthesize from DPRs before revenue service begins
+1. **Phase 1 (Immediate - Static in CTM)**: Delhi, Kochi, Hyderabad, NCRTC Namo Bharat
+2. **Phase 2 (Immediate - Community GTFS Import)**: Bengaluru, Chennai, Ahmedabad
+3. **Phase 3 (TDSE Synthesis)**: Mumbai, Pune, Nagpur, Kolkata, Lucknow, Jaipur, Kanpur
+4. **Phase 4 (Pre-opening Synthesis)**: Agra, Navi Mumbai, Indore, Surat, Patna, Bhopal
 
 ---
 
