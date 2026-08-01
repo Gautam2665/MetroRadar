@@ -31,8 +31,12 @@ export type CityConfig = {
 };
 
 export const AVAILABLE_CITIES: CityConfig[] = [
-  { name: "Delhi Metro (DMRC)", code: "delhi", center: [77.209, 28.6139], zoom: 11.5 },
-  { name: "Kochi Metro (KMRL)", code: "kochi", center: [76.2711, 9.9816], zoom: 12.5 },
+  { name: "Delhi Metro", code: "delhi", center: [77.209, 28.6139], zoom: 11.5 },
+  { name: "Kochi Metro", code: "kochi", center: [76.2711, 9.9816], zoom: 12.5 },
+  { name: "Hyderabad Metro", code: "hyderabad", center: [78.4867, 17.3850], zoom: 12.0 },
+  { name: "Bengaluru Metro", code: "bengaluru", center: [77.5946, 12.9716], zoom: 12.0 },
+  { name: "Chennai Metro", code: "chennai", center: [80.2707, 13.0827], zoom: 12.0 },
+  { name: "Ahmedabad Metro", code: "ahmedabad", center: [72.5714, 23.0225], zoom: 12.0 },
 ];
 
 export const MAP_LAYERS = [

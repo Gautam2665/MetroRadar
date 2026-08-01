@@ -62,8 +62,8 @@ jobs:
       - name: Generate Database Client
         run: npm run db:generate
 
-      - name: Run Prisma Migrations
-        run: npx prisma migrate deploy --schema=database/prisma/schema.prisma
+      - name: Sync Database Schema
+        run: npx prisma db push --schema=database/prisma/schema.prisma
 
       - name: Seed Database
         run: npx prisma db seed
