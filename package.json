@@ -23,7 +23,8 @@
   },
   "devDependencies": {
     "prisma": "^6.2.1",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.2"
   },
   "dependencies": {
     "@prisma/client": "^6.2.1"
