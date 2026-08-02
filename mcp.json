@@ -1,10 +1,11 @@
 {
   "mcpServers": {
-    "github": {
+    "filesystem": {
       "command": "npx",
       "args": [
         "-y",
-        "@modelcontextprotocol/server-github"
+        "@modelcontextprotocol/server-filesystem",
+        "c:\\Users\\HP\\OneDrive\\Desktop\\MetroRadar"
       ]
     },
     "postgres": {
@@ -15,20 +16,15 @@
         "postgresql://postgres:postgres@localhost:5432/metroradar?schema=public"
       ]
     },
-    "playwright": {
+    "github": {
       "command": "npx",
       "args": [
         "-y",
-        "@playwright/mcp@latest"
-      ]
-    },
-    "filesystem": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "c:\\Users\\HP\\OneDrive\\Desktop\\MetroRadar"
-      ]
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": ""
+      }
     }
   }
 }
