@@ -27,21 +27,21 @@ export type CityConfig = {
   name: string;
   code: string;
   systemCode: string;
+  operator: string;
+  trustTier: string;
+  badgeTier: string;
+  qualityScore: number;
   center: [number, number];
   zoom: number;
-  sourceType: "OFFICIAL" | "COMMUNITY" | "SYNTHESIZED";
-  trustTier: "TIER_A" | "TIER_B" | "TIER_X";
-  qualityScore: number;
-  badge: "Gold" | "Silver";
 };
 
 export const AVAILABLE_CITIES: CityConfig[] = [
-  { name: "Delhi Metro", code: "delhi", systemCode: "DMRC", center: [77.209, 28.6139], zoom: 11.5, sourceType: "OFFICIAL", trustTier: "TIER_A", qualityScore: 90, badge: "Gold" },
-  { name: "Kochi Metro", code: "kochi", systemCode: "KMRL", center: [76.2711, 9.9816], zoom: 12.5, sourceType: "OFFICIAL", trustTier: "TIER_A", qualityScore: 90, badge: "Gold" },
-  { name: "Hyderabad Metro", code: "hyderabad", systemCode: "HMRL", center: [78.4867, 17.3850], zoom: 12.0, sourceType: "OFFICIAL", trustTier: "TIER_A", qualityScore: 100, badge: "Gold" },
-  { name: "Bengaluru Metro", code: "bengaluru", systemCode: "BMRCL", center: [77.5946, 12.9716], zoom: 12.0, sourceType: "COMMUNITY", trustTier: "TIER_B", qualityScore: 100, badge: "Gold" },
-  { name: "Chennai Metro", code: "chennai", systemCode: "CMRL", center: [80.2707, 13.0827], zoom: 12.0, sourceType: "COMMUNITY", trustTier: "TIER_B", qualityScore: 100, badge: "Gold" },
-  { name: "Ahmedabad Metro", code: "ahmedabad", systemCode: "GMRC", center: [72.5714, 23.0225], zoom: 12.0, sourceType: "COMMUNITY", trustTier: "TIER_B", qualityScore: 85, badge: "Silver" },
+  { name: "Delhi Metro", code: "delhi", systemCode: "DMRC", operator: "Delhi Metro Rail Corporation", trustTier: "OFFICIAL (Tier A)", badgeTier: "🥇 Gold", qualityScore: 90, center: [77.209, 28.6139], zoom: 11.5 },
+  { name: "Kochi Metro", code: "kochi", systemCode: "KMRL", operator: "Kochi Metro Rail Limited", trustTier: "OFFICIAL (Tier A)", badgeTier: "🥇 Gold", qualityScore: 90, center: [76.2711, 9.9816], zoom: 12.5 },
+  { name: "Hyderabad Metro", code: "hyderabad", systemCode: "HMRL", operator: "Hyderabad Metro Rail Limited", trustTier: "OFFICIAL (Tier A)", badgeTier: "🥇 Gold", qualityScore: 100, center: [78.4867, 17.3850], zoom: 12.0 },
+  { name: "Bengaluru Metro", code: "bengaluru", systemCode: "BMRCL", operator: "Namma Metro / BMRCL", trustTier: "COMMUNITY (Tier B)", badgeTier: "🥇 Gold", qualityScore: 100, center: [77.5946, 12.9716], zoom: 12.0 },
+  { name: "Chennai Metro", code: "chennai", systemCode: "CMRL", operator: "Chennai Metro Rail Limited", trustTier: "COMMUNITY (Tier B)", badgeTier: "🥇 Gold", qualityScore: 100, center: [80.2707, 13.0827], zoom: 12.0 },
+  { name: "Ahmedabad Metro", code: "ahmedabad", systemCode: "GMRC", operator: "Gujarat Metro Rail Corporation", trustTier: "COMMUNITY (Tier B)", badgeTier: "🥈 Silver", qualityScore: 85, center: [72.5714, 23.0225], zoom: 12.0 },
 ];
 
 export const MAP_LAYERS = [
@@ -247,27 +247,6 @@ export default function Sidebar({
                     </button>
                   ))}
                 </div>
-
-                {/* Active Network Trust Tier & Quality Badge */}
-                {(() => {
-                  const curr = AVAILABLE_CITIES.find((c) => c.code === activeCity) || AVAILABLE_CITIES[0];
-                  return (
-                    <div className="mt-2.5 p-2.5 rounded-xl bg-zinc-900/80 border border-zinc-800 flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase ${
-                          curr.trustTier === "TIER_A"
-                            ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
-                            : "bg-indigo-500/20 text-indigo-400 border border-indigo-500/30"
-                        }`}>
-                          {curr.sourceType} ({curr.trustTier.replace('_', ' ')})
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-1 text-[10px] font-bold text-amber-400">
-                        <span>🥇 {curr.badge} ({curr.qualityScore}/100)</span>
-                      </div>
-                    </div>
-                  );
-                })()}
               </div>
 
               {/* Passenger Quick Action or Station search */}

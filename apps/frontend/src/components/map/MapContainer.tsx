@@ -277,7 +277,6 @@ export default function MapContainer({
       // 4. LIVE TRAINS LAYER (GTFS-RT Telemetry)
       if (activeLayers.includes("realtime")) {
         try {
-          const start = performance.now();
           const cityToSystemCode: Record<string, string> = {
             delhi: "DMRC",
             kochi: "KMRL",
