@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useSyncExternalStore } from "react";
-import Header from "@/components/dashboard/Header";
+import maplibregl from "maplibre-gl";
 import Sidebar from "@/components/dashboard/Sidebar";
 import MapContainer from "@/components/map/MapContainer";
 import DigitalTwinInspector from "@/components/dashboard/DigitalTwinInspector";
@@ -81,72 +81,71 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col w-screen h-screen overflow-hidden bg-[#09090b]">
-      <Header />
-      <div className="flex flex-1 min-h-0 relative overflow-hidden">
-        {/* 1. Sidebar Panel (Left) */}
-        <Sidebar
-          activeCity={activeCity}
-          onCityChange={(cityCode, center, zoom) => {
-            setActiveCity(cityCode);
-            handleFlyTo(center, zoom);
-          }}
-          selectedStationId={selectedStationId}
-          onStationSelect={setSelectedStationId}
-          activeLayers={activeLayers}
-          onToggleLayer={handleToggleLayer}
+    <div className="flex w-screen h-screen overflow-hidden bg-[#09090b]">
+      {/* 1. Sidebar Panel (Left) */}
+      <Sidebar
+        activeCity={activeCity}
+        onCityChange={(cityCode, center, zoom) => {
+          setActiveCity(cityCode);
+          handleFlyTo(center, zoom);
+        }}
+        selectedStationId={selectedStationId}
+        onStationSelect={setSelectedStationId}
+        activeLayers={activeLayers}
+        onToggleLayer={handleToggleLayer}
+        loadedLayersCount={loadedLayersCount}
+        onFlyToCoordinates={handleFlyTo}
+        onJourneyResult={handleJourneyResult}
+        apiLatency={apiLatency}
+        cacheHit={cacheHit}
+        apiLatencySetter={updateApiLatency}
+        onToggleDevConsole={() => setDeveloperConsoleOpen(true)}
+        onModeChange={setAppMode}
+      />
+
+      {/* 2. Interactive Map Container (Center/Right) */}
+      <MapContainer
+        center={mapViewport.center}
+        zoom={mapViewport.zoom}
+        activeLayers={activeLayers}
+        activeCity={activeCity}
+        selectedStationId={selectedStationId}
+        onStationSelect={setSelectedStationId}
+        onViewportChange={(c, z) => setMapViewport({ center: c, zoom: z })}
+        apiLatencySetter={updateApiLatency}
+        setLoadedLayersCount={setLoadedLayersCount}
+        mapRef={mapRef}
+        journeyGeojson={journeyGeojson}
+      />
+
+
+
+      {/* 3. Station Digital Twin Inspector Drawer (Collapsible Right) */}
+      {selectedStationId && (
+        <div className="w-[450px] bg-zinc-900 border-l border-zinc-800/80 backdrop-blur-md flex flex-col h-full shadow-2xl relative z-10 transition-all duration-300 animate-slide-in">
+          <DigitalTwinInspector
+            stationId={selectedStationId}
+            onClose={() => setSelectedStationId(null)}
+            onTrackEntrance={handleTrackEntrance}
+          />
+        </div>
+      )}
+
+      {/* 4. Diagnostics HUD Overlay (Ctrl+Shift+D) */}
+      {appMode === "developer" && (
+        <DiagnosticsHud
+          zoom={mapViewport.zoom}
+          center={mapViewport.center}
           loadedLayersCount={loadedLayersCount}
-          onFlyToCoordinates={handleFlyTo}
-          onJourneyResult={handleJourneyResult}
           apiLatency={apiLatency}
           cacheHit={cacheHit}
-          apiLatencySetter={updateApiLatency}
-          onToggleDevConsole={() => setDeveloperConsoleOpen(true)}
-          onModeChange={setAppMode}
         />
+      )}
 
-        {/* 2. Interactive Map Container (Center/Right) */}
-        <MapContainer
-          center={mapViewport.center}
-          zoom={mapViewport.zoom}
-          activeLayers={activeLayers}
-          activeCity={activeCity}
-          selectedStationId={selectedStationId}
-          onStationSelect={setSelectedStationId}
-          onViewportChange={(c, z) => setMapViewport({ center: c, zoom: z })}
-          apiLatencySetter={updateApiLatency}
-          setLoadedLayersCount={setLoadedLayersCount}
-          mapRef={mapRef}
-          journeyGeojson={journeyGeojson}
-        />
-
-        {/* 3. Station Digital Twin Inspector Drawer (Collapsible Right) */}
-        {selectedStationId && (
-          <div className="w-[450px] bg-zinc-900 border-l border-zinc-800/80 backdrop-blur-md flex flex-col h-full shadow-2xl relative z-10 transition-all duration-300 animate-slide-in">
-            <DigitalTwinInspector
-              stationId={selectedStationId}
-              onClose={() => setSelectedStationId(null)}
-              onTrackEntrance={handleTrackEntrance}
-            />
-          </div>
-        )}
-
-        {/* 4. Diagnostics HUD Overlay (Ctrl+Shift+D) */}
-        {appMode === "developer" && (
-          <DiagnosticsHud
-            zoom={mapViewport.zoom}
-            center={mapViewport.center}
-            loadedLayersCount={loadedLayersCount}
-            apiLatency={apiLatency}
-            cacheHit={cacheHit}
-          />
-        )}
-
-        {/* 5. Developer & Diagnostics Admin Console */}
-        {appMode === "developer" && developerConsoleOpen && (
-          <DeveloperDashboard onClose={() => setDeveloperConsoleOpen(false)} />
-        )}
-      </div>
+      {/* 5. Developer & Diagnostics Admin Console */}
+      {appMode === "developer" && developerConsoleOpen && (
+        <DeveloperDashboard onClose={() => setDeveloperConsoleOpen(false)} />
+      )}
     </div>
   );
 }
