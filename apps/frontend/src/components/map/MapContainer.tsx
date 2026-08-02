@@ -286,6 +286,7 @@ export default function MapContainer({
             ahmedabad: "GMRC",
           };
           const systemCode = cityToSystemCode[activeCity] || "DMRC";
+          const start = performance.now();
           const res = await fetch(`${backendUrl}/realtime/vehicles?system=${systemCode}&t=${Date.now()}`);
           const ms = Math.round(performance.now() - start);
           apiLatencySetter(ms);
