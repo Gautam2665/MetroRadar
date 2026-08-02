@@ -277,16 +277,8 @@ export default function MapContainer({
       // 4. LIVE TRAINS LAYER (GTFS-RT Telemetry)
       if (activeLayers.includes("realtime")) {
         try {
-          const cityToSystemCode: Record<string, string> = {
-            delhi: "DMRC",
-            kochi: "KMRL",
-            hyderabad: "HMRL",
-            bengaluru: "BMRCL",
-            chennai: "CMRL",
-            ahmedabad: "GMRC",
-          };
-          const systemCode = cityToSystemCode[activeCity] || "DMRC";
           const start = performance.now();
+          const systemCode = activeCity === "kochi" ? "KMRL" : "DMRC";
           const res = await fetch(`${backendUrl}/realtime/vehicles?system=${systemCode}&t=${Date.now()}`);
           const ms = Math.round(performance.now() - start);
           apiLatencySetter(ms);
