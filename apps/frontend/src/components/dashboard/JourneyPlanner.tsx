@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef } from "react";
 import { StationRef, JourneyResult } from "./JourneyPlannerTypes";
+import { StationSearchInput } from "../StationSearchInput";
 
 export type StationSuggestion = {
   id: string;
@@ -140,13 +141,13 @@ export function JourneyPlanner({ onJourneyCalculated }: JourneyPlannerProps) {
         {/* From */}
         <div className="relative z-10 flex items-center gap-3">
           <div className="w-2.5 h-2.5 rounded-full bg-[#c3f5ff] ring-4 ring-[#080C14]"></div>
-          <div className="flex-1 bg-[#31353e]/80 rounded-lg p-3 border border-white/5">
-            <p className="text-[10px] text-[#bac9cc] mb-1 font-bold uppercase tracking-wider">From Station</p>
-            <input
+          <div className="flex-1 bg-[#31353e]/80 rounded-lg p-2.5 border border-white/5">
+            <StationSearchInput
+              label="From Station"
               value={fromQuery}
-              onChange={(e) => setFromQuery(e.target.value)}
-              className="bg-transparent border-none p-0 text-[14px] font-semibold text-[#dfe2ee] w-full focus:outline-none"
+              onChange={(val) => setFromQuery(val)}
               placeholder="Enter Origin Station..."
+              inputClassName="bg-transparent border-none p-0 text-[14px] font-semibold text-[#dfe2ee] w-full focus:outline-none placeholder:text-[#bac9cc]/50"
             />
           </div>
         </div>
@@ -162,13 +163,13 @@ export function JourneyPlanner({ onJourneyCalculated }: JourneyPlannerProps) {
         {/* To */}
         <div className="relative z-10 flex items-center gap-3">
           <div className="w-2.5 h-2.5 rounded-full border-2 border-[#fec931] bg-[#080C14] ring-4 ring-[#080C14]"></div>
-          <div className="flex-1 bg-[#31353e]/80 rounded-lg p-3 border border-white/5">
-            <p className="text-[10px] text-[#bac9cc] mb-1 font-bold uppercase tracking-wider">To Destination</p>
-            <input
+          <div className="flex-1 bg-[#31353e]/80 rounded-lg p-2.5 border border-white/5">
+            <StationSearchInput
+              label="To Destination"
               value={toQuery}
-              onChange={(e) => setToQuery(e.target.value)}
-              className="bg-transparent border-none p-0 text-[14px] font-semibold text-[#dfe2ee] w-full focus:outline-none"
+              onChange={(val) => setToQuery(val)}
               placeholder="Enter Destination Station..."
+              inputClassName="bg-transparent border-none p-0 text-[14px] font-semibold text-[#dfe2ee] w-full focus:outline-none placeholder:text-[#bac9cc]/50"
             />
           </div>
         </div>

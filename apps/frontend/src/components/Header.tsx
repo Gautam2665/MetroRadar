@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { StationSearchInput, StationItem } from "./StationSearchInput";
 
 interface HeaderProps {
   activeCity?: string;
   onCityChange?: (city: string) => void;
+  onSelectStation?: (station: StationItem) => void;
 }
 
 const CITIES = [
@@ -18,22 +20,26 @@ const CITIES = [
   { code: "ahmedabad", name: "Ahmedabad, IN", badge: "Certified" },
 ];
 
-export function Header({ activeCity = "delhi", onCityChange }: HeaderProps) {
+export function Header({ activeCity = "delhi", onCityChange, onSelectStation }: HeaderProps) {
   const [openCityMenu, setOpenCityMenu] = useState(false);
+  const [searchVal, setSearchVal] = useState("");
   const currentCityObj = CITIES.find((c) => c.code === activeCity) || CITIES[1];
 
   return (
-    <header className="flex justify-between items-center w-full px-6 h-16 bg-[#080C14]/90 backdrop-blur-md sticky top-0 z-40 border-b border-white/5">
+    <header className="flex justify-between items-center w-full px-6 h-16 bg-[#080C14]/90 backdrop-blur-md sticky top-0 z-40 border-b border-white/10">
       <div className="flex-1 flex items-center gap-4">
-        {/* Search Bar */}
-        <div className="relative w-96 hidden lg:block">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#bac9cc] text-sm">
-            search
-          </span>
-          <input
-            className="w-full bg-[#1c2028]/50 border border-white/10 rounded-full py-2 pl-10 pr-4 text-[14px] focus:outline-none focus:border-[#c3f5ff]/50 text-[#dfe2ee] placeholder:text-[#bac9cc]/50"
+        {/* Dynamic Station Search Bar */}
+        <div className="w-96 hidden lg:block">
+          <StationSearchInput
+            value={searchVal}
+            onChange={(val) => setSearchVal(val)}
+            activeCity={activeCity}
+            onSelectStation={(stn) => {
+              if (onSelectStation) onSelectStation(stn);
+              setSearchVal(stn.name);
+            }}
             placeholder="Search for a station, place or line..."
-            type="text"
+            inputClassName="w-full bg-[#1c2028]/80 border border-white/10 rounded-full py-2 pl-4 pr-4 text-sm focus:outline-none focus:border-[#00e5ff] text-[#dfe2ee] placeholder:text-[#bac9cc]/50"
           />
         </div>
       </div>

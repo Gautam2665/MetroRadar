@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
 import MapContainer from "../../components/map/MapContainer";
+import { StationSearchInput } from "../../components/StationSearchInput";
 import { CITY_METADATA } from "../page";
 
 export default function JourneyPlannerPage() {
@@ -110,14 +111,14 @@ export default function JourneyPlannerPage() {
               <div className="relative flex flex-col gap-3">
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-2 border-[#00e5ff] bg-transparent z-10"></span>
-                  <input
-                    className="w-full bg-[#181c24] border border-white/10 rounded-xl py-3 pl-10 pr-12 text-[#dfe2ee] text-sm focus:border-[#00e5ff] focus:ring-1 focus:ring-[#00e5ff] outline-none transition-all placeholder:text-[#bac9cc]/50"
-                    type="text"
+                  <StationSearchInput
                     value={origin}
-                    onChange={(e) => setOrigin(e.target.value)}
+                    onChange={(val) => setOrigin(val)}
+                    activeCity={activeCity}
                     placeholder="Origin Station"
+                    inputClassName="w-full bg-[#181c24] border border-white/10 rounded-xl py-3 pl-10 pr-12 text-[#dfe2ee] text-sm focus:border-[#00e5ff] focus:ring-1 focus:ring-[#00e5ff] outline-none transition-all placeholder:text-[#bac9cc]/50"
                   />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[#bac9cc] text-xs font-bold uppercase">
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[#bac9cc] text-xs font-bold uppercase pointer-events-none">
                     From
                   </span>
                 </div>
@@ -134,14 +135,14 @@ export default function JourneyPlannerPage() {
 
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-[#ffb4ab] z-10"></span>
-                  <input
-                    className="w-full bg-[#181c24] border border-white/10 rounded-xl py-3 pl-10 pr-12 text-[#dfe2ee] text-sm focus:border-[#00e5ff] focus:ring-1 focus:ring-[#00e5ff] outline-none transition-all placeholder:text-[#bac9cc]/50"
-                    type="text"
+                  <StationSearchInput
                     value={destination}
-                    onChange={(e) => setDestination(e.target.value)}
+                    onChange={(val) => setDestination(val)}
+                    activeCity={activeCity}
                     placeholder="Destination Station"
+                    inputClassName="w-full bg-[#181c24] border border-white/10 rounded-xl py-3 pl-10 pr-12 text-[#dfe2ee] text-sm focus:border-[#00e5ff] focus:ring-1 focus:ring-[#00e5ff] outline-none transition-all placeholder:text-[#bac9cc]/50"
                   />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[#bac9cc] text-xs font-bold uppercase">
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[#bac9cc] text-xs font-bold uppercase pointer-events-none">
                     To
                   </span>
                 </div>
