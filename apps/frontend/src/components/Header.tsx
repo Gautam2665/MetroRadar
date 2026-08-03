@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { StationSearchInput, StationItem } from "./StationSearchInput";
 
@@ -20,21 +20,38 @@ const CITIES = [
   { code: "ahmedabad", name: "Ahmedabad, IN", badge: "Certified" },
 ];
 
-const CITY_WEATHER: Record<string, { temp: string; icon: string }> = {
-  delhi: { temp: "28°C", icon: "wb_sunny" },
-  kochi: { temp: "31°C", icon: "partly_cloudy_day" },
-  hyderabad: { temp: "29°C", icon: "wb_sunny" },
-  bengaluru: { temp: "26°C", icon: "cloud" },
-  chennai: { temp: "32°C", icon: "wb_sunny" },
-  ahmedabad: { temp: "33°C", icon: "wb_sunny" },
-  mumbai: { temp: "30°C", icon: "partly_cloudy_day" },
+const CITY_COORDS: Record<string, { lat: number; lng: number }> = {
+  delhi: { lat: 28.6139, lng: 77.209 },
+  kochi: { lat: 9.9816, lng: 76.2999 },
+  hyderabad: { lat: 17.385, lng: 78.4867 },
+  bengaluru: { lat: 12.9716, lng: 77.5946 },
+  chennai: { lat: 13.0827, lng: 80.2707 },
+  ahmedabad: { lat: 23.0225, lng: 72.5714 },
+  mumbai: { lat: 19.076, lng: 72.8777 },
 };
 
 export function Header({ activeCity = "delhi", onCityChange, onSelectStation }: HeaderProps) {
   const [openCityMenu, setOpenCityMenu] = useState(false);
   const [searchVal, setSearchVal] = useState("");
+  const [weather, setWeather] = useState<{ temp: string; icon: string }>({ temp: "--°C", icon: "wb_sunny" });
+
   const currentCityObj = CITIES.find((c) => c.code === activeCity) || CITIES[1];
-  const cityWeather = CITY_WEATHER[activeCity.toLowerCase()] || CITY_WEATHER.delhi;
+
+  // Fetch real-time live weather from Open-Meteo API for selected city
+  useEffect(() => {
+    const coords = CITY_COORDS[activeCity.toLowerCase()] || CITY_COORDS.delhi;
+    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lng}&current_weather=true`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.current_weather?.temperature !== undefined) {
+          const temp = Math.round(data.current_weather.temperature);
+          const code = data.current_weather.weathercode;
+          const icon = code === 0 ? "wb_sunny" : code <= 3 ? "partly_cloudy_day" : code <= 67 ? "rainy" : "cloud";
+          setWeather({ temp: `${temp}°C`, icon });
+        }
+      })
+      .catch(() => setWeather({ temp: "28°C", icon: "wb_sunny" }));
+  }, [activeCity]);
 
   return (
     <header className="flex justify-between items-center w-full px-6 h-16 bg-[#080C14]/90 backdrop-blur-md sticky top-0 z-40 border-b border-white/10">
@@ -56,11 +73,11 @@ export function Header({ activeCity = "delhi", onCityChange, onSelectStation }: 
       </div>
 
       <div className="flex items-center gap-6">
-        {/* Weather Status */}
+        {/* Live Weather Status from Open-Meteo API */}
         <div className="flex items-center gap-2 hidden sm:flex">
-          <span className="material-symbols-outlined text-[#fec931] text-[20px]">{cityWeather.icon}</span>
+          <span className="material-symbols-outlined text-[#fec931] text-[20px]">{weather.icon}</span>
           <div className="text-right">
-            <p className="text-[14px] font-semibold text-[#dfe2ee]">{cityWeather.temp}</p>
+            <p className="text-[14px] font-semibold text-[#dfe2ee]">{weather.temp}</p>
             <p className="text-[10px] text-[#bac9cc] leading-none">{currentCityObj.name}</p>
           </div>
         </div>

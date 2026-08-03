@@ -111,7 +111,7 @@ export function JourneyPlanner({ activeCity = "delhi", onJourneyCalculated }: Jo
         score: 96,
         duration: selectedMode === "multimodal" ? 26 : 34,
         durationSeconds: selectedMode === "multimodal" ? 1560 : 2040,
-        transfers: selectedMode === "multimodal" ? 1 : 2,
+        transfers: selectedMode === "multimodal" ? 0 : 2,
         legs: [
           {
             from: "1",
@@ -265,7 +265,9 @@ export function JourneyPlanner({ activeCity = "delhi", onJourneyCalculated }: Jo
           <div className="p-3 bg-[#181c24] rounded-lg border border-white/5 flex justify-between items-center text-[14px]">
             <div>
               <p className="font-bold text-[#dfe2ee]">{activeJourney.journey.duration} Mins Total</p>
-              <p className="text-[12px] text-[#bac9cc]">{activeJourney.journey.transfers} Transfers • {fromQuery} ➔ {toQuery}</p>
+              <p className="text-[12px] text-[#bac9cc]">
+                {selectedMode === "multimodal" ? "Direct Cab / Auto Ride" : `${activeJourney.journey.transfers} Transfers`} • {fromQuery} ➔ {toQuery}
+              </p>
             </div>
             {selectedMode === "multimodal" ? (
               <div className="text-right">
