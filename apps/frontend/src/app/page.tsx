@@ -218,41 +218,54 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Dynamic Network Status Overlay */}
-                {showNetworkStatus && (
-                  <div className="absolute top-4 right-4 w-72 glass-panel rounded-xl p-4 bg-[#1c2028]/90 z-20 border border-white/10 animate-slide-in">
-                    <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-[16px] font-bold text-[#dfe2ee]">
-                        {currentMeta.code} Lines Status
+                {showNetworkStatus ? (
+                  <div className="absolute top-4 right-14 w-80 glass-panel rounded-xl p-4 bg-[#1c2028]/95 z-20 border border-white/10 shadow-2xl animate-slide-in">
+                    <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
+                      <h3 className="text-sm font-bold text-[#dfe2ee] flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse"></span>
+                        {currentMeta.code} Line Service Status
                       </h3>
                       <button
                         onClick={() => setShowNetworkStatus(false)}
-                        className="text-[#bac9cc] hover:text-[#dfe2ee] text-xs"
+                        className="text-[#bac9cc] hover:text-white text-sm w-6 h-6 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
                       >
                         ✕
                       </button>
                     </div>
-                    <div className="space-y-3 text-[14px]">
+                    <div className="space-y-2.5 text-xs">
                       {currentMeta.lines.map((line) => (
-                        <div key={line.name} className="flex justify-between items-center">
+                        <div key={line.name} className="flex justify-between items-center py-1 border-b border-white/5 last:border-none">
                           <div className="flex items-center gap-2">
                             <div
-                              className="w-4 h-4 rounded flex items-center justify-center text-[10px] font-bold text-white shadow-sm"
+                              className="w-5 h-5 rounded flex items-center justify-center text-[10px] font-bold text-white shadow-sm"
                               style={{ backgroundColor: line.color, color: line.color === "#EAB308" ? "#000" : "#fff" }}
                             >
                               {line.code}
                             </div>
-                            <span className="text-[#bac9cc] truncate max-w-[120px]">{line.name}</span>
+                            <span className="text-[#dfe2ee] font-semibold">{line.name}</span>
                           </div>
                           <span
-                            className="font-semibold"
-                            style={{ color: line.status.includes("Delay") ? "#fec931" : "#c3f5ff" }}
+                            className="font-bold text-[11px] px-2 py-0.5 rounded-full"
+                            style={{
+                              backgroundColor: line.status.includes("Delay") ? "#fec93120" : "#10B98120",
+                              color: line.status.includes("Delay") ? "#fec931" : "#10B981",
+                              border: `1px solid ${line.status.includes("Delay") ? "#fec93140" : "#10B98140"}`
+                            }}
                           >
-                            {line.status} &gt;
+                            {line.status}
                           </span>
                         </div>
                       ))}
                     </div>
                   </div>
+                ) : (
+                  <button
+                    onClick={() => setShowNetworkStatus(true)}
+                    className="absolute top-4 right-14 glass-panel bg-[#1c2028]/90 text-[#00e5ff] border border-white/10 px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-lg hover:bg-white/10 z-20 animate-slide-in"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse"></span>
+                    Line Status
+                  </button>
                 )}
               </div>
 

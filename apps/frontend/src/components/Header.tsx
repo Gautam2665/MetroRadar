@@ -20,10 +20,21 @@ const CITIES = [
   { code: "ahmedabad", name: "Ahmedabad, IN", badge: "Certified" },
 ];
 
+const CITY_WEATHER: Record<string, { temp: string; icon: string }> = {
+  delhi: { temp: "28°C", icon: "wb_sunny" },
+  kochi: { temp: "31°C", icon: "partly_cloudy_day" },
+  hyderabad: { temp: "29°C", icon: "wb_sunny" },
+  bengaluru: { temp: "26°C", icon: "cloud" },
+  chennai: { temp: "32°C", icon: "wb_sunny" },
+  ahmedabad: { temp: "33°C", icon: "wb_sunny" },
+  mumbai: { temp: "30°C", icon: "partly_cloudy_day" },
+};
+
 export function Header({ activeCity = "delhi", onCityChange, onSelectStation }: HeaderProps) {
   const [openCityMenu, setOpenCityMenu] = useState(false);
   const [searchVal, setSearchVal] = useState("");
   const currentCityObj = CITIES.find((c) => c.code === activeCity) || CITIES[1];
+  const cityWeather = CITY_WEATHER[activeCity.toLowerCase()] || CITY_WEATHER.delhi;
 
   return (
     <header className="flex justify-between items-center w-full px-6 h-16 bg-[#080C14]/90 backdrop-blur-md sticky top-0 z-40 border-b border-white/10">
@@ -47,9 +58,9 @@ export function Header({ activeCity = "delhi", onCityChange, onSelectStation }: 
       <div className="flex items-center gap-6">
         {/* Weather Status */}
         <div className="flex items-center gap-2 hidden sm:flex">
-          <span className="material-symbols-outlined text-[#fec931] text-[20px]">wb_sunny</span>
+          <span className="material-symbols-outlined text-[#fec931] text-[20px]">{cityWeather.icon}</span>
           <div className="text-right">
-            <p className="text-[14px] font-semibold text-[#dfe2ee]">28°C</p>
+            <p className="text-[14px] font-semibold text-[#dfe2ee]">{cityWeather.temp}</p>
             <p className="text-[10px] text-[#bac9cc] leading-none">{currentCityObj.name}</p>
           </div>
         </div>
