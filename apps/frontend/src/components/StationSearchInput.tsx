@@ -105,7 +105,7 @@ export function StationSearchInput({
     : cityFiltered.slice(0, 6);
 
   return (
-    <div ref={wrapperRef} className={`relative w-full ${className}`}>
+    <div ref={wrapperRef} className={`relative w-full ${isOpen ? "z-50" : "z-10"} ${className}`}>
       {label && <p className="text-[10px] text-[#bac9cc] mb-1 font-bold">{label}</p>}
 
       <input

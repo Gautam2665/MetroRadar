@@ -119,7 +119,7 @@ export function JourneyPlanner({ onJourneyCalculated }: JourneyPlannerProps) {
 
       {/* Mode Selector */}
       <div className="flex gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide">
-        {(["metro", "bus", "train", "multimodal"] as const).map((mode) => (
+        {(["metro", "multimodal"] as const).map((mode) => (
           <button
             key={mode}
             onClick={() => setSelectedMode(mode)}
@@ -129,7 +129,7 @@ export function JourneyPlanner({ onJourneyCalculated }: JourneyPlannerProps) {
                 : "bg-[#1c2028] text-[#bac9cc] border border-white/5 hover:bg-white/5"
             }`}
           >
-            {mode === "multimodal" ? "⚡ Multi-Modal" : mode}
+            {mode === "multimodal" ? "⚡ Multi-Modal (Cab/Auto)" : "Metro"}
           </button>
         ))}
       </div>
@@ -139,7 +139,7 @@ export function JourneyPlanner({ onJourneyCalculated }: JourneyPlannerProps) {
         <div className="absolute left-[15px] top-[24px] bottom-[24px] w-0.5 bg-white/10 z-0"></div>
 
         {/* From */}
-        <div className="relative z-10 flex items-center gap-3">
+        <div className="relative z-30 flex items-center gap-3">
           <div className="w-2.5 h-2.5 rounded-full bg-[#c3f5ff] ring-4 ring-[#080C14]"></div>
           <div className="flex-1 bg-[#31353e]/80 rounded-lg p-2.5 border border-white/5">
             <StationSearchInput
@@ -155,13 +155,13 @@ export function JourneyPlanner({ onJourneyCalculated }: JourneyPlannerProps) {
         {/* Swap Button */}
         <button
           onClick={swapStations}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 bg-[#1c2028] rounded-full border border-white/10 flex items-center justify-center text-[#bac9cc] hover:text-[#c3f5ff] transition-colors"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-40 w-8 h-8 bg-[#1c2028] rounded-full border border-white/10 flex items-center justify-center text-[#bac9cc] hover:text-[#c3f5ff] transition-colors"
         >
           <span className="material-symbols-outlined text-sm">swap_vert</span>
         </button>
 
         {/* To */}
-        <div className="relative z-10 flex items-center gap-3">
+        <div className="relative z-20 flex items-center gap-3">
           <div className="w-2.5 h-2.5 rounded-full border-2 border-[#fec931] bg-[#080C14] ring-4 ring-[#080C14]"></div>
           <div className="flex-1 bg-[#31353e]/80 rounded-lg p-2.5 border border-white/5">
             <StationSearchInput

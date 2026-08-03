@@ -92,7 +92,7 @@ export default function JourneyPlannerPage() {
             <div className="p-6 pb-4 border-b border-white/10">
               {/* Mode Selector */}
               <div className="flex gap-2 mb-6 overflow-x-auto scrollbar-hide pb-2">
-                {["metro", "bus", "train", "ferry", "multimodal"].map((mode) => (
+                {["metro", "multimodal"].map((mode) => (
                   <button
                     key={mode}
                     onClick={() => setSelectedMode(mode)}
@@ -102,14 +102,14 @@ export default function JourneyPlannerPage() {
                         : "bg-white/5 text-[#dfe2ee] hover:bg-white/10 border border-white/10"
                     }`}
                   >
-                    {mode === "multimodal" ? "Multi-Modal" : mode.toUpperCase()}
+                    {mode === "multimodal" ? "⚡ Multi-Modal (Cab/Auto)" : "METRO"}
                   </button>
                 ))}
               </div>
 
               {/* Inputs */}
               <div className="relative flex flex-col gap-3">
-                <div className="relative">
+                <div className="relative z-30">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-2 border-[#00e5ff] bg-transparent z-10"></span>
                   <StationSearchInput
                     value={origin}
@@ -123,7 +123,7 @@ export default function JourneyPlannerPage() {
                   </span>
                 </div>
 
-                <div className="absolute right-8 top-1/2 -translate-y-1/2 z-20">
+                <div className="absolute right-8 top-1/2 -translate-y-1/2 z-40">
                   <button
                     onClick={handleSwap}
                     className="w-8 h-8 rounded-full bg-[#262a33] border border-white/10 flex items-center justify-center text-[#bac9cc] hover:text-[#00e5ff] transition-colors shadow-lg"
@@ -133,7 +133,7 @@ export default function JourneyPlannerPage() {
                   </button>
                 </div>
 
-                <div className="relative">
+                <div className="relative z-20">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-[#ffb4ab] z-10"></span>
                   <StationSearchInput
                     value={destination}
