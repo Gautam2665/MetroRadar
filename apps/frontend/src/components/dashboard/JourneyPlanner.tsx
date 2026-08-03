@@ -45,7 +45,7 @@ const DEFAULT_CITY_STATIONS: Record<string, { from: string; to: string; quickPil
 };
 
 export function JourneyPlanner({ activeCity = "delhi", onJourneyCalculated }: JourneyPlannerProps) {
-  const [selectedMode, setSelectedMode] = useState<"metro" | "multimodal">("multimodal");
+  const [selectedMode, setSelectedMode] = useState<"metro" | "multimodal">("metro");
   const cityConfig = DEFAULT_CITY_STATIONS[activeCity?.toLowerCase() || "delhi"] || DEFAULT_CITY_STATIONS.delhi;
 
   const [fromQuery, setFromQuery] = useState(cityConfig.from);
@@ -256,7 +256,7 @@ export function JourneyPlanner({ activeCity = "delhi", onJourneyCalculated }: Jo
         <div className="mt-6 pt-4 border-t border-white/10 space-y-3 animate-slide-in">
           <div className="flex justify-between items-center">
             <span className="text-[14px] font-bold text-[#c3f5ff]">
-              {selectedMode === "multimodal" ? "⚡ Multi-Modal Path (Metro + Cab/Auto)" : "Metro Direct Path"}
+              {selectedMode === "multimodal" ? "⚡ Multi-Modal (Cab/Auto Shuttle)" : "Metro Direct Path"}
             </span>
             <span className="text-[12px] px-2 py-0.5 rounded-full bg-[#10B981]/20 text-[#10B981] font-bold">
               Score: {activeJourney.journey.score}/100
@@ -267,7 +267,17 @@ export function JourneyPlanner({ activeCity = "delhi", onJourneyCalculated }: Jo
               <p className="font-bold text-[#dfe2ee]">{activeJourney.journey.duration} Mins Total</p>
               <p className="text-[12px] text-[#bac9cc]">{activeJourney.journey.transfers} Transfers • {fromQuery} ➔ {toQuery}</p>
             </div>
-            <span className="text-[16px] font-bold text-[#c3f5ff]">₹30</span>
+            {selectedMode === "multimodal" ? (
+              <div className="text-right">
+                <span className="text-[13px] font-bold text-[#00e5ff] block">Cab: ₹140</span>
+                <span className="text-[11px] font-bold text-[#fec931] block">Auto: ₹85</span>
+              </div>
+            ) : (
+              <div className="text-right">
+                <span className="text-[16px] font-bold text-[#c3f5ff] block">₹30</span>
+                <span className="text-[10px] text-[#bac9cc] block">Card: ₹27</span>
+              </div>
+            )}
           </div>
         </div>
       )}

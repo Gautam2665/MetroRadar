@@ -9,7 +9,7 @@ import { CITY_METADATA } from "../page";
 
 export default function JourneyPlannerPage() {
   const [activeCity, setActiveCity] = useState("delhi");
-  const [selectedMode, setSelectedMode] = useState("multimodal");
+  const [selectedMode, setSelectedMode] = useState("metro");
   const [origin, setOrigin] = useState("Kashmere Gate");
   const [destination, setDestination] = useState("HUDA City Centre");
   const [activeRouteIndex, setActiveRouteIndex] = useState(0);
@@ -222,7 +222,11 @@ export default function JourneyPlannerPage() {
                     </div>
                     <div className="text-right">
                       <div className="text-sm font-bold text-[#dfe2ee]">{route.duration}</div>
-                      <div className="text-xs text-[#00e5ff] font-bold">{route.fare}</div>
+                      {selectedMode === "multimodal" ? (
+                        <div className="text-xs text-[#00e5ff] font-bold">Cab: ₹140 • Auto: ₹85</div>
+                      ) : (
+                        <div className="text-xs text-[#00e5ff] font-bold">{route.fare}</div>
+                      )}
                     </div>
                   </div>
 
