@@ -9,7 +9,7 @@ export function Sidebar() {
   const navItems = [
     { label: "Home", href: "/", icon: "home" },
     { label: "Plan Journey", href: "/plan", icon: "directions" },
-    { label: "Live Network", href: "/?mode=live", icon: "sensors" },
+    { label: "Live Network", href: "/network", icon: "sensors" },
     { label: "My Journeys", href: "/journeys", icon: "route" },
     { label: "Tickets & Passes", href: "/passes", icon: "confirmation_number" },
     { label: "Alerts", href: "/alerts", icon: "notifications_active" },
