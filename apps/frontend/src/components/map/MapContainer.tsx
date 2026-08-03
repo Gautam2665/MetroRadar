@@ -4,6 +4,25 @@ import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Compass } from "lucide-react";
+const CITY_CENTERS: Record<string, { center: [number, number]; zoom: number }> = {
+  delhi: { center: [77.2090, 28.6139], zoom: 11 },
+  kochi: { center: [76.2999, 9.9816], zoom: 12 },
+  hyderabad: { center: [78.4867, 17.3850], zoom: 12 },
+  bengaluru: { center: [77.5946, 12.9716], zoom: 12 },
+  chennai: { center: [80.2707, 13.0827], zoom: 12 },
+  ahmedabad: { center: [72.5714, 23.0225], zoom: 12 },
+  mumbai: { center: [72.8777, 19.0760], zoom: 12 },
+};
+
+const SYSTEM_CODES: Record<string, string> = {
+  delhi: "DMRC",
+  kochi: "KMRL",
+  hyderabad: "HMRL",
+  bengaluru: "BMRCL",
+  chennai: "CMRL",
+  ahmedabad: "GMRC",
+  mumbai: "MMRDA",
+};
 
 type MapContainerProps = {
   center?: [number, number];
@@ -94,27 +113,20 @@ export default function MapContainer({
     };
   }, [mapRef]);
 
-  // Update center and zoom when props change externally
+  // Fly to target city center when activeCity changes
   useEffect(() => {
     const map = effectiveMapRef.current;
     if (!map || !mapLoaded) return;
 
-    const currentCenter = map.getCenter();
-    const centerDiff =
-      Math.abs(currentCenter.lng - center[0]) > 0.0001 ||
-      Math.abs(currentCenter.lat - center[1]) > 0.0001;
-    const zoomDiff = Math.abs(map.getZoom() - zoom) > 0.1;
-
-    if (centerDiff || zoomDiff) {
-      map.flyTo({
-        center: center,
-        zoom: zoom,
-        speed: 1.2,
-        curve: 1.42,
-        essential: true,
-      });
-    }
-  }, [center, zoom, mapLoaded, mapRef]);
+    const cityConfig = CITY_CENTERS[activeCity?.toLowerCase() || "delhi"] || CITY_CENTERS.delhi;
+    map.flyTo({
+      center: cityConfig.center,
+      zoom: cityConfig.zoom,
+      speed: 1.4,
+      curve: 1.42,
+      essential: true,
+    });
+  }, [activeCity, mapLoaded]);
 
   // Load and style GIS Layers
   useEffect(() => {
@@ -292,7 +304,7 @@ export default function MapContainer({
       if (activeLayers.includes("realtime")) {
         try {
           const start = performance.now();
-          const systemCode = activeCity === "kochi" ? "KMRL" : "DMRC";
+          const systemCode = SYSTEM_CODES[activeCity?.toLowerCase() || "delhi"] || "DMRC";
           const res = await fetch(`${backendUrl}/realtime/vehicles?system=${systemCode}&t=${Date.now()}`);
           const ms = Math.round(performance.now() - start);
           apiLatencySetter?.(ms);
