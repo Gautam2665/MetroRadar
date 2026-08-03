@@ -6,39 +6,45 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import { Compass } from "lucide-react";
 
 type MapContainerProps = {
-  center: [number, number];
-  zoom: number;
-  activeLayers: string[];
+  center?: [number, number];
+  zoom?: number;
+  activeLayers?: string[];
   activeCity?: string;
-  selectedStationId: string | null;
-  onStationSelect: (stationId: string) => void;
-  onViewportChange: (center: [number, number], zoom: number) => void;
-  apiLatencySetter: (ms: number) => void;
-  setLoadedLayersCount: (count: number) => void;
-  mapRef: React.MutableRefObject<maplibregl.Map | null>;
+  selectedStationId?: string | null;
+  onStationSelect?: (stationId: string) => void;
+  onSelectStation?: (station: { id: string; name: string; code?: string; city?: string }) => void;
+  onViewportChange?: (center: [number, number], zoom: number) => void;
+  apiLatencySetter?: (ms: number) => void;
+  setLoadedLayersCount?: (count: number) => void;
+  mapRef?: React.MutableRefObject<maplibregl.Map | null>;
+  highlightGeojson?: GeoJSON.FeatureCollection | null;
   journeyGeojson?: GeoJSON.FeatureCollection | null;
 };
 
 export default function MapContainer({
-  center,
-  zoom,
-  activeLayers,
+  center = [77.2332, 28.6665],
+  zoom = 11,
+  activeLayers = ["lines", "stations", "vehicles"],
   activeCity = "delhi",
-  selectedStationId,
+  selectedStationId = null,
   onStationSelect,
+  onSelectStation,
   onViewportChange,
   apiLatencySetter,
   setLoadedLayersCount,
   mapRef,
+  highlightGeojson,
   journeyGeojson,
 }: MapContainerProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const internalMapRef = useRef<maplibregl.Map | null>(null);
+  const effectiveMapRef = mapRef || internalMapRef;
   const [mapLoaded, setMapLoaded] = useState(false);
   const [mapStyle, setMapStyle] = useState<"3D" | "Satellite" | "Dark">("Dark");
 
-  const handleZoomIn = () => mapRef.current?.zoomIn();
-  const handleZoomOut = () => mapRef.current?.zoomOut();
-  const handleResetNorth = () => mapRef.current?.resetNorthPitch();
+  const handleZoomIn = () => effectiveMapRef.current?.zoomIn();
+  const handleZoomOut = () => effectiveMapRef.current?.zoomOut();
+  const handleResetNorth = () => effectiveMapRef.current?.resetNorthPitch();
 
   const initialCenterRef = useRef(center);
   const initialZoomRef = useRef(zoom);
@@ -65,7 +71,7 @@ export default function MapContainer({
       bearing: 0,
     });
 
-    mapRef.current = map;
+    effectiveMapRef.current = map;
 
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-left");
 
@@ -79,18 +85,18 @@ export default function MapContainer({
 
     map.on("moveend", () => {
       const c = map.getCenter();
-      onViewportChangeRef.current([c.lng, c.lat], map.getZoom());
+      onViewportChangeRef.current?.([c.lng, c.lat], map.getZoom());
     });
 
     return () => {
       map.remove();
-      mapRef.current = null;
+      effectiveMapRef.current = null;
     };
   }, [mapRef]);
 
   // Update center and zoom when props change externally
   useEffect(() => {
-    const map = mapRef.current;
+    const map = effectiveMapRef.current;
     if (!map || !mapLoaded) return;
 
     const currentCenter = map.getCenter();
@@ -112,7 +118,7 @@ export default function MapContainer({
 
   // Load and style GIS Layers
   useEffect(() => {
-    const map = mapRef.current;
+    const map = effectiveMapRef.current;
     if (!map || !map.isStyleLoaded()) return;
 
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
@@ -438,7 +444,7 @@ export default function MapContainer({
 
   // ── Journey Highlight Layer ──────────────────────────────────────────────
   useEffect(() => {
-    const map = mapRef.current;
+    const map = effectiveMapRef.current;
     if (!map || !mapLoaded) return;
 
     const JOURNEY_LINE_SOURCE = "journey-highlight-source";

@@ -8,8 +8,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "MetroRadar - Urban Mobility Platform",
-  description: "Urban Mobility Intelligence Platform Dashboard",
+  title: "transitOS - Urban Mobility Platform",
+  description: "Urban Mobility Intelligence & Transit OS Platform",
 };
 
 export default function RootLayout({
@@ -18,8 +18,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
-      <body className="min-h-full flex flex-col font-sans bg-[#09090b]" suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} dark h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="min-h-full flex flex-col font-sans bg-[#080C14] text-[#dfe2ee]" suppressHydrationWarning>
         {children}
       </body>
     </html>

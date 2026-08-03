@@ -2,118 +2,123 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Train,
-  Navigation,
-  MapPin,
-  BarChart3,
-  CreditCard,
-  Bell,
-  DollarSign,
-  Settings,
-  LogOut,
-} from "lucide-react";
 
-interface NavItem {
-  label: string;
-  href: string;
-  icon: React.ElementType;
-}
-
-const navItems: NavItem[] = [
-  { label: "Dashboard",       href: "/",          icon: Train      },
-  { label: "Plan Journey",    href: "/plan",       icon: Navigation },
-  { label: "Stations",        href: "/stations",   icon: MapPin     },
-  { label: "Analytics",       href: "/analytics",  icon: BarChart3  },
-  { label: "Passes & Wallet", href: "/passes",     icon: CreditCard },
-  { label: "Alerts",          href: "/alerts",     icon: Bell       },
-  { label: "Payments",        href: "/payments",   icon: DollarSign },
-  { label: "Settings",        href: "/settings",   icon: Settings   },
-];
-
-export default function Sidebar() {
+export function Sidebar() {
   const pathname = usePathname();
 
+  const navItems = [
+    { label: "Home", href: "/", icon: "home" },
+    { label: "Plan Journey", href: "/plan", icon: "directions" },
+    { label: "Live Network", href: "/?mode=live", icon: "sensors" },
+    { label: "My Journeys", href: "/journeys", icon: "route" },
+    { label: "Tickets & Passes", href: "/passes", icon: "confirmation_number" },
+    { label: "Alerts", href: "/alerts", icon: "notifications_active" },
+    { label: "Analytics", href: "/analytics", icon: "analytics" },
+    { label: "Payments", href: "/payments", icon: "payments" },
+    { label: "Settings", href: "/settings", icon: "settings" },
+  ];
+
   return (
-    <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col bg-zinc-950/90 border-r border-zinc-800/60 backdrop-blur-md">
-
-      {/* Logo */}
-      <div className="flex flex-col gap-1 px-5 pt-6 pb-5 border-b border-zinc-800/60">
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-cyan-500/20 ring-1 ring-cyan-500/30">
-            <Train className="h-5 w-5 text-cyan-400" strokeWidth={2} />
-          </div>
-          <span className="text-lg font-bold tracking-tight text-white font-sans">
-            TransitOS
-          </span>
+    <>
+      {/* Desktop SideNavBar */}
+      <aside className="hidden md:flex flex-col h-screen py-6 fixed left-0 top-0 w-[260px] bg-[#1c2028]/80 backdrop-blur-[20px] border-r border-white/10 z-50 transition-all duration-300">
+        <div className="px-6 mb-8">
+          <Link href="/">
+            <h1 className="text-[24px] font-bold text-[#c3f5ff] tracking-tight hover:opacity-90 transition-opacity cursor-pointer">
+              transitOS
+            </h1>
+          </Link>
+          <p className="text-[14px] text-[#bac9cc]">Urban Mobility Platform</p>
         </div>
-        <p className="ml-[3.0rem] text-[10px] font-medium uppercase tracking-widest text-zinc-500">
-          Urban Mobility Intelligence
-        </p>
-      </div>
 
-      {/* Nav */}
-      <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-0.5">
-        {navItems.map(({ label, href, icon: Icon }) => {
-          const isActive =
-            href === "/" ? pathname === "/" : pathname.startsWith(href);
-
-          return (
-            <Link
-              key={href}
-              href={href}
-              className={[
-                "group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-150 pl-[10px]",
-                isActive
-                  ? "border-l-2 border-cyan-400 bg-cyan-500/10 text-cyan-400"
-                  : "border-l-2 border-transparent text-zinc-400 hover:bg-zinc-800/50 hover:text-white",
-              ].join(" ")}
-            >
-              <Icon
-                className={[
-                  "h-[18px] w-[18px] shrink-0 transition-colors duration-150",
+        <nav className="flex-1 overflow-y-auto px-4 space-y-1 scrollbar-hide">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg group transition-colors duration-200 ${
                   isActive
-                    ? "text-cyan-400"
-                    : "text-zinc-500 group-hover:text-white",
-                ].join(" ")}
-                strokeWidth={isActive ? 2.2 : 1.8}
-              />
-              <span className="truncate">{label}</span>
+                    ? "bg-[#7000ff]/20 text-[#c3f5ff] border-l-4 border-[#c3f5ff] font-semibold"
+                    : "text-[#bac9cc] hover:bg-white/5 hover:text-[#c3f5ff]"
+                }`}
+              >
+                <span
+                  className="material-symbols-outlined text-[20px]"
+                  style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
+                >
+                  {item.icon}
+                </span>
+                <span className="text-[14px]">{item.label}</span>
+              </Link>
+            );
+          })}
+        </nav>
 
-              {isActive && (
-                <span className="ml-auto h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_2px_rgba(6,182,212,0.5)]" />
-              )}
+        <div className="px-6 mt-auto space-y-4">
+          <div className="glass-panel rounded-xl p-4 border border-white/10">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="material-symbols-outlined text-[#c3f5ff] text-[32px]">
+                account_circle
+              </span>
+              <div>
+                <p className="text-[16px] font-semibold text-[#dfe2ee]">Gautam Mulay</p>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#4ade80] animate-pulse"></span>
+                  <p className="text-[10px] font-bold tracking-wider text-[#4ade80]">NCMC ACTIVE</p>
+                </div>
+              </div>
+            </div>
+            <Link
+              href="/settings"
+              className="w-full py-2 text-[14px] text-[#bac9cc] hover:text-[#c3f5ff] transition-colors flex items-center justify-center gap-2 border-t border-white/5 pt-2"
+            >
+              <span className="material-symbols-outlined text-sm">settings</span> Account Settings
             </Link>
-          );
-        })}
-      </nav>
-
-      {/* User card */}
-      <div className="border-t border-zinc-800/60 px-3 py-4">
-        <div className="flex items-center gap-3 rounded-xl bg-zinc-900/60 border border-zinc-800/60 px-3 py-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-cyan-500/20 ring-1 ring-cyan-500/30">
-            <span className="text-xs font-bold text-cyan-400 tracking-wide">
-              GS
-            </span>
           </div>
-
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-semibold text-white leading-tight">
-              Gautam Singh
-            </p>
-            <p className="text-[11px] text-zinc-500 leading-tight">
-              Passenger
-            </p>
-          </div>
-
-          <button
-            aria-label="Log out"
-            className="group flex h-7 w-7 items-center justify-center rounded-lg text-zinc-500 transition-colors duration-150 hover:bg-zinc-800 hover:text-red-400"
-          >
-            <LogOut className="h-4 w-4" strokeWidth={1.8} />
-          </button>
         </div>
-      </div>
-    </aside>
+      </aside>
+
+      {/* Mobile BottomNavBar */}
+      <nav className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-[#31353e]/95 backdrop-blur-2xl border-t border-white/10 rounded-t-xl md:hidden shadow-xl pb-safe">
+        <Link
+          href="/"
+          className={`flex flex-col items-center justify-center w-1/4 h-full transition-colors ${
+            pathname === "/" ? "text-[#c3f5ff]" : "text-[#bac9cc]"
+          }`}
+        >
+          <span className="material-symbols-outlined text-[20px]">home</span>
+          <span className="text-[10px] font-bold tracking-wider uppercase mt-1">Home</span>
+        </Link>
+        <Link
+          href="/plan"
+          className={`flex flex-col items-center justify-center w-1/4 h-full transition-colors ${
+            pathname === "/plan" ? "text-[#c3f5ff]" : "text-[#bac9cc]"
+          }`}
+        >
+          <span className="material-symbols-outlined text-[20px]">directions</span>
+          <span className="text-[10px] font-bold tracking-wider uppercase mt-1">Plan</span>
+        </Link>
+        <Link
+          href="/passes"
+          className={`flex flex-col items-center justify-center w-1/4 h-full transition-colors ${
+            pathname === "/passes" ? "text-[#c3f5ff]" : "text-[#bac9cc]"
+          }`}
+        >
+          <span className="material-symbols-outlined text-[20px]">confirmation_number</span>
+          <span className="text-[10px] font-bold tracking-wider uppercase mt-1">Tickets</span>
+        </Link>
+        <Link
+          href="/alerts"
+          className={`flex flex-col items-center justify-center w-1/4 h-full transition-colors ${
+            pathname === "/alerts" ? "text-[#c3f5ff]" : "text-[#bac9cc]"
+          }`}
+        >
+          <span className="material-symbols-outlined text-[20px]">notifications</span>
+          <span className="text-[10px] font-bold tracking-wider uppercase mt-1">Alerts</span>
+        </Link>
+      </nav>
+    </>
   );
 }

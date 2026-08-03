@@ -1,93 +1,79 @@
-import { CreditCard, Smartphone, Plus } from 'lucide-react';
+"use client";
+
+import { Sidebar } from "../../components/Sidebar";
+import { Header } from "../../components/Header";
 
 export default function PaymentsPage() {
-  const transactions = [
-    { date: '14 Aug', route: 'Kashmere Gate → HUDA City', mode: 'Metro', amount: '₹30', status: 'Completed' },
-    { date: '12 Aug', route: 'Rajiv Chowk → Airport', mode: 'Multi', amount: '₹45', status: 'Completed' },
-    { date: '10 Aug', route: 'Wallet Top-up', mode: 'UPI', amount: '₹200', status: 'Completed' },
-    { date: '08 Aug', route: 'Kochi Central → Aluva', mode: 'Metro', amount: '₹20', status: 'Completed' },
-    { date: '05 Aug', route: 'Daily Pass', mode: 'Pass', amount: '₹60', status: 'Refunded' },
-    { date: '02 Aug', route: 'MG Road → Cyber City', mode: 'Metro', amount: '₹25', status: 'Completed' },
-    { date: '01 Aug', route: 'Wallet Top-up', mode: 'Card', amount: '₹500', status: 'Pending' },
-    { date: '28 Jul', route: 'Sector 55 → Sikanderpur', mode: 'Metro', amount: '₹15', status: 'Completed' },
-  ];
-
   return (
-    <div className="px-6 py-6 max-w-6xl mx-auto text-zinc-100">
-      <h1 className="text-3xl font-bold mb-8 text-white">Payments</h1>
+    <div className="flex h-screen overflow-hidden bg-[#080C14] text-[#dfe2ee]">
+      <Sidebar />
+      <div className="flex-1 flex flex-col md:ml-[260px] relative h-full">
+        <Header />
+        <main className="flex-1 overflow-y-auto p-6 scrollbar-hide">
+          <div className="max-w-6xl mx-auto space-y-6">
+            <div>
+              <h2 className="text-[32px] font-bold text-[#dfe2ee]">Payments & Wallet</h2>
+              <p className="text-[16px] text-[#bac9cc]">Manage your NCMC smart card balance and transit pass transactions.</p>
+            </div>
 
-      <div className="mb-10">
-        <h2 className="text-xl font-semibold mb-4 text-white">Payment Methods</h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-2xl p-5 flex flex-col justify-between h-32 relative overflow-hidden group hover:border-cyan-500/50 transition-colors cursor-pointer">
-            <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/10 rounded-full blur-xl group-hover:bg-blue-500/20 transition-colors"></div>
-            <div className="flex items-center gap-3">
-              <CreditCard className="w-5 h-5 text-zinc-400" />
-              <span className="font-semibold">Visa Card</span>
-            </div>
-            <div className="font-mono text-zinc-400 mt-4">**** **** **** 4242</div>
-          </div>
-          <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-2xl p-5 flex flex-col justify-between h-32 relative overflow-hidden group hover:border-cyan-500/50 transition-colors cursor-pointer">
-            <div className="absolute top-0 right-0 w-16 h-16 bg-emerald-500/10 rounded-full blur-xl group-hover:bg-emerald-500/20 transition-colors"></div>
-            <div className="flex items-center gap-3">
-              <Smartphone className="w-5 h-5 text-zinc-400" />
-              <span className="font-semibold">Google Pay</span>
-            </div>
-            <div className="text-zinc-400 mt-4 text-sm">gautam@okaxis</div>
-          </div>
-          <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-2xl p-5 flex flex-col justify-between h-32 relative overflow-hidden group hover:border-cyan-500/50 transition-colors cursor-pointer">
-            <div className="absolute top-0 right-0 w-16 h-16 bg-blue-400/10 rounded-full blur-xl group-hover:bg-blue-400/20 transition-colors"></div>
-            <div className="flex items-center gap-3">
-              <Smartphone className="w-5 h-5 text-zinc-400" />
-              <span className="font-semibold">Paytm</span>
-            </div>
-            <div className="text-zinc-400 mt-4 text-sm">+91 98765 43210</div>
-          </div>
-          <div className="bg-zinc-900/40 border border-zinc-800 border-dashed rounded-2xl p-5 flex flex-col items-center justify-center h-32 hover:bg-zinc-800/50 hover:border-zinc-600 transition-colors cursor-pointer text-zinc-400 hover:text-white">
-            <Plus className="w-6 h-6 mb-2" />
-            <span className="font-medium text-sm">Add New</span>
-          </div>
-        </div>
-      </div>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              {/* Wallet Card */}
+              <div className="lg:col-span-4 space-y-6">
+                <div className="glass-card rounded-xl p-6 border border-white/10 relative overflow-hidden">
+                  <p className="text-[14px] text-[#bac9cc] mb-1">Wallet Balance</p>
+                  <h3 className="text-[32px] font-bold text-[#c3f5ff] mb-6">₹256.40</h3>
+                  <button className="w-full py-3 bg-[#c3f5ff] text-[#00363d] rounded-lg font-bold text-[16px] hover:opacity-90 transition-opacity">
+                    + Add Money
+                  </button>
+                </div>
 
-      <div>
-        <h2 className="text-xl font-semibold mb-4 text-white">Transaction History</h2>
-        <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-2xl backdrop-blur-md overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm whitespace-nowrap">
-              <thead className="bg-zinc-900/80 border-b border-zinc-800/80 text-zinc-400">
-                <tr>
-                  <th className="px-6 py-4 font-medium">Date</th>
-                  <th className="px-6 py-4 font-medium">Description</th>
-                  <th className="px-6 py-4 font-medium">Mode</th>
-                  <th className="px-6 py-4 font-medium">Amount</th>
-                  <th className="px-6 py-4 font-medium">Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-zinc-800/50">
-                {transactions.map((tx, i) => (
-                  <tr key={i} className="hover:bg-zinc-800/30 transition-colors">
-                    <td className="px-6 py-4 text-zinc-400">{tx.date}</td>
-                    <td className="px-6 py-4 font-medium">{tx.route}</td>
-                    <td className="px-6 py-4">
-                      <span className="px-2.5 py-1 rounded-md bg-zinc-800 text-xs font-medium text-zinc-300">{tx.mode}</span>
-                    </td>
-                    <td className="px-6 py-4 font-semibold">{tx.amount}</td>
-                    <td className="px-6 py-4">
-                      <span className={`px-2.5 py-1 rounded-full text-xs font-medium border ${
-                        tx.status === 'Completed' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
-                        tx.status === 'Refunded' ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' :
-                        'bg-yellow-500/10 text-yellow-400 border-yellow-500/20'
-                      }`}>
-                        {tx.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                <div className="glass-card rounded-xl p-6 border border-white/10">
+                  <h3 className="text-[18px] font-semibold text-[#dfe2ee] mb-4">Saved Payment Methods</h3>
+                  <div className="space-y-3">
+                    <div className="p-4 glass-panel rounded-lg flex items-center justify-between border border-white/10">
+                      <div>
+                        <h4 className="font-semibold text-[#dfe2ee]">NCMC Standard Card</h4>
+                        <p className="text-[12px] text-[#bac9cc]">Default Transit Smart Card</p>
+                      </div>
+                      <span className="text-[#c3f5ff] font-bold text-xs">ACTIVE</span>
+                    </div>
+                    <div className="p-4 glass-panel rounded-lg flex items-center justify-between border border-white/5">
+                      <div>
+                        <h4 className="font-semibold text-[#dfe2ee]">UPI AutoPay</h4>
+                        <p className="text-[12px] text-[#bac9cc]">gautam@okaxis</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Transactions List */}
+              <div className="lg:col-span-8">
+                <div className="glass-card rounded-xl p-6 border border-white/10 h-full flex flex-col">
+                  <h3 className="text-[18px] font-semibold text-[#dfe2ee] mb-4">Recent Transactions</h3>
+                  <div className="space-y-3 flex-1 overflow-y-auto pr-1 scrollbar-hide">
+                    {[
+                      { title: "Metro Ride - Andheri to BKC", time: "Today, 09:15 AM", amount: "-₹45.00", color: "#ffb4ab" },
+                      { title: "Wallet Auto-Recharge (UPI)", time: "Yesterday", amount: "+₹500.00", color: "#c3f5ff" },
+                      { title: "Bus Ticket - Route 4L", time: "Mon, 14 Aug", amount: "-₹15.00", color: "#ffb4ab" },
+                      { title: "Metro Ride - BKC to Andheri", time: "Mon, 14 Aug", amount: "-₹45.00", color: "#ffb4ab" },
+                    ].map((tx, idx) => (
+                      <div key={idx} className="p-4 glass-panel rounded-lg flex items-center justify-between border border-white/5 hover:bg-white/5 transition-colors">
+                        <div>
+                          <h4 className="text-[16px] font-semibold text-[#dfe2ee]">{tx.title}</h4>
+                          <p className="text-[12px] text-[#bac9cc]">{tx.time}</p>
+                        </div>
+                        <span className="text-[16px] font-bold" style={{ color: tx.color }}>
+                          {tx.amount}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </main>
       </div>
     </div>
   );

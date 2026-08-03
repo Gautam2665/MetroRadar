@@ -1,126 +1,104 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Bell } from "lucide-react";
+import Link from "next/link";
+
+interface HeaderProps {
+  activeCity?: string;
+  onCityChange?: (city: string) => void;
+}
 
 const CITIES = [
-  "Delhi",
-  "Kochi",
-  "Hyderabad",
-  "Bengaluru",
-  "Chennai",
-  "Ahmedabad",
+  { code: "mumbai", name: "Mumbai, MH", badge: "Live" },
+  { code: "delhi", name: "Delhi, IN", badge: "Certified" },
+  { code: "kochi", name: "Kochi, KL", badge: "Certified" },
+  { code: "hyderabad", name: "Hyderabad, IN", badge: "Certified" },
+  { code: "bengaluru", name: "Bengaluru, IN", badge: "Certified" },
+  { code: "chennai", name: "Chennai, IN", badge: "Certified" },
+  { code: "ahmedabad", name: "Ahmedabad, IN", badge: "Certified" },
 ];
 
-export default function Header() {
-  const [city, setCity] = useState("Delhi");
-  const [query, setQuery] = useState("");
+export function Header({ activeCity = "delhi", onCityChange }: HeaderProps) {
+  const [openCityMenu, setOpenCityMenu] = useState(false);
+  const currentCityObj = CITIES.find((c) => c.code === activeCity) || CITIES[1];
 
   return (
-    <header className="sticky top-0 z-50 flex h-14 items-center gap-4 border-b border-zinc-800/60 bg-zinc-950/80 px-5 backdrop-blur-md">
-
-      {/* Left: city selector */}
-      <div className="shrink-0">
-        <label htmlFor="city-select" className="sr-only">
-          Select city
-        </label>
-        <select
-          id="city-select"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          className="
-            cursor-pointer rounded-lg border border-zinc-700 bg-zinc-800
-            px-3 py-1.5 text-sm font-medium text-white
-            outline-none transition-colors duration-150
-            hover:border-zinc-600 hover:bg-zinc-700/80
-            focus:border-cyan-500/60 focus:ring-1 focus:ring-cyan-500/30
-          "
-        >
-          {CITIES.map((c) => (
-            <option key={c} value={c} className="bg-zinc-900">
-              {c}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Center: search */}
-      <div className="relative flex-1 max-w-lg mx-auto">
-        <Search
-          className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500"
-          strokeWidth={1.8}
-        />
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search stations, routes..."
-          aria-label="Search stations and routes"
-          className="
-            w-full rounded-xl border border-zinc-800/80 bg-zinc-900/60
-            py-2 pl-9 pr-4 text-sm text-white placeholder:text-zinc-500
-            outline-none backdrop-blur-sm transition-all duration-150
-            hover:border-zinc-700 hover:bg-zinc-900/80
-            focus:border-cyan-500/50 focus:bg-zinc-900 focus:ring-1 focus:ring-cyan-500/20
-          "
-        />
-      </div>
-
-      {/* Right: chips + avatar */}
-      <div className="flex shrink-0 items-center gap-3">
-
-        {/* Weather chip */}
-        <span
-          aria-label="Current weather: 28 degrees Celsius, partly cloudy"
-          className="
-            hidden sm:inline-flex items-center gap-1.5
-            rounded-full bg-zinc-800 border border-zinc-700/60
-            px-3 py-1 text-xs font-medium text-zinc-300
-            select-none
-          "
-        >
-          28°C
-          <span aria-hidden="true">⛅</span>
-        </span>
-
-        {/* Notification bell */}
-        <button
-          aria-label="Notifications, 3 unread"
-          className="
-            relative flex h-8 w-8 items-center justify-center rounded-lg
-            text-zinc-400 transition-colors duration-150
-            hover:bg-zinc-800 hover:text-white
-            focus:outline-none focus:ring-1 focus:ring-cyan-500/40
-          "
-        >
-          <Bell className="h-[18px] w-[18px]" strokeWidth={1.8} />
-          <span
-            aria-hidden="true"
-            className="
-              absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center
-              rounded-full bg-red-500 text-[9px] font-bold text-white
-              ring-1 ring-zinc-950 leading-none
-            "
-          >
-            3
+    <header className="flex justify-between items-center w-full px-6 h-16 bg-[#080C14]/90 backdrop-blur-md sticky top-0 z-40 border-b border-white/5">
+      <div className="flex-1 flex items-center gap-4">
+        {/* Search Bar */}
+        <div className="relative w-96 hidden lg:block">
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#bac9cc] text-sm">
+            search
           </span>
-        </button>
+          <input
+            className="w-full bg-[#1c2028]/50 border border-white/10 rounded-full py-2 pl-10 pr-4 text-[14px] focus:outline-none focus:border-[#c3f5ff]/50 text-[#dfe2ee] placeholder:text-[#bac9cc]/50"
+            placeholder="Search for a station, place or line..."
+            type="text"
+          />
+        </div>
+      </div>
 
-        {/* User avatar */}
-        <button
-          aria-label="User menu – Gautam Singh"
-          className="
-            flex h-8 w-8 items-center justify-center rounded-full
-            bg-cyan-500/20 ring-1 ring-cyan-500/30
-            text-xs font-bold text-cyan-400 tracking-wide
-            transition-colors duration-150
-            hover:bg-cyan-500/30 hover:ring-cyan-400/50
-            focus:outline-none focus:ring-2 focus:ring-cyan-500/50
-            select-none
-          "
-        >
-          GS
-        </button>
+      <div className="flex items-center gap-6">
+        {/* Weather Status */}
+        <div className="flex items-center gap-2 hidden sm:flex">
+          <span className="material-symbols-outlined text-[#fec931] text-[20px]">wb_sunny</span>
+          <div className="text-right">
+            <p className="text-[14px] font-semibold text-[#dfe2ee]">28°C</p>
+            <p className="text-[10px] text-[#bac9cc] leading-none">{currentCityObj.name}</p>
+          </div>
+        </div>
+
+        {/* Dynamic City Selector Dropdown */}
+        <div className="relative">
+          <button
+            onClick={() => setOpenCityMenu(!openCityMenu)}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-[#c3f5ff]/50 transition-colors text-[#c3f5ff] text-[14px] font-semibold"
+          >
+            <span className="material-symbols-outlined text-sm">location_on</span>
+            <span>{currentCityObj.name}</span>
+            <span className="material-symbols-outlined text-xs">expand_more</span>
+          </button>
+
+          {openCityMenu && (
+            <div className="absolute right-0 mt-2 w-56 bg-[#1c2028] border border-white/10 rounded-xl shadow-2xl py-2 z-50 animate-slide-in">
+              <div className="px-3 py-1 text-[10px] font-bold text-[#bac9cc] uppercase tracking-wider border-b border-white/5">
+                Certified Metro Networks
+              </div>
+              {CITIES.map((c) => (
+                <button
+                  key={c.code}
+                  onClick={() => {
+                    if (onCityChange) onCityChange(c.code);
+                    setOpenCityMenu(false);
+                  }}
+                  className={`w-full text-left px-4 py-2.5 text-[14px] flex items-center justify-between hover:bg-white/5 transition-colors ${
+                    activeCity === c.code ? "text-[#c3f5ff] font-bold bg-white/5" : "text-[#dfe2ee]"
+                  }`}
+                >
+                  <span>{c.name}</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#c3f5ff]/10 text-[#c3f5ff] border border-[#c3f5ff]/30">
+                    {c.badge}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Action Controls */}
+        <div className="flex items-center gap-3">
+          <Link href="/alerts" className="relative text-[#bac9cc] hover:text-[#c3f5ff] transition-colors p-2 rounded-full hover:bg-white/5">
+            <span className="material-symbols-outlined text-[20px]">notifications</span>
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#ffb4ab] rounded-full"></span>
+          </Link>
+          <div className="w-8 h-8 rounded-full overflow-hidden border border-white/10">
+            <img
+              alt="Gautam Mulay Avatar"
+              className="w-full h-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuC28bNDbt1eYF5GFk5J8vr0g9_MjbfaNe6NI7CVAYFFyqdFnGjQRpMW93Go6mxvoRAfQg0Bv9eYl9sHjlJxehFWTWeIuIx-YK9vUcMB3sU5LMUGjPWjzzXq0n50Wrb3xY-9dt3o2Yujcgwv8r9NPskDFyp4hSt02EerwBGG9W1xgbO0fQ7wk4BHLm0nP7tZGCW5lihiUh73Kz1SnPAOq86067_XmtlJg7uc5qPLYXG0HhZUkk4HMGZf"
+            />
+          </div>
+        </div>
       </div>
     </header>
   );

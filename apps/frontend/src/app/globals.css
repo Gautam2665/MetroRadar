@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #09090b;
-  --foreground: #f4f4f5;
+  --background: #080C14;
+  --foreground: #dfe2ee;
 }
 
 @theme inline {
@@ -12,27 +12,65 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background-color: #080C14;
+  color: #dfe2ee;
+  font-family: var(--font-sans);
 }
 
-/* Custom Webkit scrollbar for premium aesthetics */
-.scrollbar-thin::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: transparent;
-}
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background: #27272a;
-  border-radius: 9999px;
-}
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+.glass-card,
+.glass-panel {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Slide in keyframe animation */
+.glass-float {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glow-accent {
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
+}
+
+/* Custom Webkit scrollbar */
+.scrollbar-hide::-webkit-scrollbar,
+.custom-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide,
+.custom-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Transit Line Badge Helpers */
+.line-red {
+  background-color: #EF4444;
+  color: white;
+}
+.line-yellow {
+  background-color: #FACC15;
+  color: black;
+}
+.line-violet {
+  background-color: #8B5CF6;
+  color: white;
+}
+.line-blue {
+  background-color: #3B82F6;
+  color: white;
+}
+.line-green {
+  background-color: #10B981;
+  color: white;
+}
+
+/* Slide in animation */
 @keyframes slideIn {
   from {
     transform: translateX(100%);
@@ -47,4 +85,3 @@ body {
 .animate-slide-in {
   animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-

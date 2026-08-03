@@ -1,140 +1,69 @@
-'use client';
-import { useState } from 'react';
-import { User, Bell, Globe, Link as LinkIcon, CheckCircle2 } from 'lucide-react';
+"use client";
+
+import { Sidebar } from "../../components/Sidebar";
+import { Header } from "../../components/Header";
 
 export default function SettingsPage() {
-  const [jAlerts, setJAlerts] = useState(true);
-  const [dAlerts, setDAlerts] = useState(true);
-  const [oAlerts, setOAlerts] = useState(false);
-
   return (
-    <div className="px-6 py-6 max-w-4xl mx-auto text-zinc-100">
-      <h1 className="text-3xl font-bold mb-8 text-white">Settings</h1>
-
-      <div className="space-y-6">
-        {/* Profile */}
-        <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-2xl backdrop-blur-md p-6">
-          <div className="flex items-center gap-3 mb-6 text-cyan-400">
-            <User className="w-5 h-5" />
-            <h2 className="text-xl font-semibold text-white">Profile</h2>
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-full bg-zinc-800 flex items-center justify-center text-xl font-bold text-zinc-400 border border-zinc-700">
-                GS
-              </div>
-              <div>
-                <div className="text-lg font-bold">Gautam Singh</div>
-                <div className="text-zinc-400 text-sm">gautam@transit.os</div>
-              </div>
+    <div className="flex h-screen overflow-hidden bg-[#080C14] text-[#dfe2ee]">
+      <Sidebar />
+      <div className="flex-1 flex flex-col md:ml-[260px] relative h-full">
+        <Header />
+        <main className="flex-1 overflow-y-auto p-6 scrollbar-hide">
+          <div className="max-w-3xl mx-auto space-y-8 pb-20">
+            <div>
+              <h2 className="text-[32px] font-bold text-[#dfe2ee] mb-6">Settings</h2>
             </div>
-            <button className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg text-sm font-medium transition-colors">
-              Edit
-            </button>
-          </div>
-        </div>
 
-        {/* Notifications */}
-        <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-2xl backdrop-blur-md p-6">
-          <div className="flex items-center gap-3 mb-6 text-cyan-400">
-            <Bell className="w-5 h-5" />
-            <h2 className="text-xl font-semibold text-white">Notification Preferences</h2>
-          </div>
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Journey Alerts</div>
-                <div className="text-sm text-zinc-400">Get notified when you approach your stop</div>
+            {/* Profile Card */}
+            <div className="glass-card rounded-xl p-6 flex flex-col sm:flex-row items-center sm:items-start gap-6 border border-white/10">
+              <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#c3f5ff]/30 shadow-[0_0_15px_rgba(0,229,255,0.2)]">
+                <img
+                  alt="Gautam Mulay Profile"
+                  className="w-full h-full object-cover"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9V9ms5PUnw2CbJiHOMocoOGvJIvGGqIoxveHvQsbFZlYDR-W3gi4ZyJN85avpBOR8fXcGPaGdJFKhkLNmPK29nEkB5KHADZi3TV-o4YjKGqkxW38rxJDCAahq3lM41qbOCCVZjxW5OYEF_qBz-EAotY91Vo7lgLrOV7kfO7XXUFZna0nu59WL7-1m-_YGc3kX_RfAHLDe-S8dUwZPaA48rHs5TMlN826402yehaf_7Yewc37ERYPW"
+                />
               </div>
-              <button 
-                onClick={() => setJAlerts(!jAlerts)}
-                className={`w-12 h-6 rounded-full p-1 transition-colors ${jAlerts ? 'bg-cyan-500' : 'bg-zinc-700'}`}
-              >
-                <div className={`w-4 h-4 bg-white rounded-full transition-transform ${jAlerts ? 'translate-x-6' : 'translate-x-0'}`}></div>
+              <div className="flex-1 text-center sm:text-left">
+                <h3 className="text-[24px] font-bold text-[#dfe2ee] mb-1">Gautam Mulay</h3>
+                <p className="text-[14px] text-[#bac9cc] mb-4">gautam.m@transitos.io</p>
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#7000ff]/20 border border-[#7000ff]/30">
+                  <span className="text-[#c3f5ff] text-xs font-bold uppercase tracking-wider">NCMC Standard</span>
+                </div>
+              </div>
+              <button className="px-6 py-2 rounded-full glass-card border-[#c3f5ff] text-[#c3f5ff] font-semibold text-sm hover:bg-[#c3f5ff]/10 transition-colors">
+                Edit Profile
               </button>
             </div>
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Delay Notifications</div>
-                <div className="text-sm text-zinc-400">Service disruptions for favorite routes</div>
-              </div>
-              <button 
-                onClick={() => setDAlerts(!dAlerts)}
-                className={`w-12 h-6 rounded-full p-1 transition-colors ${dAlerts ? 'bg-cyan-500' : 'bg-zinc-700'}`}
-              >
-                <div className={`w-4 h-4 bg-white rounded-full transition-transform ${dAlerts ? 'translate-x-6' : 'translate-x-0'}`}></div>
-              </button>
-            </div>
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Offer SMS</div>
-                <div className="text-sm text-zinc-400">Promotional offers and discounts</div>
-              </div>
-              <button 
-                onClick={() => setOAlerts(!oAlerts)}
-                className={`w-12 h-6 rounded-full p-1 transition-colors ${oAlerts ? 'bg-cyan-500' : 'bg-zinc-700'}`}
-              >
-                <div className={`w-4 h-4 bg-white rounded-full transition-transform ${oAlerts ? 'translate-x-6' : 'translate-x-0'}`}></div>
-              </button>
-            </div>
-          </div>
-        </div>
 
-        {/* App Prefs */}
-        <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-2xl backdrop-blur-md p-6">
-          <div className="flex items-center gap-3 mb-6 text-cyan-400">
-            <Globe className="w-5 h-5" />
-            <h2 className="text-xl font-semibold text-white">App Preferences</h2>
-          </div>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="font-medium">Default City</span>
-              <select className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-cyan-500">
-                <option>New Delhi</option>
-                <option>Mumbai</option>
-                <option>Kochi</option>
-              </select>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="font-medium">Language</span>
-              <select className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-cyan-500">
-                <option>English</option>
-                <option>Hindi</option>
-              </select>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="font-medium">Theme</span>
-              <select className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-cyan-500">
-                <option>Dark</option>
-                <option>Light</option>
-              </select>
+            {/* Settings Options */}
+            <div className="space-y-4">
+              {[
+                { title: "Saved Places", desc: "Manage home, work, and frequent destinations", icon: "location_on" },
+                { title: "Notification Triggers", desc: "Configure push alerts for delays and arrivals", icon: "notifications_active" },
+                { title: "Accessibility", desc: "Step-free routing and high contrast preferences", icon: "accessibility_new" },
+                { title: "App Settings", desc: "Language, region, and map display options", icon: "tune" },
+                { title: "Help & Support", desc: "FAQs, contact support, and report issues", icon: "help" },
+                { title: "About transitOS", desc: "Version 4.2.1, terms of service, and privacy policy", icon: "info" },
+              ].map((item, idx) => (
+                <div key={idx} className="glass-card rounded-lg p-4 flex items-center justify-between group hover:border-[#c3f5ff]/50 transition-colors cursor-pointer border border-white/10">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-full bg-[#262a33] flex items-center justify-center text-[#c3f5ff]">
+                      <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
+                    </div>
+                    <div>
+                      <h4 className="text-[16px] font-semibold text-[#dfe2ee]">{item.title}</h4>
+                      <p className="text-[14px] text-[#bac9cc]">{item.desc}</p>
+                    </div>
+                  </div>
+                  <span className="material-symbols-outlined text-[#bac9cc] group-hover:text-[#c3f5ff] transition-colors">
+                    chevron_right
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-
-        {/* Accounts */}
-        <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-2xl backdrop-blur-md p-6">
-          <div className="flex items-center gap-3 mb-6 text-cyan-400">
-            <LinkIcon className="w-5 h-5" />
-            <h2 className="text-xl font-semibold text-white">Connected Accounts</h2>
-          </div>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 border border-zinc-800 rounded-xl bg-zinc-800/30">
-              <div className="font-medium">Google</div>
-              <div className="flex items-center gap-2 text-emerald-400 text-sm font-medium">
-                <CheckCircle2 className="w-4 h-4" />
-                Connected
-              </div>
-            </div>
-            <div className="flex items-center justify-between p-3 border border-zinc-800 rounded-xl bg-zinc-800/30">
-              <div className="font-medium">UPI ID</div>
-              <div className="flex items-center gap-2 text-emerald-400 text-sm font-medium">
-                <CheckCircle2 className="w-4 h-4" />
-                Linked
-              </div>
-            </div>
-          </div>
-        </div>
+        </main>
       </div>
     </div>
   );
