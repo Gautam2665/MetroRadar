@@ -213,8 +213,16 @@ export default function MapContainer({
             map.on("click", "stations-layer", (e) => {
               const features = map.queryRenderedFeatures(e.point, { layers: ["stations-layer"] });
               if (features.length > 0) {
-                const id = features[0].properties?.id;
-                if (id) onStationSelect(id);
+                const props = features[0].properties;
+                if (props?.id) {
+                  onStationSelect?.(props.id);
+                  onSelectStation?.({
+                    id: props.id,
+                    name: props.name || "Station",
+                    code: props.code || "STN",
+                    city: props.city || activeCity,
+                  });
+                }
               }
             });
 
