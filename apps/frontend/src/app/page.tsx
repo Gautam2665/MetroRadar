@@ -170,7 +170,13 @@ export default function DashboardPage() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col md:ml-[260px] relative h-full">
         {/* Top Header */}
-        <Header activeCity={activeCity} onCityChange={(city) => setActiveCity(city)} />
+        <Header
+          activeCity={activeCity}
+          onCityChange={(city) => setActiveCity(city)}
+          onSelectStation={(stn) =>
+            handleStationSelect({ id: stn.id, name: stn.name, code: stn.code, city: stn.city })
+          }
+        />
 
         {/* Dashboard Canvas */}
         <main className="flex-1 overflow-y-auto p-6 relative z-0 scrollbar-hide">
@@ -324,7 +330,7 @@ export default function DashboardPage() {
 
             {/* Right Column: Dynamic Journey Planner Widget */}
             <div className="lg:col-span-4 flex flex-col h-full">
-              <JourneyPlanner onJourneyCalculated={(res) => setJourneyResult(res)} />
+              <JourneyPlanner activeCity={activeCity} onJourneyCalculated={(res) => setJourneyResult(res)} />
             </div>
           </div>
         </main>
