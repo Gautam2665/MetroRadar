@@ -131,7 +131,7 @@ export default function MapContainer({
           const start = performance.now();
           const res = await fetch(`${backendUrl}/map/lines?t=${Date.now()}`);
           const ms = Math.round(performance.now() - start);
-          apiLatencySetter(ms);
+          apiLatencySetter?.(ms);
 
           const geojson = await res.json();
 
@@ -179,7 +179,7 @@ export default function MapContainer({
           const start = performance.now();
           const res = await fetch(`${backendUrl}/map/stations?t=${Date.now()}`);
           const ms = Math.round(performance.now() - start);
-          apiLatencySetter(ms);
+          apiLatencySetter?.(ms);
 
           const geojson = await res.json();
 
@@ -241,7 +241,7 @@ export default function MapContainer({
           const start = performance.now();
           const res = await fetch(`${backendUrl}/map/stations/${selectedStationId}?t=${Date.now()}`);
           const ms = Math.round(performance.now() - start);
-          apiLatencySetter(ms);
+          apiLatencySetter?.(ms);
 
           const feature = await res.json();
 
@@ -287,7 +287,7 @@ export default function MapContainer({
           const systemCode = activeCity === "kochi" ? "KMRL" : "DMRC";
           const res = await fetch(`${backendUrl}/realtime/vehicles?system=${systemCode}&t=${Date.now()}`);
           const ms = Math.round(performance.now() - start);
-          apiLatencySetter(ms);
+          apiLatencySetter?.(ms);
 
           type VehicleData = {
             vehicleId: string;
@@ -424,7 +424,7 @@ export default function MapContainer({
         if (map.getSource("realtime-vehicles-source")) map.removeSource("realtime-vehicles-source");
       }
 
-      setLoadedLayersCount(layersLoaded);
+      setLoadedLayersCount?.(layersLoaded);
     };
 
     syncLayers();
