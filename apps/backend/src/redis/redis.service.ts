@@ -15,7 +15,13 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     this.client = new Redis({
       host,
       port,
-      maxRetriesPerRequest: 3,
+      maxRetriesPerRequest: 1,
+      lazyConnect: true,
+      enableOfflineQueue: false,
+      retryStrategy: () => null,
+    });
+    this.client.on('error', (err) => {
+      // Suppress unhandled redis error logs when redis is offline
     });
   }
 

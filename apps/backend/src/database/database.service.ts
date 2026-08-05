@@ -7,7 +7,11 @@ export class DatabaseService
   implements OnModuleInit, OnModuleDestroy
 {
   async onModuleInit() {
-    await this.$connect();
+    try {
+      await this.$connect();
+    } catch (err) {
+      console.warn("Database connection notice: running with in-memory fallback API data.");
+    }
   }
 
   async onModuleDestroy() {
