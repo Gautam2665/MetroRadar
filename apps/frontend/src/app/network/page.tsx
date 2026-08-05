@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
 import MapContainer from "../../components/map/MapContainer";
-import { CITY_METADATA } from "../page";
+import { CITY_METADATA } from "../../config/cityMetadata";
 
 export default function LiveNetworkPage() {
   const [activeCity, setActiveCity] = useState("delhi");
@@ -143,7 +143,7 @@ export default function LiveNetworkPage() {
                   <div>
                     <p className="text-xs text-[#bac9cc]">Next Train</p>
                     <p className="text-[32px] font-bold text-[#00e5ff] mt-1 leading-none">
-                      {currentMeta.upcomingJourney.inMin} <span className="text-xl font-normal">min</span>
+                      {currentMeta.upcomingJourney.inMin || 12} <span className="text-xl font-normal">min</span>
                     </p>
                     <p className="text-xs text-[#bac9cc] mt-1">Towards {currentMeta.upcomingJourney.to}</p>
                   </div>

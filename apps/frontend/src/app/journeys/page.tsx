@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
-import { CITY_METADATA } from "../page";
+import { CITY_METADATA } from "../../config/cityMetadata";
 
 export default function MyJourneysPage() {
   const [activeCity, setActiveCity] = useState("delhi");

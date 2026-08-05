@@ -168,6 +168,16 @@ MetroRadar prioritizes a premium, beautiful aesthetic:
 - **Design Tokens**: Standardize colors using HSL variables for smooth theme blending and glassmorphic overlays (`backdrop-filter: blur()`).
 - **Micro-Animations**: Hover states, transition animations, and page changes must use smooth durations (150ms-300ms) with `cubic-bezier` easing.
 
+### TransitOS Frontend Rules (Permanent Architecture)
+1. **Components never fetch data** — Components under `src/components/` receive data strictly via `props`.
+2. **Components never know backend URLs** — API endpoints live exclusively inside `services/api/`.
+3. **Hooks own state** — Custom hooks expose standardized `{ data, loading, error, refresh }`.
+4. **Services own API contracts** — Raw backend DTOs never leak into UI views.
+5. **Containers compose hooks into UI** — Containers orchestrate context, hooks, and presentational views.
+6. **Backend DTOs never leak into UI** — Adapters convert `BackendDTO` $\rightarrow$ `DomainModel`.
+7. **Every backend feature must function before visual polish**.
+8. **Design system changes must never modify business logic**.
+
 ---
 
 ## Chapter 9: AI & Intelligence Gateway
