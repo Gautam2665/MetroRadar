@@ -11,13 +11,13 @@ interface HeaderProps {
 }
 
 const CITIES = [
-  { code: "mumbai", name: "Mumbai, MH", badge: "Live" },
-  { code: "delhi", name: "Delhi, IN", badge: "Certified" },
+  { code: "delhi", name: "Delhi, IN", badge: "Live" },
   { code: "kochi", name: "Kochi, KL", badge: "Certified" },
   { code: "hyderabad", name: "Hyderabad, IN", badge: "Certified" },
   { code: "bengaluru", name: "Bengaluru, IN", badge: "Certified" },
   { code: "chennai", name: "Chennai, IN", badge: "Certified" },
   { code: "ahmedabad", name: "Ahmedabad, IN", badge: "Certified" },
+  { code: "mumbai", name: "Mumbai, MH", badge: "Beta" },
 ];
 
 const CITY_COORDS: Record<string, { lat: number; lng: number }> = {
@@ -30,27 +30,55 @@ const CITY_COORDS: Record<string, { lat: number; lng: number }> = {
   mumbai: { lat: 19.076, lng: 72.8777 },
 };
 
+/** Weather cache: city → { temp, icon, fetchedAt } */
+const weatherCache = new Map<string, { temp: string; icon: string; fetchedAt: number }>();
+const WEATHER_TTL_MS = 15 * 60 * 1000; // 15 minutes
+
+function resolveWeatherIcon(code: number): string {
+  if (code === 0) return "wb_sunny";
+  if (code <= 2) return "partly_cloudy_day";
+  if (code <= 3) return "cloud";
+  if (code <= 67) return "rainy";
+  if (code <= 77) return "weather_snowy";
+  if (code <= 82) return "rainy";
+  return "thunderstorm";
+}
+
 export function Header({ activeCity = "delhi", onCityChange, onSelectStation }: HeaderProps) {
   const [openCityMenu, setOpenCityMenu] = useState(false);
   const [searchVal, setSearchVal] = useState("");
   const [weather, setWeather] = useState<{ temp: string; icon: string }>({ temp: "--°C", icon: "wb_sunny" });
 
-  const currentCityObj = CITIES.find((c) => c.code === activeCity) || CITIES[1];
+  const currentCityObj = CITIES.find((c) => c.code === activeCity) || CITIES[0];
 
-  // Fetch real-time live weather from Open-Meteo API for selected city
+  // Fetch live weather with 15-minute cache
   useEffect(() => {
-    const coords = CITY_COORDS[activeCity.toLowerCase()] || CITY_COORDS.delhi;
-    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lng}&current_weather=true`)
+    const timer = setTimeout(() => {
+      const city = activeCity.toLowerCase();
+      const cached = weatherCache.get(city);
+      if (cached && Date.now() - cached.fetchedAt < WEATHER_TTL_MS) {
+        setWeather({ temp: cached.temp, icon: cached.icon });
+        return;
+      }
+
+    const coords = CITY_COORDS[city] || CITY_COORDS.delhi;
+    fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lng}&current_weather=true`
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data?.current_weather?.temperature !== undefined) {
-          const temp = Math.round(data.current_weather.temperature);
-          const code = data.current_weather.weathercode;
-          const icon = code === 0 ? "wb_sunny" : code <= 3 ? "partly_cloudy_day" : code <= 67 ? "rainy" : "cloud";
-          setWeather({ temp: `${temp}°C`, icon });
+          const temp = `${Math.round(data.current_weather.temperature)}°C`;
+          const icon = resolveWeatherIcon(data.current_weather.weathercode ?? 0);
+          weatherCache.set(city, { temp, icon, fetchedAt: Date.now() });
+          setWeather({ temp, icon });
         }
       })
-      .catch(() => setWeather({ temp: "28°C", icon: "wb_sunny" }));
+      .catch(() => {
+        setWeather({ temp: "--°C", icon: "wb_sunny" });
+      });
+    }, 0);
+    return () => clearTimeout(timer);
   }, [activeCity]);
 
   return (
@@ -73,7 +101,7 @@ export function Header({ activeCity = "delhi", onCityChange, onSelectStation }: 
       </div>
 
       <div className="flex items-center gap-6">
-        {/* Live Weather Status from Open-Meteo API */}
+        {/* Live Weather — 15-minute cache */}
         <div className="flex items-center gap-2 hidden sm:flex">
           <span className="material-symbols-outlined text-[#fec931] text-[20px]">{weather.icon}</span>
           <div className="text-right">
@@ -82,7 +110,7 @@ export function Header({ activeCity = "delhi", onCityChange, onSelectStation }: 
           </div>
         </div>
 
-        {/* Dynamic City Selector Dropdown */}
+        {/* City Selector */}
         <div className="relative">
           <button
             onClick={() => setOpenCityMenu(!openCityMenu)}
@@ -94,7 +122,7 @@ export function Header({ activeCity = "delhi", onCityChange, onSelectStation }: 
           </button>
 
           {openCityMenu && (
-            <div className="absolute right-0 mt-2 w-56 bg-[#1c2028] border border-white/10 rounded-xl shadow-2xl py-2 z-50 animate-slide-in">
+            <div className="absolute right-0 mt-2 w-56 bg-[#1c2028] border border-white/10 rounded-xl shadow-2xl py-2 z-50">
               <div className="px-3 py-1 text-[10px] font-bold text-[#bac9cc] uppercase tracking-wider border-b border-white/5">
                 Certified Metro Networks
               </div>
@@ -123,7 +151,7 @@ export function Header({ activeCity = "delhi", onCityChange, onSelectStation }: 
         <div className="flex items-center gap-3">
           <Link href="/alerts" className="relative text-[#bac9cc] hover:text-[#c3f5ff] transition-colors p-2 rounded-full hover:bg-white/5">
             <span className="material-symbols-outlined text-[20px]">notifications</span>
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#ffb4ab] rounded-full"></span>
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#ffb4ab] rounded-full" />
           </Link>
           <div className="w-8 h-8 rounded-full overflow-hidden border border-white/10">
             <img

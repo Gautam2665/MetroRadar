@@ -18,16 +18,17 @@ export class ApiClient {
       }
       const data = await res.json();
       return { success: true, data: data as T };
-    } catch (err: any) {
+    } catch (err: unknown) {
       clearTimeout(timer);
+      const e = err as { name?: string; message?: string };
       return {
         success: false,
-        error: err.name === "AbortError" ? "Request timed out" : err.message || "Network request failed",
+        error: e.name === "AbortError" ? "Request timed out" : e.message || "Network request failed",
       };
     }
   }
 
-  static async post<T>(endpoint: string, body: any): Promise<ApiResult<T>> {
+  static async post<T>(endpoint: string, body: unknown): Promise<ApiResult<T>> {
     const url = endpoint.startsWith("http") ? endpoint : `${API_CONFIG.baseUrl}${endpoint}`;
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), API_CONFIG.timeoutMs);
@@ -45,11 +46,12 @@ export class ApiClient {
       }
       const data = await res.json();
       return { success: true, data: data as T };
-    } catch (err: any) {
+    } catch (err: unknown) {
       clearTimeout(timer);
+      const e = err as { name?: string; message?: string };
       return {
         success: false,
-        error: err.name === "AbortError" ? "Request timed out" : err.message || "Network request failed",
+        error: e.name === "AbortError" ? "Request timed out" : e.message || "Network request failed",
       };
     }
   }

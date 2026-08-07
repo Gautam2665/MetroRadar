@@ -71,6 +71,11 @@ jobs:
       - name: Lint Check
         run: npm run lint
 
+      - name: Architecture Compliance Leak Guard
+        run: |
+          echo "Scanning for architectural leaks in frontend..."
+          ! git grep -E "resolveTrainColor|ALL_STATIONS|INTERCHANGE_STATIONS|station_db|mockRoutes|fakeJourney" apps/frontend/src
+
       - name: Build Backend
         run: npm run build:backend
 

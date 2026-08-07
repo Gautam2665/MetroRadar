@@ -35,7 +35,10 @@ export function useDigitalTwin(stationId: string | null, defaultName: string = "
   }, [stationId, defaultName]);
 
   useEffect(() => {
-    fetchTwin();
+    const timer = setTimeout(() => {
+      void fetchTwin();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [fetchTwin]);
 
   return { data, loading, error, refresh: fetchTwin };

@@ -25,7 +25,7 @@ export default function TicketsAndPassesPage() {
     {
       id: "tx-1",
       title: "Metro Ride",
-      route: `${currentMeta.upcomingJourney.from} ➔ ${currentMeta.upcomingJourney.to}`,
+      route: `${currentMeta.quickPills[0] || "Origin"} ➔ ${currentMeta.quickPills[1] || "Destination"}`,
       time: "Today, 9:47 AM",
       amount: "- ₹27",
       type: "debit",

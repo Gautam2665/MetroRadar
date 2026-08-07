@@ -20,9 +20,16 @@ export function useRealtime(activeCity: string, pollIntervalMs: number = 5000) {
   }, [activeCity]);
 
   useEffect(() => {
-    fetchRealtime();
-    const interval = setInterval(fetchRealtime, pollIntervalMs);
-    return () => clearInterval(interval);
+    const timer = setTimeout(() => {
+      void fetchRealtime();
+    }, 0);
+    const interval = setInterval(() => {
+      void fetchRealtime();
+    }, pollIntervalMs);
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
   }, [fetchRealtime, pollIntervalMs]);
 
   return { data, loading, error, refresh: fetchRealtime };

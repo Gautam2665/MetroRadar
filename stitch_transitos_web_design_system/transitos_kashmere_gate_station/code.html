@@ -1,0 +1,447 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>transitOS - Station Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline-variant": "#3b494c",
+                      "surface-container": "#1c2028",
+                      "inverse-primary": "#006875",
+                      "on-primary-fixed-variant": "#004f58",
+                      "on-background": "#dfe2ee",
+                      "error": "#ffb4ab",
+                      "secondary-container": "#7000ff",
+                      "on-error-container": "#ffdad6",
+                      "tertiary-container": "#fec931",
+                      "background": "#0f131c",
+                      "on-tertiary-container": "#6f5500",
+                      "surface-container-lowest": "#0a0e16",
+                      "surface-container-low": "#181c24",
+                      "on-secondary-fixed-variant": "#5700c9",
+                      "inverse-surface": "#dfe2ee",
+                      "surface-container-high": "#262a33",
+                      "primary-fixed-dim": "#00daf3",
+                      "surface-container-highest": "#31353e",
+                      "error-container": "#93000a",
+                      "on-surface-variant": "#bac9cc",
+                      "on-error": "#690005",
+                      "on-surface": "#dfe2ee",
+                      "tertiary": "#ffeac0",
+                      "tertiary-fixed-dim": "#f3bf26",
+                      "secondary-fixed": "#e9ddff",
+                      "on-primary": "#00363d",
+                      "tertiary-fixed": "#ffdf96",
+                      "on-tertiary-fixed-variant": "#594400",
+                      "outline": "#849396",
+                      "secondary": "#d1bcff",
+                      "surface-dim": "#0f131c",
+                      "on-primary-fixed": "#001f24",
+                      "surface-bright": "#353942",
+                      "on-primary-container": "#00626e",
+                      "secondary-fixed-dim": "#d1bcff",
+                      "on-tertiary": "#3e2e00",
+                      "on-secondary-container": "#ddcdff",
+                      "surface-tint": "#00daf3",
+                      "primary-container": "#00e5ff",
+                      "on-tertiary-fixed": "#251a00",
+                      "primary": "#c3f5ff",
+                      "primary-fixed": "#9cf0ff",
+                      "inverse-on-surface": "#2c3039",
+                      "on-secondary-fixed": "#23005b",
+                      "on-secondary": "#3c0090",
+                      "surface": "#0f131c",
+                      "surface-variant": "#31353e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "lg": "24px",
+                      "sm": "8px",
+                      "base": "4px",
+                      "gutter": "16px",
+                      "xl": "32px",
+                      "md": "16px",
+                      "container-margin": "24px"
+              },
+              "fontFamily": {
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "stats-number": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "title-sm": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "stats-number": [
+                              "28px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "title-sm": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .transit-badge {
+            border-radius: 9999px;
+            padding: 2px 8px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .bg-red-line { background-color: #EF4444; color: white; }
+        .bg-violet-line { background-color: #8B5CF6; color: white; }
+        .bg-yellow-line { background-color: #EAB308; color: black; }
+        
+        .map-container {
+            background-image: radial-gradient(circle at center, rgba(0, 218, 243, 0.05) 0%, transparent 70%);
+        }
+      </style>
+</head>
+<body class="bg-background text-on-background font-body-md h-screen overflow-hidden flex flex-col md:flex-row">
+<!-- TopNavBar (Web) -->
+<header class="hidden md:flex justify-between items-center w-full px-container-margin h-16 ml-[260px] max-w-[calc(100%-260px)] bg-background/90 backdrop-blur-md fixed top-0 z-40">
+<div class="flex items-center gap-4 w-1/3">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">search</span>
+<input class="w-full bg-surface-container-high border border-white/10 rounded-full py-2 pl-10 pr-4 text-body-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-on-surface placeholder:text-on-surface-variant" placeholder="Search for a station, place or line" type="text">
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors hover:bg-white/5 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors hover:bg-white/5 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">wb_sunny</span>
+</button>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-body-sm text-on-surface-variant">Mumbai, MH</span>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Web) -->
+<nav class="hidden md:flex flex-col h-screen py-6 bg-surface-container dark:bg-surface-container-low backdrop-blur-xl fixed left-0 top-0 w-[260px] border-r border-white/10 z-50">
+<div class="px-6 mb-8">
+<h1 class="text-headline-md font-display-lg font-bold text-primary tracking-tight">transitOS</h1>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Urban Mobility Platform</p>
+</div>
+<div class="flex flex-col gap-1 flex-1 overflow-y-auto px-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-body-sm text-body-sm">Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">directions</span>
+<span class="font-body-sm text-body-sm">Plan Journey</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container/20 text-primary border-l-4 border-primary rounded-r-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sensors</span>
+<span class="font-body-sm text-body-sm font-semibold">Live Network</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">route</span>
+<span class="font-body-sm text-body-sm">My Journeys</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">confirmation_number</span>
+<span class="font-body-sm text-body-sm">Tickets &amp; Passes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications_active</span>
+<span class="font-body-sm text-body-sm">Alerts</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">analytics</span>
+<span class="font-body-sm text-body-sm">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">payments</span>
+<span class="font-body-sm text-body-sm">Payments</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+<span class="font-body-sm text-body-sm">Settings</span>
+</a>
+</div>
+<div class="px-4 mt-auto mb-4">
+
+<div class="flex items-center justify-between border-t border-white/10 pt-4 mt-2">
+<div class="flex items-center gap-3 cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors w-full">
+<span class="material-symbols-outlined text-on-surface-variant text-3xl" style="font-variation-settings: 'FILL' 0;">account_circle</span>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Gautam Mulay</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">more_horiz</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-[260px] md:pt-16 overflow-y-auto w-full flex flex-col h-full bg-background pb-20 md:pb-0">
+<!-- Mobile Header (Visible only on mobile) -->
+<header class="md:hidden flex items-center justify-between px-4 py-3 bg-background/90 backdrop-blur-md sticky top-0 z-40 border-b border-white/5">
+<div class="flex items-center gap-3">
+<button class="text-on-surface hover:text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="font-title-sm text-title-sm font-semibold">Kashmere Gate</h1>
+</div>
+<div class="flex items-center gap-3">
+<span class="transit-badge bg-red-line">R</span>
+<span class="transit-badge bg-violet-line">V</span>
+<span class="transit-badge bg-yellow-line">Y</span>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="p-4 md:p-container-margin grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-gutter h-full pb-8">
+<!-- Left Column: Station Map (Spans 8 cols on desktop) -->
+<div class="md:col-span-8 glass-card rounded-xl flex flex-col h-[50vh] md:h-auto overflow-hidden relative map-container border border-white/10">
+<!-- Top Bar of Map Card -->
+<div class="p-4 flex justify-between items-center z-10 bg-gradient-to-b from-background/80 to-transparent">
+<div class="hidden md:flex items-center gap-3">
+<h2 class="font-title-sm text-title-sm font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">location_on</span>
+                             Kashmere Gate
+                         </h2>
+<div class="flex items-center gap-2 ml-4">
+<span class="transit-badge bg-red-line">Red</span>
+<span class="transit-badge bg-violet-line">Violet</span>
+<span class="transit-badge bg-yellow-line">Yellow</span>
+</div>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-high rounded-full px-3 py-1 border border-white/10">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Map View</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm" style="font-variation-settings: 'FILL' 0;">expand_more</span>
+</div>
+</div>
+<!-- 3D Map Placeholder -->
+<div class="flex-1 relative w-full h-full flex items-center justify-center">
+<div class="absolute inset-0 bg-contain bg-center bg-no-repeat opacity-80 mix-blend-screen scale-110" data-alt="A highly detailed 3D isometric architectural rendering of a multi-level transit station map. The map uses a dark mode aesthetic with deep slate and navy background tones. The transit lines are highlighted in glowing neon red, yellow, and violet colors, tracing routes through the transparent, glass-like floors of the station structure. Small glowing markers indicate exits, elevators, and user location, creating a high-tech, futuristic urban mobility vibe." style="background-image: url('https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg')"></div>
+<!-- Map Controls -->
+<div class="absolute left-4 top-1/2 -translate-y-1/2 flex flex-col gap-2 bg-surface-container-highest/80 backdrop-blur-md rounded-lg p-1 border border-white/10" role="group">
+<button class="w-8 h-8 flex items-center justify-center rounded hover:bg-white/10 text-on-surface-variant">G</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-primary/20 text-primary border border-primary/30">L1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded hover:bg-white/10 text-on-surface-variant">L2</button>
+</div>
+<!-- Map Legend (Bottom) -->
+<div class="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+<div class="flex gap-4 bg-surface-container-highest/90 backdrop-blur-md rounded-full px-4 py-2 border border-white/10 overflow-x-auto text-nowrap">
+<div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-primary"></span><span class="font-label-caps text-label-caps text-on-surface-variant">You are here</span></div>
+<div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-xs text-on-surface-variant">door_open</span><span class="font-label-caps text-label-caps text-on-surface-variant">Exit</span></div>
+<div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-xs text-on-surface-variant">elevator</span><span class="font-label-caps text-label-caps text-on-surface-variant">Lift</span></div>
+<div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-xs text-on-surface-variant">stairs</span><span class="font-label-caps text-label-caps text-on-surface-variant">Stairs</span></div>
+<div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-xs text-on-surface-variant">wc</span><span class="font-label-caps text-label-caps text-on-surface-variant">Restroom</span></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Details & Navigation (Spans 4 cols on desktop) -->
+<div class="md:col-span-4 flex flex-col gap-4">
+<!-- Platform Guide Card -->
+<div class="glass-card rounded-xl p-5 flex flex-col gap-4 border border-white/10">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-title-sm text-title-sm font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">subway</span>
+                                Platform Guide
+                            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Platform 2 • Yellow Line</p>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">arrow_forward_ios</span>
+</button>
+</div>
+<div class="flex justify-between items-end mt-2">
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Next Train</p>
+<p class="font-display-lg text-display-lg font-bold text-primary mt-1">2 <span class="text-xl font-normal">min</span></p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Towards HUDA City Centre</p>
+</div>
+<div class="text-right">
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Crowd on Platform</p>
+<div class="flex items-end gap-1 h-8">
+<div class="w-2 bg-[#10B981] rounded-t-sm h-1/4"></div>
+<div class="w-2 bg-[#10B981] rounded-t-sm h-1/3"></div>
+<div class="w-2 bg-[#F59E0B] rounded-t-sm h-2/3"></div>
+<div class="w-2 bg-[#F59E0B] rounded-t-sm h-3/4"></div>
+<div class="w-2 bg-[#EF4444] rounded-t-sm h-full opacity-30"></div>
+<div class="w-2 bg-[#EF4444] rounded-t-sm h-5/6 opacity-30"></div>
+</div>
+<p class="font-label-caps text-label-caps text-[#F59E0B] mt-1">Medium</p>
+</div>
+</div>
+<div class="border-t border-white/5 pt-4 mt-2">
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-3">Best Boarding Zone</p>
+<div class="flex items-center gap-2">
+<div class="flex-1 h-12 bg-surface-container-highest rounded-lg border border-white/10 flex items-center justify-between px-2 relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1/3 bg-primary/10"></div>
+<span class="font-body-sm text-body-sm z-10 w-6 text-center text-on-surface-variant">1</span>
+<span class="font-body-sm text-body-sm z-10 w-6 text-center text-on-surface-variant">2</span>
+<span class="font-body-sm text-body-sm z-10 w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold border-2 border-background shadow-[0_0_10px_rgba(0,218,243,0.3)]">3</span>
+<span class="font-body-sm text-body-sm z-10 w-6 text-center text-on-surface-variant">4</span>
+<span class="font-body-sm text-body-sm z-10 w-6 text-center text-on-surface-variant">5</span>
+<span class="font-body-sm text-body-sm z-10 w-6 text-center text-on-surface-variant">6</span>
+</div>
+</div>
+<p class="font-label-caps text-label-caps text-primary mt-2">Board Coach 3 • Less crowded</p>
+</div>
+</div>
+<!-- Exits Card -->
+<div class="glass-card rounded-xl p-5 flex-1 flex flex-col border border-white/10 overflow-hidden">
+<h3 class="font-title-sm text-title-sm font-semibold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">door_open</span>
+                        Exits
+                    </h3>
+<div class="flex-1 overflow-y-auto pr-2 -mr-2 space-y-3">
+<div class="bg-surface-container/50 rounded-lg p-3 border border-white/5 flex justify-between items-center hover:bg-white/5 transition-colors cursor-pointer">
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface">Exit 1</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Ajmeri Gate Road</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-caps text-label-caps text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">directions_walk</span> 250m</span>
+</div>
+</div>
+<div class="bg-surface-container/50 rounded-lg p-3 border border-white/5 flex justify-between items-center hover:bg-white/5 transition-colors cursor-pointer">
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface">Exit 2</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Daryaganj</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-caps text-label-caps text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">directions_walk</span> 120m</span>
+</div>
+</div>
+<div class="bg-surface-container/50 rounded-lg p-3 border border-white/5 flex justify-between items-center hover:bg-white/5 transition-colors cursor-pointer">
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface">Exit 3</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Netaji Subhash Marg</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-caps text-label-caps text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">directions_walk</span> 300m</span>
+</div>
+</div>
+<div class="bg-surface-container/50 rounded-lg p-3 border border-white/5 flex justify-between items-center hover:bg-white/5 transition-colors cursor-pointer">
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface">Exit 4</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Thana Street</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-caps text-label-caps text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">directions_walk</span> 180m</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 md:hidden bg-surface-container-highest/95 backdrop-blur-2xl shadow-xl rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-white/10 w-full h-full" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-label-caps text-label-caps mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary active:bg-white/10 w-full h-full relative" href="#">
+<div class="absolute -top-1 w-8 h-1 bg-primary rounded-b-full"></div>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sensors</span>
+<span class="font-label-caps text-label-caps mt-1">Live</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-white/10 w-full h-full" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">confirmation_number</span>
+<span class="font-label-caps text-label-caps mt-1">Tickets</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-white/10 w-full h-full" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">grid_view</span>
+<span class="font-label-caps text-label-caps mt-1">More</span>
+</a>
+</nav>
+
+
+</body></html>

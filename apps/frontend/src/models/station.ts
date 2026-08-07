@@ -27,7 +27,7 @@ export function toStationModel(dto: StationDto): Station {
     code: dto.code || dto.name.substring(0, 3).toUpperCase(),
     lat: dto.latitude ?? dto.lat ?? 28.6665,
     lng: dto.longitude ?? dto.lng ?? 77.2285,
-    lines: dto.lines || ["Red Line", "Yellow Line"],
-    system: dto.system || "delhi",
+    lines: dto.lines || [],
+    system: dto.system || "",
   };
 }

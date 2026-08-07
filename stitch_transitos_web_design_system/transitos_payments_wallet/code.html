@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>transitOS - Payments</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-error": "#690005",
+                      "secondary-fixed-dim": "#d1bcff",
+                      "outline-variant": "#3b494c",
+                      "inverse-primary": "#006875",
+                      "inverse-on-surface": "#2c3039",
+                      "surface-container-lowest": "#0a0e16",
+                      "surface-container-high": "#262a33",
+                      "on-primary-container": "#00626e",
+                      "tertiary-fixed-dim": "#f3bf26",
+                      "surface-dim": "#0f131c",
+                      "tertiary-fixed": "#ffdf96",
+                      "surface-container": "#1c2028",
+                      "secondary-fixed": "#e9ddff",
+                      "on-tertiary-fixed-variant": "#594400",
+                      "background": "#0f131c",
+                      "tertiary-container": "#fec931",
+                      "primary-fixed": "#9cf0ff",
+                      "primary-fixed-dim": "#00daf3",
+                      "surface-container-highest": "#31353e",
+                      "on-secondary-fixed-variant": "#5700c9",
+                      "secondary-container": "#7000ff",
+                      "on-secondary-container": "#ddcdff",
+                      "on-tertiary": "#3e2e00",
+                      "on-primary": "#00363d",
+                      "on-surface": "#dfe2ee",
+                      "error": "#ffb4ab",
+                      "primary-container": "#00e5ff",
+                      "surface-bright": "#353942",
+                      "on-background": "#dfe2ee",
+                      "surface-tint": "#00daf3",
+                      "on-secondary": "#3c0090",
+                      "surface-container-low": "#181c24",
+                      "secondary": "#d1bcff",
+                      "on-primary-fixed": "#001f24",
+                      "on-error-container": "#ffdad6",
+                      "error-container": "#93000a",
+                      "surface-variant": "#31353e",
+                      "on-secondary-fixed": "#23005b",
+                      "on-tertiary-fixed": "#251a00",
+                      "primary": "#c3f5ff",
+                      "on-surface-variant": "#bac9cc",
+                      "inverse-surface": "#dfe2ee",
+                      "tertiary": "#ffeac0",
+                      "surface": "#0f131c",
+                      "outline": "#849396",
+                      "on-tertiary-container": "#6f5500",
+                      "on-primary-fixed-variant": "#004f58"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "32px",
+                      "md": "16px",
+                      "gutter": "16px",
+                      "base": "4px",
+                      "lg": "24px",
+                      "container-margin": "24px",
+                      "xs": "4px",
+                      "sm": "8px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "title-sm": [
+                              "Inter"
+                      ],
+                      "stats-number": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "title-sm": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "stats-number": [
+                              "28px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .glass-card {
+            background-color: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-panel {
+            background-color: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .cyan-glow:hover {
+            box-shadow: 0 0 4px rgba(0, 229, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen py-6 bg-surface-container dark:bg-surface-container-low backdrop-blur-xl fixed left-0 top-0 w-[260px] border-r border-white/10 z-50">
+<div class="px-container-margin mb-8">
+<h1 class="text-headline-md font-display-lg font-bold text-primary tracking-tight">transitOS</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Urban Mobility Platform</p>
+</div>
+<div class="flex-1 overflow-y-auto w-full">
+<ul class="flex flex-col gap-1 w-full px-2">
+<li><a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#"><span class="material-symbols-outlined">home</span><span class="font-title-sm text-title-sm">Home</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#"><span class="material-symbols-outlined">directions</span><span class="font-title-sm text-title-sm">Plan Journey</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#"><span class="material-symbols-outlined">sensors</span><span class="font-title-sm text-title-sm">Live Network</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#"><span class="material-symbols-outlined">route</span><span class="font-title-sm text-title-sm">My Journeys</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#"><span class="material-symbols-outlined">confirmation_number</span><span class="font-title-sm text-title-sm">Tickets &amp; Passes</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#"><span class="material-symbols-outlined">notifications_active</span><span class="font-title-sm text-title-sm">Alerts</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#"><span class="material-symbols-outlined">analytics</span><span class="font-title-sm text-title-sm">Analytics</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 bg-secondary-container/20 text-primary border-l-4 border-primary rounded-r-lg" href="#"><span class="material-symbols-outlined">payments</span><span class="font-title-sm text-title-sm">Payments</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#"><span class="material-symbols-outlined">settings</span><span class="font-title-sm text-title-sm">Settings</span></a></li>
+</ul>
+</div>
+<div class="px-4 mt-auto space-y-4">
+<button class="w-full py-3 bg-primary text-on-primary font-title-sm text-title-sm rounded-lg hover:opacity-90 transition-opacity">Upgrade to Pro</button>
+<div class="flex items-center gap-3 px-2 py-2 hover:bg-white/5 rounded-lg cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+<span class="font-title-sm text-title-sm flex-1 text-on-surface">Gautam Mulay</span>
+<span class="material-symbols-outlined text-on-surface-variant">more_horiz</span>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-[260px] flex flex-col h-screen overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-container-margin h-16 bg-background/90 dark:bg-background/90 backdrop-blur-md z-40 sticky top-0 border-b border-transparent">
+<div class="flex-1"></div> <!-- Spacer for left-aligned search if present in full implementation -->
+<div class="flex items-center gap-4">
+<span class="text-primary font-title-sm text-title-sm">Mumbai, MH</span>
+<button class="p-2 rounded-full hover:bg-white/5 text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-white/5 text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">wb_sunny</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden cursor-pointer border border-white/10">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="A futuristic urban transport dashboard avatar featuring a glowing cyan geometric profile icon set against a deep obsidian background, highly detailed 3d render, sophisticated corporate tech style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnJRdt2EW4M5CXNHtNsEHn4EDO_CAsW1AQ_bsKEUG4O2PG6Q-JCNgmaIliwgK_lTONr8HaA08neJRO_4kfnEDSWYBklljEwlkt7JhI7xWlx7_rb8XvwN8DBNnkZo2if9jd3uBABJhudiNrbCtCHLFGq732czR1Sg2VSdYstZUhRlSwZf3IAiXx7n7wFY2fOGTfzeKVOBoBuSC5_UjHtYVwjQ3ILGmAjlquvaJULOL3lAgldHMHavb8"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<div class="flex-1 overflow-y-auto p-container-margin md:p-xl space-y-lg">
+<header class="mb-lg">
+<h2 class="font-display-lg text-display-lg text-on-surface tracking-tight">Payments</h2>
+<p class="text-on-surface-variant font-body-md text-body-md mt-1">Manage your transit funds and payment methods.</p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+<!-- Left Column: Wallet & Methods -->
+<div class="lg:col-span-4 space-y-lg">
+<!-- Wallet Overview Card -->
+<div class="glass-card rounded-xl p-lg relative overflow-hidden group">
+<!-- Decorative background element -->
+<div class="absolute -right-12 -top-12 w-32 h-32 bg-primary/20 rounded-full blur-[40px] pointer-events-none"></div>
+<div class="flex flex-col space-y-6 relative z-10">
+<div>
+<h3 class="font-title-sm text-title-sm text-on-surface-variant mb-1">Wallet Balance</h3>
+<div class="flex items-baseline gap-2">
+<span class="font-stats-number text-stats-number text-primary">₹256.40</span>
+</div>
+</div>
+<button class="w-full py-3 bg-primary text-on-primary font-title-sm text-title-sm rounded-lg hover:opacity-90 transition-opacity flex justify-center items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+                                Add Money
+                            </button>
+</div>
+</div>
+<!-- Payment Methods -->
+<div class="glass-card rounded-xl p-lg">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-title-sm text-title-sm text-on-surface">Saved Methods</h3>
+<button class="text-primary font-body-sm text-body-sm hover:underline">Edit</button>
+</div>
+<div class="space-y-4">
+<!-- Method 1 -->
+<div class="flex items-center gap-4 p-4 glass-panel rounded-lg cyan-glow transition-all cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-primary">credit_card</span>
+</div>
+<div class="flex-1">
+<h4 class="font-title-sm text-title-sm text-on-surface">NCMC Card</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Default</p>
+</div>
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</div>
+<!-- Method 2 -->
+<div class="flex items-center gap-4 p-4 glass-panel rounded-lg hover:bg-white/5 transition-all cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-on-surface-variant">account_balance</span>
+</div>
+<div class="flex-1">
+<h4 class="font-title-sm text-title-sm text-on-surface">UPI</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">gautam@okaxis</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Transactions -->
+<div class="lg:col-span-8">
+<div class="glass-card rounded-xl p-lg h-full flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-title-sm text-title-sm text-on-surface">Recent Transactions</h3>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+<div class="flex-1 space-y-2 overflow-y-auto pr-2">
+<!-- Transaction Item -->
+<div class="flex items-center justify-between p-4 glass-panel rounded-lg hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-on-surface">train</span>
+</div>
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface">Metro Ride</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Andheri to BKC • Today, 09:15 AM</p>
+</div>
+</div>
+<div class="text-right">
+<span class="font-title-sm text-title-sm text-error block">-₹45.00</span>
+</div>
+</div>
+<!-- Transaction Item -->
+<div class="flex items-center justify-between p-4 glass-panel rounded-lg hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-primary">account_balance_wallet</span>
+</div>
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface">Wallet Recharge</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">UPI (gautam@okaxis) • Yesterday</p>
+</div>
+</div>
+<div class="text-right">
+<span class="font-title-sm text-title-sm text-primary block">+₹500.00</span>
+</div>
+</div>
+<!-- Transaction Item -->
+<div class="flex items-center justify-between p-4 glass-panel rounded-lg hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-on-surface">directions_bus</span>
+</div>
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface">Bus Ticket</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Route 4L • Mon, 14 Aug</p>
+</div>
+</div>
+<div class="text-right">
+<span class="font-title-sm text-title-sm text-error block">-₹15.00</span>
+</div>
+</div>
+<!-- Transaction Item -->
+<div class="flex items-center justify-between p-4 glass-panel rounded-lg hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-on-surface">train</span>
+</div>
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface">Metro Ride</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">BKC to Andheri • Mon, 14 Aug</p>
+</div>
+</div>
+<div class="text-right">
+<span class="font-title-sm text-title-sm text-error block">-₹45.00</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-surface-container-highest/95 backdrop-blur-2xl rounded-t-xl md:hidden border-t border-white/10 shadow-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-white/10 w-full h-full" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-white/10 w-full h-full" href="#">
+<span class="material-symbols-outlined mb-1">sensors</span>
+<span class="font-label-caps text-label-caps">Live</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-white/10 w-full h-full" href="#">
+<span class="material-symbols-outlined mb-1">confirmation_number</span>
+<span class="font-label-caps text-label-caps">Tickets</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary active:bg-white/10 w-full h-full relative" href="#">
+<!-- Not an exact match in the small nav, but highlighting 'More' as it likely contains payments -->
+<div class="absolute -top-2 w-8 h-1 bg-primary rounded-full"></div>
+<span class="material-symbols-outlined mb-1 text-primary">grid_view</span>
+<span class="font-label-caps text-label-caps text-primary">More</span>
+</a>
+</nav>
+</body></html>

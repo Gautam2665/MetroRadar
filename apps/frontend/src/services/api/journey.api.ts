@@ -9,7 +9,7 @@ export class JourneyApi {
     mode: "metro" | "multimodal"
   ): Promise<ApiResult<JourneyPlan>> {
     const endpoint = `/journeys?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&system=${encodeURIComponent(system)}&mode=${encodeURIComponent(mode)}`;
-    const res = await ApiClient.get<any>(endpoint);
+    const res = await ApiClient.get<Record<string, unknown>>(endpoint);
     if (!res.success) {
       return { success: true, data: toJourneyModel(null, from, to, mode) };
     }

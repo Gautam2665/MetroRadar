@@ -12,8 +12,8 @@ export default function AnalyticsPage() {
   const currentMeta = CITY_METADATA[activeCity] || CITY_METADATA.delhi;
 
   const topRoutes = [
-    { from: currentMeta.upcomingJourney.from, to: currentMeta.upcomingJourney.to, trips: 12, fare: "₹30" },
-    { from: currentMeta.quickPills[0], to: currentMeta.quickPills[1] || "Central Station", trips: 5, fare: "₹20" },
+    { from: currentMeta.quickPills[0] || "Origin", to: currentMeta.quickPills[1] || "Destination", trips: 12, fare: "₹30" },
+    { from: currentMeta.quickPills[0] || "Origin", to: currentMeta.quickPills[2] || "Central Station", trips: 5, fare: "₹20" },
     { from: currentMeta.quickPills[1] || "Station A", to: currentMeta.quickPills[2] || "Station B", trips: 3, fare: "₹25" },
   ];
 

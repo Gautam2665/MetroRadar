@@ -43,6 +43,7 @@ export interface StationProperties {
   systemId: string;
   wheelchairAccessible: boolean;
   lines: StationLine[];
+  color?: string;
 }
 
 export interface StationFeature {
@@ -285,7 +286,28 @@ export class GeojsonService {
           }
           return { ...l, color };
         });
+        feat.properties.color = feat.properties.lines[0]?.color || '#00e5ff';
+      } else {
+        feat.properties.color = '#00e5ff';
       }
+
+      const stNameUpper = (feat.properties?.name || '').toUpperCase();
+      if (stNameUpper.includes('TERMINAL 1') || stNameUpper.includes('T1')) {
+        feat.properties.color = '#d946ef';
+        feat.properties.lines = [
+          { name: 'Magenta Line', color: '#d946ef', code: 'MAG' },
+        ];
+      } else if (
+        stNameUpper === 'IGI AIRPORT' ||
+        (stNameUpper.includes('IGI AIRPORT') &&
+          !stNameUpper.includes('TERMINAL 1'))
+      ) {
+        feat.properties.color = '#f97316';
+        feat.properties.lines = [
+          { name: 'Orange Line', color: '#f97316', code: 'ORG' },
+        ];
+      }
+
       return feat as unknown as Record<string, unknown>;
     });
 

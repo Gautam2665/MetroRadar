@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Compass } from "lucide-react";
@@ -55,6 +56,7 @@ export default function MapContainer({
   highlightGeojson,
   journeyGeojson,
 }: MapContainerProps) {
+  const router = useRouter();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const internalMapRef = useRef<maplibregl.Map | null>(null);
   const effectiveMapRef = mapRef || internalMapRef;
@@ -90,7 +92,11 @@ export default function MapContainer({
       bearing: 0,
     });
 
-    effectiveMapRef.current = map;
+    if (mapRef) {
+      mapRef.current = map;
+    } else {
+      internalMapRef.current = map;
+    }
 
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-left");
 
@@ -99,7 +105,6 @@ export default function MapContainer({
       setMapLoaded(true);
     } else {
       map.on("load", handleLoad);
-      map.on("styledata", handleLoad);
     }
 
     map.on("moveend", () => {
@@ -122,8 +127,9 @@ export default function MapContainer({
     map.flyTo({
       center: cityConfig.center,
       zoom: cityConfig.zoom,
-      speed: 1.4,
-      curve: 1.42,
+      speed: 1.2,
+      curve: 1.4,
+      duration: 2500,
       essential: true,
     });
   }, [activeCity, mapLoaded]);
@@ -131,7 +137,7 @@ export default function MapContainer({
   // Load and style GIS Layers
   useEffect(() => {
     const map = effectiveMapRef.current;
-    if (!map || !map.isStyleLoaded()) return;
+    if (!map || !mapLoaded) return;
 
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
     let layersLoaded = 0;
@@ -204,7 +210,7 @@ export default function MapContainer({
               type: "circle",
               source: "stations-source",
               paint: {
-                "circle-color": "#06b6d4",
+                "circle-color": ["coalesce", ["get", "color"], "#06b6d4"],
                 "circle-radius": [
                   "interpolate",
                   ["linear"],
@@ -221,29 +227,72 @@ export default function MapContainer({
               },
             });
 
-            // Handle Interaction
+            // Handle Hover & Click Interaction
+            const hoverPopup = new maplibregl.Popup({
+              closeButton: false,
+              closeOnClick: false,
+              offset: 12,
+            });
+
+            map.on("mousemove", "stations-layer", (e) => {
+              if (e.features && e.features.length > 0) {
+                map.getCanvas().style.cursor = "pointer";
+                const f = e.features[0];
+                const props = f.properties;
+                const geom = f.geometry as GeoJSON.Point;
+                const name = props?.name || "Station";
+
+                let linesHtml = "";
+                try {
+                  const rawLines = typeof props?.lines === "string" ? JSON.parse(props.lines) : props?.lines;
+                  if (Array.isArray(rawLines) && rawLines.length > 0) {
+                    linesHtml = rawLines
+                      .slice(0, 2)
+                      .map((l: { name?: string; color?: string }) =>
+                        `<span style="background: ${l.color || '#00e5ff'}25; color: ${l.color || '#00e5ff'}; border: 1px solid ${l.color || '#00e5ff'}60; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 12px; font-family: system-ui, sans-serif;">${l.name || 'Metro'}</span>`
+                      )
+                      .join("");
+                  }
+                } catch {}
+
+                if (!linesHtml && props?.color) {
+                  linesHtml = `<span style="background: ${props.color}25; color: ${props.color}; border: 1px solid ${props.color}60; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 12px; font-family: system-ui, sans-serif;">Metro</span>`;
+                }
+
+                hoverPopup
+                  .setLngLat(geom.coordinates as [number, number])
+                  .setHTML(
+                    `<div style="background: #0d111a; color: #dfe2ee; font-family: system-ui, -apple-system, sans-serif; padding: 6px 12px; border-radius: 10px; border: 1.5px solid ${props?.color || '#00e5ff'}80; box-shadow: 0 4px 24px rgba(0,0,0,0.85); display: flex; align-items: center; gap: 6px; pointer-events: none;">
+                      <span style="color: #ffffff; font-size: 13px; font-weight: 700;">📍 ${name}</span>
+                      ${linesHtml}
+                    </div>`
+                  )
+                  .addTo(map);
+              }
+            });
+
+            map.on("mouseleave", "stations-layer", () => {
+              map.getCanvas().style.cursor = "";
+              hoverPopup.remove();
+            });
+
             map.on("click", "stations-layer", (e) => {
               const features = map.queryRenderedFeatures(e.point, { layers: ["stations-layer"] });
               if (features.length > 0) {
                 const props = features[0].properties;
                 if (props?.id) {
+                  const stName = props.name || "Station";
                   onStationSelect?.(props.id);
                   onSelectStation?.({
                     id: props.id,
-                    name: props.name || "Station",
+                    name: stName,
                     code: props.code || "STN",
                     city: props.city || activeCity,
                   });
+                  // Navigate to Live Network page
+                  router.push(`/network?stationId=${props.id}&stationName=${encodeURIComponent(stName)}`);
                 }
               }
-            });
-
-            map.on("mouseenter", "stations-layer", () => {
-              map.getCanvas().style.cursor = "pointer";
-            });
-
-            map.on("mouseleave", "stations-layer", () => {
-              map.getCanvas().style.cursor = "";
             });
           }
           layersLoaded++;
@@ -324,22 +373,6 @@ export default function MapContainer({
           const data = await res.json();
           const vehicles: VehicleData[] = (data.vehicles as VehicleData[]) || [];
 
-          const resolveTrainColor = (lineName?: string, lineColor?: string): string => {
-            if (lineColor && lineColor !== "#000000" && lineColor !== "#000") return lineColor;
-            const name = (lineName || "").toUpperCase();
-            if (name.includes("YELLOW")) return "#eab308";
-            if (name.includes("BLUE")) return "#3b82f6";
-            if (name.includes("RED")) return "#ef4444";
-            if (name.includes("PINK")) return "#ec4899";
-            if (name.includes("VIOLET")) return "#8b5cf6";
-            if (name.includes("GREEN")) return "#22c55e";
-            if (name.includes("MAGENTA")) return "#d946ef";
-            if (name.includes("ORANGE") || name.includes("AIRPORT")) return "#f97316";
-            if (name.includes("GREY") || name.includes("GRAY")) return "#9ca3af";
-            if (name.includes("AQUA")) return "#06b6d4";
-            return "#38bdf8";
-          };
-
           const geojson: GeoJSON.FeatureCollection = {
             type: "FeatureCollection",
             features: vehicles.map((v) => ({
@@ -353,7 +386,7 @@ export default function MapContainer({
                 tripId: v.tripId || "",
                 routeId: v.routeId || "",
                 lineName: v.lineName || "Metro Train",
-                lineColor: resolveTrainColor(v.lineName, v.lineColor),
+                lineColor: v.lineColor || "#38bdf8",
                 status: v.currentStatus || "IN_TRANSIT",
                 speed: v.speed || 0,
               },
@@ -478,22 +511,25 @@ export default function MapContainer({
 
     const cleanupJourneyLayers = () => {
       [
-        JOURNEY_LINE_GLOW,
         JOURNEY_LINE_CASING,
         JOURNEY_LINE_LAYER,
         JOURNEY_ORIGIN_LAYER,
         JOURNEY_DEST_LAYER,
         JOURNEY_TRANSFER_LAYER,
+        "journey-route-stations-layer",
       ].forEach((l) => { if (map.getLayer(l)) map.removeLayer(l); });
       [JOURNEY_LINE_SOURCE, JOURNEY_POINTS_SOURCE].forEach((s) => {
         if (map.getSource(s)) map.removeSource(s);
       });
+      if (map.getLayer("lines-layer")) map.setPaintProperty("lines-layer", "line-opacity", 0.85);
     };
 
     if (!journeyGeojson) {
       cleanupJourneyLayers();
       return;
     }
+
+    if (map.getLayer("lines-layer")) map.setPaintProperty("lines-layer", "line-opacity", 0.25);
 
     // Separate segment features from point features
     const segmentFeatures = journeyGeojson.features.filter(
@@ -512,25 +548,11 @@ export default function MapContainer({
       features: pointFeatures,
     };
 
-    // Render line source + casing + glow + main layer
+    // Render line source + casing + main layer
     if (map.getSource(JOURNEY_LINE_SOURCE)) {
       (map.getSource(JOURNEY_LINE_SOURCE) as maplibregl.GeoJSONSource).setData(lineCollection);
     } else {
       map.addSource(JOURNEY_LINE_SOURCE, { type: "geojson", data: lineCollection });
-
-      // Glow (thick, low opacity)
-      map.addLayer({
-        id: JOURNEY_LINE_GLOW,
-        type: "line",
-        source: JOURNEY_LINE_SOURCE,
-        paint: {
-          "line-color": ["coalesce", ["get", "color"], "#06b6d4"],
-          "line-width": 14,
-          "line-opacity": 0.15,
-          "line-blur": 4,
-        },
-        layout: { "line-join": "round", "line-cap": "round" },
-      });
 
       // Casing / Halo (thick black line underneath to separate overlapping routes)
       map.addLayer({
@@ -538,8 +560,8 @@ export default function MapContainer({
         type: "line",
         source: JOURNEY_LINE_SOURCE,
         paint: {
-          "line-color": "#09090b",
-          "line-width": 7.5,
+          "line-color": "#080C14",
+          "line-width": ["interpolate", ["linear"], ["zoom"], 10, 7, 14, 10, 18, 15],
           "line-opacity": 0.95,
         },
         layout: { "line-join": "round", "line-cap": "round" },
@@ -551,9 +573,9 @@ export default function MapContainer({
         type: "line",
         source: JOURNEY_LINE_SOURCE,
         paint: {
-          "line-color": ["coalesce", ["get", "color"], "#06b6d4"],
-          "line-width": 3.5,
-          "line-opacity": 0.95,
+          "line-color": ["coalesce", ["get", "color"], "#00e5ff"],
+          "line-width": ["interpolate", ["linear"], ["zoom"], 10, 5, 14, 8, 18, 12],
+          "line-opacity": 1.0,
         },
         layout: { "line-join": "round", "line-cap": "round" },
       });
@@ -565,6 +587,24 @@ export default function MapContainer({
     } else {
       map.addSource(JOURNEY_POINTS_SOURCE, { type: "geojson", data: pointCollection });
 
+      // Route Stations (intermediate points)
+      map.addLayer({
+        id: "journey-route-stations-layer",
+        type: "circle",
+        source: JOURNEY_POINTS_SOURCE,
+        filter: [
+          "any",
+          ["==", ["get", "featureType"], "journey-station"],
+          ["!", ["has", "featureType"]] // or default points
+        ],
+        paint: {
+          "circle-color": "#ffffff",
+          "circle-radius": ["interpolate", ["linear"], ["zoom"], 10, 4, 14, 6, 18, 9],
+          "circle-stroke-color": ["coalesce", ["get", "color"], "#00e5ff"],
+          "circle-stroke-width": 3,
+        },
+      });
+
       // Transfer markers
       map.addLayer({
         id: JOURNEY_TRANSFER_LAYER,
@@ -572,10 +612,10 @@ export default function MapContainer({
         source: JOURNEY_POINTS_SOURCE,
         filter: ["==", ["get", "featureType"], "journey-transfer"],
         paint: {
-          "circle-color": "#f59e0b",
-          "circle-radius": 7,
-          "circle-stroke-color": "#09090b",
-          "circle-stroke-width": 2,
+          "circle-color": "#fec931",
+          "circle-radius": 9,
+          "circle-stroke-color": "#080C14",
+          "circle-stroke-width": 3,
         },
       });
 
@@ -587,9 +627,9 @@ export default function MapContainer({
         filter: ["==", ["get", "featureType"], "journey-origin"],
         paint: {
           "circle-color": "#22c55e",
-          "circle-radius": 9,
-          "circle-stroke-color": "#09090b",
-          "circle-stroke-width": 2.5,
+          "circle-radius": 10,
+          "circle-stroke-color": "#ffffff",
+          "circle-stroke-width": 3,
         },
       });
 
@@ -601,9 +641,9 @@ export default function MapContainer({
         filter: ["==", ["get", "featureType"], "journey-destination"],
         paint: {
           "circle-color": "#ef4444",
-          "circle-radius": 9,
-          "circle-stroke-color": "#09090b",
-          "circle-stroke-width": 2.5,
+          "circle-radius": 10,
+          "circle-stroke-color": "#ffffff",
+          "circle-stroke-width": 3,
         },
       });
     }

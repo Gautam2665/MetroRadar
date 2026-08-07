@@ -19,8 +19,7 @@ interface DigitalTwinInspectorProps {
 }
 
 export function formatLineName(name: string | null) {
-  if (!name) return "Metro";
-  return name.replace(/([a-z])([A-Z])/g, "$1 $2");
+  return name || "";
 }
 
 export function DigitalTwinInspector({ station, onClose }: DigitalTwinInspectorProps) {
@@ -28,22 +27,8 @@ export function DigitalTwinInspector({ station, onClose }: DigitalTwinInspectorP
 
   if (!station) return null;
 
-  const defaultLines = station.lines && station.lines.length > 0
-    ? station.lines
-    : [
-        { code: "RED", color: "#EF4444", name: "Red Line" },
-        { code: "VIOLET", color: "#8B5CF6", name: "Violet Line" },
-        { code: "YELLOW", color: "#EAB308", name: "Yellow Line" },
-      ];
-
-  const defaultExits = station.exits && station.exits.length > 0
-    ? station.exits
-    : [
-        { gate: "Exit 1", name: "Ajmeri Gate Road", distanceMeters: 250 },
-        { gate: "Exit 2", name: "Daryaganj", distanceMeters: 120 },
-        { gate: "Exit 3", name: "Netaji Subhash Marg", distanceMeters: 300 },
-        { gate: "Exit 4", name: "Thana Street", distanceMeters: 180 },
-      ];
+  const displayLines = station.lines || [];
+  const displayExits = station.exits || [];
 
   return (
     <div className="fixed inset-y-0 right-0 w-full sm:w-[480px] bg-[#0f131c]/95 backdrop-blur-2xl border-l border-white/10 z-50 p-6 overflow-y-auto flex flex-col gap-6 shadow-2xl animate-slide-in">
@@ -66,14 +51,14 @@ export function DigitalTwinInspector({ station, onClose }: DigitalTwinInspectorP
 
       {/* Connected Transit Lines */}
       <div className="flex items-center gap-2 flex-wrap">
-        {defaultLines.map((line) => (
+        {displayLines.map((line) => (
           <span
             key={line.code}
             className="px-3 py-1 rounded-full text-[12px] font-semibold flex items-center gap-1.5 shadow-md"
             style={{ backgroundColor: line.color, color: line.color === "#EAB308" ? "#000" : "#fff" }}
           >
             <span>●</span>
-            {formatLineName(line.name)}
+            {line.name}
           </span>
         ))}
       </div>
@@ -111,7 +96,7 @@ export function DigitalTwinInspector({ station, onClose }: DigitalTwinInspectorP
         {/* Legend */}
         <div className="flex gap-3 text-[10px] text-[#bac9cc] justify-around bg-black/40 p-2 rounded-lg border border-white/5">
           <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#c3f5ff]"></span> You are here</span>
-          <span className="flex items-center gap-1">🚪 Exits ({defaultExits.length})</span>
+          <span className="flex items-center gap-1">🚪 Exits ({displayExits.length})</span>
           <span className="flex items-center gap-1">🛗 Lifts</span>
           <span className="flex items-center gap-1">🪜 Escalators</span>
         </div>
@@ -170,7 +155,7 @@ export function DigitalTwinInspector({ station, onClose }: DigitalTwinInspectorP
           <DoorOpen size={18} className="text-[#c3f5ff]" /> Physical Exit Gates
         </h3>
         <div className="space-y-3">
-          {defaultExits.map((exit) => (
+          {displayExits.map((exit) => (
             <div
               key={exit.gate}
               className="bg-[#1c2028]/50 rounded-lg p-3 border border-white/5 flex justify-between items-center hover:bg-white/5 transition-colors cursor-pointer"

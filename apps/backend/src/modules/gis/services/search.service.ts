@@ -36,10 +36,19 @@ export class SearchService {
               'type', 'station',
               'city', st.city,
               'lines', COALESCE((
-                SELECT json_agg(json_build_object('code', l.code, 'name', l.name, 'color', l.color))
-                FROM lines l
-                JOIN station_sequences ss ON ss."lineId" = l.id
-                WHERE ss."stationId" = st.id AND l."isActive" = true
+                SELECT json_agg(json_build_object('code', l.code, 'name', l.name, 'color', COALESCE(l.color, '#00e5ff')))
+                FROM (
+                  SELECT DISTINCT l_sub.id, l_sub.code, l_sub.name, l_sub.color
+                  FROM lines l_sub
+                  JOIN trips t_sub ON t_sub."lineId" = l_sub.id
+                  JOIN stop_times st_sub ON st_sub."tripId" = t_sub.id
+                  WHERE st_sub."stationId" = st.id AND l_sub."isActive" = true
+                  UNION
+                  SELECT DISTINCT l_sub2.id, l_sub2.code, l_sub2.name, l_sub2.color
+                  FROM lines l_sub2
+                  JOIN station_sequences ss_sub ON ss_sub."lineId" = l_sub2.id
+                  WHERE ss_sub."stationId" = st.id AND l_sub2."isActive" = true
+                ) l
               ), '[]'::json)
             )
           ) as feature

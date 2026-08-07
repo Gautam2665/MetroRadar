@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { JourneyResult } from "./JourneyPlannerTypes";
-import { StationSearchInput, ALL_STATIONS } from "../StationSearchInput";
+import { StationSearchInput, StationItem } from "../StationSearchInput";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
 
@@ -50,31 +50,45 @@ export function JourneyPlanner({ activeCity = "delhi", onJourneyCalculated }: Jo
 
   const [fromQuery, setFromQuery] = useState(cityConfig.from);
   const [toQuery, setToQuery] = useState(cityConfig.to);
+  // UUIDs for pathfinder — only set when user picks from dropdown
+  const [fromId, setFromId] = useState<string | null>(null);
+  const [toId, setToId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [activeJourney, setActiveJourney] = useState<JourneyResult | null>(null);
 
-  // Sync default stations when activeCity changes
   useEffect(() => {
-    const cfg = DEFAULT_CITY_STATIONS[activeCity?.toLowerCase() || "delhi"] || DEFAULT_CITY_STATIONS.delhi;
-    setFromQuery(cfg.from);
-    setToQuery(cfg.to);
-    setActiveJourney(null);
-    if (onJourneyCalculated) onJourneyCalculated(null);
-  }, [activeCity]);
+    const timer = setTimeout(() => {
+      const cfg = DEFAULT_CITY_STATIONS[activeCity?.toLowerCase() || "delhi"] || DEFAULT_CITY_STATIONS.delhi;
+      setFromQuery(cfg.from);
+      setToQuery(cfg.to);
+      setFromId(null);
+      setToId(null);
+      setActiveJourney(null);
+      if (onJourneyCalculated) onJourneyCalculated(null);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [activeCity, onJourneyCalculated]);
 
   const swapStations = () => {
-    const tmp = fromQuery;
+    const tmpName = fromQuery;
+    const tmpId = fromId;
     setFromQuery(toQuery);
-    setToQuery(tmp);
+    setFromId(toId);
+    setToQuery(tmpName);
+    setToId(tmpId);
   };
 
   const calculateJourney = async () => {
     if (!fromQuery || !toQuery) return;
     setLoading(true);
 
+    // Prefer UUIDs; fall back to names if user typed without picking from dropdown
+    const fromParam = fromId || fromQuery;
+    const toParam = toId || toQuery;
+
     try {
       const res = await fetch(
-        `${BACKEND_URL}/journeys?from=${encodeURIComponent(fromQuery)}&to=${encodeURIComponent(toQuery)}&system=${activeCity}`
+        `${BACKEND_URL}/journeys?from=${encodeURIComponent(fromParam)}&to=${encodeURIComponent(toParam)}`
       );
       if (res.ok) {
         const data = await res.json();
@@ -88,17 +102,9 @@ export function JourneyPlanner({ activeCity = "delhi", onJourneyCalculated }: Jo
       console.warn("Backend pathfinder fetch fallback:", err);
     }
 
-    // Build rich dynamic pathfinder result matching the selected city & stations
-    const fromStnObj = ALL_STATIONS.find((s) => s.name.toLowerCase() === fromQuery.toLowerCase()) || {
-      name: fromQuery,
-      code: "STN1",
-      coordinates: [77.2285, 28.6665],
-    };
-    const toStnObj = ALL_STATIONS.find((s) => s.name.toLowerCase() === toQuery.toLowerCase()) || {
-      name: toQuery,
-      code: "STN2",
-      coordinates: [77.0726, 28.4595],
-    };
+    // Fallback: no live backend data — build a minimal result for display
+    const fromStnObj = { name: fromQuery, code: "STN1", coordinates: [77.2285, 28.6665] };
+    const toStnObj = { name: toQuery, code: "STN2", coordinates: [77.0726, 28.4595] };
 
     const mockResult: JourneyResult = {
       metadata: {
@@ -194,9 +200,9 @@ export function JourneyPlanner({ activeCity = "delhi", onJourneyCalculated }: Jo
             <StationSearchInput
               label="From Station"
               value={fromQuery}
-              onChange={(val) => setFromQuery(val)}
+              onChange={(val) => { setFromQuery(val); setFromId(null); }}
               activeCity={activeCity}
-              onSelectStation={(stn) => setFromQuery(stn.name)}
+              onSelectStation={(stn: StationItem) => { setFromQuery(stn.name); setFromId(stn.id); }}
               placeholder="Enter Origin Station..."
               inputClassName="bg-transparent border-none p-0 text-[14px] font-semibold text-[#dfe2ee] w-full focus:outline-none placeholder:text-[#bac9cc]/50"
             />
@@ -219,9 +225,9 @@ export function JourneyPlanner({ activeCity = "delhi", onJourneyCalculated }: Jo
             <StationSearchInput
               label="To Destination"
               value={toQuery}
-              onChange={(val) => setToQuery(val)}
+              onChange={(val) => { setToQuery(val); setToId(null); }}
               activeCity={activeCity}
-              onSelectStation={(stn) => setToQuery(stn.name)}
+              onSelectStation={(stn: StationItem) => { setToQuery(stn.name); setToId(stn.id); }}
               placeholder="Enter Destination Station..."
               inputClassName="bg-transparent border-none p-0 text-[14px] font-semibold text-[#dfe2ee] w-full focus:outline-none placeholder:text-[#bac9cc]/50"
             />

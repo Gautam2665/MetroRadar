@@ -26,25 +26,36 @@ export interface DigitalTwin {
   exits: StationExit[];
 }
 
-export function toDigitalTwinModel(dto: any, stationId: string, defaultName: string): DigitalTwin {
-  if (dto && dto.station) {
+export function toDigitalTwinModel(dto: Record<string, unknown> | null | undefined, stationId: string, defaultName: string): DigitalTwin {
+  if (dto && typeof dto === "object" && "station" in dto && dto.station && typeof dto.station === "object") {
+    const stationObj = dto.station as Record<string, unknown>;
+    const rawLevels = Array.isArray(dto.levels) ? dto.levels : [];
+    const mappedLevels: DigitalTwinLevel[] = rawLevels.map((l: unknown) => {
+      const lvl = (l && typeof l === "object" ? l : {}) as Record<string, unknown>;
+      return {
+        id: (lvl.id as string) || `lvl-${lvl.levelNumber || 0}`,
+        name: (lvl.name as string) || `Level ${lvl.levelNumber || 0}`,
+        facilities: Array.isArray(lvl.platforms)
+          ? lvl.platforms.map((p: unknown) => {
+              const plt = (p && typeof p === "object" ? p : {}) as Record<string, unknown>;
+              return (plt.name as string) || `Platform ${plt.platformNumber || ""}`;
+            })
+          : [],
+      };
+    });
+
     return {
-      stationId: dto.station.id || stationId,
-      stationName: dto.station.name || defaultName,
-      levels: dto.levels || [
-        { id: "G", name: "Ground Concourse", facilities: ["Ticket Counter", "Gate A", "ATM"] },
-        { id: "L1", name: "Platform Level 1 (Red Line)", facilities: ["Platform 1", "Platform 2"] },
-        { id: "L2", name: "Platform Level 2 (Yellow Line)", facilities: ["Platform 3", "Platform 4"] },
-      ],
-      platformEtas: dto.platformEtas || [
-        { platform: "Platform 2", towards: "HUDA City Centre", etaMins: 4, crowdLevel: "Medium", recommendedCoach: "Coach 3" },
-        { platform: "Platform 1", towards: "Samaypur Badli", etaMins: 8, crowdLevel: "Low", recommendedCoach: "Coach 1" },
-      ],
-      exits: dto.exits || [
-        { gate: "Exit 1", name: "Ajmeri Gate Road", distanceMeter: 250 },
-        { gate: "Exit 2", name: "Daryaganj Main", distanceMeter: 120 },
-        { gate: "Exit 3", name: "ISBT Terminal", distanceMeter: 300 },
-      ],
+      stationId: (stationObj.id as string) || stationId,
+      stationName: (stationObj.name as string) || defaultName,
+      levels: mappedLevels,
+      platformEtas: (dto.platformEtas as PlatformEta[]) || [],
+      exits: Array.isArray(dto.entrances)
+        ? (dto.entrances as Record<string, unknown>[]).map((e) => ({
+            gate: (e.name as string) || "Entrance",
+            name: (e.description as string) || (e.name as string) || "Station Gate",
+            distanceMeter: 150,
+          }))
+        : (dto.exits as StationExit[]) || [],
     };
   }
 

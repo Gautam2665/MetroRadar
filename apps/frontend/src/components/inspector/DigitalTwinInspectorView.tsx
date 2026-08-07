@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { DigitalTwin } from "../../models/digitalTwin";
 
 export interface DigitalTwinInspectorViewProps {
@@ -22,36 +23,48 @@ export function DigitalTwinInspectorView({
   const currentLevelObj = digitalTwin.levels.find((l) => l.id === activeLevel) || digitalTwin.levels[0];
 
   return (
-    <div className="fixed right-6 bottom-6 w-96 glass-card bg-[#1c2028]/95 border border-[#00e5ff]/30 rounded-2xl p-6 shadow-2xl z-50 animate-slide-in backdrop-blur-md text-[#dfe2ee]">
+    <motion.div
+      initial={{ x: "100%", opacity: 0, scale: 0.95 }}
+      animate={{ x: 0, opacity: 1, scale: 1 }}
+      exit={{ x: "100%", opacity: 0, scale: 0.95 }}
+      transition={{ type: "spring", stiffness: 300, damping: 28 }}
+      className="fixed right-6 bottom-6 w-96 bg-[#0c1017]/85 border border-white/15 rounded-2xl p-6 shadow-[0_20px_60px_rgba(0,0,0,0.8)] z-50 backdrop-blur-2xl text-[#dfe2ee]"
+    >
       <div className="flex justify-between items-start mb-4">
         <div>
-          <span className="text-[10px] font-bold text-[#00e5ff] uppercase tracking-wider">3D Digital Twin Inspector</span>
+          <span className="text-[10px] font-bold text-[#00e5ff] uppercase tracking-wider flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-[#00e5ff] animate-ping inline-block" />
+            3D Digital Twin Inspector
+          </span>
           <h3 className="text-xl font-bold text-[#dfe2ee]">{digitalTwin.stationName}</h3>
         </div>
         <button
           onClick={onClose}
-          className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#bac9cc] hover:text-[#dfe2ee] transition-colors"
+          className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#bac9cc] hover:text-[#dfe2ee] hover:bg-white/10 transition-colors"
         >
           <span className="material-symbols-outlined text-sm">close</span>
         </button>
       </div>
 
       {loading ? (
-        <div className="py-8 text-center text-xs text-[#bac9cc]">Loading station geometry...</div>
+        <div className="py-8 text-center text-xs text-[#bac9cc] flex flex-col items-center gap-2">
+          <div className="w-5 h-5 border-2 border-[#00e5ff] border-t-transparent rounded-full animate-spin" />
+          Loading station geometry & sensor twin...
+        </div>
       ) : (
         <div className="space-y-4">
           {/* Level Switcher Tabs */}
           <div>
             <span className="text-xs font-bold text-[#bac9cc] block mb-2 uppercase tracking-wider">Station Level View</span>
-            <div className="flex gap-1 bg-[#181c24] p-1 rounded-xl border border-white/10">
+            <div className="flex gap-1 bg-[#141822] p-1 rounded-xl border border-white/10">
               {digitalTwin.levels.map((level) => (
                 <button
                   key={level.id}
                   onClick={() => onLevelSelect(level.id)}
-                  className={`flex-1 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  className={`flex-1 py-1.5 rounded-lg text-xs font-bold transition-all relative ${
                     activeLevel === level.id
-                      ? "bg-[#00e5ff] text-[#00363d] shadow"
-                      : "text-[#bac9cc] hover:text-[#dfe2ee]"
+                      ? "bg-[#00e5ff] text-[#00363d] shadow-[0_0_15px_rgba(0,229,255,0.4)]"
+                      : "text-[#bac9cc] hover:text-[#dfe2ee] hover:bg-white/5"
                   }`}
                 >
                   {level.id}
@@ -61,11 +74,11 @@ export function DigitalTwinInspectorView({
           </div>
 
           {/* Level Facilities */}
-          <div className="p-3 bg-[#181c24]/80 rounded-xl border border-white/5 space-y-2">
+          <div className="p-3.5 bg-[#141822]/90 rounded-xl border border-white/10 space-y-2 backdrop-blur-md">
             <h4 className="text-xs font-bold text-[#dfe2ee]">{currentLevelObj?.name}</h4>
             <div className="flex flex-wrap gap-1.5">
               {currentLevelObj?.facilities.map((fac, idx) => (
-                <span key={idx} className="text-[10px] px-2 py-0.5 rounded bg-white/5 text-[#bac9cc] border border-white/5">
+                <span key={idx} className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-[#bac9cc] border border-white/10">
                   {fac}
                 </span>
               ))}
@@ -76,18 +89,24 @@ export function DigitalTwinInspectorView({
           <div className="space-y-2">
             <span className="text-xs font-bold text-[#bac9cc] uppercase tracking-wider block">Live Platform ETAs</span>
             {digitalTwin.platformEtas.map((eta, idx) => (
-              <div key={idx} className="p-3 bg-[#181c24]/50 rounded-xl border border-white/5 flex justify-between items-center">
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.08 }}
+                className="p-3 bg-[#141822]/60 rounded-xl border border-white/10 flex justify-between items-center hover:border-[#00e5ff]/40 transition-colors"
+              >
                 <div>
                   <h5 className="text-xs font-bold text-[#dfe2ee]">{eta.platform} • {eta.towards}</h5>
                   <span className="text-[10px] text-[#00e5ff] font-bold">Recommended: {eta.recommendedCoach}</span>
                 </div>
                 <div className="text-right">
                   <span className="text-sm font-bold text-[#00e5ff] block">{eta.etaMins} min</span>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#10B981]/20 text-[#10B981] font-bold">
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#10B981]/20 text-[#10B981] font-bold border border-[#10B981]/30">
                     Crowd: {eta.crowdLevel}
                   </span>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 
@@ -96,7 +115,7 @@ export function DigitalTwinInspectorView({
             <span className="text-xs font-bold text-[#bac9cc] uppercase tracking-wider block mb-2">Exits & Walking Distance</span>
             <div className="grid grid-cols-2 gap-2 text-xs">
               {digitalTwin.exits.map((exit, idx) => (
-                <div key={idx} className="p-2 bg-[#181c24]/40 rounded-lg border border-white/5">
+                <div key={idx} className="p-2 bg-[#141822]/50 rounded-lg border border-white/10">
                   <span className="text-[11px] font-bold text-[#dfe2ee] block">{exit.gate}</span>
                   <span className="text-[10px] text-[#bac9cc]">{exit.name} ({exit.distanceMeter}m)</span>
                 </div>
@@ -105,6 +124,6 @@ export function DigitalTwinInspectorView({
           </div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }

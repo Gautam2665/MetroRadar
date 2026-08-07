@@ -1,0 +1,393 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>transitOS - Plan Multimodal Journey</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#690005",
+                        "secondary-fixed-dim": "#d1bcff",
+                        "outline-variant": "#3b494c",
+                        "inverse-primary": "#006875",
+                        "inverse-on-surface": "#2c3039",
+                        "surface-container-lowest": "#0a0e16",
+                        "surface-container-high": "#262a33",
+                        "on-primary-container": "#00626e",
+                        "tertiary-fixed-dim": "#f3bf26",
+                        "surface-dim": "#0f131c",
+                        "tertiary-fixed": "#ffdf96",
+                        "surface-container": "#1c2028",
+                        "secondary-fixed": "#e9ddff",
+                        "on-tertiary-fixed-variant": "#594400",
+                        "background": "#0f131c",
+                        "tertiary-container": "#fec931",
+                        "primary-fixed": "#9cf0ff",
+                        "primary-fixed-dim": "#00daf3",
+                        "surface-container-highest": "#31353e",
+                        "on-secondary-fixed-variant": "#5700c9",
+                        "secondary-container": "#7000ff",
+                        "on-secondary-container": "#ddcdff",
+                        "on-tertiary": "#3e2e00",
+                        "on-primary": "#00363d",
+                        "on-surface": "#dfe2ee",
+                        "error": "#ffb4ab",
+                        "primary-container": "#00e5ff",
+                        "surface-bright": "#353942",
+                        "on-background": "#dfe2ee",
+                        "surface-tint": "#00daf3",
+                        "on-secondary": "#3c0090",
+                        "surface-container-low": "#181c24",
+                        "secondary": "#d1bcff",
+                        "on-primary-fixed": "#001f24",
+                        "on-error-container": "#ffdad6",
+                        "error-container": "#93000a",
+                        "surface-variant": "#31353e",
+                        "on-secondary-fixed": "#23005b",
+                        "on-tertiary-fixed": "#251a00",
+                        "primary": "#c3f5ff",
+                        "on-surface-variant": "#bac9cc",
+                        "inverse-surface": "#dfe2ee",
+                        "tertiary": "#ffeac0",
+                        "surface": "#0f131c",
+                        "outline": "#849396",
+                        "on-tertiary-container": "#6f5500",
+                        "on-primary-fixed-variant": "#004f58"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "md": "16px",
+                        "gutter": "16px",
+                        "base": "4px",
+                        "lg": "24px",
+                        "container-margin": "24px",
+                        "xs": "4px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "title-sm": ["Inter"],
+                        "stats-number": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-caps": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "title-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "stats-number": ["28px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-overlay {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(30px);
+        }
+        /* Hide scrollbar for clean UI */
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background h-screen overflow-hidden flex font-body-md selection:bg-primary selection:text-on-primary">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen py-6 bg-surface-container dark:bg-surface-container-low backdrop-blur-xl fixed left-0 top-0 w-[260px] border-r border-white/10 z-50 justify-between">
+<div>
+<div class="px-container-margin mb-8">
+<div class="text-headline-md font-display-lg font-bold text-primary tracking-tight">transitOS</div>
+<div class="text-body-sm text-on-surface-variant">Urban Mobility Platform</div>
+</div>
+<div class="flex flex-col gap-1 px-4">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-body-sm text-body-sm">Home</span>
+</a>
+<!-- Active Item -->
+<div class="flex flex-col gap-1"><a class="flex items-center gap-3 px-4 py-3 text-primary bg-primary/10 rounded-lg transition-colors duration-200" href="#"><span class="material-symbols-outlined" data-icon="add_road">add_road</span><span class="font-body-sm text-body-sm font-bold">Plan Journey</span></a><div class="pl-10 flex flex-col gap-1"><a class="flex items-center gap-2 py-2 text-primary border-l-2 border-primary pl-4 transition-colors" href="#"><span class="text-body-sm font-body-sm">Multimodal</span></a><a class="flex items-center gap-2 py-2 text-on-surface-variant hover:text-primary pl-4 transition-colors" href="#"><span class="text-body-sm font-body-sm">Direct Routes</span></a></div></div>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="sensors">sensors</span>
+<span class="font-body-sm text-body-sm">Live Network</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="route">route</span>
+<span class="font-body-sm text-body-sm">My Journeys</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="confirmation_number">confirmation_number</span>
+<span class="font-body-sm text-body-sm">Tickets &amp; Passes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="notifications_active">notifications_active</span>
+<span class="font-body-sm text-body-sm">Alerts</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-body-sm text-body-sm">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-body-sm text-body-sm">Payments</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-sm text-body-sm">Settings</span>
+</a>
+</div>
+</div>
+<div class="px-4">
+
+<div class="flex items-center justify-between px-2 pt-4 border-t border-white/10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="account_circle">account_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Gautam Mulay</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 ml-0 md:ml-[260px] h-screen flex flex-col relative overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-container-margin h-16 bg-background/90 dark:bg-background/90 backdrop-blur-md z-40 shrink-0 border-b border-transparent">
+<!-- Mobile Menu Toggle (Visible only on mobile) -->
+<button class="md:hidden text-primary p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="flex items-center gap-4 flex-1">
+<!-- Search could go here if needed, based on JSON it's on left but links empty -->
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 font-title-sm text-title-sm text-on-surface">
+<span class="material-symbols-outlined text-primary text-sm">location_on</span>
+                    Mumbai, MH
+                </div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors opacity-100 active:opacity-80">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors opacity-100 active:opacity-80">
+<span class="material-symbols-outlined" data-icon="wb_sunny">wb_sunny</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-bright border border-white/10 overflow-hidden flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">person</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Bento Grid / Asymmetric Layout Content -->
+<main class="flex-1 flex flex-col lg:flex-row overflow-hidden w-full max-w-7xl mx-auto p-4 md:p-6 gap-6 relative z-10">
+<!-- Left Column: Journey Details & Timeline (Glass Panel) -->
+<section class="w-full lg:w-[450px] flex flex-col gap-6 h-full overflow-y-auto pr-2 pb-24 md:pb-0 relative z-20">
+<!-- Route Header Card -->
+<div class="glass-card rounded-2xl p-6 flex flex-col gap-4 relative overflow-hidden group">
+<div class="absolute -right-10 -top-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all duration-500"></div>
+<div class="flex justify-between items-start">
+<h1 class="font-headline-md text-headline-md text-primary">Fastest Route</h1>
+<div class="bg-surface-bright px-3 py-1 rounded-full font-label-caps text-label-caps text-on-surface-variant flex items-center gap-1 border border-white/10">
+<span class="material-symbols-outlined text-[14px]">timer</span> 42 min
+                        </div>
+</div>
+<div class="flex flex-col gap-3 mt-2 relative">
+<!-- Connecting Line -->
+<div class="absolute left-3 top-3 bottom-3 w-px bg-outline-variant/50"></div>
+<div class="flex items-center gap-4 z-10">
+<div class="w-6 h-6 rounded-full bg-surface-container border-2 border-primary flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+</div>
+<div class="flex-1">
+<input class="w-full bg-surface-dim/50 border border-white/10 rounded-lg px-3 py-2 font-body-sm text-on-surface focus:outline-none focus:border-primary/50 text-sm" readonly="" type="text" value="Home (Andheri West)">
+</div>
+</div>
+<div class="flex items-center gap-4 z-10">
+<div class="w-6 h-6 rounded-full bg-surface-container border-2 border-error flex items-center justify-center">
+<span class="material-symbols-outlined text-[12px] text-error">location_on</span>
+</div>
+<div class="flex-1">
+<input class="w-full bg-surface-dim/50 border border-white/10 rounded-lg px-3 py-2 font-body-sm text-on-surface focus:outline-none focus:border-primary/50 text-sm" readonly="" type="text" value="Central Secretariat, BKC">
+</div>
+</div>
+</div>
+<!-- Mode summary badges -->
+<div class="flex gap-2 mt-2">
+<div class="flex items-center gap-1 bg-tertiary-container/20 text-tertiary-fixed-dim px-2 py-1 rounded font-label-caps text-label-caps border border-tertiary-container/30">
+<span class="material-symbols-outlined text-[14px]">local_taxi</span> Auto
+                        </div>
+<span class="text-outline-variant flex items-center">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</span>
+<div class="flex items-center gap-1 bg-error-container/20 text-error px-2 py-1 rounded font-label-caps text-label-caps border border-error-container/30">
+<span class="material-symbols-outlined text-[14px]">subway</span> Red Line
+                        </div>
+<span class="text-outline-variant flex items-center">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</span>
+<div class="flex items-center gap-1 bg-secondary-container/20 text-secondary-fixed-dim px-2 py-1 rounded font-label-caps text-label-caps border border-secondary-container/30">
+<span class="material-symbols-outlined text-[14px]">directions_walk</span> Walk
+                        </div>
+</div>
+</div>
+<!-- Timeline Section -->
+<div class="flex flex-col gap-2 relative">
+<h2 class="font-title-sm text-title-sm text-on-surface-variant mb-2 px-2">Journey Breakdown</h2>
+<!-- Vertical Line for Timeline -->
+<div class="absolute left-7 top-10 bottom-4 w-[2px] bg-outline-variant/30 z-0"></div>
+<!-- Leg 1: Auto -->
+<div class="glass-card rounded-xl p-4 flex gap-4 relative z-10 hover:border-tertiary-fixed-dim/50 transition-colors">
+<div class="w-8 h-8 rounded-full bg-tertiary-container flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(254,201,49,0.3)] z-10 mt-1">
+<span class="material-symbols-outlined text-on-tertiary text-sm">local_taxi</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-title-sm text-title-sm text-on-surface">Auto Rickshaw</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">10:00 AM</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-3">Home to Kashmere Gate Station</p>
+<div class="flex items-center gap-4 font-label-caps text-label-caps text-outline">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span> 15 min</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">straighten</span> 3.2 km</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">currency_rupee</span> ~₹50</span>
+</div>
+</div>
+</div>
+<!-- Leg 2: Metro -->
+<div class="glass-card rounded-xl p-4 flex gap-4 relative z-10 hover:border-error/50 transition-colors">
+<div class="w-8 h-8 rounded-full bg-error flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(255,180,171,0.3)] z-10 mt-1">
+<span class="material-symbols-outlined text-on-error text-sm">subway</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-title-sm text-title-sm text-on-surface">Red Line Metro</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">10:18 AM</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-3">Towards Central Secretariat</p>
+<!-- Stop progression -->
+<div class="bg-surface-dim/50 rounded-lg p-3 mb-3 border border-white/5">
+<div class="flex items-center gap-2 mb-2">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<span class="font-body-sm text-body-sm text-on-surface">Kashmere Gate</span>
+</div>
+<div class="pl-1 border-l border-dashed border-error/50 ml-1 py-1 text-xs text-outline-variant flex flex-col gap-1">
+<span class="pl-4">Chandni Chowk</span>
+<span class="pl-4">Chawri Bazar</span>
+<span class="pl-4">New Delhi</span>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<div class="w-2 h-2 rounded-full border border-error bg-transparent"></div>
+<span class="font-body-sm text-body-sm text-on-surface">Central Secretariat</span>
+</div>
+</div>
+<div class="flex items-center gap-4 font-label-caps text-label-caps text-outline">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span> 22 min</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">confirmation_number</span> Buy Ticket</span>
+</div>
+</div>
+</div>
+<!-- Leg 3: Walk -->
+<div class="glass-card rounded-xl p-4 flex gap-4 relative z-10 hover:border-secondary-fixed-dim/50 transition-colors">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(112,0,255,0.3)] z-10 mt-1">
+<span class="material-symbols-outlined text-on-secondary-container text-sm">directions_walk</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-title-sm text-title-sm text-on-surface">Walk to Destination</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">10:42 AM</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-3">Exit Gate 3, 500m to Office Park</p>
+<div class="flex items-center gap-4 font-label-caps text-label-caps text-outline">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span> 5 min</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">straighten</span> 500 m</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Column: Map Integration (Canvas Area) -->
+<section class="flex-1 relative rounded-2xl overflow-hidden border border-white/10 glass-card hidden md:block">
+<!-- Fallback Map Image Data Store Placeholder -->
+<div class="absolute inset-0 w-full h-full bg-surface-dim bg-cover bg-center" data-alt="A highly detailed, futuristic digital map visualization in dark mode, showing a city layout with glowing cyan and red transit lines. The style is cybernetic and polished, resembling a high-tech command center interface. Smooth gradients and subtle neon glows against a deep navy-black background." data-location="Mumbai" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCei5woXs-DWCatA2wnmpNEo1TxEvJwKtMn3HpQj2HCI--snAQqqNCxYP2XYqqgOS7JZ7viQ9zn6RSczl-9FucxriC1pg4y-v328KT6hOJlGeIvoc7mPjaYv1SMyHVEmsoTIOAOnuse8G1icy7keCKWUmyiKlThCFuD1grn0p-JacLENG0H3u81neQMrRW820A3go8zZsPL90NH8RloQUDlbgqcAiiQKXWPm0tcRotSlsBsTT3tLTwQ')">
+<div class="absolute inset-0 bg-background/40 backdrop-blur-[2px]"></div>
+</div>
+<!-- WebGL Map Overlay Simulation (Animation Placeholder) -->
+
+<!-- Floating Map Controls -->
+<div class="absolute right-4 top-4 flex flex-col gap-2 z-30">
+<button class="w-10 h-10 rounded-full glass-overlay border border-white/10 flex items-center justify-center text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+<button class="w-10 h-10 rounded-full glass-overlay border border-white/10 flex items-center justify-center text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined">layers</span>
+</button>
+</div>
+<!-- Floating Route Info Box over map -->
+<div class="absolute top-4 left-4 glass-overlay rounded-xl p-4 border border-white/10 shadow-2xl z-30 max-w-[250px]">
+<div class="flex items-center gap-2 mb-2 text-primary font-title-sm">
+<span class="material-symbols-outlined text-sm">alt_route</span>
+<span class="">Route Active</span>
+</div>
+<p class="text-body-sm text-on-surface-variant mb-3">Map rendering optimal multimodal path dynamically.</p>
+<div class="h-1 w-full bg-surface-container rounded-full overflow-hidden flex">
+<div class="h-full bg-tertiary-container w-[20%]"></div>
+<div class="h-full bg-error w-[60%]"></div>
+<div class="h-full bg-secondary-container w-[20%]"></div>
+</div>
+</div>
+</section>
+</main>
+<!-- Prominent Fixed CTA for Navigation -->
+<div class="fixed bottom-0 md:bottom-6 left-0 md:left-[260px] right-0 md:w-[calc(100%-260px)] z-40 p-4 flex justify-center pointer-events-none pb-20 md:pb-4">
+<button class="pointer-events-auto bg-primary text-on-primary font-title-sm text-title-sm py-4 px-8 rounded-full shadow-[0_0_30px_rgba(0,229,255,0.3)] hover:shadow-[0_0_40px_rgba(0,229,255,0.5)] hover:scale-105 transition-all duration-300 flex items-center gap-3 w-full md:w-auto md:min-w-[300px] justify-center">
+<span class="material-symbols-outlined">navigation</span>
+                Start Navigation
+            </button>
+</div>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-surface-container-highest/95 backdrop-blur-2xl border-t border-white/10 rounded-t-xl shadow-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-white/10 w-full h-full transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-caps text-label-caps mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary w-full h-full transition-colors relative" href="#">
+<div class="absolute -top-1 w-8 h-1 bg-primary rounded-b-md"></div>
+<span class="material-symbols-outlined" data-icon="directions" style="font-variation-settings: 'FILL' 1;">directions</span>
+<span class="font-label-caps text-label-caps mt-1 font-bold">Plan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-white/10 w-full h-full transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="confirmation_number">confirmation_number</span>
+<span class="font-label-caps text-label-caps mt-1">Tickets</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-white/10 w-full h-full transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-label-caps text-label-caps mt-1">More</span>
+</a>
+</nav>
+
+
+
+
+</body></html>

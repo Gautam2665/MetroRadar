@@ -20,7 +20,7 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
       enableOfflineQueue: false,
       retryStrategy: () => null,
     });
-    this.client.on('error', (err) => {
+    this.client.on('error', () => {
       // Suppress unhandled redis error logs when redis is offline
     });
   }

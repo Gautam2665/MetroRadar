@@ -9,8 +9,10 @@ export class DatabaseService
   async onModuleInit() {
     try {
       await this.$connect();
-    } catch (err) {
-      console.warn("Database connection notice: running with in-memory fallback API data.");
+    } catch {
+      console.warn(
+        'Database connection notice: running with in-memory fallback API data.',
+      );
     }
   }
 

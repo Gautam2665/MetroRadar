@@ -22,7 +22,10 @@ export function useStations(activeCity: string) {
   }, [activeCity]);
 
   useEffect(() => {
-    fetchStations();
+    const timer = setTimeout(() => {
+      void fetchStations();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [fetchStations]);
 
   return { data, loading, error, refresh: fetchStations };

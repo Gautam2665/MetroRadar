@@ -11,17 +11,18 @@ export interface RealtimeVehicle {
   status: "On Time" | "Minor Delays" | "Stopped";
 }
 
-export function toVehicleModel(dto: any, idx: number): RealtimeVehicle {
+export function toVehicleModel(dto: Record<string, unknown>, idx: number): RealtimeVehicle {
+  const delayMins = (dto.delayMins as number) || 0;
   return {
-    id: dto.vehicleId || dto.id || `v-${idx + 1}`,
-    lineId: dto.lineId || "yellow",
-    lineName: dto.lineName || "Yellow Line",
-    lineColor: dto.lineColor || "#EAB308",
-    lat: dto.latitude || dto.lat || 28.6139,
-    lng: dto.longitude || dto.lng || 77.209,
-    speedKmH: dto.speed || 45,
-    bearing: dto.bearing || 90,
-    delayMins: dto.delayMins || 0,
-    status: dto.delayMins > 3 ? "Minor Delays" : "On Time",
+    id: (dto.vehicleId as string) || (dto.id as string) || `v-${idx + 1}`,
+    lineId: (dto.lineId as string) || "",
+    lineName: (dto.lineName as string) || "Metro Train",
+    lineColor: (dto.lineColor as string) || "#38bdf8",
+    lat: (dto.latitude as number) || (dto.lat as number) || 28.6139,
+    lng: (dto.longitude as number) || (dto.lng as number) || 77.209,
+    speedKmH: (dto.speed as number) || 45,
+    bearing: (dto.bearing as number) || 90,
+    delayMins,
+    status: delayMins > 3 ? "Minor Delays" : "On Time",
   };
 }
