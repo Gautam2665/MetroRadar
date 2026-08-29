@@ -291,13 +291,19 @@ export class IngestionService {
       );
 
       if (finalStatus === ImportSessionStatus.SUCCESS && this.redisService) {
-        await this.redisService.delByPattern('geojson:*');
-        await this.redisService.delByPattern('digitaltwin:*');
-        await this.redisService.delByPattern('search:*');
-        await this.redisService.delByPattern('nearby:*');
-        logger.log(
-          'Redis caches for GeoJSON, digital twins, and searches invalidated.',
-        );
+        try {
+          await this.redisService.delByPattern('geojson:*');
+          await this.redisService.delByPattern('digitaltwin:*');
+          await this.redisService.delByPattern('search:*');
+          await this.redisService.delByPattern('nearby:*');
+          logger.log(
+            'Redis caches for GeoJSON, digital twins, and searches invalidated.',
+          );
+        } catch (redisErr) {
+          logger.warn(
+            `Redis cache invalidation skipped: ${redisErr instanceof Error ? redisErr.message : String(redisErr)}`,
+          );
+        }
       }
 
       logger.log('Report Generated');

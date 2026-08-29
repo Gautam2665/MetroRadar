@@ -31,6 +31,9 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
 
   async isHealthy(): Promise<boolean> {
     try {
+      if (!this.client || this.client.status !== 'ready') {
+        return false;
+      }
       const ping = await this.client.ping();
       return ping === 'PONG';
     } catch {
@@ -39,47 +42,67 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
   }
 
   async get<T>(key: string): Promise<T | null> {
-    const data = await this.client.get(key);
-    if (!data) return null;
     try {
-      return JSON.parse(data) as T;
+      const data = await this.client.get(key);
+      if (!data) return null;
+      try {
+        return JSON.parse(data) as T;
+      } catch {
+        return data as unknown as T;
+      }
     } catch {
-      return data as unknown as T;
+      return null;
     }
   }
 
   async set(key: string, value: any, ttlSeconds?: number): Promise<void> {
-    const rawValue = typeof value === 'string' ? value : JSON.stringify(value);
-    if (ttlSeconds) {
-      await this.client.set(key, rawValue, 'EX', ttlSeconds);
-    } else {
-      await this.client.set(key, rawValue);
+    try {
+      const rawValue = typeof value === 'string' ? value : JSON.stringify(value);
+      if (ttlSeconds) {
+        await this.client.set(key, rawValue, 'EX', ttlSeconds);
+      } else {
+        await this.client.set(key, rawValue);
+      }
+    } catch {
+      // Graceful degradation when Redis is offline
     }
   }
 
   async del(key: string): Promise<void> {
-    await this.client.del(key);
+    try {
+      await this.client.del(key);
+    } catch {
+      // Graceful degradation when Redis is offline
+    }
   }
 
   async delByPattern(pattern: string): Promise<void> {
-    let cursor = '0';
-    do {
-      const [newCursor, keys] = await this.client.scan(
-        cursor,
-        'MATCH',
-        pattern,
-        'COUNT',
-        100,
-      );
-      cursor = newCursor;
-      if (keys.length > 0) {
-        await this.client.del(...keys);
-      }
-    } while (cursor !== '0');
+    try {
+      let cursor = '0';
+      do {
+        const [newCursor, keys] = await this.client.scan(
+          cursor,
+          'MATCH',
+          pattern,
+          'COUNT',
+          100,
+        );
+        cursor = newCursor;
+        if (keys.length > 0) {
+          await this.client.del(...keys);
+        }
+      } while (cursor !== '0');
+    } catch {
+      // Graceful degradation when Redis is offline
+    }
   }
 
   async getCacheStats(): Promise<{ keysCount: number }> {
-    const keys = await this.client.keys('*');
-    return { keysCount: keys.length };
+    try {
+      const keys = await this.client.keys('*');
+      return { keysCount: keys.length };
+    } catch {
+      return { keysCount: 0 };
+    }
   }
 }
