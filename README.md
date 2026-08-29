@@ -17,55 +17,79 @@ The platform powers passenger web/mobile applications, operational digital twin 
 
 ---
 
-## 🏗️ Master System Architecture
+## 🏗️ System Architecture
 
+### High-Level Components
 ```
-                         TRANSITOS
-                            │
-             ┌──────────────┼──────────────┐
-             │              │              │
-             ▼              ▼              ▼
-     TRANSIT DATA      TRANSIT          TRANSIT
-      PLATFORM       INTELLIGENCE      EXPERIENCE
-             │              │              │
-             │              │              ├── Web (Next.js / MapLibre)
-             │              │              ├── Mobile (React Native / PWA)
-             │              │              ├── Wear OS (Smartwatch)
-             │              │              ├── Telegram (Voice Bot Lab)
-             │              │              └── WhatsApp (Conversational)
-             │              │
-             │              ├── Journey Engine (Dijkstra CTM)
-             │              ├── Prediction Engine (Delays / ETA)
-             │              ├── Digital Twin (3D Station Layouts)
-             │              ├── Analytics (Line Efficiency / Congestion)
-             │              ├── Notification Engine (Push Alerts)
-             │              └── Commercial & Booking Engine
-             │
-             ▼
-       CANONICAL TRANSIT MODEL (CTM v1.0)
-             │
-       ┌─────┼─────────────────────┐
-       │     │          │          │
-      GTFS  DPRs     GIS/Data   Historical
-    (A/B)  (A–G)       (F)     Observations
-       │     │          │          ▲
-       │     │          │          │
-       └─────┴──────────┴──────────┤
-                                   │
-                           Observation Pipeline
-                           (Pi / Phone / RT)
-                                   │
-                          Calibration Warehouse
+           GTFS Static / GTFS-RT
+                     │
+                     ▼
+           Transit Ingestion Engine
+                     │
+           ┌─────────┴─────────┐
+           │                   │
+     Journey Planner       Analytics
+           │                   │
+           └─────────┬─────────┘
+                     ▼
+                AI Services
+                     │
+           Passenger Applications
+```
 
-And above the Intelligence Layer:
+### Technical Data Flow
+```mermaid
+flowchart TD
+    %% Define Styles
+    classDef datasource fill:#18181b,stroke:#3b82f6,stroke-width:2px,color:#f4f4f5;
+    classDef pipeline fill:#18181b,stroke:#06b6d4,stroke-width:2px,color:#f4f4f5;
+    classDef storage fill:#18181b,stroke:#10b981,stroke-width:2px,color:#f4f4f5;
+    classDef services fill:#18181b,stroke:#f59e0b,stroke-width:2px,color:#f4f4f5;
+    classDef client fill:#09090b,stroke:#27272a,stroke-width:2px,color:#f4f4f5;
 
-                 INTELLIGENCE GATEWAY
-                         │
-             ┌───────────┼───────────┐
-             │           │           │
-           Sarvam      Gemini      OpenAI
-             │           │           │
-          Speech       Vision     Reasoning
+    %% Nodes
+    subgraph DataSources["External Data Feeds"]
+        GS["GTFS Static (Schedules & Shapes)"]:::datasource
+        GR["GTFS Realtime (Vehicle Positions & Trip Updates)"]:::datasource
+    end
+
+    subgraph Pipelines["Ingestion & Cache Engine"]
+        StaticWorker["Static Ingest Pipeline<br/>(Prisma & Validation CLI)"]:::pipeline
+        RealtimeWorker["Realtime PubSub Engine<br/>(WebSocket Daemon)"]:::pipeline
+    end
+
+    subgraph Storage["Persistence & Caching"]
+        Postgres[("PostgreSQL + PostGIS<br/>(Authoritative Database)")]:::storage
+        RedisCache[("Redis Cache & Broker<br/>(Active Memory Overlay)")]:::storage
+    end
+
+    subgraph CoreServices["NestJS Services (API Gateway)"]
+        JourneyAPI["Journey Planner & Routing<br/>(Dijkstra/A* Engines)"]:::services
+        AnalyticsEngine["Analytics Engine<br/>(Crowd & Performance logs)"]:::services
+        AIService["AI Predictor<br/>(Delay Telemetry models)"]:::services
+    end
+
+    subgraph Clients["Frontend Interfaces (Next.js Dashboard)"]
+        DynamicMaps["Interactive MapLibre GL Map"]:::client
+        AdminDashboard["Analytics Dashboard"]:::client
+        CommuterApp["Passenger Routes App"]:::client
+    end
+
+    %% Relationships
+    GS --> StaticWorker
+    GR --> RealtimeWorker
+
+    StaticWorker --> Postgres
+    RealtimeWorker --> RedisCache
+
+    Postgres --> JourneyAPI
+    Postgres --> AnalyticsEngine
+    RedisCache --> AIService
+    Postgres --> AIService
+
+    JourneyAPI --> Clients
+    AnalyticsEngine --> Clients
+    AIService --> Clients
 ```
 
 ---
