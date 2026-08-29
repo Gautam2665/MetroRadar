@@ -8,39 +8,77 @@ This document details the architectural principles, design patterns, data schema
 
 ## 🗺️ System Overview
 
-TransitOS is structured as a modular, containerized monorepo composed of a NestJS backend application, a Next.js frontend dashboard, a PostGIS/Redis data layer, and a Transit Data Synthesis Engine (TDSE) that generates GTFS feeds from operator documents.
+TransitOS is structured as a modular platform composed of three primary vertical tiers (Transit Data Platform, Transit Intelligence Platform, Transit Experience Platform) backed by the Transit Knowledge Platform and an empirical Calibration & Observation Platform.
 
 ```mermaid
 graph TD
-    Documents["Operator Documents / GIS / DPRs"]
-    TDSE["Transit Data Synthesis Engine (TDSE)\nLayer 0: Transit Knowledge Platform"]
-    OfficialGTFS["Official GTFS Feeds"]
-    CTM["Canonical Transit Model (CTM)\nPostgreSQL + PostGIS"]
-    API[NestJS API Gateway / Controllers]
-    JourneyEngine["Journey Intelligence Engine"]
-    SEE["State Estimation Engine"]
-    GeoService[GeojsonService]
-    TwinService[DigitalTwinService]
-    SearchService[SearchService]
-    Redis[Redis Cache Layer]
-    Client[Next.js Frontend Dashboard]
-    
-    Documents --> TDSE
-    OfficialGTFS --> CTM
-    TDSE --> CTM
-    CTM --> API
-    API -->|Read/Write Cache| Redis
-    API --> JourneyEngine
-    API --> SEE
-    API -->|GeoJSON Requests| GeoService
-    API -->|Twin Inspector Requests| TwinService
-    API -->|Search Indexes| SearchService
-    SEE --> Redis
-    GeoService --> CTM
-    TwinService --> CTM
-    SearchService --> CTM
-    API -->|REST / WebSocket| Client
+    subgraph Experience["Layer 3: Transit Experience Platform"]
+        Web["Web Dashboard (Next.js/MapLibre)"]
+        Mobile["Mobile / PWA"]
+        Watch["Wear OS Smartwatch"]
+        Telegram["Telegram Voice Bot Lab"]
+        WhatsApp["WhatsApp Business Interface"]
+    end
+
+    subgraph IntelligenceGateway["AI Gateway (Interface Layer)"]
+        IG["Intelligence Gateway"]
+        Sarvam["Sarvam AI (Indian STT/TTS)"]
+        Gemini["Gemini (Vision/OCR)"]
+        OpenAI["OpenAI (Reasoning)"]
+        IG --> Sarvam
+        IG --> Gemini
+        IG --> OpenAI
+    end
+
+    subgraph Intelligence["Layer 2: Transit Intelligence Platform"]
+        JourneyEngine["Journey Intelligence Engine (Dijkstra)"]
+        PredictionEngine["Prediction Engine (Delays/ETA)"]
+        TwinService["Digital Twin Service"]
+        AnalyticsEngine["Analytics & Congestion Engine"]
+        BookingEngine["Booking & Commerce Engine"]
+        NotificationEngine["Notification Engine"]
+    end
+
+    subgraph DataPlatform["Layer 1: Transit Data Platform"]
+        CTM["Canonical Transit Model (CTM v1.0)\nPostgreSQL + PostGIS"]
+        Redis["Redis Cache & Pub/Sub"]
+        APIGateway["NestJS API Gateway"]
+    end
+
+    subgraph Knowledge["Layer 0: Transit Knowledge & Calibration"]
+        GTFS["Official GTFS Feeds (Cat. A/B)"]
+        DPRs["DPRs, Timetables & Shapes (Cat. A-G)"]
+        TDSE["Transit Data Synthesis Engine (TDSE)"]
+        
+        subgraph Calibration["Calibration & Observation Platform"]
+            Obs["Field Observations\n(Raspberry Pi, Phone GPS, RT)"]
+            ObsPipe["Observation Pipeline"]
+            CalWarehouse["Calibration Warehouse"]
+            Obs --> ObsPipe --> CalWarehouse
+        end
+    end
+
+    subgraph Commerce["Commerce Protocols"]
+        ONDC["ONDC Buyer Network\n(Ticketing & Passes)"]
+    end
+
+    DPRs --> TDSE --> CTM
+    GTFS --> CTM
+    CalWarehouse --> PredictionEngine
+    CTM --> APIGateway
+    APIGateway <--> Redis
+    APIGateway --> JourneyEngine
+    APIGateway --> PredictionEngine
+    APIGateway --> TwinService
+    APIGateway --> BookingEngine
+    BookingEngine --> ONDC
+
+    APIGateway <--> Experience
+    IG <--> APIGateway
+    Experience <--> IG
 ```
+
+> **The Golden Rule**: *TransitOS computes. External AI communicates.* Core transit calculations (routing, delay forecasts, fare calculation) are executed strictly on deterministic backend engines. External AI providers sit outside core data dependencies as natural language and voice interface translation layers.
 
 ---
 

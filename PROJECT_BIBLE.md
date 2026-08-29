@@ -4,8 +4,8 @@
 ---
 
 ## Table of Chapters
-*   [Chapter 1: Project Vision](#chapter-1-project-vision)
-*   [Chapter 2: Architecture](#chapter-2-architecture)
+*   [Chapter 1: Master Architecture & Vision](#chapter-1-master-architecture--vision)
+*   [Chapter 2: Architecture Principles](#chapter-2-architecture-principles)
 *   [Chapter 3: Technology Stack](#chapter-3-technology-stack)
 *   [Chapter 4: Folder Structure](#chapter-4-folder-structure)
 *   [Chapter 5: Database Rules](#chapter-5-database-rules)
@@ -19,25 +19,66 @@
 *   [Chapter 13: Document Classification System](#chapter-13-document-classification-system)
 *   [Chapter 14: Data Provenance & Confidence Scoring](#chapter-14-data-provenance--confidence-scoring)
 *   [Chapter 15: Realtime Levels & State Estimation](#chapter-15-realtime-levels--state-estimation)
+*   [Chapter 16: Calibration & Observation Platform](#chapter-16-calibration--observation-platform)
 
 ---
 
-## Chapter 1: Project Vision
+## Chapter 1: Master Architecture & Vision
 
-TransitOS (formerly MetroRadar) is an **Urban Intelligence Platform** and **India's GTFS Infrastructure Platform** designed to build a complete digital twin of every Indian city transit network. Instead of depending on operators to publish GTFS, TransitOS synthesizes it. The platform is divided into four vertical layers:
+TransitOS is an **Urban Intelligence Platform** and **India's GTFS Infrastructure Platform**. Instead of depending on operators to publish GTFS, TransitOS synthesizes and calibrates it into a comprehensive Canonical Transit Model (CTM).
 
 ```
-                         TransitOS Platform
-┌─────────────────────────────────────────────────────────┐
-│              Layer 3: Transit Experience                │  <- Passenger App, Operator Dashboard, Watch, AR
-├─────────────────────────────────────────────────────────┤
-│             Layer 2: Transit Intelligence               │  <- Journey, State Estimation, Predictions, Fares
-├─────────────────────────────────────────────────────────┤
-│               Layer 1: Transit Data                     │  <- GTFS, CTM, PostGIS Database, APIs
-├─────────────────────────────────────────────────────────┤
-│             Layer 0: Transit Knowledge                  │  <- TDSE, Document Classification, Provenance
-└─────────────────────────────────────────────────────────┘
+                         TRANSITOS
+                            │
+             ┌──────────────┼──────────────┐
+             │              │              │
+             ▼              ▼              ▼
+     TRANSIT DATA      TRANSIT          TRANSIT
+      PLATFORM       INTELLIGENCE      EXPERIENCE
+             │              │              │
+             │              │              ├── Web (MapLibre/Next.js)
+             │              │              ├── Mobile (React Native/PWA)
+             │              │              ├── Wear OS (Smartwatch)
+             │              │              ├── Telegram (Voice Bot Lab)
+             │              │              └── WhatsApp (Conversational)
+             │              │
+             │              ├── Journey Engine (Dijkstra CTM)
+             │              ├── Prediction Engine (Delays/ETA)
+             │              ├── Digital Twin (3D Station Layouts)
+             │              ├── Analytics (Line Efficiency/Crowd)
+             │              ├── Notification Engine (Push Alerts)
+             │              └── Commercial & Booking Engine
+             │
+             ▼
+       CANONICAL TRANSIT MODEL (CTM v1.0)
+             │
+       ┌─────┼─────────────────────┐
+       │     │          │          │
+      GTFS  DPRs     GIS/Data   Historical
+    (A/B)  (A-G)       (F)     Observations
+       │     │          │          ▲
+       │     │          │          │
+       └─────┴──────────┴──────────┤
+                                   │
+                           Observation Pipeline
+                           (Pi / Phone / RT)
+                                   │
+                          Calibration Warehouse
+
+And above the Intelligence Layer:
+
+                 INTELLIGENCE GATEWAY
+                         │
+             ┌───────────┼───────────┐
+             │           │           │
+           Sarvam      Gemini      OpenAI
+             │           │           │
+          Speech       Vision     Reasoning
 ```
+
+### The Golden Rule
+> **TransitOS computes. External AI communicates.**  
+> Core transit algorithms (routing, delay forecasts, fare calculation, digital twin asset querying) execute deterministically on TransitOS backend engines. External AI providers (Sarvam AI, OpenAI, Gemini) serve strictly as natural language and voice interface translation layers. TransitOS functions completely even if external AI APIs are offline.
 
 ### The Four Platform Layers
 0. **Layer 0: Transit Knowledge Platform**: Owns document ingestion, classification (A–I + X), extraction pipelines, the Transit Data Synthesis Engine (TDSE), provenance tracking, confidence scoring, and the Knowledge Graph. This is where raw operator documents become structured transit data.
@@ -227,22 +268,15 @@ Rather than hardcoding LLM clients inside individual services, TransitOS uses a 
 
 Development is organized into phased milestones that build capabilities from the data layer up to experience and intelligence features.
 
-- **v0.5 — Journey Intelligence**: Initialize core transit schemas, build the static GTFS parser, and implement basic offline pathfinding routing (Dijkstra/A*).
-- **v0.5.1 — Realtime Infrastructure**: Establish GTFS-RT connectors, build the active vehicle polling engine, integrate Redis caching for real-time telemetry, and set up WebSocket broadcast servers.
-- **v0.6 — Passenger Experience (UI)**: Initialize Next.js frontend workspaces, integrate map layers (Leaflet/MapLibre), render stations, and connect visual line overlays.
-- **v0.7 — Prediction & Notifications**: Aggregate history logs to predict delay propagation, build the notification scheduler, and add custom traveler alerts.
-- **v0.8 — Fare Intelligence Engine**: Implement zone rules, pass eligibility check, cost calculation, and transfer discounts to recommend the cheapest fares.
-- **v0.9 — Booking Platform**: Build generic ticket interfaces, implement the Booking Engine (`bookJourney`, `cancelJourney`), and structure the Provider Adapter Layer for ONDC / official operator APIs.
-- **v1.0 — Payment Platform**: Develop the Payment Intelligence Engine, pre-loaded Wallet, Passes, and Trip History. Architecture is explicitly scoped by feasibility:
-  - **Pre-loaded Wallet (stored-value)** ✅: TransitOS maintains a pre-loaded wallet balance that enables frictionless payments on smartwatch and voice interfaces — the key UX motivation is bypassing per-transaction phone authentication (OTP/biometric) that UPI/card require. User tops up once with authentication; subsequent deductions are instant. *Implementation path for v1.0: mock/simulated balance. Production path: UPI AutoPay mandate (via Razorpay/Cashfree), which enables recurring sub-₹15,000 auto-debits with zero per-transaction re-authentication — the same model used by Paytm Metro, DMRC Smart Card Recharge, and Rapido.*
-  - **Rewards & Cashback Ledger** ✅: Points/cashback accumulation stored in TransitOS database. Fully buildable, no regulatory dependency.
-  - **Digital Passes (Monthly/Weekly/Daily)** ✅: TransitOS issues its own QR-based digital passes stored in its own database. Journey consumption counter (`48/60 journeys used`) is tracked by TransitOS, not read from any card. For operators supporting QR ticketing (e.g. KMRL Kochi), passes generate scannable QR codes. For NCMC-only operators (DMRC), TransitOS passes serve as a booking record; physical gate validation still requires the NCMC card.
-  - **UPI & Cards (top-up / direct payment)** ✅: Fully buildable via Razorpay/Cashfree aggregator. Standard business KYC, no banking license.
-  - **NCMC Card (saved top-up method)** ⚠️: Displayed as a saved payment method for wallet recharge. Uses the NCMC card’s underlying bank rail (treated as a debit card) for one-time top-up authentication. TransitOS stores the card reference number for display only — no live balance query, no direct transit payment rail, no recharge of the physical card.
-  - **NCMC (Live Transit Rail)** ❌: Not implementable. No public developer API to query balance or process gate-tap payments without a direct NPCI/bank operator partnership. Parked indefinitely.
-  - **Trip History** ⚠️: TransitOS tracks only journeys **originated through the TransitOS app** (planned, booked, or QR-validated). Physical NCMC gate-tap journeys are invisible — the trip data is stored on the card chip and the operator’s backend; no public API exposes it to third parties.
-- **v1.1 — AI & Voice Platform**: Standardize the Intelligence Gateway, integrate voice models (Sarvam), translate dialects, and add reasoning helpers (OpenAI/Gemini).
-- **v1.2 — Ambient Computing**: Support smartwatch notifications, active calendar scan for proactive routes, and AR station indoor navigation.
+- **v0.5 — Journey Intelligence (COMPLETED ✅)**: Core transit schemas, static GTFS parser, and Dijkstra pathfinding engine.
+- **v0.5.5 — National Transit Data Certification (COMPLETED ✅)**: 5-stage certification pipeline, Trust Tiers A/B/X, pure static quality scoring, and CTM v1.0 schema freeze.
+- **v0.6 — Passenger Experience & World-Class UI (COMPLETED ✅)**: Next.js frontend with MapLibre interactive map, Live Network 3D Digital Twin station inspector, and human-friendly step-by-step transit directions.
+- **v0.6.5 — National Transit Data Expansion & Calibration Baseline (ACTIVE / NEXT)**: Synthesize/model CTM baselines for uncovered Indian metros (Mumbai Lines 1, 2A, 7, 3 + Suburban interchanges, Pune, Nagpur), establish the Calibration & Observation Platform (schema, pipeline, warehouse), and enable instant multi-city switching.
+- **v0.7 — Prediction & Operational Intelligence**: Prediction Engine operating on the Unified CTM (Schedule + Historical Warehouse + Calibration data) for live delay propagation, learned dwell/headway distributions, empirical transfer walk times, and fleet-state estimation.
+- **v0.8 — Analytics & Operator Intelligence**: Network efficiency, bottleneck heatmaps, crowding index, and operator dashboards.
+- **v0.9 — Intelligence Gateway & Voice Laboratory**: Vendor-independent AI Gateway (`TransitOS computes, External AI communicates`), Sarvam AI Indian-language voice integration, and Telegram Voice Bot laboratory prototype.
+- **v1.0 — Commerce & Booking Platform**: Unified Booking Engine, Payment Abstraction Layer (UPI, Card, NCMC, Partner Wallets), and ONDC Buyer Application Adapter for metro ticketing and trip passes. (ONDC is strictly a transaction network, *never* the transit data warehouse; TransitOS does not hold user funds).
+- **v1.1+ — Ambient Computing & Advanced Interfaces**: WhatsApp Business conversational ticketing, Wear OS smartwatch native client, and proactive calendar-to-transit recommendations.
 
 ---
 
@@ -357,5 +391,45 @@ TDSE Schedule → Journey Engine → State Estimation Engine → Prediction Engi
 
 SEE responsibilities: position inference, delay estimation, dwell time application, missed departure detection, observation fusion, and confidence computation.
 
-> See **[GTFS_SYNTHESIS.md § 6](./GTFS_SYNTHESIS.md)** for the full State Estimation Engine specification.
+---
+
+## Chapter 16: Calibration & Observation Platform
+
+The **Calibration & Observation Platform** is TransitOS's empirical ground-truth engine. It captures high-fidelity real-world transit observations to continuously calibrate and refine synthesized assumptions.
+
+```
+                     OBSERVATIONS
+                          │
+       ┌──────────────────┼──────────────────┐
+       │                  │                  │
+ Raspberry Pi          Phone GPS         Official RT
+       │                  │                  │
+       └──────────────────┼──────────────────┘
+                          ▼
+                Observation Pipeline
+                          │
+                          ▼
+                 Calibration Warehouse
+                          │
+             ┌────────────┼────────────┐
+             ▼            ▼            ▼
+        Travel Time   Dwell Time    Headway
+             │            │            │
+             └────────────┼────────────┘
+                          ▼
+                  Prediction Engine
+```
+
+### Key Architectural Principles
+1. **Instrument, Not Dependency**: The Raspberry Pi is a calibration instrument used during field observation trips, *never* a production runtime dependency. The Prediction Engine queries the Calibration Warehouse; unplugging the Pi leaves the platform 100% operational.
+2. **Empirical Calibration Feedback Loop**:
+   - **Step 1 (Synthesized Baseline)**: DPR physics model estimates travel time $A \rightarrow B = 150\text{s}$ (`sourceType: "SYNTHESIZED"`, `confidence: 0.70`).
+   - **Step 2 (Field Measurements)**: Raspberry Pi field unit records $N=20$ physical trips ($148\text{s}, 157\text{s}, 152\text{s}, 161\text{s}, 149\text{s}\dots$).
+   - **Step 3 (Learned Calibration)**: System updates to median $153\text{s}$, P90 $161\text{s}$, elevating confidence to $0.91$ (`sourceType: "OBSERVED"`).
+3. **Core Measurements Captured**:
+   - Station-to-station runtimes
+   - Platform dwell times
+   - Interchange walking transfer times & level change penalties
+   - GPS path trajectories
+   - Real-world headways and dispatch frequencies
 

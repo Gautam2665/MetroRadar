@@ -51,27 +51,30 @@ graph TD
 
 ---
 
-## 🧱 Phased Sprints Roadmap (v0.5 to v1.2)
+## 🧱 Phased Sprints Roadmap
+
 We build TransitOS by crafting independent, loosely-coupled blocks that connect through stable APIs.
 
 ```
-v0.5 (Journey API) ──> v0.5.5 (National GTFS Certification) ──> v0.6 (Stitch Web UI) ──> v0.7 (Operational State Platform)
-                                                                                                        │
-                                                                                                        ▼
-v1.2 (Ambient) <── v1.1 (Voice & AI Gateway) <── v1.0 (Payments) <── v0.9 (Booking Platform) <── v0.8 (Fare Engine)
+v0.5 (Journey API) ──> v0.5.5 (National Certification) ──> v0.6 (Passenger UI) ──> v0.6.5 (National Expansion & Calibration)
+                                                                                             │
+                                                                                             ▼
+v1.1+ (Wear OS / Ambient) <── v1.0 (Booking & ONDC) <── v0.9 (Voice & AI Gateway) <── v0.8 (Analytics) <── v0.7 (Prediction Engine)
 ```
 
-### 🏁 Phase 1: Core Transit & Maps (Immediate MVP Sprints)
+---
 
-#### **v0.5 — Journey Intelligence**
+### 🏁 Phase 1: Core Transit & National Expansion
+
+#### **v0.5 — Journey Intelligence (COMPLETED ✅)**
 *   **Goal**: Establish the base transit data platform and offline route mapping.
 *   **Deliverables**:
-    *   Monorepo configs (npm workspaces, Turbo / Lerna settings).
-    *   PostGIS schema definitions and Mumbai Metro database seeding.
+    *   Monorepo configs (npm workspaces, Turbo settings).
+    *   PostGIS schema definitions and CTM database seeding.
     *   GTFS Static importer pipeline with transaction-safe validation CLI.
-    *   Core graph-based routing engine utilizing Dijkstra/A* for station paths.
+    *   Core graph-based routing engine utilizing Dijkstra for station paths.
 
-#### **v0.5.5 — Sprint 5.5: National Transit Data Certification (COMPLETED ✅)**
+#### **v0.5.5 — National Transit Data Certification (COMPLETED ✅)**
 *   **Goal**: Governance, quality scoring, and certification across all available Indian GTFS datasets to freeze CTM v1.0.
 *   **Deliverables**:
     *   **5-Stage Governance Pipeline**: `DISCOVERED` ➔ `ACQUIRED` ➔ `VALIDATED` ➔ `CERTIFIED` ➔ `IMPORTED`.
@@ -82,94 +85,63 @@ v1.2 (Ambient) <── v1.1 (Voice & AI Gateway) <── v1.0 (Payments) <──
     *   **National Transit Status Dashboard**: Generated `INDIA_TRANSIT_STATUS.md` and individual system audit reports.
     *   **CTM v1.0 Schema Freeze**: Relational PostgreSQL database schema officially frozen.
 
-#### **v0.6 — Passenger Experience (UI)**
-*   **Goal**: Build a premium dark-mode web application and administrative analytics dashboard displaying certified Indian metro networks.
+#### **v0.6 — Passenger Experience & World-Class UI (COMPLETED ✅)**
+*   **Goal**: Build a premium dark-mode web application displaying certified Indian metro networks.
 *   **Deliverables**:
-    *   Next.js frontend template with responsive layout structures.
-    *   Interactive map layout using Leaflet/MapLibre.
-    *   Dynamic path plotting, color-coded lines, and station markers for certified cities.
-    *   Detailed station layout panel showcasing platform lists and entrance status.
+    *   Next.js frontend with MapLibre interactive map and real-time vehicle telemetry.
+    *   Live Network Explorer with 3D Digital Twin station inspector (platforms, exits, levels, wheelchair status).
+    *   Journey Planner with Dijkstra CTM pathfinding, clean line badges, towards headsigns, and step-by-step transfer cards.
+
+#### **v0.6.5 — National Transit Data Expansion & Calibration Baseline (ACTIVE / NEXT)**
+*   **Goal**: Build static/synthesized CTM baselines for uncovered metros and establish the empirical calibration foundation before prediction modeling.
+*   **Deliverables**:
+    *   **Mumbai CTM Baseline**: Synthesize/model Mumbai Metro (Line 1 Blue, Line 2A Yellow, Line 7 Red, Line 3 Aqua) + suburban railway interchanges into the unified CTM.
+    *   **Tier-2 Metros CTM Baseline**: Ingest and model Pune, Nagpur, and remaining uncovered networks.
+    *   **Calibration & Observation Platform**: Observation schema, ingestion pipeline for Raspberry Pi / phone GPS / official RT traces, and calibration data warehouse.
+    *   **First-Class Provenance & Confidence**: Full Category A–I + X document classification and metadata (`sourceType: "OFFICIAL" | "COMMUNITY" | "SYNTHESIZED" | "OBSERVED"`, `confidence: 0.0–1.0`).
+    *   **Multi-City Frontend Activation**: Dynamic city switcher between Delhi, Mumbai, Kochi, Bengaluru, Chennai, Hyderabad, Ahmedabad.
 
 ---
 
-### 🚀 Phase 2: Intelligence & Optimization (Middle Sprints)
+### 🚀 Phase 2: Operational Intelligence & Predictions
 
-#### **v0.7 — Prediction & Live Notifications**
-*   **Goal**: Generate travel notifications and forecast live train arrival delays.
+#### **v0.7 — Prediction & Operational Intelligence**
+*   **Goal**: Build the Prediction Engine operating on the Unified CTM (Schedule + Historical Warehouse + Calibration data).
 *   **Deliverables**:
-    *   Historical delay regression model analyzing timetable deviations.
-    *   Proactive push notification service for service interruptions.
-    *   Passenger saved routes and profile notification subscriptions.
+    *   ETA forecasting and live delay propagation models.
+    *   Empirically learned dwell times, headways, and transfer walking penalty distributions.
+    *   Scheduled and estimated fleet-state digital twins.
+    *   Proactive push notifications for service interruptions and passenger saved routes.
 
-#### **v0.8 — Fare Intelligence Engine**
-*   **Goal**: Add fare calculation engines to optimize passenger commute costs.
+#### **v0.8 — Analytics & Operator Intelligence**
+*   **Goal**: Platform analytics, line efficiency, and congestion modeling.
 *   **Deliverables**:
-    *   Fare matrix database models (Zone pricing, flat rates, distances).
-    *   Fare capping analyzers and transfer discount trackers.
-    *   Eligibility selectors for transit concessions (Senior, Student, Corporate).
-    *   Pass recommendation engine (e.g., advising a day pass over single tickets).
+    *   Line efficiency, bottleneck analysis, and transfer friction heatmaps.
+    *   Station crowding index and capacity utilization forecasting.
+    *   Operator intelligence dashboard.
 
 ---
 
-### 💳 Phase 3: Ticketing, Payments & AI (Advanced Sprints)
+### 🎙️ Phase 3: AI Gateway, Commerce & Multi-Interface
 
-#### **v0.9 — Booking Engine & Adapters**
-*   **Goal**: Abstract ticket booking and support external ticketing brokers.
+#### **v0.9 — Intelligence Gateway & Voice Laboratory**
+*   **Goal**: Vendor-independent AI Gateway and conversational voice prototype.
+*   **The Golden Rule**: *TransitOS computes. External AI communicates.* Core APIs execute all transit logic; external AI acts strictly as the voice/language interface.
 *   **Deliverables**:
-    *   Unified ticket representation object (Standard JSON schema).
-    *   Core Booking Engine operations (`bookJourney()`, `cancelJourney()`, `refundTicket()`).
-    *   Provider Adapter Layer isolating integration logic for ONDC or official operator APIs.
+    *   Intelligence Gateway routing logic (Sarvam AI for Indian language STT/TTS, OpenAI for reasoning, Gemini for vision).
+    *   **Telegram Voice Bot**: Interactive voice laboratory to test voice journey planning and conversational routing without mobile app friction.
 
-#### **v1.0 — Payment Intelligence & Wallet**
-*   **Goal**: Optimize payment routing and link passenger wallets without regulatory limits.
+#### **v1.0 — Commerce & Booking Platform (ONDC Integration)**
+*   **Goal**: Unified ticket booking and fare optimization via open commerce protocols.
+*   **Boundaries**: ONDC is strictly a transaction and discovery network, *never* the transit data warehouse. TransitOS abstracts payment methods (UPI, Card, NCMC, partner wallets) without holding user money.
 *   **Deliverables**:
-    *   Virtual Payment Profile / Wallet abstraction managing passes and preferences.
-    *   Payment Intelligence Engine selecting the cheapest payment method (NCMC card, linked UPI, or stored value).
-    *   Payment Adapter Layer isolating third-party gateways.
+    *   Fare Intelligence Engine (multi-tier matrices, fare capping, transfer discounts, pass recommendations).
+    *   Booking Engine & Provider Adapter Layer (ONDC Buyer Application Adapter, operator ticketing APIs).
+    *   Standardized QR ticket representation and verification workflow.
 
-#### **v1.1 — AI & Language Gateway**
-*   **Goal**: Integrate conversational routing via a vendor-independent gateway.
+#### **v1.1+ — Ambient Computing & Advanced Interfaces**
+*   **Goal**: Multi-client ecosystem and proactive ambient computing.
 *   **Deliverables**:
-    *   Intelligence Gateway routing logic determining if LLMs are needed.
-    *   AI Capability Registry mapping functions to LLM providers (Sarvam AI for voice/Marathi speech, OpenAI for reasoning, Gemini for signage vision).
-    *   Strict separation of data logic (computations happen in core engines, LLM acts as the voice interface).
-
-#### **v1.2 — Ambient & Proactive Computing**
-*   **Goal**: Drive smart watch alerts and calendar actions.
-*   **Deliverables**:
-    *   Smartwatch remote interface for ticketing and ETAs.
-    *   Calendar connector to preemptively book rides or issue alerts (e.g., "Airport meeting tomorrow: Day Pass recommended").
-    *   AR indoor routing prototypes using Gemini vision features.
-
----
-
-### 🔬 Phase 4: GTFS Synthesis & All-Metro Expansion (Future Sprints)
-
-> These sprints are **long-term architecture**, not upcoming execution work. They represent the next frontier after v1.2 and will be scoped into discrete sprints as earlier phases complete.
-
-#### **v1.3 — Transit Data Synthesis Engine (TDSE) v1**
-*   **Goal**: Build the first production version of the document ingestion and GTFS synthesis pipeline.
-*   **Deliverables**:
-    *   Document Repository with Category A–I classification UI
-    *   Extraction pipelines for PDF timetables, DPR tables, and GIS shapefiles
-    *   Physics modeler (distance + rolling stock → travel times)
-    *   GTFS Schedule generator validated against `gtfs-validator`
-    *   Provenance Engine: `ProvenanceRecord` attached to every synthesized field
-    *   Confidence Scorer with passenger-facing label mapping (`Live` / `Approx.` / `Estimated` / `Scheduled`)
-    *   First synthesized metro: **Mumbai Metro Line 1** (MMRDA)
-
-#### **v1.4 — All-Metro Synthesis Rollout**
-*   **Goal**: Onboard all operational Indian metro systems into TransitOS.
-*   **Deliverables**:
-    *   Phase 3 metros synthesized: Pune, Nagpur, Chennai, Lucknow, Ahmedabad, Jaipur, Kolkata, Kanpur
-    *   Pre-synthesis for opening metros: Navi Mumbai, Agra, Indore, Surat, Patna, Bhopal
-    *   Open data publication of all synthesized GTFS feeds
-    *   Knowledge Graph covering full Indian metro network
-
-#### **v1.5 — Full State Estimation & Estimated GTFS-Realtime**
-*   **Goal**: Generate estimated GTFS-Realtime for metros with no official feed.
-*   **Deliverables**:
-    *   Full State Estimation Engine (SEE) with historical calibration
-    *   Estimated GTFS-Realtime feeds for all synthesis-based metros
-    *   Category I observation fusion (crowdsource + GPS traces)
-    *   TransitOS becomes first community platform providing both GTFS Schedule AND estimated GTFS-RT for metros without official data
+    *   **WhatsApp Business Interface**: Conversational ticketing and journey planning via WhatsApp.
+    *   **Wear OS Smartwatch Client**: Next train ETAs, platform guidance, transfer steps, and QR ticket shortcuts.
+    *   **Proactive Calendar Integrations**: Flight and meeting transit recommendations with voice confirmation boundaries.
