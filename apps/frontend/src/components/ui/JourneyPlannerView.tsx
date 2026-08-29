@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { StationSearchInput, StationItem } from "../StationSearchInput";
 import { RouteOption, RouteLeg } from "../../containers/JourneyPlannerContainer";
 
+import { formatShortLineName, buildStepByStepItinerary } from "../../utils/transitFormatter";
+
 export type { RouteOption, RouteLeg };
 
 export interface JourneyPlannerViewProps {
@@ -30,81 +32,40 @@ export interface JourneyPlannerViewProps {
 function LegPills({ legs }: { legs: RouteLeg[] }) {
   return (
     <div className="flex items-center gap-1.5 flex-wrap">
-      {legs.map((leg, i) => (
-        <span key={i} className="flex items-center gap-1">
-          {leg.mode === "walk" ? (
-            <span className="flex items-center gap-0.5 text-[10px] text-[#bac9cc] bg-white/5 px-2 py-0.5 rounded-md border border-white/5">
-              <span className="material-symbols-outlined text-[11px]">directions_walk</span>
-              {leg.durationMins && <span>{leg.durationMins}m</span>}
-            </span>
-          ) : (
+      {legs.map((leg, i) => {
+        const isWalk = leg.mode === "walk" || (leg as any).type === "WALK" || (leg as any).type === "TRANSFER";
+        const pillName = isWalk ? "Transfer" : (leg.shortLine || formatShortLineName(leg.rawLineName || leg.line));
+
+        return (
+          <span key={i} className="flex items-center gap-1">
             <span
               className="text-[10px] font-bold px-2 py-0.5 rounded-md shadow-sm flex items-center gap-1"
               style={{
-                backgroundColor: `${leg.color}25`,
-                color: leg.color,
-                border: `1px solid ${leg.color}60`,
-                boxShadow: `0 0 10px ${leg.color}20`,
+                backgroundColor: isWalk ? "rgba(255,255,255,0.06)" : `${leg.color}25`,
+                color: isWalk ? "#bac9cc" : leg.color,
+                border: isWalk ? "1px solid rgba(255,255,255,0.12)" : `1px solid ${leg.color}60`,
+                boxShadow: isWalk ? "none" : `0 0 10px ${leg.color}20`,
               }}
             >
-              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: leg.color }} />
-              {leg.line}
+              <span className="material-symbols-outlined text-[11px]">
+                {isWalk ? "directions_walk" : "subway"}
+              </span>
+              {pillName}
+              {leg.durationMins && <span className="opacity-70 text-[9px]">· {leg.durationMins}m</span>}
             </span>
-          )}
-          {i < legs.length - 1 && leg.mode !== "walk" && legs[i + 1]?.mode !== "walk" && (
-            <span className="text-[#bac9cc]/60 text-[10px] mx-0.5">→</span>
-          )}
-        </span>
-      ))}
+            {i < legs.length - 1 && (
+              <span className="text-[#bac9cc]/60 text-[10px] mx-0.5">→</span>
+            )}
+          </span>
+        );
+      })}
     </div>
   );
 }
 
 /** Expanded step-by-step itinerary for a route */
 function RouteItinerary({ route, origin, destination }: { route: RouteOption; origin: string; destination: string }) {
-  const steps: { icon: string; color: string; title: string; subtitle: string }[] = [];
-
-  let firstMetro = true;
-  for (const leg of route.legs) {
-    if (leg.mode === "walk") {
-      steps.push({
-        icon: "directions_walk",
-        color: "#bac9cc",
-        title: `Walk ${leg.durationMins ? `${leg.durationMins} min` : ""}`,
-        subtitle: "Walk to platform",
-      });
-    } else {
-      if (firstMetro) {
-        steps.push({
-          icon: "trip_origin",
-          color: "#22c55e",
-          title: origin,
-          subtitle: `Board ${leg.line}${
-            leg.fromStation ? ` from ${leg.fromStation}` : ""
-          }`,
-        });
-        firstMetro = false;
-      }
-      if (leg.stopsCount) {
-        steps.push({
-          icon: "subway",
-          color: leg.color,
-          title: `${leg.line}`,
-          subtitle: `${leg.stopsCount} stops${leg.durationMins ? ` · ${leg.durationMins} min` : ""}${
-            leg.toStation ? ` → ${leg.toStation}` : ""
-          }`,
-        });
-      }
-    }
-  }
-
-  // Alight at destination
-  steps.push({
-    icon: "location_on",
-    color: "#ef4444",
-    title: destination,
-    subtitle: `Arrive · ${route.duration}`,
-  });
+  const steps = buildStepByStepItinerary(route.legs, origin, destination, route.duration);
 
   return (
     <motion.div
@@ -132,8 +93,22 @@ function RouteItinerary({ route, origin, destination }: { route: RouteOption; or
               </span>
             </div>
             <div>
-              <p className="text-xs font-bold text-[#dfe2ee] leading-tight">{step.title}</p>
-              <p className="text-[11px] text-[#bac9cc] mt-0.5 leading-tight">{step.subtitle}</p>
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <p className="text-xs font-bold text-[#dfe2ee] leading-tight">{step.stationName}</p>
+                {step.lineBadge && (
+                  <span
+                    className="text-[9px] font-bold px-1.5 py-0.2 rounded-full"
+                    style={{
+                      backgroundColor: `${step.color}20`,
+                      color: step.color,
+                      border: `1px solid ${step.color}40`,
+                    }}
+                  >
+                    {step.lineBadge}
+                  </span>
+                )}
+              </div>
+              <p className="text-[11px] text-[#bac9cc] mt-0.5 leading-tight">{step.detail}</p>
             </div>
           </motion.div>
         ))}

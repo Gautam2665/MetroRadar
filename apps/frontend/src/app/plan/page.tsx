@@ -6,50 +6,7 @@ import { Header } from "../../components/Header";
 import MapContainer from "../../components/map/MapContainer";
 import { JourneyPlannerContainer, RouteOption } from "../../containers/JourneyPlannerContainer";
 import { CITY_METADATA } from "../../config/cityMetadata";
-
-// Journey step / itinerary breakdown displayed after a route is found
-type JourneyStep = {
-  type: "board" | "alight" | "transfer" | "walk" | "arrive";
-  stationName: string;
-  detail: string;
-  icon: string;
-  color: string;
-  time?: string;
-};
-
-function buildSteps(route: RouteOption, origin: string, dest: string): JourneyStep[] {
-  const steps: JourneyStep[] = [];
-  let legIdx = 0;
-  for (const leg of route.legs) {
-    if (legIdx === 0) {
-      steps.push({
-        type: "board",
-        stationName: origin || "Origin",
-        detail: leg.mode === "cab" ? "Board Cab / Auto" : `Board ${leg.line}`,
-        icon: leg.mode === "cab" ? "local_taxi" : "directions_subway",
-        color: leg.color,
-      });
-    }
-    if (legIdx > 0) {
-      steps.push({
-        type: "transfer",
-        stationName: "Transfer",
-        detail: `Change to ${leg.line}`,
-        icon: "sync_alt",
-        color: leg.color,
-      });
-    }
-    legIdx++;
-  }
-  steps.push({
-    type: "arrive",
-    stationName: dest || "Destination",
-    detail: `Arrive · ${route.duration}`,
-    icon: "location_on",
-    color: "#4ade80",
-  });
-  return steps;
-}
+import { buildStepByStepItinerary, formatShortLineName, formatLineName } from "../../utils/transitFormatter";
 
 export default function JourneyPlannerPage() {
   const [activeCity, setActiveCity] = useState("delhi");
@@ -74,7 +31,7 @@ export default function JourneyPlannerPage() {
     setActiveTab("itinerary");
   }, []);
 
-  const steps = activeRoute ? buildSteps(activeRoute, originName, destName) : [];
+  const steps = activeRoute ? buildStepByStepItinerary(activeRoute.legs, originName, destName, activeRoute.duration) : [];
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#080C14] text-[#dfe2ee]">
@@ -180,27 +137,34 @@ export default function JourneyPlannerPage() {
 
                         {/* Leg pills */}
                         <div className="flex items-center gap-1.5 flex-wrap">
-                          {activeRoute.legs.map((leg, i) => (
-                            <span key={i} className="flex items-center gap-1">
-                              <span
-                                className="flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-md"
-                                style={{
-                                  backgroundColor: `${leg.color}25`,
-                                  color: leg.color,
-                                  border: `1px solid ${leg.color}40`,
-                                }}
-                              >
-                                <span className="material-symbols-outlined text-[10px]">
-                                  {leg.mode === "walk" ? "directions_walk" : leg.mode === "cab" ? "local_taxi" : "subway"}
+                          {activeRoute.legs.map((leg, i) => {
+                            const isWalk = leg.mode === "walk" || (leg as any).type === "WALK" || (leg as any).type === "TRANSFER";
+                            const pillName = isWalk
+                              ? "Transfer"
+                              : (leg.shortLine || formatShortLineName(leg.rawLineName || leg.line));
+
+                            return (
+                              <span key={i} className="flex items-center gap-1">
+                                <span
+                                  className="flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-lg"
+                                  style={{
+                                    backgroundColor: `${leg.color}25`,
+                                    color: leg.color,
+                                    border: `1px solid ${leg.color}50`,
+                                  }}
+                                >
+                                  <span className="material-symbols-outlined text-xs">
+                                    {isWalk ? "directions_walk" : leg.mode === "cab" ? "local_taxi" : "subway"}
+                                  </span>
+                                  {pillName}
+                                  {leg.durationMins && <span className="opacity-75 font-normal text-[10px]">· {leg.durationMins}m</span>}
                                 </span>
-                                {leg.line}
-                                {leg.durationMins && <span className="opacity-70">{leg.durationMins}m</span>}
+                                {i < activeRoute.legs.length - 1 && (
+                                  <span className="text-[#bac9cc]/60 text-[10px] mx-0.5">→</span>
+                                )}
                               </span>
-                              {i < activeRoute.legs.length - 1 && (
-                                <span className="text-[#bac9cc] text-[10px]">→</span>
-                              )}
-                            </span>
-                          ))}
+                            );
+                          })}
                         </div>
 
                         {/* Quick stats row */}
@@ -238,13 +202,17 @@ export default function JourneyPlannerPage() {
                           {/* Vertical connector line */}
                           <div className="absolute left-4 top-4 bottom-4 w-px bg-white/10" />
 
-                          <div className="space-y-0">
+                          <div className="space-y-1">
                             {steps.map((step, i) => (
-                              <div key={i} className="flex items-start gap-4 relative py-3">
+                              <div key={i} className="flex items-start gap-3.5 relative py-2.5">
                                 {/* Icon circle */}
                                 <div
                                   className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 z-10"
-                                  style={{ backgroundColor: `${step.color}20`, border: `1.5px solid ${step.color}50` }}
+                                  style={{
+                                    backgroundColor: `${step.color}20`,
+                                    border: `1.5px solid ${step.color}60`,
+                                    boxShadow: `0 0 10px ${step.color}15`,
+                                  }}
                                 >
                                   <span
                                     className="material-symbols-outlined text-sm"
@@ -253,11 +221,25 @@ export default function JourneyPlannerPage() {
                                     {step.icon}
                                   </span>
                                 </div>
-                                <div className="flex-1 min-w-0 pt-1">
-                                  <p className="text-sm font-bold text-[#dfe2ee] leading-tight truncate">
-                                    {step.stationName}
-                                  </p>
-                                  <p className="text-xs text-[#bac9cc] mt-0.5">{step.detail}</p>
+                                <div className="flex-1 min-w-0 pt-0.5">
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <p className="text-sm font-bold text-[#dfe2ee] leading-tight">
+                                      {step.stationName}
+                                    </p>
+                                    {step.lineBadge && (
+                                      <span
+                                        className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                                        style={{
+                                          backgroundColor: `${step.color}22`,
+                                          color: step.color,
+                                          border: `1px solid ${step.color}40`,
+                                        }}
+                                      >
+                                        {step.lineBadge}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className="text-xs text-[#bac9cc] mt-1 leading-relaxed">{step.detail}</p>
                                 </div>
                               </div>
                             ))}

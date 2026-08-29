@@ -41,9 +41,11 @@ export interface StationProperties {
   code: string;
   name: string;
   systemId: string;
+  city?: string;
   wheelchairAccessible: boolean;
   lines: StationLine[];
   color?: string;
+  lineColor?: string;
 }
 
 export interface StationFeature {
@@ -221,6 +223,7 @@ export class GeojsonService {
             'id', st.id,
             'code', st.code,
             'name', st.name,
+            'city', st.city,
             'systemId', st."systemId",
             'wheelchairAccessible', st."wheelchairAccessible",
             'lines', COALESCE((
@@ -286,9 +289,12 @@ export class GeojsonService {
           }
           return { ...l, color };
         });
-        feat.properties.color = feat.properties.lines[0]?.color || '#00e5ff';
+        const primaryColor = feat.properties.lines[0]?.color || '#00e5ff';
+        feat.properties.color = primaryColor;
+        feat.properties.lineColor = primaryColor;
       } else {
         feat.properties.color = '#00e5ff';
+        feat.properties.lineColor = '#00e5ff';
       }
 
       const stNameUpper = (feat.properties?.name || '').toUpperCase();
@@ -330,6 +336,7 @@ export class GeojsonService {
             'id', st.id,
             'code', st.code,
             'name', st.name,
+            'city', st.city,
             'systemId', st."systemId",
             'wheelchairAccessible', st."wheelchairAccessible",
             'lines', COALESCE((
@@ -397,6 +404,12 @@ export class GeojsonService {
         }
         return { ...l, color };
       });
+      const primaryColor = feat.properties.lines[0]?.color || '#00e5ff';
+      feat.properties.color = primaryColor;
+      feat.properties.lineColor = primaryColor;
+    } else {
+      feat.properties.color = '#00e5ff';
+      feat.properties.lineColor = '#00e5ff';
     }
 
     return feat as unknown as Record<string, unknown>;

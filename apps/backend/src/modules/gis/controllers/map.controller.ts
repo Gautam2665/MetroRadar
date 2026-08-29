@@ -28,7 +28,7 @@ export class MapController {
   @Get('systems')
   @ApiOperation({ summary: 'Get systems GeoJSON Features' })
   async getSystems(): Promise<unknown> {
-    const cacheKey = 'geojson:systems:v3';
+    const cacheKey = 'geojson:systems:v4';
     const cached =
       await this.redisService.get<Record<string, unknown>>(cacheKey);
     if (cached) return cached;
@@ -43,7 +43,7 @@ export class MapController {
     summary: 'Get lines GeoJSON Features (reconstructed polylines)',
   })
   async getLines(): Promise<unknown> {
-    const cacheKey = 'geojson:lines:v3';
+    const cacheKey = 'geojson:lines:v4';
     const cached =
       await this.redisService.get<Record<string, unknown>>(cacheKey);
     if (cached) return cached;
@@ -56,7 +56,7 @@ export class MapController {
   @Get('stations')
   @ApiOperation({ summary: 'Get active stations GeoJSON Features' })
   async getStations(): Promise<unknown> {
-    const cacheKey = 'geojson:stations:v3';
+    const cacheKey = 'geojson:stations:v4';
     const cached =
       await this.redisService.get<Record<string, unknown>>(cacheKey);
     if (cached) return cached;
@@ -97,7 +97,7 @@ export class MapController {
     if (!q) throw new BadRequestException('Query parameter q is required');
     const filterTypes = type ? type.split(',') : undefined;
 
-    const cacheKey = `search:${q}:${type || 'all'}`;
+    const cacheKey = `search:v2:${q}:${type || 'all'}`;
     const cached =
       await this.redisService.get<Record<string, unknown>>(cacheKey);
     if (cached) return cached;

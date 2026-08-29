@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 
-import { useState, useRef, useCallback, useEffect, Suspense } from "react";
+import { useState, useCallback, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
@@ -10,10 +10,39 @@ import { CITY_METADATA } from "../../config/cityMetadata";
 
 type HoverPreview = { id: string; name: string; code: string; x: number; y: number } | null;
 
+type SelectedStation = {
+  id: string;
+  name: string;
+  code?: string;
+  city?: string;
+  lines?: Array<{ code: string; name: string; color: string }>;
+  wheelchairAccessible?: boolean;
+};
+
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
+
+async function fetchStationMeta(stationId: string): Promise<Partial<SelectedStation>> {
+  try {
+    const res = await fetch(`${BACKEND_URL}/map/stations/${stationId}`);
+    if (!res.ok) return {};
+    const feat = await res.json() as { properties?: Record<string, unknown> };
+    const p = feat.properties || {};
+    const rawLines = Array.isArray(p.lines) ? p.lines as Array<{ code: string; name: string; color: string }> : [];
+    return {
+      name: (p.name as string) || "",
+      code: (p.code as string) || "",
+      city: (p.city as string) || "",
+      wheelchairAccessible: Boolean(p.wheelchairAccessible),
+      lines: rawLines,
+    };
+  } catch {
+    return {};
+  }
+}
+
 function NetworkContent() {
   const [activeCity, setActiveCity] = useState("delhi");
-  const [selectedStationId, setSelectedStationId] = useState<string | null>(null);
-  const [selectedStationName, setSelectedStationName] = useState("");
+  const [selectedStation, setSelectedStation] = useState<SelectedStation | null>(null);
   const [hoverPreview, setHoverPreview] = useState<HoverPreview>(null);
   const [inspectorOpen, setInspectorOpen] = useState(false);
   const [activeLevel, setActiveLevel] = useState<"G" | "L1" | "L2">("L1");
@@ -21,13 +50,15 @@ function NetworkContent() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = setTimeout(async () => {
       const stationId = searchParams.get("stationId");
       const stationName = searchParams.get("stationName");
       if (stationId) {
-        setSelectedStationId(stationId);
-        setSelectedStationName(stationName || "Station");
+        setSelectedStation({ id: stationId, name: stationName || "Station" });
         setInspectorOpen(true);
+        // Enrich with full backend data
+        const meta = await fetchStationMeta(stationId);
+        setSelectedStation((prev) => prev ? { ...prev, ...meta, name: meta.name || prev.name } : null);
       }
     }, 0);
     return () => clearTimeout(timer);
@@ -35,10 +66,9 @@ function NetworkContent() {
 
   const currentMeta = CITY_METADATA[activeCity] || CITY_METADATA.delhi;
 
-  // Digital Twin — cached automatically by useDigitalTwin hook
   const { data: twin, loading: twinLoading } = useDigitalTwin(
-    inspectorOpen ? selectedStationId : null,
-    selectedStationName
+    inspectorOpen ? selectedStation?.id ?? null : null,
+    selectedStation?.name ?? ""
   );
 
   const handleStationHover = useCallback(
@@ -55,21 +85,25 @@ function NetworkContent() {
   );
 
   const handleStationClick = useCallback(
-    (station: { id: string; name: string; code?: string; city?: string }) => {
-      setSelectedStationId(station.id);
-      setSelectedStationName(station.name);
+    async (station: { id: string; name: string; code?: string; city?: string }) => {
+      setSelectedStation({ id: station.id, name: station.name, code: station.code, city: station.city });
       setInspectorOpen(true);
       setHoverPreview(null);
+      // Enrich with lines / wheelchair data
+      const meta = await fetchStationMeta(station.id);
+      setSelectedStation((prev) => prev ? { ...prev, ...meta, name: meta.name || station.name } : null);
     },
     []
   );
 
   const handleMapStationSelect = useCallback(
-    (stationId: string) => {
-      // MapContainer fires onStationSelect with just the ID
-      setSelectedStationId(stationId);
+    async (stationId: string) => {
+      // Only ID provided — fetch full station info from backend
+      setSelectedStation({ id: stationId, name: "Loading..." });
       setInspectorOpen(true);
       setHoverPreview(null);
+      const meta = await fetchStationMeta(stationId);
+      setSelectedStation({ id: stationId, name: meta.name || "Station", ...meta });
     },
     []
   );
@@ -79,11 +113,11 @@ function NetworkContent() {
       <Sidebar />
 
       <div className="flex-1 flex flex-col md:ml-[260px] relative h-full">
-        <Header activeCity={activeCity} onCityChange={(city) => { setActiveCity(city); setInspectorOpen(false); setSelectedStationId(null); }} />
+        <Header activeCity={activeCity} onCityChange={(city) => { setActiveCity(city); setInspectorOpen(false); setSelectedStation(null); }} />
 
         <main className="flex-1 overflow-hidden relative z-0">
           <div className="grid grid-cols-1 md:grid-cols-12 h-full gap-0">
-            {/* Map — 8 cols, full height */}
+            {/* Map — 8 cols */}
             <div className="md:col-span-8 relative h-[50vh] md:h-full overflow-hidden">
               {/* Map top bar */}
               <div className="absolute top-0 left-0 right-0 p-4 z-10 flex justify-between items-center bg-gradient-to-b from-[#080C14]/80 to-transparent pointer-events-none">
@@ -94,9 +128,9 @@ function NetworkContent() {
                     {currentMeta.name} GTFS Network
                   </span>
                 </div>
-                {selectedStationId && (
+                {selectedStation && (
                   <span className="text-xs text-[#dfe2ee] bg-[#262a33]/80 px-3 py-1 rounded-full border border-white/10 pointer-events-auto">
-                    {selectedStationName || "Station Selected"}
+                    {selectedStation.name}
                   </span>
                 )}
               </div>
@@ -104,7 +138,7 @@ function NetworkContent() {
               <MapContainer
                 activeCity={activeCity}
                 activeLayers={["lines", "stations", "realtime"]}
-                selectedStationId={selectedStationId}
+                selectedStationId={selectedStation?.id ?? null}
                 onStationSelect={handleMapStationSelect}
                 onSelectStation={handleStationClick}
               />
@@ -142,30 +176,69 @@ function NetworkContent() {
 
             {/* Right Panel — 4 cols */}
             <div className="md:col-span-4 flex flex-col h-full bg-[#0f131c]/90 border-l border-white/10 overflow-hidden">
-              {inspectorOpen && selectedStationId ? (
-                /* Digital Twin Inspector */
+              {inspectorOpen && selectedStation ? (
                 <div className="flex flex-col h-full">
                   {/* Inspector Header */}
                   <div className="p-5 border-b border-white/10 flex justify-between items-start shrink-0">
-                    <div>
-                      <p className="text-[10px] font-bold text-[#00e5ff] uppercase tracking-wider mb-0.5">Station Inspector</p>
-                      {twinLoading ? (
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[10px] font-bold text-[#00e5ff] uppercase tracking-wider mb-1">Station Inspector</p>
+                      {twinLoading || selectedStation.name === "Loading..." ? (
                         <div className="h-5 w-40 bg-white/10 rounded animate-pulse" />
                       ) : (
-                        <h2 className="text-base font-bold text-[#dfe2ee]">{twin?.stationName || selectedStationName}</h2>
+                        <h2 className="text-base font-bold text-[#dfe2ee] truncate">{twin?.stationName || selectedStation.name}</h2>
+                      )}
+                      {/* Station meta row */}
+                      {selectedStation.code && (
+                        <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                          <span className="text-[10px] font-mono text-[#bac9cc] bg-white/5 px-2 py-0.5 rounded border border-white/10">
+                            {selectedStation.code}
+                          </span>
+                          {selectedStation.city && (
+                            <span className="text-[10px] text-[#bac9cc]">{selectedStation.city}</span>
+                          )}
+                          {selectedStation.wheelchairAccessible && (
+                            <span className="text-[10px] text-[#4ade80] flex items-center gap-1">
+                              <span className="material-symbols-outlined text-xs">accessible</span>
+                              Accessible
+                            </span>
+                          )}
+                        </div>
                       )}
                     </div>
                     <button
-                      onClick={() => { setInspectorOpen(false); setSelectedStationId(null); }}
-                      className="w-7 h-7 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-[#bac9cc] transition-colors"
+                      onClick={() => { setInspectorOpen(false); setSelectedStation(null); }}
+                      className="w-7 h-7 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-[#bac9cc] transition-colors shrink-0 ml-3"
                     >
                       <span className="material-symbols-outlined text-sm">close</span>
                     </button>
                   </div>
 
+                  {/* Lines color badges */}
+                  {selectedStation.lines && selectedStation.lines.length > 0 && (
+                    <div className="px-5 py-3 border-b border-white/5 flex flex-wrap gap-1.5 shrink-0">
+                      {selectedStation.lines.map((line, i) => {
+                        // Clean up line name — remove prefix like "RED_", "BLUE_" etc.
+                        const displayName = line.name.replace(/^[A-Z]+_/, "").replace(/ to .+$/, "").trim() || line.name;
+                        const shortName = displayName.length > 22 ? displayName.substring(0, 22) + "…" : displayName;
+                        return (
+                          <span
+                            key={i}
+                            className="text-[10px] font-bold px-2 py-1 rounded-full whitespace-nowrap"
+                            style={{
+                              backgroundColor: `${line.color}22`,
+                              color: line.color,
+                              border: `1px solid ${line.color}50`,
+                            }}
+                          >
+                            {shortName}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  )}
+
                   <div className="flex-1 overflow-y-auto scrollbar-hide p-5 space-y-5">
                     {twinLoading ? (
-                      /* Skeleton */
                       <div className="space-y-4">
                         {[1, 2, 3].map((i) => (
                           <div key={i} className="glass-card rounded-xl p-4 border border-white/10 space-y-2">
@@ -204,7 +277,7 @@ function NetworkContent() {
                         <div className="glass-card rounded-xl p-4 border border-white/10">
                           <h3 className="text-xs font-bold text-[#dfe2ee] uppercase tracking-wider mb-3 flex items-center gap-2">
                             <span className="material-symbols-outlined text-[#bac9cc] text-sm">door_open</span>
-                            Exits & Interchanges
+                            Exits &amp; Interchanges
                           </h3>
                           <div className="space-y-2">
                             {twin.exits.map((exit, i) => (
@@ -246,6 +319,7 @@ function NetworkContent() {
                       <div className="text-center py-8">
                         <span className="material-symbols-outlined text-4xl text-[#bac9cc]/30 block mb-2">sensors_off</span>
                         <p className="text-sm text-[#bac9cc]">No digital twin data</p>
+                        <p className="text-xs text-[#bac9cc]/60 mt-1">Station data available above</p>
                       </div>
                     )}
                   </div>
@@ -260,7 +334,6 @@ function NetworkContent() {
                     </p>
                   </div>
 
-                  {/* Platform Guide Placeholder */}
                   <div className="glass-card rounded-xl p-5 border border-white/10 flex flex-col gap-4">
                     <div className="flex justify-between items-start">
                       <div>
@@ -285,7 +358,6 @@ function NetworkContent() {
                     </div>
                   </div>
 
-                  {/* Quick tips */}
                   <div className="glass-card rounded-xl p-4 border border-white/10 space-y-3">
                     <h3 className="text-xs font-bold text-[#dfe2ee] uppercase tracking-wider">Map Legend</h3>
                     {[
@@ -317,3 +389,7 @@ export default function LiveNetworkPage() {
     </Suspense>
   );
 }
+
+
+
+

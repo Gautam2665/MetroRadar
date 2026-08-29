@@ -2,6 +2,26 @@ import { Injectable } from '@nestjs/common';
 import { DatabaseService } from '../../../database/database.service';
 import { GeojsonService, GeoJsonRawResult } from './geojson.service';
 
+function resolveLineColor(color: string, lineName: string): string {
+  const nameUpper = (lineName || '').toUpperCase();
+  let resolved = color || '#3b82f6';
+  if (resolved === '' || ['#000000', '000000', '#ffffff', 'ffffff'].includes(resolved.toLowerCase())) {
+    if (nameUpper.includes('YELLOW') || nameUpper.includes('LINE 2A')) resolved = '#facc15';
+    else if (nameUpper.includes('BLUE')) resolved = '#3b82f6';
+    else if (nameUpper.includes('PINK')) resolved = '#ec4899';
+    else if (nameUpper.includes('MAGENTA')) resolved = '#d946ef';
+    else if (nameUpper.includes('RED')) resolved = '#ef4444';
+    else if (nameUpper.includes('VIOLET')) resolved = '#8b5cf6';
+    else if (nameUpper.includes('GREEN')) resolved = '#22c55e';
+    else if (nameUpper.includes('AQUA')) resolved = '#06b6d4';
+    else if (nameUpper.includes('ORANGE') || nameUpper.includes('AIRPORT')) resolved = '#f97316';
+    else if (nameUpper.includes('RAPID')) resolved = '#14b8a6';
+    else if (nameUpper.includes('GREY') || nameUpper.includes('GRAY')) resolved = '#9ca3af';
+    else resolved = '#3b82f6';
+  }
+  return resolved;
+}
+
 @Injectable()
 export class SearchService {
   constructor(
@@ -35,6 +55,7 @@ export class SearchService {
               'name', st.name,
               'type', 'station',
               'city', st.city,
+              'systemId', st."systemId",
               'lines', COALESCE((
                 SELECT json_agg(json_build_object('code', l.code, 'name', l.name, 'color', COALESCE(l.color, '#00e5ff')))
                 FROM (
@@ -54,11 +75,24 @@ export class SearchService {
           ) as feature
         FROM stations st
         WHERE st."isActive" = true AND (st.name ILIKE $1 OR st.code ILIKE $1 OR st.city ILIKE $1)
-        LIMIT 30;
+        LIMIT 100;
       `,
         formattedQuery,
       );
-      features.push(...stationsRaw.map((r) => r.feature));
+      const resolvedStationFeatures = stationsRaw.map((r) => {
+        const feat = r.feature as any;
+        if (feat?.properties?.lines && Array.isArray(feat.properties.lines)) {
+          feat.properties.lines = feat.properties.lines.map((l: any) => ({
+            ...l,
+            color: resolveLineColor(l.color || '', l.name || ''),
+          }));
+          feat.properties.lineColor = feat.properties.lines[0]?.color || '#00e5ff';
+        } else {
+          feat.properties.lineColor = '#00e5ff';
+        }
+        return feat;
+      });
+      features.push(...resolvedStationFeatures);
     }
 
     // 2. Search lines

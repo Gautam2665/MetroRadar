@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { X, MapPin, Train, DoorOpen } from "lucide-react";
+import { formatLineName } from "../../utils/transitFormatter";
+export { formatLineName };
 
 export type StationDetails = {
   id: string;
@@ -16,10 +18,6 @@ export type StationDetails = {
 interface DigitalTwinInspectorProps {
   station: StationDetails | null;
   onClose: () => void;
-}
-
-export function formatLineName(name: string | null) {
-  return name || "";
 }
 
 export function DigitalTwinInspector({ station, onClose }: DigitalTwinInspectorProps) {

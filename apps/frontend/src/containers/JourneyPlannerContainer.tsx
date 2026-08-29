@@ -5,14 +5,22 @@ import { JourneyPlannerView } from "../components/ui/JourneyPlannerView";
 import { StationItem } from "../components/StationSearchInput";
 import { ApiClient } from "../services/api/client";
 
+import { formatLineName, formatShortLineName, extractDirection } from "../utils/transitFormatter";
+
 export type RouteLeg = {
   mode: "subway" | "walk" | "cab";
+  type?: "TRANSIT" | "TRANSFER" | "WALK";
   line: string;
+  shortLine?: string;
+  rawLineName?: string;
   color: string;
+  lineColor?: string;
   fromStation?: string;
   toStation?: string;
+  towards?: string;
   stopsCount?: number;
   durationMins?: number;
+  durationSeconds?: number;
 };
 
 export type RouteOption = {
@@ -40,18 +48,42 @@ function buildRoutesFromBackend(data: Record<string, unknown>): RouteOption[] {
   const baseDuration = (j.duration as number) || 32;
   const baseTransfers = (j.transfers as number) || 0;
   const baseFare = Math.max(10, Math.round(baseDuration * 0.9));
-  const baseWalk = (j.walkingDistance as number) || 0;
 
   const rawLegs = Array.isArray(j.legs) ? (j.legs as Record<string, unknown>[]) : [];
-  const backendLegs: RouteLeg[] = rawLegs.map((leg) => ({
-    mode: leg.type === "WALK" ? ("walk" as const) : ("subway" as const),
-    line: (leg.lineName as string) || (leg.lineCode as string) || "Metro Line",
-    color: (leg.lineColor as string) || "#00e5ff",
-    fromStation: (leg.fromStationName as string) || "",
-    toStation: (leg.toStationName as string) || "",
-    stopsCount: (leg.stationsCount as number) || undefined,
-    durationMins: leg.durationMinutes ? (leg.durationMinutes as number) : undefined,
-  }));
+  let totalWalkSec = 0;
+
+  const backendLegs: RouteLeg[] = rawLegs.map((leg) => {
+    const isWalk = leg.type === "WALK" || leg.type === "TRANSFER";
+    const rawLine = (leg.lineName as string) || (leg.lineCode as string) || "";
+    const cleanLine = isWalk ? "Transfer" : formatLineName(rawLine);
+    const shortLine = isWalk ? "Transfer" : formatShortLineName(rawLine);
+    const durSec = (leg.duration as number) || 0;
+    const durMins = Math.max(1, Math.round(durSec / 60));
+    const towards = isWalk ? undefined : extractDirection(rawLine, leg.toStationName as string);
+
+    if (isWalk) {
+      totalWalkSec += durSec;
+    }
+
+    return {
+      mode: isWalk ? ("walk" as const) : ("subway" as const),
+      type: (leg.type as RouteLeg["type"]) || (isWalk ? "WALK" : "TRANSIT"),
+      line: cleanLine,
+      shortLine,
+      rawLineName: rawLine,
+      color: isWalk ? "#00e5ff" : ((leg.lineColor as string) || "#00e5ff"),
+      lineColor: (leg.lineColor as string) || "#00e5ff",
+      fromStation: (leg.fromStationName as string) || "",
+      toStation: (leg.toStationName as string) || "",
+      towards,
+      stopsCount: (leg.stationsCount as number) || undefined,
+      durationMins: durMins,
+      durationSeconds: durSec,
+    };
+  });
+
+  const totalWalkMins = Math.round(totalWalkSec / 60);
+  const totalWalkDistanceM = totalWalkSec > 0 ? Math.round(totalWalkSec * 1.1) : 0; // ~1.1 m/s walking speed
 
   // Route 1: Fastest (backend result)
   const route1: RouteOption = {
@@ -63,8 +95,8 @@ function buildRoutesFromBackend(data: Record<string, unknown>): RouteOption[] {
     smartCardFare: `₹${Math.max(9, baseFare - 3)}`,
     distance: "18.4 km",
     interchanges: baseTransfers,
-    walkDistance: `${Math.round(baseWalk)}m`,
-    walkMins: Math.round(baseWalk / 80),
+    walkDistance: totalWalkDistanceM > 0 ? `${totalWalkDistanceM}m` : "0m",
+    walkMins: totalWalkMins,
     crowd: "Low" as const,
     crowdColor: "#4ade80",
     boardCoach: "Coach 3",
@@ -84,8 +116,8 @@ function buildRoutesFromBackend(data: Record<string, unknown>): RouteOption[] {
     smartCardFare: `₹${baseFare + 2}`,
     distance: "19.2 km",
     interchanges: Math.max(0, baseTransfers - 1),
-    walkDistance: `${Math.round(baseWalk * 1.2)}m`,
-    walkMins: Math.round(baseWalk * 1.2 / 80),
+    walkDistance: `${Math.round(totalWalkDistanceM * 1.2)}m`,
+    walkMins: Math.round(totalWalkMins * 1.2),
     crowd: "Low" as const,
     crowdColor: "#4ade80",
     boardCoach: "Coach 4",

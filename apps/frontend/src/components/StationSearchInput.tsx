@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useStationsSearch } from "../hooks/useStationsSearch";
 import { StationSearchResult } from "../services/api/station.api";
+import { formatShortLineName } from "../utils/transitFormatter";
 
 /** Public type that consumers receive when a station is selected */
 export type StationItem = {
@@ -157,9 +158,19 @@ export function StationSearchInput({
                   <span className="material-symbols-outlined text-[#bac9cc] text-base flex-shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>subway</span>
                   <p className="font-semibold text-[#dfe2ee] leading-tight truncate">{station.name}</p>
                 </div>
-                {/* Line color badges — show ALL connecting lines for interchanges */}
-                <div className="flex items-center gap-1 flex-wrap justify-end shrink-0 ml-2">
-                  {lines.map((line, i) => (
+          {/* Line color badges — deduplicated by color, showing short color name */}
+          {(() => {
+            const seen = new Set<string>();
+            const deduped = lines.filter((l) => {
+              if (seen.has(l.color)) return false;
+              seen.add(l.color);
+              return true;
+            });
+            return (
+              <div className="flex items-center gap-1 flex-wrap justify-end shrink-0 ml-2">
+                {deduped.map((line, i) => {
+                  const badgeName = formatShortLineName(line.name);
+                  return (
                     <span
                       key={i}
                       className="text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap"
@@ -169,10 +180,14 @@ export function StationSearchInput({
                         border: `1px solid ${line.color}50`,
                       }}
                     >
-                      {line.name}
+                      {badgeName}
                     </span>
-                  ))}
-                </div>
+                  );
+                })}
+              </div>
+            );
+          })()}
+
               </button>
             );
           })}
