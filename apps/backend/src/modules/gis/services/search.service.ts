@@ -2,11 +2,44 @@ import { Injectable } from '@nestjs/common';
 import { DatabaseService } from '../../../database/database.service';
 import { GeojsonService, GeoJsonRawResult } from './geojson.service';
 
+interface StationLineProperty {
+  code?: string;
+  name?: string;
+  color?: string;
+}
+
+interface StationFeatureProperties {
+  id?: string;
+  code?: string;
+  name?: string;
+  type?: string;
+  city?: string;
+  systemId?: string;
+  lines?: StationLineProperty[];
+  lineColor?: string;
+  [key: string]: unknown;
+}
+
+interface StationFeature {
+  type: string;
+  id?: string;
+  geometry: {
+    type: string;
+    coordinates: number[];
+  };
+  properties: StationFeatureProperties;
+  [key: string]: unknown;
+}
+
 function resolveLineColor(color: string, lineName: string): string {
   const nameUpper = (lineName || '').toUpperCase();
   let resolved = color || '#3b82f6';
-  if (resolved === '' || ['#000000', '000000', '#ffffff', 'ffffff'].includes(resolved.toLowerCase())) {
-    if (nameUpper.includes('YELLOW') || nameUpper.includes('LINE 2A')) resolved = '#facc15';
+  if (
+    resolved === '' ||
+    ['#000000', '000000', '#ffffff', 'ffffff'].includes(resolved.toLowerCase())
+  ) {
+    if (nameUpper.includes('YELLOW') || nameUpper.includes('LINE 2A'))
+      resolved = '#facc15';
     else if (nameUpper.includes('BLUE')) resolved = '#3b82f6';
     else if (nameUpper.includes('PINK')) resolved = '#ec4899';
     else if (nameUpper.includes('MAGENTA')) resolved = '#d946ef';
@@ -14,9 +47,11 @@ function resolveLineColor(color: string, lineName: string): string {
     else if (nameUpper.includes('VIOLET')) resolved = '#8b5cf6';
     else if (nameUpper.includes('GREEN')) resolved = '#22c55e';
     else if (nameUpper.includes('AQUA')) resolved = '#06b6d4';
-    else if (nameUpper.includes('ORANGE') || nameUpper.includes('AIRPORT')) resolved = '#f97316';
+    else if (nameUpper.includes('ORANGE') || nameUpper.includes('AIRPORT'))
+      resolved = '#f97316';
     else if (nameUpper.includes('RAPID')) resolved = '#14b8a6';
-    else if (nameUpper.includes('GREY') || nameUpper.includes('GRAY')) resolved = '#9ca3af';
+    else if (nameUpper.includes('GREY') || nameUpper.includes('GRAY'))
+      resolved = '#9ca3af';
     else resolved = '#3b82f6';
   }
   return resolved;
@@ -79,19 +114,22 @@ export class SearchService {
       `,
         formattedQuery,
       );
-      const resolvedStationFeatures = stationsRaw.map((r) => {
-        const feat = r.feature as any;
-        if (feat?.properties?.lines && Array.isArray(feat.properties.lines)) {
-          feat.properties.lines = feat.properties.lines.map((l: any) => ({
-            ...l,
-            color: resolveLineColor(l.color || '', l.name || ''),
-          }));
-          feat.properties.lineColor = feat.properties.lines[0]?.color || '#00e5ff';
-        } else {
-          feat.properties.lineColor = '#00e5ff';
-        }
-        return feat;
-      });
+      const resolvedStationFeatures: Record<string, unknown>[] =
+        stationsRaw.map((r) => {
+          const feat = r.feature as unknown as StationFeature;
+          if (feat && feat.properties) {
+            const lines = Array.isArray(feat.properties.lines)
+              ? feat.properties.lines
+              : [];
+            const resolvedLines: StationLineProperty[] = lines.map((l) => ({
+              ...l,
+              color: resolveLineColor(l.color ?? '', l.name ?? ''),
+            }));
+            feat.properties.lines = resolvedLines;
+            feat.properties.lineColor = resolvedLines[0]?.color || '#00e5ff';
+          }
+          return feat;
+        });
       features.push(...resolvedStationFeatures);
     }
 

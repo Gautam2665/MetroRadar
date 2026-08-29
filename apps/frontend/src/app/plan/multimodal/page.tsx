@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowLeft, Navigation, Train, Bus, MapPin, Search } from 'lucide-react';
+import { ArrowLeft, Navigation, Train, MapPin } from 'lucide-react';
 
 export default function MultiModalPage() {
   return (

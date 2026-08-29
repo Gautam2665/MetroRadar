@@ -6,7 +6,7 @@ import { Header } from "../../components/Header";
 import MapContainer from "../../components/map/MapContainer";
 import { JourneyPlannerContainer, RouteOption } from "../../containers/JourneyPlannerContainer";
 import { CITY_METADATA } from "../../config/cityMetadata";
-import { buildStepByStepItinerary, formatShortLineName, formatLineName } from "../../utils/transitFormatter";
+import { buildStepByStepItinerary, formatShortLineName } from "../../utils/transitFormatter";
 
 export default function JourneyPlannerPage() {
   const [activeCity, setActiveCity] = useState("delhi");
@@ -138,7 +138,7 @@ export default function JourneyPlannerPage() {
                         {/* Leg pills */}
                         <div className="flex items-center gap-1.5 flex-wrap">
                           {activeRoute.legs.map((leg, i) => {
-                            const isWalk = leg.mode === "walk" || (leg as any).type === "WALK" || (leg as any).type === "TRANSFER";
+                            const isWalk = leg.mode === "walk";
                             const pillName = isWalk
                               ? "Transfer"
                               : (leg.shortLine || formatShortLineName(leg.rawLineName || leg.line));

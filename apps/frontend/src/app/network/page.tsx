@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useCallback, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
@@ -7,8 +7,6 @@ import { Header } from "../../components/Header";
 import MapContainer from "../../components/map/MapContainer";
 import { useDigitalTwin } from "../../hooks/useDigitalTwin";
 import { CITY_METADATA } from "../../config/cityMetadata";
-
-type HoverPreview = { id: string; name: string; code: string; x: number; y: number } | null;
 
 type SelectedStation = {
   id: string;
@@ -43,7 +41,6 @@ async function fetchStationMeta(stationId: string): Promise<Partial<SelectedStat
 function NetworkContent() {
   const [activeCity, setActiveCity] = useState("delhi");
   const [selectedStation, setSelectedStation] = useState<SelectedStation | null>(null);
-  const [hoverPreview, setHoverPreview] = useState<HoverPreview>(null);
   const [inspectorOpen, setInspectorOpen] = useState(false);
   const [activeLevel, setActiveLevel] = useState<"G" | "L1" | "L2">("L1");
 
@@ -71,24 +68,10 @@ function NetworkContent() {
     selectedStation?.name ?? ""
   );
 
-  const handleStationHover = useCallback(
-    (station: { id: string; name: string; code?: string }, pos?: { x: number; y: number }) => {
-      setHoverPreview({
-        id: station.id,
-        name: station.name,
-        code: station.code || "STN",
-        x: pos?.x ?? 0,
-        y: pos?.y ?? 0,
-      });
-    },
-    []
-  );
-
   const handleStationClick = useCallback(
     async (station: { id: string; name: string; code?: string; city?: string }) => {
       setSelectedStation({ id: station.id, name: station.name, code: station.code, city: station.city });
       setInspectorOpen(true);
-      setHoverPreview(null);
       // Enrich with lines / wheelchair data
       const meta = await fetchStationMeta(station.id);
       setSelectedStation((prev) => prev ? { ...prev, ...meta, name: meta.name || station.name } : null);
@@ -142,19 +125,6 @@ function NetworkContent() {
                 onStationSelect={handleMapStationSelect}
                 onSelectStation={handleStationClick}
               />
-
-              {/* Hover tooltip */}
-              {hoverPreview && (
-                <div
-                  className="absolute z-30 pointer-events-none"
-                  style={{ left: hoverPreview.x + 12, top: hoverPreview.y - 48 }}
-                >
-                  <div className="bg-[#1c2028]/95 border border-white/20 rounded-lg px-3 py-2 shadow-xl backdrop-blur-sm">
-                    <p className="text-xs font-bold text-[#dfe2ee]">{hoverPreview.name}</p>
-                    <p className="text-[10px] text-[#bac9cc]">{hoverPreview.code} · Click to inspect</p>
-                  </div>
-                </div>
-              )}
 
               {/* Level Switcher */}
               <div className="absolute left-4 top-1/2 -translate-y-1/2 flex flex-col gap-2 bg-[#31353e]/80 backdrop-blur-md rounded-lg p-1 border border-white/10 z-20">

@@ -33,7 +33,7 @@ function LegPills({ legs }: { legs: RouteLeg[] }) {
   return (
     <div className="flex items-center gap-1.5 flex-wrap">
       {legs.map((leg, i) => {
-        const isWalk = leg.mode === "walk" || (leg as any).type === "WALK" || (leg as any).type === "TRANSFER";
+        const isWalk = leg.mode === "walk";
         const pillName = isWalk ? "Transfer" : (leg.shortLine || formatShortLineName(leg.rawLineName || leg.line));
 
         return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X, MapPin, Train, DoorOpen } from "lucide-react";
+import { X, Train, DoorOpen } from "lucide-react";
 import { formatLineName } from "../../utils/transitFormatter";
 export { formatLineName };
 

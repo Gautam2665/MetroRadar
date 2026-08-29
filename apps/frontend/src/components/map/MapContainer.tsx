@@ -53,7 +53,6 @@ export default function MapContainer({
   apiLatencySetter,
   setLoadedLayersCount,
   mapRef,
-  highlightGeojson,
   journeyGeojson,
 }: MapContainerProps) {
   const router = useRouter();
@@ -503,7 +502,6 @@ export default function MapContainer({
     const JOURNEY_LINE_SOURCE = "journey-highlight-source";
     const JOURNEY_LINE_LAYER = "journey-highlight-layer";
     const JOURNEY_LINE_CASING = "journey-highlight-casing";
-    const JOURNEY_LINE_GLOW = "journey-highlight-glow";
     const JOURNEY_POINTS_SOURCE = "journey-points-source";
     const JOURNEY_ORIGIN_LAYER = "journey-origin-layer";
     const JOURNEY_DEST_LAYER = "journey-dest-layer";
