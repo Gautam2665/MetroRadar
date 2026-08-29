@@ -84,7 +84,6 @@ function NetworkContent() {
       // Only ID provided — fetch full station info from backend
       setSelectedStation({ id: stationId, name: "Loading..." });
       setInspectorOpen(true);
-      setHoverPreview(null);
       const meta = await fetchStationMeta(stationId);
       setSelectedStation({ id: stationId, name: meta.name || "Station", ...meta });
     },
