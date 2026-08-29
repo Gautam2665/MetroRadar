@@ -194,3 +194,58 @@ All cached keys prefixed with `geojson:*`, `digitaltwin:*`, `search:*`, and `nea
   - Transfer penalty of 180 seconds is applied per interchange to bias routes toward fewer transfers.
   - Walking weight of `0.8x` is applied to reduce walking leg cost relative to riding.
   - Returns `404` if no path exists between the given stations.
+
+---
+
+## ⚡ Realtime Vehicle Telemetry
+
+### `GET /realtime/vehicles?system=<code>`
+- **Purpose**: Returns real-time vehicle positions, active trip updates, and delays decoded from live GTFS-RT Protocol Buffers.
+- **Cache Key**: `realtime:vehicles:<system>` (Redis memory cache, 30s TTL)
+- **Response Format**:
+  ```json
+  {
+    "system": "DMRC",
+    "timestamp": "2026-08-29T12:00:00.000Z",
+    "vehicleCount": 312,
+    "isStale": false,
+    "vehicles": [
+      {
+        "id": "DL-METRO-401",
+        "label": "Train 401",
+        "lineCode": "YELLOW",
+        "latitude": 28.6139,
+        "longitude": 77.2090,
+        "bearing": 180,
+        "speed": 12.5,
+        "currentStatus": "IN_TRANSIT_TO",
+        "nextStopId": "ST_CENTRAL_SEC"
+      }
+    ]
+  }
+  ```
+
+---
+
+## 📥 GTFS Ingestion API
+
+### `POST /ingestion/gtfs?systemId=<uuid>&dryRun=<boolean>`
+- **Purpose**: Ingests a static GTFS zip archive into the Canonical Transit Model (CTM v1.0) with transaction-safe validation.
+- **Form Data**: `file` (Multipart zip file)
+- **Response Format**:
+  ```json
+  {
+    "sessionId": "1bf4b4b0-c385-4eae-b937-11465f45a659",
+    "status": "SUCCESS",
+    "dryRun": false,
+    "duration": 4200,
+    "counts": {
+      "agencies": { "processed": 1, "inserted": 1, "updated": 0, "skipped": 0 },
+      "stations": { "processed": 288, "inserted": 288, "updated": 0, "skipped": 0 },
+      "lines": { "processed": 12, "inserted": 12, "updated": 0, "skipped": 0 }
+    },
+    "warnings": [],
+    "errors": []
+  }
+  ```
+

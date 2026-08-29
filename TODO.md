@@ -1,25 +1,28 @@
 # TransitOS Development Backlog & Milestone Tracker
 
-Follow this unified Sprint & Version checklist to build **TransitOS** (formerly MetroRadar) as a modular set of platform blocks.
+Follow this unified Sprint & Version checklist to build **TransitOS** as a modular set of platform blocks.
 
 ---
 
 ## 🚦 Unified Sprint & Version Mapping
 
-| Sprint | Version | Scope / Milestone Name | Status |
-| :--- | :--- | :--- | :---: |
-| **Sprint 1** | **v0.1** | **Infra & Monorepo Foundation** | ✅ Complete |
-| **Sprint 2** | **v0.2** | **Spatial Database & CTM Schema** | ✅ Complete |
-| **Sprint 3** | **v0.3** | **GTFS Static Ingestion Engine** | ✅ Complete |
-| **Sprint 3.5** | **v0.4** | **Dataset Validation CLI** | ✅ Complete |
-| **Sprint 4** | **v0.4.5** | **GIS Map Engine & Digital Twin** | ✅ Complete |
-| **Sprint 5** | **v0.5** | **Journey Intelligence Pathfinder** | ✅ Complete |
-| **Sprint 5.5** | **v0.5.5** | **National GTFS Certification & CTM v1.0 Schema Freeze** | ✅ Complete |
-| **Sprint 6** | **v0.6** | **Stitch Passenger Experience UI** | 🚧 Up Next |
-| **Sprint 7** | **v0.7** | **Operational State Platform & TDSE Engine** | ⏳ Planned |
-| **Sprint 8** | **v0.8** | **Fare Engine, Wallet & Booking Platform** | ⏳ Planned |
-| **Sprint 9** | **v0.9** | **AI & Language Gateway (Sarvam AI)** | ⏳ Planned |
-| **Sprint 10** | **v1.0** | **Ambient & Smartwatch Computing** | ⏳ Planned |
+| Sprint / Version | Scope / Milestone Name | Status |
+| :--- | :--- | :---: |
+| **v0.1** | **Infra & Monorepo Foundation** | ✅ Complete |
+| **v0.2** | **Spatial Database & CTM Schema** | ✅ Complete |
+| **v0.3** | **GTFS Static Ingestion Engine** | ✅ Complete |
+| **v0.4** | **Dataset Validation CLI & City Imports** | ✅ Complete |
+| **v0.4.5** | **GIS Map Engine & Digital Twin Inspector** | ✅ Complete |
+| **v0.5** | **Journey Intelligence Pathfinder (Dijkstra Engine)** | ✅ Complete |
+| **v0.5.1** | **Realtime GTFS-RT Ingestion & Redis Cache Pipeline** | ✅ Complete |
+| **v0.5.5** | **National GTFS Certification & CTM v1.0 Schema Freeze** | ✅ Complete |
+| **v0.6** | **Passenger Experience & World-Class Benchmark UI** | ✅ Complete |
+| **v0.6.5** | **National Transit Expansion & Calibration Baseline** | 🚧 **Active / Next** |
+| **v0.7** | **Prediction Engine & Operational Intelligence** | ⏳ Planned |
+| **v0.8** | **Analytics & Operator Intelligence** | ⏳ Planned |
+| **v0.9** | **Intelligence Gateway & Voice Laboratory (Sarvam AI)** | ⏳ Planned |
+| **v1.0** | **Commerce & Booking Platform (ONDC Integration)** | ⏳ Planned |
+| **v1.1+** | **Ambient Computing & Advanced Interfaces (Wear OS, WhatsApp)** | ⏳ Planned |
 
 ---
 
@@ -34,7 +37,7 @@ Follow this unified Sprint & Version checklist to build **TransitOS** (formerly 
 ### ✅ Sprint 2 - v0.2: Spatial Database & Canonical Transit Model
 - [x] Enable PostGIS extension (`CREATE EXTENSION IF NOT EXISTS postgis`) and verify spatial queries (`ST_DistanceSphere`).
 - [x] Write Prisma CTM schemas (systems, stations, lines, trips, stop_times, calendars, shapes, entrances, levels, platforms).
-- [x] Create initial database seeding scripts (`prisma/seed.ts` for Mumbai Metro Line 2A & 7).
+- [x] Create initial database seeding scripts (`prisma/seed.ts`).
 
 ### ✅ Sprint 3 - v0.3: GTFS Static Ingestion Engine
 - [x] Implement static GTFS schedule importer in `apps/backend/src/modules/ingestion`.
@@ -53,8 +56,14 @@ Follow this unified Sprint & Version checklist to build **TransitOS** (formerly 
 ### ✅ Sprint 5 - v0.5: Journey Intelligence Engine
 - [x] Built graph-builder service (`GraphBuilderService`) supporting multi-line transfers and interchange walk connections.
 - [x] Developed Dijkstra routing engine (`RoutingService`, `ScoringService`) with configurable walking weights (`0.8`) and transfer penalties (`180s`).
-- [x] Fixed station interchange walking edges (Sarai Kale Khan ➔ Dhaula Kuan ➔ IGI Airport travelator connection).
+- [x] Fixed station interchange walking edges (Dhaula Kuan ➔ South Campus travelator connection).
 - [x] Exposed REST endpoint `GET /journeys?from=:originId&to=:destId` returning GeoJSON feature collections and leg timelines.
+
+### ✅ Sprint 5.1 - v0.5.1: Realtime GTFS-RT Telemetry Infrastructure
+- [x] Implemented `FeedPollerService` background scheduler (asynchronously polling DMRC realtime feed).
+- [x] Implemented `GtfsRtParserService` decoding binary Protocol Buffer `.pb` streams into normalized vehicles.
+- [x] Stored telemetry in Redis with automatic expiration to guarantee sub-5ms client reads.
+- [x] Exposed `GET /realtime/vehicles` with fallback serving cached data (`isStale: true`) during feed interruptions.
 
 ### ✅ Sprint 5.5 - v0.5.5: National Transit Data Certification & CTM v1.0 Schema Freeze
 - [x] Built 5-stage lifecycle governance pipeline (`DISCOVERED` ➔ `ACQUIRED` ➔ `VALIDATED` ➔ `CERTIFIED` ➔ `IMPORTED`).
@@ -64,42 +73,65 @@ Follow this unified Sprint & Version checklist to build **TransitOS** (formerly 
 - [x] Generated Master National Dashboard (`INDIA_TRANSIT_STATUS.md`) and individual audit reports (`CERTIFICATION_*.md`).
 - [x] Officially declared **Canonical Transit Model (CTM v1.0) PostgreSQL Database Schema FROZEN**.
 
+### ✅ Sprint 6 - v0.6: Passenger Experience & World-Class Benchmark UI
+- [x] Rebuilt frontend with Container-Presenter architecture, standardized domain models, and API client layers.
+- [x] Implemented fluid spring physics motion (`framer-motion`), glassmorphic elevation, and quality score badges.
+- [x] Built interactive station inspector drawer with live platform ETAs, entrances, and accessibility metadata.
+- [x] Implemented human-friendly step-by-step transit directions with clean line badges, towards headsigns, and walking interchange cards.
+
 ---
 
-## 🏃 Active & Upcoming Backlog
+## 🏃 Active & Upcoming Milestones
 
-### 🚧 Sprint 5.1 - v0.5.1: GTFS-Realtime Telemetry Infrastructure (Backend)
-- [x] Architecture & Implementation Plan finalized (`implementation_plan.md`).
-- [ ] Create dedicated `RealtimeModule` (`apps/backend/src/modules/realtime/`).
-- [ ] Implement `FeedPollerService` background scheduler (polled asynchronously every 30s).
-- [ ] Implement `GtfsRtParserService` decoding binary `.pb` streams into `NormalizedVehicle` objects.
-- [ ] Store telemetry in Redis (`realtime:vehicles:OTD:DMRC`) to guarantee sub-5ms client reads.
-- [ ] Expose `GET /realtime/vehicles` with fallback serving last cached data (`isStale: true`) if government feeds fail.
+### 🚧 Sprint v0.6.5: National Transit Data Expansion & Calibration Baseline (ACTIVE / NEXT)
+- [ ] Model and ingest **Mumbai Metro CTM baseline**:
+  - Line 1 (Blue): Versova ↔ Andheri ↔ Ghatkopar
+  - Line 2A (Yellow): Dahisar East ↔ Andheri West (DN Nagar)
+  - Line 7 (Red): Dahisar East ↔ Gundavali (Andheri East)
+  - Line 3 (Aqua): Underground Aarey JVLR ↔ BKC ↔ Cuffe Parade
+  - Suburban Railway interchange walk paths (Ghatkopar, Andheri, Dadar)
+- [ ] Ingest and model remaining uncovered networks (Pune, Nagpur).
+- [ ] Build **Calibration & Observation Platform schema**:
+  - Observation data models (station runtimes, dwell times, transfer walk times, GPS traces, actual headways).
+  - Field telemetry ingestion pipeline (Raspberry Pi / phone GPS / official RT).
+  - Calibration Data Warehouse in PostgreSQL.
+- [ ] Attach first-class **Provenance & Confidence metadata** across all CTM entities (`sourceType: "OFFICIAL" | "COMMUNITY" | "SYNTHESIZED" | "OBSERVED"`, `confidence: 0.0–1.0`).
+- [ ] Enable dynamic multi-city switching across Delhi, Mumbai, Kochi, Bengaluru, Chennai, Hyderabad, Ahmedabad.
 
-### ⏳ Sprint 5.2 - v0.5.2: Passenger Experience UI Translation
-- [ ] Implement command-center UI design system (`#080C14` matte background, neon line pills, glassmorphism drawers).
-- [ ] Integrate live real-time vehicle markers and next-train ETA badges into the map container.
-- [ ] Build multimodal trip planning view with transfer timeline step cards.
-- [ ] Build placeholder pages (`/passes`, `/alerts`, `/analytics`, `/settings`) with "Coming Soon (Sprint 6+)" platform cards.
+---
 
-### ⏳ Sprint 6 - v0.6: Fare Intelligence, Wallet & Booking Platform
-- [ ] Build `FareService` calculating zone pricing, flat rates, and transfer discounts.
-- [ ] Build `BookingService` with standard JSON schema: `bookJourney()`, `cancelJourney()`, `refundTicket()`.
-- [ ] Implement Provider Adapter Layer (`MockOndcAdapter`, `MockDmrcAdapter`) returning SVG/Base64 QR pass barcodes.
-- [ ] Build `PassengerWallet` as a **pre-loaded stored-value wallet** (key UX rationale: bypasses per-transaction OTP/biometric auth on smartwatch and voice interfaces — user tops up once, subsequent deductions are instant). v1.0 = mock balance; production path = UPI AutoPay mandate via Razorpay/Cashfree.
-- [ ] Build `RewardsService` tracking points/cashback accumulation in TransitOS database.
-- [ ] Build `PassService` issuing TransitOS digital passes (Monthly/Weekly/Daily) tracked in DB with journey consumption counter (`journeysUsed / journeysTotal`). For QR-capable operators (KMRL), generate scannable QR. For NCMC-only operators (DMRC), serve as booking record only.
-- [ ] Build `PaymentService` routing between: (1) pre-loaded wallet deduction, (2) UPI AutoPay mandate, (3) UPI/card direct (via Razorpay/Cashfree aggregator).
-- [ ] Store NCMC card number (`ncmcCardNumber`) as saved top-up method reference only — displayed in UI for wallet recharge flow; no live balance query or gate-tap payment possible.
-- [ ] Build `TripHistoryService` recording journeys **originated through TransitOS** (planned, booked, or QR-validated). Scope clearly: NCMC gate-tap journeys from physical card are invisible — no public API exists to fetch them.
+### ⏳ Sprint v0.7: Prediction Engine & Operational Intelligence
+- [ ] Build Prediction Engine operating on the Unified CTM (Schedule + Historical Warehouse + Calibration data).
+- [ ] Implement live delay propagation modeling and timetable deviation forecasts.
+- [ ] Learn empirical dwell time and headway distributions from field observations.
+- [ ] Construct scheduled and estimated full-fleet digital twins.
+- [ ] Proactive push notification service for service interruptions and passenger saved routes.
 
-### ⏳ Sprint 7 - v0.7: AI & Language Gateway (Sarvam AI)
-- [ ] Implement `AIGatewayService` as a thin explanation wrapper.
-- [ ] Enforce Golden Rule: **TransitOS computes, AI communicates** (AI reads structured JSON output, zero direct DB access or route computation).
-- [ ] Integrate Sarvam AI for Indian regional voice recognition and speech/text translation.
-- [ ] Integrate OpenAI/Gemini for route rationale synthesis and station signage image QA.
+---
 
-### ⏳ Sprint 8 - v0.8: Ambient & Proactive Computing
-- [ ] Develop smartwatch layout endpoints for active QR ticket barcodes and live train ETAs.
-- [ ] Connect calendar API to suggest proactive route options (e.g. "Airport meeting tomorrow: Day Pass recommended").
-- [ ] Prototype AR station indoor navigation overlays.
+### ⏳ Sprint v0.8: Analytics & Operator Intelligence
+- [ ] Network efficiency, bottleneck heatmaps, and transfer friction analysis.
+- [ ] Station crowding index and capacity utilization forecasting.
+- [ ] Operator intelligence dashboard.
+
+---
+
+### ⏳ Sprint v0.9: Intelligence Gateway & Voice Laboratory
+- [ ] Implement vendor-independent AI Gateway (`TransitOS computes, External AI communicates`).
+- [ ] Integrate **Sarvam AI** for Indian regional voice recognition and speech/text translation (Hindi, Marathi, etc.).
+- [ ] Build **Telegram Voice Bot laboratory prototype** for frictionless conversational journey planning.
+
+---
+
+### ⏳ Sprint v1.0: Commerce & Booking Platform (ONDC Integration)
+- [ ] Build `FareService` calculating multi-tier zone pricing, flat rates, and transfer discounts.
+- [ ] Build `BookingEngine` (`bookJourney()`, `cancelJourney()`, `refundTicket()`).
+- [ ] Implement **ONDC Buyer Application Adapter** for metro ticketing and trip passes.
+- [ ] Build Payment Abstraction Layer (UPI, Card, NCMC, Partner Wallets) without holding user funds.
+
+---
+
+### ⏳ Sprint v1.1+: Ambient Computing & Advanced Interfaces
+- [ ] Build **WhatsApp Business Interface** for conversational ticketing.
+- [ ] Build **Wear OS Smartwatch Client** (next train ETAs, platform guidance, transfer steps, QR ticket shortcuts).
+- [ ] Implement proactive calendar-to-transit recommendations with voice authorization confirmation.

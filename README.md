@@ -11,225 +11,208 @@
 [![Docker](https://img.shields.io/badge/Container-Docker-2496ED.svg?style=flat-square&logo=docker)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
 
-TransitOS is an **Urban Intelligence Platform** designed to build digital twins of city transit networks. It integrates static transit scheduling (GTFS Static), geospatial modeling (PostgreSQL/PostGIS), and real-time feeds (GTFS-RT) into a unified high-performance data architecture. 
+TransitOS is an **Urban Intelligence Platform** and **India's GTFS Infrastructure Platform** designed to build a complete digital twin of every Indian city transit network. Instead of depending on operators to publish GTFS, TransitOS synthesizes, calibrates, and models transit data into a unified Canonical Transit Model (CTM).
 
-The platform powers passenger applications, operational transit dashboards, intelligent APIs, and AI-driven predictions to optimize passenger commutes and track transit health.
-
----
-
-## 🚀 Key Value Proposition
-Modern transit networks suffer from fragmented scheduling, a lack of station indoor directories, and unpredictable route delays. TransitOS builds a modular **six-layer model** to systematically unify transit infrastructure:
-
-1.  **Transit Layer**: Complete scheduled timelines, train positions, track geometries, and real-time arrival feeds.
-2.  **Station Layer**: Indoor platform paths, levels, exits, facilities, and accessibility metrics.
-3.  **Commercial Layer**: Station directories, in-station retail, ads bidding networks, and passenger coupons.
-4.  **Passenger Layer**: Historic routes indexing, preferences cataloging, and live context alerts.
-5.  **AI Layer**: Real-time delay propagation algorithms and smart route suggestions.
-6.  **Analytics Layer**: Crowd density indices, line performance reports, and operational dashboards.
+The platform powers passenger web/mobile applications, operational digital twin inspectors, intelligent pathfinding APIs, and real-world calibrated delay predictions.
 
 ---
 
-## 🏗️ System Architecture
+## 🏗️ Master System Architecture
 
-### High-Level Components
 ```
-           GTFS Static / GTFS-RT
-                     │
-                     ▼
-           Transit Ingestion Engine
-                     │
-           ┌─────────┴─────────┐
-           │                   │
-     Journey Planner       Analytics
-           │                   │
-           └─────────┬─────────┘
-                     ▼
-                AI Services
-                     │
-           Passenger Applications
-```
+                         TRANSITOS
+                            │
+             ┌──────────────┼──────────────┐
+             │              │              │
+             ▼              ▼              ▼
+     TRANSIT DATA      TRANSIT          TRANSIT
+      PLATFORM       INTELLIGENCE      EXPERIENCE
+             │              │              │
+             │              │              ├── Web (Next.js / MapLibre)
+             │              │              ├── Mobile (React Native / PWA)
+             │              │              ├── Wear OS (Smartwatch)
+             │              │              ├── Telegram (Voice Bot Lab)
+             │              │              └── WhatsApp (Conversational)
+             │              │
+             │              ├── Journey Engine (Dijkstra CTM)
+             │              ├── Prediction Engine (Delays / ETA)
+             │              ├── Digital Twin (3D Station Layouts)
+             │              ├── Analytics (Line Efficiency / Congestion)
+             │              ├── Notification Engine (Push Alerts)
+             │              └── Commercial & Booking Engine
+             │
+             ▼
+       CANONICAL TRANSIT MODEL (CTM v1.0)
+             │
+       ┌─────┼─────────────────────┐
+       │     │          │          │
+      GTFS  DPRs     GIS/Data   Historical
+    (A/B)  (A–G)       (F)     Observations
+       │     │          │          ▲
+       │     │          │          │
+       └─────┴──────────┴──────────┤
+                                   │
+                           Observation Pipeline
+                           (Pi / Phone / RT)
+                                   │
+                          Calibration Warehouse
 
-### Technical Data Flow
-```mermaid
-flowchart TD
-    %% Define Styles
-    classDef datasource fill:#18181b,stroke:#3b82f6,stroke-width:2px,color:#f4f4f5;
-    classDef pipeline fill:#18181b,stroke:#06b6d4,stroke-width:2px,color:#f4f4f5;
-    classDef storage fill:#18181b,stroke:#10b981,stroke-width:2px,color:#f4f4f5;
-    classDef services fill:#18181b,stroke:#f59e0b,stroke-width:2px,color:#f4f4f5;
-    classDef client fill:#09090b,stroke:#27272a,stroke-width:2px,color:#f4f4f5;
+And above the Intelligence Layer:
 
-    %% Nodes
-    subgraph DataSources["External Data Feeds"]
-        GS["GTFS Static (Schedules & Shapes)"]:::datasource
-        GR["GTFS Realtime (Vehicle Positions & Trip Updates)"]:::datasource
-    end
-
-    subgraph Pipelines["Ingestion & Cache Engine"]
-        StaticWorker["Static Ingest Pipeline<br/>(Prisma & Validation CLI)"]:::pipeline
-        RealtimeWorker["Realtime PubSub Engine<br/>(WebSocket Daemon)"]:::pipeline
-    end
-
-    subgraph Storage["Persistence & Caching"]
-        Postgres[("PostgreSQL + PostGIS<br/>(Authoritative Database)")]:::storage
-        RedisCache[("Redis Cache & Broker<br/>(Active Memory Overlay)")]:::storage
-    end
-
-    subgraph CoreServices["NestJS Services (API Gateway)"]
-        JourneyAPI["Journey Planner & Routing<br/>(Dijkstra/A* Engines)"]:::services
-        AnalyticsEngine["Analytics Engine<br/>(Crowd & Performance logs)"]:::services
-        AIService["AI Predictor<br/>(Delay Telemetry models)"]:::services
-    end
-
-    subgraph Clients["Frontend Interfaces (Next.js Dashboard)"]
-        DynamicMaps["Interactive MapLibre GL Map"]:::client
-        AdminDashboard["Analytics Dashboard"]:::client
-        CommuterApp["Passenger Routes App"]:::client
-    end
-
-    %% Relationships
-    GS --> StaticWorker
-    GR --> RealtimeWorker
-
-    StaticWorker --> Postgres
-    RealtimeWorker --> RedisCache
-
-    Postgres --> JourneyAPI
-    Postgres --> AnalyticsEngine
-    RedisCache --> AIService
-    Postgres --> AIService
-
-    JourneyAPI --> Clients
-    AnalyticsEngine --> Clients
-    AIService --> Clients
+                 INTELLIGENCE GATEWAY
+                         │
+             ┌───────────┼───────────┐
+             │           │           │
+           Sarvam      Gemini      OpenAI
+             │           │           │
+          Speech       Vision     Reasoning
 ```
 
-*   **Dual-Pipeline Ingestion Strategy**: Splits planned schedule imports and real-time telemetry updates. GTFS Static data is validated and written directly to PostgreSQL. GTFS-RT updates (vehicle positions, trip delays) bypass standard relational database transactions; they are cached directly in Redis and pushed live to frontend clients over WebSockets to avoid transactional bottlenecks.
-*   **Loose Coupling & Separation**: Centralized workspaces for configuration rules, lint policies, and TS models. Backend business APIs are decoupled from client interfaces, communicating via lightweight REST controllers and WebSocket events.
+---
+
+## 🔒 Core Architectural Principles
+
+1. **The Golden Rule**:  
+   > **TransitOS computes. External AI communicates.**  
+   > Routing, delay forecasting, fare math, and digital twin queries execute deterministically on TransitOS backend engines. External AI (Sarvam AI, OpenAI, Gemini) sits strictly as a translation/voice interface.
+2. **Calibration & Observation Platform**:  
+   * The Raspberry Pi (along with phone GPS and RT traces) is an empirical **ground-truth measurement instrument**, *never* a production runtime dependency.  
+   * Field observations continuously calibrate synthesized assumptions (e.g. DPR speed model $150\text{s} \xrightarrow{\text{20 field trips}} \text{median } 153\text{s}$, elevating confidence to $0.91$).
+3. **Commerce vs. Transit Data**:  
+   * **ONDC** is strictly a transaction and ticketing network, *never* the transit data warehouse.  
+   * TransitOS abstracts payment methods (UPI, Card, NCMC, partner wallets) without holding user funds directly.
 
 ---
 
-## 🛠️ Tech Stack & Key Choices
+## 🧱 The Four Platform Layers
 
-| Tier | Technology | Technical Choice Rationale |
-| :--- | :--- | :--- |
-| **Frontend** | **React / Next.js** (TypeScript) | Handles stateful passenger maps and dashboard visualizations. |
-| **Backend** | **NestJS** (TypeScript) | Structured dependency injection framework ideal for scalable enterprise APIs. |
-| **Database** | **PostgreSQL + PostGIS** | Authoritative data store. PostGIS powers native geographic queries (radius searches, coordinate mapping). |
-| **ORM** | **Prisma Client** | Type-safe queries, migration flows, and validation rules. |
-| **Cache & Pub/Sub** | **Redis** | In-memory storage for high-frequency GTFS-RT updates and message distribution. |
-| **Environment** | **Docker & Compose** | Consistent developer and container staging configurations. |
+*   **Layer 0: Transit Knowledge & Calibration Platform**: Owns document ingestion (Categories A–I + X), extraction pipelines, the Transit Data Synthesis Engine (TDSE), provenance tracking (`ProvenanceRecord`), confidence scoring, and the Calibration Warehouse.
+*   **Layer 1: Transit Data Platform**: Owns GTFS Schedule feeds, GTFS-Realtime telemetry, Canonical Transit Model (CTM v1.0), PostgreSQL + PostGIS spatial persistence, Redis caching, and public REST/WebSocket APIs.
+*   **Layer 2: Transit Intelligence Platform**: Owns Dijkstra journey routing, the Prediction Engine (delay propagation), Digital Twin service, Fare Intelligence, Booking Engine, and platform analytics.
+*   **Layer 3: Transit Experience Platform**: Owns the passenger web dashboard (Next.js / MapLibre), mobile apps, smartwatch integrations (Wear OS), and voice bot prototypes (Telegram).
 
 ---
 
-## ✨ Core Features
+## 🚦 Phased Roadmap & Milestone Status
 
-*   **⚡ GTFS Static & Realtime Ingestion**: Ingests transit schedules, agencies, lines, and shape files. A dataset validation pipeline handles real-world feeds (e.g., Mumbai Metro, Kochi Metro, Delhi Metro).
-*   **📍 Spatial Database Engine**: Full geographic coordinates integration. Includes custom PostgreSQL triggers to synchronize standard Latitude/Longitude floats into native binary `geometry(Point, 4326)` columns, mapped with GIST spatial indexing.
-*   **🛣️ Journey Planning**: Graph-based transit routing engine supporting multi-line transfers, station sequences, and platform-to-platform interchange walk durations.
-*   **🏬 Indoor Station Directories**: Maps multi-level platforms, walkways, entrance coordinates, amenities (escalators, parking, ATMs), and retail vendor layout boundaries.
-*   **🤖 AI Delay Engine**: Regression algorithms that analyze historic trip discrepancies, active traffic alerts, and passenger commutes to estimate real-time delay propagation.
+```
+v0.5 (Journey API) ──> v0.5.5 (National Certification) ──> v0.6 (Passenger UI) ──> v0.6.5 (National Expansion & Calibration)
+                                                                                             │
+                                                                                             ▼
+v1.1+ (Wear OS / Ambient) <── v1.0 (Booking & ONDC) <── v0.9 (Voice & AI Gateway) <── v0.8 (Analytics) <── v0.7 (Prediction Engine)
+```
+
+| Version | Milestone Scope | Status |
+| :--- | :--- | :---: |
+| **v0.5** | Core transit database, static GTFS parser, Dijkstra pathfinding engine | ✅ Complete |
+| **v0.5.5** | National GTFS Certification (6 Metros Ingested) & CTM v1.0 Schema Freeze | ✅ Complete |
+| **v0.6** | Passenger Experience & Benchmark UI (MapLibre, Digital Twin, Step-by-Step Directions) | ✅ Complete |
+| **v0.6.5** | **National Transit Expansion & Calibration Baseline (Mumbai CTM, Pi Pipeline)** | 🚧 **Active / Next** |
+| **v0.7** | Prediction Engine & Operational Intelligence (Delays, Headways, Fleet-State Digital Twin) | ⏳ Planned |
+| **v0.8** | Analytics & Operator Intelligence (Line efficiency, congestion modeling, bottlenecks) | ⏳ Planned |
+| **v0.9** | Intelligence Gateway & Voice Laboratory (Sarvam AI STT/TTS + Telegram Voice Bot) | ⏳ Planned |
+| **v1.0** | Commerce & Booking Platform (ONDC Buyer Application Adapter, Payment Abstraction) | ⏳ Planned |
+| **v1.1+** | Ambient Computing & Advanced Interfaces (WhatsApp Business, Wear OS Smartwatch) | ⏳ Planned |
 
 ---
 
-## 📁 Repository Structure
+## 📁 Monorepo Structure
+
 ```
 MetroRadar/ (TransitOS Monorepo)
 ├── apps/
-│   ├── backend/        # NestJS API application (REST endpoints & WebSockets)
-│   └── frontend/       # Next.js web application (Interactive maps & dashboard)
+│   ├── backend/        # NestJS API application (GIS, Ingestion, Journey, Realtime, Redis)
+│   └── frontend/       # Next.js 15 App Router web application (MapLibre GL, Stitch UI)
 ├── database/
-│   └── prisma/         # Prisma Schema (schema.prisma), seed scripts (seed.ts) & migrations
-├── datasets/           # Authoritative static GTFS feeds (Delhi Metro, Kochi Metro)
-├── design/             # Unified design system parameters (colors, typography guidelines)
+│   └── prisma/         # Prisma Schema (schema.prisma), seed scripts & PostGIS migrations
+├── datasets/           # Authoritative static GTFS feeds & certification reports
+├── design/             # Unified design system parameters (colors, typography, animations)
 ├── docker/             # Container orchestration and service environment files
 ├── packages/           # Shared monorepo configuration packages
+├── API_GUIDE.md        # Comprehensive backend REST & WebSocket API guide
+├── ARCHITECTURE.md     # Deep dive systems architecture manual
+├── GTFS_SYNTHESIS.md   # Transit Data Synthesis Engine (TDSE) reference specification
 ├── PROJECT_BIBLE.md    # Master architectural reference document
-├── ROADMAP.md          # 6-Month platform roadmap and sprint schedules
-└── TODO.md             # Micro-checklist and checklist progress tracker
+├── ROADMAP.md          # Phased platform roadmap (v0.5 to v1.1+)
+└── TODO.md             # Active developer backlog and milestone checklist
 ```
-
----
-
-## 🚦 Current Progress & Status
-
-| Sprint | Version | Milestone | Status |
-| :--- | :--- | :--- | :---: |
-| **Sprint 1** | **v0.1** | Development container setups, workspace routing, monorepo linters | ✅ Complete |
-| **Sprint 2** | **v0.2** | PostGIS coordinates configuration, migration rules, Prisma seeds | ✅ Complete |
-| **Sprint 3** | **v0.3** | GTFS static ingestion pipelines, import session audit trails | ✅ Complete |
-| **Sprint 3.5** | **v0.4** | Dataset validation suite, imports (Mumbai Metro, Kochi Metro, Delhi Metro) | ✅ Complete |
-| **Sprint 4** | **v0.4.5** | Map layout renderers, station plotting, Digital Twin drawer | ✅ Complete |
-| **Sprint 5** | **v0.5** | Journey Intelligence Dijkstra pathfinder & routing API | ✅ Complete |
-| **Sprint 5.5** | **v0.5.5** | National GTFS Certification (6 Metros Ingested) & CTM v1.0 Schema Freeze | ✅ Complete |
-| **Sprint 6** | **v0.6** | Stitch Passenger Experience UI (Next.js Dashboard) | 🚧 Up Next |
-| **Sprint 7** | **v0.7** | Operational State Platform & TDSE Document Synthesis | ⏳ Planned |
-| **Sprint 8** | **v0.8** | Fare Intelligence Engine, Wallet & Booking Platform | ⏳ Planned |
-| **Sprint 9** | **v0.9** | AI & Language Gateway (Sarvam AI speech/translation) | ⏳ Planned |
-| **Sprint 10** | **v1.0** | Ambient & Smartwatch Computing | ⏳ Planned |
 
 ---
 
 ## 🏁 Getting Started
 
 ### Prerequisites
-- **Node.js** (LTS version - v18+)
-- **Docker** (Desktop or daemon with Compose installed)
-- **PostgreSQL** with **PostGIS** extension (automatic if using docker-compose)
+* **Node.js** (v18+ LTS or v20+)
+* **Docker & Docker Compose**
+* **PostgreSQL with PostGIS** (included in `docker-compose.yml`)
+* **Redis** (included in `docker-compose.yml`)
 
-### Installation
+### Installation & Quick Start
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/MetroRadar.git
-    cd MetroRadar
-    ```
-2.  **Environment Setup:**
-    Create a `.env` file in the root directory:
-    ```bash
-    cp .env.example .env
-    ```
-    Configure the variables inside `.env` to match your local setup:
-    ```env
-    DATABASE_URL="postgresql://<username>:<password>@localhost:5432/metroradar?schema=public"
-    ```
-3.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-4.  **Spin up database services:**
-    Run the database and cache services inside background containers:
-    ```bash
-    docker-compose up -d
-    ```
-5.  **Initialize Database & Seed data:**
-    Push the relational schema to the database, generate Prisma types, and seed the dummy system data:
-    ```bash
-    # Generate Prisma Client types
-    npm run db:generate
+1. **Clone repository:**
+   ```bash
+   git clone https://github.com/Gautam2665/MetroRadar.git
+   cd MetroRadar
+   ```
 
-    # Push database structure to PostgreSQL
-    npm run db:push
+2. **Environment Setup:**
+   ```bash
+   cp .env.example .env
+   ```
 
-    # Seed initial database rows (Mumbai Metro sample)
-    npx prisma db seed
-    ```
-6.  **Run Development Servers:**
-    Start backend APIs and Next.js frontend interfaces concurrently:
-    ```bash
-    # Run Backend API (NestJS)
-    npm run start:dev --workspace=apps/backend
+3. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
 
-    # Run Frontend Dashboard (Next.js)
-    npm run dev --workspace=apps/frontend
-    ```
-    - NestJS APIs will be accessible at: `http://localhost:3001`
-    - Next.js dashboard client will be accessible at: `http://localhost:3000`
+4. **Start Background Infrastructure (PostGIS & Redis):**
+   ```bash
+   docker-compose up -d
+   ```
+
+5. **Initialize Database Schema:**
+   ```bash
+   # Generate Prisma Client
+   npm run db:generate
+
+   # Push relational CTM v1.0 schema to PostGIS
+   npm run db:push
+   ```
+
+6. **Run Development Servers:**
+   ```bash
+   # Backend (NestJS on http://localhost:3001)
+   npm run start:dev --workspace=apps/backend
+
+   # Frontend (Next.js on http://localhost:3000)
+   npm run dev --workspace=apps/frontend
+   ```
 
 ---
 
-## 🗺️ Master Documentation References
-- [ARCHITECTURE.md](./ARCHITECTURE.md) - Deep dive into systems design, data flow, GeoJSON philosophy, and caching strategy.
-- [PROJECT_BIBLE.md](./PROJECT_BIBLE.md) - Master architectural reference document, design guidelines, coding principles.
-- [ROADMAP.md](./ROADMAP.md) - Full 6-month vision breakdown and sprint schedules.
-- [TODO.md](./TODO.md) - Active developer checklist and backlog status tracker.
+## 🧪 Testing & Verification
+
+```bash
+# Run backend unit tests (24/24 tests)
+npm run test --workspace=apps/backend
+
+# Run backend end-to-end tests
+npm run test:e2e --workspace=apps/backend
+
+# Run monorepo linting
+npm run lint
+
+# TypeScript verification
+npx tsc --noEmit --project apps/backend/tsconfig.json
+npx tsc --noEmit --project apps/frontend/tsconfig.json
+```
+
+---
+
+## 📖 Master Documentation
+* [ARCHITECTURE.md](./ARCHITECTURE.md) — Master systems architecture manual
+* [PROJECT_BIBLE.md](./PROJECT_BIBLE.md) — Permanent architectural reference & governance
+* [ROADMAP.md](./ROADMAP.md) — Phased platform roadmap (v0.5 to v1.1+)
+* [GTFS_SYNTHESIS.md](./GTFS_SYNTHESIS.md) — Transit Data Synthesis Engine (TDSE) specification
+* [API_GUIDE.md](./API_GUIDE.md) — Backend API reference guide
+* [TODO.md](./TODO.md) — Active developer backlog tracker
