@@ -176,6 +176,7 @@ export function JourneyPlannerView({
           {/* Swap button */}
           <button
             onClick={onSwap}
+            suppressHydrationWarning
             className="absolute right-2 top-1/2 -translate-y-1/2 z-40 w-7 h-7 rounded-full bg-[#181d28] border border-white/15 flex items-center justify-center text-[#bac9cc] hover:text-[#00e5ff] hover:border-[#00e5ff]/50 transition-all shadow-md active:scale-95"
             title="Swap"
           >

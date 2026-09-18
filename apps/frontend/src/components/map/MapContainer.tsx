@@ -655,6 +655,7 @@ export default function MapContainer({
       <div className="absolute top-4 right-4 z-20 flex flex-col space-y-1.5 bg-zinc-950/80 border border-zinc-800/80 backdrop-blur-md p-1.5 rounded-2xl shadow-2xl">
         <button
           onClick={handleZoomIn}
+          suppressHydrationWarning
           className="h-8 w-8 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white flex items-center justify-center transition border border-zinc-800/60 font-bold text-sm"
           title="Zoom In"
         >
@@ -662,6 +663,7 @@ export default function MapContainer({
         </button>
         <button
           onClick={handleZoomOut}
+          suppressHydrationWarning
           className="h-8 w-8 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white flex items-center justify-center transition border border-zinc-800/60 font-bold text-sm"
           title="Zoom Out"
         >
@@ -669,6 +671,7 @@ export default function MapContainer({
         </button>
         <button
           onClick={handleResetNorth}
+          suppressHydrationWarning
           className="h-8 w-8 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white flex items-center justify-center transition border border-zinc-800/60"
           title="Reset Bearing"
         >
@@ -680,6 +683,7 @@ export default function MapContainer({
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center p-1 bg-zinc-950/80 border border-zinc-800/80 backdrop-blur-md rounded-2xl shadow-2xl space-x-1 text-xs">
         <button
           onClick={() => setMapStyle("3D")}
+          suppressHydrationWarning
           className={`px-3 py-1.5 rounded-xl font-bold transition ${
             mapStyle === "3D" ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-400 hover:text-zinc-200"
           }`}
@@ -688,6 +692,7 @@ export default function MapContainer({
         </button>
         <button
           onClick={() => setMapStyle("Satellite")}
+          suppressHydrationWarning
           className={`px-3 py-1.5 rounded-xl font-bold transition ${
             mapStyle === "Satellite" ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-400 hover:text-zinc-200"
           }`}
@@ -696,6 +701,7 @@ export default function MapContainer({
         </button>
         <button
           onClick={() => setMapStyle("Dark")}
+          suppressHydrationWarning
           className={`px-3 py-1.5 rounded-xl font-bold transition ${
             mapStyle === "Dark" ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-400 hover:text-zinc-200"
           }`}

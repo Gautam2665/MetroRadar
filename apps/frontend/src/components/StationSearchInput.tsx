@@ -104,6 +104,7 @@ export function StationSearchInput({
         onFocus={handleFocus}
         placeholder={placeholder}
         autoComplete="off"
+        suppressHydrationWarning
         className={
           inputClassName ||
           "w-full bg-[#1c2028]/80 border border-white/10 rounded-xl py-2.5 pl-4 pr-4 text-sm text-[#dfe2ee] placeholder:text-[#bac9cc]/50 focus:outline-none focus:border-[#00e5ff] focus:ring-1 focus:ring-[#00e5ff] transition-all"
