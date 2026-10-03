@@ -51,6 +51,8 @@ type MapContainerProps = {
   highlightGeojson?: GeoJSON.FeatureCollection | null;
   journeyGeojson?: GeoJSON.FeatureCollection | null;
   selectedCandidate?: RouteOption | null;
+  selectedCandidateId?: string | null;
+  candidates?: RouteOption[];
 };
 
 export default function MapContainer({

@@ -155,7 +155,7 @@ export function Header({ activeCity = "delhi", onCityChange, onSelectStation }: 
             <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#ffb4ab] rounded-full" />
           </Link>
           <div className="w-8 h-8 rounded-full overflow-hidden border border-white/10">
-            <img unoptimized
+            <img
               alt="Gautam Mulay Avatar"
               className="w-full h-full object-cover"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuC28bNDbt1eYF5GFk5J8vr0g9_MjbfaNe6NI7CVAYFFyqdFnGjQRpMW93Go6mxvoRAfQg0Bv9eYl9sHjlJxehFWTWeIuIx-YK9vUcMB3sU5LMUGjPWjzzXq0n50Wrb3xY-9dt3o2Yujcgwv8r9NPskDFyp4hSt02EerwBGG9W1xgbO0fQ7wk4BHLm0nP7tZGCW5lihiUh73Kz1SnPAOq86067_XmtlJg7uc5qPLYXG0HhZUkk4HMGZf"
