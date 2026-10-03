@@ -2,8 +2,8 @@
   "systemCode": "MMRDA_LINE3",
   "systemName": "Mumbai Metro Line 3 (Aqua Line)",
   "city": "Mumbai",
-  "sourceRegistryVersion": "1.1.0",
-  "lastUpdated": "2026-10-03",
+  "sourceRegistryVersion": "1.2.0",
+  "lastUpdated": "2026-10-04",
   "description": "Authoritative TransitOS Source Registry for Mumbai Metro Line 3",
   "sources": [
     {
@@ -22,13 +22,7 @@
       "sizeBytes": 32765016,
       "confidenceBaseline": 1.0,
       "status": "VERIFIED_PRIMARY",
-      "categoriesCovered": [
-        "A_NETWORK",
-        "B_STATION",
-        "C_OPERATIONS",
-        "D_ROLLING_STOCK",
-        "E_SIGNALLING"
-      ],
+      "categoriesCovered": ["A_NETWORK", "B_STATION", "C_OPERATIONS", "D_ROLLING_STOCK", "E_SIGNALLING"],
       "notes": "Authoritative primary source for alignment, station sequence, chainage, inter-station distances, vertical profiles, track design parameters, and physical station layouts."
     },
     {
@@ -47,11 +41,7 @@
       "sizeBytes": 822431,
       "confidenceBaseline": 0.6,
       "status": "RESEARCH_AID_ONLY",
-      "categoriesCovered": [
-        "A_NETWORK",
-        "C_OPERATIONS",
-        "F_GIS"
-      ],
+      "categoriesCovered": ["A_NETWORK", "C_OPERATIONS", "F_GIS"],
       "notes": "Secondary reference document. NOT allowed to directly populate CTM or Category C evidence without primary verification."
     },
     {
@@ -70,13 +60,59 @@
       "sizeBytes": 6271032,
       "confidenceBaseline": 1.0,
       "status": "VERIFIED_PRIMARY",
-      "categoriesCovered": [
-        "C_OPERATIONS",
-        "D_ROLLING_STOCK",
-        "E_SIGNALLING",
-        "H_HISTORICAL"
+      "categoriesCovered": ["C_OPERATIONS", "D_ROLLING_STOCK", "E_SIGNALLING", "H_HISTORICAL"],
+      "notes": "Official JICA/MMRC Operations & Maintenance Feasibility & Implementation Report."
+    },
+    {
+      "sourceId": "SOURCE-004",
+      "title": "Mumbai Metro Line 3 — Community GIS Repository (Kaizen711)",
+      "shortName": "Community GIS — Line 3 Station Points & Alignment",
+      "publisher": "Kaizen711 (GitHub contributor)",
+      "authority": "COMMUNITY / THIRD_PARTY",
+      "authorityLevel": "COMMUNITY",
+      "type": "GIS_COMMUNITY",
+      "sourceUrl": "https://github.com/Kaizen711/Mumbai-metro-Line-3",
+      "documentPath": "sources/gis/line-03/community/",
+      "publicationDate": "UNKNOWN",
+      "format": "GeoJSON-in-JS (CRS84 / WGS84 — QGIS-exported EPSG:4326)",
+      "confidenceBaseline": 0.75,
+      "status": "REGISTERED_VERIFIED_FORMAT",
+      "categoriesCovered": ["F_GIS", "A_NETWORK"],
+      "assetsRegistered": [
+        "Shape_layers/Line_3_Station.js — 28 station Point features (EPSG:4326, [lon, lat, 0.0])",
+        "Shape_layers/Line_3_aligment.js — 2 MultiLineString features: main alignment (28,641 vertices, Cuffe Parade to Aarey Depot) + Navy Nagar spur (15 vertices)"
       ],
-      "notes": "Official JICA/MMRC Operations & Maintenance Feasibility & Implementation Report covering train operation planning, signaling parameters, fleet allocations, turn-around operations, and O&M structures."
+      "validationRequiredAgainst": ["SOURCE-001 DPR station chainages", "SOURCE-005 Wayfinder positions"],
+      "acquisitionState": "REGISTERED",
+      "coordinateVerified": true,
+      "coordinateSystem": "EPSG:4326 (WGS84) — confirmed by QGIS .qmd metadata files in repository",
+      "stationCount": 28,
+      "alignmentVertices": 28641,
+      "notes": "Provides 28 station WGS84 coordinates and a 28,641-vertex alignment geometry — the two critical P0 GIS gaps for Line 3. Format confirmed as QGIS-exported GeoJSON (CRS84). Station list includes DPR names (some tentative 2011 names vs 2024 operational names). Must be validated before CTM promotion. Confidence capped at 0.75 as community source."
+    },
+    {
+      "sourceId": "SOURCE-005",
+      "title": "MMRCL Wayfinder — Official Mumbai Metro Line 3 Station Maps and Accessibility Information",
+      "shortName": "MMRCL Wayfinder (operator web GIS)",
+      "publisher": "Mumbai Metro Rail Corporation Limited (MMRCL) / Bhugoal Apps",
+      "authority": "MMRCL (Operator)",
+      "authorityLevel": "OPERATOR_OFFICIAL",
+      "type": "OPERATOR_WEB_GIS",
+      "sourceUrl": "https://wayfinder.bhugolapps.com/home",
+      "documentPath": "sources/gis/line-03/wayfinder/",
+      "publicationDate": "ONGOING",
+      "format": "Interactive Web Application / API",
+      "confidenceBaseline": 0.9,
+      "status": "REGISTERED_UNACQUIRED",
+      "categoriesCovered": ["B_STATION", "F_GIS"],
+      "assetsExpected": [
+        "Station entrance/exit gate positions",
+        "Lift and escalator positions",
+        "Platform map geometry",
+        "Nearby places and intermodal connections"
+      ],
+      "acquisitionState": "REGISTERED",
+      "notes": "Operator-facing interactive station map. Highest-authority source for B-category GIS gaps: entrance coordinates, lift positions, platform layouts. Addresses knowledge gaps: GAP-L3-B-001, GAP-L3-B-002, GAP-L3-B-003."
     }
   ]
 }

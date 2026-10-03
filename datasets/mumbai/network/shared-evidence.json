@@ -1,0 +1,216 @@
+{
+  "networkId": "MUMBAI_METRO",
+  "schemaVersion": "tdse-shared-evidence-v1",
+  "createdAt": "2026-10-04",
+  "description": "Shared system-level evidence for the Mumbai Metro network. Records here apply to multiple lines and must NOT be duplicated into per-line evidence directories. Reference via applicabilityRef in line-level evidence.",
+
+  "sharedEvidence": [
+
+    {
+      "evidenceId": "E-NET-SYS-001",
+      "category": "SYSTEM",
+      "entityType": "signalling_system",
+      "entityKey": "MUMBAI_METRO_CBTC_MMRDA_LINES",
+      "attribute": "signalling_technology",
+      "value": "CBTC (Communications-Based Train Control)",
+      "applicableTo": ["MUMBAI_LINE2A", "MUMBAI_LINE2B", "MUMBAI_LINE7"],
+      "source": {
+        "sourceId": "SRC-NET-006",
+        "document": "MMRDA operator publications / press releases",
+        "notes": "MMRDA Lines 2A, 2B, 7 commissioned with CBTC signalling"
+      },
+      "evidenceType": "DIRECT",
+      "temporalStatus": "OPERATIONAL",
+      "confidence": 0.85,
+      "extractionMethod": "OPERATOR_PUBLICATION",
+      "priority": "P1",
+      "status": "UNVALIDATED",
+      "extractedAt": "2026-10-04"
+    },
+
+    {
+      "evidenceId": "E-NET-SYS-002",
+      "category": "SYSTEM",
+      "entityType": "signalling_system",
+      "entityKey": "MUMBAI_LINE3_CBTC",
+      "attribute": "signalling_technology",
+      "value": "CBTC — Communication-Based Train Control (Alstom/Siemens)",
+      "applicableTo": ["MUMBAI_LINE3"],
+      "source": {
+        "sourceId": "SRC-NET-001",
+        "document": "dpr-metro-line-III.pdf",
+        "section": "Rolling Stock / Signalling chapter",
+        "notes": "Line 3 DPR specifies CBTC signalling system"
+      },
+      "evidenceType": "DIRECT",
+      "temporalStatus": "PROPOSED",
+      "confidence": 1.0,
+      "extractionMethod": "DPR_EXTRACTION",
+      "priority": "P1",
+      "status": "VALIDATED",
+      "extractedAt": "2026-10-04"
+    },
+
+    {
+      "evidenceId": "E-NET-SYS-003",
+      "category": "SYSTEM",
+      "entityType": "power_supply_system",
+      "entityKey": "MUMBAI_METRO_25KV_AC_FAMILY",
+      "attribute": "power_supply_standard",
+      "value": "25kV AC 50Hz overhead catenary (OHE)",
+      "applicableTo": ["MUMBAI_LINE2A", "MUMBAI_LINE2B", "MUMBAI_LINE3", "MUMBAI_LINE4", "MUMBAI_LINE5", "MUMBAI_LINE6", "MUMBAI_LINE7", "MUMBAI_LINE7A", "MUMBAI_LINE8", "MUMBAI_LINE9"],
+      "source": {
+        "sourceId": "SRC-NET-001",
+        "document": "dpr-metro-line-III.pdf",
+        "notes": "25kV AC system confirmed for Line 3 DPR. MMRDA network standardised on same supply system."
+      },
+      "evidenceType": "DIRECT",
+      "temporalStatus": "PROPOSED",
+      "confidence": 0.9,
+      "extractionMethod": "DPR_AND_OPERATOR_CROSS_REFERENCE",
+      "priority": "P1",
+      "applicabilityNote": "Line 1 uses 750V DC third rail — specifically excluded. All MMRDA corridor lines use 25kV AC.",
+      "status": "UNVALIDATED",
+      "extractedAt": "2026-10-04"
+    },
+
+    {
+      "evidenceId": "E-NET-SYS-004",
+      "category": "SYSTEM",
+      "entityType": "power_supply_system",
+      "entityKey": "MUMBAI_LINE1_DC_THIRD_RAIL",
+      "attribute": "power_supply_standard",
+      "value": "750V DC third rail",
+      "applicableTo": ["MUMBAI_LINE1"],
+      "source": {
+        "sourceId": "SRC-NET-005",
+        "document": "MMOPL operator info",
+        "notes": "Mumbai Metro Line 1 (Versova–Ghatkopar) uses DC third rail, different technology family from MMRDA lines"
+      },
+      "evidenceType": "DIRECT",
+      "temporalStatus": "OPERATIONAL",
+      "confidence": 0.85,
+      "extractionMethod": "OPERATOR_PUBLICATION",
+      "priority": "P1",
+      "status": "UNVALIDATED",
+      "extractedAt": "2026-10-04"
+    },
+
+    {
+      "evidenceId": "E-NET-SYS-005",
+      "category": "SYSTEM",
+      "entityType": "gauge",
+      "entityKey": "MUMBAI_METRO_STANDARD_GAUGE",
+      "attribute": "track_gauge_mm",
+      "value": 1435,
+      "unit": "mm",
+      "applicableTo": ["MUMBAI_LINE1", "MUMBAI_LINE2A", "MUMBAI_LINE2B", "MUMBAI_LINE3", "MUMBAI_LINE4", "MUMBAI_LINE5", "MUMBAI_LINE6", "MUMBAI_LINE7", "MUMBAI_LINE7A", "MUMBAI_LINE8", "MUMBAI_LINE9"],
+      "source": {
+        "sourceId": "SRC-NET-001",
+        "document": "dpr-metro-line-III.pdf",
+        "notes": "Line 3 DPR specifies standard gauge 1435mm. All Mumbai Metro lines built to standard gauge."
+      },
+      "evidenceType": "DIRECT",
+      "temporalStatus": "OPERATIONAL",
+      "confidence": 0.95,
+      "extractionMethod": "DPR_AND_NETWORK_STANDARD",
+      "priority": "P0",
+      "status": "UNVALIDATED",
+      "extractedAt": "2026-10-04"
+    },
+
+    {
+      "evidenceId": "E-NET-SYS-006",
+      "category": "SYSTEM",
+      "entityType": "rolling_stock_family",
+      "entityKey": "ALSTOM_METROPOLIS_MUMBAI_LINE3",
+      "attribute": "rolling_stock_manufacturer_family",
+      "value": "Alstom Metropolis 8-car formation (stainless steel, 3-phase VVVF AC)",
+      "applicableTo": ["MUMBAI_LINE3"],
+      "source": {
+        "sourceId": "SRC-NET-001",
+        "document": "dpr-metro-line-III.pdf",
+        "section": "Section 0.3.6, Table 0.4"
+      },
+      "evidenceType": "DIRECT",
+      "temporalStatus": "PROPOSED",
+      "confidence": 1.0,
+      "extractionMethod": "DPR_EXTRACTION",
+      "priority": "P2",
+      "deepEvidenceRef": "datasets/mumbai/evidence/D-rolling-stock-evidence.json",
+      "applicabilityNote": "Line 3 has full D-evidence (61 records). If Lines 2A/2B/7 use same Alstom family, reference this with adjusted applicabilityRef rather than re-extracting.",
+      "status": "VALIDATED",
+      "extractedAt": "2026-10-04"
+    },
+
+    {
+      "evidenceId": "E-NET-SYS-007",
+      "category": "SYSTEM",
+      "entityType": "rolling_stock_family",
+      "entityKey": "ALSTOM_METROPOLIS_MMRDA_FAMILY",
+      "attribute": "rolling_stock_manufacturer_family",
+      "value": "Alstom Metropolis 6-car formation (MMRDA Lines 2A/2B/7)",
+      "applicableTo": ["MUMBAI_LINE2A", "MUMBAI_LINE2B", "MUMBAI_LINE7"],
+      "source": {
+        "sourceId": "SRC-NET-007",
+        "document": "Alstom / MMRDA press releases / community sources",
+        "notes": "Lines 2A, 2B, 7 operate Alstom Metropolis trainsets — 6-car formation vs Line 3's 8-car"
+      },
+      "evidenceType": "DIRECT",
+      "temporalStatus": "OPERATIONAL",
+      "confidence": 0.75,
+      "extractionMethod": "COMMUNITY_SECONDARY",
+      "priority": "P2",
+      "applicabilityNote": "Extract D-rolling-stock evidence ONCE for this family and reference from all three lines. Do not create separate D files for 2A, 2B, and 7.",
+      "status": "UNVALIDATED",
+      "extractedAt": "2026-10-04"
+    },
+
+    {
+      "evidenceId": "E-NET-SYS-008",
+      "category": "SYSTEM",
+      "entityType": "platform_standard",
+      "entityKey": "MUMBAI_METRO_STANDARD_PLATFORM",
+      "attribute": "platform_screen_doors",
+      "value": true,
+      "unit": "boolean",
+      "applicableTo": ["MUMBAI_LINE1", "MUMBAI_LINE2A", "MUMBAI_LINE2B", "MUMBAI_LINE3", "MUMBAI_LINE7"],
+      "source": {
+        "sourceId": "SRC-NET-001",
+        "document": "dpr-metro-line-III.pdf",
+        "section": "Chapter 5 station infrastructure",
+        "notes": "Line 3 DPR specifies Platform Screen Doors throughout. MMRDA operational lines 2A/2B/7 also have PSD standard."
+      },
+      "evidenceType": "DIRECT",
+      "temporalStatus": "OPERATIONAL",
+      "confidence": 0.9,
+      "extractionMethod": "DPR_AND_OPERATOR_CROSS_REFERENCE",
+      "priority": "P1",
+      "status": "UNVALIDATED",
+      "extractedAt": "2026-10-04"
+    },
+
+    {
+      "evidenceId": "E-NET-SYS-009",
+      "category": "SYSTEM",
+      "entityType": "fare_system",
+      "entityKey": "MUMBAI_METRO_SMARTCARD",
+      "attribute": "contactless_smartcard_system",
+      "value": "Mumbai Metro Smartcard (open-loop + proprietary)",
+      "applicableTo": ["MUMBAI_LINE1", "MUMBAI_LINE2A", "MUMBAI_LINE2B", "MUMBAI_LINE3", "MUMBAI_LINE7"],
+      "source": {
+        "sourceId": "SRC-NET-005",
+        "document": "MMOPL / MMRDA operator publications",
+        "notes": "All operational Mumbai metro lines accept contactless smartcard; interoperability across lines under development"
+      },
+      "evidenceType": "DIRECT",
+      "temporalStatus": "OPERATIONAL",
+      "confidence": 0.8,
+      "extractionMethod": "OPERATOR_PUBLICATION",
+      "priority": "P1",
+      "applicabilityNote": "Fare interoperability across Lines 1/2A/2B/3/7 is not fully confirmed — this records that each line has its own card system; cross-line interoperability is a known gap.",
+      "status": "UNVALIDATED",
+      "extractedAt": "2026-10-04"
+    }
+  ]
+}

@@ -117,8 +117,36 @@ function summarizeCategory(records, gaps, catName) {
   };
 }
 
+function validateGisEvidence(records) {
+  const errors = [];
+  const warnings = [];
+  for (const r of records) {
+    if (!r.evidenceId) errors.push({ evidenceId: 'UNKNOWN', message: 'GIS record missing evidenceId' });
+    if (!r.entityKey) errors.push({ evidenceId: r.evidenceId, message: 'GIS record missing entityKey' });
+    if (!r.attribute) errors.push({ evidenceId: r.evidenceId, message: 'GIS record missing attribute' });
+    if (!r.source || !r.source.sourceId) errors.push({ evidenceId: r.evidenceId, message: 'GIS record missing source.sourceId' });
+    if (r.confidence < 0 || r.confidence > 1) errors.push({ evidenceId: r.evidenceId, message: `Confidence ${r.confidence} out of range` });
+    if (r.validationStatus === 'VALIDATED' && r.confidence < 0.75) {
+      warnings.push({ evidenceId: r.evidenceId, message: 'VALIDATED GIS record has low confidence < 0.75' });
+    }
+    if (!r.temporalStatus) {
+      warnings.push({ evidenceId: r.evidenceId, message: 'GIS record missing temporalStatus — UNKNOWN recommended for unverified community geometry' });
+    }
+  }
+  return { valid: errors.length === 0, errors, warnings };
+}
+
+function networkReadinessSummary(lineRegistry) {
+  const lines = lineRegistry.lines || [];
+  const operational = lines.filter(l => l.operationalStatus === 'OPERATIONAL');
+  const partialOp = lines.filter(l => l.operationalStatus === 'PARTIAL');
+  const ctmReady = lines.filter(l => l.ctmReady === true);
+  const ctmBlocked = lines.filter(l => !l.ctmReady);
+  return { total: lines.length, operational: operational.length, partiallyOperational: partialOp.length, ctmReady: ctmReady.length, ctmBlocked: ctmBlocked.length, lines };
+}
+
 function main() {
-  console.log('\n🔬 TDSE Evidence System — Sprint v0.6.5 Audit');
+  console.log('\n🔬 TDSE Evidence System — Sprint v0.6.5-E Audit');
   console.log('────────────────────────────────────────────────────────────');
 
   const sourcesPath = path.resolve('datasets/mumbai/sources/catalog.json');
@@ -126,7 +154,11 @@ function main() {
   const evidenceBPath = path.resolve('datasets/mumbai/evidence/B-station-infrastructure-evidence.json');
   const evidenceCPath = path.resolve('datasets/mumbai/evidence/C-operations-evidence.json');
   const evidenceDPath = path.resolve('datasets/mumbai/evidence/D-rolling-stock-evidence.json');
+  const evidenceFPath = path.resolve('datasets/mumbai/evidence/F-gis-evidence.json');
   const gapsPath = path.resolve('datasets/mumbai/evidence/knowledge-gaps.json');
+  const lineRegistryPath = path.resolve('datasets/mumbai/network/line-registry.json');
+  const sharedEvidencePath = path.resolve('datasets/mumbai/network/shared-evidence.json');
+  const networkSourceRegistryPath = path.resolve('datasets/mumbai/network/source-registry.json');
 
   if (!fs.existsSync(sourcesPath)) {
     console.error('❌ Source catalog file not found.');
@@ -138,55 +170,87 @@ function main() {
   const recordsB = fs.existsSync(evidenceBPath) ? JSON.parse(fs.readFileSync(evidenceBPath, 'utf-8')) : [];
   const recordsC = fs.existsSync(evidenceCPath) ? JSON.parse(fs.readFileSync(evidenceCPath, 'utf-8')) : [];
   const recordsD = fs.existsSync(evidenceDPath) ? JSON.parse(fs.readFileSync(evidenceDPath, 'utf-8')) : [];
-  const allRecords = [...recordsA, ...recordsB, ...recordsC, ...recordsD];
+  const recordsF = fs.existsSync(evidenceFPath) ? JSON.parse(fs.readFileSync(evidenceFPath, 'utf-8')) : [];
+  const sharedEvidence = fs.existsSync(sharedEvidencePath) ? JSON.parse(fs.readFileSync(sharedEvidencePath, 'utf-8')) : { sharedEvidence: [] };
+  const allLine3Records = [...recordsA, ...recordsB, ...recordsC, ...recordsD];
   const knowledgeGaps = fs.existsSync(gapsPath) ? JSON.parse(fs.readFileSync(gapsPath, 'utf-8')) : [];
+  const lineRegistry = fs.existsSync(lineRegistryPath) ? JSON.parse(fs.readFileSync(lineRegistryPath, 'utf-8')) : null;
+  const networkSources = fs.existsSync(networkSourceRegistryPath) ? JSON.parse(fs.readFileSync(networkSourceRegistryPath, 'utf-8')) : null;
 
-  console.log(`📋 Source Catalog`);
+  console.log(`📋 Line 3 Source Catalog (${sourcesCatalog.sources.length} sources)`);
   for (const s of sourcesCatalog.sources) {
     console.log(`   [${s.sourceId}] ${s.shortName} (${s.authorityLevel}) — ${s.type}`);
   }
 
-  const resAll = validateEvidence(allRecords, sourcesCatalog.sources);
+  const resAll = validateEvidence(allLine3Records, sourcesCatalog.sources);
+  const resGis = validateGisEvidence(recordsF);
 
   const sumA = summarizeCategory(recordsA, knowledgeGaps, 'A');
   const sumB = summarizeCategory(recordsB, knowledgeGaps, 'B');
   const sumC = summarizeCategory(recordsC, knowledgeGaps, 'C');
   const sumD = summarizeCategory(recordsD, knowledgeGaps, 'D');
 
-  console.log('\n' + '─'.repeat(60));
-  console.log('CATEGORY D — ROLLING STOCK EVIDENCE AUDIT REPORT');
-  console.log('─'.repeat(60));
-  console.log(`  Total extracted facts : ${sumD.total}`);
-  console.log(`\n  Evidence Type`);
-  console.log(`    DIRECT              : ${sumD.direct}`);
-  console.log(`    DERIVED             : ${sumD.derived}`);
-  console.log(`    ESTIMATED           : ${sumD.estimated}`);
-  console.log(`\n  Temporal Status`);
-  console.log(`    PROPOSED            : ${sumD.temporalCounts.PROPOSED}`);
-  console.log(`    APPROVED            : ${sumD.temporalCounts.APPROVED}`);
-  console.log(`    UNDER_CONSTRUCTION  : ${sumD.temporalCounts.UNDER_CONSTRUCTION}`);
-  console.log(`    OPERATIONAL         : ${sumD.temporalCounts.OPERATIONAL}`);
-  console.log(`    HISTORICAL          : ${sumD.temporalCounts.HISTORICAL}`);
-  console.log(`    UNKNOWN             : ${sumD.temporalCounts.UNKNOWN}`);
-  console.log(`\n  Knowledge Gaps`);
-  console.log(`    D-specific gaps     : ${sumD.gapsCount}`);
-  console.log(`\n  Validation Results`);
-  console.log(`    Errors              : ${resAll.errors.length}`);
-  console.log(`    Warnings            : ${resAll.warnings.length}`);
+  // GIS evidence summary
+  let gisVerified = 0, gisUnverified = 0;
+  for (const r of recordsF) {
+    if (r.validationStatus === 'VERIFIED') gisVerified++;
+    else gisUnverified++;
+  }
 
   console.log('\n' + '─'.repeat(60));
-  console.log('OVERALL EVIDENCE LAYER SUMMARY (A + B + C + D)');
+  console.log('CATEGORY F — GIS EVIDENCE AUDIT (Line 3)');
+  console.log('─'.repeat(60));
+  console.log(`  Total GIS records       : ${recordsF.length}`);
+  console.log(`    Station points        : ${recordsF.filter(r => r.entityType === 'station_point').length}`);
+  console.log(`    Alignment geometries  : ${recordsF.filter(r => r.entityType === 'alignment_geometry').length}`);
+  console.log(`    Verified              : ${gisVerified}`);
+  console.log(`    Unverified (pending)  : ${gisUnverified}`);
+  console.log(`  GIS Errors              : ${resGis.errors.length}`);
+  console.log(`  GIS Warnings            : ${resGis.warnings.length}`);
+
+  if (lineRegistry) {
+    const net = networkReadinessSummary(lineRegistry);
+    const sharedCount = sharedEvidence.sharedEvidence ? sharedEvidence.sharedEvidence.length : 0;
+    const netSourceCount = networkSources && networkSources.sources ? networkSources.sources.length : 0;
+
+    console.log('\n' + '─'.repeat(60));
+    console.log('NETWORK REGISTRY SUMMARY (All Mumbai Metro Lines)');
+    console.log('─'.repeat(60));
+    console.log(`  Total lines registered    : ${net.total}`);
+    console.log(`  Fully operational         : ${net.operational}`);
+    console.log(`  Partially operational     : ${net.partiallyOperational}`);
+    console.log(`  CTM-ready lines           : ${net.ctmReady}`);
+    console.log(`  CTM-blocked lines         : ${net.ctmBlocked}`);
+    console.log(`\n  Network source registry   : ${netSourceCount} sources registered`);
+    console.log(`  Shared system evidence    : ${sharedCount} records (multi-line applicability)`);
+    console.log('\n  CTM Blockers per line:');
+    net.lines.forEach(l => {
+      if (!l.ctmReady) {
+        console.log(`    [${l.localDesignation.padEnd(8)}] ${(l.operationalStatus || '').padEnd(20)} ${l.ctmBlocker || 'UNSPECIFIED'}`);
+      }
+    });
+  }
+
+  console.log('\n' + '─'.repeat(60));
+  console.log('OVERALL EVIDENCE LAYER SUMMARY — Line 3 (A + B + C + D + F)');
   console.log('─'.repeat(60));
   console.log(`  Category A (Network Topology)              : ${sumA.total} facts (${sumA.gapsCount} gaps)`);
   console.log(`  Category B (Station Infrastructure)        : ${sumB.total} facts (${sumB.gapsCount} gaps)`);
   console.log(`  Category C (Operations)                    : ${sumC.total} facts (${sumC.gapsCount} gaps)`);
   console.log(`  Category D (Rolling Stock)                 : ${sumD.total} facts (${sumD.gapsCount} gaps)`);
-  console.log(`  Total Validated Evidence Records           : ${allRecords.length} records`);
+  console.log(`  Category F (GIS Evidence)                  : ${recordsF.length} records (${gisUnverified} unverified)`);
+  console.log(`  Total Line 3 Evidence Records              : ${allLine3Records.length + recordsF.length} records`);
   console.log(`  Coverage Metric                            : NOT SCORED (Unweighted counts only)\n`);
 
-  if (!resAll.valid) {
+  const totalErrors = resAll.errors.length + resGis.errors.length;
+  if (totalErrors > 0) {
+    console.error(`❌ ${totalErrors} validation error(s) found.`);
     process.exit(1);
   }
+  console.log('✅ Validation passed — 0 errors.\n');
 }
 
 main();
+
+
+

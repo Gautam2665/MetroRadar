@@ -1,0 +1,278 @@
+{
+  "networkId": "MUMBAI_METRO",
+  "version": "1.0.0",
+  "lastUpdated": "2026-10-04",
+  "description": "Consolidated knowledge gaps across all Mumbai Metro lines. Categorized by Line ID, Priority (P0-P3), and Impact Severity.",
+  "gapsByLine": {
+    "MUMBAI_LINE1": [
+      {
+        "gapId": "GAP-L1-P0-001",
+        "lineId": "MUMBAI_LINE1",
+        "priority": "P0",
+        "category": "F_GIS",
+        "attribute": "station_coordinates_wgs84",
+        "reason": "Accurate WGS84 coordinates for 12 operational stations currently depend on OSM/community data; official surveyor or operator GIS not yet ingested.",
+        "impactSeverity": "HIGH",
+        "blocksCTM": true,
+        "potentialSources": ["OSM", "OPERATOR_SURVEY"]
+      },
+      {
+        "gapId": "GAP-L1-P1-002",
+        "lineId": "MUMBAI_LINE1",
+        "priority": "P1",
+        "category": "C_OPERATIONS",
+        "attribute": "stop_times_timetable",
+        "reason": "MMOPL published timetable needs extraction for exact first/last train times and peak/off-peak frequency intervals.",
+        "impactSeverity": "HIGH",
+        "blocksCTM": false,
+        "potentialSources": ["SRC-NET-005"]
+      },
+      {
+        "gapId": "GAP-L1-P1-003",
+        "lineId": "MUMBAI_LINE1",
+        "priority": "P1",
+        "category": "G_FARE",
+        "attribute": "fare_structure_matrix",
+        "reason": "Complete station-to-station fare matrix for MMOPL single journey and smartcard tariffs.",
+        "impactSeverity": "MEDIUM",
+        "blocksCTM": false,
+        "potentialSources": ["SRC-NET-005"]
+      }
+    ],
+    "MUMBAI_LINE2A": [
+      {
+        "gapId": "GAP-L2A-P0-001",
+        "lineId": "MUMBAI_LINE2A",
+        "priority": "P0",
+        "category": "F_GIS",
+        "attribute": "station_coordinates_wgs84",
+        "reason": "WGS84 station positions for 17 operational stations need validation against MMMOCL published network data or OSM relations.",
+        "impactSeverity": "HIGH",
+        "blocksCTM": true,
+        "potentialSources": ["OSM", "MMMOCL_OFFICIAL"]
+      },
+      {
+        "gapId": "GAP-L2A-P1-002",
+        "lineId": "MUMBAI_LINE2A",
+        "priority": "P1",
+        "category": "C_OPERATIONS",
+        "attribute": "stop_times_timetable",
+        "reason": "MMMOCL official timetable for Line 2A operational headway and first/last departures.",
+        "impactSeverity": "HIGH",
+        "blocksCTM": false,
+        "potentialSources": ["SRC-NET-006"]
+      }
+    ],
+    "MUMBAI_LINE2B": [
+      {
+        "gapId": "GAP-L2B-P0-001",
+        "lineId": "MUMBAI_LINE2B",
+        "priority": "P0",
+        "category": "F_GIS",
+        "attribute": "station_coordinates_wgs84",
+        "reason": "Coordinates required for the 6 commissioned stations (Mandale to Chembur/Diamond Garden) and remaining 16 under-construction stations.",
+        "impactSeverity": "HIGH",
+        "blocksCTM": true,
+        "potentialSources": ["OSM", "MMMOCL_OFFICIAL"]
+      },
+      {
+        "gapId": "GAP-L2B-P0-002",
+        "lineId": "MUMBAI_LINE2B",
+        "priority": "P0",
+        "category": "A_NETWORK",
+        "attribute": "operational_boundary",
+        "reason": "Exact boundary between Phase 1 (Mandale-Chembur operational) and Phase 2 (Chembur-D.N. Nagar under construction) in Journey Engine.",
+        "impactSeverity": "CRITICAL",
+        "blocksCTM": true,
+        "potentialSources": ["MMMOCL_OFFICIAL"]
+      }
+    ],
+    "MUMBAI_LINE3": [
+      {
+        "gapId": "GAP-L3-P0-001",
+        "lineId": "MUMBAI_LINE3",
+        "priority": "P0",
+        "category": "F_GIS",
+        "attribute": "gis_validation_station_and_alignment",
+        "reason": "Acquired SOURCE-004 community GIS (28 stations, 28,641 alignment vertices) requires reconciliation with SOURCE-001 DPR chainages and SOURCE-005 Wayfinder positions before CTM ingestion.",
+        "impactSeverity": "CRITICAL",
+        "blocksCTM": true,
+        "potentialSources": ["SOURCE-001", "SOURCE-005"]
+      },
+      {
+        "gapId": "GAP-L3-P1-002",
+        "lineId": "MUMBAI_LINE3",
+        "priority": "P1",
+        "category": "C_OPERATIONS",
+        "attribute": "commercial_schedule_2026",
+        "reason": "Current revenue timetable (post-Oct 2025 full opening Cuffe Parade to Aarey JVLR) needed to supersede 2011 DPR proposed schedules.",
+        "impactSeverity": "HIGH",
+        "blocksCTM": false,
+        "potentialSources": ["SRC-NET-009"]
+      },
+      {
+        "gapId": "GAP-L3-P1-003",
+        "lineId": "MUMBAI_LINE3",
+        "priority": "P1",
+        "category": "B_STATION",
+        "attribute": "wayfinder_entrance_and_lift_extraction",
+        "reason": "MMRCL Wayfinder (SRC-NET-004) has entrance/exit gates and lifts; structured data extraction required to complete Category B/F spatial model.",
+        "impactSeverity": "MEDIUM",
+        "blocksCTM": false,
+        "potentialSources": ["SRC-NET-004"]
+      }
+    ],
+    "MUMBAI_LINE4_4A": [
+      {
+        "gapId": "GAP-L4-P0-001",
+        "lineId": "MUMBAI_LINE4",
+        "priority": "P0",
+        "category": "A_NETWORK",
+        "attribute": "commissioning_readiness",
+        "reason": "Corridor is under construction. Requires monitoring of trial runs and commissioning dates before network inclusion.",
+        "impactSeverity": "LOW",
+        "blocksCTM": false,
+        "potentialSources": ["MMRDA_PRESS"]
+      }
+    ],
+    "MUMBAI_LINE5": [
+      {
+        "gapId": "GAP-L5-P0-001",
+        "lineId": "MUMBAI_LINE5",
+        "priority": "P0",
+        "category": "A_NETWORK",
+        "attribute": "commissioning_readiness",
+        "reason": "Civil construction ongoing for Phase 1 (Thane-Bhiwandi).",
+        "impactSeverity": "LOW",
+        "blocksCTM": false,
+        "potentialSources": ["MMRDA_PRESS"]
+      }
+    ],
+    "MUMBAI_LINE6": [
+      {
+        "gapId": "GAP-L6-P0-001",
+        "lineId": "MUMBAI_LINE6",
+        "priority": "P0",
+        "category": "A_NETWORK",
+        "attribute": "commissioning_readiness",
+        "reason": "Under construction. Depot location and trial timeline pending.",
+        "impactSeverity": "LOW",
+        "blocksCTM": false,
+        "potentialSources": ["MMRDA_PRESS"]
+      }
+    ],
+    "MUMBAI_LINE7": [
+      {
+        "gapId": "GAP-L7-P0-001",
+        "lineId": "MUMBAI_LINE7",
+        "priority": "P0",
+        "category": "F_GIS",
+        "attribute": "station_coordinates_wgs84",
+        "reason": "WGS84 station positions for 14 operational stations need validation against OSM relations.",
+        "impactSeverity": "HIGH",
+        "blocksCTM": true,
+        "potentialSources": ["OSM", "MMMOCL_OFFICIAL"]
+      },
+      {
+        "gapId": "GAP-L7-P1-002",
+        "lineId": "MUMBAI_LINE7",
+        "priority": "P1",
+        "category": "C_OPERATIONS",
+        "attribute": "stop_times_timetable",
+        "reason": "MMMOCL official timetable for Line 7 operational headway and first/last departures.",
+        "impactSeverity": "HIGH",
+        "blocksCTM": false,
+        "potentialSources": ["SRC-NET-006"]
+      }
+    ],
+    "MUMBAI_LINE7A": [
+      {
+        "gapId": "GAP-L7A-P0-001",
+        "lineId": "MUMBAI_LINE7A",
+        "priority": "P0",
+        "category": "A_NETWORK",
+        "attribute": "commissioning_readiness",
+        "reason": "Under construction airport spur.",
+        "impactSeverity": "LOW",
+        "blocksCTM": false,
+        "potentialSources": ["MMRDA_PRESS"]
+      }
+    ],
+    "MUMBAI_LINE8": [
+      {
+        "gapId": "GAP-L8-P0-001",
+        "lineId": "MUMBAI_LINE8",
+        "priority": "P0",
+        "category": "A_NETWORK",
+        "attribute": "dpr_statutory_clearance",
+        "reason": "Proposed high-speed airport express link. Alignment not finalized.",
+        "impactSeverity": "LOW",
+        "blocksCTM": false,
+        "potentialSources": ["CIDCO", "MMRDA"]
+      }
+    ],
+    "MUMBAI_LINE9": [
+      {
+        "gapId": "GAP-L9-P0-001",
+        "lineId": "MUMBAI_LINE9",
+        "priority": "P0",
+        "category": "F_GIS",
+        "attribute": "station_coordinates_wgs84",
+        "reason": "3 operational stations (Dahisar E to Kashigaon, opened April 2026) need official coordinates; 7 remaining stations under construction.",
+        "impactSeverity": "HIGH",
+        "blocksCTM": true,
+        "potentialSources": ["OSM", "MMMOCL_OFFICIAL"]
+      },
+      {
+        "gapId": "GAP-L9-P0-002",
+        "lineId": "MUMBAI_LINE9",
+        "priority": "P0",
+        "category": "A_NETWORK",
+        "attribute": "operational_boundary",
+        "reason": "Dahisar East to Kashigaon active; Kashigaon to Subhash Chandra Bose Stadium under construction.",
+        "impactSeverity": "HIGH",
+        "blocksCTM": true,
+        "potentialSources": ["MMMOCL_OFFICIAL"]
+      }
+    ],
+    "MUMBAI_LINE10": [
+      {
+        "gapId": "GAP-L10-P0-001",
+        "lineId": "MUMBAI_LINE10",
+        "priority": "P0",
+        "category": "A_NETWORK",
+        "attribute": "tendering_status",
+        "reason": "Proposed extension awaiting tendering.",
+        "impactSeverity": "LOW",
+        "blocksCTM": false,
+        "potentialSources": ["MMRDA"]
+      }
+    ],
+    "MUMBAI_LINE11": [
+      {
+        "gapId": "GAP-L11-P0-001",
+        "lineId": "MUMBAI_LINE11",
+        "priority": "P0",
+        "category": "A_NETWORK",
+        "attribute": "detailed_design",
+        "reason": "MMRCL conducting soil testing; detailed underground alignment in progress.",
+        "impactSeverity": "LOW",
+        "blocksCTM": false,
+        "potentialSources": ["MMRCL"]
+      }
+    ],
+    "MUMBAI_LINE12": [
+      {
+        "gapId": "GAP-L12-P0-001",
+        "lineId": "MUMBAI_LINE12",
+        "priority": "P0",
+        "category": "A_NETWORK",
+        "attribute": "construction_progress",
+        "reason": "Under construction since 2024; target 2028-2032.",
+        "impactSeverity": "LOW",
+        "blocksCTM": false,
+        "potentialSources": ["MMRDA"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "frameworkId": "TDSE_EVIDENCE_PRIORITY",
+  "version": "1.0.0",
+  "createdAt": "2026-10-04",
+  "description": "Evidence Priority taxonomy for the TransitOS Data Science & Engineering framework. Defines what must be resolved before each capability tier can be built. Applied per-line to determine CTM readiness.",
+
+  "priorities": [
+    {
+      "priority": "P0",
+      "label": "CTM Bootstrap",
+      "description": "Minimum evidence required to onboard a line into the Canonical Transit Model. No Journey Engine, no prediction, no simulation required.",
+      "requiredForCapability": "CTM_INGESTION",
+      "mustBeResolved": true,
+      "attributes": [
+        { "attribute": "line_identity", "description": "Line ID, official name, operator, owner, color" },
+        { "attribute": "station_sequence", "description": "Ordered list of stations with sequential position" },
+        { "attribute": "terminal_stations", "description": "Origin and terminal station names" },
+        { "attribute": "station_count", "description": "Total number of stations" },
+        { "attribute": "interchange_stations", "description": "Stations connecting to other lines or rail, with interchangeType" },
+        { "attribute": "operational_status", "description": "OPERATIONAL / UNDER_CONSTRUCTION / PLANNED / HISTORICAL" },
+        { "attribute": "opening_year", "description": "Year first opened to public (or null if not open)" },
+        { "attribute": "gauge", "description": "Track gauge: STANDARD_1435mm, BROAD_1676mm, NARROW, etc." },
+        { "attribute": "alignment_type", "description": "ELEVATED / UNDERGROUND / SURFACE / MIXED" },
+        { "attribute": "operator", "description": "Operating entity name" },
+        { "attribute": "source_ref", "description": "At least one source document establishing the above P0 facts" },
+        { "attribute": "temporal_status", "description": "PROPOSED / OPERATIONAL / HISTORICAL / UNDER_CONSTRUCTION" },
+        { "attribute": "station_coordinates_wgs84", "description": "WGS84 lat/lon for each station (blocks CTM if absent)" }
+      ],
+      "blocksCtm": true
+    },
+    {
+      "priority": "P1",
+      "label": "Journey Engine",
+      "description": "Evidence required to run the Dijkstra/RAPTOR journey pathfinder and expose journey planning to passengers.",
+      "requiredForCapability": "JOURNEY_ENGINE",
+      "mustBeResolved": false,
+      "attributes": [
+        { "attribute": "gauge_official", "description": "Confirmed gauge from official source" },
+        { "attribute": "basic_peak_headway_mins", "description": "Peak headway in minutes (approximate acceptable)" },
+        { "attribute": "basic_offpeak_headway_mins", "description": "Off-peak headway in minutes" },
+        { "attribute": "first_train_time", "description": "First departure from terminal station" },
+        { "attribute": "last_train_time", "description": "Last departure from terminal station" },
+        { "attribute": "fare_minimum", "description": "Minimum base fare" },
+        { "attribute": "fare_maximum", "description": "Maximum end-to-end fare" },
+        { "attribute": "transfer_penalty_seconds", "description": "Walking time for interchange (approximate acceptable)" },
+        { "attribute": "alignment_geometry", "description": "Line shape geometry (approximate/community acceptable)" }
+      ],
+      "blocksCtm": false
+    },
+    {
+      "priority": "P2",
+      "label": "Prediction & Real-time",
+      "description": "Evidence required for delay prediction, real-time arrival estimation, and coach recommendation.",
+      "requiredForCapability": "REAL_TIME_PREDICTION",
+      "mustBeResolved": false,
+      "attributes": [
+        { "attribute": "vehicle_acceleration_ms2", "description": "Normal working acceleration rate" },
+        { "attribute": "vehicle_deceleration_ms2", "description": "Normal service braking rate" },
+        { "attribute": "max_speed_kmh", "description": "Maximum sectional speed" },
+        { "attribute": "dwell_time_seconds", "description": "Design or observed station dwell time" },
+        { "attribute": "inter_station_distances_m", "description": "Station-to-station track distance in meters" },
+        { "attribute": "fleet_size_operational", "description": "Number of revenue rakes deployed" },
+        { "attribute": "gtfs_rt_feed", "description": "GTFS-RT or equivalent real-time feed" }
+      ],
+      "blocksCtm": false
+    },
+    {
+      "priority": "P3",
+      "label": "Advanced Intelligence",
+      "description": "Evidence required for physics simulation, energy analytics, accessibility routing, indoor navigation.",
+      "requiredForCapability": "ADVANCED_ANALYTICS",
+      "mustBeResolved": false,
+      "attributes": [
+        { "attribute": "braking_curve_profile", "description": "Full emergency and service braking curve by speed" },
+        { "attribute": "regenerative_braking_efficiency", "description": "Energy recovery percentage or kWh/GTKM data" },
+        { "attribute": "traction_motor_type", "description": "Motor type and rated power per axle" },
+        { "attribute": "indoor_walkway_geometry", "description": "3D indoor walking distances (platform, concourse, exits)" },
+        { "attribute": "lift_operational_status_realtime", "description": "Current lift/escalator availability per station" },
+        { "attribute": "station_afc_layout", "description": "Entry/exit gate counts and positions" },
+        { "attribute": "passenger_flow_observed", "description": "Peak-hour origin-destination passenger counts" },
+        { "attribute": "track_geometry_cant", "description": "Track cant/superelevation for curve sections" }
+      ],
+      "blocksCtm": false
+    }
+  ],
+
+  "ctmReadinessRule": "A line is CTM-ready when ALL P0 attributes have at least one evidence record with confidence ≥ 0.6 and temporalStatus ≠ PROPOSED (except where PROPOSED is the best available). The key P0 blocker is station_coordinates_wgs84.",
+
+  "sharedEvidenceRule": "Evidence records that apply to multiple lines (e.g. Alstom Metropolis rolling stock spec shared by Lines 2A/2B/7) MUST be recorded ONCE in network/shared-evidence/ with applicableTo: [lineIds]. Per-line evidence directories should reference shared records via applicabilityRef rather than duplicate them.",
+
+  "duplicationPreventionRule": "Never create separate D-rolling-stock-evidence.json files for Lines 2A, 2B, and 7 if they share the same rolling stock family. Use shared-evidence with applicabilityRef per line."
+}
