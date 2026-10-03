@@ -2,7 +2,7 @@
   "systemCode": "MMRDA_LINE3",
   "systemName": "Mumbai Metro Line 3 (Aqua Line)",
   "city": "Mumbai",
-  "sourceRegistryVersion": "1.0.0",
+  "sourceRegistryVersion": "1.1.0",
   "lastUpdated": "2026-10-03",
   "description": "Authoritative TransitOS Source Registry for Mumbai Metro Line 3",
   "sources": [
@@ -52,7 +52,31 @@
         "C_OPERATIONS",
         "F_GIS"
       ],
-      "notes": "Secondary reference document. NOT allowed to directly populate CTM without primary verification against official documents."
+      "notes": "Secondary reference document. NOT allowed to directly populate CTM or Category C evidence without primary verification."
+    },
+    {
+      "sourceId": "SOURCE-003",
+      "title": "JICA Experts Study for the Operations and Maintenance Structure of Mumbai Metro Line 3 Project in India (Final Report)",
+      "shortName": "JICA Line 3 O&M Study (2015)",
+      "publisher": "Japan International Cooperation Agency (JICA) / MMRC",
+      "authority": "JICA / MMRC",
+      "authorityLevel": "OFFICIAL",
+      "type": "OFFICIAL_REPORT",
+      "documentPath": "sources/official/jica-line-3-om-study-2015.pdf",
+      "originalFilename": "12246898.pdf",
+      "publicationDate": "2015-10",
+      "format": "PDF",
+      "pages": 289,
+      "sizeBytes": 6271032,
+      "confidenceBaseline": 1.0,
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "C_OPERATIONS",
+        "D_ROLLING_STOCK",
+        "E_SIGNALLING",
+        "H_HISTORICAL"
+      ],
+      "notes": "Official JICA/MMRC Operations & Maintenance Feasibility & Implementation Report covering train operation planning, signaling parameters, fleet allocations, turn-around operations, and O&M structures."
     }
   ]
 }

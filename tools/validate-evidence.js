@@ -10,6 +10,17 @@ const VALID_TEMPORAL_STATUSES = new Set([
   'UNKNOWN',
 ]);
 
+const FORBIDDEN_SYNTHETIC_KEYS = [
+  'trip_id',
+  'stop_times',
+  'vehicle_position',
+  'eta',
+  'gtfs-rt',
+  'gtfs_rt',
+  'trajectory',
+  'speed_profile',
+];
+
 function validateEvidence(records, sources) {
   const errors = [];
   const warnings = [];
@@ -21,6 +32,18 @@ function validateEvidence(records, sources) {
     if (!r.entityKey) errors.push({ evidenceId: r.evidenceId, message: 'Missing entityKey' });
     if (!r.attribute) errors.push({ evidenceId: r.evidenceId, message: 'Missing attribute' });
     if (r.value === undefined || r.value === null) errors.push({ evidenceId: r.evidenceId, message: 'Missing value' });
+
+    // Downstream synthetic leak check
+    const attrLower = (r.attribute || '').toLowerCase();
+    const keyLower = (r.entityKey || '').toLowerCase();
+    for (const forbidden of FORBIDDEN_SYNTHETIC_KEYS) {
+      if (attrLower.includes(forbidden) || keyLower.includes(forbidden)) {
+        errors.push({
+          evidenceId: r.evidenceId,
+          message: `Forbidden downstream synthetic concept '${forbidden}' detected in evidence layer`,
+        });
+      }
+    }
 
     if (!r.temporalStatus) {
       errors.push({ evidenceId: r.evidenceId, message: 'Missing temporalStatus' });
@@ -41,10 +64,10 @@ function validateEvidence(records, sources) {
             message: `Secondary source '${r.source.sourceId}' cannot claim confidence > 0.6 (claimed ${r.confidence})`,
           });
         }
-        if (src.type === 'DPR' && r.temporalStatus === 'OPERATIONAL') {
+        if ((src.type === 'DPR' || src.type === 'OFFICIAL_REPORT') && r.temporalStatus === 'OPERATIONAL') {
           warnings.push({
             evidenceId: r.evidenceId,
-            message: `DPR source '${r.source.sourceId}' (2011) claims OPERATIONAL status — verify if DPR text establishes operational reality or if this should be PROPOSED`,
+            message: `Official DPR/Report source '${r.source.sourceId}' claims OPERATIONAL status — verify if DPR text establishes operational reality or if this should be PROPOSED`,
           });
         }
       }
@@ -95,12 +118,13 @@ function summarizeCategory(records, gaps, catName) {
 }
 
 function main() {
-  console.log('\n🔬 TDSE Evidence System — Sprint v0.6.5-B Audit');
+  console.log('\n🔬 TDSE Evidence System — Sprint v0.6.5-C Audit');
   console.log('────────────────────────────────────────────────────────────');
 
   const sourcesPath = path.resolve('datasets/mumbai/sources/catalog.json');
   const evidenceAPath = path.resolve('datasets/mumbai/evidence/A-network-evidence.json');
   const evidenceBPath = path.resolve('datasets/mumbai/evidence/B-station-infrastructure-evidence.json');
+  const evidenceCPath = path.resolve('datasets/mumbai/evidence/C-operations-evidence.json');
   const gapsPath = path.resolve('datasets/mumbai/evidence/knowledge-gaps.json');
 
   if (!fs.existsSync(sourcesPath)) {
@@ -111,7 +135,8 @@ function main() {
   const sourcesCatalog = JSON.parse(fs.readFileSync(sourcesPath, 'utf-8'));
   const recordsA = fs.existsSync(evidenceAPath) ? JSON.parse(fs.readFileSync(evidenceAPath, 'utf-8')) : [];
   const recordsB = fs.existsSync(evidenceBPath) ? JSON.parse(fs.readFileSync(evidenceBPath, 'utf-8')) : [];
-  const allRecords = [...recordsA, ...recordsB];
+  const recordsC = fs.existsSync(evidenceCPath) ? JSON.parse(fs.readFileSync(evidenceCPath, 'utf-8')) : [];
+  const allRecords = [...recordsA, ...recordsB, ...recordsC];
   const knowledgeGaps = fs.existsSync(gapsPath) ? JSON.parse(fs.readFileSync(gapsPath, 'utf-8')) : [];
 
   console.log(`📋 Source Catalog`);
@@ -123,33 +148,35 @@ function main() {
 
   const sumA = summarizeCategory(recordsA, knowledgeGaps, 'A');
   const sumB = summarizeCategory(recordsB, knowledgeGaps, 'B');
+  const sumC = summarizeCategory(recordsC, knowledgeGaps, 'C');
 
   console.log('\n' + '─'.repeat(60));
-  console.log('CATEGORY B — STATION INFRASTRUCTURE AUDIT REPORT');
+  console.log('CATEGORY C — OPERATIONS EVIDENCE AUDIT REPORT');
   console.log('─'.repeat(60));
-  console.log(`  Total extracted facts : ${sumB.total}`);
+  console.log(`  Total extracted facts : ${sumC.total}`);
   console.log(`\n  Evidence Type`);
-  console.log(`    DIRECT              : ${sumB.direct}`);
-  console.log(`    DERIVED             : ${sumB.derived}`);
-  console.log(`    ESTIMATED           : ${sumB.estimated}`);
+  console.log(`    DIRECT              : ${sumC.direct}`);
+  console.log(`    DERIVED             : ${sumC.derived}`);
+  console.log(`    ESTIMATED           : ${sumC.estimated}`);
   console.log(`\n  Temporal Status`);
-  console.log(`    PROPOSED            : ${sumB.temporalCounts.PROPOSED}`);
-  console.log(`    APPROVED            : ${sumB.temporalCounts.APPROVED}`);
-  console.log(`    UNDER_CONSTRUCTION  : ${sumB.temporalCounts.UNDER_CONSTRUCTION}`);
-  console.log(`    OPERATIONAL         : ${sumB.temporalCounts.OPERATIONAL}`);
-  console.log(`    HISTORICAL          : ${sumB.temporalCounts.HISTORICAL}`);
-  console.log(`    UNKNOWN             : ${sumB.temporalCounts.UNKNOWN}`);
+  console.log(`    PROPOSED            : ${sumC.temporalCounts.PROPOSED}`);
+  console.log(`    APPROVED            : ${sumC.temporalCounts.APPROVED}`);
+  console.log(`    UNDER_CONSTRUCTION  : ${sumC.temporalCounts.UNDER_CONSTRUCTION}`);
+  console.log(`    OPERATIONAL         : ${sumC.temporalCounts.OPERATIONAL}`);
+  console.log(`    HISTORICAL          : ${sumC.temporalCounts.HISTORICAL}`);
+  console.log(`    UNKNOWN             : ${sumC.temporalCounts.UNKNOWN}`);
   console.log(`\n  Knowledge Gaps`);
-  console.log(`    B-specific gaps     : ${sumB.gapsCount}`);
+  console.log(`    C-specific gaps     : ${sumC.gapsCount}`);
   console.log(`\n  Validation Results`);
   console.log(`    Errors              : ${resAll.errors.length}`);
   console.log(`    Warnings            : ${resAll.warnings.length}`);
 
   console.log('\n' + '─'.repeat(60));
-  console.log('OVERALL EVIDENCE LAYER SUMMARY (A + B)');
+  console.log('OVERALL EVIDENCE LAYER SUMMARY (A + B + C)');
   console.log('─'.repeat(60));
   console.log(`  Category A (Network Topology)              : ${sumA.total} facts (${sumA.gapsCount} gaps)`);
   console.log(`  Category B (Station Infrastructure)        : ${sumB.total} facts (${sumB.gapsCount} gaps)`);
+  console.log(`  Category C (Operations)                    : ${sumC.total} facts (${sumC.gapsCount} gaps)`);
   console.log(`  Total Validated Evidence Records           : ${allRecords.length} records`);
   console.log(`  Coverage Metric                            : NOT SCORED (Unweighted counts only)\n`);
 

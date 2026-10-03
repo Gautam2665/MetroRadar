@@ -159,5 +159,85 @@
     ],
     "impactSeverity": "LOW",
     "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-C-001",
+    "systemCode": "MMRDA_LINE3",
+    "category": "C_OPERATIONS",
+    "entityType": "service_span",
+    "entityKey": "CURRENT_OPERATING_WINDOW",
+    "attribute": "current_2026_service_span",
+    "requiredFor": "GTFS calendar.txt and calendar_dates.txt export",
+    "reason": "DPR Section 0.6 and JICA Report (SOURCE-003) specify proposed 05:00-24:00 operating window, but current 2026 operational timetable span must be verified against operator published schedule.",
+    "potentialSourceTypes": [
+      "OFFICIAL_TIMETABLE",
+      "GTFS_STATIC"
+    ],
+    "impactSeverity": "HIGH",
+    "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-C-002",
+    "systemCode": "MMRDA_LINE3",
+    "category": "C_OPERATIONS",
+    "entityType": "headway",
+    "entityKey": "CURRENT_HEADWAYS",
+    "attribute": "current_2026_peak_offpeak_headways",
+    "requiredFor": "GTFS frequencies.txt export",
+    "reason": "DPR Table 0.11 specifies proposed 260s/180s/150s design headways, but current operational headway frequencies must be verified against current commercial schedule.",
+    "potentialSourceTypes": [
+      "OFFICIAL_TIMETABLE",
+      "GTFS_STATIC"
+    ],
+    "impactSeverity": "HIGH",
+    "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-C-003",
+    "systemCode": "MMRDA_LINE3",
+    "category": "C_OPERATIONS",
+    "entityType": "first_last_train",
+    "entityKey": "STATION_FIRST_LAST_TRAINS",
+    "attribute": "station_level_first_last_departures",
+    "requiredFor": "GTFS stop_times.txt exact station arrival/departure schedule generation",
+    "reason": "DPR specifies overall terminal launch window (05:00-24:00), but does not provide individual station-by-station first/last train timetables.",
+    "potentialSourceTypes": [
+      "OFFICIAL_TIMETABLE",
+      "GTFS_STATIC"
+    ],
+    "impactSeverity": "CRITICAL",
+    "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-C-004",
+    "systemCode": "MMRDA_LINE3",
+    "category": "C_OPERATIONS",
+    "entityType": "fleet_deployment",
+    "entityKey": "ACTIVE_REVENUE_FLEET",
+    "attribute": "current_active_rake_count",
+    "requiredFor": "Digital Twin active train count validation",
+    "reason": "DPR Table 0.12 specifies proposed 35/47/55 rake allocations across time horizons, but does not record current 2026 active revenue fleet deployment.",
+    "potentialSourceTypes": [
+      "OPERATOR",
+      "OBSERVATION"
+    ],
+    "impactSeverity": "MEDIUM",
+    "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-C-005",
+    "systemCode": "MMRDA_LINE3",
+    "category": "C_OPERATIONS",
+    "entityType": "dwell",
+    "entityKey": "OBSERVED_DWELL_DISTRIBUTIONS",
+    "attribute": "observed_station_dwell_distribution",
+    "requiredFor": "Journey Engine real-time dwell calibration and delay prediction",
+    "reason": "DPR Section 0.6 specifies a nominal 30s station dwell design parameter, but real-world observed dwell distributions belong to Category H/I evidence.",
+    "potentialSourceTypes": [
+      "OBSERVATION",
+      "OPERATOR"
+    ],
+    "impactSeverity": "LOW",
+    "status": "OPEN"
   }
 ]
