@@ -15,11 +15,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Official corridor title in DPR Chapter 4"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Official corridor title in 2011 DPR Chapter 4"
   },
   {
     "evidenceId": "E-L3-A-0002",
@@ -38,11 +39,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Terminal chainage at SEEPZ station (32,546 meters / 32.546 km)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed terminal chainage at SEEPZ station (32,546 meters / 32.546 km)"
   },
   {
     "evidenceId": "E-L3-A-0003",
@@ -59,11 +61,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "27 stations listed in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "27 proposed stations listed in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0004",
@@ -80,10 +83,11 @@
       "section": "Section 4.4.1"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TEXT_PARSING",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
     "notes": "DPR Section 4.4.1 states: Complete metro corridor is proposed to be underground."
   },
   {
@@ -101,10 +105,11 @@
       "section": "Section 4.4.2"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TEXT_PARSING",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
     "notes": "Zero point of the corridor is considered at the centre line of proposed Cuffe Parade station."
   },
   {
@@ -123,10 +128,11 @@
       "section": "Section 4.3.1"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TEXT_PARSING",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
     "notes": "Standard Gauge (1435 mm)"
   },
   {
@@ -145,11 +151,12 @@
       "section": "Section 4.3.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TEXT_PARSING",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Maximum sectional speed will be 80 km/h."
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Maximum sectional design speed is 80 km/h."
   },
   {
     "evidenceId": "E-L3-A-0008",
@@ -167,10 +174,11 @@
       "table": "Table 4.2"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
     "notes": "Minimum horizontal curve radius on mainline is 300m."
   },
   {
@@ -188,11 +196,12 @@
       "section": "Section 4.4.3.iii"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TEXT_PARSING",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Depot entry ramp located north of Jogeshwari \u2013 Vikhroli Link Road leading to Aarey Milk Colony."
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed depot entry ramp located north of Jogeshwari \u2013 Vikhroli Link Road leading to Aarey Milk Colony."
   },
   {
     "evidenceId": "E-L3-A-0010",
@@ -209,11 +218,12 @@
       "section": "Section 4.4.3.i"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TEXT_PARSING",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Southernmost station with reversal and stabling facilities."
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed Southernmost station with reversal and stabling facilities."
   },
   {
     "evidenceId": "E-L3-A-0011",
@@ -230,11 +240,12 @@
       "section": "Section 4.4.3.ii"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TEXT_PARSING",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Mid-terminal station with 1 island + 1 side platform and reversal facilities."
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed Mid-terminal station with 1 island + 1 side platform and reversal facilities."
   },
   {
     "evidenceId": "E-L3-A-0012",
@@ -251,11 +262,12 @@
       "section": "Section 4.4.3.iii"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TEXT_PARSING",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Northernmost terminal station with reversal, stabling, and depot ramp connection."
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed Northernmost terminal station with reversal, stabling, and depot ramp connection."
   },
   {
     "evidenceId": "E-L3-A-0013",
@@ -272,11 +284,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #1 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #1 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0014",
@@ -294,10 +307,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0015",
@@ -315,11 +329,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0016",
@@ -336,11 +351,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #2 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #2 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0017",
@@ -358,10 +374,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0018",
@@ -379,10 +396,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0019",
@@ -400,11 +418,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0020",
@@ -421,11 +440,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #3 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #3 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0021",
@@ -443,10 +463,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0022",
@@ -464,10 +485,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0023",
@@ -485,11 +507,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0024",
@@ -506,11 +529,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #4 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #4 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0025",
@@ -528,10 +552,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0026",
@@ -549,10 +574,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0027",
@@ -570,11 +596,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0028",
@@ -591,11 +618,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #5 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #5 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0029",
@@ -613,10 +641,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0030",
@@ -634,10 +663,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0031",
@@ -655,11 +685,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0032",
@@ -676,11 +707,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #6 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #6 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0033",
@@ -698,10 +730,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0034",
@@ -719,10 +752,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0035",
@@ -740,11 +774,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0036",
@@ -761,11 +796,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #7 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #7 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0037",
@@ -783,10 +819,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0038",
@@ -804,10 +841,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0039",
@@ -825,11 +863,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0040",
@@ -846,11 +885,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #8 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #8 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0041",
@@ -868,10 +908,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0042",
@@ -889,10 +930,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0043",
@@ -910,11 +952,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0044",
@@ -931,11 +974,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #9 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #9 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0045",
@@ -953,10 +997,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0046",
@@ -974,10 +1019,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0047",
@@ -995,11 +1041,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0048",
@@ -1016,11 +1063,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #10 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #10 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0049",
@@ -1038,10 +1086,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0050",
@@ -1059,10 +1108,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0051",
@@ -1080,11 +1130,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0052",
@@ -1101,11 +1152,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #11 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #11 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0053",
@@ -1123,10 +1175,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0054",
@@ -1144,10 +1197,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0055",
@@ -1165,11 +1219,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0056",
@@ -1186,11 +1241,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #12 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #12 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0057",
@@ -1208,10 +1264,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0058",
@@ -1229,10 +1286,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0059",
@@ -1250,11 +1308,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0060",
@@ -1271,11 +1330,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #13 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #13 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0061",
@@ -1293,10 +1353,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0062",
@@ -1314,10 +1375,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0063",
@@ -1335,11 +1397,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0064",
@@ -1356,11 +1419,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #14 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #14 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0065",
@@ -1378,10 +1442,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0066",
@@ -1399,10 +1464,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0067",
@@ -1420,11 +1486,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0068",
@@ -1441,11 +1508,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #15 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #15 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0069",
@@ -1463,10 +1531,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0070",
@@ -1484,10 +1553,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0071",
@@ -1505,11 +1575,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0072",
@@ -1526,11 +1597,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #16 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #16 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0073",
@@ -1548,10 +1620,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0074",
@@ -1569,10 +1642,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0075",
@@ -1590,11 +1664,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0076",
@@ -1611,11 +1686,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #17 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #17 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0077",
@@ -1633,10 +1709,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0078",
@@ -1654,10 +1731,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0079",
@@ -1675,11 +1753,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0080",
@@ -1696,11 +1775,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #18 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #18 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0081",
@@ -1718,10 +1798,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0082",
@@ -1739,10 +1820,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0083",
@@ -1760,11 +1842,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0084",
@@ -1781,11 +1864,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #19 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #19 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0085",
@@ -1803,10 +1887,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0086",
@@ -1824,10 +1909,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0087",
@@ -1845,11 +1931,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0088",
@@ -1866,11 +1953,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #20 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #20 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0089",
@@ -1888,10 +1976,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0090",
@@ -1909,10 +1998,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0091",
@@ -1930,11 +2020,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0092",
@@ -1951,11 +2042,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #21 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #21 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0093",
@@ -1973,10 +2065,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0094",
@@ -1994,10 +2087,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0095",
@@ -2015,11 +2109,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0096",
@@ -2036,11 +2131,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #22 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #22 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0097",
@@ -2058,10 +2154,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0098",
@@ -2079,10 +2176,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0099",
@@ -2100,11 +2198,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0100",
@@ -2121,11 +2220,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #23 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #23 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0101",
@@ -2143,10 +2243,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0102",
@@ -2164,10 +2265,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0103",
@@ -2185,11 +2287,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0104",
@@ -2206,11 +2309,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #24 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #24 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0105",
@@ -2228,10 +2332,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0106",
@@ -2249,10 +2354,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0107",
@@ -2270,11 +2376,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0108",
@@ -2291,11 +2398,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #25 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #25 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0109",
@@ -2313,10 +2421,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0110",
@@ -2334,10 +2443,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0111",
@@ -2355,11 +2465,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0112",
@@ -2376,11 +2487,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #26 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #26 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0113",
@@ -2398,10 +2510,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0114",
@@ -2419,10 +2532,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0115",
@@ -2440,11 +2554,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0116",
@@ -2461,11 +2576,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Station #27 in DPR Table 4.3"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed station name for station #27 in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0117",
@@ -2483,10 +2599,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0118",
@@ -2504,10 +2621,11 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z"
+    "extractedAt": "2026-10-03T17:18:15.248722Z"
   },
   {
     "evidenceId": "E-L3-A-0119",
@@ -2525,11 +2643,12 @@
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   },
   {
     "evidenceId": "E-L3-A-0120",
@@ -2550,11 +2669,12 @@
       "table": "Table 4.4"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Documented interchange point in DPR Table 4.4"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed interchange connection in DPR Table 4.4"
   },
   {
     "evidenceId": "E-L3-A-0121",
@@ -2575,11 +2695,12 @@
       "table": "Table 4.4"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Documented interchange point in DPR Table 4.4"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed interchange connection in DPR Table 4.4"
   },
   {
     "evidenceId": "E-L3-A-0122",
@@ -2600,11 +2721,12 @@
       "table": "Table 4.4"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Documented interchange point in DPR Table 4.4"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed interchange connection in DPR Table 4.4"
   },
   {
     "evidenceId": "E-L3-A-0123",
@@ -2625,11 +2747,12 @@
       "table": "Table 4.4"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Documented interchange point in DPR Table 4.4"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed interchange connection in DPR Table 4.4"
   },
   {
     "evidenceId": "E-L3-A-0124",
@@ -2650,11 +2773,12 @@
       "table": "Table 4.4"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Documented interchange point in DPR Table 4.4"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed interchange connection in DPR Table 4.4"
   },
   {
     "evidenceId": "E-L3-A-0125",
@@ -2675,11 +2799,12 @@
       "table": "Table 4.4"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Documented interchange point in DPR Table 4.4"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed interchange connection in DPR Table 4.4"
   },
   {
     "evidenceId": "E-L3-A-0126",
@@ -2700,11 +2825,12 @@
       "table": "Table 4.4"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Documented interchange point in DPR Table 4.4"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed interchange connection in DPR Table 4.4"
   },
   {
     "evidenceId": "E-L3-A-0127",
@@ -2725,11 +2851,12 @@
       "table": "Table 4.4"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Documented interchange point in DPR Table 4.4"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed interchange connection in DPR Table 4.4"
   },
   {
     "evidenceId": "E-L3-A-0128",
@@ -2750,11 +2877,12 @@
       "table": "Table 4.4"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Documented interchange point in DPR Table 4.4"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed interchange connection in DPR Table 4.4"
   },
   {
     "evidenceId": "E-L3-A-0129",
@@ -2775,10 +2903,11 @@
       "table": "Table 4.4"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
-    "extractedAt": "2026-10-03T16:34:29.683124Z",
-    "notes": "Documented interchange point in DPR Table 4.4"
+    "extractedAt": "2026-10-03T17:18:15.248722Z",
+    "notes": "Proposed interchange connection in DPR Table 4.4"
   }
 ]

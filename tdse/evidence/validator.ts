@@ -2,12 +2,21 @@
  * TDSE Evidence System — Validation Engine
  *
  * Validates evidence records against structural rules, source authority constraints,
- * and derivation metadata.
+ * and temporal status validity.
  *
- * Sprint v0.6.5-A
+ * Sprint v0.6.5-A.1 — Hardened Temporal Semantics
  */
 
-import { EvidenceRecord, SourceRecord } from "./schema";
+import { EvidenceRecord, SourceRecord, TemporalStatus } from "./schema";
+
+const VALID_TEMPORAL_STATUSES: Set<TemporalStatus> = new Set([
+  "PROPOSED",
+  "APPROVED",
+  "UNDER_CONSTRUCTION",
+  "OPERATIONAL",
+  "HISTORICAL",
+  "UNKNOWN",
+]);
 
 export interface EvidenceValidationResult {
   valid: boolean;
@@ -49,7 +58,14 @@ export class EvidenceValidator {
         errors.push({ evidenceId: r.evidenceId, message: "Missing value" });
       }
 
-      // 2. Source checks
+      // 2. Temporal Status validation
+      if (!r.temporalStatus) {
+        errors.push({ evidenceId: r.evidenceId, message: "Missing temporalStatus" });
+      } else if (!VALID_TEMPORAL_STATUSES.has(r.temporalStatus)) {
+        errors.push({ evidenceId: r.evidenceId, message: `Invalid temporalStatus '${r.temporalStatus}'` });
+      }
+
+      // 3. Source checks
       if (!r.source || !r.source.sourceId) {
         errors.push({ evidenceId: r.evidenceId, message: "Missing source.sourceId" });
       } else {
@@ -64,10 +80,18 @@ export class EvidenceValidator {
               message: `Secondary source '${r.source.sourceId}' cannot claim confidence > 0.6 (claimed ${r.confidence})`,
             });
           }
+
+          // Rule: DPR 2011 facts should be PROPOSED / APPROVED / UNKNOWN unless specific evidence exists
+          if (src.type === "DPR" && r.temporalStatus === "OPERATIONAL") {
+            warnings.push({
+              evidenceId: r.evidenceId,
+              message: `DPR source '${r.source.sourceId}' (2011) claims OPERATIONAL status — verify if DPR text establishes operational reality or if this should be PROPOSED`,
+            });
+          }
         }
       }
 
-      // 3. Page/Section check for DIRECT facts
+      // 4. Page/Section check for DIRECT facts
       if (r.evidenceType === "DIRECT" && (!r.source?.page && !r.source?.section && !r.source?.table)) {
         warnings.push({
           evidenceId: r.evidenceId,
@@ -75,7 +99,7 @@ export class EvidenceValidator {
         });
       }
 
-      // 4. Derivation check for DERIVED facts
+      // 5. Derivation check for DERIVED facts
       if (r.evidenceType === "DERIVED" && !r.derivation?.method) {
         errors.push({
           evidenceId: r.evidenceId,
@@ -83,7 +107,7 @@ export class EvidenceValidator {
         });
       }
 
-      // 5. Confidence range
+      // 6. Confidence range
       if (r.confidence < 0.0 || r.confidence > 1.0) {
         errors.push({
           evidenceId: r.evidenceId,

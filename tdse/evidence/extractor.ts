@@ -1,9 +1,9 @@
 /**
  * TDSE Evidence System — Evidence Helper & Utility Class
  *
- * Provides factory functions for building valid, type-safe evidence records.
+ * Provides factory functions for building valid, type-safe evidence records with temporal semantics.
  *
- * Sprint v0.6.5-A
+ * Sprint v0.6.5-A.1
  */
 
 import {
@@ -11,6 +11,7 @@ import {
   EvidenceType,
   ExtractionMethod,
   KnowledgeCategory,
+  TemporalStatus,
   SourceReference,
   DerivationDetails,
 } from "./schema";
@@ -35,6 +36,7 @@ export class EvidenceFactory {
     page: number;
     section?: string;
     table?: string;
+    temporalStatus?: TemporalStatus;
     extractionMethod?: ExtractionMethod;
     confidence?: number;
     notes?: string;
@@ -60,6 +62,7 @@ export class EvidenceFactory {
         table: params.table,
       },
       evidenceType: "DIRECT",
+      temporalStatus: params.temporalStatus || "PROPOSED",
       extractionMethod: params.extractionMethod || "TABLE_EXTRACTION",
       confidence: params.confidence ?? 1.0,
       status: "UNVALIDATED",
@@ -80,6 +83,7 @@ export class EvidenceFactory {
     document: string;
     derivationMethod: string;
     inputs?: string[];
+    temporalStatus?: TemporalStatus;
     confidence?: number;
     notes?: string;
   }): EvidenceRecord {
@@ -101,6 +105,7 @@ export class EvidenceFactory {
         document: params.document,
       },
       evidenceType: "DERIVED",
+      temporalStatus: params.temporalStatus || "PROPOSED",
       extractionMethod: "GEOSPATIAL_ANALYSIS",
       derivation: {
         method: params.derivationMethod,

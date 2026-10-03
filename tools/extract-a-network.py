@@ -21,11 +21,12 @@ evidence_records = [
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
     "extractedAt": extracted_at,
-    "notes": "Official corridor title in DPR Chapter 4"
+    "notes": "Official corridor title in 2011 DPR Chapter 4"
   },
   {
     "evidenceId": "E-L3-A-0002",
@@ -44,11 +45,12 @@ evidence_records = [
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
     "extractedAt": extracted_at,
-    "notes": "Terminal chainage at SEEPZ station (32,546 meters / 32.546 km)"
+    "notes": "Proposed terminal chainage at SEEPZ station (32,546 meters / 32.546 km)"
   },
   {
     "evidenceId": "E-L3-A-0003",
@@ -65,11 +67,12 @@ evidence_records = [
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
     "extractedAt": extracted_at,
-    "notes": "27 stations listed in DPR Table 4.3"
+    "notes": "27 proposed stations listed in DPR Table 4.3"
   },
   {
     "evidenceId": "E-L3-A-0004",
@@ -86,6 +89,7 @@ evidence_records = [
       "section": "Section 4.4.1"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TEXT_PARSING",
     "confidence": 1.0,
     "status": "UNVALIDATED",
@@ -107,6 +111,7 @@ evidence_records = [
       "section": "Section 4.4.2"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TEXT_PARSING",
     "confidence": 1.0,
     "status": "UNVALIDATED",
@@ -129,6 +134,7 @@ evidence_records = [
       "section": "Section 4.3.1"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TEXT_PARSING",
     "confidence": 1.0,
     "status": "UNVALIDATED",
@@ -151,11 +157,12 @@ evidence_records = [
       "section": "Section 4.3.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TEXT_PARSING",
     "confidence": 1.0,
     "status": "UNVALIDATED",
     "extractedAt": extracted_at,
-    "notes": "Maximum sectional speed will be 80 km/h."
+    "notes": "Maximum sectional design speed is 80 km/h."
   },
   {
     "evidenceId": "E-L3-A-0008",
@@ -173,6 +180,7 @@ evidence_records = [
       "table": "Table 4.2"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
@@ -194,11 +202,12 @@ evidence_records = [
       "section": "Section 4.4.3.iii"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TEXT_PARSING",
     "confidence": 1.0,
     "status": "UNVALIDATED",
     "extractedAt": extracted_at,
-    "notes": "Depot entry ramp located north of Jogeshwari – Vikhroli Link Road leading to Aarey Milk Colony."
+    "notes": "Proposed depot entry ramp located north of Jogeshwari – Vikhroli Link Road leading to Aarey Milk Colony."
   },
 
   # Terminals
@@ -217,11 +226,12 @@ evidence_records = [
       "section": "Section 4.4.3.i"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TEXT_PARSING",
     "confidence": 1.0,
     "status": "UNVALIDATED",
     "extractedAt": extracted_at,
-    "notes": "Southernmost station with reversal and stabling facilities."
+    "notes": "Proposed Southernmost station with reversal and stabling facilities."
   },
   {
     "evidenceId": "E-L3-A-0011",
@@ -238,11 +248,12 @@ evidence_records = [
       "section": "Section 4.4.3.ii"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TEXT_PARSING",
     "confidence": 1.0,
     "status": "UNVALIDATED",
     "extractedAt": extracted_at,
-    "notes": "Mid-terminal station with 1 island + 1 side platform and reversal facilities."
+    "notes": "Proposed Mid-terminal station with 1 island + 1 side platform and reversal facilities."
   },
   {
     "evidenceId": "E-L3-A-0012",
@@ -259,11 +270,12 @@ evidence_records = [
       "section": "Section 4.4.3.iii"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TEXT_PARSING",
     "confidence": 1.0,
     "status": "UNVALIDATED",
     "extractedAt": extracted_at,
-    "notes": "Northernmost terminal station with reversal, stabling, and depot ramp connection."
+    "notes": "Proposed Northernmost terminal station with reversal, stabling, and depot ramp connection."
   }
 ]
 
@@ -318,11 +330,12 @@ for sr, name, chainage, inter_dist, gl, rl, level_diff in stations_data:
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
     "extractedAt": extracted_at,
-    "notes": f"Station #{sr} in DPR Table 4.3"
+    "notes": f"Proposed station name for station #{sr} in DPR Table 4.3"
   })
   ev_idx += 1
 
@@ -343,6 +356,7 @@ for sr, name, chainage, inter_dist, gl, rl, level_diff in stations_data:
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
@@ -368,6 +382,7 @@ for sr, name, chainage, inter_dist, gl, rl, level_diff in stations_data:
         "table": "Table 4.3"
       },
       "evidenceType": "DIRECT",
+      "temporalStatus": "PROPOSED",
       "extractionMethod": "TABLE_EXTRACTION",
       "confidence": 1.0,
       "status": "UNVALIDATED",
@@ -392,11 +407,12 @@ for sr, name, chainage, inter_dist, gl, rl, level_diff in stations_data:
       "table": "Table 4.3"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
     "extractedAt": extracted_at,
-    "notes": "Elevation above Mean Sea Level (MSL)"
+    "notes": "Proposed rail level elevation above Mean Sea Level (MSL)"
   })
   ev_idx += 1
 
@@ -434,15 +450,16 @@ for st_name, mode, inter_with in interchanges_data:
       "table": "Table 4.4"
     },
     "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
     "extractionMethod": "TABLE_EXTRACTION",
     "confidence": 1.0,
     "status": "UNVALIDATED",
     "extractedAt": extracted_at,
-    "notes": f"Documented interchange point in DPR Table 4.4"
+    "notes": "Proposed interchange connection in DPR Table 4.4"
   })
   ev_idx += 1
 
 with open('datasets/mumbai/evidence/A-network-evidence.json', 'w', encoding='utf-8') as f:
   json.dump(evidence_records, f, indent=2)
 
-print(f'✅ Wrote {len(evidence_records)} Category A evidence records to datasets/mumbai/evidence/A-network-evidence.json')
+print(f'✅ Wrote {len(evidence_records)} Category A evidence records with temporalStatus="PROPOSED" to datasets/mumbai/evidence/A-network-evidence.json')

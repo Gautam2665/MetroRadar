@@ -1,9 +1,9 @@
 /**
  * TDSE Evidence System — Provenance Tracker
  *
- * Generates audit trails, confidence metrics, and coverage summaries from evidence records.
+ * Generates audit trails, confidence metrics, and temporal validity breakdowns from evidence records.
  *
- * Sprint v0.6.5-A
+ * Sprint v0.6.5-A.1 — Hardened Temporal Semantics
  */
 
 import { EvidenceRecord, CategoryEvidenceSummary, KnowledgeCategory } from "./schema";
@@ -22,17 +22,45 @@ export class EvidenceProvenanceTracker {
     let estimated = 0;
     let totalConfidence = 0;
 
+    const temporalBreakdown = {
+      proposed: 0,
+      approved: 0,
+      underConstruction: 0,
+      operational: 0,
+      historical: 0,
+      unknown: 0,
+    };
+
     for (const r of categoryRecords) {
       if (r.evidenceType === "DIRECT") direct++;
       else if (r.evidenceType === "DERIVED") derived++;
       else if (r.evidenceType === "ESTIMATED") estimated++;
       totalConfidence += r.confidence;
+
+      switch (r.temporalStatus) {
+        case "PROPOSED":
+          temporalBreakdown.proposed++;
+          break;
+        case "APPROVED":
+          temporalBreakdown.approved++;
+          break;
+        case "UNDER_CONSTRUCTION":
+          temporalBreakdown.underConstruction++;
+          break;
+        case "OPERATIONAL":
+          temporalBreakdown.operational++;
+          break;
+        case "HISTORICAL":
+          temporalBreakdown.historical++;
+          break;
+        case "UNKNOWN":
+        default:
+          temporalBreakdown.unknown++;
+          break;
+      }
     }
 
     const avgConfidence = total > 0 ? Number((totalConfidence / total).toFixed(2)) : 0;
-    // Simple completion metric: direct facts vs gaps
-    const totalSlots = total + knowledgeGapCount;
-    const completionPercentage = totalSlots > 0 ? Number(((total / totalSlots) * 100).toFixed(1)) : 0;
 
     return {
       category,
@@ -41,8 +69,8 @@ export class EvidenceProvenanceTracker {
       derivedFacts: derived,
       estimatedFacts: estimated,
       averageConfidence: avgConfidence,
+      temporalBreakdown,
       knowledgeGaps: knowledgeGapCount,
-      completionPercentage,
     };
   }
 }

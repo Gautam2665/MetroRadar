@@ -5,7 +5,7 @@
  * Architecture Principle:
  *   SOURCES → EVIDENCE → SOURCE FACTS / GAPS → CTM → GTFS
  *
- * Sprint v0.6.5-A
+ * Sprint v0.6.5-A.1 — Hardened Temporal Semantics
  */
 
 export type AuthorityLevel = "OFFICIAL" | "GOVERNMENT" | "OPERATOR" | "SECONDARY" | "UNVERIFIED";
@@ -24,6 +24,14 @@ export type KnowledgeCategory =
   | "I_OBSERVATIONS"; // Ground telemetry, field calibration readings
 
 export type EvidenceType = "DIRECT" | "DERIVED" | "ESTIMATED" | "CROSS_REFERENCED";
+
+export type TemporalStatus =
+  | "PROPOSED"
+  | "APPROVED"
+  | "UNDER_CONSTRUCTION"
+  | "OPERATIONAL"
+  | "HISTORICAL"
+  | "UNKNOWN";
 
 export type ExtractionMethod =
   | "TABLE_EXTRACTION"
@@ -62,9 +70,10 @@ export interface EvidenceRecord {
   unit?: string;            // e.g. "m", "km", "km/h", "mm", "deg"
   source: SourceReference;
   evidenceType: EvidenceType;
+  temporalStatus: TemporalStatus; // Hardened temporal validity (PROPOSED, OPERATIONAL, etc.)
   extractionMethod: ExtractionMethod;
   derivation?: DerivationDetails;
-  confidence: number;       // 0.0 to 1.0 (OFFICIAL DIRECT = 1.0, SECONDARY = 0.6)
+  confidence: number;       // 0.0 to 1.0 (extraction fidelity, NOT currentness)
   status: EvidenceStatus;
   extractedAt: string;      // ISO Date
   verifiedBy?: string;
@@ -112,6 +121,13 @@ export interface CategoryEvidenceSummary {
   derivedFacts: number;
   estimatedFacts: number;
   averageConfidence: number;
+  temporalBreakdown: {
+    proposed: number;
+    approved: number;
+    underConstruction: number;
+    operational: number;
+    historical: number;
+    unknown: number;
+  };
   knowledgeGaps: number;
-  completionPercentage: number;
 }
