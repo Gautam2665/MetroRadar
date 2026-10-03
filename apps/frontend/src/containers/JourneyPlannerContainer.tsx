@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { JourneyPlannerView } from "../components/ui/JourneyPlannerView";
 import { StationItem } from "../components/StationSearchInput";
 import { ApiClient } from "../services/api/client";
+import { StationApi } from "../services/api/station.api";
 
 import { formatLineName, formatShortLineName, extractDirection } from "../utils/transitFormatter";
 
@@ -413,12 +414,58 @@ export function JourneyPlannerContainer({
     }
   };
 
+  const handleQuickPillSelect = async (pill: string) => {
+    // If origin is empty, assign to origin; otherwise assign to destination
+    const assignToOrigin = !originId || (originName === "" && destName !== "");
+    if (assignToOrigin) {
+      setOriginName(pill);
+      setOriginId(null);
+    } else {
+      setDestName(pill);
+      setDestId(null);
+    }
+
+    const res = await StationApi.searchStations(pill, activeCity);
+    if (res.success && res.data.length > 0) {
+      const match =
+        res.data.find((s) => s.name.toLowerCase().includes(pill.toLowerCase())) || res.data[0];
+      if (assignToOrigin) {
+        setOriginName(match.name);
+        setOriginId(match.id);
+      } else {
+        setDestName(match.name);
+        setDestId(match.id);
+      }
+    }
+  };
+
   const handlePlanJourney = async () => {
-    if (!originId || !destId) {
-      setError("Please select stations from the dropdown.");
+    let resolvedOriginId = originId;
+    let resolvedDestId = destId;
+
+    if (!resolvedOriginId && originName.trim()) {
+      const res = await StationApi.searchStations(originName.trim(), activeCity);
+      if (res.success && res.data.length > 0) {
+        resolvedOriginId = res.data[0].id;
+        setOriginId(resolvedOriginId);
+        setOriginName(res.data[0].name);
+      }
+    }
+
+    if (!resolvedDestId && destName.trim()) {
+      const res = await StationApi.searchStations(destName.trim(), activeCity);
+      if (res.success && res.data.length > 0) {
+        resolvedDestId = res.data[0].id;
+        setDestId(resolvedDestId);
+        setDestName(res.data[0].name);
+      }
+    }
+
+    if (!resolvedOriginId || !resolvedDestId) {
+      setError("Please select stations from the dropdown or quick suggestions.");
       return;
     }
-    if (originId === destId) {
+    if (resolvedOriginId === resolvedDestId) {
       setError("Origin and destination must be different.");
       return;
     }
@@ -427,7 +474,7 @@ export function JourneyPlannerContainer({
     setError(null);
 
     const res = await ApiClient.get<Record<string, unknown>>(
-      `/journeys?from=${encodeURIComponent(originId)}&to=${encodeURIComponent(destId)}&k=5`
+      `/journeys?from=${encodeURIComponent(resolvedOriginId)}&to=${encodeURIComponent(resolvedDestId)}&k=5`
     );
 
     if (res.success && res.data && typeof res.data === "object" && "candidates" in res.data) {
@@ -486,6 +533,7 @@ export function JourneyPlannerContainer({
       onSwap={handleSwap}
       onRouteSelect={handleRouteSelect}
       onSearchRoute={handlePlanJourney}
+      onQuickPillSelect={handleQuickPillSelect}
     />
   );
 }

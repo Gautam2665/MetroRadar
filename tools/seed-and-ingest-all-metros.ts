@@ -140,7 +140,7 @@ async function main() {
       formData.append('file', blob, sys.filename);
 
       try {
-        const res = await fetch(`http://localhost:3001/ingestion/gtfs?systemId=${system.id}`, {
+        const res = await fetch(`http://127.0.0.1:3001/ingestion/gtfs?systemId=${system.id}`, {
           method: 'POST',
           body: formData,
         });

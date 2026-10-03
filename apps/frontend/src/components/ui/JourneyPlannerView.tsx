@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { StationSearchInput, StationItem } from "../StationSearchInput";
 import { RouteOption, RouteLeg } from "../../containers/JourneyPlannerContainer";
 import { formatShortLineName, formatLineName } from "../../utils/transitFormatter";
+import { CITY_METADATA } from "../../config/cityMetadata";
 
 export type { RouteOption, RouteLeg };
 
@@ -24,6 +25,7 @@ export interface JourneyPlannerViewProps {
   onSwap: () => void;
   onRouteSelect: (index: number) => void;
   onSearchRoute: () => void;
+  onQuickPillSelect?: (pill: string) => void;
 }
 
 // ── Leg chips matching Stitch UI design ──────────────────────────────────────
@@ -284,8 +286,19 @@ export function JourneyPlannerView({
   onSwap,
   onRouteSelect,
   onSearchRoute,
+  onQuickPillSelect,
 }: JourneyPlannerViewProps) {
-  const canSearch = !!originId && !!destinationId && originId !== destinationId;
+  const cityKey = activeCity?.toLowerCase() || "delhi";
+  const currentMeta = CITY_METADATA[cityKey] || CITY_METADATA.delhi;
+  const originPlaceholder = currentMeta.quickPills?.[0] || "Select origin station";
+  const destPlaceholder =
+    currentMeta.quickPills?.[currentMeta.quickPills.length - 1] || "Select destination station";
+  const quickPills = currentMeta.quickPills || [];
+
+  const canSearch =
+    (!!originId || origin.trim().length >= 2) &&
+    (!!destinationId || destination.trim().length >= 2) &&
+    origin.trim() !== destination.trim();
 
   return (
     <aside className="w-full h-full flex flex-col bg-[#0b0f17]/95 backdrop-blur-2xl border-r border-white/[0.08] overflow-hidden select-none">
@@ -325,7 +338,7 @@ export function JourneyPlannerView({
                 onChange={onOriginChange}
                 onSelectStation={onSelectOriginStation}
                 activeCity={activeCity}
-                placeholder="Dwarka Sector - 21"
+                placeholder={originPlaceholder}
                 inputClassName="w-full bg-transparent text-sm font-semibold text-white focus:outline-none truncate p-0 border-none placeholder:text-slate-500"
               />
             </div>
@@ -345,12 +358,31 @@ export function JourneyPlannerView({
                 onChange={onDestinationChange}
                 onSelectStation={onSelectDestinationStation}
                 activeCity={activeCity}
-                placeholder="Yamuna Bank"
+                placeholder={destPlaceholder}
                 inputClassName="w-full bg-transparent text-sm font-semibold text-white focus:outline-none truncate p-0 border-none placeholder:text-slate-500"
               />
             </div>
           </div>
         </div>
+
+        {/* Quick Station Suggestions */}
+        {quickPills.length > 0 && (
+          <div className="flex items-center gap-1.5 pt-2.5 overflow-x-auto scrollbar-hide">
+            <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider shrink-0">
+              Popular:
+            </span>
+            {quickPills.map((pill) => (
+              <button
+                key={pill}
+                type="button"
+                onClick={() => onQuickPillSelect?.(pill)}
+                className="px-2 py-0.5 rounded-md bg-[#1e2638]/60 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-300 border border-white/5 hover:border-cyan-500/30 text-[10.5px] font-medium whitespace-nowrap transition-all cursor-pointer"
+              >
+                {pill}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Error Notification */}
         {error && (

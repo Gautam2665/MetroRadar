@@ -16,14 +16,14 @@ export const CITY_METADATA: Record<
   kochi: {
     name: "Kochi, KL",
     code: "KMRL",
-    center: [76.2711, 9.9312],
+    center: [76.2999, 9.9816],
     quickPills: ["Aluva", "Edapally", "MG Road", "SN Junction"],
   },
   hyderabad: {
     name: "Hyderabad, TS",
     code: "HMRL",
     center: [78.4867, 17.385],
-    quickPills: ["Miyapur", "LB Nagar", "Raidurg", "Secunderabad"],
+    quickPills: ["Miyapur", "LB Nagar", "Raidurg", "Secunderabad East"],
   },
   bengaluru: {
     name: "Bengaluru, KA",
@@ -35,7 +35,7 @@ export const CITY_METADATA: Record<
     name: "Chennai, TN",
     code: "CMRL",
     center: [80.2707, 13.0827],
-    quickPills: ["Chennai Central", "Airport", "Guindy", "Koyambedu"],
+    quickPills: ["Chennai Central", "Chennai Airport", "Guindy", "Koyambedu"],
   },
   ahmedabad: {
     name: "Ahmedabad, GJ",
