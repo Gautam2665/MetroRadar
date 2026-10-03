@@ -1,0 +1,58 @@
+{
+  "systemCode": "MMRDA_LINE3",
+  "systemName": "Mumbai Metro Line 3 (Aqua Line)",
+  "city": "Mumbai",
+  "sourceRegistryVersion": "1.0.0",
+  "lastUpdated": "2026-10-03",
+  "description": "Authoritative TransitOS Source Registry for Mumbai Metro Line 3",
+  "sources": [
+    {
+      "sourceId": "SOURCE-001",
+      "title": "Detailed Project Report for Through Metro Corridor: Colaba – Bandra – SEEPZ (Line 3)",
+      "shortName": "Official Line 3 DPR",
+      "publisher": "Mumbai Metro Rail Corporation Limited (MMRC) / MMRDA / DMRC",
+      "authority": "MMRC / MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "DPR",
+      "documentPath": "sources/dpr/line-03/dpr-metro-line-III.pdf",
+      "originalFilename": "dpr-metro-line-III.pdf",
+      "publicationDate": "2011-11",
+      "format": "PDF",
+      "pages": 533,
+      "sizeBytes": 32765016,
+      "confidenceBaseline": 1.0,
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "B_STATION",
+        "C_OPERATIONS",
+        "D_ROLLING_STOCK",
+        "E_SIGNALLING"
+      ],
+      "notes": "Authoritative primary source for alignment, station sequence, chainage, inter-station distances, vertical profiles, track design parameters, and physical station layouts."
+    },
+    {
+      "sourceId": "SOURCE-002",
+      "title": "Mumbai Metro GTFS Synthesis & National Transit Expansion Research",
+      "shortName": "Gemini GTFS Research Document",
+      "publisher": "Google DeepMind / Antigravity Research",
+      "authority": "Gemini Research",
+      "authorityLevel": "SECONDARY",
+      "type": "RESEARCH",
+      "documentPath": "sources/research/mumbai-metro-gtfs-synthesis.pdf",
+      "originalFilename": "Mumbai Metro GTFS Synthesis.pdf",
+      "publicationDate": "2026-10",
+      "format": "PDF",
+      "pages": 41,
+      "sizeBytes": 822431,
+      "confidenceBaseline": 0.6,
+      "status": "RESEARCH_AID_ONLY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "C_OPERATIONS",
+        "F_GIS"
+      ],
+      "notes": "Secondary reference document. NOT allowed to directly populate CTM without primary verification against official documents."
+    }
+  ]
+}

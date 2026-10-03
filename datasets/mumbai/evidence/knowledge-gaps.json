@@ -1,0 +1,82 @@
+[
+  {
+    "gapId": "GAP-L3-A-001",
+    "systemCode": "MMRDA_LINE3",
+    "category": "A_NETWORK",
+    "entityType": "station",
+    "entityKey": "ALL_27_STATIONS",
+    "attribute": "wgs84_coordinates",
+    "requiredFor": "GTFS stops.txt export and Map display",
+    "reason": "Official DPR (SOURCE-001) specifies station chainage in linear meters (Table 4.3) and street alignments, but does not contain geographic WGS84 latitude/longitude coordinates.",
+    "potentialSourceTypes": [
+      "GIS_KML",
+      "COMMUNITY"
+    ],
+    "impactSeverity": "CRITICAL",
+    "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-A-002",
+    "systemCode": "MMRDA_LINE3",
+    "category": "A_NETWORK",
+    "entityType": "track_segment",
+    "entityKey": "LINE3_ALIGNMENT",
+    "attribute": "linestring_geometry",
+    "requiredFor": "GTFS shapes.txt export and high-precision route visualization",
+    "reason": "DPR Table 4.2 provides curve radii and transition lengths, but does not provide continuous GPS shape point polylines.",
+    "potentialSourceTypes": [
+      "GIS_KML",
+      "COMMUNITY"
+    ],
+    "impactSeverity": "HIGH",
+    "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-A-003",
+    "systemCode": "MMRDA_LINE3",
+    "category": "A_NETWORK",
+    "entityType": "station",
+    "entityKey": "ALL_27_STATIONS",
+    "attribute": "modern_operational_name",
+    "requiredFor": "Passenger-facing UI and GTFS stop_name accuracy",
+    "reason": "DPR (2011) lists tentative planning names (e.g. Bandra Metro/ITO, CSIA Domestic, CSIA International, Science Museum, Shitla Devi Temple) which were renamed prior to 2024 commissioning (BKC, CSMIA T1, CSMIA T2, Science Centre, Sitladevi).",
+    "potentialSourceTypes": [
+      "OFFICIAL_TIMETABLE",
+      "COMMUNITY"
+    ],
+    "impactSeverity": "MEDIUM",
+    "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-A-004",
+    "systemCode": "MMRDA_LINE3",
+    "category": "A_NETWORK",
+    "entityType": "track_segment",
+    "entityKey": "LINE3_TURNOUTS",
+    "attribute": "crossover_chainages",
+    "requiredFor": "Digital Twin detailed track topology and reversal simulation",
+    "reason": "DPR Section 4.4.3 mentions reversal facilities at Cuffe Parade, ITO/BKC, and SEEPZ, but exact turnout chainages are left to detailed design stage.",
+    "potentialSourceTypes": [
+      "DPR",
+      "OFFICIAL_TIMETABLE"
+    ],
+    "impactSeverity": "LOW",
+    "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-A-005",
+    "systemCode": "MMRDA_LINE3",
+    "category": "A_NETWORK",
+    "entityType": "line",
+    "entityKey": "LINE3",
+    "attribute": "operational_phasing",
+    "requiredFor": "Journey Engine operational filtering (Active vs Under Construction)",
+    "reason": "DPR specifies full corridor construction, but actual operational opening is phased (Phase 1 Aarey-BKC commissioned Oct 2024; Phase 2 BKC-Cuffe Parade ongoing).",
+    "potentialSourceTypes": [
+      "OFFICIAL_TIMETABLE",
+      "COMMUNITY"
+    ],
+    "impactSeverity": "HIGH",
+    "status": "OPEN"
+  }
+]
