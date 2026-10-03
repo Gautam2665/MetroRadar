@@ -43,5 +43,14 @@ export interface JourneyWeights {
 export const DEFAULT_WEIGHTS: JourneyWeights = {
   travelTimeWeight: 1.0,
   walkingWeight: 0.8, // 0.8 multiplier on pedestrian interchange travelator walkways
-  transferPenalty: 180, // 3 minutes transfer penalty per line change
+  /**
+   * transferPenalty: cost added to TRANSFER edges during Dijkstra traversal.
+   * This is a graph-search cost only — it guides Yen's algorithm to prefer fewer
+   * transfers when raw durations are comparable.
+   * It is NOT used as a post-hoc ranking penalty — dominance filtering handles that.
+   */
+  transferPenalty: 180,
 };
+
+/** Default number of candidate routes to generate via Yen's K-shortest algorithm */
+export const DEFAULT_K = 5;

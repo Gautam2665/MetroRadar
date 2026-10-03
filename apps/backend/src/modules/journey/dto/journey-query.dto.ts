@@ -1,9 +1,12 @@
 import {
   IsBoolean,
+  IsInt,
   IsOptional,
   IsString,
   IsUUID,
   IsArray,
+  Max,
+  Min,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
@@ -53,6 +56,19 @@ export class JourneyQueryDto {
   @ApiProperty({ description: 'Destination station ID (UUID)', format: 'uuid' })
   @IsUUID()
   to!: string;
+
+  @ApiPropertyOptional({
+    description: 'Number of candidate routes to return (1–10). Default: 5.',
+    default: 5,
+    minimum: 1,
+    maximum: 10,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(10)
+  k?: number;
 
   @ApiPropertyOptional({
     description: 'Optional routing constraints',

@@ -164,12 +164,12 @@ export class GeojsonService {
     const features = raw.map((r) => {
       const feat = r.feature as unknown as LineFeature;
       const nameUpper = (feat.properties.name || '').toUpperCase();
-      let color = feat.properties.color || '#3b82f6';
+      let color = (feat.properties.color || '').trim();
 
-      // Remap invalid or generic database black/white/null colors to their true route line hex codes
+      // Remap invalid, generic default, or database black/white/null colors to their true route line hex codes
       if (
-        color === '' ||
-        ['#000000', '000000', '#ffffff', 'ffffff'].includes(color.toLowerCase())
+        !color ||
+        ['#000000', '000000', '#ffffff', 'ffffff', '#3b82f6', '3b82f6'].includes(color.toLowerCase())
       ) {
         if (nameUpper.includes('YELLOW') || nameUpper.includes('LINE 2A')) {
           color = '#facc15'; // Vibrant Yellow
@@ -192,7 +192,9 @@ export class GeojsonService {
           nameUpper.includes('AIRPORT')
         ) {
           color = '#f97316'; // Orange Express
-        } else if (nameUpper.includes('RAPID')) {
+        } else if (nameUpper.includes('GREY') || nameUpper.includes('GRAY')) {
+          color = '#808080'; // Grey Line
+        } else if (nameUpper.includes('TEAL') || nameUpper.includes('RAPID')) {
           color = '#14b8a6'; // Rapid Teal
         } else if (nameUpper.includes('KOCHI')) {
           color = '#0ea5e9'; // Kochi Sky Blue
@@ -251,10 +253,10 @@ export class GeojsonService {
       if (feat.properties && Array.isArray(feat.properties.lines)) {
         feat.properties.lines = feat.properties.lines.map((l) => {
           const nameUpper = (l.name || '').toUpperCase();
-          let color = l.color || '#3b82f6';
+          let color = (l.color || '').trim();
           if (
-            color === '' ||
-            ['#000000', '000000', '#ffffff', 'ffffff'].includes(
+            !color ||
+            ['#000000', '000000', '#ffffff', 'ffffff', '#3b82f6', '3b82f6'].includes(
               color.toLowerCase(),
             )
           ) {
@@ -279,7 +281,9 @@ export class GeojsonService {
               nameUpper.includes('AIRPORT')
             ) {
               color = '#f97316';
-            } else if (nameUpper.includes('RAPID')) {
+            } else if (nameUpper.includes('GREY') || nameUpper.includes('GRAY')) {
+              color = '#808080';
+            } else if (nameUpper.includes('TEAL') || nameUpper.includes('RAPID')) {
               color = '#14b8a6';
             } else if (nameUpper.includes('KOCHI')) {
               color = '#0ea5e9';

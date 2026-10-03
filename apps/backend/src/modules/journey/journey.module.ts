@@ -5,6 +5,7 @@ import { GraphBuilderService } from './graph/graph-builder.service';
 import { GraphProviderService } from './graph/graph-provider.service';
 import { RoutingService } from './routing/routing.service';
 import { ScoringService } from './routing/scoring.service';
+import { CandidateFilterService } from './routing/candidate-filter.service';
 import { JourneyService } from './routing/journey.service';
 import { JourneyController } from './controllers/journey.controller';
 
@@ -16,6 +17,7 @@ import { JourneyController } from './controllers/journey.controller';
     GraphProviderService,
     RoutingService,
     ScoringService,
+    CandidateFilterService,
     JourneyService,
   ],
   exports: [GraphProviderService, JourneyService],

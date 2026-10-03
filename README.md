@@ -131,6 +131,8 @@ v1.1+ (Wear OS / Ambient) <── v1.0 (Booking & ONDC) <── v0.9 (Voice & AI
 | **v0.5** | Core transit database, static GTFS parser, Dijkstra pathfinding engine | ✅ Complete |
 | **v0.5.5** | National GTFS Certification (6 Metros Ingested) & CTM v1.0 Schema Freeze | ✅ Complete |
 | **v0.6** | Passenger Experience & Benchmark UI (MapLibre, Digital Twin, Step-by-Step Directions) | ✅ Complete |
+| **v0.6.2** | Journey Intelligence: Candidate Generation (Yen's K-Shortest) & Deterministic Evaluation | ✅ Complete |
+| **v0.6.3** | Stitch Journey Planner Redesign, Route-Focused Simulation & Smart Station Cards | ✅ Complete |
 | **v0.6.5** | **National Transit Expansion & Calibration Baseline (Mumbai CTM, Pi Pipeline)** | 🚧 **Active / Next** |
 | **v0.7** | Prediction Engine & Operational Intelligence (Delays, Headways, Fleet-State Digital Twin) | ⏳ Planned |
 | **v0.8** | Analytics & Operator Intelligence (Line efficiency, congestion modeling, bottlenecks) | ⏳ Planned |

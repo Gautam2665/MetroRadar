@@ -7,7 +7,8 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JourneyQueryDto } from '../dto/journey-query.dto';
-import { JourneyService, JourneyResponse } from '../routing/journey.service';
+import { JourneyService } from '../routing/journey.service';
+import { JourneyResponse } from '../routing/candidate.types';
 
 @ApiTags('Journey')
 @Controller('journeys')
@@ -17,11 +18,14 @@ export class JourneyController {
   @Get()
   @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
   @ApiOperation({
-    summary: 'Plan a journey between two stations',
+    summary: 'Plan a journey — returns top-K candidate routes',
     description:
-      'Returns the optimal route between two stations using Dijkstra shortest-path. ' +
-      'Response includes journey metadata, scored legs, ordered station list, and a ' +
-      'ready-to-render GeoJSON FeatureCollection for map highlight.',
+      "Generates up to K feasible candidate journeys using Yen's K-shortest loopless paths algorithm. " +
+      'Candidates are filtered (feasibility + dominance) and ranked by a configurable composite score. ' +
+      'Each RouteCandidate includes timing breakdown (in-vehicle, walking, waiting), transfer count, ' +
+      'line list, structured attribute flags (fastest, direct, fewestTransfers…), and tradeoff deltas ' +
+      'vs rank-1. GeoJSON is included per candidate for map rendering. ' +
+      'Future Intent engine can re-rank candidates via Intent JSON without re-routing.',
   })
   @ApiQuery({
     name: 'from',
@@ -33,7 +37,16 @@ export class JourneyController {
     description: 'Destination station ID (UUID)',
     required: true,
   })
-  @ApiResponse({ status: 200, description: 'Journey computed successfully.' })
+  @ApiQuery({
+    name: 'k',
+    description: 'Number of candidate routes to return (1–10). Default: 5.',
+    required: false,
+    type: Number,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Candidate journeys computed successfully.',
+  })
   @ApiResponse({
     status: 400,
     description: 'Invalid input or cross-system routing attempted.',

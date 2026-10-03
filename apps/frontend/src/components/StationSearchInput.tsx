@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useStationsSearch } from "../hooks/useStationsSearch";
 import { StationSearchResult } from "../services/api/station.api";
 import { formatShortLineName } from "../utils/transitFormatter";
+import { ScrollingText } from "./ui/ScrollingText";
 
 /** Public type that consumers receive when a station is selected */
 export type StationItem = {
@@ -112,7 +113,7 @@ export function StationSearchInput({
       />
 
       {showDropdown && (
-        <div className="absolute left-0 right-0 top-full mt-2 bg-[#1c2028] border border-white/10 rounded-xl shadow-2xl py-2 z-50 max-h-72 overflow-y-auto scrollbar-hide">
+        <div className="absolute left-0 -right-10 top-full mt-2 bg-[#1c2028] border border-white/10 rounded-xl shadow-2xl py-2 z-50 max-h-72 overflow-y-auto scrollbar-hide">
           {/* Header */}
           <div className="px-3 py-1.5 text-[10px] font-bold text-[#bac9cc] uppercase tracking-wider border-b border-white/5 flex justify-between items-center">
             {loading ? (
@@ -155,9 +156,9 @@ export function StationSearchInput({
                 onClick={() => handleSelect(station)}
                 className="w-full text-left px-4 py-2.5 text-sm flex items-center justify-between hover:bg-white/5 transition-colors border-b border-white/5 last:border-none"
               >
-                <div className="flex items-center gap-2 min-w-0">
+                <div className="flex items-center gap-2 min-w-0 flex-1 mr-2 overflow-hidden">
                   <span className="material-symbols-outlined text-[#bac9cc] text-base flex-shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>subway</span>
-                  <p className="font-semibold text-[#dfe2ee] leading-tight truncate">{station.name}</p>
+                  <ScrollingText text={station.name} className="font-semibold text-[#dfe2ee] leading-tight flex-1" />
                 </div>
           {/* Line color badges — deduplicated by color, showing short color name */}
           {(() => {

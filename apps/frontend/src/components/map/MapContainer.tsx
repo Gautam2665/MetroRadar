@@ -5,6 +5,15 @@ import { useRouter } from "next/navigation";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Compass } from "lucide-react";
+import { RouteOption } from "../../containers/JourneyPlannerContainer";
+import { renderSmartStationCardHtml, StationCardData } from "./SmartStationCard";
+import { JourneyTrainSimulator } from "./JourneyTrainSimulator";
+import {
+  normalizeStationLines,
+  deriveJourneyStationContext,
+  SmartStationCardMode,
+} from "../../utils/transitPresenter";
+
 const CITY_CENTERS: Record<string, { center: [number, number]; zoom: number }> = {
   delhi: { center: [77.2090, 28.6139], zoom: 11 },
   kochi: { center: [76.2999, 9.9816], zoom: 12 },
@@ -22,7 +31,7 @@ const SYSTEM_CODES: Record<string, string> = {
   bengaluru: "BMRCL",
   chennai: "CMRL",
   ahmedabad: "GMRC",
-  mumbai: "MMRDA",
+  mumbai: "MM",
 };
 
 type MapContainerProps = {
@@ -31,14 +40,19 @@ type MapContainerProps = {
   activeLayers?: string[];
   activeCity?: string;
   selectedStationId?: string | null;
+  selectedCandidateId?: string | null;
   onStationSelect?: (stationId: string) => void;
   onSelectStation?: (station: { id: string; name: string; code?: string; city?: string }) => void;
+  onSetOrigin?: (station: { id: string; name: string }) => void;
+  onSetDestination?: (station: { id: string; name: string }) => void;
   onViewportChange?: (center: [number, number], zoom: number) => void;
   apiLatencySetter?: (ms: number) => void;
   setLoadedLayersCount?: (count: number) => void;
   mapRef?: React.MutableRefObject<maplibregl.Map | null>;
   highlightGeojson?: GeoJSON.FeatureCollection | null;
   journeyGeojson?: GeoJSON.FeatureCollection | null;
+  selectedCandidate?: RouteOption | null;
+  candidates?: RouteOption[];
 };
 
 export default function MapContainer({
@@ -47,13 +61,18 @@ export default function MapContainer({
   activeLayers = ["lines", "stations", "vehicles"],
   activeCity = "delhi",
   selectedStationId = null,
+  selectedCandidateId = null,
   onStationSelect,
   onSelectStation,
+  onSetOrigin,
+  onSetDestination,
   onViewportChange,
   apiLatencySetter,
   setLoadedLayersCount,
   mapRef,
   journeyGeojson,
+  selectedCandidate = null,
+  candidates = [],
 }: MapContainerProps) {
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -61,6 +80,49 @@ export default function MapContainer({
   const effectiveMapRef = mapRef || internalMapRef;
   const [mapLoaded, setMapLoaded] = useState(false);
   const [mapStyle, setMapStyle] = useState<"3D" | "Satellite" | "Dark">("Dark");
+
+  // Explicit interaction states
+  const [hoveredStationId, setHoveredStationId] = useState<string | null>(null);
+  const [pinnedStationId, setPinnedStationId] = useState<string | null>(selectedStationId);
+  const pinnedStationIdRef = useRef<string | null>(selectedStationId);
+  const popupCloseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    pinnedStationIdRef.current = selectedStationId;
+    setPinnedStationId(selectedStationId);
+  }, [selectedStationId]);
+
+  // Train Simulator ref (single isolated service)
+  const trainSimRef = useRef<JourneyTrainSimulator | null>(null);
+  const stationPopupRef = useRef<maplibregl.Popup | null>(null);
+  const currentOpenStationIdRef = useRef<string | null>(null);
+  const digitalTwinCache = useRef<Map<string, { platforms: number; exits: number; levels: number }>>(new Map());
+
+  const selectedCandidateRef = useRef<RouteOption | null>(selectedCandidate);
+  const onSetOriginRef = useRef(onSetOrigin);
+  const onSetDestRef = useRef(onSetDestination);
+  const onStationSelectRef = useRef(onStationSelect);
+  const onSelectStationRef = useRef(onSelectStation);
+
+  useEffect(() => {
+    selectedCandidateRef.current = selectedCandidate;
+  }, [selectedCandidate]);
+
+  useEffect(() => {
+    onSetOriginRef.current = onSetOrigin;
+  }, [onSetOrigin]);
+
+  useEffect(() => {
+    onSetDestRef.current = onSetDestination;
+  }, [onSetDestination]);
+
+  useEffect(() => {
+    onStationSelectRef.current = onStationSelect;
+  }, [onStationSelect]);
+
+  useEffect(() => {
+    onSelectStationRef.current = onSelectStation;
+  }, [onSelectStation]);
 
   const handleZoomIn = () => effectiveMapRef.current?.zoomIn();
   const handleZoomOut = () => effectiveMapRef.current?.zoomOut();
@@ -74,7 +136,204 @@ export default function MapContainer({
     onViewportChangeRef.current = onViewportChange;
   }, [onViewportChange]);
 
-  // Initialize Map
+  // Helper to open Smart Station Card with passenger-facing presentation
+  const openSmartStationCard = (
+    props: {
+      id?: string;
+      name?: string;
+      stationName?: string;
+      code?: string;
+      lines?: unknown;
+      wheelchairAccessible?: boolean;
+      featureType?: string;
+    },
+    coords: [number, number],
+    noEase = false
+  ) => {
+    const map = effectiveMapRef.current;
+    if (!map) return;
+
+    const stId = props.id || `stn-${props.name || props.stationName || "unknown"}`;
+    const stName = props.name || props.stationName || "Station";
+
+    // 1. Clean & normalize lines (deduplicates multiple directions into clean line objects)
+    const cleanLines = normalizeStationLines(props.lines);
+
+    // 2. Derive journey context from the currently selected candidate
+    const cand = selectedCandidateRef.current;
+    const journeyContext = deriveJourneyStationContext(stName, cand);
+
+    // If lines weren't in station properties, synthesize from journey context
+    if (cleanLines.length === 0 && journeyContext) {
+      if (journeyContext.incomingLine && journeyContext.incomingColor) {
+        cleanLines.push({
+          code: journeyContext.incomingLine.slice(0, 3).toUpperCase(),
+          name: journeyContext.incomingLine,
+          shortName: journeyContext.incomingLine,
+          color: journeyContext.incomingColor,
+        });
+      }
+      if (journeyContext.outgoingLine && journeyContext.outgoingColor) {
+        cleanLines.push({
+          code: journeyContext.outgoingLine.slice(0, 3).toUpperCase(),
+          name: journeyContext.outgoingLine,
+          shortName: journeyContext.outgoingLine,
+          color: journeyContext.outgoingColor,
+        });
+      }
+    }
+
+    // 3. Determine if station is an interchange
+    const isTransferPoint = props.featureType === "journey-transfer" || journeyContext?.role === "transfer";
+    const isInterchange = cleanLines.length > 1 || isTransferPoint;
+
+    // 4. Determine Smart Station Card mode
+    let mode: SmartStationCardMode = "NORMAL";
+    if (journeyContext?.role === "transfer") {
+      mode = "JOURNEY_TRANSFER";
+    } else if (journeyContext?.role === "direct_pass_through") {
+      mode = "JOURNEY_DIRECT_PASS_THROUGH";
+    } else if (isInterchange) {
+      mode = "INTERCHANGE";
+    }
+
+    const cachedTwin = digitalTwinCache.current.get(stId);
+
+    const cardData: StationCardData = {
+      id: stId,
+      name: stName,
+      code: props.code,
+      city: activeCity,
+      lines: cleanLines,
+      wheelchairAccessible: props.wheelchairAccessible,
+      isInterchange,
+      mode,
+      levelsCount: cachedTwin?.levels,
+      exitsCount: cachedTwin?.exits,
+      platformsCount: cachedTwin?.platforms,
+      journeyContext,
+    };
+
+    if (popupCloseTimeoutRef.current) {
+      clearTimeout(popupCloseTimeoutRef.current);
+      popupCloseTimeoutRef.current = null;
+    }
+
+    if (!stationPopupRef.current) {
+      stationPopupRef.current = new maplibregl.Popup({
+        closeButton: false,
+        closeOnClick: false,
+        className: "stitch-station-popup",
+        offset: {
+          top: [0, 20],
+          "top-left": [0, 20],
+          "top-right": [0, 20],
+          bottom: [0, -20],
+          "bottom-left": [0, -20],
+          "bottom-right": [0, -20],
+          left: [20, 0],
+          right: [-20, 0],
+        } as any,
+        maxWidth: "340px",
+      });
+    }
+
+    const popup = stationPopupRef.current;
+
+    // Guard against repeated DOM re-renders on mousemove over the same station
+    if (currentOpenStationIdRef.current === stId && popup.isOpen()) {
+      return;
+    }
+    currentOpenStationIdRef.current = stId;
+
+    popup
+      .setLngLat(coords)
+      .setHTML(renderSmartStationCardHtml(cardData))
+      .addTo(map);
+
+    // Attach event listeners to popup DOM to prevent closing when hovering over the card
+    const popupEl = popup.getElement();
+    if (popupEl) {
+      popupEl.onmouseenter = () => {
+        if (popupCloseTimeoutRef.current) {
+          clearTimeout(popupCloseTimeoutRef.current);
+          popupCloseTimeoutRef.current = null;
+        }
+      };
+      popupEl.onmouseleave = () => {
+        if (!pinnedStationIdRef.current) {
+          popupCloseTimeoutRef.current = setTimeout(() => {
+            popup.remove();
+            currentOpenStationIdRef.current = null;
+          }, 300);
+        }
+      };
+    }
+
+    // Pan map only on explicit click (avoid jarring pan on hover)
+    if (!noEase) {
+      map.easeTo({
+        center: coords,
+        offset: [-160, 0],
+        duration: 400,
+      });
+    }
+
+    // Event delegation for action buttons inside popup
+    setTimeout(() => {
+      const container = popup.getElement();
+      if (!container) return;
+
+      const originBtn = container.querySelector('[data-action="set-origin"]');
+      const destBtn = container.querySelector('[data-action="set-dest"]');
+      const twinBtn = container.querySelector('[data-action="view-network"]');
+
+      if (originBtn) {
+        originBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          onSetOriginRef.current?.({ id: stId, name: stName });
+          popup.remove();
+        });
+      }
+      if (destBtn) {
+        destBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          onSetDestRef.current?.({ id: stId, name: stName });
+          popup.remove();
+        });
+      }
+      if (twinBtn) {
+        twinBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          router.push(`/network?station=${encodeURIComponent(stId)}`);
+        });
+      }
+    }, 50);
+
+    // Pre-cache digital twin metadata in background if not already cached
+    if (!cachedTwin && stId && !stId.startsWith("stn-")) {
+      const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+      fetch(`${backendUrl}/stations/${encodeURIComponent(stId)}/digital-twin`)
+        .then((r) => (r.ok ? r.json() : null))
+        .then((twin) => {
+          if (twin) {
+            digitalTwinCache.current.set(stId, {
+              platforms: twin.platformEtas?.length || (isInterchange ? 4 : 2),
+              exits: twin.exits?.length || (isInterchange ? 4 : 2),
+              levels: twin.levels?.length || (isInterchange ? 2 : 1),
+            });
+          }
+        })
+        .catch(() => {});
+    }
+  };
+
+  const openSmartStationCardRef = useRef(openSmartStationCard);
+  useEffect(() => {
+    openSmartStationCardRef.current = openSmartStationCard;
+  });
+
+  // Initialize MapLibre
   useEffect(() => {
     if (!containerRef.current) return;
 
@@ -96,14 +355,46 @@ export default function MapContainer({
     } else {
       internalMapRef.current = map;
     }
+    if (typeof window !== "undefined") {
+      (window as any)._map = map;
+    }
 
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-left");
 
-    const handleLoad = () => setMapLoaded(true);
-    if (map.isStyleLoaded()) {
+    const initSimulator = () => {
       setMapLoaded(true);
+      trainSimRef.current = new JourneyTrainSimulator(
+        map,
+        (props, coords) => {
+          pinnedStationIdRef.current = (props.id as string) || "transfer";
+          setPinnedStationId(pinnedStationIdRef.current);
+          openSmartStationCardRef.current(props, coords, false);
+        },
+        (props, coords) => {
+          if (popupCloseTimeoutRef.current) {
+            clearTimeout(popupCloseTimeoutRef.current);
+            popupCloseTimeoutRef.current = null;
+          }
+          openSmartStationCardRef.current(props, coords, true);
+        },
+        () => {
+          popupCloseTimeoutRef.current = setTimeout(() => {
+            if (!pinnedStationIdRef.current) {
+              const popup = stationPopupRef.current;
+              if (popup && !popup.getElement()?.matches(":hover")) {
+                popup.remove();
+                currentOpenStationIdRef.current = null;
+              }
+            }
+          }, 300);
+        }
+      );
+    };
+
+    if (map.isStyleLoaded()) {
+      initSimulator();
     } else {
-      map.on("load", handleLoad);
+      map.on("load", initSimulator);
     }
 
     map.on("moveend", () => {
@@ -112,10 +403,66 @@ export default function MapContainer({
     });
 
     return () => {
+      trainSimRef.current?.destroy();
+      trainSimRef.current = null;
+      stationPopupRef.current?.remove();
+      stationPopupRef.current = null;
+      currentOpenStationIdRef.current = null;
       map.remove();
       effectiveMapRef.current = null;
     };
-  }, [mapRef]);
+  }, [mapRef, effectiveMapRef]);
+
+  // Synchronize Journey Simulation Train with selectedCandidateId
+  // Only updates when selection state changes — NEVER stops/restarts on unrelated re-renders
+  useEffect(() => {
+    const map = effectiveMapRef.current;
+    if (!map || !mapLoaded) return;
+
+    // Cleanly close any open station card when candidate selection changes
+    stationPopupRef.current?.remove();
+    currentOpenStationIdRef.current = null;
+    pinnedStationIdRef.current = null;
+    setPinnedStationId(null);
+
+    if (!trainSimRef.current) {
+      trainSimRef.current = new JourneyTrainSimulator(
+        map,
+        (props, coords) => {
+          pinnedStationIdRef.current = (props.id as string) || "transfer";
+          setPinnedStationId(pinnedStationIdRef.current);
+          openSmartStationCardRef.current(props, coords, false);
+        },
+        (props, coords) => {
+          if (popupCloseTimeoutRef.current) {
+            clearTimeout(popupCloseTimeoutRef.current);
+            popupCloseTimeoutRef.current = null;
+          }
+          openSmartStationCardRef.current(props, coords, true);
+        },
+        () => {
+          popupCloseTimeoutRef.current = setTimeout(() => {
+            if (!pinnedStationIdRef.current) {
+              const popup = stationPopupRef.current;
+              if (popup && !popup.getElement()?.matches(":hover")) {
+                popup.remove();
+                currentOpenStationIdRef.current = null;
+              }
+            }
+          }, 300);
+        }
+      );
+    }
+
+    // Authoritative single-train state:
+    // If candidate selected -> start simulation train
+    // If no candidate selected -> stop simulation train (NO random moving dots)
+    if (selectedCandidate) {
+      trainSimRef.current.start(selectedCandidate);
+    } else {
+      trainSimRef.current.stop();
+    }
+  }, [selectedCandidate?.id, mapLoaded]);
 
   // Fly to target city center when activeCity changes
   useEffect(() => {
@@ -128,60 +475,79 @@ export default function MapContainer({
       zoom: cityConfig.zoom,
       speed: 1.2,
       curve: 1.4,
-      duration: 2500,
       essential: true,
     });
-  }, [activeCity, mapLoaded]);
+  }, [activeCity, mapLoaded, effectiveMapRef]);
 
-  // Load and style GIS Layers
+  // Handle Map Styles
   useEffect(() => {
     const map = effectiveMapRef.current;
     if (!map || !mapLoaded) return;
 
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
+    const styles: Record<string, string> = {
+      Dark: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+      Satellite: "https://api.maptiler.com/maps/hybrid/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL",
+      "3D": "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+    };
+
+    if (styles[mapStyle]) {
+      map.setStyle(styles[mapStyle]);
+      map.once("style.load", () => {
+        if (mapStyle === "3D") {
+          map.easeTo({ pitch: 45, bearing: -15, duration: 1000 });
+        } else {
+          map.easeTo({ pitch: 0, bearing: 0, duration: 800 });
+        }
+      });
+    }
+  }, [mapStyle, mapLoaded, effectiveMapRef]);
+
+  // ── Network Base Layers (Lines & Stations) ────────────────────────────────
+  useEffect(() => {
+    const map = effectiveMapRef.current;
+    if (!map || !mapLoaded) return;
+
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
     let layersLoaded = 0;
 
     const syncLayers = async () => {
-      // 1. LINES LAYER
+      // 1. Lines Layer
       if (activeLayers.includes("lines")) {
         try {
-          const start = performance.now();
+          const t0 = performance.now();
           const res = await fetch(`${backendUrl}/map/lines?t=${Date.now()}`);
-          const ms = Math.round(performance.now() - start);
-          apiLatencySetter?.(ms);
+          if (res.ok) {
+            const geojson = await res.json();
+            apiLatencySetter?.(Math.round(performance.now() - t0));
 
-          const geojson = await res.json();
-
-          if (map.getSource("lines-source")) {
-            (map.getSource("lines-source") as maplibregl.GeoJSONSource).setData(geojson);
-          } else {
-            map.addSource("lines-source", { type: "geojson", data: geojson });
-            map.addLayer({
-              id: "lines-layer",
-              type: "line",
-              source: "lines-source",
-              paint: {
-                "line-color": ["coalesce", ["get", "color"], "#3b82f6"],
-                "line-width": [
-                  "interpolate",
-                  ["linear"],
-                  ["zoom"],
-                  10,
-                  2,
-                  14,
-                  4,
-                  18,
-                  8,
-                ],
-                "line-opacity": 0.85,
-              },
-              layout: {
-                "line-join": "round",
-                "line-cap": "round",
-              },
-            });
+            if (map.getSource("lines-source")) {
+              (map.getSource("lines-source") as maplibregl.GeoJSONSource).setData(geojson);
+            } else {
+              map.addSource("lines-source", { type: "geojson", data: geojson });
+              map.addLayer({
+                id: "lines-layer",
+                type: "line",
+                source: "lines-source",
+                paint: {
+                  "line-color": ["coalesce", ["get", "color"], "#3b82f6"],
+                  "line-width": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    10, 2.5,
+                    14, 5,
+                    18, 9,
+                  ],
+                  "line-opacity": 0.85,
+                },
+                layout: {
+                  "line-join": "round",
+                  "line-cap": "round",
+                },
+              });
+            }
+            layersLoaded++;
           }
-          layersLoaded++;
         } catch (err) {
           console.error("Failed to load lines GIS layer:", err);
         }
@@ -190,111 +556,118 @@ export default function MapContainer({
         if (map.getSource("lines-source")) map.removeSource("lines-source");
       }
 
-      // 2. STATIONS LAYER
+      // 2. Stations Layer
       if (activeLayers.includes("stations")) {
         try {
-          const start = performance.now();
-          const res = await fetch(`${backendUrl}/map/stations?t=${Date.now()}`);
-          const ms = Math.round(performance.now() - start);
-          apiLatencySetter?.(ms);
+          const sysCode = SYSTEM_CODES[activeCity.toLowerCase()] || "DMRC";
+          const res = await fetch(`${backendUrl}/map/stations?system=${sysCode}&t=${Date.now()}`);
+          if (res.ok) {
+            const geojson = await res.json();
 
-          const geojson = await res.json();
+            if (map.getSource("stations-source")) {
+              (map.getSource("stations-source") as maplibregl.GeoJSONSource).setData(geojson);
+            } else {
+              map.addSource("stations-source", { type: "geojson", data: geojson });
 
-          if (map.getSource("stations-source")) {
-            (map.getSource("stations-source") as maplibregl.GeoJSONSource).setData(geojson);
-          } else {
-            map.addSource("stations-source", { type: "geojson", data: geojson });
-            map.addLayer({
-              id: "stations-layer",
-              type: "circle",
-              source: "stations-source",
-              paint: {
-                "circle-color": ["coalesce", ["get", "color"], "#06b6d4"],
-                "circle-radius": [
-                  "interpolate",
-                  ["linear"],
-                  ["zoom"],
-                  10,
-                  4,
-                  14,
-                  7,
-                  18,
-                  12,
-                ],
-                "circle-stroke-color": "#09090b",
-                "circle-stroke-width": 2,
-              },
-            });
+              map.addLayer({
+                id: "stations-layer",
+                type: "circle",
+                source: "stations-source",
+                paint: {
+                  "circle-color": "#ffffff",
+                  "circle-radius": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    10, 3,
+                    14, 5,
+                    18, 8,
+                  ],
+                  "circle-stroke-color": [
+                    "case",
+                    ["has", "lineColor"],
+                    ["get", "lineColor"],
+                    ["has", "color"],
+                    ["get", "color"],
+                    "#06b6d4",
+                  ],
+                  "circle-stroke-width": 2,
+                  "circle-opacity": 0.95,
+                  "circle-stroke-opacity": 1.0,
+                },
+              });
+            }
 
-            // Handle Hover & Click Interaction
-            const hoverPopup = new maplibregl.Popup({
-              closeButton: false,
-              closeOnClick: false,
-              offset: 12,
-            });
-
+            // Interactive hover & click bindings
             map.on("mousemove", "stations-layer", (e) => {
-              if (e.features && e.features.length > 0) {
-                map.getCanvas().style.cursor = "pointer";
-                const f = e.features[0];
-                const props = f.properties;
-                const geom = f.geometry as GeoJSON.Point;
-                const name = props?.name || "Station";
-
-                let linesHtml = "";
-                try {
-                  const rawLines = typeof props?.lines === "string" ? JSON.parse(props.lines) : props?.lines;
-                  if (Array.isArray(rawLines) && rawLines.length > 0) {
-                    linesHtml = rawLines
-                      .slice(0, 2)
-                      .map((l: { name?: string; color?: string }) =>
-                        `<span style="background: ${l.color || '#00e5ff'}25; color: ${l.color || '#00e5ff'}; border: 1px solid ${l.color || '#00e5ff'}60; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 12px; font-family: system-ui, sans-serif;">${l.name || 'Metro'}</span>`
-                      )
-                      .join("");
-                  }
-                } catch {}
-
-                if (!linesHtml && props?.color) {
-                  linesHtml = `<span style="background: ${props.color}25; color: ${props.color}; border: 1px solid ${props.color}60; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 12px; font-family: system-ui, sans-serif;">Metro</span>`;
+              map.getCanvas().style.cursor = "pointer";
+              const features = map.queryRenderedFeatures(e.point, { layers: ["stations-layer"] });
+              if (features.length > 0) {
+                if (popupCloseTimeoutRef.current) {
+                  clearTimeout(popupCloseTimeoutRef.current);
+                  popupCloseTimeoutRef.current = null;
                 }
-
-                hoverPopup
-                  .setLngLat(geom.coordinates as [number, number])
-                  .setHTML(
-                    `<div style="background: #0d111a; color: #dfe2ee; font-family: system-ui, -apple-system, sans-serif; padding: 6px 12px; border-radius: 10px; border: 1.5px solid ${props?.color || '#00e5ff'}80; box-shadow: 0 4px 24px rgba(0,0,0,0.85); display: flex; align-items: center; gap: 6px; pointer-events: none;">
-                      <span style="color: #ffffff; font-size: 13px; font-weight: 700;">📍 ${name}</span>
-                      ${linesHtml}
-                    </div>`
-                  )
-                  .addTo(map);
+                const props = features[0].properties;
+                const geom = features[0].geometry as GeoJSON.Point;
+                const coords = geom.coordinates as [number, number];
+                setHoveredStationId(props.id || null);
+                openSmartStationCardRef.current(props, coords, true);
               }
             });
 
             map.on("mouseleave", "stations-layer", () => {
               map.getCanvas().style.cursor = "";
-              hoverPopup.remove();
+              setHoveredStationId(null);
+              popupCloseTimeoutRef.current = setTimeout(() => {
+                if (!pinnedStationIdRef.current) {
+                  const popup = stationPopupRef.current;
+                  if (popup && !popup.getElement()?.matches(":hover")) {
+                    popup.remove();
+                    currentOpenStationIdRef.current = null;
+                  }
+                }
+              }, 250);
             });
 
             map.on("click", "stations-layer", (e) => {
               const features = map.queryRenderedFeatures(e.point, { layers: ["stations-layer"] });
               if (features.length > 0) {
                 const props = features[0].properties;
-                if (props?.id) {
-                  const stName = props.name || "Station";
-                  onStationSelect?.(props.id);
-                  onSelectStation?.({
+                const geom = features[0].geometry as GeoJSON.Point;
+                const coords = geom.coordinates as [number, number];
+
+                pinnedStationIdRef.current = props.id || null;
+                setPinnedStationId(props.id || null);
+
+                if (props.id) {
+                  onStationSelectRef.current?.(props.id);
+                  onSelectStationRef.current?.({
                     id: props.id,
-                    name: stName,
+                    name: props.name || "Station",
                     code: props.code || "STN",
                     city: props.city || activeCity,
                   });
-                  // Navigate to Live Network page
-                  router.push(`/network?stationId=${props.id}&stationName=${encodeURIComponent(stName)}`);
                 }
+
+                openSmartStationCardRef.current(props, coords, false);
               }
             });
+
+            // Map canvas click clears pinned station and closes popup
+            map.on("click", (e) => {
+              const features = map.queryRenderedFeatures(e.point, {
+                layers: ["stations-layer", "journey-route-stations-layer", "journey-transfer-layer", "journey-origin-layer", "journey-dest-layer"].filter((l) => map.getLayer(l)),
+              });
+              if (features.length === 0) {
+                pinnedStationIdRef.current = null;
+                setPinnedStationId(null);
+                stationPopupRef.current?.remove();
+                currentOpenStationIdRef.current = null;
+              }
+            });
+
+            layersLoaded++;
           }
-          layersLoaded++;
         } catch (err) {
           console.error("Failed to load stations GIS layer:", err);
         }
@@ -303,198 +676,13 @@ export default function MapContainer({
         if (map.getSource("stations-source")) map.removeSource("stations-source");
       }
 
-      // 3. SELECTION STATE GLOW
-      if (selectedStationId && activeLayers.includes("stations")) {
-        try {
-          const start = performance.now();
-          const res = await fetch(`${backendUrl}/map/stations/${selectedStationId}?t=${Date.now()}`);
-          const ms = Math.round(performance.now() - start);
-          apiLatencySetter?.(ms);
-
-          const feature = await res.json();
-
-          if (map.getSource("selected-station-source")) {
-            (map.getSource("selected-station-source") as maplibregl.GeoJSONSource).setData(feature);
-          } else {
-            map.addSource("selected-station-source", { type: "geojson", data: feature });
-            map.addLayer({
-              id: "selected-station-glow",
-              type: "circle",
-              source: "selected-station-source",
-              paint: {
-                "circle-color": "transparent",
-                "circle-radius": [
-                  "interpolate",
-                  ["linear"],
-                  ["zoom"],
-                  10,
-                  8,
-                  14,
-                  15,
-                  18,
-                  25,
-                ],
-                "circle-stroke-color": "#06b6d4",
-                "circle-stroke-width": 2.5,
-                "circle-stroke-opacity": 0.8,
-              },
-            });
-          }
-        } catch (err) {
-          console.error("Failed to load selection overlay:", err);
-        }
-      } else {
-        if (map.getLayer("selected-station-glow")) map.removeLayer("selected-station-glow");
-        if (map.getSource("selected-station-source")) map.removeSource("selected-station-source");
-      }
-
-      // 4. LIVE TRAINS LAYER (GTFS-RT Telemetry)
-      if (activeLayers.includes("realtime")) {
-        try {
-          const start = performance.now();
-          const systemCode = SYSTEM_CODES[activeCity?.toLowerCase() || "delhi"] || "DMRC";
-          const res = await fetch(`${backendUrl}/realtime/vehicles?system=${systemCode}&t=${Date.now()}`);
-          const ms = Math.round(performance.now() - start);
-          apiLatencySetter?.(ms);
-
-          type VehicleData = {
-            vehicleId: string;
-            tripId?: string;
-            routeId?: string;
-            longitude: number;
-            latitude: number;
-            lineName?: string;
-            lineColor?: string;
-            currentStatus?: string;
-            speed?: number;
-          };
-
-          const data = await res.json();
-          const vehicles: VehicleData[] = (data.vehicles as VehicleData[]) || [];
-
-          const geojson: GeoJSON.FeatureCollection = {
-            type: "FeatureCollection",
-            features: vehicles.map((v) => ({
-              type: "Feature",
-              geometry: {
-                type: "Point",
-                coordinates: [v.longitude, v.latitude],
-              },
-              properties: {
-                id: v.vehicleId,
-                tripId: v.tripId || "",
-                routeId: v.routeId || "",
-                lineName: v.lineName || "Metro Train",
-                lineColor: v.lineColor || "#38bdf8",
-                status: v.currentStatus || "IN_TRANSIT",
-                speed: v.speed || 0,
-              },
-            })),
-          };
-
-          if (map.getSource("realtime-vehicles-source")) {
-            (map.getSource("realtime-vehicles-source") as maplibregl.GeoJSONSource).setData(geojson);
-          } else {
-            map.addSource("realtime-vehicles-source", { type: "geojson", data: geojson });
-
-            // Outer Glowing Aura
-            map.addLayer({
-              id: "realtime-vehicles-aura",
-              type: "circle",
-              source: "realtime-vehicles-source",
-              paint: {
-                "circle-color": ["coalesce", ["get", "lineColor"], "#f43f5e"],
-                "circle-radius": [
-                  "interpolate",
-                  ["linear"],
-                  ["zoom"],
-                  10, 8,
-                  14, 13,
-                  18, 20,
-                ],
-                "circle-opacity": 0.35,
-                "circle-blur": 0.5,
-              },
-            });
-
-            // Core Train Dot
-            map.addLayer({
-              id: "realtime-vehicles-core",
-              type: "circle",
-              source: "realtime-vehicles-source",
-              paint: {
-                "circle-color": "#ffffff",
-                "circle-radius": [
-                  "interpolate",
-                  ["linear"],
-                  ["zoom"],
-                  10, 4,
-                  14, 6,
-                  18, 9,
-                ],
-                "circle-stroke-color": ["coalesce", ["get", "lineColor"], "#f43f5e"],
-                "circle-stroke-width": 3,
-              },
-            });
-
-            // Interactive Train Info Popup
-            map.on("click", "realtime-vehicles-core", (e) => {
-              const features = map.queryRenderedFeatures(e.point, { layers: ["realtime-vehicles-core"] });
-              if (features.length > 0) {
-                const props = features[0].properties;
-                const pointGeom = features[0].geometry as GeoJSON.Point;
-                const coords = pointGeom.coordinates as [number, number];
-                new maplibregl.Popup({ closeButton: true })
-                  .setLngLat(coords)
-                  .setHTML(`
-                    <div style="padding: 10px; color: #fff; font-family: system-ui, sans-serif; background: #09090b; border-radius: 8px;">
-                      <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #38bdf8; margin-bottom: 4px;">🚆 LIVE METRO TRAIN</div>
-                      <div style="font-size: 14px; font-weight: 800; color: #f4f4f5;">ID: ${props?.id || "Train"}</div>
-                      <div style="font-size: 11px; color: #a1a1aa; margin-top: 4px;">Line: <span style="color: ${props?.lineColor || "#38bdf8"}; font-weight: 700;">${props?.lineName || props?.routeId || "Metro Line"}</span></div>
-                      <div style="font-size: 11px; color: #a1a1aa; margin-top: 2px;">Status: <span style="color: #22c55e; font-weight: 700;">${props?.status}</span></div>
-                    </div>
-                  `)
-                  .addTo(map);
-              }
-            });
-
-            map.on("mouseenter", "realtime-vehicles-core", () => {
-              map.getCanvas().style.cursor = "pointer";
-            });
-
-            map.on("mouseleave", "realtime-vehicles-core", () => {
-              map.getCanvas().style.cursor = "";
-            });
-          }
-          layersLoaded++;
-        } catch (err) {
-          console.error("Failed to load GTFS-RT live vehicles layer:", err);
-        }
-      } else {
-        if (map.getLayer("realtime-vehicles-core")) map.removeLayer("realtime-vehicles-core");
-        if (map.getLayer("realtime-vehicles-aura")) map.removeLayer("realtime-vehicles-aura");
-        if (map.getSource("realtime-vehicles-source")) map.removeSource("realtime-vehicles-source");
-      }
-
       setLoadedLayersCount?.(layersLoaded);
     };
 
     syncLayers();
+  }, [activeLayers, activeCity, mapLoaded, apiLatencySetter, setLoadedLayersCount, effectiveMapRef]);
 
-    // Auto-refresh live vehicle telemetry every 10 seconds when realtime layer is active
-    let intervalId: NodeJS.Timeout | null = null;
-    if (activeLayers.includes("realtime")) {
-      intervalId = setInterval(() => {
-        syncLayers();
-      }, 10000);
-    }
-
-    return () => {
-      if (intervalId) clearInterval(intervalId);
-    };
-  }, [activeLayers, activeCity, selectedStationId, mapLoaded, apiLatencySetter, onStationSelect, setLoadedLayersCount, mapRef]);
-
-  // ── Journey Highlight Layer ──────────────────────────────────────────────
+  // ── Journey Highlight Layers ─────────────────────────────────────────────
   useEffect(() => {
     const map = effectiveMapRef.current;
     if (!map || !mapLoaded) return;
@@ -506,6 +694,7 @@ export default function MapContainer({
     const JOURNEY_ORIGIN_LAYER = "journey-origin-layer";
     const JOURNEY_DEST_LAYER = "journey-dest-layer";
     const JOURNEY_TRANSFER_LAYER = "journey-transfer-layer";
+    const JOURNEY_STATIONS_LAYER = "journey-route-stations-layer";
 
     const cleanupJourneyLayers = () => {
       [
@@ -514,22 +703,22 @@ export default function MapContainer({
         JOURNEY_ORIGIN_LAYER,
         JOURNEY_DEST_LAYER,
         JOURNEY_TRANSFER_LAYER,
-        "journey-route-stations-layer",
+        JOURNEY_STATIONS_LAYER,
       ].forEach((l) => { if (map.getLayer(l)) map.removeLayer(l); });
       [JOURNEY_LINE_SOURCE, JOURNEY_POINTS_SOURCE].forEach((s) => {
         if (map.getSource(s)) map.removeSource(s);
       });
       if (map.getLayer("lines-layer")) map.setPaintProperty("lines-layer", "line-opacity", 0.85);
+      currentOpenStationIdRef.current = null;
     };
 
-    if (!journeyGeojson) {
+    if (!journeyGeojson || !journeyGeojson.features || journeyGeojson.features.length === 0) {
       cleanupJourneyLayers();
       return;
     }
 
-    if (map.getLayer("lines-layer")) map.setPaintProperty("lines-layer", "line-opacity", 0.25);
+    if (map.getLayer("lines-layer")) map.setPaintProperty("lines-layer", "line-opacity", 0.2);
 
-    // Separate segment features from point features
     const segmentFeatures = journeyGeojson.features.filter(
       (f) => f.geometry.type === "LineString"
     );
@@ -546,13 +735,15 @@ export default function MapContainer({
       features: pointFeatures,
     };
 
+    const hasSelection = !!selectedCandidate;
+
     // Render line source + casing + main layer
     if (map.getSource(JOURNEY_LINE_SOURCE)) {
       (map.getSource(JOURNEY_LINE_SOURCE) as maplibregl.GeoJSONSource).setData(lineCollection);
     } else {
       map.addSource(JOURNEY_LINE_SOURCE, { type: "geojson", data: lineCollection });
 
-      // Casing / Halo (thick black line underneath to separate overlapping routes)
+      // Casing / Halo
       map.addLayer({
         id: JOURNEY_LINE_CASING,
         type: "line",
@@ -579,21 +770,42 @@ export default function MapContainer({
       });
     }
 
+    // Dynamic opacity & styling:
+    // If a candidate is selected: strong highlight
+    // If all K candidates shown (deselected): clean, visible, distinct multi-route styling
+    if (map.getLayer(JOURNEY_LINE_LAYER)) {
+      map.setPaintProperty(JOURNEY_LINE_LAYER, "line-opacity", hasSelection ? 1.0 : 0.85);
+      map.setPaintProperty(
+        JOURNEY_LINE_LAYER,
+        "line-width",
+        hasSelection
+          ? ["interpolate", ["linear"], ["zoom"], 10, 5, 14, 8, 18, 12]
+          : ["interpolate", ["linear"], ["zoom"], 10, 4, 14, 6.5, 18, 10]
+      );
+    }
+
+    if (map.getLayer(JOURNEY_TRANSFER_LAYER)) {
+      // When a candidate is selected, TransferBeacon HTML marker renders the prominent beacon.
+      // Hide the redundant canvas circle to avoid showing 2 overlapping dots!
+      map.setPaintProperty(JOURNEY_TRANSFER_LAYER, "circle-opacity", hasSelection ? 0 : 1.0);
+      map.setPaintProperty(JOURNEY_TRANSFER_LAYER, "circle-stroke-opacity", hasSelection ? 0 : 1.0);
+    }
+
     // Render point markers
     if (map.getSource(JOURNEY_POINTS_SOURCE)) {
       (map.getSource(JOURNEY_POINTS_SOURCE) as maplibregl.GeoJSONSource).setData(pointCollection);
     } else {
       map.addSource(JOURNEY_POINTS_SOURCE, { type: "geojson", data: pointCollection });
 
-      // Route Stations (intermediate points)
+      // Route Stations
       map.addLayer({
-        id: "journey-route-stations-layer",
+        id: JOURNEY_STATIONS_LAYER,
         type: "circle",
         source: JOURNEY_POINTS_SOURCE,
         filter: [
           "any",
           ["==", ["get", "featureType"], "journey-station"],
-          ["!", ["has", "featureType"]] // or default points
+          ["!", ["has", "featureType"]],
         ],
         paint: {
           "circle-color": "#ffffff",
@@ -610,10 +822,12 @@ export default function MapContainer({
         source: JOURNEY_POINTS_SOURCE,
         filter: ["==", ["get", "featureType"], "journey-transfer"],
         paint: {
-          "circle-color": "#fec931",
-          "circle-radius": 9,
+          "circle-color": "#facc15",
+          "circle-radius": 8,
           "circle-stroke-color": "#080C14",
-          "circle-stroke-width": 3,
+          "circle-stroke-width": 2.5,
+          "circle-opacity": hasSelection ? 0 : 1.0,
+          "circle-stroke-opacity": hasSelection ? 0 : 1.0,
         },
       });
 
@@ -624,10 +838,10 @@ export default function MapContainer({
         source: JOURNEY_POINTS_SOURCE,
         filter: ["==", ["get", "featureType"], "journey-origin"],
         paint: {
-          "circle-color": "#22c55e",
-          "circle-radius": 10,
+          "circle-color": "#10b981",
+          "circle-radius": 9,
           "circle-stroke-color": "#ffffff",
-          "circle-stroke-width": 3,
+          "circle-stroke-width": 2.5,
         },
       });
 
@@ -639,85 +853,163 @@ export default function MapContainer({
         filter: ["==", ["get", "featureType"], "journey-destination"],
         paint: {
           "circle-color": "#ef4444",
-          "circle-radius": 10,
+          "circle-radius": 9,
           "circle-stroke-color": "#ffffff",
-          "circle-stroke-width": 3,
+          "circle-stroke-width": 2.5,
         },
       });
+
+      const journeyPointLayers = [
+        JOURNEY_STATIONS_LAYER,
+        JOURNEY_TRANSFER_LAYER,
+        JOURNEY_ORIGIN_LAYER,
+        JOURNEY_DEST_LAYER,
+      ];
+
+      journeyPointLayers.forEach((layerId) => {
+        map.on("mousemove", layerId, (e) => {
+          map.getCanvas().style.cursor = "pointer";
+          const features = map.queryRenderedFeatures(e.point, { layers: [layerId] });
+          if (features.length > 0) {
+            if (popupCloseTimeoutRef.current) {
+              clearTimeout(popupCloseTimeoutRef.current);
+              popupCloseTimeoutRef.current = null;
+            }
+            const props = features[0].properties;
+            const geom = features[0].geometry as GeoJSON.Point;
+            openSmartStationCardRef.current(props, geom.coordinates as [number, number], true);
+          }
+        });
+
+        map.on("mouseleave", layerId, () => {
+          map.getCanvas().style.cursor = "";
+          popupCloseTimeoutRef.current = setTimeout(() => {
+            if (!pinnedStationIdRef.current) {
+              const popup = stationPopupRef.current;
+              if (popup && !popup.getElement()?.matches(":hover")) {
+                popup.remove();
+                currentOpenStationIdRef.current = null;
+              }
+            }
+          }, 250);
+        });
+
+        map.on("click", layerId, (e) => {
+          const features = map.queryRenderedFeatures(e.point, { layers: [layerId] });
+          if (features.length > 0) {
+            const props = features[0].properties;
+            const geom = features[0].geometry as GeoJSON.Point;
+            pinnedStationIdRef.current = props.id || null;
+            setPinnedStationId(props.id || null);
+            openSmartStationCardRef.current(props, geom.coordinates as [number, number], false);
+          }
+        });
+      });
     }
-  }, [journeyGeojson, mapLoaded, mapRef]);
+
+    // Fit map bounds to route geometry smoothly
+    try {
+      const coords: [number, number][] = [];
+      for (const f of journeyGeojson.features) {
+        if (f.geometry.type === "Point") {
+          coords.push(f.geometry.coordinates as [number, number]);
+        } else if (f.geometry.type === "LineString") {
+          for (const pt of f.geometry.coordinates as [number, number][]) {
+            coords.push(pt);
+          }
+        }
+      }
+      if (coords.length > 0) {
+        let minLng = coords[0][0];
+        let maxLng = coords[0][0];
+        let minLat = coords[0][1];
+        let maxLat = coords[0][1];
+        for (const [lng, lat] of coords) {
+          if (lng < minLng) minLng = lng;
+          if (lng > maxLng) maxLng = lng;
+          if (lat < minLat) minLat = lat;
+          if (lat > maxLat) maxLat = lat;
+        }
+        map.fitBounds(
+          [
+            [minLng, minLat],
+            [maxLng, maxLat],
+          ],
+          {
+            padding: { top: 70, bottom: 70, left: 160, right: 70 },
+            maxZoom: 14.5,
+            duration: 800,
+          }
+        );
+      }
+    } catch {
+      // Safe fallback
+    }
+  }, [journeyGeojson, selectedCandidate?.id, mapLoaded, effectiveMapRef]);
 
   return (
-    <div className="flex-1 h-full relative bg-zinc-950">
+    <div className="flex-1 h-full relative bg-[#080c14] select-none">
       <div ref={containerRef} className="absolute inset-0 w-full h-full" />
 
-      {/* Top-Right Navigation Controls */}
-      <div className="absolute top-4 right-4 z-20 flex flex-col space-y-1.5 bg-zinc-950/80 border border-zinc-800/80 backdrop-blur-md p-1.5 rounded-2xl shadow-2xl">
-        <button
-          onClick={handleZoomIn}
-          suppressHydrationWarning
-          className="h-8 w-8 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white flex items-center justify-center transition border border-zinc-800/60 font-bold text-sm"
-          title="Zoom In"
-        >
-          +
-        </button>
-        <button
-          onClick={handleZoomOut}
-          suppressHydrationWarning
-          className="h-8 w-8 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white flex items-center justify-center transition border border-zinc-800/60 font-bold text-sm"
-          title="Zoom Out"
-        >
-          -
-        </button>
-        <button
-          onClick={handleResetNorth}
-          suppressHydrationWarning
-          className="h-8 w-8 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white flex items-center justify-center transition border border-zinc-800/60"
-          title="Reset Bearing"
-        >
-          <Compass size={14} />
-        </button>
+      {/* Top-Left Network Indicator Badge (Stitch UI) */}
+      <div className="absolute top-4 left-4 z-20 flex items-center gap-2 pointer-events-none">
+        <div className="px-3 py-1.5 rounded-xl bg-[#0f141f]/90 backdrop-blur-xl border border-white/[0.08] flex items-center gap-2 shadow-xl">
+          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+          <span className="text-[11px] text-white font-bold tracking-wider uppercase">
+            {activeCity.toUpperCase()} METRO NETWORK
+          </span>
+          <span className="px-2 py-0.5 rounded-full bg-cyan-400/10 border border-cyan-400/30 text-[10px] font-mono text-cyan-300 flex items-center gap-1">
+            <span className="w-1 h-1 rounded-full bg-cyan-400 animate-ping" />
+            {selectedCandidate ? "ROUTE SIM ACTIVE" : "MULTI-CANDIDATE VIEW"}
+          </span>
+        </div>
       </div>
 
-      {/* Bottom-Center Map Style Switcher */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center p-1 bg-zinc-950/80 border border-zinc-800/80 backdrop-blur-md rounded-2xl shadow-2xl space-x-1 text-xs">
-        <button
-          onClick={() => setMapStyle("3D")}
-          suppressHydrationWarning
-          className={`px-3 py-1.5 rounded-xl font-bold transition ${
-            mapStyle === "3D" ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-400 hover:text-zinc-200"
-          }`}
-        >
-          3D
-        </button>
-        <button
-          onClick={() => setMapStyle("Satellite")}
-          suppressHydrationWarning
-          className={`px-3 py-1.5 rounded-xl font-bold transition ${
-            mapStyle === "Satellite" ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-400 hover:text-zinc-200"
-          }`}
-        >
-          Satellite
-        </button>
-        <button
-          onClick={() => setMapStyle("Dark")}
-          suppressHydrationWarning
-          className={`px-3 py-1.5 rounded-xl font-bold transition ${
-            mapStyle === "Dark" ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-400 hover:text-zinc-200"
-          }`}
-        >
-          Dark
-        </button>
-      </div>
-      
-      {!mapLoaded && (
-        <div className="absolute inset-0 flex items-center justify-center bg-[#09090b] z-30">
-          <div className="text-center space-y-3">
-            <div className="h-6 w-6 border-2 border-sky-400 border-t-transparent rounded-full animate-spin mx-auto" />
-            <p className="text-xs text-zinc-500 font-mono tracking-wider uppercase">Loading digital twin map...</p>
-          </div>
+      {/* Right-Side Map Controls */}
+      <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
+        <div className="flex flex-col rounded-xl bg-[#0f141f]/90 backdrop-blur-xl border border-white/[0.08] shadow-xl overflow-hidden">
+          <button
+            onClick={handleZoomIn}
+            className="w-9 h-9 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition text-sm font-bold active:scale-95 cursor-pointer"
+            title="Zoom In"
+          >
+            +
+          </button>
+          <div className="h-px bg-white/[0.08]" />
+          <button
+            onClick={handleZoomOut}
+            className="w-9 h-9 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition text-sm font-bold active:scale-95 cursor-pointer"
+            title="Zoom Out"
+          >
+            -
+          </button>
+          <div className="h-px bg-white/[0.08]" />
+          <button
+            onClick={handleResetNorth}
+            className="w-9 h-9 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition active:scale-95 cursor-pointer"
+            title="Reset North"
+          >
+            <Compass className="w-4 h-4 text-cyan-400" />
+          </button>
         </div>
-      )}
+
+        {/* 3D / Satellite / Dark View Switcher */}
+        <div className="flex items-center p-1 rounded-xl bg-[#0f141f]/90 backdrop-blur-xl border border-white/[0.08] shadow-xl">
+          {(["3D", "Satellite", "Dark"] as const).map((style) => (
+            <button
+              key={style}
+              onClick={() => setMapStyle(style)}
+              className={`px-2.5 py-1 rounded-lg text-[10.5px] font-mono font-medium transition cursor-pointer ${
+                mapStyle === style
+                  ? "bg-cyan-500/20 text-cyan-300 border border-cyan-400/40"
+                  : "text-slate-400 hover:text-white hover:bg-white/5"
+              }`}
+            >
+              {style === "Dark" ? "Vector Dark" : style}
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

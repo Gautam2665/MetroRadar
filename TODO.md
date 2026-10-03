@@ -79,6 +79,26 @@ Follow this unified Sprint & Version checklist to build **TransitOS** as a modul
 - [x] Built interactive station inspector drawer with live platform ETAs, entrances, and accessibility metadata.
 - [x] Implemented human-friendly step-by-step transit directions with clean line badges, towards headsigns, and walking interchange cards.
 
+### ✅ Sprint 6.2 - v0.6.2: Journey Intelligence — Candidate Generation & Deterministic Evaluation
+- [x] Refactored Journey Engine from single-route selection into **candidate generation and deterministic evaluation**.
+- [x] Implemented **Yen's K-Shortest Loopless Paths** algorithm generating up to $K=5$ distinct candidate routes.
+- [x] Built two-stage filtering pipeline: **Feasibility Filter** (removes loops, invalid durations, $>6$ transfers) and **Dominance Filter** (removes strictly worse options across duration, transfers, walking).
+- [x] Solved Yamuna Bank ↔ Dwarka Sector 21: direct Blue Line is preserved alongside the 2-transfer path; neither dominates the other.
+- [x] Solved NMIA ↔ Malad: preserved the high-speed Airport Express multi-transfer route without arbitrary transfer penalty hacks.
+- [x] Established explicit **Waiting Time Model** with `TimeEstimate` hierarchy (`source: 'estimated' | 'schedule' | 'live'`) separating initial platform wait from interchange wait.
+- [x] Structured `RouteCandidate` schema with boolean machine-readable attribute flags (`fastest`, `fewestTransfers`, `direct`, `leastWalking`, `accessibilityFriendly`) ready for future Intelligence Gateway Intent JSON re-ranking without re-routing.
+- [x] Updated Frontend UI to display multiple candidate cards with attribute badges, tradeoff deltas vs rank 1, and per-candidate GeoJSON switching on the map.
+
+### ✅ Sprint 6.3 - v0.6.3: Stitch Redesign & Journey Simulation Experience
+- [x] Integrated Stitch "Multi-Candidate Train Sim & Smart Station Cards" design system across Journey Planner (`/plan`).
+- [x] Multi-candidate overview mode: all $K$ route geometries render concurrently on the map, with candidate cards deselected by default.
+- [x] Single-route selection mode: selecting a route focuses that candidate's trajectory, dims background network, and initiates route-focused train simulation.
+- [x] Presentation-only journey simulation: single train marker glides continuously along selected route geometry with dynamic heading and line-color transitions without asserting fake GTFS-RT telemetry.
+- [x] Unified Transfer Beacon: eliminated duplicate transfer dots by synchronizing canvas layer visibility with animated gold pulsating HTML transfer beacon (`TRANSFER` badge).
+- [x] Interactive Smart Station Card: station hover cards render stably above cursor with zero 60fps flickering or DOM churn.
+- [x] Delhi Metro Grey Line fidelity: authentic `#808080` color rendering across GIS endpoints (`/map/lines`, `/map/stations`), pathfinder legs, and station badges with cache invalidation (`v5`).
+- [x] Text marquee scrolling: implemented `ScrollingText` for long station names to prevent layout breaking on constrained cards.
+
 ---
 
 ## 🏃 Active & Upcoming Milestones

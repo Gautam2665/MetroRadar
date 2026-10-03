@@ -7,6 +7,8 @@ import { ApiClient } from "../services/api/client";
 
 import { formatLineName, formatShortLineName, extractDirection } from "../utils/transitFormatter";
 
+// ── Shared types ─────────────────────────────────────────────────────────────
+
 export type RouteLeg = {
   mode: "subway" | "walk" | "cab";
   type?: "TRANSIT" | "TRANSFER" | "WALK";
@@ -25,9 +27,11 @@ export type RouteLeg = {
 
 export type RouteOption = {
   id: string;
-  label: string; // e.g. "Fastest", "Fewest Changes", "Least Walking"
+  /** Derived from candidate.attributes: "⚡ Fastest", "◎ Direct", "🔁 Fewest changes", etc. */
+  label: string;
   duration: string;
   durationMins: number;
+  durationSeconds: number;
   fare: string;
   smartCardFare?: string;
   distance: string;
@@ -39,104 +43,226 @@ export type RouteOption = {
   boardCoach: string;
   score: number;
   legs: RouteLeg[];
+  /** GeoJSON for this specific candidate */
+  geojson?: GeoJSON.FeatureCollection;
+  /** Tradeoff vs rank-1 candidate */
+  tradeoffLabel?: string;
+  /** Raw attribute flags from backend */
+  attributes?: {
+    fastest: boolean;
+    fewestTransfers: boolean;
+    direct: boolean;
+    leastWalking: boolean;
+    accessibilityFriendly: boolean;
+  };
 };
 
-function buildRoutesFromBackend(data: Record<string, unknown>): RouteOption[] {
-  const j = (data?.journey || {}) as Record<string, unknown>;
-  if (!j.duration) return [];
+// ── Type for the backend RouteCandidate shape ─────────────────────────────────
 
-  const baseDuration = (j.duration as number) || 32;
-  const baseTransfers = (j.transfers as number) || 0;
-  const baseFare = Math.max(10, Math.round(baseDuration * 0.9));
+interface BackendCandidate {
+  id: string;
+  rank: number;
+  score: number;
+  durationSeconds: number;
+  duration: number;
+  inVehicleSeconds: number;
+  walkingSeconds: number;
+  waiting: {
+    total: { seconds: number; source: string; confidence: number };
+    initialWait: { seconds: number };
+    transferWait: { seconds: number };
+  };
+  transfers: number;
+  walkingDistanceMeters: number;
+  legs: Array<{
+    type: string;
+    lineName: string | null;
+    lineCode: string | null;
+    lineColor: string | null;
+    fromStationName: string;
+    toStationName: string;
+    stationsCount: number;
+    duration: number;
+  }>;
+  stations: Array<{ id: string; name: string; code: string; lat: number; lng: number }>;
+  geojson: GeoJSON.FeatureCollection;
+  isDirect: boolean;
+  lines: string[];
+  fare?: number;
+  confidence: number;
+  tradeoffs: {
+    durationDeltaSeconds: number;
+    transferDelta: number;
+    walkingDeltaMeters: number;
+  };
+  attributes: {
+    fastest: boolean;
+    fewestTransfers: boolean;
+    direct: boolean;
+    leastWalking: boolean;
+    accessibilityFriendly: boolean;
+  };
+}
 
-  const rawLegs = Array.isArray(j.legs) ? (j.legs as Record<string, unknown>[]) : [];
-  let totalWalkSec = 0;
+// ── Label derivation from attribute flags ────────────────────────────────────
 
-  const backendLegs: RouteLeg[] = rawLegs.map((leg) => {
+function deriveCandidateLabel(
+  attrs: BackendCandidate["attributes"],
+  rank: number,
+): string {
+  if (attrs.direct && attrs.fastest) return "⚡ Direct & Fastest";
+  if (attrs.direct) return "◎ Direct";
+  if (attrs.fastest) return "⚡ Fastest";
+  if (attrs.fewestTransfers) return "🔁 Fewest Changes";
+  if (attrs.leastWalking) return "🚶 Least Walking";
+  if (attrs.accessibilityFriendly) return "♿ Accessible";
+  return `Option ${rank}`;
+}
+
+function deriveTradeoffLabel(
+  tradeoffs: BackendCandidate["tradeoffs"],
+  rank: number,
+): string | undefined {
+  if (rank === 1) return undefined;
+  const mins = Math.round(Math.abs(tradeoffs.durationDeltaSeconds) / 60);
+  const faster = tradeoffs.durationDeltaSeconds < 0;
+  const transferDiff = tradeoffs.transferDelta;
+
+  const parts: string[] = [];
+  if (mins > 0) parts.push(faster ? `${mins} min faster` : `+${mins} min`);
+  if (transferDiff !== 0) {
+    parts.push(transferDiff < 0 ? `${Math.abs(transferDiff)} fewer changes` : `+${transferDiff} changes`);
+  }
+  return parts.length > 0 ? parts.join(" · ") : undefined;
+}
+
+// ── Map backend candidate to frontend RouteOption ────────────────────────────
+
+function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
+  const totalDurationMins = Math.round(candidate.durationSeconds / 60);
+  const fareAmount = candidate.fare ?? Math.max(10, Math.round(totalDurationMins * 0.9));
+
+  const legs: RouteLeg[] = candidate.legs.map((leg) => {
     const isWalk = leg.type === "WALK" || leg.type === "TRANSFER";
-    const rawLine = (leg.lineName as string) || (leg.lineCode as string) || "";
+    const rawLine = leg.lineName ?? leg.lineCode ?? "";
     const cleanLine = isWalk ? "Transfer" : formatLineName(rawLine);
     const shortLine = isWalk ? "Transfer" : formatShortLineName(rawLine);
-    const durSec = (leg.duration as number) || 0;
-    const durMins = Math.max(1, Math.round(durSec / 60));
-    const towards = isWalk ? undefined : extractDirection(rawLine, leg.toStationName as string);
-
-    if (isWalk) {
-      totalWalkSec += durSec;
-    }
+    const durMins = Math.max(1, Math.round(leg.duration / 60));
+    const towards = isWalk ? undefined : extractDirection(rawLine, leg.toStationName);
 
     return {
       mode: isWalk ? ("walk" as const) : ("subway" as const),
-      type: (leg.type as RouteLeg["type"]) || (isWalk ? "WALK" : "TRANSIT"),
+      type: (leg.type as RouteLeg["type"]) ?? (isWalk ? "WALK" : "TRANSIT"),
       line: cleanLine,
       shortLine,
       rawLineName: rawLine,
-      color: isWalk ? "#00e5ff" : ((leg.lineColor as string) || "#00e5ff"),
-      lineColor: (leg.lineColor as string) || "#00e5ff",
-      fromStation: (leg.fromStationName as string) || "",
-      toStation: (leg.toStationName as string) || "",
+      color: isWalk ? "#00e5ff" : (leg.lineColor ?? "#00e5ff"),
+      lineColor: leg.lineColor ?? "#00e5ff",
+      fromStation: leg.fromStationName,
+      toStation: leg.toStationName,
       towards,
-      stopsCount: (leg.stationsCount as number) || undefined,
+      stopsCount: leg.stationsCount || undefined,
       durationMins: durMins,
-      durationSeconds: durSec,
+      durationSeconds: leg.duration,
     };
   });
 
-  const totalWalkMins = Math.round(totalWalkSec / 60);
-  const totalWalkDistanceM = totalWalkSec > 0 ? Math.round(totalWalkSec * 1.1) : 0; // ~1.1 m/s walking speed
+  const totalWalkSecs = candidate.walkingSeconds;
+  const walkMins = Math.round(totalWalkSecs / 60);
+  const walkDistM = Math.round(totalWalkSecs * 1.1);
 
-  // Route 1: Fastest (backend result)
-  const route1: RouteOption = {
-    id: `r1-${Date.now()}`,
-    label: "Fastest",
-    duration: `${baseDuration} min`,
-    durationMins: baseDuration,
-    fare: `₹${baseFare}`,
-    smartCardFare: `₹${Math.max(9, baseFare - 3)}`,
-    distance: "18.4 km",
-    interchanges: baseTransfers,
-    walkDistance: totalWalkDistanceM > 0 ? `${totalWalkDistanceM}m` : "0m",
-    walkMins: totalWalkMins,
-    crowd: "Low" as const,
-    crowdColor: "#4ade80",
+  const crowd: RouteOption["crowd"] =
+    candidate.transfers === 0 ? "Low" : candidate.transfers === 1 ? "Medium" : "High";
+  const crowdColor =
+    crowd === "Low" ? "#4ade80" : crowd === "Medium" ? "#fec931" : "#f87171";
+
+  return {
+    id: candidate.id,
+    label: deriveCandidateLabel(candidate.attributes, candidate.rank),
+    duration: `${totalDurationMins} min`,
+    durationMins: totalDurationMins,
+    durationSeconds: candidate.durationSeconds,
+    fare: `₹${fareAmount}`,
+    smartCardFare: `₹${Math.max(9, fareAmount - 3)}`,
+    distance: "",
+    interchanges: candidate.transfers,
+    walkDistance: walkDistM > 0 ? `${walkDistM}m` : "0m",
+    walkMins,
+    crowd,
+    crowdColor,
     boardCoach: "Coach 3",
-    score: typeof j.score === "number" ? j.score : 96,
-    legs: backendLegs.length > 0 ? backendLegs : [
-      { mode: "subway", line: "Metro Line", color: "#00e5ff", stopsCount: 8 }
-    ],
+    score: candidate.score,
+    legs,
+    geojson: candidate.geojson,
+    tradeoffLabel: deriveTradeoffLabel(candidate.tradeoffs, candidate.rank),
+    attributes: candidate.attributes,
   };
-
-  // Route 2: Fewest Changes (add ~4 mins, 0 transfers)
-  const route2: RouteOption = {
-    id: `r2-${Date.now()}`,
-    label: "Fewest Changes",
-    duration: `${baseDuration + 4} min`,
-    durationMins: baseDuration + 4,
-    fare: `₹${baseFare + 5}`,
-    smartCardFare: `₹${baseFare + 2}`,
-    distance: "19.2 km",
-    interchanges: Math.max(0, baseTransfers - 1),
-    walkDistance: `${Math.round(totalWalkDistanceM * 1.2)}m`,
-    walkMins: Math.round(totalWalkMins * 1.2),
-    crowd: "Low" as const,
-    crowdColor: "#4ade80",
-    boardCoach: "Coach 4",
-    score: Math.max(80, (typeof j.score === "number" ? j.score : 96) - 8),
-    legs: backendLegs.length > 0
-      ? backendLegs.slice(0, Math.max(1, backendLegs.length - 1))
-      : [{ mode: "subway", line: "Direct Line", color: "#8B5CF6", stopsCount: 12 }],
-  };
-
-  return [route1, route2];
 }
+
+// ── Build routes from the new candidates[] response ──────────────────────────
+
+function buildRoutesFromBackend(data: Record<string, unknown>): {
+  routes: RouteOption[];
+  geojsons: GeoJSON.FeatureCollection[];
+} {
+  const candidates = data?.candidates as BackendCandidate[] | undefined;
+  if (!Array.isArray(candidates) || candidates.length === 0) {
+    return { routes: [], geojsons: [] };
+  }
+
+  const routes = candidates.map(mapCandidateToRouteOption);
+  const geojsons = candidates.map((c) => c.geojson);
+  return { routes, geojsons };
+}
+
+// ── Combine all candidate GeoJSONs to show all K routes simultaneously ───────
+
+export function combineCandidateGeojsons(
+  geojsons: GeoJSON.FeatureCollection[]
+): GeoJSON.FeatureCollection {
+  const lineFeatures: GeoJSON.Feature[] = [];
+  const pointFeatures: GeoJSON.Feature[] = [];
+  const seenLineKeys = new Set<string>();
+  const seenPointKeys = new Set<string>();
+
+  for (const gj of geojsons) {
+    if (!gj || !Array.isArray(gj.features)) continue;
+    for (const f of gj.features) {
+      if (f.geometry.type === "LineString") {
+        const coords = f.geometry.coordinates as [number, number][];
+        const key = `${f.properties?.color || ""}_${coords[0]?.join(",")}_${coords[coords.length - 1]?.join(",")}`;
+        if (!seenLineKeys.has(key)) {
+          seenLineKeys.add(key);
+          lineFeatures.push(f);
+        }
+      } else if (f.geometry.type === "Point") {
+        const coords = f.geometry.coordinates as [number, number];
+        const ptType = f.properties?.featureType || "point";
+        const key = `${ptType}_${coords[0]?.toFixed(5)}_${coords[1]?.toFixed(5)}`;
+        if (!seenPointKeys.has(key)) {
+          seenPointKeys.add(key);
+          pointFeatures.push(f);
+        }
+      }
+    }
+  }
+
+  return {
+    type: "FeatureCollection",
+    features: [...lineFeatures, ...pointFeatures],
+  };
+}
+
+// ── Fallback data for when no backend is available ────────────────────────────
 
 function makeFallback(): RouteOption[] {
   return [
     {
       id: `f1-${Date.now()}`,
-      label: "Fastest",
+      label: "⚡ Fastest",
       duration: "32 min",
       durationMins: 32,
+      durationSeconds: 1920,
       fare: "₹30",
       smartCardFare: "₹27",
       distance: "18.6 km",
@@ -155,17 +281,18 @@ function makeFallback(): RouteOption[] {
     },
     {
       id: `f2-${Date.now()}`,
-      label: "Fewest Changes",
+      label: "◎ Direct",
       duration: "38 min",
       durationMins: 38,
+      durationSeconds: 2280,
       fare: "₹25",
       smartCardFare: "₹22",
       distance: "16.2 km",
       interchanges: 0,
       walkDistance: "150m",
       walkMins: 2,
-      crowd: "Medium" as const,
-      crowdColor: "#fec931",
+      crowd: "Low" as const,
+      crowdColor: "#4ade80",
       boardCoach: "Coach 2",
       score: 88,
       legs: [
@@ -175,21 +302,57 @@ function makeFallback(): RouteOption[] {
   ];
 }
 
+// ── Container ─────────────────────────────────────────────────────────────────
+
 interface Props {
   activeCity: string;
   onGeojsonUpdate?: (geojson: GeoJSON.FeatureCollection | Record<string, unknown>) => void;
   onRouteFound?: (route: RouteOption, originName: string, destName: string) => void;
+  onActiveRouteChange?: (route: RouteOption | null) => void;
+  onCandidatesChange?: (candidates: RouteOption[]) => void;
+  selectedOriginStation?: { id: string; name: string } | null;
+  selectedDestStation?: { id: string; name: string } | null;
 }
 
-export function JourneyPlannerContainer({ activeCity, onGeojsonUpdate, onRouteFound }: Props) {
+export function JourneyPlannerContainer({
+  activeCity,
+  onGeojsonUpdate,
+  onRouteFound,
+  onActiveRouteChange,
+  onCandidatesChange,
+  selectedOriginStation,
+  selectedDestStation,
+}: Props) {
   const [originName, setOriginName] = useState("");
   const [destName, setDestName] = useState("");
   const [originId, setOriginId] = useState<string | null>(null);
   const [destId, setDestId] = useState<string | null>(null);
-  const [activeRouteIndex, setActiveRouteIndex] = useState(0);
+  const [activeRouteIndex, setActiveRouteIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [routes, setRoutes] = useState<RouteOption[]>([]);
+  /** All candidate GeoJSONs — one per route, indexed to match routes[] */
+  const [geojsons, setGeojsons] = useState<GeoJSON.FeatureCollection[]>([]);
+
+  useEffect(() => {
+    if (selectedOriginStation) {
+      const timer = setTimeout(() => {
+        setOriginName(selectedOriginStation.name);
+        setOriginId(selectedOriginStation.id);
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedOriginStation]);
+
+  useEffect(() => {
+    if (selectedDestStation) {
+      const timer = setTimeout(() => {
+        setDestName(selectedDestStation.name);
+        setDestId(selectedDestStation.id);
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedDestStation]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -198,10 +361,14 @@ export function JourneyPlannerContainer({ activeCity, onGeojsonUpdate, onRouteFo
       setOriginId(null);
       setDestId(null);
       setRoutes([]);
+      setGeojsons([]);
+      setActiveRouteIndex(null);
       setError(null);
+      onActiveRouteChange?.(null);
+      onCandidatesChange?.([]);
     }, 0);
     return () => clearTimeout(timer);
-  }, [activeCity]);
+  }, [activeCity, onActiveRouteChange, onCandidatesChange]);
 
   const handleSelectOrigin = (station: StationItem) => {
     setOriginName(station.name);
@@ -220,6 +387,32 @@ export function JourneyPlannerContainer({ activeCity, onGeojsonUpdate, onRouteFo
     setDestId(originId);
   };
 
+  /** Called when the user clicks a route card — focus map on that route or toggle back to all K routes */
+  const handleRouteSelect = (index: number) => {
+    // If clicking already selected route, toggle to deselected state & restore all K routes on map
+    if (activeRouteIndex === index) {
+      setActiveRouteIndex(null);
+      onActiveRouteChange?.(null);
+      const combined = combineCandidateGeojsons(geojsons);
+      if (onGeojsonUpdate) {
+        onGeojsonUpdate(combined);
+      }
+      return;
+    }
+
+    setActiveRouteIndex(index);
+    const selectedGeojson = geojsons[index];
+    if (selectedGeojson && onGeojsonUpdate) {
+      onGeojsonUpdate(selectedGeojson);
+    }
+    if (routes[index]) {
+      onActiveRouteChange?.(routes[index]);
+      if (onRouteFound) {
+        onRouteFound(routes[index], originName, destName);
+      }
+    }
+  };
+
   const handlePlanJourney = async () => {
     if (!originId || !destId) {
       setError("Please select stations from the dropdown.");
@@ -234,25 +427,42 @@ export function JourneyPlannerContainer({ activeCity, onGeojsonUpdate, onRouteFo
     setError(null);
 
     const res = await ApiClient.get<Record<string, unknown>>(
-      `/journeys?from=${encodeURIComponent(originId)}&to=${encodeURIComponent(destId)}`
+      `/journeys?from=${encodeURIComponent(originId)}&to=${encodeURIComponent(destId)}&k=5`
     );
 
-    if (res.success && res.data && typeof res.data === "object" && "journey" in res.data) {
-      const journeyObj = res.data.journey as Record<string, unknown>;
-      if (onGeojsonUpdate && journeyObj.geojson) {
-        onGeojsonUpdate(journeyObj.geojson as Record<string, unknown>);
+    if (res.success && res.data && typeof res.data === "object" && "candidates" in res.data) {
+      const { routes: builtRoutes, geojsons: builtGeojsons } = buildRoutesFromBackend(res.data);
+
+      if (builtRoutes.length > 0) {
+        setRoutes(builtRoutes);
+        setGeojsons(builtGeojsons);
+        // By default: keep all card routes deselected & hide details
+        setActiveRouteIndex(null);
+        onActiveRouteChange?.(null);
+        onCandidatesChange?.(builtRoutes);
+
+        // Show all K fetched routes on the map simultaneously
+        const combined = combineCandidateGeojsons(builtGeojsons);
+        if (onGeojsonUpdate) {
+          onGeojsonUpdate(combined);
+        }
+      } else {
+        const fallback = makeFallback();
+        setError("No route found.");
+        setRoutes(fallback);
+        setGeojsons([]);
+        setActiveRouteIndex(null);
+        onActiveRouteChange?.(null);
+        onCandidatesChange?.(fallback);
       }
-      const built = buildRoutesFromBackend(res.data);
-      const finalRoutes = built.length > 0 ? built : makeFallback();
-      setRoutes(finalRoutes);
-      setActiveRouteIndex(0);
-      if (onRouteFound) onRouteFound(finalRoutes[0], originName, destName);
     } else {
       const fallback = makeFallback();
       setError(res.success ? "No route found." : res.error);
       setRoutes(fallback);
-      setActiveRouteIndex(0);
-      if (onRouteFound) onRouteFound(fallback[0], originName, destName);
+      setGeojsons([]);
+      setActiveRouteIndex(null);
+      onActiveRouteChange?.(null);
+      onCandidatesChange?.(fallback);
     }
 
     setLoading(false);
@@ -274,7 +484,7 @@ export function JourneyPlannerContainer({ activeCity, onGeojsonUpdate, onRouteFo
       onSelectOriginStation={handleSelectOrigin}
       onSelectDestinationStation={handleSelectDest}
       onSwap={handleSwap}
-      onRouteSelect={setActiveRouteIndex}
+      onRouteSelect={handleRouteSelect}
       onSearchRoute={handlePlanJourney}
     />
   );
