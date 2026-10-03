@@ -286,34 +286,24 @@
       "trustTier": "TIER_E",
       "portal": null,
       "license": "ODbL (OSM coordinates) + Fair Use (operator PDFs) — see datasets/mumbai/license.json",
-      "lifecycleStatus": "SYNTHESIZED",
+      "lifecycleStatus": "PLANNED",
       "badgeTier": "Beta",
-      "datasetVersion": "v0.1.0",
-      "feedVersion": "TDSE_20261003",
+      "datasetVersion": "v0.0.0",
+      "feedVersion": null,
       "sha256": null,
       "ctm": {
-        "exists": true,
-        "path": "datasets/mumbai/normalized/ctm.json",
-        "version": "0.1.0",
-        "confidenceOverall": 0.72,
-        "note": "CTM v0.1.0 — Lines 1, 2A (partial), 7 (partial), 3 Phase 1 (partial)"
+        "exists": false,
+        "path": null,
+        "version": null,
+        "confidenceOverall": null,
+        "note": "CTM research pending"
       },
       "gtfsSynthesis": {
         "required": true,
-        "status": "GENERATED",
-        "outputPath": "datasets/mumbai/gtfs/",
-        "generatedAt": "2026-10-03",
-        "files": [
-          "agency.txt", "stops.txt", "routes.txt", "trips.txt",
-          "stop_times.txt", "calendar.txt", "calendar_dates.txt",
-          "transfers.txt", "shapes.txt", "feed_info.txt"
-        ],
-        "validationPassed": true,
-        "validationErrors": 0,
-        "validationWarnings": 0
+        "status": "NOT_STARTED"
       },
       "capabilities": {
-        "static": true,
+        "static": false,
         "realtimeOfficial": false,
         "realtimeEstimated": false,
         "fare": false,
@@ -322,22 +312,8 @@
         "commercial": false,
         "tdse": true
       },
-      "journeyEngineStatus": "PENDING_INGESTION",
-      "ingestionStats": {
-        "stations": 20,
-        "lines": 4,
-        "trips": 1254,
-        "shapes": 0
-      },
-      "knowledgeGaps": [
-        "Line 2A: only 4/17 stations in CTM",
-        "Line 7: only 2/13 stations in CTM",
-        "Line 3: only 3/10 Phase 1 stations in CTM",
-        "shapes.txt empty — shape interpolation pending",
-        "Exact stop_times synthesized from headways (X1 — confidence 0.65)",
-        "Fare data incomplete for Lines 2A, 7, 3"
-      ],
-      "notes": "Sprint v0.6.5 flagship TDSE synthesis. No official GTFS exists from any Mumbai Metro operator. CTM built from operator websites (Tier B) + OSM (Tier D). Schedules synthesized from press release headways (Tier E/X1)."
+      "journeyEngineStatus": "NOT_INGESTED",
+      "notes": "Sprint v0.6.5 flagship TDSE synthesis. No official GTFS exists from any Mumbai Metro operator. CTM research pending."
     },
     {
       "id": "pune-metro-planned",

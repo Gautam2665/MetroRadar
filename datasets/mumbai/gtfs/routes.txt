@@ -1,5 +1,0 @@
-route_id,agency_id,route_short_name,route_long_name,route_type,route_color,route_text_color,route_desc,route_url
-MUM_LINE_1,MMOPL,Line 1,Versova–Andheri–Ghatkopar (Blue Line),1,0066CC,FFFFFF,"First Mumbai Metro line. 11.4 km, 12 stations. Elevated. Operational since 2014.",https://www.mumbai-metro.com
-MUM_LINE_2A,MMMOCL,Line 2A,Dahisar East–D.N. Nagar (Yellow Line),1,FFCC00,000000,"18.6 km, 17 stations. Elevated. Operational since 2022.",https://www.mmmocl.co.in
-MUM_LINE_7,MMMOCL,Line 7,Dahisar East–Andheri East (Red Line),1,CC0000,FFFFFF,"16.5 km, 13 stations. Elevated. Operational since 2022.",https://www.mmmocl.co.in
-MUM_LINE_3,MMRC,Line 3,Aarey–BKC–Cuffe Parade (Aqua Line),1,00CCCC,000000,"33.5 km, 27 stations. Underground. Operational since 2024 (Phase 1: BKC–Aarey).",https://mmrcl.com
