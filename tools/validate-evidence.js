@@ -118,13 +118,14 @@ function summarizeCategory(records, gaps, catName) {
 }
 
 function main() {
-  console.log('\n🔬 TDSE Evidence System — Sprint v0.6.5-C Audit');
+  console.log('\n🔬 TDSE Evidence System — Sprint v0.6.5 Audit');
   console.log('────────────────────────────────────────────────────────────');
 
   const sourcesPath = path.resolve('datasets/mumbai/sources/catalog.json');
   const evidenceAPath = path.resolve('datasets/mumbai/evidence/A-network-evidence.json');
   const evidenceBPath = path.resolve('datasets/mumbai/evidence/B-station-infrastructure-evidence.json');
   const evidenceCPath = path.resolve('datasets/mumbai/evidence/C-operations-evidence.json');
+  const evidenceDPath = path.resolve('datasets/mumbai/evidence/D-rolling-stock-evidence.json');
   const gapsPath = path.resolve('datasets/mumbai/evidence/knowledge-gaps.json');
 
   if (!fs.existsSync(sourcesPath)) {
@@ -136,7 +137,8 @@ function main() {
   const recordsA = fs.existsSync(evidenceAPath) ? JSON.parse(fs.readFileSync(evidenceAPath, 'utf-8')) : [];
   const recordsB = fs.existsSync(evidenceBPath) ? JSON.parse(fs.readFileSync(evidenceBPath, 'utf-8')) : [];
   const recordsC = fs.existsSync(evidenceCPath) ? JSON.parse(fs.readFileSync(evidenceCPath, 'utf-8')) : [];
-  const allRecords = [...recordsA, ...recordsB, ...recordsC];
+  const recordsD = fs.existsSync(evidenceDPath) ? JSON.parse(fs.readFileSync(evidenceDPath, 'utf-8')) : [];
+  const allRecords = [...recordsA, ...recordsB, ...recordsC, ...recordsD];
   const knowledgeGaps = fs.existsSync(gapsPath) ? JSON.parse(fs.readFileSync(gapsPath, 'utf-8')) : [];
 
   console.log(`📋 Source Catalog`);
@@ -149,34 +151,36 @@ function main() {
   const sumA = summarizeCategory(recordsA, knowledgeGaps, 'A');
   const sumB = summarizeCategory(recordsB, knowledgeGaps, 'B');
   const sumC = summarizeCategory(recordsC, knowledgeGaps, 'C');
+  const sumD = summarizeCategory(recordsD, knowledgeGaps, 'D');
 
   console.log('\n' + '─'.repeat(60));
-  console.log('CATEGORY C — OPERATIONS EVIDENCE AUDIT REPORT');
+  console.log('CATEGORY D — ROLLING STOCK EVIDENCE AUDIT REPORT');
   console.log('─'.repeat(60));
-  console.log(`  Total extracted facts : ${sumC.total}`);
+  console.log(`  Total extracted facts : ${sumD.total}`);
   console.log(`\n  Evidence Type`);
-  console.log(`    DIRECT              : ${sumC.direct}`);
-  console.log(`    DERIVED             : ${sumC.derived}`);
-  console.log(`    ESTIMATED           : ${sumC.estimated}`);
+  console.log(`    DIRECT              : ${sumD.direct}`);
+  console.log(`    DERIVED             : ${sumD.derived}`);
+  console.log(`    ESTIMATED           : ${sumD.estimated}`);
   console.log(`\n  Temporal Status`);
-  console.log(`    PROPOSED            : ${sumC.temporalCounts.PROPOSED}`);
-  console.log(`    APPROVED            : ${sumC.temporalCounts.APPROVED}`);
-  console.log(`    UNDER_CONSTRUCTION  : ${sumC.temporalCounts.UNDER_CONSTRUCTION}`);
-  console.log(`    OPERATIONAL         : ${sumC.temporalCounts.OPERATIONAL}`);
-  console.log(`    HISTORICAL          : ${sumC.temporalCounts.HISTORICAL}`);
-  console.log(`    UNKNOWN             : ${sumC.temporalCounts.UNKNOWN}`);
+  console.log(`    PROPOSED            : ${sumD.temporalCounts.PROPOSED}`);
+  console.log(`    APPROVED            : ${sumD.temporalCounts.APPROVED}`);
+  console.log(`    UNDER_CONSTRUCTION  : ${sumD.temporalCounts.UNDER_CONSTRUCTION}`);
+  console.log(`    OPERATIONAL         : ${sumD.temporalCounts.OPERATIONAL}`);
+  console.log(`    HISTORICAL          : ${sumD.temporalCounts.HISTORICAL}`);
+  console.log(`    UNKNOWN             : ${sumD.temporalCounts.UNKNOWN}`);
   console.log(`\n  Knowledge Gaps`);
-  console.log(`    C-specific gaps     : ${sumC.gapsCount}`);
+  console.log(`    D-specific gaps     : ${sumD.gapsCount}`);
   console.log(`\n  Validation Results`);
   console.log(`    Errors              : ${resAll.errors.length}`);
   console.log(`    Warnings            : ${resAll.warnings.length}`);
 
   console.log('\n' + '─'.repeat(60));
-  console.log('OVERALL EVIDENCE LAYER SUMMARY (A + B + C)');
+  console.log('OVERALL EVIDENCE LAYER SUMMARY (A + B + C + D)');
   console.log('─'.repeat(60));
   console.log(`  Category A (Network Topology)              : ${sumA.total} facts (${sumA.gapsCount} gaps)`);
   console.log(`  Category B (Station Infrastructure)        : ${sumB.total} facts (${sumB.gapsCount} gaps)`);
   console.log(`  Category C (Operations)                    : ${sumC.total} facts (${sumC.gapsCount} gaps)`);
+  console.log(`  Category D (Rolling Stock)                 : ${sumD.total} facts (${sumD.gapsCount} gaps)`);
   console.log(`  Total Validated Evidence Records           : ${allRecords.length} records`);
   console.log(`  Coverage Metric                            : NOT SCORED (Unweighted counts only)\n`);
 

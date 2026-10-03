@@ -239,5 +239,85 @@
     ],
     "impactSeverity": "LOW",
     "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-D-001",
+    "systemCode": "MMRDA_LINE3",
+    "category": "D_ROLLING_STOCK",
+    "entityType": "vehicle_configuration",
+    "entityKey": "DELIVERED_TRAINSETS_ALSTOM",
+    "attribute": "current_manufacturer_specifications",
+    "requiredFor": "Digital Twin vehicle model and performance calibration",
+    "reason": "DPR Table 0.4 specifies proposed 6/8-car stainless steel rakes; delivered 8-car Alstom Metropolis trainsets (2022-2024) must be verified against manufacturer specification sheets.",
+    "potentialSourceTypes": [
+      "OPERATOR",
+      "COMMUNITY"
+    ],
+    "impactSeverity": "MEDIUM",
+    "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-D-002",
+    "systemCode": "MMRDA_LINE3",
+    "category": "D_ROLLING_STOCK",
+    "entityType": "vehicle_mass",
+    "entityKey": "DELIVERED_TRAINSET_TARE_MASS",
+    "attribute": "actual_tare_and_axle_load",
+    "requiredFor": "Physics-based traction power simulation",
+    "reason": "DPR Table 3.7 specifies proposed 42T tare weight per car and 17T axle load limit, but actual tare mass of delivered commercial trainsets requires operator technical verification.",
+    "potentialSourceTypes": [
+      "OPERATOR",
+      "OFFICIAL_REPORT"
+    ],
+    "impactSeverity": "LOW",
+    "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-D-003",
+    "systemCode": "MMRDA_LINE3",
+    "category": "D_ROLLING_STOCK",
+    "entityType": "acceleration_parameter",
+    "entityKey": "COMMERCIAL_ACCELERATION_BRAKING",
+    "attribute": "observed_acceleration_and_deceleration_rates",
+    "requiredFor": "High-precision physics schedule synthesis",
+    "reason": "DPR Table 0.4 specifies maximum design acceleration (1.1 m/s²) and service deceleration (1.0 m/s²); actual revenue service acceleration curves belong to Category H/I evidence.",
+    "potentialSourceTypes": [
+      "OBSERVATION",
+      "OPERATOR"
+    ],
+    "impactSeverity": "MEDIUM",
+    "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-D-004",
+    "systemCode": "MMRDA_LINE3",
+    "category": "D_ROLLING_STOCK",
+    "entityType": "passenger_capacity",
+    "entityKey": "OBSERVED_PASSENGER_OCCUPANCY",
+    "attribute": "actual_passenger_crush_density",
+    "requiredFor": "Real-time crowd modeling and coach recommendation engine",
+    "reason": "DPR Table 3.6 specifies design passenger densities (3 and 6 persons/m²); actual peak hour passenger occupancy and crush density belong to Category I observations.",
+    "potentialSourceTypes": [
+      "OBSERVATION",
+      "OPERATOR"
+    ],
+    "impactSeverity": "MEDIUM",
+    "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-D-005",
+    "systemCode": "MMRDA_LINE3",
+    "category": "D_ROLLING_STOCK",
+    "entityType": "traction_power",
+    "entityKey": "ENERGY_RECOVERY_EFFICIENCY",
+    "attribute": "actual_regenerative_braking_efficiency",
+    "requiredFor": "CO2 savings and sustainability analytics model",
+    "reason": "DPR Section 0.8 specifies a baseline energy consumption target of 70 kWh/1000 GTKM, but actual commercial energy recovery figures require telemetry logging.",
+    "potentialSourceTypes": [
+      "OPERATOR",
+      "OBSERVATION"
+    ],
+    "impactSeverity": "LOW",
+    "status": "OPEN"
   }
 ]
