@@ -1,9 +1,14 @@
 {
-  "version": "1.0.0",
-  "schemaVersion": "CTM v1.0",
-  "importVersion": "Sprint 5.5",
-  "description": "TransitOS National Transit Data Registry — authoritative registry of certified Indian transit networks",
-  "lastUpdated": "2026-08-01",
+  "version": "1.1.0",
+  "schemaVersion": "CTM v1.0 + TDSE v0.6.5",
+  "importVersion": "Sprint v0.6.5",
+  "description": "TransitOS National Transit Data Registry — authoritative registry of Indian transit networks",
+  "lastUpdated": "2026-10-03",
+  "rolloutWaves": {
+    "wave1": ["MMRDA"],
+    "wave2": ["PUNE", "NAGPUR"],
+    "wave3": ["HMRL", "CMRL", "BMRCL", "GMRC"]
+  },
   "datasets": [
     {
       "id": "delhi-dmrc-gtfs-static",
@@ -21,6 +26,15 @@
       "datasetVersion": "v1.0.0",
       "feedVersion": "2026.07",
       "sha256": "bd184a7e13907a223032b3b7886babe52ac16b6149f8404f508712b87492fc1b",
+      "ctm": {
+        "exists": false,
+        "path": null,
+        "note": "Official GTFS — CTM not required"
+      },
+      "gtfsSynthesis": {
+        "required": false,
+        "status": "NOT_APPLICABLE"
+      },
       "capabilities": {
         "static": true,
         "realtimeOfficial": false,
@@ -31,9 +45,12 @@
         "commercial": true,
         "tdse": false
       },
-      "tdseTarget": {
-        "primary": "OFFICIAL",
-        "backup": "TDSE"
+      "journeyEngineStatus": "INGESTED",
+      "ingestionStats": {
+        "stations": 262,
+        "lines": 36,
+        "trips": 5438,
+        "shapes": 6643
       },
       "notes": "Primary portal: transportstack.delhi.gov.in. Authoritative official feed."
     },
@@ -53,19 +70,31 @@
       "datasetVersion": "v1.0.0",
       "feedVersion": "2026.07",
       "sha256": "26347766f41574bbde22e57c1ac12d8c169baed10ea7ea232008ffb428fcb158",
+      "ctm": {
+        "exists": false,
+        "path": null,
+        "note": "Official GTFS — CTM not required"
+      },
+      "gtfsSynthesis": {
+        "required": false,
+        "status": "NOT_APPLICABLE"
+      },
       "capabilities": {
         "static": true,
-        "realtimeOfficial": false,
-        "realtimeEstimated": true,
+        "realtimeOfficial": true,
+        "realtimeEstimated": false,
         "fare": true,
         "accessibility": true,
         "indoor": true,
         "commercial": false,
         "tdse": false
       },
-      "tdseTarget": {
-        "primary": "OFFICIAL",
-        "backup": "TDSE"
+      "journeyEngineStatus": "INGESTED",
+      "ingestionStats": {
+        "stations": 25,
+        "lines": 1,
+        "trips": 450,
+        "shapes": 1018
       },
       "notes": "First Indian metro to publish official GTFS. Full station levels and fare files."
     },
@@ -80,11 +109,21 @@
       "trustTier": "TIER_A",
       "portal": "https://hmrl.co.in/open-data.html",
       "license": "Open Data Telangana",
-      "lifecycleStatus": "CERTIFIED",
+      "lifecycleStatus": "INGESTED",
       "badgeTier": "Gold",
       "datasetVersion": "v1.0.0",
       "feedVersion": "2026.06",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ctm": {
+        "exists": false,
+        "path": null,
+        "note": "Official GTFS — CTM audit pending (only 27 trips ingested, needs investigation)"
+      },
+      "gtfsSynthesis": {
+        "required": false,
+        "status": "POSSIBLE_AUGMENTATION",
+        "note": "Current dataset has only 27 trips. May need headway augmentation via TDSE."
+      },
       "capabilities": {
         "static": true,
         "realtimeOfficial": false,
@@ -95,11 +134,14 @@
         "commercial": false,
         "tdse": false
       },
-      "tdseTarget": {
-        "primary": "OFFICIAL",
-        "backup": "TDSE"
+      "journeyEngineStatus": "INGESTED",
+      "ingestionStats": {
+        "stations": 57,
+        "lines": 3,
+        "trips": 27,
+        "shapes": 728
       },
-      "notes": "Covers Red, Blue, and Green corridors. Official GTFS dataset."
+      "notes": "Covers Red, Blue, and Green corridors. 27 trips may be sparse — investigate if full timetable is in source."
     },
     {
       "id": "bengaluru-bmrcl-gtfs-static",
@@ -112,11 +154,20 @@
       "trustTier": "TIER_B",
       "portal": "https://github.com/Vonter/bmrcl-gtfs",
       "license": "Community Open Data (MIT)",
-      "lifecycleStatus": "CERTIFIED",
+      "lifecycleStatus": "INGESTED",
       "badgeTier": "Silver",
       "datasetVersion": "v1.0.0",
       "feedVersion": "2026.05",
       "sha256": "f5a7e6b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6",
+      "ctm": {
+        "exists": false,
+        "path": null,
+        "note": "Community GTFS used directly. CTM audit in Wave 3."
+      },
+      "gtfsSynthesis": {
+        "required": false,
+        "status": "WAVE_3_AUDIT"
+      },
       "capabilities": {
         "static": true,
         "realtimeOfficial": false,
@@ -127,9 +178,12 @@
         "commercial": false,
         "tdse": true
       },
-      "tdseTarget": {
-        "primary": "COMMUNITY",
-        "backup": "TDSE"
+      "journeyEngineStatus": "INGESTED",
+      "ingestionStats": {
+        "stations": 67,
+        "lines": 2,
+        "trips": 18,
+        "shapes": 858
       },
       "notes": "High quality community feed by Vonter with OSM route shapes and modeled headways."
     },
@@ -144,11 +198,20 @@
       "trustTier": "TIER_B",
       "portal": "https://github.com/ungalsoththu/ChennaiGTFS",
       "license": "Community Open Data",
-      "lifecycleStatus": "CERTIFIED",
+      "lifecycleStatus": "INGESTED",
       "badgeTier": "Silver",
       "datasetVersion": "v1.0.0",
       "feedVersion": "2026.04",
       "sha256": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2",
+      "ctm": {
+        "exists": false,
+        "path": null,
+        "note": "Community GTFS used directly. CTM audit in Wave 3."
+      },
+      "gtfsSynthesis": {
+        "required": false,
+        "status": "WAVE_3_AUDIT"
+      },
       "capabilities": {
         "static": true,
         "realtimeOfficial": false,
@@ -159,9 +222,12 @@
         "commercial": false,
         "tdse": true
       },
-      "tdseTarget": {
-        "primary": "COMMUNITY",
-        "backup": "TDSE"
+      "journeyEngineStatus": "INGESTED",
+      "ingestionStats": {
+        "stations": 40,
+        "lines": 2,
+        "trips": 18,
+        "shapes": 520
       },
       "notes": "Community GTFS feed utilizing frequencies.txt for headway representation."
     },
@@ -176,11 +242,20 @@
       "trustTier": "TIER_B",
       "portal": "https://github.com/notnamansinha/ahmedabad-transit-gtfs-pipeline",
       "license": "Community Open Data (MIT)",
-      "lifecycleStatus": "CERTIFIED",
+      "lifecycleStatus": "INGESTED",
       "badgeTier": "Silver",
       "datasetVersion": "v1.0.0",
       "feedVersion": "2026.04",
       "sha256": "b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3",
+      "ctm": {
+        "exists": false,
+        "path": null,
+        "note": "Community GTFS used directly. CTM audit in Wave 3."
+      },
+      "gtfsSynthesis": {
+        "required": false,
+        "status": "WAVE_3_AUDIT"
+      },
       "capabilities": {
         "static": true,
         "realtimeOfficial": false,
@@ -191,28 +266,104 @@
         "commercial": false,
         "tdse": true
       },
-      "tdseTarget": {
-        "primary": "COMMUNITY",
-        "backup": "TDSE"
+      "journeyEngineStatus": "INGESTED",
+      "ingestionStats": {
+        "stations": 30,
+        "lines": 2,
+        "trips": 18,
+        "shapes": 377
       },
       "notes": "Community ETL pipeline output converting multi-modal schedule endpoints."
     },
     {
-      "id": "mumbai-metro-synthesis",
+      "id": "mumbai-metro-tdse",
       "systemCode": "MMRDA",
       "city": "Mumbai",
-      "operator": "MMRDA / MMRC / MMMOCL",
-      "network": "Mumbai Metro",
-      "format": "SYNTHESIZED",
-      "sourceType": "SYNTHESIZED",
-      "trustTier": "TIER_X",
+      "operator": "MMRDA / MMRC / MMMOCL / MMOPL",
+      "network": "Mumbai Metro (4 operators)",
+      "format": "SYNTHESIZED_GTFS",
+      "sourceType": "TDSE",
+      "trustTier": "TIER_E",
       "portal": null,
-      "license": "TransitOS Generated",
-      "lifecycleStatus": "PLANNED",
+      "license": "ODbL (OSM coordinates) + Fair Use (operator PDFs) — see datasets/mumbai/license.json",
+      "lifecycleStatus": "SYNTHESIZED",
+      "badgeTier": "Beta",
+      "datasetVersion": "v0.1.0",
+      "feedVersion": "TDSE_20261003",
+      "sha256": null,
+      "ctm": {
+        "exists": true,
+        "path": "datasets/mumbai/normalized/ctm.json",
+        "version": "0.1.0",
+        "confidenceOverall": 0.72,
+        "note": "CTM v0.1.0 — Lines 1, 2A (partial), 7 (partial), 3 Phase 1 (partial)"
+      },
+      "gtfsSynthesis": {
+        "required": true,
+        "status": "GENERATED",
+        "outputPath": "datasets/mumbai/gtfs/",
+        "generatedAt": "2026-10-03",
+        "files": [
+          "agency.txt", "stops.txt", "routes.txt", "trips.txt",
+          "stop_times.txt", "calendar.txt", "calendar_dates.txt",
+          "transfers.txt", "shapes.txt", "feed_info.txt"
+        ],
+        "validationPassed": true,
+        "validationErrors": 0,
+        "validationWarnings": 0
+      },
+      "capabilities": {
+        "static": true,
+        "realtimeOfficial": false,
+        "realtimeEstimated": false,
+        "fare": false,
+        "accessibility": false,
+        "indoor": false,
+        "commercial": false,
+        "tdse": true
+      },
+      "journeyEngineStatus": "PENDING_INGESTION",
+      "ingestionStats": {
+        "stations": 20,
+        "lines": 4,
+        "trips": 1254,
+        "shapes": 0
+      },
+      "knowledgeGaps": [
+        "Line 2A: only 4/17 stations in CTM",
+        "Line 7: only 2/13 stations in CTM",
+        "Line 3: only 3/10 Phase 1 stations in CTM",
+        "shapes.txt empty — shape interpolation pending",
+        "Exact stop_times synthesized from headways (X1 — confidence 0.65)",
+        "Fare data incomplete for Lines 2A, 7, 3"
+      ],
+      "notes": "Sprint v0.6.5 flagship TDSE synthesis. No official GTFS exists from any Mumbai Metro operator. CTM built from operator websites (Tier B) + OSM (Tier D). Schedules synthesized from press release headways (Tier E/X1)."
+    },
+    {
+      "id": "pune-metro-planned",
+      "systemCode": "PUNE",
+      "city": "Pune",
+      "operator": "MahaMetro (PMRDA)",
+      "network": "Pune Metro",
+      "format": "SYNTHESIZED_GTFS",
+      "sourceType": "TDSE",
+      "trustTier": "TIER_E",
+      "portal": null,
+      "license": "TDSE Generated",
+      "lifecycleStatus": "WAVE_2_PLANNED",
       "badgeTier": "Uncertified",
       "datasetVersion": "v0.0.0",
       "feedVersion": null,
       "sha256": null,
+      "ctm": {
+        "exists": false,
+        "path": null,
+        "note": "Wave 2 — leverages Mumbai TDSE learnings"
+      },
+      "gtfsSynthesis": {
+        "required": true,
+        "status": "NOT_STARTED"
+      },
       "capabilities": {
         "static": false,
         "realtimeOfficial": false,
@@ -223,11 +374,46 @@
         "commercial": false,
         "tdse": true
       },
-      "tdseTarget": {
-        "primary": "TDSE",
-        "backup": null
+      "journeyEngineStatus": "NOT_INGESTED",
+      "notes": "Wave 2 city. Pune Metro: Lines 1 (PCMC–Swargate) and 3 (Hinjawadi–Shivajinagar) operational as of 2023. MahaMetro operator."
+    },
+    {
+      "id": "nagpur-metro-planned",
+      "systemCode": "NAGPUR",
+      "city": "Nagpur",
+      "operator": "MahaMetro",
+      "network": "Nagpur Metro",
+      "format": "SYNTHESIZED_GTFS",
+      "sourceType": "TDSE",
+      "trustTier": "TIER_E",
+      "portal": null,
+      "license": "TDSE Generated",
+      "lifecycleStatus": "WAVE_2_PLANNED",
+      "badgeTier": "Uncertified",
+      "datasetVersion": "v0.0.0",
+      "feedVersion": null,
+      "sha256": null,
+      "ctm": {
+        "exists": false,
+        "path": null,
+        "note": "Wave 2 — same MahaMetro operator as Pune and Nagpur"
       },
-      "notes": "No official or community GTFS. Primary TDSE synthesis target for Sprint 10."
+      "gtfsSynthesis": {
+        "required": true,
+        "status": "NOT_STARTED"
+      },
+      "capabilities": {
+        "static": false,
+        "realtimeOfficial": false,
+        "realtimeEstimated": false,
+        "fare": false,
+        "accessibility": false,
+        "indoor": false,
+        "commercial": false,
+        "tdse": true
+      },
+      "journeyEngineStatus": "NOT_INGESTED",
+      "notes": "Wave 2 city. Nagpur Metro: Orange Line (Automotive Square–Airport) and Aqua Line (Prajapati Nagar–Lokmanya Nagar) operational."
     }
   ]
 }

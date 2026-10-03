@@ -1,0 +1,82 @@
+# Mumbai Metro — Provenance Registry
+
+> This file is auto-maintained by the TDSE pipeline.
+> Every data decision is recorded here.
+
+## CTM Version: 0.1.0
+## Generated: 2026-10-03
+
+---
+
+## Overall Confidence: 0.72
+
+| Dimension | Score | Notes |
+|-----------|-------|-------|
+| Network topology (A) | 0.85 | Line 1 complete; Lines 2A, 7, 3 partial |
+| Station infrastructure (B) | 0.80 | Names from official sources; coordinates from OSM |
+| Operations / schedules (C) | 0.65 | Headways estimated from press releases (X1) |
+| GIS / spatial (F) | 0.88 | OSM coverage good for Mumbai metro area |
+| Fare data (G) | 0.75 | Line 1 fares confirmed; Lines 2A, 7, 3 estimated |
+
+---
+
+## Data Lineage
+
+### Stops — Position (Tier D — OSM)
+
+All stop coordinates sourced from OpenStreetMap. OSM coverage for Mumbai Metro is
+good for Lines 1, 2A, 7 elevated. Line 3 underground coverage is improving.
+
+**To re-extract from OSM:**
+```
+npx ts-node tdse/extraction/osm.ts --city mumbai --relation 7076048
+```
+
+### Stops — Names (Tier B — Operator Official)
+
+Station names verified against:
+- MMOPL: `https://www.mumbai-metro.com` (Line 1)
+- MMMOCL: `https://www.mmmocl.co.in` (Lines 2A, 7)
+- MMRC: `https://mmrcl.com` (Line 3)
+
+### Services / Schedules (Tier E / X1 — Synthesized)
+
+No official timetables published by any Mumbai Metro operator as of Oct 2026.
+Headways derived from:
+- Press releases citing "3-minute peak headways" (MMOPL, MMMOCL)
+- MMRC operational announcements
+- Comparison with similar Indian metro systems (Hyderabad, Pune)
+
+**Marked X1 — Headway Estimate. Confidence 0.55–0.65.**
+
+### Fares (Tier B — Line 1 | Tier E — Lines 2A, 7, 3)
+
+- Line 1 fare slabs published by MMOPL on official website
+- Lines 2A, 7, 3 fares: estimated / not in CTM v0.1.0
+
+### Transfers (Tier D/E — OSM + Estimated)
+
+Transfer times at D.N. Nagar, Dahisar East, Andheri estimated from:
+- OSM station geometry (walking distance)
+- Typical Indian metro transfer walk speed (50 m/min)
+- Marked X4 — Transfer Time Estimated
+
+---
+
+## Known Gaps (to be resolved in later CTM versions)
+
+1. Full station lists for Lines 2A (17 stations), 7 (13 stations), 3 Phase 1 (10 stations)
+2. Exact stop_times (not headways) — requires operator timetable publication
+3. Platform-level coordinates for interchange stations
+4. Fare slabs for Lines 2A, 7, 3
+5. Wheelchair boarding status for Line 3 stations
+6. Lines 4, 4A, 6, 9 commissioning timelines
+
+---
+
+## Audit Trail
+
+| Date | What | Who | Source |
+|------|------|-----|--------|
+| 2026-10-03 | CTM v0.1.0 created — Lines 1, 2A (partial), 7 (partial), 3 Phase 1 (partial) | TDSE_v0.6.5 | Operator websites + OSM |
+| — | Full station lists to be completed | — | Backlog |
