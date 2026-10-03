@@ -40,7 +40,6 @@ type MapContainerProps = {
   activeLayers?: string[];
   activeCity?: string;
   selectedStationId?: string | null;
-  selectedCandidateId?: string | null;
   onStationSelect?: (stationId: string) => void;
   onSelectStation?: (station: { id: string; name: string; code?: string; city?: string }) => void;
   onSetOrigin?: (station: { id: string; name: string }) => void;
@@ -52,7 +51,6 @@ type MapContainerProps = {
   highlightGeojson?: GeoJSON.FeatureCollection | null;
   journeyGeojson?: GeoJSON.FeatureCollection | null;
   selectedCandidate?: RouteOption | null;
-  candidates?: RouteOption[];
 };
 
 export default function MapContainer({
@@ -61,7 +59,6 @@ export default function MapContainer({
   activeLayers = ["lines", "stations", "vehicles"],
   activeCity = "delhi",
   selectedStationId = null,
-  selectedCandidateId = null,
   onStationSelect,
   onSelectStation,
   onSetOrigin,
@@ -72,7 +69,6 @@ export default function MapContainer({
   mapRef,
   journeyGeojson,
   selectedCandidate = null,
-  candidates = [],
 }: MapContainerProps) {
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -82,14 +78,11 @@ export default function MapContainer({
   const [mapStyle, setMapStyle] = useState<"3D" | "Satellite" | "Dark">("Dark");
 
   // Explicit interaction states
-  const [hoveredStationId, setHoveredStationId] = useState<string | null>(null);
-  const [pinnedStationId, setPinnedStationId] = useState<string | null>(selectedStationId);
   const pinnedStationIdRef = useRef<string | null>(selectedStationId);
   const popupCloseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    pinnedStationIdRef.current = selectedStationId;
-    setPinnedStationId(selectedStationId);
+    pinnedStationIdRef.current = selectedStationId || null;
   }, [selectedStationId]);
 
   // Train Simulator ref (single isolated service)
@@ -233,7 +226,7 @@ export default function MapContainer({
           "bottom-right": [0, -20],
           left: [20, 0],
           right: [-20, 0],
-        } as any,
+        } as maplibregl.Offset,
         maxWidth: "340px",
       });
     }
@@ -356,7 +349,7 @@ export default function MapContainer({
       internalMapRef.current = map;
     }
     if (typeof window !== "undefined") {
-      (window as any)._map = map;
+      (window as unknown as { _map?: maplibregl.Map })._map = map;
     }
 
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-left");
@@ -367,7 +360,7 @@ export default function MapContainer({
         map,
         (props, coords) => {
           pinnedStationIdRef.current = (props.id as string) || "transfer";
-          setPinnedStationId(pinnedStationIdRef.current);
+          
           openSmartStationCardRef.current(props, coords, false);
         },
         (props, coords) => {
@@ -423,14 +416,14 @@ export default function MapContainer({
     stationPopupRef.current?.remove();
     currentOpenStationIdRef.current = null;
     pinnedStationIdRef.current = null;
-    setPinnedStationId(null);
+    
 
     if (!trainSimRef.current) {
       trainSimRef.current = new JourneyTrainSimulator(
         map,
         (props, coords) => {
           pinnedStationIdRef.current = (props.id as string) || "transfer";
-          setPinnedStationId(pinnedStationIdRef.current);
+          
           openSmartStationCardRef.current(props, coords, false);
         },
         (props, coords) => {
@@ -462,6 +455,7 @@ export default function MapContainer({
     } else {
       trainSimRef.current.stop();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCandidate?.id, mapLoaded]);
 
   // Fly to target city center when activeCity changes
@@ -610,14 +604,14 @@ export default function MapContainer({
                 const props = features[0].properties;
                 const geom = features[0].geometry as GeoJSON.Point;
                 const coords = geom.coordinates as [number, number];
-                setHoveredStationId(props.id || null);
+                
                 openSmartStationCardRef.current(props, coords, true);
               }
             });
 
             map.on("mouseleave", "stations-layer", () => {
               map.getCanvas().style.cursor = "";
-              setHoveredStationId(null);
+              
               popupCloseTimeoutRef.current = setTimeout(() => {
                 if (!pinnedStationIdRef.current) {
                   const popup = stationPopupRef.current;
@@ -637,7 +631,7 @@ export default function MapContainer({
                 const coords = geom.coordinates as [number, number];
 
                 pinnedStationIdRef.current = props.id || null;
-                setPinnedStationId(props.id || null);
+                
 
                 if (props.id) {
                   onStationSelectRef.current?.(props.id);
@@ -660,7 +654,7 @@ export default function MapContainer({
               });
               if (features.length === 0) {
                 pinnedStationIdRef.current = null;
-                setPinnedStationId(null);
+                
                 stationPopupRef.current?.remove();
                 currentOpenStationIdRef.current = null;
               }
@@ -900,7 +894,7 @@ export default function MapContainer({
             const props = features[0].properties;
             const geom = features[0].geometry as GeoJSON.Point;
             pinnedStationIdRef.current = props.id || null;
-            setPinnedStationId(props.id || null);
+            
             openSmartStationCardRef.current(props, geom.coordinates as [number, number], false);
           }
         });
@@ -945,6 +939,7 @@ export default function MapContainer({
     } catch {
       // Safe fallback
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [journeyGeojson, selectedCandidate?.id, mapLoaded, effectiveMapRef]);
 
   return (

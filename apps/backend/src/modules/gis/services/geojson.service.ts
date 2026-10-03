@@ -169,7 +169,14 @@ export class GeojsonService {
       // Remap invalid, generic default, or database black/white/null colors to their true route line hex codes
       if (
         !color ||
-        ['#000000', '000000', '#ffffff', 'ffffff', '#3b82f6', '3b82f6'].includes(color.toLowerCase())
+        [
+          '#000000',
+          '000000',
+          '#ffffff',
+          'ffffff',
+          '#3b82f6',
+          '3b82f6',
+        ].includes(color.toLowerCase())
       ) {
         if (nameUpper.includes('YELLOW') || nameUpper.includes('LINE 2A')) {
           color = '#facc15'; // Vibrant Yellow
@@ -256,9 +263,14 @@ export class GeojsonService {
           let color = (l.color || '').trim();
           if (
             !color ||
-            ['#000000', '000000', '#ffffff', 'ffffff', '#3b82f6', '3b82f6'].includes(
-              color.toLowerCase(),
-            )
+            [
+              '#000000',
+              '000000',
+              '#ffffff',
+              'ffffff',
+              '#3b82f6',
+              '3b82f6',
+            ].includes(color.toLowerCase())
           ) {
             if (nameUpper.includes('YELLOW') || nameUpper.includes('LINE 2A')) {
               color = '#facc15';
@@ -281,9 +293,15 @@ export class GeojsonService {
               nameUpper.includes('AIRPORT')
             ) {
               color = '#f97316';
-            } else if (nameUpper.includes('GREY') || nameUpper.includes('GRAY')) {
+            } else if (
+              nameUpper.includes('GREY') ||
+              nameUpper.includes('GRAY')
+            ) {
               color = '#808080';
-            } else if (nameUpper.includes('TEAL') || nameUpper.includes('RAPID')) {
+            } else if (
+              nameUpper.includes('TEAL') ||
+              nameUpper.includes('RAPID')
+            ) {
               color = '#14b8a6';
             } else if (nameUpper.includes('KOCHI')) {
               color = '#0ea5e9';

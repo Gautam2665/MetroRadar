@@ -3,7 +3,7 @@
  * Strips raw GTFS/graph identifiers and provides clean passenger-facing UI presentation.
  */
 
-import { RouteLeg, RouteOption } from '../containers/JourneyPlannerContainer';
+import { RouteOption } from '../containers/JourneyPlannerContainer';
 
 export interface CleanStationLine {
   code: string;

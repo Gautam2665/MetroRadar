@@ -129,7 +129,9 @@ export class RoutingService {
 
           // Run spur search with initial lineId of root path's last edge
           const initialLineId =
-            rootPath.length > 0 ? rootPath[rootPath.length - 1].lineId : undefined;
+            rootPath.length > 0
+              ? rootPath[rootPath.length - 1].lineId
+              : undefined;
 
           const spurPath = this.dijkstraStateAware(
             graph,

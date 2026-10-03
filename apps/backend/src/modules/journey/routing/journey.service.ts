@@ -463,7 +463,8 @@ export class JourneyService {
       const u = lineName.toUpperCase();
       if (u.includes('ORANGE') || u.includes('AIRPORT')) return 'ORANGE';
       if (u.includes('YELLOW') || u.includes('LINE 2A')) return 'YELLOW';
-      if (u.includes('BLUE') || u.includes('LINE 1') || u.includes('LINE 3')) return 'BLUE';
+      if (u.includes('BLUE') || u.includes('LINE 1') || u.includes('LINE 3'))
+        return 'BLUE';
       if (u.includes('RED') || u.includes('LINE 7')) return 'RED';
       if (u.includes('PINK')) return 'PINK';
       if (u.includes('MAGENTA')) return 'MAGENTA';
