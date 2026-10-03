@@ -13,15 +13,16 @@ export type AuthorityLevel = "OFFICIAL" | "GOVERNMENT" | "OPERATOR" | "SECONDARY
 export type SourceType = "DPR" | "OFFICIAL_TIMETABLE" | "GIS_KML" | "GTFS_STATIC" | "COMMUNITY" | "RESEARCH" | "OBSERVATION";
 
 export type KnowledgeCategory =
-  | "A_NETWORK"       // Topology, alignment, chainage, curves, gradients, crossovers
-  | "B_STATION"       // Physical infrastructure: platforms, concourses, exits, levels
-  | "C_OPERATIONS"    // Headways, dwell times, fleet requirements, operating hours
-  | "D_ROLLING_STOCK" // Car dimensions, capacity, motorization, acceleration
-  | "E_SIGNALLING"    // CBTC, interlockings, block sections, safety systems
-  | "F_GIS"           // Spatial shapefiles, WGS84 coordinates, track centerlines
-  | "G_PASSENGER"     // Fare structures, ticketing, passenger flow data
-  | "H_HISTORICAL"    // Commissioning phases, delay history, timeline
-  | "I_OBSERVATIONS"; // Ground telemetry, field calibration readings
+  | "A_NETWORK"               // Topology, alignment, chainage, curves, gradients, crossovers
+  | "B_STATION"               // Physical infrastructure: platforms, concourses, exits, levels
+  | "B_STATION_INFRASTRUCTURE" // Alias for Category B
+  | "C_OPERATIONS"            // Headways, dwell times, fleet requirements, operating hours
+  | "D_ROLLING_STOCK"         // Car dimensions, capacity, motorization, acceleration
+  | "E_SIGNALLING"            // CBTC, interlockings, block sections, safety systems
+  | "F_GIS"                   // Spatial shapefiles, WGS84 coordinates, track centerlines
+  | "G_PASSENGER"             // Fare structures, ticketing, passenger flow data
+  | "H_HISTORICAL"            // Commissioning phases, delay history, timeline
+  | "I_OBSERVATIONS";         // Ground telemetry, field calibration readings
 
 export type EvidenceType = "DIRECT" | "DERIVED" | "ESTIMATED" | "CROSS_REFERENCED";
 
@@ -37,6 +38,7 @@ export type ExtractionMethod =
   | "TABLE_EXTRACTION"
   | "TEXT_PARSING"
   | "DIAGRAM_READING"
+  | "DRAWING_INTERPRETATION"
   | "GEOSPATIAL_ANALYSIS"
   | "DPR_DGPS_PLUS_OSM"
   | "HEADWAY_CALCULATION"

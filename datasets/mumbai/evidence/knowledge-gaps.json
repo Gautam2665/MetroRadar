@@ -78,5 +78,86 @@
     ],
     "impactSeverity": "HIGH",
     "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-B-001",
+    "systemCode": "MMRDA_LINE3",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "entrance_exit",
+    "entityKey": "ALL_27_STATIONS_ENTRANCES",
+    "attribute": "entrance_wgs84_coordinates",
+    "requiredFor": "Digital Twin station gate mapping and GTFS pathway access points",
+    "reason": "DPR Table 4.39 lists land plot areas and purposes for station entrances, but does not provide exact GPS latitude/longitude coordinates for individual gate structures.",
+    "potentialSourceTypes": [
+      "GIS_KML",
+      "COMMUNITY",
+      "OBSERVATION"
+    ],
+    "impactSeverity": "HIGH",
+    "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-B-002",
+    "systemCode": "MMRDA_LINE3",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "passenger_pathway",
+    "entityKey": "INDOOR_PEDESTRIAN_GEOMETRY",
+    "attribute": "indoor_walking_distances",
+    "requiredFor": "Detailed 3D Digital Twin station navigation and GTFS pathways.txt export",
+    "reason": "DPR Chapter 5 specifies platform length (250m) and staircase/escalator sizing criteria, but does not contain indoor 3D line geometry or explicit walkway distances.",
+    "potentialSourceTypes": [
+      "DPR",
+      "OFFICIAL_TIMETABLE"
+    ],
+    "impactSeverity": "MEDIUM",
+    "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-B-003",
+    "systemCode": "MMRDA_LINE3",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "vertical_circulation",
+    "entityKey": "OPERATIONAL_VERTICAL_CIRCULATION",
+    "attribute": "current_escalator_lift_status",
+    "requiredFor": "Real-time accessibility routing and station status reporting",
+    "reason": "DPR Table 5.4 specifies proposed Lift and Escalator counts per station, but does not reflect current operational availability or maintenance status.",
+    "potentialSourceTypes": [
+      "OPERATOR",
+      "OBSERVATION"
+    ],
+    "impactSeverity": "MEDIUM",
+    "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-B-004",
+    "systemCode": "MMRDA_LINE3",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "intermodal_connection",
+    "entityKey": "INTERCHANGE_WALK_TIMES",
+    "attribute": "exact_transfer_walking_time_seconds",
+    "requiredFor": "Journey Engine multi-modal transfer penalty calculation and GTFS transfers.txt export",
+    "reason": "DPR Table 4.4 documents interchange relationships (e.g. Churchgate WR, CSTM, Marol Naka Line 1), but intentionally omits precise walking transfer times.",
+    "potentialSourceTypes": [
+      "OBSERVATION",
+      "COMMUNITY"
+    ],
+    "impactSeverity": "HIGH",
+    "status": "OPEN"
+  },
+  {
+    "gapId": "GAP-L3-B-005",
+    "systemCode": "MMRDA_LINE3",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "passenger_facility",
+    "entityKey": "STATION_AFC_CONFIGURATIONS",
+    "attribute": "afc_gate_entry_exit_split",
+    "requiredFor": "Station concourse capacity modeling",
+    "reason": "DPR Section 5.3 outlines general AFC gate design principles, but station-by-station gate array layouts are finalized in detailed design stage.",
+    "potentialSourceTypes": [
+      "DPR",
+      "OPERATOR"
+    ],
+    "impactSeverity": "LOW",
+    "status": "OPEN"
   }
 ]

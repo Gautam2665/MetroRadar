@@ -22,7 +22,6 @@ function validateEvidence(records, sources) {
     if (!r.attribute) errors.push({ evidenceId: r.evidenceId, message: 'Missing attribute' });
     if (r.value === undefined || r.value === null) errors.push({ evidenceId: r.evidenceId, message: 'Missing value' });
 
-    // Temporal status validation
     if (!r.temporalStatus) {
       errors.push({ evidenceId: r.evidenceId, message: 'Missing temporalStatus' });
     } else if (!VALID_TEMPORAL_STATUSES.has(r.temporalStatus)) {
@@ -69,99 +68,92 @@ function validateEvidence(records, sources) {
   return { valid: errors.length === 0, errors, warnings };
 }
 
+function summarizeCategory(records, gaps, catName) {
+  let direct = 0, derived = 0, estimated = 0;
+  const temporalCounts = {
+    PROPOSED: 0, APPROVED: 0, UNDER_CONSTRUCTION: 0, OPERATIONAL: 0, HISTORICAL: 0, UNKNOWN: 0
+  };
+
+  for (const r of records) {
+    if (r.evidenceType === 'DIRECT') direct++;
+    else if (r.evidenceType === 'DERIVED') derived++;
+    else if (r.evidenceType === 'ESTIMATED') estimated++;
+
+    const st = r.temporalStatus || 'UNKNOWN';
+    if (temporalCounts[st] !== undefined) temporalCounts[st]++;
+    else temporalCounts.UNKNOWN++;
+  }
+
+  return {
+    total: records.length,
+    direct,
+    derived,
+    estimated,
+    temporalCounts,
+    gapsCount: gaps.filter((g) => g.category.startsWith(catName)).length,
+  };
+}
+
 function main() {
-  console.log('\n🔬 TDSE Evidence System — Sprint v0.6.5-A.1 Temporal Audit');
+  console.log('\n🔬 TDSE Evidence System — Sprint v0.6.5-B Audit');
   console.log('────────────────────────────────────────────────────────────');
 
   const sourcesPath = path.resolve('datasets/mumbai/sources/catalog.json');
-  const evidencePath = path.resolve('datasets/mumbai/evidence/A-network-evidence.json');
+  const evidenceAPath = path.resolve('datasets/mumbai/evidence/A-network-evidence.json');
+  const evidenceBPath = path.resolve('datasets/mumbai/evidence/B-station-infrastructure-evidence.json');
   const gapsPath = path.resolve('datasets/mumbai/evidence/knowledge-gaps.json');
 
-  if (!fs.existsSync(sourcesPath) || !fs.existsSync(evidencePath)) {
-    console.error('❌ Evidence or Source catalog files not found.');
+  if (!fs.existsSync(sourcesPath)) {
+    console.error('❌ Source catalog file not found.');
     process.exit(1);
   }
 
   const sourcesCatalog = JSON.parse(fs.readFileSync(sourcesPath, 'utf-8'));
-  const evidenceRecords = JSON.parse(fs.readFileSync(evidencePath, 'utf-8'));
+  const recordsA = fs.existsSync(evidenceAPath) ? JSON.parse(fs.readFileSync(evidenceAPath, 'utf-8')) : [];
+  const recordsB = fs.existsSync(evidenceBPath) ? JSON.parse(fs.readFileSync(evidenceBPath, 'utf-8')) : [];
+  const allRecords = [...recordsA, ...recordsB];
   const knowledgeGaps = fs.existsSync(gapsPath) ? JSON.parse(fs.readFileSync(gapsPath, 'utf-8')) : [];
 
-  console.log(`📋 Source Catalog : ${sourcesCatalog.sources.length} sources registered`);
+  console.log(`📋 Source Catalog`);
   for (const s of sourcesCatalog.sources) {
     console.log(`   [${s.sourceId}] ${s.shortName} (${s.authorityLevel}) — ${s.type}`);
   }
 
-  console.log(`\n📄 Extracted Facts : ${evidenceRecords.length} records in A-network-evidence.json`);
-  console.log(`⚠️  Knowledge Gaps  : ${knowledgeGaps.length} gaps identified in knowledge-gaps.json`);
+  const resAll = validateEvidence(allRecords, sourcesCatalog.sources);
 
-  const result = validateEvidence(evidenceRecords, sourcesCatalog.sources);
-
-  console.log('\n' + '─'.repeat(60));
-  console.log('VALIDATION RESULTS');
-  console.log('─'.repeat(60));
-
-  if (result.valid) {
-    console.log('✅ All evidence records passed schema, authority, & temporal validation (0 errors).');
-  } else {
-    console.log(`❌ Validation errors found (${result.errors.length}):`);
-    for (const err of result.errors) {
-      console.log(`   [${err.evidenceId}] ${err.message}`);
-    }
-  }
-
-  if (result.warnings.length > 0) {
-    console.log(`\n⚠️  Warnings (${result.warnings.length}):`);
-    for (const w of result.warnings) {
-      console.log(`   [${w.evidenceId}] ${w.message}`);
-    }
-  }
-
-  let direct = 0, derived = 0, estimated = 0, totalConfidence = 0;
-  const temporalCounts = {
-    PROPOSED: 0,
-    APPROVED: 0,
-    UNDER_CONSTRUCTION: 0,
-    OPERATIONAL: 0,
-    HISTORICAL: 0,
-    UNKNOWN: 0,
-  };
-
-  for (const r of evidenceRecords) {
-    if (r.evidenceType === 'DIRECT') direct++;
-    else if (r.evidenceType === 'DERIVED') derived++;
-    else if (r.evidenceType === 'ESTIMATED') estimated++;
-    totalConfidence += r.confidence;
-
-    const status = r.temporalStatus || 'UNKNOWN';
-    if (temporalCounts[status] !== undefined) {
-      temporalCounts[status]++;
-    } else {
-      temporalCounts.UNKNOWN++;
-    }
-  }
-
-  const avgConf = (totalConfidence / evidenceRecords.length).toFixed(2);
+  const sumA = summarizeCategory(recordsA, knowledgeGaps, 'A');
+  const sumB = summarizeCategory(recordsB, knowledgeGaps, 'B');
 
   console.log('\n' + '─'.repeat(60));
-  console.log('CATEGORY A — NETWORK TOPOLOGY TEMPORAL AUDIT SUMMARY');
+  console.log('CATEGORY B — STATION INFRASTRUCTURE AUDIT REPORT');
   console.log('─'.repeat(60));
-  console.log(`  Category                     : A_NETWORK`);
-  console.log(`  Total Extracted Facts         : ${evidenceRecords.length}`);
-  console.log(`  Direct Facts                  : ${direct}`);
-  console.log(`  Derived Facts                : ${derived}`);
-  console.log(`  Estimated Facts              : ${estimated}`);
-  console.log(`  Extraction Confidence (Avg)  : ${avgConf}`);
-  console.log(`  Temporal Validity Breakdown:`);
-  console.log(`    - PROPOSED                 : ${temporalCounts.PROPOSED}`);
-  console.log(`    - APPROVED                 : ${temporalCounts.APPROVED}`);
-  console.log(`    - UNDER_CONSTRUCTION       : ${temporalCounts.UNDER_CONSTRUCTION}`);
-  console.log(`    - OPERATIONAL              : ${temporalCounts.OPERATIONAL}`);
-  console.log(`    - HISTORICAL               : ${temporalCounts.HISTORICAL}`);
-  console.log(`    - UNKNOWN                  : ${temporalCounts.UNKNOWN}`);
-  console.log(`  Remaining Knowledge Gaps     : ${knowledgeGaps.length}`);
-  console.log(`  Coverage Metric              : NOT SCORED (Unweighted counts only)\n`);
+  console.log(`  Total extracted facts : ${sumB.total}`);
+  console.log(`\n  Evidence Type`);
+  console.log(`    DIRECT              : ${sumB.direct}`);
+  console.log(`    DERIVED             : ${sumB.derived}`);
+  console.log(`    ESTIMATED           : ${sumB.estimated}`);
+  console.log(`\n  Temporal Status`);
+  console.log(`    PROPOSED            : ${sumB.temporalCounts.PROPOSED}`);
+  console.log(`    APPROVED            : ${sumB.temporalCounts.APPROVED}`);
+  console.log(`    UNDER_CONSTRUCTION  : ${sumB.temporalCounts.UNDER_CONSTRUCTION}`);
+  console.log(`    OPERATIONAL         : ${sumB.temporalCounts.OPERATIONAL}`);
+  console.log(`    HISTORICAL          : ${sumB.temporalCounts.HISTORICAL}`);
+  console.log(`    UNKNOWN             : ${sumB.temporalCounts.UNKNOWN}`);
+  console.log(`\n  Knowledge Gaps`);
+  console.log(`    B-specific gaps     : ${sumB.gapsCount}`);
+  console.log(`\n  Validation Results`);
+  console.log(`    Errors              : ${resAll.errors.length}`);
+  console.log(`    Warnings            : ${resAll.warnings.length}`);
 
-  if (!result.valid) {
+  console.log('\n' + '─'.repeat(60));
+  console.log('OVERALL EVIDENCE LAYER SUMMARY (A + B)');
+  console.log('─'.repeat(60));
+  console.log(`  Category A (Network Topology)              : ${sumA.total} facts (${sumA.gapsCount} gaps)`);
+  console.log(`  Category B (Station Infrastructure)        : ${sumB.total} facts (${sumB.gapsCount} gaps)`);
+  console.log(`  Total Validated Evidence Records           : ${allRecords.length} records`);
+  console.log(`  Coverage Metric                            : NOT SCORED (Unweighted counts only)\n`);
+
+  if (!resAll.valid) {
     process.exit(1);
   }
 }
