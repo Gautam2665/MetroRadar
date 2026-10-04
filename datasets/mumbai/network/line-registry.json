@@ -32,8 +32,8 @@
       "operator": "MMOPL (Mumbai Metro One Private Limited)",
       "ownerAuthority": "MMRDA",
       "gauge": "STANDARD_1435mm",
-      "powerSupply": "750V DC third rail",
-      "traction": "DC EMU",
+      "powerSupply": "25kV AC overhead catenary",
+      "traction": "AC EMU / VVVF (CRRC Zhuzhou 4-car rakes)",
       "alignment": "ELEVATED",
       "stationCount": 12,
       "stationCountConfidence": "COMMUNITY_VERIFIED",
@@ -93,7 +93,12 @@
       ],
       "ctmReady": false,
       "ctmBlocker": "station_coordinates_wgs84",
-      "note": "Different technology family from MMRDA lines — DC third rail vs 25kV AC. See shared-evidence E-NET-SYS-004."
+      "sharedEvidenceRef": [
+        "E-NET-SYS-003",
+        "E-NET-SYS-004",
+        "E-NET-SYS-005"
+      ],
+      "note": "Operated by MMOPL. 25kV AC overhead catenary with CRRC Zhuzhou 4-car trainsets."
     },
     {
       "lineId": "MUMBAI_LINE2A",
@@ -105,7 +110,7 @@
       "ownerAuthority": "MMRDA",
       "gauge": "STANDARD_1435mm",
       "powerSupply": "25kV AC overhead catenary",
-      "traction": "AC EMU / VVVF (Alstom Metropolis 6-car)",
+      "traction": "AC EMU / VVVF (BEML 6-car rakes, Bengaluru)",
       "alignment": "ELEVATED",
       "stationCount": 17,
       "stationCountConfidence": "COMMUNITY_VERIFIED",
@@ -145,11 +150,10 @@
       "ctmReady": false,
       "ctmBlocker": "station_coordinates_wgs84",
       "sharedEvidenceRef": [
+        "E-NET-SYS-001",
         "E-NET-SYS-003",
-        "E-NET-SYS-005",
-        "E-NET-SYS-007",
-        "E-NET-SYS-008",
-        "E-NET-SYS-009"
+        "E-NET-SYS-004",
+        "E-NET-SYS-006"
       ]
     },
     {
@@ -162,7 +166,7 @@
       "ownerAuthority": "MMRDA",
       "gauge": "STANDARD_1435mm",
       "powerSupply": "25kV AC overhead catenary",
-      "traction": "AC EMU / VVVF (Alstom Metropolis 6-car)",
+      "traction": "AC EMU / VVVF (BEML 6-car rakes, Bengaluru)",
       "alignment": "ELEVATED",
       "stationCount": 22,
       "openedStationCount": 6,
@@ -226,11 +230,10 @@
       "ctmReady": false,
       "ctmBlocker": "station_coordinates_wgs84",
       "sharedEvidenceRef": [
+        "E-NET-SYS-001",
         "E-NET-SYS-003",
-        "E-NET-SYS-005",
-        "E-NET-SYS-007",
-        "E-NET-SYS-008",
-        "E-NET-SYS-009"
+        "E-NET-SYS-004",
+        "E-NET-SYS-006"
       ]
     },
     {
@@ -544,7 +547,7 @@
       "ownerAuthority": "MMRDA",
       "gauge": "STANDARD_1435mm",
       "powerSupply": "25kV AC overhead catenary",
-      "traction": "AC EMU / VVVF (Alstom Metropolis 6-car)",
+      "traction": "AC EMU / VVVF (BEML 6-car rakes, Bengaluru)",
       "alignment": "ELEVATED",
       "stationCount": 14,
       "stationCountConfidence": "COMMUNITY_VERIFIED",
@@ -591,11 +594,10 @@
       "ctmReady": false,
       "ctmBlocker": "station_coordinates_wgs84",
       "sharedEvidenceRef": [
+        "E-NET-SYS-001",
         "E-NET-SYS-003",
-        "E-NET-SYS-005",
-        "E-NET-SYS-007",
-        "E-NET-SYS-008",
-        "E-NET-SYS-009"
+        "E-NET-SYS-004",
+        "E-NET-SYS-006"
       ]
     },
     {
