@@ -592,29 +592,59 @@
     },
     {
       "complexId": "ICX-DADAR",
-      "name": "Dadar Metro & Railway Mega Hub",
+      "name": "Dadar Metro & Railway Hub",
       "participatingSystems": ["MUMBAI_LINE3", "SUBURBAN_WR_CR"],
       "participatingStations": ["STN_L3_013", "STN_IR_DADAR"],
-      "interchangeType": "SUBTERRANEAN_SUBWAY_TO_RAILWAY",
+      "interchangeType": "LONG_MARKET_STREET_WALK_TO_RAILWAY",
       "attributes": {
         "paidAreaTransfer": {
           "value": false,
           "knowledgeState": "KNOWN_FROM_ENGINEERING",
           "provenance": {
             "sourceId": "SOURCE-001",
-            "section": "Chapter 5 Section 5.3"
+            "section": "Chapter 5 Section 5.2.16 (Page 5-9 / PDF 232)"
           }
         },
         "requiresAfcRetap": {
           "value": true,
           "knowledgeState": "KNOWN_FROM_ENGINEERING"
         },
+        "walkingDistanceMeters": {
+          "value": 650,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SOURCE-001",
+            "section": "Section 5.2.16",
+            "evidence": "Station box located on Gokhale Road near Portuguese Church; ~650m pedestrian walk across Ranade Marg to Dadar Suburban Station"
+          }
+        },
+        "outdoorStreetExposure": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Requires traversing Ranade Road market corridor"
+          }
+        },
+        "crowdFriction": {
+          "value": "EXTREME_MARKET_CONGESTION",
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Dense street vendor, flower market, and pedestrian bottlenecks along Ranade Road"
+          }
+        },
+        "suitabilityNote": {
+          "value": "NOT_SUITABLE_FOR_LUGGAGE",
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Extremely difficult pedestrian movement with heavy bags through flower market stalls"
+          }
+        },
         "elevatorAvailability": {
           "status": "VERIFIED_ELEVATOR",
           "knowledgeState": "KNOWN_FROM_ENGINEERING",
           "provenance": {
             "sourceId": "SOURCE-001",
-            "evidence": "Line 3 station design mandates full lift provision to ground/subway"
+            "evidence": "Line 3 station design mandates full lift provision to street concourse"
           }
         }
       },
@@ -626,13 +656,14 @@
           "elements": [
             "VERTICAL_ASCENT_L3",
             "AFC_EXIT_L3",
-            "SUBWAY_LINK_TO_RAILWAY",
-            "RAILWAY_ENTRY"
+            "STREET_WALK_GOKHALE_RD",
+            "RANADE_ROAD_CONGESTED_MARKET_WALK",
+            "RAILWAY_STATION_ENTRY"
           ],
           "walkingSeconds": null,
           "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
-          "luggageFrictionLevel": "MODERATE",
-          "accessibilityStatus": "VERIFIED_ELEVATOR"
+          "luggageFrictionLevel": "EXTREME",
+          "accessibilityStatus": "INACCESSIBLE_STREET_MARKET"
         }
       ]
     },
@@ -641,26 +672,40 @@
       "name": "Mumbai Central Metro & Mainline Terminal Hub",
       "participatingSystems": ["MUMBAI_LINE3", "SUBURBAN_WR"],
       "participatingStations": ["STN_L3_019", "STN_IR_MUMBAI_CENTRAL"],
-      "interchangeType": "SUBTERRANEAN_SUBWAY_TO_MAINLINE_TERMINAL",
+      "interchangeType": "SURFACE_FORECOURT_TO_MAINLINE_TERMINAL",
       "attributes": {
         "paidAreaTransfer": {
           "value": false,
           "knowledgeState": "KNOWN_FROM_ENGINEERING",
           "provenance": {
             "sourceId": "SOURCE-001",
-            "section": "Chapter 5 Section 5.3"
+            "section": "Chapter 5 Section 5.2.10 (Page 5-8 / PDF 231)"
           }
         },
         "requiresAfcRetap": {
           "value": true,
           "knowledgeState": "KNOWN_FROM_ENGINEERING"
         },
+        "walkingDistanceMeters": {
+          "value": 100,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Station box located on Dr. A. Nair Road on the east side of railway terminus, ~100m outside the terminal entrance (not inside the premise)"
+          }
+        },
+        "outdoorStreetExposure": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Short ~100m walk across the terminal forecourt / Dr. A. Nair Road"
+          }
+        },
         "elevatorAvailability": {
           "status": "VERIFIED_ELEVATOR",
           "knowledgeState": "KNOWN_FROM_ENGINEERING",
           "provenance": {
             "sourceId": "SOURCE-001",
-            "evidence": "Full step-free lift access designed from underground box to surface terminal concourse"
+            "evidence": "Full step-free lift access from underground box to surface entry"
           }
         }
       },
@@ -672,12 +717,12 @@
           "elements": [
             "VERTICAL_ASCENT_L3",
             "AFC_EXIT_L3",
-            "PEDESTRIAN_SUBWAY_TO_MAINLINE_STATION",
+            "SURFACE_FORECOURT_WALK_100M",
             "MAINLINE_CONCOURSE_ENTRY"
           ],
           "walkingSeconds": null,
           "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
-          "luggageFrictionLevel": "LOW",
+          "luggageFrictionLevel": "LOW_TO_MODERATE",
           "accessibilityStatus": "VERIFIED_ELEVATOR"
         }
       ]
@@ -687,19 +732,33 @@
       "name": "CSMT Metro & Heritage Railway Terminal Hub",
       "participatingSystems": ["MUMBAI_LINE3", "SUBURBAN_CR_HARBOUR"],
       "participatingStations": ["STN_L3_023", "STN_IR_CSMT"],
-      "interchangeType": "SUBTERRANEAN_SUBWAY_TO_HERITAGE_TERMINAL",
+      "interchangeType": "INTEGRATED_BMC_SUBWAY_TO_HERITAGE_TERMINAL",
       "attributes": {
         "paidAreaTransfer": {
           "value": false,
           "knowledgeState": "KNOWN_FROM_ENGINEERING",
           "provenance": {
             "sourceId": "SOURCE-001",
-            "section": "Chapter 5 Section 5.3"
+            "section": "Chapter 5 Section 5.2.6 (Page 5-8 / PDF 230)"
           }
         },
         "requiresAfcRetap": {
           "value": true,
           "knowledgeState": "KNOWN_FROM_ENGINEERING"
+        },
+        "subwayConnection": {
+          "value": "INTEGRATED_BMC_SUBWAY",
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Direct subterranean connection into existing BMC pedestrian subway network beneath Mahapalika Marg entering directly into CST suburban concourse"
+          }
+        },
+        "outdoorStreetExposure": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Subterranean subway link; no surface street crossing"
+          }
         },
         "elevatorAvailability": {
           "status": "VERIFIED_ELEVATOR",
@@ -718,13 +777,75 @@
           "elements": [
             "VERTICAL_ASCENT_L3",
             "AFC_EXIT_L3",
-            "UNDERGROUND_SUBWAY_TO_SUBURBAN_CONCOURSE",
+            "UNDERGROUND_BMC_SUBWAY_LINK",
             "CR_CONCOURSE_ENTRY"
           ],
           "walkingSeconds": null,
           "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
-          "luggageFrictionLevel": "MODERATE",
+          "luggageFrictionLevel": "LOW",
           "accessibilityStatus": "VERIFIED_ELEVATOR"
+        }
+      ]
+    },
+    {
+      "complexId": "ICX-CHURCHGATE",
+      "name": "Churchgate Metro & Western Railway Suburban Terminal Hub",
+      "participatingSystems": ["MUMBAI_LINE3", "SUBURBAN_WR"],
+      "participatingStations": ["STN_L3_025", "STN_IR_CHURCHGATE"],
+      "interchangeType": "SURFACE_FOOTPATH_WALK_TO_RAILWAY",
+      "attributes": {
+        "paidAreaTransfer": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SOURCE-001",
+            "section": "Chapter 5 Section 5.2.4 (Page 5-7 / PDF 230) and Table 5.12"
+          }
+        },
+        "requiresAfcRetap": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING"
+        },
+        "walkingDistanceMeters": {
+          "value": 150,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "sourceId": "SOURCE-001",
+            "evidence": "Station box located along J.N. Tata Road (near Oval Maidan); ~150m surface walk along footpath across Veer Nariman Road to WR Churchgate terminal"
+          }
+        },
+        "outdoorStreetExposure": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Surface footpath walk along J.N. Tata Road / Veer Nariman Road"
+          }
+        },
+        "elevatorAvailability": {
+          "status": "VERIFIED_ELEVATOR",
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SOURCE-001",
+            "evidence": "Line 3 station box equipped with lifts to street level"
+          }
+        }
+      },
+      "pathways": [
+        {
+          "pathwayId": "PATH-CHURCHGATE-L3-TO-WR",
+          "from": "MUMBAI_LINE3",
+          "to": "SUBURBAN_WR",
+          "elements": [
+            "VERTICAL_ASCENT_L3",
+            "AFC_EXIT_L3",
+            "SURFACE_FOOTPATH_JN_TATA_RD_150M",
+            "CROSS_VEER_NARIMAN_RD",
+            "WR_CHURCHGATE_CONCOURSE_ENTRY"
+          ],
+          "walkingSeconds": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "luggageFrictionLevel": "MODERATE",
+          "accessibilityStatus": "UNVERIFIED_ELEVATOR"
         }
       ]
     }
