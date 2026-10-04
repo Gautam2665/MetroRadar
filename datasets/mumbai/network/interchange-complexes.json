@@ -700,6 +700,13 @@
             "evidence": "Short ~100m walk across the terminal forecourt / Dr. A. Nair Road"
           }
         },
+        "suitabilityNote": {
+          "value": "IDEAL_FOR_LUGGAGE",
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Direct lifts and escalators from platform to surface entrance, ~100m flat paved forecourt walk to Western Railway / Mainline terminus entrance"
+          }
+        },
         "elevatorAvailability": {
           "status": "VERIFIED_ELEVATOR",
           "knowledgeState": "KNOWN_FROM_ENGINEERING",
@@ -715,14 +722,14 @@
           "from": "MUMBAI_LINE3",
           "to": "SUBURBAN_WR",
           "elements": [
-            "VERTICAL_ASCENT_L3",
+            "VERTICAL_ASCENT_L3_LIFT_OR_ESCALATOR",
             "AFC_EXIT_L3",
             "SURFACE_FORECOURT_WALK_100M",
             "MAINLINE_CONCOURSE_ENTRY"
           ],
           "walkingSeconds": null,
           "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
-          "luggageFrictionLevel": "LOW_TO_MODERATE",
+          "luggageFrictionLevel": "MINIMAL",
           "accessibilityStatus": "VERIFIED_ELEVATOR"
         }
       ]
@@ -821,6 +828,13 @@
             "evidence": "Surface footpath walk along J.N. Tata Road / Veer Nariman Road"
           }
         },
+        "suitabilityNote": {
+          "value": "FUNCTIONAL_WESTERN_LINE_HUB",
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Wide South Mumbai paved sidewalk (~150m) along J.N. Tata Road / Veer Nariman Road with lift and escalator access at metro box connecting to Western Railway terminus"
+          }
+        },
         "elevatorAvailability": {
           "status": "VERIFIED_ELEVATOR",
           "knowledgeState": "KNOWN_FROM_ENGINEERING",
@@ -836,7 +850,7 @@
           "from": "MUMBAI_LINE3",
           "to": "SUBURBAN_WR",
           "elements": [
-            "VERTICAL_ASCENT_L3",
+            "VERTICAL_ASCENT_L3_LIFT_OR_ESCALATOR",
             "AFC_EXIT_L3",
             "SURFACE_FOOTPATH_JN_TATA_RD_150M",
             "CROSS_VEER_NARIMAN_RD",
@@ -844,8 +858,8 @@
           ],
           "walkingSeconds": null,
           "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
-          "luggageFrictionLevel": "MODERATE",
-          "accessibilityStatus": "UNVERIFIED_ELEVATOR"
+          "luggageFrictionLevel": "LOW",
+          "accessibilityStatus": "VERIFIED_ELEVATOR"
         }
       ]
     }
