@@ -18,7 +18,9 @@
     "plannedLines": 3,
     "totalOperationalStations": 79,
     "totalOperationalKm": 101.4,
-    "asOf": "2026-10-04"
+    "asOf": "2026-10-04",
+    "ctmReadyLines": 1,
+    "firstCtmReadyLine": "MUMBAI_LINE3"
   },
   "lines": [
     {
@@ -35,22 +37,60 @@
       "alignment": "ELEVATED",
       "stationCount": 12,
       "stationCountConfidence": "COMMUNITY_VERIFIED",
-      "terminals": ["Versova", "Ghatkopar"],
+      "terminals": [
+        "Versova",
+        "Ghatkopar"
+      ],
       "lengthKm": 11.4,
       "operationalStatus": "OPERATIONAL",
       "temporalStatus": "OPERATIONAL",
       "openingYear": 2014,
       "phaseInfo": "Single phase, fully operational since June 2014",
       "interchangeStations": [
-        { "stationName": "D.N. Nagar", "connectsTo": ["Line 2A", "Line 2B"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "Western Express Highway", "connectsTo": ["Line 7 (Gundavali)"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "Marol Naka", "connectsTo": ["Line 3 (Aqua)"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "Andheri", "connectsTo": ["Western Line (WR)"], "interchangeType": "MULTIMODAL" },
-        { "stationName": "Ghatkopar", "connectsTo": ["Central Line (CR)", "Harbour Line (CR)"], "interchangeType": "MULTIMODAL" }
+        {
+          "stationName": "D.N. Nagar",
+          "connectsTo": [
+            "Line 2A",
+            "Line 2B"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "Western Express Highway",
+          "connectsTo": [
+            "Line 7 (Gundavali)"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "Marol Naka",
+          "connectsTo": [
+            "Line 3 (Aqua)"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "Andheri",
+          "connectsTo": [
+            "Western Line (WR)"
+          ],
+          "interchangeType": "MULTIMODAL"
+        },
+        {
+          "stationName": "Ghatkopar",
+          "connectsTo": [
+            "Central Line (CR)",
+            "Harbour Line (CR)"
+          ],
+          "interchangeType": "MULTIMODAL"
+        }
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
-      "sourceRefs": ["SRC-NET-005", "SRC-NET-008"],
+      "sourceRefs": [
+        "SRC-NET-005",
+        "SRC-NET-008"
+      ],
       "ctmReady": false,
       "ctmBlocker": "station_coordinates_wgs84",
       "note": "Different technology family from MMRDA lines — DC third rail vs 25kV AC. See shared-evidence E-NET-SYS-004."
@@ -69,22 +109,48 @@
       "alignment": "ELEVATED",
       "stationCount": 17,
       "stationCountConfidence": "COMMUNITY_VERIFIED",
-      "terminals": ["Dahisar (East)", "Andheri (West) / D.N. Nagar"],
+      "terminals": [
+        "Dahisar (East)",
+        "Andheri (West) / D.N. Nagar"
+      ],
       "lengthKm": 18.6,
       "operationalStatus": "OPERATIONAL",
       "temporalStatus": "OPERATIONAL",
       "openingYear": 2022,
       "phaseInfo": "Dahisar (E)–Dahanukarwadi Apr 2022; Dahanukarwadi–D.N. Nagar Jan 2023. Fully operational.",
       "interchangeStations": [
-        { "stationName": "Dahisar (East)", "connectsTo": ["Line 7", "Line 9"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "D.N. Nagar", "connectsTo": ["Line 1", "Line 2B"], "interchangeType": "METRO_INTERCHANGE" }
+        {
+          "stationName": "Dahisar (East)",
+          "connectsTo": [
+            "Line 7",
+            "Line 9"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "D.N. Nagar",
+          "connectsTo": [
+            "Line 1",
+            "Line 2B"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        }
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
-      "sourceRefs": ["SRC-NET-006", "SRC-NET-008"],
+      "sourceRefs": [
+        "SRC-NET-006",
+        "SRC-NET-008"
+      ],
       "ctmReady": false,
       "ctmBlocker": "station_coordinates_wgs84",
-      "sharedEvidenceRef": ["E-NET-SYS-003", "E-NET-SYS-005", "E-NET-SYS-007", "E-NET-SYS-008", "E-NET-SYS-009"]
+      "sharedEvidenceRef": [
+        "E-NET-SYS-003",
+        "E-NET-SYS-005",
+        "E-NET-SYS-007",
+        "E-NET-SYS-008",
+        "E-NET-SYS-009"
+      ]
     },
     {
       "lineId": "MUMBAI_LINE2B",
@@ -101,25 +167,71 @@
       "stationCount": 22,
       "openedStationCount": 6,
       "stationCountConfidence": "COMMUNITY_VERIFIED",
-      "terminals": ["D.N. Nagar / Andheri (West)", "Mandale"],
+      "terminals": [
+        "D.N. Nagar / Andheri (West)",
+        "Mandale"
+      ],
       "lengthKm": 23.6,
       "operationalStatus": "PARTIAL",
       "temporalStatus": "OPERATIONAL",
       "openingYear": 2026,
       "phaseInfo": "Mandale–Diamond Garden opened Apr 2026 (5 stations); Diamond Garden–Chembur opened Aug 2026 (1 station). Chembur–Andheri W under construction.",
       "interchangeStations": [
-        { "stationName": "D.N. Nagar", "connectsTo": ["Line 1", "Line 2A"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "BKC", "connectsTo": ["Line 3", "Bullet Train (MAHSR)"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "Kurla", "connectsTo": ["Central Line (CR)", "Harbour Line (CR)"], "interchangeType": "MULTIMODAL" },
-        { "stationName": "Chembur", "connectsTo": ["Mumbai Monorail", "Harbour Line (CR)"], "interchangeType": "MULTIMODAL" },
-        { "stationName": "Mandale / Mankhurd", "connectsTo": ["Harbour Line (CR)"], "interchangeType": "MULTIMODAL" }
+        {
+          "stationName": "D.N. Nagar",
+          "connectsTo": [
+            "Line 1",
+            "Line 2A"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "BKC",
+          "connectsTo": [
+            "Line 3",
+            "Bullet Train (MAHSR)"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "Kurla",
+          "connectsTo": [
+            "Central Line (CR)",
+            "Harbour Line (CR)"
+          ],
+          "interchangeType": "MULTIMODAL"
+        },
+        {
+          "stationName": "Chembur",
+          "connectsTo": [
+            "Mumbai Monorail",
+            "Harbour Line (CR)"
+          ],
+          "interchangeType": "MULTIMODAL"
+        },
+        {
+          "stationName": "Mandale / Mankhurd",
+          "connectsTo": [
+            "Harbour Line (CR)"
+          ],
+          "interchangeType": "MULTIMODAL"
+        }
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
-      "sourceRefs": ["SRC-NET-006", "SRC-NET-008"],
+      "sourceRefs": [
+        "SRC-NET-006",
+        "SRC-NET-008"
+      ],
       "ctmReady": false,
       "ctmBlocker": "station_coordinates_wgs84",
-      "sharedEvidenceRef": ["E-NET-SYS-003", "E-NET-SYS-005", "E-NET-SYS-007", "E-NET-SYS-008", "E-NET-SYS-009"]
+      "sharedEvidenceRef": [
+        "E-NET-SYS-003",
+        "E-NET-SYS-005",
+        "E-NET-SYS-007",
+        "E-NET-SYS-008",
+        "E-NET-SYS-009"
+      ]
     },
     {
       "lineId": "MUMBAI_LINE3",
@@ -135,32 +247,117 @@
       "alignment": "UNDERGROUND",
       "stationCount": 27,
       "stationCountConfidence": "DPR_OFFICIAL",
-      "terminals": ["Aarey JVLR", "Cuffe Parade"],
+      "terminals": [
+        "Aarey JVLR",
+        "Cuffe Parade"
+      ],
       "lengthKm": 33.5,
       "operationalStatus": "OPERATIONAL",
       "temporalStatus": "OPERATIONAL",
       "openingYear": 2024,
       "phaseInfo": "Phase 1 (Aarey JVLR–BKC, 12 stations) Oct 2024. Phase 2A (BKC–Acharya Atre Chowk/Worli) May 2025. Phase 2B (Acharya Atre Chowk–Cuffe Parade) Oct 2025. Fully operational 27 stations as of Oct 2025.",
       "interchangeStations": [
-        { "stationName": "Marol Naka", "connectsTo": ["Line 1"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "SEEPZ", "connectsTo": ["Line 6 (Pink)"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "CSMIA T1 / T2", "connectsTo": ["Line 7A", "Line 8"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "BKC", "connectsTo": ["Line 2B", "Bullet Train (MAHSR)"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "Dadar Metro", "connectsTo": ["Central Line (CR)", "Western Line (WR)"], "interchangeType": "MULTIMODAL" },
-        { "stationName": "Mahalaxmi", "connectsTo": ["Mumbai Monorail", "Western Line (WR)"], "interchangeType": "MULTIMODAL" },
-        { "stationName": "Mumbai Central", "connectsTo": ["Western Line (WR)"], "interchangeType": "MULTIMODAL" },
-        { "stationName": "Grant Road", "connectsTo": ["Western Line (WR)"], "interchangeType": "MULTIMODAL" },
-        { "stationName": "Churchgate", "connectsTo": ["Western Line (WR) terminal"], "interchangeType": "MULTIMODAL" },
-        { "stationName": "CSMT Metro", "connectsTo": ["Central/Harbour suburban", "Indian Railways CSMT", "Line 11 (planned)"], "interchangeType": "MULTIMODAL" }
+        {
+          "stationName": "Marol Naka",
+          "connectsTo": [
+            "Line 1"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "SEEPZ",
+          "connectsTo": [
+            "Line 6 (Pink)"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "CSMIA T1 / T2",
+          "connectsTo": [
+            "Line 7A",
+            "Line 8"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "BKC",
+          "connectsTo": [
+            "Line 2B",
+            "Bullet Train (MAHSR)"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "Dadar Metro",
+          "connectsTo": [
+            "Central Line (CR)",
+            "Western Line (WR)"
+          ],
+          "interchangeType": "MULTIMODAL"
+        },
+        {
+          "stationName": "Mahalaxmi",
+          "connectsTo": [
+            "Mumbai Monorail",
+            "Western Line (WR)"
+          ],
+          "interchangeType": "MULTIMODAL"
+        },
+        {
+          "stationName": "Mumbai Central",
+          "connectsTo": [
+            "Western Line (WR)"
+          ],
+          "interchangeType": "MULTIMODAL"
+        },
+        {
+          "stationName": "Grant Road",
+          "connectsTo": [
+            "Western Line (WR)"
+          ],
+          "interchangeType": "MULTIMODAL"
+        },
+        {
+          "stationName": "Churchgate",
+          "connectsTo": [
+            "Western Line (WR) terminal"
+          ],
+          "interchangeType": "MULTIMODAL"
+        },
+        {
+          "stationName": "CSMT Metro",
+          "connectsTo": [
+            "Central/Harbour suburban",
+            "Indian Railways CSMT",
+            "Line 11 (planned)"
+          ],
+          "interchangeType": "MULTIMODAL"
+        }
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "A_B_C_D_F",
       "referenceImplementation": true,
-      "sourceRefs": ["SOURCE-001", "SOURCE-002", "SOURCE-003", "SOURCE-004", "SOURCE-005"],
-      "ctmReady": false,
-      "ctmBlocker": "F_gis_evidence_unverified (28 station coordinates + alignment registered from SOURCE-004, pending validation)",
-      "sharedEvidenceRef": ["E-NET-SYS-002", "E-NET-SYS-003", "E-NET-SYS-005", "E-NET-SYS-006", "E-NET-SYS-008", "E-NET-SYS-009"],
-      "gisEvidenceRef": "datasets/mumbai/evidence/F-gis-evidence.json"
+      "sourceRefs": [
+        "SOURCE-001",
+        "SOURCE-002",
+        "SOURCE-003",
+        "SOURCE-004",
+        "SOURCE-005"
+      ],
+      "ctmReady": true,
+      "ctmBlocker": null,
+      "sharedEvidenceRef": [
+        "E-NET-SYS-002",
+        "E-NET-SYS-003",
+        "E-NET-SYS-005",
+        "E-NET-SYS-006",
+        "E-NET-SYS-008",
+        "E-NET-SYS-009"
+      ],
+      "gisEvidenceRef": "datasets/mumbai/evidence/F-gis-evidence.json",
+      "ctmStatusReason": "P0 requirement met: Identity, 27 revenue station sequence, terminals, interchanges, operational status, standard gauge, and validated WGS84 station coordinates + 28,641-vertex alignment geometry.",
+      "validatedGisCount": 31,
+      "lastUpdated": "2026-10-04"
     },
     {
       "lineId": "MUMBAI_LINE4",
@@ -176,17 +373,46 @@
       "alignment": "ELEVATED",
       "stationCount": 34,
       "stationCountConfidence": "COMMUNITY_SECONDARY",
-      "terminals": ["Bhakti Park (Wadala)", "Gaimukh"],
+      "terminals": [
+        "Bhakti Park (Wadala)",
+        "Gaimukh"
+      ],
       "lengthKm": 37.5,
       "operationalStatus": "UNDER_CONSTRUCTION",
       "temporalStatus": "UNDER_CONSTRUCTION",
       "openingYear": null,
       "phaseInfo": "Advanced civil work ongoing; trial runs initiated 2025/2026; full completion expected 2026–2028",
       "interchangeStations": [
-        { "stationName": "Bhakti Park (Wadala)", "connectsTo": ["Mumbai Monorail", "Line 11"], "interchangeType": "MULTIMODAL" },
-        { "stationName": "Kanjurmarg / Gandhi Nagar", "connectsTo": ["Line 6", "Central Line (CR)"], "interchangeType": "MULTIMODAL" },
-        { "stationName": "Kapurbawdi", "connectsTo": ["Line 5"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "Gaimukh", "connectsTo": ["Line 10"], "interchangeType": "METRO_INTERCHANGE" }
+        {
+          "stationName": "Bhakti Park (Wadala)",
+          "connectsTo": [
+            "Mumbai Monorail",
+            "Line 11"
+          ],
+          "interchangeType": "MULTIMODAL"
+        },
+        {
+          "stationName": "Kanjurmarg / Gandhi Nagar",
+          "connectsTo": [
+            "Line 6",
+            "Central Line (CR)"
+          ],
+          "interchangeType": "MULTIMODAL"
+        },
+        {
+          "stationName": "Kapurbawdi",
+          "connectsTo": [
+            "Line 5"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "Gaimukh",
+          "connectsTo": [
+            "Line 10"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        }
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
@@ -208,15 +434,31 @@
       "alignment": "ELEVATED",
       "stationCount": 17,
       "stationCountConfidence": "COMMUNITY_SECONDARY",
-      "terminals": ["Kapurbawdi (Thane)", "Kalyan APMC"],
+      "terminals": [
+        "Kapurbawdi (Thane)",
+        "Kalyan APMC"
+      ],
       "lengthKm": 24.9,
       "operationalStatus": "UNDER_CONSTRUCTION",
       "temporalStatus": "UNDER_CONSTRUCTION",
       "openingYear": null,
       "phaseInfo": "Phase 1 (Thane–Bhiwandi) under active construction. Phase 2 (Bhiwandi–Kalyan) DPR modified.",
       "interchangeStations": [
-        { "stationName": "Kapurbawdi (Thane)", "connectsTo": ["Line 4"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "Kalyan APMC", "connectsTo": ["Line 12", "Kalyan Junction (Central Rail)"], "interchangeType": "MULTIMODAL" }
+        {
+          "stationName": "Kapurbawdi (Thane)",
+          "connectsTo": [
+            "Line 4"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "Kalyan APMC",
+          "connectsTo": [
+            "Line 12",
+            "Kalyan Junction (Central Rail)"
+          ],
+          "interchangeType": "MULTIMODAL"
+        }
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
@@ -238,18 +480,53 @@
       "alignment": "ELEVATED",
       "stationCount": 13,
       "stationCountConfidence": "COMMUNITY_SECONDARY",
-      "terminals": ["Swami Samarth Nagar (Lokhandwala)", "Vikhroli EEH"],
+      "terminals": [
+        "Swami Samarth Nagar (Lokhandwala)",
+        "Vikhroli EEH"
+      ],
       "lengthKm": 14.7,
       "operationalStatus": "UNDER_CONSTRUCTION",
       "temporalStatus": "UNDER_CONSTRUCTION",
       "openingYear": null,
       "phaseInfo": "Civil work ongoing; expected 2026–2028",
       "interchangeStations": [
-        { "stationName": "Swami Samarth Nagar / Oshiwara", "connectsTo": ["Line 2A"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "JVLR / Jogeshwari", "connectsTo": ["Line 7", "Western Line (WR)"], "interchangeType": "MULTIMODAL" },
-        { "stationName": "SEEPZ / Aarey JVLR", "connectsTo": ["Line 3 (Aqua)"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "Kanjurmarg (West)", "connectsTo": ["Line 4", "Central Line (CR)"], "interchangeType": "MULTIMODAL" },
-        { "stationName": "Vikhroli EEH", "connectsTo": ["Line 14"], "interchangeType": "METRO_INTERCHANGE" }
+        {
+          "stationName": "Swami Samarth Nagar / Oshiwara",
+          "connectsTo": [
+            "Line 2A"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "JVLR / Jogeshwari",
+          "connectsTo": [
+            "Line 7",
+            "Western Line (WR)"
+          ],
+          "interchangeType": "MULTIMODAL"
+        },
+        {
+          "stationName": "SEEPZ / Aarey JVLR",
+          "connectsTo": [
+            "Line 3 (Aqua)"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "Kanjurmarg (West)",
+          "connectsTo": [
+            "Line 4",
+            "Central Line (CR)"
+          ],
+          "interchangeType": "MULTIMODAL"
+        },
+        {
+          "stationName": "Vikhroli EEH",
+          "connectsTo": [
+            "Line 14"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        }
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
@@ -271,23 +548,55 @@
       "alignment": "ELEVATED",
       "stationCount": 14,
       "stationCountConfidence": "COMMUNITY_VERIFIED",
-      "terminals": ["Dahisar (East)", "Gundavali (Andheri East)"],
+      "terminals": [
+        "Dahisar (East)",
+        "Gundavali (Andheri East)"
+      ],
       "lengthKm": 16.5,
       "operationalStatus": "OPERATIONAL",
       "temporalStatus": "OPERATIONAL",
       "openingYear": 2022,
       "phaseInfo": "Dahisar (E)–Aarey Apr 2022; Aarey–Gundavali Jan 2023. Fully operational.",
       "interchangeStations": [
-        { "stationName": "Dahisar (East)", "connectsTo": ["Line 2A", "Line 9"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "JVLR", "connectsTo": ["Line 6 (Pink)"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "Gundavali", "connectsTo": ["Line 1 (via skywalk)", "Line 7A"], "interchangeType": "METRO_INTERCHANGE" }
+        {
+          "stationName": "Dahisar (East)",
+          "connectsTo": [
+            "Line 2A",
+            "Line 9"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "JVLR",
+          "connectsTo": [
+            "Line 6 (Pink)"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "Gundavali",
+          "connectsTo": [
+            "Line 1 (via skywalk)",
+            "Line 7A"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        }
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
-      "sourceRefs": ["SRC-NET-006", "SRC-NET-008"],
+      "sourceRefs": [
+        "SRC-NET-006",
+        "SRC-NET-008"
+      ],
       "ctmReady": false,
       "ctmBlocker": "station_coordinates_wgs84",
-      "sharedEvidenceRef": ["E-NET-SYS-003", "E-NET-SYS-005", "E-NET-SYS-007", "E-NET-SYS-008", "E-NET-SYS-009"]
+      "sharedEvidenceRef": [
+        "E-NET-SYS-003",
+        "E-NET-SYS-005",
+        "E-NET-SYS-007",
+        "E-NET-SYS-008",
+        "E-NET-SYS-009"
+      ]
     },
     {
       "lineId": "MUMBAI_LINE7A",
@@ -303,15 +612,32 @@
       "alignment": "ELEVATED_AND_UNDERGROUND",
       "stationCount": 2,
       "stationCountConfidence": "COMMUNITY_SECONDARY",
-      "terminals": ["Gundavali", "CSMIA Terminal 2"],
+      "terminals": [
+        "Gundavali",
+        "CSMIA Terminal 2"
+      ],
       "lengthKm": 3.5,
       "operationalStatus": "UNDER_CONSTRUCTION",
       "temporalStatus": "UNDER_CONSTRUCTION",
       "openingYear": null,
       "phaseInfo": "Partially underground airport link; completion expected 2026–2027",
       "interchangeStations": [
-        { "stationName": "Gundavali", "connectsTo": ["Line 7", "Line 1"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "CSMIA T2", "connectsTo": ["Line 3", "Line 8"], "interchangeType": "METRO_INTERCHANGE" }
+        {
+          "stationName": "Gundavali",
+          "connectsTo": [
+            "Line 7",
+            "Line 1"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "CSMIA T2",
+          "connectsTo": [
+            "Line 3",
+            "Line 8"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        }
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
@@ -333,15 +659,31 @@
       "alignment": "ELEVATED_AND_UNDERGROUND",
       "stationCount": 7,
       "stationCountConfidence": "COMMUNITY_SECONDARY",
-      "terminals": ["CSMIA Terminal 2", "Navi Mumbai International Airport (NMIA)"],
-      "lengthKm": 35.0,
+      "terminals": [
+        "CSMIA Terminal 2",
+        "Navi Mumbai International Airport (NMIA)"
+      ],
+      "lengthKm": 35,
       "operationalStatus": "PLANNED",
       "temporalStatus": "PROPOSED",
       "openingYear": null,
       "phaseInfo": "DPR approved. High-speed airport express between Mumbai and Navi Mumbai airports.",
       "interchangeStations": [
-        { "stationName": "CSMIA T2", "connectsTo": ["Line 3", "Line 7A"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "NMIA", "connectsTo": ["Navi Mumbai Metro Line 1"], "interchangeType": "METRO_INTERCHANGE" }
+        {
+          "stationName": "CSMIA T2",
+          "connectsTo": [
+            "Line 3",
+            "Line 7A"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "NMIA",
+          "connectsTo": [
+            "Navi Mumbai Metro Line 1"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        }
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
@@ -364,16 +706,38 @@
       "stationCount": 10,
       "openedStationCount": 3,
       "stationCountConfidence": "COMMUNITY_VERIFIED",
-      "terminals": ["Dahisar (East)", "Subhash Chandra Bose Stadium (Bhayandar)"],
+      "terminals": [
+        "Dahisar (East)",
+        "Subhash Chandra Bose Stadium (Bhayandar)"
+      ],
       "lengthKm": 12.1,
       "operationalStatus": "PARTIAL",
       "temporalStatus": "OPERATIONAL",
       "openingYear": 2026,
       "phaseInfo": "Dahisar (E)–Kashigaon (3 stations) opened April 2026. Kashigaon–Bhayandar under construction.",
       "interchangeStations": [
-        { "stationName": "Dahisar (East)", "connectsTo": ["Line 2A", "Line 7"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "Shivaji Chowk (Mira Road)", "connectsTo": ["Line 10"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "Subhash Chandra Bose Stadium", "connectsTo": ["Line 13"], "interchangeType": "METRO_INTERCHANGE" }
+        {
+          "stationName": "Dahisar (East)",
+          "connectsTo": [
+            "Line 2A",
+            "Line 7"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "Shivaji Chowk (Mira Road)",
+          "connectsTo": [
+            "Line 10"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "Subhash Chandra Bose Stadium",
+          "connectsTo": [
+            "Line 13"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        }
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
@@ -395,15 +759,30 @@
       "alignment": "ELEVATED",
       "stationCount": 8,
       "stationCountConfidence": "COMMUNITY_SECONDARY",
-      "terminals": ["Gaimukh", "Shivaji Chowk (Mira Road)"],
-      "lengthKm": 7.0,
+      "terminals": [
+        "Gaimukh",
+        "Shivaji Chowk (Mira Road)"
+      ],
+      "lengthKm": 7,
       "operationalStatus": "PLANNED",
       "temporalStatus": "PROPOSED",
       "openingYear": null,
       "phaseInfo": "Awaiting statutory clearances and tendering",
       "interchangeStations": [
-        { "stationName": "Gaimukh", "connectsTo": ["Line 4A"], "interchangeType": "METRO_INTERCHANGE" },
-        { "stationName": "Shivaji Chowk (Mira Road)", "connectsTo": ["Line 9"], "interchangeType": "METRO_INTERCHANGE" }
+        {
+          "stationName": "Gaimukh",
+          "connectsTo": [
+            "Line 4A"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        },
+        {
+          "stationName": "Shivaji Chowk (Mira Road)",
+          "connectsTo": [
+            "Line 9"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        }
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
@@ -425,16 +804,40 @@
       "alignment": "UNDERGROUND_AND_ELEVATED",
       "stationCount": 15,
       "stationCountConfidence": "COMMUNITY_SECONDARY",
-      "terminals": ["Bhakti Park (Wadala)", "CSMT"],
-      "lengthKm": 12.0,
+      "terminals": [
+        "Bhakti Park (Wadala)",
+        "CSMT"
+      ],
+      "lengthKm": 12,
       "operationalStatus": "PLANNED",
       "temporalStatus": "PROPOSED",
       "openingYear": null,
       "phaseInfo": "Soil testing / early planning stage. MMRCL executing underground portion.",
       "interchangeStations": [
-        { "stationName": "Bhakti Park (Wadala)", "connectsTo": ["Line 4", "Mumbai Monorail"], "interchangeType": "MULTIMODAL" },
-        { "stationName": "Sewri / Byculla", "connectsTo": ["Central/Harbour suburban"], "interchangeType": "MULTIMODAL" },
-        { "stationName": "CSMT", "connectsTo": ["Line 3", "Central/Harbour Rail", "Indian Railways"], "interchangeType": "MULTIMODAL" }
+        {
+          "stationName": "Bhakti Park (Wadala)",
+          "connectsTo": [
+            "Line 4",
+            "Mumbai Monorail"
+          ],
+          "interchangeType": "MULTIMODAL"
+        },
+        {
+          "stationName": "Sewri / Byculla",
+          "connectsTo": [
+            "Central/Harbour suburban"
+          ],
+          "interchangeType": "MULTIMODAL"
+        },
+        {
+          "stationName": "CSMT",
+          "connectsTo": [
+            "Line 3",
+            "Central/Harbour Rail",
+            "Indian Railways"
+          ],
+          "interchangeType": "MULTIMODAL"
+        }
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
@@ -456,15 +859,31 @@
       "alignment": "ELEVATED",
       "stationCount": 17,
       "stationCountConfidence": "COMMUNITY_SECONDARY",
-      "terminals": ["Kalyan APMC", "Taloja"],
-      "lengthKm": 30.0,
+      "terminals": [
+        "Kalyan APMC",
+        "Taloja"
+      ],
+      "lengthKm": 30,
       "operationalStatus": "UNDER_CONSTRUCTION",
       "temporalStatus": "UNDER_CONSTRUCTION",
       "openingYear": null,
       "phaseInfo": "Construction began 2024; target completion 2028–2032",
       "interchangeStations": [
-        { "stationName": "Kalyan APMC", "connectsTo": ["Line 5", "Kalyan Junction (Central Rail)"], "interchangeType": "MULTIMODAL" },
-        { "stationName": "Taloja", "connectsTo": ["Navi Mumbai Metro Line 1"], "interchangeType": "METRO_INTERCHANGE" }
+        {
+          "stationName": "Kalyan APMC",
+          "connectsTo": [
+            "Line 5",
+            "Kalyan Junction (Central Rail)"
+          ],
+          "interchangeType": "MULTIMODAL"
+        },
+        {
+          "stationName": "Taloja",
+          "connectsTo": [
+            "Navi Mumbai Metro Line 1"
+          ],
+          "interchangeType": "METRO_INTERCHANGE"
+        }
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",

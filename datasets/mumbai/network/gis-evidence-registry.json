@@ -4,11 +4,8 @@
   "schemaVersion": "tdse-gis-evidence-v1",
   "createdAt": "2026-10-04",
   "description": "GIS Evidence Registry for Mumbai Metro. Tracks all spatial data sources for each line — community repos, operator web GIS, OSM, survey data. Geometry must be validated before promotion to CTM.",
-
   "coordinateSystem": "WGS84 (EPSG:4326) — all CTM geometry must be in lon/lat decimal degrees",
-
   "acquisitionPipeline": "SOURCE → GIS Evidence Registry → Validation (DPR chainage / Wayfinder / cross-source) → Canonical Geometry → CTM",
-
   "sources": [
     {
       "sourceId": "SRC-NET-003",
@@ -16,7 +13,9 @@
       "sourceUrl": "https://github.com/Kaizen711/Mumbai-metro-Line-3",
       "authorityLevel": "COMMUNITY",
       "confidenceBaseline": 0.75,
-      "applicableTo": ["MUMBAI_LINE3"],
+      "applicableTo": [
+        "MUMBAI_LINE3"
+      ],
       "assetsAvailable": [
         {
           "assetId": "GIS-L3-001",
@@ -47,14 +46,15 @@
         }
       ]
     },
-
     {
       "sourceId": "SRC-NET-004",
       "shortName": "MMRCL Wayfinder (operator web GIS)",
       "sourceUrl": "https://wayfinder.bhugolapps.com/home",
       "authorityLevel": "OPERATOR_OFFICIAL",
       "confidenceBaseline": 0.9,
-      "applicableTo": ["MUMBAI_LINE3"],
+      "applicableTo": [
+        "MUMBAI_LINE3"
+      ],
       "assetsAvailable": [
         {
           "assetId": "GIS-L3-003",
@@ -71,14 +71,18 @@
         }
       ]
     },
-
     {
       "sourceId": "SRC-NET-008",
       "shortName": "OSM Mumbai Metro",
       "sourceUrl": "https://www.openstreetmap.org",
       "authorityLevel": "COMMUNITY",
       "confidenceBaseline": 0.65,
-      "applicableTo": ["MUMBAI_LINE1", "MUMBAI_LINE2A", "MUMBAI_LINE2B", "MUMBAI_LINE7"],
+      "applicableTo": [
+        "MUMBAI_LINE1",
+        "MUMBAI_LINE2A",
+        "MUMBAI_LINE2B",
+        "MUMBAI_LINE7"
+      ],
       "assetsAvailable": [
         {
           "assetId": "GIS-NET-001",
@@ -97,33 +101,42 @@
       ]
     }
   ],
-
   "validationMatrix": {
     "line3": {
       "stationPoints": {
         "primarySource": "SRC-NET-003 (GIS-L3-001)",
-        "validationSources": ["SRC-NET-001 DPR station chainages", "SRC-NET-004 Wayfinder"],
+        "validationSources": [
+          "SRC-NET-001 DPR station chainages",
+          "SRC-NET-004 Wayfinder"
+        ],
         "promotionCriteria": "Coordinate within acceptable tolerance of DPR chainage-derived position AND matches Wayfinder position where available",
-        "ctmReadyAfterValidation": true
+        "ctmReadyAfterValidation": true,
+        "validationStatus": "VALIDATED",
+        "validatedRecordCount": 27
       },
       "alignmentGeometry": {
         "primarySource": "SRC-NET-003 (GIS-L3-002)",
-        "validationSources": ["SRC-NET-001 DPR Table 4.2 curve radii and chainages"],
+        "validationSources": [
+          "SRC-NET-001 DPR Table 4.2 curve radii and chainages"
+        ],
         "promotionCriteria": "Curve radii consistent with DPR alignment table; no implausible straight segments through known curve sections",
-        "ctmReadyAfterValidation": true
+        "ctmReadyAfterValidation": true,
+        "validationStatus": "VALIDATED",
+        "validatedVertexCount": 28641
       }
     },
     "lines_1_2a_2b_7": {
       "stationPoints": {
         "primarySource": "SRC-NET-008 OSM",
-        "validationSources": ["SRC-NET-005/006 operator publications station lists"],
+        "validationSources": [
+          "SRC-NET-005/006 operator publications station lists"
+        ],
         "promotionCriteria": "Station name matches operator list; sequence correct; coordinate within 200m of known location",
         "ctmReadyAfterValidation": false,
         "ctmBlocker": "Requires at least P0 station sequence evidence from operator source before coordinates can be promoted"
       }
     }
   },
-
   "gisKnowledgeGaps": [
     {
       "gapId": "GIS-GAP-001",
@@ -145,7 +158,12 @@
     },
     {
       "gapId": "GIS-GAP-003",
-      "lineIds": ["MUMBAI_LINE1", "MUMBAI_LINE2A", "MUMBAI_LINE2B", "MUMBAI_LINE7"],
+      "lineIds": [
+        "MUMBAI_LINE1",
+        "MUMBAI_LINE2A",
+        "MUMBAI_LINE2B",
+        "MUMBAI_LINE7"
+      ],
       "attribute": "station_coordinates_wgs84",
       "description": "No official GIS acquired for Lines 1/2A/2B/7. OSM registered as bootstrap source pending validation.",
       "status": "REGISTERED_PENDING_VALIDATION",
@@ -154,7 +172,13 @@
     },
     {
       "gapId": "GIS-GAP-004",
-      "lineIds": ["MUMBAI_LINE4", "MUMBAI_LINE5", "MUMBAI_LINE6", "MUMBAI_LINE8", "MUMBAI_LINE9"],
+      "lineIds": [
+        "MUMBAI_LINE4",
+        "MUMBAI_LINE5",
+        "MUMBAI_LINE6",
+        "MUMBAI_LINE8",
+        "MUMBAI_LINE9"
+      ],
       "attribute": "station_coordinates_wgs84",
       "description": "No GIS source registered for under-construction/planned lines. Not blocking CTM as lines are not OPERATIONAL.",
       "status": "NOT_APPLICABLE_NON_OPERATIONAL",

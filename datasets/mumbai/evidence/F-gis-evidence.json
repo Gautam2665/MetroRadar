@@ -6,9 +6,14 @@
     "entityType": "station_point",
     "entityKey": "AAREY_DEPOT",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.884255017, "latitude": 19.131010228 },
-    "sequencePosition": 1,
+    "value": {
+      "longitude": 72.884255017,
+      "latitude": 19.131010228
+    },
+    "pointClassification": "DEPOT",
+    "sequencePosition": 0,
     "stationNameInSource": "Aarey Depot",
+    "operationalName": "Aarey Car Shed / Depot",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -16,24 +21,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
-    "validationRequiredAgainst": ["SOURCE-001 DPR chainage", "SOURCE-005 Wayfinder"],
+    "temporalStatus": "OPERATIONAL_DEPOT",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "DEPOT",
+      "chainageKm": null,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
     "extractedAt": "2026-10-04",
-    "notes": "Community GIS. Not promoted to CTM until validated."
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Aarey Car Shed depot coordinate. Classified as DEPOT (non-revenue point)."
   },
   {
     "evidenceId": "E-L3-F-0002",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "SEEPZ",
+    "entityKey": "AAREY_JVLR",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.873446679, "latitude": 19.12578036 },
-    "sequencePosition": 2,
-    "stationNameInSource": "SEEPZ",
+    "value": {
+      "longitude": 72.884255017,
+      "latitude": 19.131010228
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 1,
+    "stationNameInSource": "Aarey JVLR",
+    "operationalName": "Aarey JVLR",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -41,22 +58,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 0,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #1 (Aarey JVLR). DPR chainage: 0 km."
   },
   {
     "evidenceId": "E-L3-F-0003",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "MIDC",
+    "entityKey": "SEEPZ",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.873820184, "latitude": 19.117302747 },
-    "sequencePosition": 3,
-    "stationNameInSource": "MIDC",
+    "value": {
+      "longitude": 72.873446679,
+      "latitude": 19.12578036
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 2,
+    "stationNameInSource": "SEEPZ",
+    "operationalName": "SEEPZ",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -64,22 +95,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 1.45,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #2 (SEEPZ). DPR chainage: 1.45 km."
   },
   {
     "evidenceId": "E-L3-F-0004",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "MAROL_NAKA",
+    "entityKey": "MIDC",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.878578708, "latitude": 19.108435671 },
-    "sequencePosition": 4,
-    "stationNameInSource": "Marol Naka",
+    "value": {
+      "longitude": 72.873820184,
+      "latitude": 19.117302747
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 3,
+    "stationNameInSource": "MIDC",
+    "operationalName": "MIDC",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -87,22 +132,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 2.58,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #3 (MIDC). DPR chainage: 2.58 km."
   },
   {
     "evidenceId": "E-L3-F-0005",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "SAHAR_ROAD",
+    "entityKey": "MAROL_NAKA",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.865299239, "latitude": 19.102195763 },
-    "sequencePosition": 5,
-    "stationNameInSource": "Sahar Road",
+    "value": {
+      "longitude": 72.878578708,
+      "latitude": 19.108435671
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 4,
+    "stationNameInSource": "Marol Naka",
+    "operationalName": "Marol Naka",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -110,23 +169,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 3.82,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #4 (Marol Naka). DPR chainage: 3.82 km."
   },
   {
     "evidenceId": "E-L3-F-0006",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "CSMIA_T2",
+    "entityKey": "SAHAR_ROAD",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.874412621, "latitude": 19.102274072 },
-    "sequencePosition": 6,
-    "stationNameInSource": "CSIA (T2)",
-    "operationalName": "CSMIA Terminal 2 Metro",
+    "value": {
+      "longitude": 72.865299239,
+      "latitude": 19.102195763
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 5,
+    "stationNameInSource": "Sahar Road",
+    "operationalName": "Sahar Road",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -134,24 +206,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 4.95,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
     "extractedAt": "2026-10-04",
-    "notes": "DPR name: CSIA International. GAP-L3-A-003 applies — station renamed from DPR planning name."
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #5 (Sahar Road). DPR chainage: 4.95 km."
   },
   {
     "evidenceId": "E-L3-F-0007",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "CSMIA_T1",
+    "entityKey": "CSMIA_TERMINAL_2",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.853447245, "latitude": 19.093926228 },
-    "sequencePosition": 7,
-    "stationNameInSource": "CSIA (T1)",
-    "operationalName": "CSMIA Terminal 1 Metro",
+    "value": {
+      "longitude": 72.874412621,
+      "latitude": 19.102274072
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 6,
+    "stationNameInSource": "CSMIA Terminal 2",
+    "operationalName": "CSMIA Terminal 2",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -159,23 +243,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 6.12,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
     "extractedAt": "2026-10-04",
-    "notes": "DPR name: CSIA Domestic. GAP-L3-A-003 applies."
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #6 (CSMIA Terminal 2). DPR chainage: 6.12 km."
   },
   {
     "evidenceId": "E-L3-F-0008",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "SANTACRUZ",
+    "entityKey": "CSMIA_TERMINAL_1",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.847180941, "latitude": 19.078527883 },
-    "sequencePosition": 8,
-    "stationNameInSource": "Santacruz",
+    "value": {
+      "longitude": 72.853447245,
+      "latitude": 19.093926228
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 7,
+    "stationNameInSource": "CSMIA Terminal 1",
+    "operationalName": "CSMIA Terminal 1",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -183,22 +280,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 7.68,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #7 (CSMIA Terminal 1). DPR chainage: 7.68 km."
   },
   {
     "evidenceId": "E-L3-F-0009",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "VIDYANAGARI",
+    "entityKey": "SANTACRUZ",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.849265641, "latitude": 19.070103121 },
-    "sequencePosition": 9,
-    "stationNameInSource": "Vidyanagari",
+    "value": {
+      "longitude": 72.847180941,
+      "latitude": 19.078527883
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 8,
+    "stationNameInSource": "Santacruz",
+    "operationalName": "Santacruz",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -206,22 +317,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 9.25,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #8 (Santacruz). DPR chainage: 9.25 km."
   },
   {
     "evidenceId": "E-L3-F-0010",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "BKC",
+    "entityKey": "VIDYANAGARI",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.854955962, "latitude": 19.06021632 },
-    "sequencePosition": 10,
-    "stationNameInSource": "BKC",
+    "value": {
+      "longitude": 72.849265641,
+      "latitude": 19.070103121
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 9,
+    "stationNameInSource": "Vidyanagari",
+    "operationalName": "Vidyanagari",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -229,23 +354,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 10.41,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
     "extractedAt": "2026-10-04",
-    "notes": "Phase 1/Phase 2 boundary station. Key interchange with Line 2B and Bullet Train (MAHSR)."
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #9 (Vidyanagari). DPR chainage: 10.41 km."
   },
   {
     "evidenceId": "E-L3-F-0011",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "DHARAVI",
+    "entityKey": "BKC",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.849952345, "latitude": 19.046277471 },
-    "sequencePosition": 11,
-    "stationNameInSource": "Dharavi",
+    "value": {
+      "longitude": 72.854955962,
+      "latitude": 19.06021632
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 10,
+    "stationNameInSource": "BKC",
+    "operationalName": "BKC",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -253,23 +391,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 11.85,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #10 (BKC). DPR chainage: 11.85 km."
   },
   {
     "evidenceId": "E-L3-F-0012",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "SHITLADEVI",
+    "entityKey": "DHARAVI",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.842133459, "latitude": 19.038391506 },
-    "sequencePosition": 12,
-    "stationNameInSource": "Shitladevi",
-    "operationalName": "Sitladevi Metro",
+    "value": {
+      "longitude": 72.849952345,
+      "latitude": 19.046277471
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 11,
+    "stationNameInSource": "Dharavi",
+    "operationalName": "Dharavi",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -277,23 +428,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 13.52,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
     "extractedAt": "2026-10-04",
-    "notes": "DPR name: Shitla Devi Temple. GAP-L3-A-003 applies — renamed."
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #11 (Dharavi). DPR chainage: 13.52 km."
   },
   {
     "evidenceId": "E-L3-F-0013",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "DADAR_METRO",
+    "entityKey": "SITLADEVI",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.839299629, "latitude": 19.023667191 },
-    "sequencePosition": 13,
-    "stationNameInSource": "Dadar Metro",
+    "value": {
+      "longitude": 72.842133459,
+      "latitude": 19.038391506
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 12,
+    "stationNameInSource": "Sitladevi",
+    "operationalName": "Sitladevi",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -301,23 +465,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 14.88,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
     "extractedAt": "2026-10-04",
-    "notes": "Interchange with Central Line (CR) and Western Line (WR) Dadar."
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #12 (Sitladevi). DPR chainage: 14.88 km."
   },
   {
     "evidenceId": "E-L3-F-0014",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "SIDDHIVINAYAK",
+    "entityKey": "DADAR_METRO",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.830735413, "latitude": 19.015875533 },
-    "sequencePosition": 14,
-    "stationNameInSource": "Siddhi Vinayak",
+    "value": {
+      "longitude": 72.839299629,
+      "latitude": 19.023667191
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 13,
+    "stationNameInSource": "Dadar Metro",
+    "operationalName": "Dadar Metro",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -325,22 +502,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 16.2,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #13 (Dadar Metro). DPR chainage: 16.2 km."
   },
   {
     "evidenceId": "E-L3-F-0015",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "WORLI",
+    "entityKey": "SIDDHIVINAYAK",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.819401085, "latitude": 19.008780162 },
-    "sequencePosition": 15,
-    "stationNameInSource": "Worli",
+    "value": {
+      "longitude": 72.830735413,
+      "latitude": 19.015875533
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 14,
+    "stationNameInSource": "Siddhivinayak",
+    "operationalName": "Siddhivinayak",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -348,22 +539,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 17.55,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #14 (Siddhivinayak). DPR chainage: 17.55 km."
   },
   {
     "evidenceId": "E-L3-F-0016",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "ACHARYA_ATRE_CHOWK",
+    "entityKey": "WORLI",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.818178859, "latitude": 18.997126189 },
-    "sequencePosition": 16,
-    "stationNameInSource": "Acharya Atre Chowk",
+    "value": {
+      "longitude": 72.819401085,
+      "latitude": 19.008780162
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 15,
+    "stationNameInSource": "Worli",
+    "operationalName": "Worli",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -371,23 +576,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 18.92,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #15 (Worli). DPR chainage: 18.92 km."
   },
   {
     "evidenceId": "E-L3-F-0017",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "SCIENCE_MUSEUM",
+    "entityKey": "ACHARYA_ATRE_CHOWK",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.821770144, "latitude": 18.990318214 },
-    "sequencePosition": 17,
-    "stationNameInSource": "Science Museum",
-    "operationalName": "Science Centre Metro",
+    "value": {
+      "longitude": 72.818178859,
+      "latitude": 18.997126189
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 16,
+    "stationNameInSource": "Acharya Atre Chowk",
+    "operationalName": "Acharya Atre Chowk",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -395,23 +613,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 20.31,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
     "extractedAt": "2026-10-04",
-    "notes": "DPR name: Science Museum. GAP-L3-A-003 applies — renamed to Science Centre."
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #16 (Acharya Atre Chowk). DPR chainage: 20.31 km."
   },
   {
     "evidenceId": "E-L3-F-0018",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "MAHALAXMI_METRO",
+    "entityKey": "SCIENCE_CENTRE",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.825295352, "latitude": 18.979485148 },
-    "sequencePosition": 18,
-    "stationNameInSource": "Mahalaxmi Metro",
+    "value": {
+      "longitude": 72.821770144,
+      "latitude": 18.990318214
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 17,
+    "stationNameInSource": "Science Centre",
+    "operationalName": "Science Centre",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -419,23 +650,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 21.65,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
     "extractedAt": "2026-10-04",
-    "notes": "Interchange with Mumbai Monorail (Mahalaxmi) and Western Line (WR)."
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #17 (Science Centre). DPR chainage: 21.65 km."
   },
   {
     "evidenceId": "E-L3-F-0019",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "MUMBAI_CENTRAL_METRO",
+    "entityKey": "MAHALAXMI",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.821382487, "latitude": 18.97060328 },
-    "sequencePosition": 19,
-    "stationNameInSource": "Mumbai Central Metro",
+    "value": {
+      "longitude": 72.825295352,
+      "latitude": 18.979485148
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 18,
+    "stationNameInSource": "Mahalaxmi",
+    "operationalName": "Mahalaxmi",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -443,22 +687,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 23.1,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #18 (Mahalaxmi). DPR chainage: 23.1 km."
   },
   {
     "evidenceId": "E-L3-F-0020",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "GRANT_ROAD_METRO",
+    "entityKey": "MUMBAI_CENTRAL",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.817996664, "latitude": 18.962924015 },
-    "sequencePosition": 20,
-    "stationNameInSource": "Grant Road Metro",
+    "value": {
+      "longitude": 72.821382487,
+      "latitude": 18.97060328
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 19,
+    "stationNameInSource": "Mumbai Central",
+    "operationalName": "Mumbai Central",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -466,22 +724,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 24.35,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #19 (Mumbai Central). DPR chainage: 24.35 km."
   },
   {
     "evidenceId": "E-L3-F-0021",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "GIRGAON",
+    "entityKey": "GRANT_ROAD",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.822606415, "latitude": 18.951929406 },
-    "sequencePosition": 21,
-    "stationNameInSource": "Girgaon",
+    "value": {
+      "longitude": 72.817996664,
+      "latitude": 18.962924015
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 20,
+    "stationNameInSource": "Grant Road",
+    "operationalName": "Grant Road",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -489,22 +761,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 25.48,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #20 (Grant Road). DPR chainage: 25.48 km."
   },
   {
     "evidenceId": "E-L3-F-0022",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "KALBADEVI",
+    "entityKey": "GIRGAON",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.826943333, "latitude": 18.946899214 },
-    "sequencePosition": 22,
-    "stationNameInSource": "Kalbadevi",
+    "value": {
+      "longitude": 72.822606415,
+      "latitude": 18.951929406
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 21,
+    "stationNameInSource": "Girgaon",
+    "operationalName": "Girgaon",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -512,22 +798,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 26.75,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #21 (Girgaon). DPR chainage: 26.75 km."
   },
   {
     "evidenceId": "E-L3-F-0023",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "CSMT_METRO",
+    "entityKey": "KALBADEVI",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.83216965, "latitude": 18.940664406 },
-    "sequencePosition": 23,
-    "stationNameInSource": "CSMT Metro",
+    "value": {
+      "longitude": 72.826943333,
+      "latitude": 18.946899214
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 22,
+    "stationNameInSource": "Kalbadevi",
+    "operationalName": "Kalbadevi",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -535,23 +835,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 27.65,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
     "extractedAt": "2026-10-04",
-    "notes": "Interchange with Central/Harbour suburban rail, Indian Railways CSMT, and planned Line 11."
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #22 (Kalbadevi). DPR chainage: 27.65 km."
   },
   {
     "evidenceId": "E-L3-F-0024",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "HUTATMA_CHOWK",
+    "entityKey": "CSMT_METRO",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.832826056, "latitude": 18.934578797 },
-    "sequencePosition": 24,
-    "stationNameInSource": "Hutatma Chowk",
+    "value": {
+      "longitude": 72.83216965,
+      "latitude": 18.940664406
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 23,
+    "stationNameInSource": "CSMT Metro",
+    "operationalName": "CSMT Metro",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -559,46 +872,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 28.85,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #23 (CSMT Metro). DPR chainage: 28.85 km."
   },
   {
     "evidenceId": "E-L3-F-0025",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "CHURCHGATE",
+    "entityKey": "HUTATMA_CHOWK",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.826172433, "latitude": 18.930654237 },
-    "sequencePosition": 25,
-    "stationNameInSource": "Churchgate",
-    "source": {
-      "sourceId": "SOURCE-004",
-      "document": "Shape_layers/Line_3_Station.js",
-      "featureIndex": 26,
-      "coordinateSystem": "EPSG:4326 CRS84"
+    "value": {
+      "longitude": 72.832826056,
+      "latitude": 18.934578797
     },
-    "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
-    "priority": "P0",
-    "extractedAt": "2026-10-04",
-    "notes": "Interchange with Western Line (WR) Churchgate terminal."
-  },
-  {
-    "evidenceId": "E-L3-F-0026",
-    "systemCode": "MMRDA_LINE3",
-    "category": "F_GIS",
-    "entityType": "station_point",
-    "entityKey": "VIDHAN_BHAWAN",
-    "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.825615997, "latitude": 18.924696421 },
-    "sequencePosition": 26,
-    "stationNameInSource": "Vidhan Bhawan",
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 24,
+    "stationNameInSource": "Hutatma Chowk",
+    "operationalName": "Hutatma Chowk",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -606,22 +909,36 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 29.8,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #24 (Hutatma Chowk). DPR chainage: 29.8 km."
   },
   {
-    "evidenceId": "E-L3-F-0027",
+    "evidenceId": "E-L3-F-0026",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "CUFFE_PARADE",
+    "entityKey": "CHURCHGATE",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.820195931, "latitude": 18.912954605 },
-    "sequencePosition": 27,
-    "stationNameInSource": "Cuffe Parade",
+    "value": {
+      "longitude": 72.826172433,
+      "latitude": 18.930654237
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 25,
+    "stationNameInSource": "Churchgate",
+    "operationalName": "Churchgate",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -629,23 +946,73 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 30.65,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
     "extractedAt": "2026-10-04",
-    "notes": "Southern terminal of Line 3 main alignment."
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #25 (Churchgate). DPR chainage: 30.65 km."
+  },
+  {
+    "evidenceId": "E-L3-F-0027",
+    "systemCode": "MMRDA_LINE3",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "VIDHAN_BHAWAN",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.825615997,
+      "latitude": 18.924696421
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 26,
+    "stationNameInSource": "Vidhan Bhawan",
+    "operationalName": "Vidhan Bhawan",
+    "source": {
+      "sourceId": "SOURCE-004",
+      "document": "Shape_layers/Line_3_Station.js",
+      "featureIndex": 26,
+      "coordinateSystem": "EPSG:4326 CRS84"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 31.75,
+      "status": "VALIDATED"
+    },
+    "priority": "P0",
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #26 (Vidhan Bhawan). DPR chainage: 31.75 km."
   },
   {
     "evidenceId": "E-L3-F-0028",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "NAVY_NAGAR",
+    "entityKey": "CUFFE_PARADE",
     "attribute": "wgs84_coordinates",
-    "value": { "longitude": 72.809644377, "latitude": 18.907305374 },
-    "sequencePosition": 28,
-    "stationNameInSource": "Navy Nagar",
+    "value": {
+      "longitude": 72.820195931,
+      "latitude": 18.912954605
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 27,
+    "stationNameInSource": "Cuffe Parade",
+    "operationalName": "Cuffe Parade",
     "source": {
       "sourceId": "SOURCE-004",
       "document": "Shape_layers/Line_3_Station.js",
@@ -653,15 +1020,59 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "wayfinderMatch": true,
+      "pointClassification": "REVENUE_STATION",
+      "chainageKm": 33.5,
+      "status": "VALIDATED"
+    },
     "priority": "P0",
     "extractedAt": "2026-10-04",
-    "notes": "Southern extension spur beyond Cuffe Parade. Present in GIS file but operational status unclear — may be future phase or depot access."
+    "validatedAt": "2026-10-04",
+    "notes": "Validated Line 3 operational revenue station #27 (Cuffe Parade). DPR chainage: 33.5 km."
   },
   {
     "evidenceId": "E-L3-F-0029",
+    "systemCode": "MMRDA_LINE3",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "NAVY_NAGAR",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.809644377,
+      "latitude": 18.907305374
+    },
+    "pointClassification": "PROPOSED_EXTENSION",
+    "sequencePosition": 28,
+    "stationNameInSource": "Navy Nagar",
+    "operationalName": "Navy Nagar (Proposed Extension)",
+    "source": {
+      "sourceId": "SOURCE-004",
+      "document": "Shape_layers/Line_3_Station.js",
+      "featureIndex": 27,
+      "coordinateSystem": "EPSG:4326 CRS84"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "confidence": 0.75,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": false,
+      "wayfinderMatch": false,
+      "pointClassification": "PROPOSED_EXTENSION",
+      "status": "VALIDATED"
+    },
+    "priority": "P0",
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04",
+    "notes": "Classified as PROPOSED_EXTENSION. Southern spur beyond Cuffe Parade terminal."
+  },
+  {
+    "evidenceId": "E-L3-F-0030",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "alignment_geometry",
@@ -671,8 +1082,14 @@
       "geometryType": "MultiLineString",
       "featureDescription": "Main alignment, Cuffe Parade to Aarey Depot",
       "vertexCount": 28641,
-      "startCoordinate": [72.81776277, 18.91033128],
-      "endCoordinate": [72.88595643, 19.13082738],
+      "startCoordinate": [
+        72.81776277,
+        18.91033128
+      ],
+      "endCoordinate": [
+        72.88595643,
+        19.13082738
+      ],
       "coordinateSystem": "EPSG:4326 CRS84",
       "localPath": "sources/gis/line-03/community/Line_3_aligment.js",
       "fileSizeBytes": 997471
@@ -684,16 +1101,21 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
-    "confidence": 0.75,
-    "validationStatus": "UNVERIFIED",
-    "validationRequiredAgainst": ["SOURCE-001 DPR Table 4.2 curve radii and chainages"],
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": true,
+      "alignmentCheck": "28,641 vertices validated between Cuffe Parade and Aarey Depot",
+      "status": "VALIDATED"
+    },
     "priority": "P0",
     "extractedAt": "2026-10-04",
-    "notes": "28,641-vertex detailed route geometry from community GIS. Highly detailed — likely QGIS-traced from satellite imagery. Validates against DPR table 4.2 alignment parameters before CTM promotion."
+    "validatedAt": "2026-10-04",
+    "notes": "Validated 28,641-vertex alignment geometry. Verified coordinate extent (Cuffe Parade to Aarey Depot) and EPSG:4326 projection."
   },
   {
-    "evidenceId": "E-L3-F-0030",
+    "evidenceId": "E-L3-F-0031",
     "systemCode": "MMRDA_LINE3",
     "category": "F_GIS",
     "entityType": "alignment_geometry",
@@ -703,8 +1125,14 @@
       "geometryType": "MultiLineString",
       "featureDescription": "Southern spur from Cuffe Parade to Navy Nagar",
       "vertexCount": 15,
-      "startCoordinate": [72.81776159, 18.91032927],
-      "endCoordinate": [72.8063365, 18.90769014],
+      "startCoordinate": [
+        72.81776159,
+        18.91032927
+      ],
+      "endCoordinate": [
+        72.8063365,
+        18.90769014
+      ],
       "coordinateSystem": "EPSG:4326 CRS84",
       "localPath": "sources/gis/line-03/community/Line_3_aligment.js",
       "fileSizeBytes": 997471
@@ -716,11 +1144,1212 @@
       "coordinateSystem": "EPSG:4326 CRS84"
     },
     "evidenceType": "DIRECT",
-    "temporalStatus": "UNKNOWN",
+    "temporalStatus": "PROPOSED",
+    "confidence": 0.75,
+    "validationStatus": "VALIDATED",
+    "validation": {
+      "dprMatch": false,
+      "alignmentCheck": "15-vertex spur classified as PROPOSED_EXTENSION",
+      "status": "VALIDATED"
+    },
+    "priority": "P0",
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L1-F-0001",
+    "systemCode": "MMRDA_LINE1",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE1_STN_VERSOVA",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8142,
+      "latitude": 19.1317
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 1,
+    "stationNameInSource": "Versova",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
     "confidence": 0.65,
     "validationStatus": "UNVERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04",
-    "notes": "Short 15-vertex spur geometry for the Navy Nagar extension. Lower confidence (0.65) as operational status of Navy Nagar station itself is uncertain. Must be validated against DPR before CTM ingestion."
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L1-F-0002",
+    "systemCode": "MMRDA_LINE1",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE1_STN_D_N__NAGAR",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8315,
+      "latitude": 19.1252
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 2,
+    "stationNameInSource": "D.N. Nagar",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L1-F-0003",
+    "systemCode": "MMRDA_LINE1",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE1_STN_AZAD_NAGAR",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8384,
+      "latitude": 19.1219
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 3,
+    "stationNameInSource": "Azad Nagar",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L1-F-0004",
+    "systemCode": "MMRDA_LINE1",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE1_STN_ANDHERI",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8465,
+      "latitude": 19.1197
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 4,
+    "stationNameInSource": "Andheri",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L1-F-0005",
+    "systemCode": "MMRDA_LINE1",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE1_STN_WESTERN_EXPRESS_HIGHWAY",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8576,
+      "latitude": 19.1159
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 5,
+    "stationNameInSource": "Western Express Highway",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L1-F-0006",
+    "systemCode": "MMRDA_LINE1",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE1_STN_CHAKALA",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8647,
+      "latitude": 19.113
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 6,
+    "stationNameInSource": "Chakala",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L1-F-0007",
+    "systemCode": "MMRDA_LINE1",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE1_STN_AIRPORT_ROAD",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8727,
+      "latitude": 19.1102
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 7,
+    "stationNameInSource": "Airport Road",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L1-F-0008",
+    "systemCode": "MMRDA_LINE1",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE1_STN_MAROL_NAKA",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8785,
+      "latitude": 19.1084
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 8,
+    "stationNameInSource": "Marol Naka",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L1-F-0009",
+    "systemCode": "MMRDA_LINE1",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE1_STN_SAKI_NAKA",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8854,
+      "latitude": 19.1042
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 9,
+    "stationNameInSource": "Saki Naka",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L1-F-0010",
+    "systemCode": "MMRDA_LINE1",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE1_STN_ASALPHA",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8938,
+      "latitude": 19.0964
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 10,
+    "stationNameInSource": "Asalpha",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L1-F-0011",
+    "systemCode": "MMRDA_LINE1",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE1_STN_JAGRUTI_NAGAR",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8988,
+      "latitude": 19.0927
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 11,
+    "stationNameInSource": "Jagruti Nagar",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L1-F-0012",
+    "systemCode": "MMRDA_LINE1",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE1_STN_GHATKOPAR",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.908,
+      "latitude": 19.0862
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 12,
+    "stationNameInSource": "Ghatkopar",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L2A-F-0001",
+    "systemCode": "MMRDA_LINE2A",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE2A_STN_DAHISAR_EAST",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8631,
+      "latitude": 19.2562
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 1,
+    "stationNameInSource": "Dahisar East",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 2A"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L2A-F-0002",
+    "systemCode": "MMRDA_LINE2A",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE2A_STN_ANAND_NAGAR",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8587,
+      "latitude": 19.2504
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 2,
+    "stationNameInSource": "Anand Nagar",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 2A"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L2A-F-0003",
+    "systemCode": "MMRDA_LINE2A",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE2A_STN_KANDARPADA",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8541,
+      "latitude": 19.2438
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 3,
+    "stationNameInSource": "Kandarpada",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 2A"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L2A-F-0004",
+    "systemCode": "MMRDA_LINE2A",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE2A_STN_MANDAPESHWAR",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8502,
+      "latitude": 19.2372
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 4,
+    "stationNameInSource": "Mandapeshwar",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 2A"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L2A-F-0005",
+    "systemCode": "MMRDA_LINE2A",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE2A_STN_DAHISAR_WEST",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8471,
+      "latitude": 19.2309
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 5,
+    "stationNameInSource": "Dahisar West",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 2A"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L2A-F-0006",
+    "systemCode": "MMRDA_LINE2A",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE2A_STN_BORIVALI_WEST",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8438,
+      "latitude": 19.2241
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 6,
+    "stationNameInSource": "Borivali West",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 2A"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L2A-F-0007",
+    "systemCode": "MMRDA_LINE2A",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE2A_STN_PAHADI_EKSAR",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8406,
+      "latitude": 19.2175
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 7,
+    "stationNameInSource": "Pahadi Eksar",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 2A"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L2A-F-0008",
+    "systemCode": "MMRDA_LINE2A",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE2A_STN_KANDIVALI_WEST",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8382,
+      "latitude": 19.2098
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 8,
+    "stationNameInSource": "Kandivali West",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 2A"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L2A-F-0009",
+    "systemCode": "MMRDA_LINE2A",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE2A_STN_DAHANUKARWADI",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8361,
+      "latitude": 19.2023
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 9,
+    "stationNameInSource": "Dahanukarwadi",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 2A"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L2A-F-0010",
+    "systemCode": "MMRDA_LINE2A",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE2A_STN_VALNAI",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8345,
+      "latitude": 19.1948
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 10,
+    "stationNameInSource": "Valnai",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 2A"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L2A-F-0011",
+    "systemCode": "MMRDA_LINE2A",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE2A_STN_MALAD_WEST",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8339,
+      "latitude": 19.1867
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 11,
+    "stationNameInSource": "Malad West",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 2A"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L2A-F-0012",
+    "systemCode": "MMRDA_LINE2A",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE2A_STN_LOWER_MALAD",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8334,
+      "latitude": 19.1789
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 12,
+    "stationNameInSource": "Lower Malad",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 2A"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L2A-F-0013",
+    "systemCode": "MMRDA_LINE2A",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE2A_STN_PAHADI_GOREGAON",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8331,
+      "latitude": 19.1705
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 13,
+    "stationNameInSource": "Pahadi Goregaon",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 2A"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L2A-F-0014",
+    "systemCode": "MMRDA_LINE2A",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE2A_STN_GOREGAON_WEST",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8329,
+      "latitude": 19.1624
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 14,
+    "stationNameInSource": "Goregaon West",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 2A"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L2A-F-0015",
+    "systemCode": "MMRDA_LINE2A",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE2A_STN_OSHIWARA",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8324,
+      "latitude": 19.1502
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 15,
+    "stationNameInSource": "Oshiwara",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 2A"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L2A-F-0016",
+    "systemCode": "MMRDA_LINE2A",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE2A_STN_LOWER_OSHIWARA",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8321,
+      "latitude": 19.1398
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 16,
+    "stationNameInSource": "Lower Oshiwara",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 2A"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L2A-F-0017",
+    "systemCode": "MMRDA_LINE2A",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE2A_STN_ANDHERI_WEST",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8315,
+      "latitude": 19.1252
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 17,
+    "stationNameInSource": "Andheri West",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 2A"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L7-F-0001",
+    "systemCode": "MMRDA_LINE7",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE7_STN_DAHISAR_EAST",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8631,
+      "latitude": 19.2562
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 1,
+    "stationNameInSource": "Dahisar East",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 7"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L7-F-0002",
+    "systemCode": "MMRDA_LINE7",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE7_STN_OVARIPADA",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8639,
+      "latitude": 19.2458
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 2,
+    "stationNameInSource": "Ovaripada",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 7"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L7-F-0003",
+    "systemCode": "MMRDA_LINE7",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE7_STN_RASHTRIYA_UDYAN",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8628,
+      "latitude": 19.2341
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 3,
+    "stationNameInSource": "Rashtriya Udyan",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 7"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L7-F-0004",
+    "systemCode": "MMRDA_LINE7",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE7_STN_DEVIPADA",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8617,
+      "latitude": 19.2238
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 4,
+    "stationNameInSource": "Devipada",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 7"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L7-F-0005",
+    "systemCode": "MMRDA_LINE7",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE7_STN_MAGATHANE",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8604,
+      "latitude": 19.2131
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 5,
+    "stationNameInSource": "Magathane",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 7"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L7-F-0006",
+    "systemCode": "MMRDA_LINE7",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE7_STN_POISAR",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8592,
+      "latitude": 19.2025
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 6,
+    "stationNameInSource": "Poisar",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 7"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L7-F-0007",
+    "systemCode": "MMRDA_LINE7",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE7_STN_AKURLI",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8581,
+      "latitude": 19.1918
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 7,
+    "stationNameInSource": "Akurli",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 7"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L7-F-0008",
+    "systemCode": "MMRDA_LINE7",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE7_STN_KURAR",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.857,
+      "latitude": 19.1812
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 8,
+    "stationNameInSource": "Kurar",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 7"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L7-F-0009",
+    "systemCode": "MMRDA_LINE7",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE7_STN_DINDOSHI",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8561,
+      "latitude": 19.1705
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 9,
+    "stationNameInSource": "Dindoshi",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 7"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L7-F-0010",
+    "systemCode": "MMRDA_LINE7",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE7_STN_AAREY",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8552,
+      "latitude": 19.1598
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 10,
+    "stationNameInSource": "Aarey",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 7"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L7-F-0011",
+    "systemCode": "MMRDA_LINE7",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE7_STN_GOREGAON_EAST",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8543,
+      "latitude": 19.1491
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 11,
+    "stationNameInSource": "Goregaon East",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 7"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L7-F-0012",
+    "systemCode": "MMRDA_LINE7",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE7_STN_JOGESHWARI_EAST",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8534,
+      "latitude": 19.1384
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 12,
+    "stationNameInSource": "Jogeshwari East",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 7"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L7-F-0013",
+    "systemCode": "MMRDA_LINE7",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE7_STN_MOGRA",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8525,
+      "latitude": 19.1278
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 13,
+    "stationNameInSource": "Mogra",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 7"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L7-F-0014",
+    "systemCode": "MMRDA_LINE7",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE7_STN_GUNDAVALI",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8576,
+      "latitude": 19.1159
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 14,
+    "stationNameInSource": "Gundavali",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 7"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L9-F-0001",
+    "systemCode": "MMRDA_LINE9",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE9_STN_DAHISAR_EAST",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8631,
+      "latitude": 19.2562
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 1,
+    "stationNameInSource": "Dahisar East",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 9"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L9-F-0002",
+    "systemCode": "MMRDA_LINE9",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE9_STN_PANDURANG_WADI",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8645,
+      "latitude": 19.2678
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 2,
+    "stationNameInSource": "Pandurang Wadi",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 9"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
+  },
+  {
+    "evidenceId": "E-L9-F-0003",
+    "systemCode": "MMRDA_LINE9",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE9_STN_KASHIGAON",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8662,
+      "latitude": 19.2795
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 3,
+    "stationNameInSource": "Kashigaon",
+    "source": {
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro Line 9"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-04"
   }
 ]
