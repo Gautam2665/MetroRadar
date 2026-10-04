@@ -1164,23 +1164,25 @@
     "entityKey": "LINE1_STN_VERSOVA",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8142,
-      "latitude": 19.1317
+      "longitude": 72.8213871,
+      "latitude": 19.1302777
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 1,
     "stationNameInSource": "Versova",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro relation"
+      "sourceId": "SRC-L1-004",
+      "type": "GIS_COMMUNITY_RELATION",
+      "document": "OSM Subway Relation 3808111",
+      "osmNodeId": 623881991
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.95,
+    "validationStatus": "VALIDATED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0002",
@@ -1190,23 +1192,25 @@
     "entityKey": "LINE1_STN_D_N__NAGAR",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8315,
-      "latitude": 19.1252
+      "longitude": 72.8308125,
+      "latitude": 19.1281782
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 2,
-    "stationNameInSource": "D.N. Nagar",
+    "stationNameInSource": "D. N. Nagar",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro relation"
+      "sourceId": "SRC-L1-004",
+      "type": "GIS_COMMUNITY_RELATION",
+      "document": "OSM Subway Relation 3808111",
+      "osmNodeId": 623881914
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.95,
+    "validationStatus": "VALIDATED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0003",
@@ -1216,23 +1220,25 @@
     "entityKey": "LINE1_STN_AZAD_NAGAR",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8384,
-      "latitude": 19.1219
+      "longitude": 72.8382668,
+      "latitude": 19.1268055
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 3,
     "stationNameInSource": "Azad Nagar",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro relation"
+      "sourceId": "SRC-L1-004",
+      "type": "GIS_COMMUNITY_RELATION",
+      "document": "OSM Subway Relation 3808111",
+      "osmNodeId": 3389150482
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.95,
+    "validationStatus": "VALIDATED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0004",
@@ -1242,23 +1248,25 @@
     "entityKey": "LINE1_STN_ANDHERI",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8465,
-      "latitude": 19.1197
+      "longitude": 72.8494816,
+      "latitude": 19.1200415
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 4,
     "stationNameInSource": "Andheri",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro relation"
+      "sourceId": "SRC-L1-004",
+      "type": "GIS_COMMUNITY_RELATION",
+      "document": "OSM Subway Relation 3808111",
+      "osmNodeId": 3389150481
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.95,
+    "validationStatus": "VALIDATED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0005",
@@ -1268,23 +1276,25 @@
     "entityKey": "LINE1_STN_WESTERN_EXPRESS_HIGHWAY",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8576,
-      "latitude": 19.1159
+      "longitude": 72.8569834,
+      "latitude": 19.1155638
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 5,
     "stationNameInSource": "Western Express Highway",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro relation"
+      "sourceId": "SRC-L1-004",
+      "type": "GIS_COMMUNITY_RELATION",
+      "document": "OSM Subway Relation 3808111",
+      "osmNodeId": 3389150483
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.95,
+    "validationStatus": "VALIDATED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0006",
@@ -1294,23 +1304,25 @@
     "entityKey": "LINE1_STN_CHAKALA",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8647,
-      "latitude": 19.113
+      "longitude": 72.8682423,
+      "latitude": 19.1119069
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 6,
-    "stationNameInSource": "Chakala",
+    "stationNameInSource": "Chakala (J.B. Nagar)",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro relation"
+      "sourceId": "SRC-L1-004",
+      "type": "GIS_COMMUNITY_RELATION",
+      "document": "OSM Subway Relation 3808111",
+      "osmNodeId": 3389210700
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.95,
+    "validationStatus": "VALIDATED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0007",
@@ -1320,23 +1332,25 @@
     "entityKey": "LINE1_STN_AIRPORT_ROAD",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8727,
-      "latitude": 19.1102
+      "longitude": 72.8747968,
+      "latitude": 19.1099146
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 7,
     "stationNameInSource": "Airport Road",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro relation"
+      "sourceId": "SRC-L1-004",
+      "type": "GIS_COMMUNITY_RELATION",
+      "document": "OSM Subway Relation 3808111",
+      "osmNodeId": 3175794769
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.95,
+    "validationStatus": "VALIDATED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0008",
@@ -1346,23 +1360,25 @@
     "entityKey": "LINE1_STN_MAROL_NAKA",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8785,
-      "latitude": 19.1084
+      "longitude": 72.8801094,
+      "latitude": 19.1079463
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 8,
     "stationNameInSource": "Marol Naka",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro relation"
+      "sourceId": "SRC-L1-004",
+      "type": "GIS_COMMUNITY_RELATION",
+      "document": "OSM Subway Relation 3808111",
+      "osmNodeId": 3175794775
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.95,
+    "validationStatus": "VALIDATED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0009",
@@ -1372,23 +1388,25 @@
     "entityKey": "LINE1_STN_SAKI_NAKA",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8854,
-      "latitude": 19.1042
+      "longitude": 72.8885094,
+      "latitude": 19.1032172
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 9,
     "stationNameInSource": "Saki Naka",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro relation"
+      "sourceId": "SRC-L1-004",
+      "type": "GIS_COMMUNITY_RELATION",
+      "document": "OSM Subway Relation 3808111",
+      "osmNodeId": 3389210701
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.95,
+    "validationStatus": "VALIDATED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0010",
@@ -1398,23 +1416,25 @@
     "entityKey": "LINE1_STN_ASALPHA",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8938,
-      "latitude": 19.0964
+      "longitude": 72.895413,
+      "latitude": 19.0960972
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 10,
     "stationNameInSource": "Asalpha",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro relation"
+      "sourceId": "SRC-L1-004",
+      "type": "GIS_COMMUNITY_RELATION",
+      "document": "OSM Subway Relation 3808111",
+      "osmNodeId": 3389249957
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.95,
+    "validationStatus": "VALIDATED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0011",
@@ -1424,23 +1444,25 @@
     "entityKey": "LINE1_STN_JAGRUTI_NAGAR",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8988,
-      "latitude": 19.0927
+      "longitude": 72.9025996,
+      "latitude": 19.0921714
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 11,
     "stationNameInSource": "Jagruti Nagar",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro relation"
+      "sourceId": "SRC-L1-004",
+      "type": "GIS_COMMUNITY_RELATION",
+      "document": "OSM Subway Relation 3808111",
+      "osmNodeId": 3175794773
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.95,
+    "validationStatus": "VALIDATED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0012",
@@ -1450,23 +1472,25 @@
     "entityKey": "LINE1_STN_GHATKOPAR",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.908,
-      "latitude": 19.0862
+      "longitude": 72.9081226,
+      "latitude": 19.086286
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 12,
     "stationNameInSource": "Ghatkopar",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro relation"
+      "sourceId": "SRC-L1-004",
+      "type": "GIS_COMMUNITY_RELATION",
+      "document": "OSM Subway Relation 3808111",
+      "osmNodeId": 3175794772
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.95,
+    "validationStatus": "VALIDATED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-04",
+    "validatedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L2A-F-0001",

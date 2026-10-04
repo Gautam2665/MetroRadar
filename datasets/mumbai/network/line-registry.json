@@ -19,8 +19,9 @@
     "totalOperationalStations": 79,
     "totalOperationalKm": 101.4,
     "asOf": "2026-10-04",
-    "ctmReadyLines": 1,
-    "firstCtmReadyLine": "MUMBAI_LINE3"
+    "ctmReadyLines": 2,
+    "firstCtmReadyLine": "MUMBAI_LINE3",
+    "secondCtmReadyLine": "MUMBAI_LINE1"
   },
   "lines": [
     {
@@ -85,14 +86,17 @@
           "interchangeType": "MULTIMODAL"
         }
       ],
-      "evidencePriority": "P0",
-      "deepEvidenceLevel": "NONE",
+      "evidencePriority": "P0_VALIDATED",
+      "deepEvidenceLevel": "P0_VALIDATED",
       "sourceRefs": [
         "SRC-NET-005",
-        "SRC-NET-008"
+        "SRC-NET-008",
+        "SRC-L1-002",
+        "SRC-L1-003",
+        "SRC-L1-004"
       ],
-      "ctmReady": false,
-      "ctmBlocker": "station_coordinates_wgs84",
+      "ctmReady": true,
+      "ctmBlocker": null,
       "sharedEvidenceRef": [
         "E-NET-SYS-003",
         "E-NET-SYS-004",

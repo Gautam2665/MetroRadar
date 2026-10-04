@@ -1,0 +1,791 @@
+{
+  "ctmVersion": "1.0.0",
+  "schemaVersion": "ctm-v1-canonical",
+  "systemId": "MUMBAI_LINE1",
+  "systemName": "Mumbai Metro Line 1 (Blue Line)",
+  "city": "Mumbai",
+  "country": "India",
+  "operator": "Mumbai Metro One Private Limited (MMOPL)",
+  "ownerAuthority": "MMRDA",
+  "gauge": "STANDARD_1435mm",
+  "electrification": "25kV AC Overhead Catenary (OHE)",
+  "alignment": "ELEVATED",
+  "operationalStatus": "OPERATIONAL",
+  "openingYear": 2014,
+  "fullOpeningDate": "2014-06-08",
+  "networkSummary": {
+    "totalRevenueStations": 12,
+    "totalLineLengthKm": 11.4,
+    "straightLineDistanceKm": 10.57,
+    "depotCount": 1,
+    "depotName": "D.N. Nagar Car Shed",
+    "p0GatePassed": true,
+    "capabilityTier": "P0_VALIDATED"
+  },
+  "route": {
+    "routeId": "ROUTE_MUMBAI_L1",
+    "routeName": "Mumbai Metro Line 1 — Blue Line",
+    "colorHex": "#007DC5",
+    "textColorHex": "#FFFFFF",
+    "startStation": "Versova",
+    "endStation": "Ghatkopar",
+    "stationCount": 12
+  },
+  "stations": [
+    {
+      "canonicalId": "STN_L1_001",
+      "stationCode": "L1-01",
+      "name": "Versova",
+      "sequence": 1,
+      "latitude": 19.1302777,
+      "longitude": 72.8213871,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 0,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisEvidenceId": "E-L1-F-0001",
+        "gisSourceId": "SRC-L1-004",
+        "osmNodeId": 623881991,
+        "operatorSourceId": "SRC-L1-002",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
+      }
+    },
+    {
+      "canonicalId": "STN_L1_002",
+      "stationCode": "L1-02",
+      "name": "D. N. Nagar",
+      "sequence": 2,
+      "latitude": 19.1281782,
+      "longitude": 72.8308125,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1017,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisEvidenceId": "E-L1-F-0002",
+        "gisSourceId": "SRC-L1-004",
+        "osmNodeId": 623881914,
+        "operatorSourceId": "SRC-L1-002",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
+      }
+    },
+    {
+      "canonicalId": "STN_L1_003",
+      "stationCode": "L1-03",
+      "name": "Azad Nagar",
+      "sequence": 3,
+      "latitude": 19.1268055,
+      "longitude": 72.8382668,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 798,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisEvidenceId": "E-L1-F-0003",
+        "gisSourceId": "SRC-L1-004",
+        "osmNodeId": 3389150482,
+        "operatorSourceId": "SRC-L1-002",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
+      }
+    },
+    {
+      "canonicalId": "STN_L1_004",
+      "stationCode": "L1-04",
+      "name": "Andheri",
+      "sequence": 4,
+      "latitude": 19.1200415,
+      "longitude": 72.8494816,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1398,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisEvidenceId": "E-L1-F-0004",
+        "gisSourceId": "SRC-L1-004",
+        "osmNodeId": 3389150481,
+        "operatorSourceId": "SRC-L1-002",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
+      }
+    },
+    {
+      "canonicalId": "STN_L1_005",
+      "stationCode": "L1-05",
+      "name": "Western Express Highway",
+      "sequence": 5,
+      "latitude": 19.1155638,
+      "longitude": 72.8569834,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 932,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisEvidenceId": "E-L1-F-0005",
+        "gisSourceId": "SRC-L1-004",
+        "osmNodeId": 3389150483,
+        "operatorSourceId": "SRC-L1-002",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
+      }
+    },
+    {
+      "canonicalId": "STN_L1_006",
+      "stationCode": "L1-06",
+      "name": "Chakala (J.B. Nagar)",
+      "sequence": 6,
+      "latitude": 19.1119069,
+      "longitude": 72.8682423,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1251,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisEvidenceId": "E-L1-F-0006",
+        "gisSourceId": "SRC-L1-004",
+        "osmNodeId": 3389210700,
+        "operatorSourceId": "SRC-L1-002",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
+      }
+    },
+    {
+      "canonicalId": "STN_L1_007",
+      "stationCode": "L1-07",
+      "name": "Airport Road",
+      "sequence": 7,
+      "latitude": 19.1099146,
+      "longitude": 72.8747968,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 723,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisEvidenceId": "E-L1-F-0007",
+        "gisSourceId": "SRC-L1-004",
+        "osmNodeId": 3175794769,
+        "operatorSourceId": "SRC-L1-002",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
+      }
+    },
+    {
+      "canonicalId": "STN_L1_008",
+      "stationCode": "L1-08",
+      "name": "Marol Naka",
+      "sequence": 8,
+      "latitude": 19.1079463,
+      "longitude": 72.8801094,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 600,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisEvidenceId": "E-L1-F-0008",
+        "gisSourceId": "SRC-L1-004",
+        "osmNodeId": 3175794775,
+        "operatorSourceId": "SRC-L1-002",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
+      }
+    },
+    {
+      "canonicalId": "STN_L1_009",
+      "stationCode": "L1-09",
+      "name": "Saki Naka",
+      "sequence": 9,
+      "latitude": 19.1032172,
+      "longitude": 72.8885094,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1027,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisEvidenceId": "E-L1-F-0009",
+        "gisSourceId": "SRC-L1-004",
+        "osmNodeId": 3389210701,
+        "operatorSourceId": "SRC-L1-002",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
+      }
+    },
+    {
+      "canonicalId": "STN_L1_010",
+      "stationCode": "L1-10",
+      "name": "Asalpha",
+      "sequence": 10,
+      "latitude": 19.0960972,
+      "longitude": 72.895413,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1074,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisEvidenceId": "E-L1-F-0010",
+        "gisSourceId": "SRC-L1-004",
+        "osmNodeId": 3389249957,
+        "operatorSourceId": "SRC-L1-002",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
+      }
+    },
+    {
+      "canonicalId": "STN_L1_011",
+      "stationCode": "L1-11",
+      "name": "Jagruti Nagar",
+      "sequence": 11,
+      "latitude": 19.0921714,
+      "longitude": 72.9025996,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 872,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisEvidenceId": "E-L1-F-0011",
+        "gisSourceId": "SRC-L1-004",
+        "osmNodeId": 3175794773,
+        "operatorSourceId": "SRC-L1-002",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
+      }
+    },
+    {
+      "canonicalId": "STN_L1_012",
+      "stationCode": "L1-12",
+      "name": "Ghatkopar",
+      "sequence": 12,
+      "latitude": 19.086286,
+      "longitude": 72.9081226,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 875,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisEvidenceId": "E-L1-F-0012",
+        "gisSourceId": "SRC-L1-004",
+        "osmNodeId": 3175794772,
+        "operatorSourceId": "SRC-L1-002",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
+      }
+    }
+  ],
+  "stationGraph": {
+    "nodes": [
+      {
+        "stationId": "STN_L1_001",
+        "name": "Versova",
+        "sequence": 1,
+        "coordinates": [
+          72.8213871,
+          19.1302777
+        ]
+      },
+      {
+        "stationId": "STN_L1_002",
+        "name": "D. N. Nagar",
+        "sequence": 2,
+        "coordinates": [
+          72.8308125,
+          19.1281782
+        ]
+      },
+      {
+        "stationId": "STN_L1_003",
+        "name": "Azad Nagar",
+        "sequence": 3,
+        "coordinates": [
+          72.8382668,
+          19.1268055
+        ]
+      },
+      {
+        "stationId": "STN_L1_004",
+        "name": "Andheri",
+        "sequence": 4,
+        "coordinates": [
+          72.8494816,
+          19.1200415
+        ]
+      },
+      {
+        "stationId": "STN_L1_005",
+        "name": "Western Express Highway",
+        "sequence": 5,
+        "coordinates": [
+          72.8569834,
+          19.1155638
+        ]
+      },
+      {
+        "stationId": "STN_L1_006",
+        "name": "Chakala (J.B. Nagar)",
+        "sequence": 6,
+        "coordinates": [
+          72.8682423,
+          19.1119069
+        ]
+      },
+      {
+        "stationId": "STN_L1_007",
+        "name": "Airport Road",
+        "sequence": 7,
+        "coordinates": [
+          72.8747968,
+          19.1099146
+        ]
+      },
+      {
+        "stationId": "STN_L1_008",
+        "name": "Marol Naka",
+        "sequence": 8,
+        "coordinates": [
+          72.8801094,
+          19.1079463
+        ]
+      },
+      {
+        "stationId": "STN_L1_009",
+        "name": "Saki Naka",
+        "sequence": 9,
+        "coordinates": [
+          72.8885094,
+          19.1032172
+        ]
+      },
+      {
+        "stationId": "STN_L1_010",
+        "name": "Asalpha",
+        "sequence": 10,
+        "coordinates": [
+          72.895413,
+          19.0960972
+        ]
+      },
+      {
+        "stationId": "STN_L1_011",
+        "name": "Jagruti Nagar",
+        "sequence": 11,
+        "coordinates": [
+          72.9025996,
+          19.0921714
+        ]
+      },
+      {
+        "stationId": "STN_L1_012",
+        "name": "Ghatkopar",
+        "sequence": 12,
+        "coordinates": [
+          72.9081226,
+          19.086286
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "edgeId": "EDGE_L1_01",
+        "fromStationId": "STN_L1_001",
+        "fromStationName": "Versova",
+        "toStationId": "STN_L1_002",
+        "toStationName": "D. N. Nagar",
+        "sequenceFrom": 1,
+        "sequenceTo": 2,
+        "distanceMeters": 1017,
+        "nominalTravelTimeSeconds": 121,
+        "travelTimeSemantics": {
+          "value": 121,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "source": "MMOPL_OFFICIAL_COMMERCIAL_RUNTIME_21MIN",
+          "currentOperationalValidity": true,
+          "disclaimer": "Nominal travel time derived from operator 21-minute commercial schedule. Subject to live signaling variances."
+        },
+        "biDirectional": true
+      },
+      {
+        "edgeId": "EDGE_L1_02",
+        "fromStationId": "STN_L1_002",
+        "fromStationName": "D. N. Nagar",
+        "toStationId": "STN_L1_003",
+        "toStationName": "Azad Nagar",
+        "sequenceFrom": 2,
+        "sequenceTo": 3,
+        "distanceMeters": 798,
+        "nominalTravelTimeSeconds": 95,
+        "travelTimeSemantics": {
+          "value": 95,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "source": "MMOPL_OFFICIAL_COMMERCIAL_RUNTIME_21MIN",
+          "currentOperationalValidity": true,
+          "disclaimer": "Nominal travel time derived from operator 21-minute commercial schedule. Subject to live signaling variances."
+        },
+        "biDirectional": true
+      },
+      {
+        "edgeId": "EDGE_L1_03",
+        "fromStationId": "STN_L1_003",
+        "fromStationName": "Azad Nagar",
+        "toStationId": "STN_L1_004",
+        "toStationName": "Andheri",
+        "sequenceFrom": 3,
+        "sequenceTo": 4,
+        "distanceMeters": 1398,
+        "nominalTravelTimeSeconds": 167,
+        "travelTimeSemantics": {
+          "value": 167,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "source": "MMOPL_OFFICIAL_COMMERCIAL_RUNTIME_21MIN",
+          "currentOperationalValidity": true,
+          "disclaimer": "Nominal travel time derived from operator 21-minute commercial schedule. Subject to live signaling variances."
+        },
+        "biDirectional": true
+      },
+      {
+        "edgeId": "EDGE_L1_04",
+        "fromStationId": "STN_L1_004",
+        "fromStationName": "Andheri",
+        "toStationId": "STN_L1_005",
+        "toStationName": "Western Express Highway",
+        "sequenceFrom": 4,
+        "sequenceTo": 5,
+        "distanceMeters": 932,
+        "nominalTravelTimeSeconds": 111,
+        "travelTimeSemantics": {
+          "value": 111,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "source": "MMOPL_OFFICIAL_COMMERCIAL_RUNTIME_21MIN",
+          "currentOperationalValidity": true,
+          "disclaimer": "Nominal travel time derived from operator 21-minute commercial schedule. Subject to live signaling variances."
+        },
+        "biDirectional": true
+      },
+      {
+        "edgeId": "EDGE_L1_05",
+        "fromStationId": "STN_L1_005",
+        "fromStationName": "Western Express Highway",
+        "toStationId": "STN_L1_006",
+        "toStationName": "Chakala (J.B. Nagar)",
+        "sequenceFrom": 5,
+        "sequenceTo": 6,
+        "distanceMeters": 1251,
+        "nominalTravelTimeSeconds": 149,
+        "travelTimeSemantics": {
+          "value": 149,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "source": "MMOPL_OFFICIAL_COMMERCIAL_RUNTIME_21MIN",
+          "currentOperationalValidity": true,
+          "disclaimer": "Nominal travel time derived from operator 21-minute commercial schedule. Subject to live signaling variances."
+        },
+        "biDirectional": true
+      },
+      {
+        "edgeId": "EDGE_L1_06",
+        "fromStationId": "STN_L1_006",
+        "fromStationName": "Chakala (J.B. Nagar)",
+        "toStationId": "STN_L1_007",
+        "toStationName": "Airport Road",
+        "sequenceFrom": 6,
+        "sequenceTo": 7,
+        "distanceMeters": 723,
+        "nominalTravelTimeSeconds": 86,
+        "travelTimeSemantics": {
+          "value": 86,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "source": "MMOPL_OFFICIAL_COMMERCIAL_RUNTIME_21MIN",
+          "currentOperationalValidity": true,
+          "disclaimer": "Nominal travel time derived from operator 21-minute commercial schedule. Subject to live signaling variances."
+        },
+        "biDirectional": true
+      },
+      {
+        "edgeId": "EDGE_L1_07",
+        "fromStationId": "STN_L1_007",
+        "fromStationName": "Airport Road",
+        "toStationId": "STN_L1_008",
+        "toStationName": "Marol Naka",
+        "sequenceFrom": 7,
+        "sequenceTo": 8,
+        "distanceMeters": 600,
+        "nominalTravelTimeSeconds": 72,
+        "travelTimeSemantics": {
+          "value": 72,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "source": "MMOPL_OFFICIAL_COMMERCIAL_RUNTIME_21MIN",
+          "currentOperationalValidity": true,
+          "disclaimer": "Nominal travel time derived from operator 21-minute commercial schedule. Subject to live signaling variances."
+        },
+        "biDirectional": true
+      },
+      {
+        "edgeId": "EDGE_L1_08",
+        "fromStationId": "STN_L1_008",
+        "fromStationName": "Marol Naka",
+        "toStationId": "STN_L1_009",
+        "toStationName": "Saki Naka",
+        "sequenceFrom": 8,
+        "sequenceTo": 9,
+        "distanceMeters": 1027,
+        "nominalTravelTimeSeconds": 122,
+        "travelTimeSemantics": {
+          "value": 122,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "source": "MMOPL_OFFICIAL_COMMERCIAL_RUNTIME_21MIN",
+          "currentOperationalValidity": true,
+          "disclaimer": "Nominal travel time derived from operator 21-minute commercial schedule. Subject to live signaling variances."
+        },
+        "biDirectional": true
+      },
+      {
+        "edgeId": "EDGE_L1_09",
+        "fromStationId": "STN_L1_009",
+        "fromStationName": "Saki Naka",
+        "toStationId": "STN_L1_010",
+        "toStationName": "Asalpha",
+        "sequenceFrom": 9,
+        "sequenceTo": 10,
+        "distanceMeters": 1074,
+        "nominalTravelTimeSeconds": 128,
+        "travelTimeSemantics": {
+          "value": 128,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "source": "MMOPL_OFFICIAL_COMMERCIAL_RUNTIME_21MIN",
+          "currentOperationalValidity": true,
+          "disclaimer": "Nominal travel time derived from operator 21-minute commercial schedule. Subject to live signaling variances."
+        },
+        "biDirectional": true
+      },
+      {
+        "edgeId": "EDGE_L1_10",
+        "fromStationId": "STN_L1_010",
+        "fromStationName": "Asalpha",
+        "toStationId": "STN_L1_011",
+        "toStationName": "Jagruti Nagar",
+        "sequenceFrom": 10,
+        "sequenceTo": 11,
+        "distanceMeters": 872,
+        "nominalTravelTimeSeconds": 104,
+        "travelTimeSemantics": {
+          "value": 104,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "source": "MMOPL_OFFICIAL_COMMERCIAL_RUNTIME_21MIN",
+          "currentOperationalValidity": true,
+          "disclaimer": "Nominal travel time derived from operator 21-minute commercial schedule. Subject to live signaling variances."
+        },
+        "biDirectional": true
+      },
+      {
+        "edgeId": "EDGE_L1_11",
+        "fromStationId": "STN_L1_011",
+        "fromStationName": "Jagruti Nagar",
+        "toStationId": "STN_L1_012",
+        "toStationName": "Ghatkopar",
+        "sequenceFrom": 11,
+        "sequenceTo": 12,
+        "distanceMeters": 875,
+        "nominalTravelTimeSeconds": 105,
+        "travelTimeSemantics": {
+          "value": 105,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "source": "MMOPL_OFFICIAL_COMMERCIAL_RUNTIME_21MIN",
+          "currentOperationalValidity": true,
+          "disclaimer": "Nominal travel time derived from operator 21-minute commercial schedule. Subject to live signaling variances."
+        },
+        "biDirectional": true
+      }
+    ]
+  },
+  "transfers": [
+    {
+      "transferId": "XFER_MAROL_NAKA_L3",
+      "stationId": "STN_L1_008",
+      "stationName": "Marol Naka",
+      "targetNetwork": "MUMBAI_LINE3",
+      "targetStationId": "STN_L3_004",
+      "targetStationName": "Marol Naka",
+      "transferType": "METRO_INTERCHANGE",
+      "physicalConnectivity": "ELEVATED_TO_UNDERGROUND_PEDESTRIAN_SKYWALK",
+      "walkingDistanceMeters": 170,
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SRC-L1-004",
+        "osmNodeL1": 3175794775,
+        "osmNodeL3": 5787704197
+      }
+    },
+    {
+      "transferId": "XFER_DN_NAGAR_L2A",
+      "stationId": "STN_L1_002",
+      "stationName": "D. N. Nagar",
+      "targetNetwork": "MUMBAI_LINE2A",
+      "targetStationName": "Andheri West / D.N. Nagar",
+      "transferType": "METRO_INTERCHANGE",
+      "physicalConnectivity": "PEDESTRIAN_CONCOURSE_LINK",
+      "walkingDistanceMeters": 120,
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SRC-L1-002"
+      }
+    },
+    {
+      "transferId": "XFER_WEH_L7",
+      "stationId": "STN_L1_005",
+      "stationName": "Western Express Highway",
+      "targetNetwork": "MUMBAI_LINE7",
+      "targetStationName": "Gundavali",
+      "transferType": "METRO_INTERCHANGE",
+      "physicalConnectivity": "FOOT_OVERBRIDGE",
+      "walkingDistanceMeters": 90,
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SRC-L1-002"
+      }
+    },
+    {
+      "transferId": "XFER_ANDHERI_WR",
+      "stationId": "STN_L1_004",
+      "stationName": "Andheri",
+      "targetNetwork": "SUBURBAN_WR",
+      "targetStationName": "Andheri Railway Station",
+      "transferType": "MULTIMODAL",
+      "physicalConnectivity": "INTEGRATED_SKYWALK",
+      "walkingDistanceMeters": 60,
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SRC-L1-002"
+      }
+    },
+    {
+      "transferId": "XFER_GHATKOPAR_CR",
+      "stationId": "STN_L1_012",
+      "stationName": "Ghatkopar",
+      "targetNetwork": "SUBURBAN_CR",
+      "targetStationName": "Ghatkopar Railway Station",
+      "transferType": "MULTIMODAL",
+      "physicalConnectivity": "FOOT_OVERBRIDGE_DIRECT_ACCESS",
+      "walkingDistanceMeters": 45,
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SRC-L1-002"
+      }
+    }
+  ],
+  "rollingStock": {
+    "rakeType": "EMU_4CAR",
+    "manufacturer": "CRRC Zhuzhou Locomotive",
+    "trainsetCount": 16,
+    "carsPerRake": 4,
+    "bodyMaterial": "Stainless Steel",
+    "gaugeMm": 1435,
+    "tractionSystem": "25kV AC Overhead Catenary, IGBT-VVVF",
+    "provenance": {
+      "sourceId": "SRC-L1-003"
+    }
+  },
+  "gtfsBoundaryContract": {
+    "scheduleStatus": "BLOCKED",
+    "reason": "No synthetic commercial schedule permitted without verified MMOPL operational timetable",
+    "policy": "TRANSIT_OS_STRICT_EMPIRICAL"
+  }
+}
