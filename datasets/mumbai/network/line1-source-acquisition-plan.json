@@ -1,0 +1,135 @@
+{
+  "corridorId": "MUMBAI_LINE1",
+  "corridorName": "Mumbai Metro Line 1 — Blue Line (Versova–Andheri–Ghatkopar)",
+  "operator": "MMOPL (Mumbai Metro One Private Limited)",
+  "ownerAuthority": "MMRDA",
+  "status": "OPERATIONAL",
+  "openingDate": "2014-06-08",
+  "version": "1.0.0",
+  "lastUpdated": "2026-10-04",
+
+  "acquisitionStrategy": "CAPABILITY_TIERED_P0_GATE",
+  "principle": "Line 1 evidence requirements are dictated by downstream capability needs (P0 CTM Bootstrap vs P1 Schedule vs P2 Telemetry), NOT by replicating Line 3's exact record counts.",
+
+  "capabilityTiers": {
+    "P0_CTM_BOOTSTRAP": {
+      "purpose": "Enables Line 1 representation in CTM and activates multi-line Journey Graph pathfinding with Line 3 via Marol Naka interchange.",
+      "requiredAttributes": [
+        "station_identity_and_sequence (12 stations: Versova to Ghatkopar)",
+        "terminals (Versova, Ghatkopar)",
+        "interchanges (D.N. Nagar with Line 2A/2B; WEH with Line 7; Marol Naka with Line 3; Andheri with WR; Ghatkopar with CR)",
+        "station_coordinates_wgs84 (12 station points in EPSG:4326)",
+        "alignment_geometry_wgs84 (approximate or official linestring)",
+        "operational_status (OPERATIONAL since 2014)",
+        "gauge (STANDARD_1435mm)",
+        "power_supply (25kV AC overhead catenary)"
+      ],
+      "blockerForCTM": true,
+      "estimatedAcquisitionEffort": "LOW (already largely captured in network registry & OSM)"
+    },
+
+    "P1_SCHEDULE_SYNTHESIS": {
+      "purpose": "Enables static timetable generation (stop_times.txt, frequencies.txt) and scheduled journey planning.",
+      "requiredAttributes": [
+        "peak_headway_seconds",
+        "offpeak_headway_seconds",
+        "service_span (first train / last train by terminal)",
+        "single_journey_and_smartcard_fare_matrix"
+      ],
+      "blockerForCTM": false,
+      "estimatedAcquisitionEffort": "MEDIUM (Agent 2 can acquire from MMOPL website and circulars)"
+    },
+
+    "P2_PREDICTION_AND_TELEMETRY": {
+      "purpose": "Enables vehicle dynamics simulation and real-time arrival estimation.",
+      "requiredAttributes": [
+        "active_fleet_count (16 rakes of 4 cars)",
+        "acceleration_and_braking_curves",
+        "observed_station_dwell_distribution",
+        "realtime_telemetry_or_gtfs_rt_feed"
+      ],
+      "blockerForCTM": false,
+      "estimatedAcquisitionEffort": "HIGH (requires technical study or GTFS-RT API access)"
+    }
+  },
+
+  "sourceCatalog": [
+    {
+      "sourceId": "SRC-L1-001",
+      "shortName": "MMRDA Line 1 Project Report / DPR",
+      "title": "Detailed Project Report for Versova-Andheri-Ghatkopar Corridor",
+      "type": "DPR",
+      "authorityLevel": "OFFICIAL",
+      "acquisitionMode": "AGENT_1_PRIMARY",
+      "status": "ACQUISITION_PENDING",
+      "providesAttributes": [
+        "track_gauge_mm",
+        "civil_alignment_type",
+        "station_chainages",
+        "depot_location (D.N. Nagar Car Shed)"
+      ]
+    },
+    {
+      "sourceId": "SRC-L1-002",
+      "shortName": "Reliance MMOPL Official Portal",
+      "title": "Mumbai Metro One Official Passenger Portal (reliancemumbaimetro.com)",
+      "type": "OPERATOR_OFFICIAL",
+      "authorityLevel": "OPERATOR_OFFICIAL",
+      "acquisitionMode": "AGENT_2_WEB_SCRAPER",
+      "url": "https://www.reliancemumbaimetro.com",
+      "status": "AVAILABLE_FOR_AGENT_2",
+      "providesAttributes": [
+        "12_station_operational_names",
+        "first_and_last_train_timings",
+        "fare_structure",
+        "station_entrances_and_accessibility"
+      ]
+    },
+    {
+      "sourceId": "SRC-L1-003",
+      "shortName": "CRRC Zhuzhou Rolling Stock Specification",
+      "title": "CRRC Zhuzhou 4-Car Electric Multiple Unit (EMU) Technical Specification",
+      "type": "MANUFACTURER_OFFICIAL",
+      "authorityLevel": "OPERATOR_OFFICIAL",
+      "acquisitionMode": "AGENT_1_TECHNICAL_EXTRACTOR",
+      "status": "VERIFIED_SHARED",
+      "providesAttributes": [
+        "rolling_stock_family (CRRC Zhuzhou 4-car)",
+        "traction (25kV AC OHE, VVVF)",
+        "car_body_material (Stainless Steel)"
+      ]
+    },
+    {
+      "sourceId": "SRC-L1-004",
+      "shortName": "OpenStreetMap Mumbai Metro Line 1 Relation",
+      "title": "OpenStreetMap Subway Relation 3469114 & Station Nodes",
+      "type": "GIS_COMMUNITY",
+      "authorityLevel": "COMMUNITY",
+      "acquisitionMode": "AUTOMATED_OVERPASS_API",
+      "status": "ACQUIRED_BOOTSTRAP",
+      "providesAttributes": [
+        "12_station_wgs84_coordinates",
+        "route_linestring_geometry"
+      ]
+    },
+    {
+      "sourceId": "SRC-L1-005",
+      "shortName": "MMRDA Open Data / Google Earth KML",
+      "title": "MMRDA Metro PIU Corridor Alignment Files",
+      "type": "GOVERNMENT_GIS",
+      "authorityLevel": "OFFICIAL",
+      "acquisitionMode": "AGENT_2_GIS_HUNTER",
+      "url": "https://mmrda.maharashtra.gov.in",
+      "status": "PENDING_DOWNLOAD",
+      "providesAttributes": [
+        "official_alignment_kml"
+      ]
+    }
+  ],
+
+  "agentSplit": {
+    "agent1_role": "Agent 1 (Technical Baseline Extractor) extracts design parameters, station chainages, and engineering specs from DPR / official reports.",
+    "agent2_role": "Agent 2 (Current-State & External Verification Agent) inspects MMOPL portal, Google Maps entrance points, and Overpass GIS to provide current operational observations.",
+    "reconciliation_rule": "Agent 1 provides HISTORICAL_DESIGN baseline; Agent 2 provides CURRENT_OPERATIONAL observations. Reconciliation layer detects discrepancies and generates CTM candidates without either agent modifying CTM directly."
+  }
+}

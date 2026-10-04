@@ -138,6 +138,14 @@ function formatCandidateResponse(pathResult) {
         walkingDistanceMeters: 0,
         isDirect: pathResult.isDirect,
         nominalDurationMinutes: pathResult.nominalDurationMinutes,
+        travelTime: {
+          value: pathResult.nominalDurationSeconds,
+          unit: "seconds",
+          type: "BASELINE",
+          source: "DPR_DESIGN_TABLE_4_3",
+          currentOperationalValidity: false,
+          disclaimer: "Design baseline derived from inter-station track design speeds. Not an active commercial timetable."
+        },
         
         // H6: Explicitly marking unsupported fields as null
         scheduledDeparture: null,
