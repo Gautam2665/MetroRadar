@@ -201,22 +201,57 @@ export class InterchangeEvaluatorService {
           frictionSeconds += Math.round(verticalDrop * 10); // 10s per vertical meter
           reasonCodes.push('HEAVY_VERTICAL_MOVEMENT');
         }
-        if (suitability === 'IDEAL_FOR_LUGGAGE') {
+      }
+
+      // Specific ground-truth physical summaries per complex
+      if (complex.complexId === 'ICX-MAROL-NAKA') {
+          reasonCodes.push('OUT_OF_STATION_TRANSFER', 'AFC_RETAP', 'SECURITY_RESCREENING', 'OUTDOOR_STREET_WALK');
+          summaryParts.push(
+            'Marol Naka: Unpaid street-level transfer. Exit AFC gates, walk ~170m along Andheri-Kurla Road, re-clear security screening and tap in to connecting line (elevated L1 ⇄ underground L3).'
+          );
+        } else if (complex.complexId === 'ICX-MUMBAI-CENTRAL') {
+          reasonCodes.push('IDEAL_FOR_LUGGAGE', 'FLAT_FORECOURT', 'LIFT_VERIFIED');
+          summaryParts.push(
+            'Mumbai Central: Direct vertical access via lifts/escalators and a 100m flat forecourt walk to Western Railway station entrance. Step-free and ideal for luggage.'
+          );
+        } else if (complex.complexId === 'ICX-CHURCHGATE') {
+          reasonCodes.push('PEDESTRIAN_WALK');
+          summaryParts.push(
+            'Churchgate: Direct pedestrian connection via footpath (~150m) to Western Railway suburban terminus.'
+          );
+        } else if (complex.complexId === 'ICX-CSMT') {
+          reasonCodes.push('SUBWAY_CONNECTION', 'WEATHER_PROTECTED');
+          summaryParts.push(
+            'CSMT: Direct subway connection linking Metro Line 3 to Central Railway Terminus & BMC subway network.'
+          );
+        } else if (complex.complexId === 'ICX-DADAR') {
+          reasonCodes.push('STREET_MARKET_WALK', 'HIGH_CROWD');
+          summaryParts.push(
+            'Dadar: 600m-700m connection through congested street market; heavy pedestrian density.'
+          );
+        } else if (complex.complexId === 'ICX-ANDHERI') {
+          reasonCodes.push('FOB_CONNECTION');
+          summaryParts.push(
+            'Andheri: Direct skywalk & foot overbridge connection between Metro Line 1 and Suburban Railway.'
+          );
+        } else if (complex.complexId === 'ICX-GHATKOPAR') {
+          reasonCodes.push('ELEVATED_FOB');
+          summaryParts.push(
+            'Ghatkopar: Direct elevated concourse foot overbridge linking Line 1 to Central Railway platforms.'
+          );
+        } else if (suitability === 'IDEAL_FOR_LUGGAGE') {
           reasonCodes.push('IDEAL_FOR_LUGGAGE', 'FLAT_FORECOURT');
           summaryParts.push(`${complex.name}: Easy transfer with direct lifts/escalators and flat forecourt connection.`);
         } else if (outdoorStreet && requiresSecurity) {
+          reasonCodes.push('OUTDOOR_STREET_WALK', 'SECURITY_RESCREENING');
           summaryParts.push(`${complex.name}: Outdoor transfer requiring street walk and secondary security check.`);
-        }
-      } else {
-        // Standard commuter: minimal policy friction, relies purely on nominal walk time
-        if (paidArea) {
+        } else if (paidArea) {
           reasonCodes.push('PAID_AREA_TRANSFER');
           summaryParts.push(`${complex.name}: Paid-to-paid concourse connection.`);
         } else {
           reasonCodes.push('OUT_OF_STATION_TRANSFER');
-          summaryParts.push(`${complex.name}: Short transfer connection.`);
+          summaryParts.push(`${complex.name}: Street-level transfer connection requiring AFC tap-out and re-entry.`);
         }
-      }
 
       if (elevatorStatus === 'VERIFIED_ELEVATOR') {
         reasonCodes.push('LIFT_VERIFIED');

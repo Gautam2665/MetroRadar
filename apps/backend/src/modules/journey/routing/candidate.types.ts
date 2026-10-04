@@ -95,6 +95,8 @@ export interface JourneyLeg {
   lineColor: string | null;
   lineCode: string | null;
   stationsCount: number;
+  towards?: string;
+  transferInstructions?: string[];
 }
 
 // ── Route Candidate ───────────────────────────────────────────────────────────

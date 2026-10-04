@@ -45,13 +45,13 @@ export function cleanLineName(rawName: string | null | undefined, mode?: string)
     return 'Airport Express (Orange Line)';
   }
   if (upper.includes('YELLOW') || upper.includes('LINE 2A')) return 'Yellow Line';
-  if (upper.includes('BLUE') || upper.includes('LINE 1') || upper.includes('LINE 3')) return 'Blue Line';
+  if (upper.includes('AQUA') || upper.includes('LINE 3')) return 'Aqua Line';
+  if (upper.includes('BLUE') || upper.includes('LINE 1')) return 'Blue Line';
   if (upper.includes('RED') || upper.includes('LINE 7')) return 'Red Line';
   if (upper.includes('PINK')) return 'Pink Line';
   if (upper.includes('MAGENTA')) return 'Magenta Line';
   if (upper.includes('VIOLET')) return 'Violet Line';
   if (upper.includes('GREEN')) return 'Green Line';
-  if (upper.includes('AQUA')) return 'Aqua Line';
   if (upper.includes('GREY') || upper.includes('GRAY')) return 'Grey Line';
   if (upper.includes('RAPID')) return 'Rapid Metro';
   if (upper.includes('KOCHI')) return 'Kochi Metro Line';
@@ -83,17 +83,17 @@ export function resolveLineColor(rawName: string | null | undefined, fallback?: 
   const upper = (rawName || '').toUpperCase();
   if (upper.includes('ORANGE') || upper.includes('AIRPORT')) return '#f97316';
   if (upper.includes('YELLOW') || upper.includes('LINE 2A')) return '#facc15';
-  if (upper.includes('BLUE') || upper.includes('LINE 1') || upper.includes('LINE 3')) return '#3b82f6';
+  if (upper.includes('AQUA') || upper.includes('LINE 3')) return '#059DB2';
+  if (upper.includes('BLUE') || upper.includes('LINE 1')) return '#007DC5';
   if (upper.includes('RED') || upper.includes('LINE 7')) return '#ef4444';
   if (upper.includes('PINK')) return '#ec4899';
   if (upper.includes('MAGENTA')) return '#d946ef';
   if (upper.includes('VIOLET')) return '#8b5cf6';
   if (upper.includes('GREEN')) return '#22c55e';
-  if (upper.includes('AQUA')) return '#06b6d4';
   if (upper.includes('GREY') || upper.includes('GRAY')) return '#808080';
   if (upper.includes('RAPID')) return '#14b8a6';
   if (upper.includes('KOCHI')) return '#0ea5e9';
-  return fallback || '#06b6d4';
+  return fallback || '#059DB2';
 }
 
 /**
@@ -103,7 +103,12 @@ export function cleanDirection(rawLineName: string | null | undefined, fallbackT
   if (!rawLineName) return fallbackToStation || '';
   const toMatch = rawLineName.match(/\s+to\s+([^,]+)$/i);
   if (toMatch && toMatch[1]) {
-    return toMatch[1].trim();
+    const dest = toMatch[1].trim();
+    if (rawLineName.toUpperCase().includes('PINK')) {
+      if (dest.includes('Shiv Vihar')) return 'Shiv Vihar (via INA / Lajpat Nagar)';
+      if (dest.includes('Majlis Park')) return 'Majlis Park (via Netaji Subhash Place)';
+    }
+    return dest;
   }
   return fallbackToStation || '';
 }

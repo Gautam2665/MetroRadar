@@ -183,12 +183,14 @@ function JourneyDetailsTimeline({
                   {transitLegs[0].shortLine || formatShortLineName(transitLegs[0].line)}
                 </span>
               </div>
-              <div className="text-[11.5px] text-slate-400 mt-0.5">
-                {transitLegs[0].towards
+              <div className="text-[11.5px] text-slate-300 mt-1">
+                Platform 1 · {transitLegs[0].towards
                   ? `Towards ${transitLegs[0].towards}`
                   : formatLineName(transitLegs[0].line)}
-                {transitLegs[0].stopsCount && ` · ${transitLegs[0].stopsCount} stations`}
-                {transitLegs[0].durationMins && ` (${transitLegs[0].durationMins} min)`}
+              </div>
+              <div className="text-[11px] text-slate-400 mt-0.5">
+                {transitLegs[0].stopsCount ? `Ride ${transitLegs[0].stopsCount} stations` : "In-vehicle transit"}
+                {transitLegs[0].durationMins ? ` (${transitLegs[0].durationMins} min)` : ""}
               </div>
             </div>
           </div>
@@ -210,43 +212,118 @@ function JourneyDetailsTimeline({
             <span className="material-symbols-outlined text-sm text-cyan-400 shrink-0 mt-0.5">info</span>
             <div>
               <div className="font-semibold text-cyan-300">Station & Interchange Guide</div>
-              <div className="text-[11px] text-slate-300 mt-0.5">{route.humanSummary}</div>
+              <div className="text-[11px] text-slate-300 mt-0.5 leading-relaxed">{route.humanSummary}</div>
             </div>
           </div>
         )}
 
-        {/* Transfers */}
-        {transitLegs.slice(1).map((leg, idx) => {
-          const prevLeg = transitLegs[idx];
-          const transferStation = leg.fromStation || prevLeg.toStation || "Interchange";
-          const shortLine = leg.shortLine || formatShortLineName(leg.line);
+        {/* Transfers & Connecting Legs */}
+        {transitLegs.slice(0, -1).map((curLeg, idx) => {
+          const nextLeg = transitLegs[idx + 1];
+          const alightStation = curLeg.toStation || "Transfer Station";
+          const boardStation = nextLeg.fromStation || alightStation;
+          const nextShortLine = nextLeg.shortLine || formatShortLineName(nextLeg.line);
+
+          // Find intervening walk leg if present
+          const walkLeg = route.legs.find(
+            (l) =>
+              (l.mode === "walk" || l.type === "WALK") &&
+              (l.fromStation === alightStation || l.toStation === boardStation)
+          );
+
+          // Generate detailed, commuter-centric transfer steps
+          let instructions: string[] = [];
+          if (walkLeg?.transferInstructions && walkLeg.transferInstructions.length > 0) {
+            instructions = walkLeg.transferInstructions;
+          } else if (
+            alightStation.toUpperCase().includes("DHAULA KUAN") ||
+            boardStation.toUpperCase().includes("SOUTH CAMPUS")
+          ) {
+            instructions = [
+              `Alight at ${alightStation} station`,
+              "Follow Skywalk / Travelator to Pink Line (755m, ~8 min)",
+            ];
+          } else if (alightStation.toUpperCase().includes("MAROL NAKA")) {
+            instructions = [
+              `Alight at ${alightStation} station`,
+              `Exit AFC gates to street level, walk ~170m via pedestrian path, re-screen at security to ${nextShortLine}`,
+            ];
+          } else if (alightStation.toUpperCase().includes("MUMBAI CENTRAL")) {
+            instructions = [
+              `Alight at ${alightStation} station`,
+              "Use direct lifts/escalators to flat station forecourt (100m walk to Railway station entrance)",
+            ];
+          } else if (alightStation === boardStation) {
+            instructions = [
+              `Alight at ${alightStation} station`,
+              `Follow signs to ${nextShortLine} platform (concourse transfer, ~2 min)`,
+            ];
+          } else {
+            instructions = [
+              `Alight at ${alightStation} station`,
+              `Walk towards ${boardStation} connecting concourse`,
+            ];
+          }
 
           return (
-            <div key={idx} className="relative">
-              <span
-                className="absolute -left-[27px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-[#151b28] shadow-[0_0_8px_currentColor]"
-                style={{ backgroundColor: leg.color, color: leg.color }}
-              />
-              <div className="bg-[#080c14]/80 p-2.5 rounded-lg border border-white/[0.06]">
-                <div className="flex items-center justify-between flex-wrap gap-1">
-                  <span className="text-xs font-bold text-white">
-                    CHANGE · {transferStation}
-                  </span>
-                  <span
-                    className="text-[9px] font-bold px-1.5 py-0.5 rounded border"
-                    style={{
-                      backgroundColor: `${leg.color}20`,
-                      color: leg.color,
-                      borderColor: `${leg.color}50`,
-                    }}
-                  >
-                    {shortLine}
-                  </span>
+            <div key={idx} className="space-y-3.5">
+              {/* Transfer/Alight Step */}
+              <div className="relative">
+                <span
+                  className="absolute -left-[27px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-[#151b28] bg-amber-400 text-amber-400 shadow-[0_0_8px_currentColor]"
+                />
+                <div className="bg-[#080c14]/90 p-2.5 rounded-lg border border-amber-500/30">
+                  <div className="flex items-center justify-between flex-wrap gap-1 mb-1.5">
+                    <span className="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                      <span className="material-symbols-outlined text-[15px]">directions_walk</span>
+                      INTERCHANGE · {alightStation}
+                    </span>
+                    {walkLeg && (
+                      <span className="text-[10px] font-mono text-slate-400">
+                        {walkLeg.durationMins || Math.round((walkLeg.durationSeconds || 180) / 60)} min
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-[11.5px] text-slate-300 space-y-1 mt-1 font-sans">
+                    {instructions.map((inst, instIdx) => (
+                      <div key={instIdx} className="flex items-start gap-1.5">
+                        <span className="text-amber-400 font-mono text-[11px] shrink-0 font-bold">{instIdx + 1}.</span>
+                        <span className="leading-snug">{inst.replace(/^\d+\.\s*/, "")}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="text-[11px] text-slate-400 mt-0.5">
-                  {leg.towards ? `Towards ${leg.towards}` : formatLineName(leg.line)}
-                  {leg.stopsCount && ` · ${leg.stopsCount} stations`}
-                  {leg.durationMins && ` (${leg.durationMins} min)`}
+              </div>
+
+              {/* Connecting Board Step */}
+              <div className="relative">
+                <span
+                  className="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full border-2 border-[#151b28] shadow-[0_0_8px_currentColor]"
+                  style={{ backgroundColor: nextLeg.color, color: nextLeg.color }}
+                />
+                <div>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-xs font-bold text-white">
+                      BOARD · {boardStation}
+                    </span>
+                    <span
+                      className="px-1.5 py-0.2 rounded text-[9px] font-bold border"
+                      style={{
+                        backgroundColor: `${nextLeg.color}25`,
+                        color: nextLeg.color,
+                        borderColor: `${nextLeg.color}50`,
+                      }}
+                    >
+                      {nextShortLine}
+                    </span>
+                  </div>
+                  <div className="text-[11.5px] text-slate-300 mt-1">
+                    Platform 1 · {nextLeg.towards ? `Towards ${nextLeg.towards}` : formatLineName(nextLeg.line)}
+                  </div>
+                  <div className="text-[11px] text-slate-400 mt-0.5">
+                    {nextLeg.stopsCount ? `Ride ${nextLeg.stopsCount} stations` : "In-vehicle transit"}
+                    {nextLeg.durationMins ? ` (${nextLeg.durationMins} min)` : ""}
+                  </div>
                 </div>
               </div>
             </div>
@@ -259,14 +336,20 @@ function JourneyDetailsTimeline({
           <div>
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-xs font-bold text-white">
-                ARRIVE · {destination || "Destination"}
+                ALIGHT · {destination || "Destination"}
               </span>
               <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 text-[9px] font-bold border border-emerald-500/40">
                 DESTINATION
               </span>
             </div>
             <div className="text-[11.5px] text-slate-400 mt-0.5">
-              Alight platform · Exit station
+              Platform will open on the left · {
+                (destination || "").toUpperCase().includes("NIZAMUDDIN") || (destination || "").toUpperCase().includes("SARAI KALE KHAN")
+                  ? "Exit for Railway / RRTS"
+                  : (destination || "").toUpperCase().includes("CSMT") || (destination || "").toUpperCase().includes("CENTRAL")
+                  ? "Exit for Mainline Railway Terminal"
+                  : "Exit station"
+              }
             </div>
           </div>
         </div>

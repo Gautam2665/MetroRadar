@@ -50,7 +50,7 @@ export function renderSmartStationCardHtml(data: StationCardData): string {
   const lineBadgesHtml = (data.lines && data.lines.length > 0)
     ? data.lines
         .map((l) => {
-          const color = l.color || "#06b6d4";
+          const color = l.color || "#059DB2";
           return `
             <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10.5px] font-semibold border"
                   style="background-color: ${color}20; color: ${color}; border-color: ${color}45;">

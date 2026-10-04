@@ -35,7 +35,7 @@ export function formatLineName(rawName: string | null | undefined, mode?: string
   if (upper.startsWith("GREEN_") || upper.includes("GREEN LINE")) return "Green Line";
   if (upper.startsWith("VIOLET_") || upper.includes("VIOLET LINE")) return "Violet Line";
   if (upper.startsWith("MAGENTA_") || upper.includes("MAGENTA LINE")) return "Magenta Line";
-  if (upper.startsWith("AQUA_") || upper.includes("AQUA LINE")) return "Aqua Line";
+  if (upper.startsWith("AQUA_") || upper.includes("AQUA LINE") || upper.includes("LINE 3")) return "Aqua Line";
   if (upper.startsWith("GREY_") || upper.startsWith("GRAY_") || upper.includes("GREY LINE")) return "Grey Line";
   if (upper.startsWith("RAPID_") || upper.includes("RAPID METRO")) return "Rapid Metro";
   if (upper.includes("KOCHI")) return "Kochi Metro Line";
@@ -68,11 +68,32 @@ export function formatShortLineName(rawName: string | null | undefined, mode?: s
  */
 export function extractDirection(rawLineName: string | null | undefined, fallbackToStation?: string): string {
   if (!rawLineName) return fallbackToStation || "";
-  
+  const u = rawLineName.toUpperCase();
+  if (u.includes("PINK")) {
+    const fallbackUpper = (fallbackToStation || "").toUpperCase();
+    const eastbound = ["SARAI KALE KHAN", "NIZAMUDDIN", "ASHRAM", "LAJPAT", "INA", "MAYUR", "SHIV VIHAR", "MOTI BAGH", "VINOBAPURI", "SOUTH EXTENSION"];
+    if (eastbound.some((s) => fallbackUpper.includes(s))) {
+      return "Shiv Vihar (via INA / Lajpat Nagar)";
+    }
+    return "Majlis Park (via Netaji Subhash Place)";
+  }
+
   // Matches " to [Destination Station]"
   const toMatch = rawLineName.match(/\s+to\s+([^,]+)$/i);
   if (toMatch && toMatch[1]) {
     return toMatch[1].trim();
+  }
+
+  if (u.includes("LINE 3") || u.includes("AQUA")) {
+    const fallbackUpper = (fallbackToStation || "").toUpperCase();
+    const isNorth = ["AAREY", "SEEPZ", "MIDC", "MAROL"].some((s) => fallbackUpper.includes(s));
+    return isNorth ? "Aarey JVLR" : "Cuffe Parade";
+  }
+
+  if (u.includes("LINE 1") || u.includes("BLUE")) {
+    const fallbackUpper = (fallbackToStation || "").toUpperCase();
+    const isWest = ["VERSOVA", "D. N. NAGAR", "D.N. NAGAR", "AZAD NAGAR", "ANDHERI"].some((s) => fallbackUpper.includes(s));
+    return isWest ? "Versova" : "Ghatkopar";
   }
 
   return fallbackToStation || "";

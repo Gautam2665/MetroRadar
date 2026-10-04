@@ -24,6 +24,7 @@ export type RouteLeg = {
   stopsCount?: number;
   durationMins?: number;
   durationSeconds?: number;
+  transferInstructions?: string[];
 };
 
 export type RouteOption = {
@@ -163,7 +164,7 @@ function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
     const cleanLine = isWalk ? "Transfer" : formatLineName(rawLine);
     const shortLine = isWalk ? "Transfer" : formatShortLineName(rawLine);
     const durMins = Math.max(1, Math.round(leg.duration / 60));
-    const towards = isWalk ? undefined : extractDirection(rawLine, leg.toStationName);
+    const towards = isWalk ? undefined : ((leg as any).towards || extractDirection(rawLine, leg.toStationName));
 
     return {
       mode: isWalk ? ("walk" as const) : ("subway" as const),
@@ -179,6 +180,7 @@ function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
       stopsCount: leg.stationsCount || undefined,
       durationMins: durMins,
       durationSeconds: leg.duration,
+      transferInstructions: (leg as any).transferInstructions,
     };
   });
 

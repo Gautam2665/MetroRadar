@@ -331,13 +331,6 @@ export class GraphBuilderService {
         duration,
         lineId,
       });
-      addEdge({
-        from: toId,
-        to: fromId,
-        type: EdgeType.TRANSIT,
-        duration,
-        lineId,
-      });
     }
 
     return edges;

@@ -391,7 +391,10 @@ export class JourneyService {
         currentLeg.duration += edge.duration;
         currentLeg.stationsCount += 1;
       } else {
-        if (currentLeg) legs.push(currentLeg);
+        if (currentLeg) {
+          this.finalizeLeg(currentLeg);
+          legs.push(currentLeg);
+        }
         currentLeg = {
           from: edge.from,
           fromStationName: fromName,
@@ -407,7 +410,10 @@ export class JourneyService {
         };
       }
     }
-    if (currentLeg) legs.push(currentLeg);
+    if (currentLeg) {
+      this.finalizeLeg(currentLeg);
+      legs.push(currentLeg);
+    }
     return legs;
   }
 
@@ -640,6 +646,154 @@ export class JourneyService {
     }
   }
 
+  private finalizeLeg(leg: JourneyLeg): void {
+    if (leg.type === EdgeType.TRANSIT) {
+      leg.towards = this.resolveTowards(
+        leg.lineName,
+        leg.fromStationName,
+        leg.toStationName,
+      );
+    } else if (leg.type === EdgeType.WALK || leg.type === EdgeType.TRANSFER) {
+      leg.transferInstructions = this.resolveTransferInstructions(
+        leg.fromStationName,
+        leg.toStationName,
+        leg.duration,
+      );
+    }
+  }
+
+  private resolveTowards(
+    lineName: string | null,
+    fromStationName: string,
+    toStationName: string,
+  ): string {
+    const raw = lineName || '';
+    const upper = raw.toUpperCase();
+
+    // 1. Pink Line directional resolution using ground truth station sequence
+    if (upper.includes('PINK')) {
+      const PINK_STATIONS = [
+        'MAJLIS PARK', 'AZADPUR', 'SHALIMAR BAGH', 'NETAJI SUBHASH PLACE', 'SHAKURPUR',
+        'PUNJABI BAGH WEST', 'ESI HOSPITAL', 'RAJOURI GARDEN', 'MAYA PURI', 'NARAINA VIHAR',
+        'DELHI CANTT', 'SOUTH CAMPUS', 'MOTI BAGH', 'BHIKAJI CAMA PLACE', 'SAROJINI NAGAR',
+        'INA', 'SOUTH EXTENSION', 'LAJPAT NAGAR', 'VINOBAPURI', 'ASHRAM',
+        'SARAI KALE KHAN', 'NIZAMUDDIN', 'MAYUR VIHAR', 'TRILOKPURI', 'EAST VINOD NAGAR',
+        'MANDAWALI', 'IP EXTENSION', 'ANAND VIHAR', 'KARKARDUMA', 'KRISHNA NAGAR',
+        'EAST AZAD NAGAR', 'WELCOME', 'JAFRABAD', 'MAUJPUR', 'GOKULPURI', 'JOHRI ENCLAVE', 'SHIV VIHAR'
+      ];
+      const fromU = fromStationName.toUpperCase();
+      const toU = toStationName.toUpperCase();
+      const idxFrom = PINK_STATIONS.findIndex((s) => fromU.includes(s));
+      const idxTo = PINK_STATIONS.findIndex((s) => toU.includes(s));
+      if (idxFrom !== -1 && idxTo !== -1) {
+        return idxTo > idxFrom
+          ? 'Shiv Vihar (via INA / Lajpat Nagar)'
+          : 'Majlis Park (via Netaji Subhash Place)';
+      }
+      const eastbound = ['SARAI KALE KHAN', 'NIZAMUDDIN', 'ASHRAM', 'LAJPAT', 'INA', 'MAYUR', 'SHIV VIHAR', 'MOTI BAGH'];
+      if (eastbound.some((s) => toU.includes(s))) {
+        return 'Shiv Vihar (via INA / Lajpat Nagar)';
+      }
+      return 'Majlis Park (via Netaji Subhash Place)';
+    }
+
+    // 2. Airport Express directional resolution
+    if (upper.includes('AIRPORT') || upper.includes('ORANGE')) {
+      const toU = toStationName.toUpperCase();
+      return toU.includes('DWARKA') ? 'Dwarka Sector - 21' : 'New Delhi';
+    }
+
+    // 3. Mumbai Metro line direction heuristics
+    if (upper.includes('LINE 3') || upper.includes('AQUA')) {
+      const northboundStns = ['AAREY', 'SEEPZ', 'MIDC', 'MAROL NAKA', 'CSMIA'];
+      const isNorthbound = northboundStns.some((s) =>
+        toStationName.toUpperCase().includes(s),
+      );
+      return isNorthbound ? 'Aarey JVLR' : 'Cuffe Parade';
+    }
+
+    if (upper.includes('LINE 1') || upper.includes('BLUE')) {
+      const westboundStns = [
+        'VERSOVA',
+        'D. N. NAGAR',
+        'D.N. NAGAR',
+        'AZAD NAGAR',
+        'ANDHERI',
+      ];
+      const isWestbound = westboundStns.some((s) =>
+        toStationName.toUpperCase().includes(s),
+      );
+      return isWestbound ? 'Versova' : 'Ghatkopar';
+    }
+
+    // 4. Default: Check if line name contains " to [Destination]"
+    const toMatch = raw.match(/\s+to\s+([^,]+)$/i);
+    if (toMatch && toMatch[1]) {
+      return toMatch[1].trim();
+    }
+
+    return toStationName;
+  }
+
+  private resolveTransferInstructions(
+    fromStationName: string,
+    toStationName: string,
+    durationSeconds: number,
+  ): string[] {
+    const durMins = Math.max(1, Math.round(durationSeconds / 60));
+    const fromUpper = fromStationName.toUpperCase();
+    const toUpper = toStationName.toUpperCase();
+
+    // Dhaula Kuan <-> South Campus Skywalk
+    if (
+      (fromUpper.includes('DHAULA KUAN') && toUpper.includes('SOUTH CAMPUS')) ||
+      (fromUpper.includes('SOUTH CAMPUS') && toUpper.includes('DHAULA KUAN'))
+    ) {
+      return [
+        `Alight at ${fromStationName} station`,
+        `Follow Skywalk / Travelator to Pink Line (755m, ~${durMins} min)`,
+      ];
+    }
+
+    // Marol Naka (L3 <-> L1)
+    if (fromUpper.includes('MAROL NAKA') && toUpper.includes('MAROL NAKA')) {
+      return [
+        `Alight at ${fromStationName} station`,
+        `Exit AFC gates to street level, walk ~170m via pedestrian path`,
+        `Security check & tap in at connecting concourse`,
+      ];
+    }
+
+    // Mumbai Central
+    if (fromUpper.includes('MUMBAI CENTRAL')) {
+      return [
+        `Alight at ${fromStationName} station`,
+        `Use direct lifts/escalators to flat station forecourt (100m walk to Railway station entrance)`,
+      ];
+    }
+
+    // Churchgate
+    if (fromUpper.includes('CHURCHGATE')) {
+      return [
+        `Alight at ${fromStationName} station`,
+        `Follow pedestrian footpath ~150m to Western Railway Station`,
+      ];
+    }
+
+    // CSMT
+    if (fromUpper.includes('CSMT')) {
+      return [
+        `Alight at ${fromStationName} station`,
+        `Follow direct subway connection to Railway Terminus`,
+      ];
+    }
+
+    return [
+      `Alight at ${fromStationName} station`,
+      `Follow signs to ${toStationName} concourse (~${durMins} min walk)`,
+    ];
+  }
+
   /**
    * Resolve display color for a line, falling back to name-based color matching.
    */
@@ -665,7 +819,6 @@ export class JourneyService {
       else if (nameUpper.includes('RED')) color = '#ef4444';
       else if (nameUpper.includes('VIOLET')) color = '#8b5cf6';
       else if (nameUpper.includes('GREEN')) color = '#22c55e';
-      else if (nameUpper.includes('AQUA')) color = '#06b6d4';
       else if (nameUpper.includes('GOLD')) color = '#eab308';
       else if (nameUpper.includes('ORANGE') || nameUpper.includes('AIRPORT'))
         color = '#f97316';

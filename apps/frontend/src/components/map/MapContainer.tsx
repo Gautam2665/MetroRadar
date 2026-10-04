@@ -525,7 +525,7 @@ export default function MapContainer({
                 type: "line",
                 source: "lines-source",
                 paint: {
-                  "line-color": ["coalesce", ["get", "color"], "#3b82f6"],
+                  "line-color": ["coalesce", ["get", "color"], "#059DB2"],
                   "line-width": [
                     "interpolate",
                     ["linear"],
@@ -585,7 +585,7 @@ export default function MapContainer({
                     ["get", "lineColor"],
                     ["has", "color"],
                     ["get", "color"],
-                    "#06b6d4",
+                    "#059DB2",
                   ],
                   "circle-stroke-width": 2,
                   "circle-opacity": 0.95,
