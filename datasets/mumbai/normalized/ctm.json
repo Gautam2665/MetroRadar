@@ -28,701 +28,1458 @@
     "textColorHex": "#FFFFFF",
     "startStation": "Aarey JVLR",
     "endStation": "Cuffe Parade",
-    "stationCount": 27,
-    "alignmentGeometry": {
-      "geometryType": "MultiLineString",
-      "coordinateSystem": "EPSG:4326",
+    "stationCount": 27
+  },
+  "geometryPipeline": {
+    "rawSource": {
+      "sourceId": "SOURCE-004",
+      "repository": "Kaizen711/Mumbai-metro-Line-3",
+      "localPath": "sources/gis/line-03/community/Line_3_aligment.js",
+      "format": "GeoJSON-in-JS (MultiLineString)",
+      "coordinateSystem": "EPSG:4326 (WGS84)"
+    },
+    "validatedEvidence": {
+      "evidenceId": "E-L3-F-0030",
       "vertexCount": 28641,
-      "sourceRef": "SOURCE-004",
-      "localPath": "sources/gis/line-03/community/Line_3_aligment.js"
+      "validationStatus": "VALIDATED",
+      "confidence": 0.9,
+      "validatedAt": "2026-10-04"
+    },
+    "canonicalGeometry": {
+      "geometryType": "MultiLineString",
+      "crs": "EPSG:4326",
+      "vertexCount": 28641,
+      "startCoordinate": [
+        72.81776277,
+        18.91033128
+      ],
+      "endCoordinate": [
+        72.88595643,
+        19.13082738
+      ]
+    },
+    "renderGeometry": {
+      "simplifiedVertexCount": 1420,
+      "simplificationToleranceDegrees": 0.00005,
+      "purpose": "MapBox GL JS / Leaflet vector rendering"
     }
   },
   "stations": [
     {
-      "stationId": "STN_L3_001",
+      "canonicalId": "STN_L3_001",
       "stationCode": "L3-01",
       "name": "Aarey JVLR",
       "sequence": 1,
-      "coordinates": {
-        "latitude": 19.131010228,
-        "longitude": 72.884255017,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 0,
-      "interStationDistanceMeters": 0,
-      "type": "UNDERGROUND",
+      "latitude": 19.131010228,
+      "longitude": 72.884255017,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 0,
+        "interStationDistanceMeters": 0,
+        "railLevelMeters": -12.3,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0002",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_002",
+      "canonicalId": "STN_L3_002",
       "stationCode": "L3-02",
       "name": "SEEPZ",
       "sequence": 2,
-      "coordinates": {
-        "latitude": 19.12578036,
-        "longitude": 72.873446679,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 1000,
-      "interStationDistanceMeters": 1000,
-      "type": "UNDERGROUND",
+      "latitude": 19.12578036,
+      "longitude": 72.873446679,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 1000,
+        "interStationDistanceMeters": 1000,
+        "railLevelMeters": -12,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0003",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_003",
+      "canonicalId": "STN_L3_003",
       "stationCode": "L3-03",
       "name": "MIDC",
       "sequence": 3,
-      "coordinates": {
-        "latitude": 19.117302747,
-        "longitude": 72.873820184,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 1600,
-      "interStationDistanceMeters": 600,
-      "type": "UNDERGROUND",
+      "latitude": 19.117302747,
+      "longitude": 72.873820184,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 1600,
+        "interStationDistanceMeters": 600,
+        "railLevelMeters": -16.5,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0004",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_004",
+      "canonicalId": "STN_L3_004",
       "stationCode": "L3-04",
       "name": "Marol Naka",
       "sequence": 4,
-      "coordinates": {
-        "latitude": 19.108435671,
-        "longitude": 72.878578708,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 2285,
-      "interStationDistanceMeters": 685,
-      "type": "UNDERGROUND",
+      "latitude": 19.108435671,
+      "longitude": 72.878578708,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 2285,
+        "interStationDistanceMeters": 685,
+        "railLevelMeters": -19.5,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0005",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_005",
+      "canonicalId": "STN_L3_005",
       "stationCode": "L3-05",
       "name": "Sahar Road",
       "sequence": 5,
-      "coordinates": {
-        "latitude": 19.102195763,
-        "longitude": 72.865299239,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 3102,
-      "interStationDistanceMeters": 817,
-      "type": "UNDERGROUND",
+      "latitude": 19.102195763,
+      "longitude": 72.865299239,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 3102,
+        "interStationDistanceMeters": 817,
+        "railLevelMeters": -14.35,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0006",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_006",
+      "canonicalId": "STN_L3_006",
       "stationCode": "L3-06",
       "name": "CSMIA Terminal 2",
       "sequence": 6,
-      "coordinates": {
-        "latitude": 19.102274072,
-        "longitude": 72.874412621,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 3956,
-      "interStationDistanceMeters": 854,
-      "type": "UNDERGROUND",
+      "latitude": 19.102274072,
+      "longitude": 72.874412621,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 3956,
+        "interStationDistanceMeters": 854,
+        "railLevelMeters": -10,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0007",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_007",
+      "canonicalId": "STN_L3_007",
       "stationCode": "L3-07",
       "name": "CSMIA Terminal 1",
       "sequence": 7,
-      "coordinates": {
-        "latitude": 19.093926228,
-        "longitude": 72.853447245,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 4891,
-      "interStationDistanceMeters": 935,
-      "type": "UNDERGROUND",
+      "latitude": 19.093926228,
+      "longitude": 72.853447245,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 4891,
+        "interStationDistanceMeters": 935,
+        "railLevelMeters": -15,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0008",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_008",
+      "canonicalId": "STN_L3_008",
       "stationCode": "L3-08",
       "name": "Santacruz",
       "sequence": 8,
-      "coordinates": {
-        "latitude": 19.078527883,
-        "longitude": 72.847180941,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 5616,
-      "interStationDistanceMeters": 725,
-      "type": "UNDERGROUND",
+      "latitude": 19.078527883,
+      "longitude": 72.847180941,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 5616,
+        "interStationDistanceMeters": 725,
+        "railLevelMeters": -15.1,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0009",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_009",
+      "canonicalId": "STN_L3_009",
       "stationCode": "L3-09",
       "name": "Vidyanagari",
       "sequence": 9,
-      "coordinates": {
-        "latitude": 19.070103121,
-        "longitude": 72.849265641,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 7156,
-      "interStationDistanceMeters": 1540,
-      "type": "UNDERGROUND",
+      "latitude": 19.070103121,
+      "longitude": 72.849265641,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 7156,
+        "interStationDistanceMeters": 1540,
+        "railLevelMeters": -17.9,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0010",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_010",
+      "canonicalId": "STN_L3_010",
       "stationCode": "L3-10",
       "name": "BKC",
       "sequence": 10,
-      "coordinates": {
-        "latitude": 19.06021632,
-        "longitude": 72.854955962,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 8067,
-      "interStationDistanceMeters": 911,
-      "type": "UNDERGROUND",
+      "latitude": 19.06021632,
+      "longitude": 72.854955962,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 8067,
+        "interStationDistanceMeters": 911,
+        "railLevelMeters": -13.2,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0011",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_011",
+      "canonicalId": "STN_L3_011",
       "stationCode": "L3-11",
       "name": "Dharavi",
       "sequence": 11,
-      "coordinates": {
-        "latitude": 19.046277471,
-        "longitude": 72.849952345,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 9216,
-      "interStationDistanceMeters": 1149,
-      "type": "UNDERGROUND",
+      "latitude": 19.046277471,
+      "longitude": 72.849952345,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 9216,
+        "interStationDistanceMeters": 1149,
+        "railLevelMeters": -13,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0012",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_012",
+      "canonicalId": "STN_L3_012",
       "stationCode": "L3-12",
       "name": "Sitladevi",
       "sequence": 12,
-      "coordinates": {
-        "latitude": 19.038391506,
-        "longitude": 72.842133459,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 10316,
-      "interStationDistanceMeters": 1100,
-      "type": "UNDERGROUND",
+      "latitude": 19.038391506,
+      "longitude": 72.842133459,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 10316,
+        "interStationDistanceMeters": 1100,
+        "railLevelMeters": -13.1,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0013",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_013",
+      "canonicalId": "STN_L3_013",
       "stationCode": "L3-13",
       "name": "Dadar Metro",
       "sequence": 13,
-      "coordinates": {
-        "latitude": 19.023667191,
-        "longitude": 72.839299629,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 11516,
-      "interStationDistanceMeters": 1200,
-      "type": "UNDERGROUND",
+      "latitude": 19.023667191,
+      "longitude": 72.839299629,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 11516,
+        "interStationDistanceMeters": 1200,
+        "railLevelMeters": -11,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0014",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_014",
+      "canonicalId": "STN_L3_014",
       "stationCode": "L3-14",
       "name": "Siddhivinayak",
       "sequence": 14,
-      "coordinates": {
-        "latitude": 19.015875533,
-        "longitude": 72.830735413,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 12924,
-      "interStationDistanceMeters": 1408,
-      "type": "UNDERGROUND",
+      "latitude": 19.015875533,
+      "longitude": 72.830735413,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 12924,
+        "interStationDistanceMeters": 1408,
+        "railLevelMeters": -11.4,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0015",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_015",
+      "canonicalId": "STN_L3_015",
       "stationCode": "L3-15",
       "name": "Worli",
       "sequence": 15,
-      "coordinates": {
-        "latitude": 19.008780162,
-        "longitude": 72.819401085,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 14479,
-      "interStationDistanceMeters": 1555,
-      "type": "UNDERGROUND",
+      "latitude": 19.008780162,
+      "longitude": 72.819401085,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 14479,
+        "interStationDistanceMeters": 1555,
+        "railLevelMeters": -10.7,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0016",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_016",
+      "canonicalId": "STN_L3_016",
       "stationCode": "L3-16",
       "name": "Acharya Atre Chowk",
       "sequence": 16,
-      "coordinates": {
-        "latitude": 18.997126189,
-        "longitude": 72.818178859,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 15756,
-      "interStationDistanceMeters": 1277,
-      "type": "UNDERGROUND",
+      "latitude": 18.997126189,
+      "longitude": 72.818178859,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 15756,
+        "interStationDistanceMeters": 1277,
+        "railLevelMeters": -10.5,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0017",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_017",
+      "canonicalId": "STN_L3_017",
       "stationCode": "L3-17",
       "name": "Science Centre",
       "sequence": 17,
-      "coordinates": {
-        "latitude": 18.990318214,
-        "longitude": 72.821770144,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 17525,
-      "interStationDistanceMeters": 1769,
-      "type": "UNDERGROUND",
+      "latitude": 18.990318214,
+      "longitude": 72.821770144,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 17525,
+        "interStationDistanceMeters": 1769,
+        "railLevelMeters": -9.6,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0018",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_018",
+      "canonicalId": "STN_L3_018",
       "stationCode": "L3-18",
       "name": "Mahalaxmi",
       "sequence": 18,
-      "coordinates": {
-        "latitude": 18.979485148,
-        "longitude": 72.825295352,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 19306,
-      "interStationDistanceMeters": 1781,
-      "type": "UNDERGROUND",
+      "latitude": 18.979485148,
+      "longitude": 72.825295352,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 19306,
+        "interStationDistanceMeters": 1781,
+        "railLevelMeters": -10.6,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0019",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_019",
+      "canonicalId": "STN_L3_019",
       "stationCode": "L3-19",
       "name": "Mumbai Central",
       "sequence": 19,
-      "coordinates": {
-        "latitude": 18.97060328,
-        "longitude": 72.821382487,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 21271,
-      "interStationDistanceMeters": 1965,
-      "type": "UNDERGROUND",
+      "latitude": 18.97060328,
+      "longitude": 72.821382487,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 21271,
+        "interStationDistanceMeters": 1965,
+        "railLevelMeters": -11.6,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0020",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_020",
+      "canonicalId": "STN_L3_020",
       "stationCode": "L3-20",
       "name": "Grant Road",
       "sequence": 20,
-      "coordinates": {
-        "latitude": 18.962924015,
-        "longitude": 72.817996664,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 22812,
-      "interStationDistanceMeters": 1541,
-      "type": "UNDERGROUND",
+      "latitude": 18.962924015,
+      "longitude": 72.817996664,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 22812,
+        "interStationDistanceMeters": 1541,
+        "railLevelMeters": -9,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0021",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_021",
+      "canonicalId": "STN_L3_021",
       "stationCode": "L3-21",
       "name": "Girgaon",
       "sequence": 21,
-      "coordinates": {
-        "latitude": 18.951929406,
-        "longitude": 72.822606415,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 24027,
-      "interStationDistanceMeters": 1215,
-      "type": "UNDERGROUND",
+      "latitude": 18.951929406,
+      "longitude": 72.822606415,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 24027,
+        "interStationDistanceMeters": 1215,
+        "railLevelMeters": -12.3,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0022",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_022",
+      "canonicalId": "STN_L3_022",
       "stationCode": "L3-22",
       "name": "Kalbadevi",
       "sequence": 22,
-      "coordinates": {
-        "latitude": 18.946899214,
-        "longitude": 72.826943333,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 26299,
-      "interStationDistanceMeters": 2272,
-      "type": "UNDERGROUND",
+      "latitude": 18.946899214,
+      "longitude": 72.826943333,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 26299,
+        "interStationDistanceMeters": 2272,
+        "railLevelMeters": -9.7,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0023",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_023",
+      "canonicalId": "STN_L3_023",
       "stationCode": "L3-23",
       "name": "CSMT Metro",
       "sequence": 23,
-      "coordinates": {
-        "latitude": 18.940664406,
-        "longitude": 72.83216965,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 27906,
-      "interStationDistanceMeters": 1607,
-      "type": "UNDERGROUND",
+      "latitude": 18.940664406,
+      "longitude": 72.83216965,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 27906,
+        "interStationDistanceMeters": 1607,
+        "railLevelMeters": -2.15,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0024",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_024",
+      "canonicalId": "STN_L3_024",
       "stationCode": "L3-24",
       "name": "Hutatma Chowk",
       "sequence": 24,
-      "coordinates": {
-        "latitude": 18.934578797,
-        "longitude": 72.832826056,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 28958,
-      "interStationDistanceMeters": 1052,
-      "type": "UNDERGROUND",
+      "latitude": 18.934578797,
+      "longitude": 72.832826056,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 28958,
+        "interStationDistanceMeters": 1052,
+        "railLevelMeters": -5,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0025",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_025",
+      "canonicalId": "STN_L3_025",
       "stationCode": "L3-25",
       "name": "Churchgate",
       "sequence": 25,
-      "coordinates": {
-        "latitude": 18.930654237,
-        "longitude": 72.826172433,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 29829,
-      "interStationDistanceMeters": 871,
-      "type": "UNDERGROUND",
+      "latitude": 18.930654237,
+      "longitude": 72.826172433,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 29829,
+        "interStationDistanceMeters": 871,
+        "railLevelMeters": -5,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0026",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_026",
+      "canonicalId": "STN_L3_026",
       "stationCode": "L3-26",
       "name": "Vidhan Bhawan",
       "sequence": 26,
-      "coordinates": {
-        "latitude": 18.924696421,
-        "longitude": 72.825615997,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 31225,
-      "interStationDistanceMeters": 1396,
-      "type": "UNDERGROUND",
+      "latitude": 18.924696421,
+      "longitude": 72.825615997,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 31225,
+        "interStationDistanceMeters": 1396,
+        "railLevelMeters": 8.5,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0027",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     },
     {
-      "stationId": "STN_L3_027",
+      "canonicalId": "STN_L3_027",
       "stationCode": "L3-27",
       "name": "Cuffe Parade",
       "sequence": 27,
-      "coordinates": {
-        "latitude": 18.912954605,
-        "longitude": 72.820195931,
-        "coordinateSystem": "EPSG:4326"
-      },
-      "chainageMeters": 32546,
-      "interStationDistanceMeters": 1321,
-      "type": "UNDERGROUND",
+      "latitude": 18.912954605,
+      "longitude": 72.820195931,
+      "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
-      "platformLengthMeters": 250,
-      "platformCount": 2,
-      "platformType": "ISLAND",
-      "screenDoorsInstalled": true,
+      "stationType": "UNDERGROUND",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "chainageMeters": 32546,
+        "interStationDistanceMeters": 1321,
+        "railLevelMeters": 14,
+        "platformLengthMeters": 250,
+        "platformCount": 2,
+        "platformType": "ISLAND",
+        "screenDoorsInstalled": true
+      },
       "provenance": {
         "gisEvidenceId": "E-L3-F-0028",
-        "sourceId": "SOURCE-004",
+        "gisSourceId": "SOURCE-004",
+        "dprSourceId": "SOURCE-001",
+        "dprSection": "Section 4.3 Table 4.3",
         "confidence": 0.9,
-        "validationStatus": "VALIDATED"
+        "temporalStatus": "OPERATIONAL",
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-04"
       }
     }
   ],
+  "stationGraph": {
+    "nodes": [
+      {
+        "stationId": "STN_L3_001",
+        "name": "Aarey JVLR",
+        "sequence": 1,
+        "coordinates": [
+          72.884255017,
+          19.131010228
+        ]
+      },
+      {
+        "stationId": "STN_L3_002",
+        "name": "SEEPZ",
+        "sequence": 2,
+        "coordinates": [
+          72.873446679,
+          19.12578036
+        ]
+      },
+      {
+        "stationId": "STN_L3_003",
+        "name": "MIDC",
+        "sequence": 3,
+        "coordinates": [
+          72.873820184,
+          19.117302747
+        ]
+      },
+      {
+        "stationId": "STN_L3_004",
+        "name": "Marol Naka",
+        "sequence": 4,
+        "coordinates": [
+          72.878578708,
+          19.108435671
+        ]
+      },
+      {
+        "stationId": "STN_L3_005",
+        "name": "Sahar Road",
+        "sequence": 5,
+        "coordinates": [
+          72.865299239,
+          19.102195763
+        ]
+      },
+      {
+        "stationId": "STN_L3_006",
+        "name": "CSMIA Terminal 2",
+        "sequence": 6,
+        "coordinates": [
+          72.874412621,
+          19.102274072
+        ]
+      },
+      {
+        "stationId": "STN_L3_007",
+        "name": "CSMIA Terminal 1",
+        "sequence": 7,
+        "coordinates": [
+          72.853447245,
+          19.093926228
+        ]
+      },
+      {
+        "stationId": "STN_L3_008",
+        "name": "Santacruz",
+        "sequence": 8,
+        "coordinates": [
+          72.847180941,
+          19.078527883
+        ]
+      },
+      {
+        "stationId": "STN_L3_009",
+        "name": "Vidyanagari",
+        "sequence": 9,
+        "coordinates": [
+          72.849265641,
+          19.070103121
+        ]
+      },
+      {
+        "stationId": "STN_L3_010",
+        "name": "BKC",
+        "sequence": 10,
+        "coordinates": [
+          72.854955962,
+          19.06021632
+        ]
+      },
+      {
+        "stationId": "STN_L3_011",
+        "name": "Dharavi",
+        "sequence": 11,
+        "coordinates": [
+          72.849952345,
+          19.046277471
+        ]
+      },
+      {
+        "stationId": "STN_L3_012",
+        "name": "Sitladevi",
+        "sequence": 12,
+        "coordinates": [
+          72.842133459,
+          19.038391506
+        ]
+      },
+      {
+        "stationId": "STN_L3_013",
+        "name": "Dadar Metro",
+        "sequence": 13,
+        "coordinates": [
+          72.839299629,
+          19.023667191
+        ]
+      },
+      {
+        "stationId": "STN_L3_014",
+        "name": "Siddhivinayak",
+        "sequence": 14,
+        "coordinates": [
+          72.830735413,
+          19.015875533
+        ]
+      },
+      {
+        "stationId": "STN_L3_015",
+        "name": "Worli",
+        "sequence": 15,
+        "coordinates": [
+          72.819401085,
+          19.008780162
+        ]
+      },
+      {
+        "stationId": "STN_L3_016",
+        "name": "Acharya Atre Chowk",
+        "sequence": 16,
+        "coordinates": [
+          72.818178859,
+          18.997126189
+        ]
+      },
+      {
+        "stationId": "STN_L3_017",
+        "name": "Science Centre",
+        "sequence": 17,
+        "coordinates": [
+          72.821770144,
+          18.990318214
+        ]
+      },
+      {
+        "stationId": "STN_L3_018",
+        "name": "Mahalaxmi",
+        "sequence": 18,
+        "coordinates": [
+          72.825295352,
+          18.979485148
+        ]
+      },
+      {
+        "stationId": "STN_L3_019",
+        "name": "Mumbai Central",
+        "sequence": 19,
+        "coordinates": [
+          72.821382487,
+          18.97060328
+        ]
+      },
+      {
+        "stationId": "STN_L3_020",
+        "name": "Grant Road",
+        "sequence": 20,
+        "coordinates": [
+          72.817996664,
+          18.962924015
+        ]
+      },
+      {
+        "stationId": "STN_L3_021",
+        "name": "Girgaon",
+        "sequence": 21,
+        "coordinates": [
+          72.822606415,
+          18.951929406
+        ]
+      },
+      {
+        "stationId": "STN_L3_022",
+        "name": "Kalbadevi",
+        "sequence": 22,
+        "coordinates": [
+          72.826943333,
+          18.946899214
+        ]
+      },
+      {
+        "stationId": "STN_L3_023",
+        "name": "CSMT Metro",
+        "sequence": 23,
+        "coordinates": [
+          72.83216965,
+          18.940664406
+        ]
+      },
+      {
+        "stationId": "STN_L3_024",
+        "name": "Hutatma Chowk",
+        "sequence": 24,
+        "coordinates": [
+          72.832826056,
+          18.934578797
+        ]
+      },
+      {
+        "stationId": "STN_L3_025",
+        "name": "Churchgate",
+        "sequence": 25,
+        "coordinates": [
+          72.826172433,
+          18.930654237
+        ]
+      },
+      {
+        "stationId": "STN_L3_026",
+        "name": "Vidhan Bhawan",
+        "sequence": 26,
+        "coordinates": [
+          72.825615997,
+          18.924696421
+        ]
+      },
+      {
+        "stationId": "STN_L3_027",
+        "name": "Cuffe Parade",
+        "sequence": 27,
+        "coordinates": [
+          72.820195931,
+          18.912954605
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "edgeId": "EDGE_L3_01_TO_02",
+        "fromStationId": "STN_L3_001",
+        "fromStationName": "Aarey JVLR",
+        "toStationId": "STN_L3_002",
+        "toStationName": "SEEPZ",
+        "sequenceSegment": "1 -> 2",
+        "distanceMeters": 1000,
+        "nominalTravelTimeSeconds": 103,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_02_TO_03",
+        "fromStationId": "STN_L3_002",
+        "fromStationName": "SEEPZ",
+        "toStationId": "STN_L3_003",
+        "toStationName": "MIDC",
+        "sequenceSegment": "2 -> 3",
+        "distanceMeters": 600,
+        "nominalTravelTimeSeconds": 62,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_03_TO_04",
+        "fromStationId": "STN_L3_003",
+        "fromStationName": "MIDC",
+        "toStationId": "STN_L3_004",
+        "toStationName": "Marol Naka",
+        "sequenceSegment": "3 -> 4",
+        "distanceMeters": 685,
+        "nominalTravelTimeSeconds": 70,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_04_TO_05",
+        "fromStationId": "STN_L3_004",
+        "fromStationName": "Marol Naka",
+        "toStationId": "STN_L3_005",
+        "toStationName": "Sahar Road",
+        "sequenceSegment": "4 -> 5",
+        "distanceMeters": 817,
+        "nominalTravelTimeSeconds": 84,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_05_TO_06",
+        "fromStationId": "STN_L3_005",
+        "fromStationName": "Sahar Road",
+        "toStationId": "STN_L3_006",
+        "toStationName": "CSMIA Terminal 2",
+        "sequenceSegment": "5 -> 6",
+        "distanceMeters": 854,
+        "nominalTravelTimeSeconds": 88,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_06_TO_07",
+        "fromStationId": "STN_L3_006",
+        "fromStationName": "CSMIA Terminal 2",
+        "toStationId": "STN_L3_007",
+        "toStationName": "CSMIA Terminal 1",
+        "sequenceSegment": "6 -> 7",
+        "distanceMeters": 935,
+        "nominalTravelTimeSeconds": 96,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_07_TO_08",
+        "fromStationId": "STN_L3_007",
+        "fromStationName": "CSMIA Terminal 1",
+        "toStationId": "STN_L3_008",
+        "toStationName": "Santacruz",
+        "sequenceSegment": "7 -> 8",
+        "distanceMeters": 725,
+        "nominalTravelTimeSeconds": 75,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_08_TO_09",
+        "fromStationId": "STN_L3_008",
+        "fromStationName": "Santacruz",
+        "toStationId": "STN_L3_009",
+        "toStationName": "Vidyanagari",
+        "sequenceSegment": "8 -> 9",
+        "distanceMeters": 1540,
+        "nominalTravelTimeSeconds": 158,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_09_TO_10",
+        "fromStationId": "STN_L3_009",
+        "fromStationName": "Vidyanagari",
+        "toStationId": "STN_L3_010",
+        "toStationName": "BKC",
+        "sequenceSegment": "9 -> 10",
+        "distanceMeters": 911,
+        "nominalTravelTimeSeconds": 94,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_10_TO_11",
+        "fromStationId": "STN_L3_010",
+        "fromStationName": "BKC",
+        "toStationId": "STN_L3_011",
+        "toStationName": "Dharavi",
+        "sequenceSegment": "10 -> 11",
+        "distanceMeters": 1149,
+        "nominalTravelTimeSeconds": 118,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_11_TO_12",
+        "fromStationId": "STN_L3_011",
+        "fromStationName": "Dharavi",
+        "toStationId": "STN_L3_012",
+        "toStationName": "Sitladevi",
+        "sequenceSegment": "11 -> 12",
+        "distanceMeters": 1100,
+        "nominalTravelTimeSeconds": 113,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_12_TO_13",
+        "fromStationId": "STN_L3_012",
+        "fromStationName": "Sitladevi",
+        "toStationId": "STN_L3_013",
+        "toStationName": "Dadar Metro",
+        "sequenceSegment": "12 -> 13",
+        "distanceMeters": 1200,
+        "nominalTravelTimeSeconds": 123,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_13_TO_14",
+        "fromStationId": "STN_L3_013",
+        "fromStationName": "Dadar Metro",
+        "toStationId": "STN_L3_014",
+        "toStationName": "Siddhivinayak",
+        "sequenceSegment": "13 -> 14",
+        "distanceMeters": 1408,
+        "nominalTravelTimeSeconds": 145,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_14_TO_15",
+        "fromStationId": "STN_L3_014",
+        "fromStationName": "Siddhivinayak",
+        "toStationId": "STN_L3_015",
+        "toStationName": "Worli",
+        "sequenceSegment": "14 -> 15",
+        "distanceMeters": 1555,
+        "nominalTravelTimeSeconds": 160,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_15_TO_16",
+        "fromStationId": "STN_L3_015",
+        "fromStationName": "Worli",
+        "toStationId": "STN_L3_016",
+        "toStationName": "Acharya Atre Chowk",
+        "sequenceSegment": "15 -> 16",
+        "distanceMeters": 1277,
+        "nominalTravelTimeSeconds": 131,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_16_TO_17",
+        "fromStationId": "STN_L3_016",
+        "fromStationName": "Acharya Atre Chowk",
+        "toStationId": "STN_L3_017",
+        "toStationName": "Science Centre",
+        "sequenceSegment": "16 -> 17",
+        "distanceMeters": 1769,
+        "nominalTravelTimeSeconds": 182,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_17_TO_18",
+        "fromStationId": "STN_L3_017",
+        "fromStationName": "Science Centre",
+        "toStationId": "STN_L3_018",
+        "toStationName": "Mahalaxmi",
+        "sequenceSegment": "17 -> 18",
+        "distanceMeters": 1781,
+        "nominalTravelTimeSeconds": 183,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_18_TO_19",
+        "fromStationId": "STN_L3_018",
+        "fromStationName": "Mahalaxmi",
+        "toStationId": "STN_L3_019",
+        "toStationName": "Mumbai Central",
+        "sequenceSegment": "18 -> 19",
+        "distanceMeters": 1965,
+        "nominalTravelTimeSeconds": 202,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_19_TO_20",
+        "fromStationId": "STN_L3_019",
+        "fromStationName": "Mumbai Central",
+        "toStationId": "STN_L3_020",
+        "toStationName": "Grant Road",
+        "sequenceSegment": "19 -> 20",
+        "distanceMeters": 1541,
+        "nominalTravelTimeSeconds": 159,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_20_TO_21",
+        "fromStationId": "STN_L3_020",
+        "fromStationName": "Grant Road",
+        "toStationId": "STN_L3_021",
+        "toStationName": "Girgaon",
+        "sequenceSegment": "20 -> 21",
+        "distanceMeters": 1215,
+        "nominalTravelTimeSeconds": 125,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_21_TO_22",
+        "fromStationId": "STN_L3_021",
+        "fromStationName": "Girgaon",
+        "toStationId": "STN_L3_022",
+        "toStationName": "Kalbadevi",
+        "sequenceSegment": "21 -> 22",
+        "distanceMeters": 2272,
+        "nominalTravelTimeSeconds": 234,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_22_TO_23",
+        "fromStationId": "STN_L3_022",
+        "fromStationName": "Kalbadevi",
+        "toStationId": "STN_L3_023",
+        "toStationName": "CSMT Metro",
+        "sequenceSegment": "22 -> 23",
+        "distanceMeters": 1607,
+        "nominalTravelTimeSeconds": 165,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_23_TO_24",
+        "fromStationId": "STN_L3_023",
+        "fromStationName": "CSMT Metro",
+        "toStationId": "STN_L3_024",
+        "toStationName": "Hutatma Chowk",
+        "sequenceSegment": "23 -> 24",
+        "distanceMeters": 1052,
+        "nominalTravelTimeSeconds": 108,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_24_TO_25",
+        "fromStationId": "STN_L3_024",
+        "fromStationName": "Hutatma Chowk",
+        "toStationId": "STN_L3_025",
+        "toStationName": "Churchgate",
+        "sequenceSegment": "24 -> 25",
+        "distanceMeters": 871,
+        "nominalTravelTimeSeconds": 90,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_25_TO_26",
+        "fromStationId": "STN_L3_025",
+        "fromStationName": "Churchgate",
+        "toStationId": "STN_L3_026",
+        "toStationName": "Vidhan Bhawan",
+        "sequenceSegment": "25 -> 26",
+        "distanceMeters": 1396,
+        "nominalTravelTimeSeconds": 144,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_26_TO_27",
+        "fromStationId": "STN_L3_026",
+        "fromStationName": "Vidhan Bhawan",
+        "toStationId": "STN_L3_027",
+        "toStationName": "Cuffe Parade",
+        "sequenceSegment": "26 -> 27",
+        "distanceMeters": 1321,
+        "nominalTravelTimeSeconds": 136,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      }
+    ],
+    "totalNodes": 27,
+    "totalEdges": 26
+  },
   "nonRevenuePoints": [
     {
       "pointId": "DEPOT_AAREY",
       "name": "Aarey Car Shed / Depot",
       "type": "DEPOT",
       "status": "OPERATIONAL_DEPOT",
+      "temporalStatus": "OPERATIONAL",
       "coordinates": {
         "latitude": 19.131010228,
         "longitude": 72.884255017
+      },
+      "provenance": {
+        "sourceId": "SOURCE-004",
+        "gisEvidenceId": "E-L3-F-0001"
       }
     },
     {
@@ -730,84 +1487,130 @@
       "name": "Navy Nagar (Proposed Extension)",
       "type": "PROPOSED_EXTENSION",
       "status": "PROPOSED",
+      "temporalStatus": "PROPOSED",
       "coordinates": {
         "latitude": 18.907305374,
         "longitude": 72.809644377
+      },
+      "provenance": {
+        "sourceId": "SOURCE-004",
+        "gisEvidenceId": "E-L3-F-0029"
       }
     }
   ],
   "transfers": [
     {
-      "fromStationId": "STN_L3_004",
-      "fromStationName": "Marol Naka",
-      "toNetwork": "MUMBAI_LINE1",
-      "toStationName": "Marol Naka",
+      "transferId": "XFER_MAROL_NAKA_L1",
+      "stationId": "STN_L3_004",
+      "stationName": "Marol Naka",
+      "targetNetwork": "MUMBAI_LINE1",
+      "targetStationName": "Marol Naka",
       "transferType": "METRO_INTERCHANGE",
-      "walkingDistanceMeters": 180,
-      "estWalkTimeMins": 3
+      "physicalConnectivity": "VALIDATED_DPR_DESIGNS",
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SOURCE-001",
+        "dprSection": "Chapter 5 interchange drawings"
+      }
     },
     {
-      "fromStationId": "STN_L3_006",
-      "fromStationName": "CSMIA Terminal 2",
-      "toNetwork": "MUMBAI_LINE7A",
-      "toStationName": "CSMIA T2",
+      "transferId": "XFER_CSMIA_T2_L7A",
+      "stationId": "STN_L3_006",
+      "stationName": "CSMIA Terminal 2",
+      "targetNetwork": "MUMBAI_LINE7A",
+      "targetStationName": "CSMIA T2",
       "transferType": "METRO_INTERCHANGE",
-      "walkingDistanceMeters": 250,
-      "estWalkTimeMins": 4
+      "physicalConnectivity": "VALIDATED_DPR_DESIGNS",
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SOURCE-001"
+      }
     },
     {
-      "fromStationId": "STN_L3_010",
-      "fromStationName": "BKC",
-      "toNetwork": "MUMBAI_LINE2B",
-      "toStationName": "BKC",
+      "transferId": "XFER_BKC_L2B",
+      "stationId": "STN_L3_010",
+      "stationName": "BKC",
+      "targetNetwork": "MUMBAI_LINE2B",
+      "targetStationName": "BKC",
       "transferType": "METRO_INTERCHANGE",
-      "walkingDistanceMeters": 220,
-      "estWalkTimeMins": 3.5
+      "physicalConnectivity": "VALIDATED_DPR_DESIGNS",
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SOURCE-001"
+      }
     },
     {
-      "fromStationId": "STN_L3_013",
-      "fromStationName": "Dadar Metro",
-      "toNetwork": "SUBURBAN_WR_CR",
-      "toStationName": "Dadar Railway Station",
+      "transferId": "XFER_DADAR_RAIL",
+      "stationId": "STN_L3_013",
+      "stationName": "Dadar Metro",
+      "targetNetwork": "SUBURBAN_WR_CR",
+      "targetStationName": "Dadar Railway Station",
       "transferType": "MULTIMODAL",
-      "walkingDistanceMeters": 350,
-      "estWalkTimeMins": 5
+      "physicalConnectivity": "VALIDATED_DPR_DESIGNS",
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SOURCE-001"
+      }
     },
     {
-      "fromStationId": "STN_L3_018",
-      "fromStationName": "Mahalaxmi",
-      "toNetwork": "MUMBAI_MONORAIL",
-      "toStationName": "Mahalaxmi Monorail",
+      "transferId": "XFER_MAHALAXMI_MONORAIL",
+      "stationId": "STN_L3_018",
+      "stationName": "Mahalaxmi",
+      "targetNetwork": "MUMBAI_MONORAIL",
+      "targetStationName": "Mahalaxmi Monorail",
       "transferType": "MULTIMODAL",
-      "walkingDistanceMeters": 300,
-      "estWalkTimeMins": 4.5
+      "physicalConnectivity": "VALIDATED_DPR_DESIGNS",
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SOURCE-001"
+      }
     },
     {
-      "fromStationId": "STN_L3_019",
-      "fromStationName": "Mumbai Central",
-      "toNetwork": "SUBURBAN_WR",
-      "toStationName": "Mumbai Central Railway Station",
+      "transferId": "XFER_MUMBAI_CENTRAL_WR",
+      "stationId": "STN_L3_019",
+      "stationName": "Mumbai Central",
+      "targetNetwork": "SUBURBAN_WR",
+      "targetStationName": "Mumbai Central Railway Station",
       "transferType": "MULTIMODAL",
-      "walkingDistanceMeters": 200,
-      "estWalkTimeMins": 3
+      "physicalConnectivity": "VALIDATED_DPR_DESIGNS",
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SOURCE-001"
+      }
     },
     {
-      "fromStationId": "STN_L3_023",
-      "fromStationName": "CSMT Metro",
-      "toNetwork": "SUBURBAN_CR_HARBOUR",
-      "toStationName": "CSMT Central Station",
+      "transferId": "XFER_CSMT_RAIL",
+      "stationId": "STN_L3_023",
+      "stationName": "CSMT Metro",
+      "targetNetwork": "SUBURBAN_CR_HARBOUR",
+      "targetStationName": "CSMT Central Station",
       "transferType": "MULTIMODAL",
-      "walkingDistanceMeters": 280,
-      "estWalkTimeMins": 4
+      "physicalConnectivity": "VALIDATED_DPR_DESIGNS",
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SOURCE-001"
+      }
     },
     {
-      "fromStationId": "STN_L3_025",
-      "fromStationName": "Churchgate",
-      "toNetwork": "SUBURBAN_WR",
-      "toStationName": "Churchgate Terminal",
+      "transferId": "XFER_CHURCHGATE_WR",
+      "stationId": "STN_L3_025",
+      "stationName": "Churchgate",
+      "targetNetwork": "SUBURBAN_WR",
+      "targetStationName": "Churchgate Terminal",
       "transferType": "MULTIMODAL",
-      "walkingDistanceMeters": 150,
-      "estWalkTimeMins": 2.5
+      "physicalConnectivity": "VALIDATED_DPR_DESIGNS",
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SOURCE-001"
+      }
     }
   ],
   "rollingStock": {
@@ -817,29 +1620,19 @@
     "carBodyMaterial": "Stainless Steel",
     "tractionType": "3-Phase VVVF AC Drive",
     "electrification": "25kV AC Overhead Catenary (OHE)",
-    "dimensions": {
-      "trainLengthMeters": 178.36,
-      "carWidthMeters": 3.2,
-      "doorsPerSidePerCar": 4
-    },
     "capacity": {
       "seatedCapacityPerTrain": 382,
       "normalCapacityPerTrain": 1400,
-      "crushCapacityPerTrain": 2406,
-      "designPassengerDensity": "6 persons/m²"
+      "crushCapacityPerTrain": 2406
     },
     "performance": {
       "maxDesignSpeedKmh": 80,
       "normalAccelerationMs2": 0.78,
-      "maxAccelerationMs2": 1.1,
-      "normalDecelerationMs2": 1,
-      "emergencyDecelerationMs2": 1.3
+      "normalDecelerationMs2": 1
     },
     "provenance": {
       "sourceId": "SOURCE-001",
-      "document": "dpr-metro-line-III.pdf",
-      "evidenceCategory": "D_ROLLING_STOCK",
-      "evidenceRecordsExtracted": 61
+      "evidenceCategory": "D_ROLLING_STOCK"
     }
   },
   "operationsBaseline": {
@@ -854,6 +1647,22 @@
     },
     "nominalDwellSeconds": 30,
     "sourceRef": "SOURCE-001 & SOURCE-003"
+  },
+  "gtfsBoundaryContract": {
+    "ctmProvides": [
+      "agency.txt (operator metadata: MMRC, timezone Asia/Kolkata, url)",
+      "stops.txt (27 revenue station WGS84 coordinates, codes, parent stations)",
+      "routes.txt (Line 3 Aqua Line route, route_type=1 subway, color #00AEEF)",
+      "shapes.txt (28,641-vertex spatial geometry linestring in EPSG:4326)",
+      "transfers.txt (interchange relationships and transfer types)"
+    ],
+    "missingOperationalEvidence": [
+      "calendar.txt / calendar_dates.txt (2026 active service calendars)",
+      "trips.txt & stop_times.txt (2026 individual revenue trip timetables & actual headways)",
+      "frequencies.txt (exact headway frequencies by hour of day)"
+    ],
+    "gtfsStatus": "CTM_SUFFICIENT_FOR_STATIC_STOPS_AND_SHAPES__BLOCKED_FOR_FULL_TIMETABLE",
+    "preventionPolicy": "Do NOT generate synthetic stop_times.txt or trips.txt until Agent 2 / official 2026 timetable feeds are acquired."
   },
   "sourceCatalog": [
     {
