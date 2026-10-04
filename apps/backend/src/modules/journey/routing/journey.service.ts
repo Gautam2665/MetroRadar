@@ -392,7 +392,6 @@ export class JourneyService {
         currentLeg.stationsCount += 1;
       } else {
         if (currentLeg) {
-          this.finalizeLeg(currentLeg);
           legs.push(currentLeg);
         }
         currentLeg = {
@@ -411,8 +410,12 @@ export class JourneyService {
       }
     }
     if (currentLeg) {
-      this.finalizeLeg(currentLeg);
       legs.push(currentLeg);
+    }
+    for (let i = 0; i < legs.length; i++) {
+      const prev = i > 0 ? legs[i - 1] : null;
+      const next = i < legs.length - 1 ? legs[i + 1] : null;
+      this.finalizeLeg(legs[i], prev, next);
     }
     return legs;
   }
@@ -646,20 +649,103 @@ export class JourneyService {
     }
   }
 
-  private finalizeLeg(leg: JourneyLeg): void {
+  private finalizeLeg(
+    leg: JourneyLeg,
+    prevLeg?: JourneyLeg | null,
+    nextLeg?: JourneyLeg | null,
+  ): void {
     if (leg.type === EdgeType.TRANSIT) {
       leg.towards = this.resolveTowards(
         leg.lineName,
         leg.fromStationName,
         leg.toStationName,
       );
+      leg.platform = this.resolvePlatform(
+        leg.lineName,
+        leg.towards,
+      );
+      leg.doorsOpen = this.resolveDoorsOpen(
+        leg.lineName,
+        leg.toStationName,
+      );
     } else if (leg.type === EdgeType.WALK || leg.type === EdgeType.TRANSFER) {
-      leg.transferInstructions = this.resolveTransferInstructions(
+      const details = this.resolveTransferDetails(
         leg.fromStationName,
         leg.toStationName,
         leg.duration,
+        prevLeg?.lineName,
+        nextLeg?.lineName,
       );
+      leg.transferTitle = details.title;
+      leg.transferDurationText = details.durationText;
+      leg.transferInstructions = details.instructions;
     }
+  }
+
+  private resolvePlatform(lineName: string | null, towards?: string): string {
+    const raw = (lineName || '').toUpperCase();
+    const tw = (towards || '').toUpperCase();
+
+    // Mumbai Line 1 (Elevated)
+    if (raw.includes('LINE 1') || raw.includes('BLUE')) {
+      return tw.includes('VERSOVA') ? 'Platform 2' : 'Platform 1';
+    }
+
+    // Mumbai Line 3 (Aqua underground)
+    if (raw.includes('LINE 3') || raw.includes('AQUA')) {
+      return tw.includes('AAREY') ? 'Platform 1' : 'Platform 2';
+    }
+
+    // Delhi Airport Express
+    if (raw.includes('AIRPORT') || raw.includes('ORANGE')) {
+      return tw.includes('NEW DELHI') ? 'Platform 1' : 'Platform 2';
+    }
+
+    // Delhi Pink Line
+    if (raw.includes('PINK')) {
+      return tw.includes('SHIV VIHAR') ? 'Platform 1' : 'Platform 2';
+    }
+
+    // Delhi Yellow Line
+    if (raw.includes('YELLOW')) {
+      return tw.includes('SAMAYPUR') ? 'Platform 1' : 'Platform 2';
+    }
+
+    // Delhi Blue Line
+    if (raw.includes('BLUE')) {
+      return tw.includes('NOIDA') || tw.includes('VAISHALI') ? 'Platform 1' : 'Platform 2';
+    }
+
+    return 'Platform 1';
+  }
+
+  private resolveDoorsOpen(
+    lineName: string | null,
+    toStationName: string,
+  ): 'Left' | 'Right' {
+    const raw = (lineName || '').toUpperCase();
+
+    // Mumbai Line 3 (Aqua) underground stations are center island platforms
+    if (raw.includes('LINE 3') || raw.includes('AQUA')) {
+      return 'Right';
+    }
+
+    // Delhi Airport Express stations have center island platforms
+    if (raw.includes('AIRPORT') || raw.includes('ORANGE')) {
+      return 'Right';
+    }
+
+    // Mumbai Line 1 (elevated side platforms)
+    if (raw.includes('LINE 1') || raw.includes('BLUE')) {
+      return 'Left';
+    }
+
+    // Delhi Pink Line (elevated side platforms)
+    if (raw.includes('PINK')) {
+      return 'Left';
+    }
+
+    return 'Left';
   }
 
   private resolveTowards(
@@ -735,63 +821,108 @@ export class JourneyService {
     return toStationName;
   }
 
-  private resolveTransferInstructions(
+  private resolveTransferDetails(
     fromStationName: string,
     toStationName: string,
     durationSeconds: number,
-  ): string[] {
+    prevLineName?: string | null,
+    nextLineName?: string | null,
+  ): { title: string; durationText: string; instructions: string[] } {
     const durMins = Math.max(1, Math.round(durationSeconds / 60));
     const fromUpper = fromStationName.toUpperCase();
     const toUpper = toStationName.toUpperCase();
+    const prevUpper = (prevLineName || '').toUpperCase();
+    const nextUpper = (nextLineName || '').toUpperCase();
+
+    // Marol Naka (L3 <-> L1)
+    if (fromUpper.includes('MAROL NAKA') && toUpper.includes('MAROL NAKA')) {
+      const toL1 =
+        nextUpper.includes('LINE 1') ||
+        nextUpper.includes('BLUE') ||
+        prevUpper.includes('LINE 3') ||
+        prevUpper.includes('AQUA');
+      if (toL1) {
+        return {
+          title: 'Transfer to Blue Line (Elevated)',
+          durationText: '~5 min',
+          instructions: [
+            'Exit Gate A1/B1 · Walk 155m via Andheri-Kurla Rd',
+            'Re-tap entry at Line 1 Concourse',
+          ],
+        };
+      } else {
+        return {
+          title: 'Transfer to Aqua Line (Underground)',
+          durationText: '~5 min',
+          instructions: [
+            'Exit Line 1 Concourse to street level · Walk 155m via Andheri-Kurla Rd',
+            'Re-tap entry at Line 3 Concourse (Gate A1/B1)',
+          ],
+        };
+      }
+    }
 
     // Dhaula Kuan <-> South Campus Skywalk
     if (
       (fromUpper.includes('DHAULA KUAN') && toUpper.includes('SOUTH CAMPUS')) ||
       (fromUpper.includes('SOUTH CAMPUS') && toUpper.includes('DHAULA KUAN'))
     ) {
-      return [
-        `Alight at ${fromStationName} station`,
-        `Follow Skywalk / Travelator to Pink Line (755m, ~${durMins} min)`,
-      ];
-    }
-
-    // Marol Naka (L3 <-> L1)
-    if (fromUpper.includes('MAROL NAKA') && toUpper.includes('MAROL NAKA')) {
-      return [
-        `Alight at ${fromStationName} station`,
-        `Exit AFC gates to street level, walk ~170m via pedestrian path`,
-        `Security check & tap in at connecting concourse`,
-      ];
+      const toPink = nextUpper.includes('PINK') || fromUpper.includes('DHAULA KUAN');
+      return {
+        title: toPink ? 'Transfer to Pink Line (Elevated)' : 'Transfer to Airport Express',
+        durationText: `~${durMins} min`,
+        instructions: [
+          'Follow Skywalk / Travelator to Pink Line (755m)',
+          'Tap in at Durgabai Deshmukh South Campus Concourse',
+        ],
+      };
     }
 
     // Mumbai Central
     if (fromUpper.includes('MUMBAI CENTRAL')) {
-      return [
-        `Alight at ${fromStationName} station`,
-        `Use direct lifts/escalators to flat station forecourt (100m walk to Railway station entrance)`,
-      ];
+      return {
+        title: 'Transfer to Western Railway Terminal',
+        durationText: '~3 min',
+        instructions: [
+          'Direct lift/escalator access to station forecourt (100m walk)',
+          'Enter Western Railway main concourse',
+        ],
+      };
     }
 
     // Churchgate
     if (fromUpper.includes('CHURCHGATE')) {
-      return [
-        `Alight at ${fromStationName} station`,
-        `Follow pedestrian footpath ~150m to Western Railway Station`,
-      ];
+      return {
+        title: 'Transfer to Western Railway Station',
+        durationText: '~4 min',
+        instructions: [
+          'Exit station · Walk 150m along pedestrian walkway',
+          'Enter Churchgate Railway Station',
+        ],
+      };
     }
 
     // CSMT
     if (fromUpper.includes('CSMT')) {
-      return [
-        `Alight at ${fromStationName} station`,
-        `Follow direct subway connection to Railway Terminus`,
-      ];
+      return {
+        title: 'Transfer to Central Railway Terminus',
+        durationText: '~4 min',
+        instructions: [
+          'Direct underground BMC subway connection',
+          'Direct access to CSMT Railway platforms',
+        ],
+      };
     }
 
-    return [
-      `Alight at ${fromStationName} station`,
-      `Follow signs to ${toStationName} concourse (~${durMins} min walk)`,
-    ];
+    const nextLineLabel = nextLineName ? nextLineName.split('_')[0] : 'connecting line';
+    return {
+      title: `Transfer to ${nextLineLabel}`,
+      durationText: `~${durMins} min`,
+      instructions: [
+        `Follow signs to ${toStationName} concourse`,
+        `Proceed to connecting platform`,
+      ],
+    };
   }
 
   /**

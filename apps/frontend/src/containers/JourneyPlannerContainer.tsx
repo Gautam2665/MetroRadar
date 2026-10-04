@@ -21,6 +21,10 @@ export type RouteLeg = {
   fromStation?: string;
   toStation?: string;
   towards?: string;
+  platform?: string;
+  doorsOpen?: "Left" | "Right";
+  transferTitle?: string;
+  transferDurationText?: string;
   stopsCount?: number;
   durationMins?: number;
   durationSeconds?: number;
@@ -177,6 +181,10 @@ function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
       fromStation: leg.fromStationName,
       toStation: leg.toStationName,
       towards,
+      platform: (leg as any).platform,
+      doorsOpen: (leg as any).doorsOpen,
+      transferTitle: (leg as any).transferTitle,
+      transferDurationText: (leg as any).transferDurationText,
       stopsCount: leg.stationsCount || undefined,
       durationMins: durMins,
       durationSeconds: leg.duration,

@@ -96,6 +96,10 @@ export interface JourneyLeg {
   lineCode: string | null;
   stationsCount: number;
   towards?: string;
+  platform?: string;
+  doorsOpen?: 'Left' | 'Right';
+  transferTitle?: string;
+  transferDurationText?: string;
   transferInstructions?: string[];
 }
 

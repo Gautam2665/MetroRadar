@@ -157,10 +157,10 @@ function JourneyDetailsTimeline({
 
       {/* Connected Timeline */}
       <div
-        className={`relative pl-6 space-y-3.5 before:absolute before:left-2 before:top-2 before:bottom-3 before:w-0.5 ${
+        className={`relative pl-6 space-y-4 before:absolute before:left-2 before:top-2 before:bottom-3 before:w-0.5 ${
           route.interchanges === 0
             ? "before:bg-[#0284c7]"
-            : "before:bg-gradient-to-b before:from-cyan-400 before:via-amber-400 before:to-blue-500"
+            : "before:bg-gradient-to-b before:from-emerald-400 via-amber-400 to-rose-500"
         }`}
       >
         {/* Step 1: Origin Boarding */}
@@ -184,12 +184,14 @@ function JourneyDetailsTimeline({
                 </span>
               </div>
               <div className="text-[11.5px] text-slate-300 mt-1">
-                Platform 1 · {transitLegs[0].towards
+                {transitLegs[0].platform || "Platform 1"} · {transitLegs[0].towards
                   ? `Towards ${transitLegs[0].towards}`
                   : formatLineName(transitLegs[0].line)}
               </div>
               <div className="text-[11px] text-slate-400 mt-0.5">
-                {transitLegs[0].stopsCount ? `Ride ${transitLegs[0].stopsCount} stations` : "In-vehicle transit"}
+                {transitLegs[0].stopsCount
+                  ? `Ride ${transitLegs[0].stopsCount} stop${transitLegs[0].stopsCount !== 1 ? "s" : ""}`
+                  : "In-vehicle transit"}
                 {transitLegs[0].durationMins ? ` (${transitLegs[0].durationMins} min)` : ""}
               </div>
             </div>
@@ -201,18 +203,7 @@ function JourneyDetailsTimeline({
           <div className="p-2.5 rounded-lg bg-[#080c14]/80 border border-white/[0.06] text-xs text-slate-300">
             <div className="font-semibold text-purple-300">No transfers required</div>
             <div className="text-[11px] text-slate-400 mt-0.5">
-              Stay on the same train for {totalStops} stations. Approx {route.durationMins} min runtime.
-            </div>
-          </div>
-        )}
-
-        {/* Passenger Experience & Interchange Guide */}
-        {route.humanSummary && (
-          <div className="p-2.5 rounded-lg bg-cyan-950/40 border border-cyan-500/30 text-xs text-cyan-200 flex items-start gap-2">
-            <span className="material-symbols-outlined text-sm text-cyan-400 shrink-0 mt-0.5">info</span>
-            <div>
-              <div className="font-semibold text-cyan-300">Station & Interchange Guide</div>
-              <div className="text-[11px] text-slate-300 mt-0.5 leading-relaxed">{route.humanSummary}</div>
+              Stay on the same train for {totalStops} stops. Approx {route.durationMins} min runtime.
             </div>
           </div>
         )}
@@ -220,82 +211,100 @@ function JourneyDetailsTimeline({
         {/* Transfers & Connecting Legs */}
         {transitLegs.slice(0, -1).map((curLeg, idx) => {
           const nextLeg = transitLegs[idx + 1];
-          const alightStation = curLeg.toStation || "Transfer Station";
-          const boardStation = nextLeg.fromStation || alightStation;
+          const deboardStation = curLeg.toStation || "Transfer Station";
+          const boardStation = nextLeg.fromStation || deboardStation;
           const nextShortLine = nextLeg.shortLine || formatShortLineName(nextLeg.line);
 
           // Find intervening walk leg if present
           const walkLeg = route.legs.find(
             (l) =>
-              (l.mode === "walk" || l.type === "WALK") &&
-              (l.fromStation === alightStation || l.toStation === boardStation)
+              (l.mode === "walk" || l.type === "WALK" || l.type === "TRANSFER") &&
+              (l.fromStation === deboardStation || l.toStation === boardStation)
           );
 
-          // Generate detailed, commuter-centric transfer steps
-          let instructions: string[] = [];
+          // Derive transfer title and duration
+          const transferTitle =
+            walkLeg?.transferTitle ||
+            (deboardStation.toUpperCase().includes("MAROL NAKA")
+              ? "Transfer to Blue Line (Elevated)"
+              : deboardStation.toUpperCase().includes("DHAULA KUAN")
+              ? "Transfer to Pink Line (Elevated)"
+              : `Transfer to ${nextShortLine}`);
+
+          const transferDuration =
+            walkLeg?.transferDurationText ||
+            (walkLeg?.durationMins
+              ? `~${walkLeg.durationMins} min`
+              : "~5 min");
+
+          let transferSteps: string[] = [];
           if (walkLeg?.transferInstructions && walkLeg.transferInstructions.length > 0) {
-            instructions = walkLeg.transferInstructions;
+            transferSteps = walkLeg.transferInstructions;
+          } else if (deboardStation.toUpperCase().includes("MAROL NAKA")) {
+            transferSteps = [
+              "Exit Gate A1/B1 · Walk 155m via Andheri-Kurla Rd",
+              "Re-tap entry at Line 1 Concourse",
+            ];
           } else if (
-            alightStation.toUpperCase().includes("DHAULA KUAN") ||
+            deboardStation.toUpperCase().includes("DHAULA KUAN") ||
             boardStation.toUpperCase().includes("SOUTH CAMPUS")
           ) {
-            instructions = [
-              `Alight at ${alightStation} station`,
-              "Follow Skywalk / Travelator to Pink Line (755m, ~8 min)",
-            ];
-          } else if (alightStation.toUpperCase().includes("MAROL NAKA")) {
-            instructions = [
-              `Alight at ${alightStation} station`,
-              `Exit AFC gates to street level, walk ~170m via pedestrian path, re-screen at security to ${nextShortLine}`,
-            ];
-          } else if (alightStation.toUpperCase().includes("MUMBAI CENTRAL")) {
-            instructions = [
-              `Alight at ${alightStation} station`,
-              "Use direct lifts/escalators to flat station forecourt (100m walk to Railway station entrance)",
-            ];
-          } else if (alightStation === boardStation) {
-            instructions = [
-              `Alight at ${alightStation} station`,
-              `Follow signs to ${nextShortLine} platform (concourse transfer, ~2 min)`,
+            transferSteps = [
+              "Follow Skywalk / Travelator to Pink Line (755m)",
+              "Tap in at Durgabai Deshmukh South Campus Concourse",
             ];
           } else {
-            instructions = [
-              `Alight at ${alightStation} station`,
-              `Walk towards ${boardStation} connecting concourse`,
+            transferSteps = [
+              `Follow signs to ${nextShortLine} connecting concourse`,
+              "Re-tap entry at connecting platform",
             ];
           }
 
+          const deboardDoors =
+            curLeg.doorsOpen ||
+            (curLeg.line?.toUpperCase().includes("AQUA") ||
+            curLeg.line?.toUpperCase().includes("LINE 3") ||
+            curLeg.line?.toUpperCase().includes("AIRPORT")
+              ? "Right"
+              : "Left");
+
           return (
-            <div key={idx} className="space-y-3.5">
-              {/* Transfer/Alight Step */}
+            <div key={idx} className="space-y-4">
+              {/* 1. DEBOARD AT INTERCHANGE */}
               <div className="relative">
-                <span
-                  className="absolute -left-[27px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-[#151b28] bg-amber-400 text-amber-400 shadow-[0_0_8px_currentColor]"
-                />
-                <div className="bg-[#080c14]/90 p-2.5 rounded-lg border border-amber-500/30">
-                  <div className="flex items-center justify-between flex-wrap gap-1 mb-1.5">
-                    <span className="text-xs font-bold text-amber-300 flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-[15px]">directions_walk</span>
-                      INTERCHANGE · {alightStation}
-                    </span>
-                    {walkLeg && (
-                      <span className="text-[10px] font-mono text-slate-400">
-                        {walkLeg.durationMins || Math.round((walkLeg.durationSeconds || 180) / 60)} min
-                      </span>
-                    )}
+                <span className="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full border-2 border-amber-400 bg-[#151b28] shadow-[0_0_8px_#fbbf24]" />
+                <div>
+                  <div className="text-xs font-bold text-slate-100">
+                    DEBOARD · {deboardStation}
                   </div>
-                  <div className="text-[11.5px] text-slate-300 space-y-1 mt-1 font-sans">
-                    {instructions.map((inst, instIdx) => (
-                      <div key={instIdx} className="flex items-start gap-1.5">
-                        <span className="text-amber-400 font-mono text-[11px] shrink-0 font-bold">{instIdx + 1}.</span>
-                        <span className="leading-snug">{inst.replace(/^\d+\.\s*/, "")}</span>
-                      </div>
-                    ))}
+                  <div className="text-[11px] text-amber-300/90 mt-0.5">
+                    Doors open on the {deboardDoors}
                   </div>
                 </div>
               </div>
 
-              {/* Connecting Board Step */}
+              {/* 2. TRANSFER INSET CARD */}
+              <div className="p-3 rounded-xl bg-[#080c14]/90 border border-white/10 text-xs">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-1.5 font-bold text-slate-200">
+                    <span className="material-symbols-outlined text-[15px] text-amber-400">directions_walk</span>
+                    <span>{transferTitle}</span>
+                  </div>
+                  <span className="font-mono text-[11px] text-slate-400">
+                    {transferDuration}
+                  </span>
+                </div>
+                <div className="space-y-1.5 text-[11.5px] text-slate-300">
+                  {transferSteps.map((step, sIdx) => (
+                    <div key={sIdx} className="flex items-start gap-1.5">
+                      <span className="text-slate-500 font-bold">•</span>
+                      <span className="leading-snug">{step.replace(/^\d+\.\s*/, "")}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* 3. BOARD CONNECTING LINE */}
               <div className="relative">
                 <span
                   className="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full border-2 border-[#151b28] shadow-[0_0_8px_currentColor]"
@@ -318,10 +327,14 @@ function JourneyDetailsTimeline({
                     </span>
                   </div>
                   <div className="text-[11.5px] text-slate-300 mt-1">
-                    Platform 1 · {nextLeg.towards ? `Towards ${nextLeg.towards}` : formatLineName(nextLeg.line)}
+                    {nextLeg.platform || "Platform 1"} · {nextLeg.towards
+                      ? `Towards ${nextLeg.towards}`
+                      : formatLineName(nextLeg.line)}
                   </div>
                   <div className="text-[11px] text-slate-400 mt-0.5">
-                    {nextLeg.stopsCount ? `Ride ${nextLeg.stopsCount} stations` : "In-vehicle transit"}
+                    {nextLeg.stopsCount
+                      ? `Ride ${nextLeg.stopsCount} stop${nextLeg.stopsCount !== 1 ? "s" : ""}`
+                      : "In-vehicle transit"}
                     {nextLeg.durationMins ? ` (${nextLeg.durationMins} min)` : ""}
                   </div>
                 </div>
@@ -330,20 +343,20 @@ function JourneyDetailsTimeline({
           );
         })}
 
-        {/* Step Final: Destination Arrival */}
+        {/* Step Final: Destination Deboard */}
         <div className="relative">
           <span className="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full bg-rose-500 border-2 border-[#151b28] shadow-[0_0_8px_#f43f5e]" />
           <div>
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-xs font-bold text-white">
-                ALIGHT · {destination || "Destination"}
+                DEBOARD · {destination || "Destination"}
               </span>
               <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 text-[9px] font-bold border border-emerald-500/40">
                 DESTINATION
               </span>
             </div>
             <div className="text-[11.5px] text-slate-400 mt-0.5">
-              Platform will open on the left · {
+              Alight platform · {
                 (destination || "").toUpperCase().includes("NIZAMUDDIN") || (destination || "").toUpperCase().includes("SARAI KALE KHAN")
                   ? "Exit for Railway / RRTS"
                   : (destination || "").toUpperCase().includes("CSMT") || (destination || "").toUpperCase().includes("CENTRAL")
