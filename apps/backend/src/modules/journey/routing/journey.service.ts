@@ -502,14 +502,13 @@ export class JourneyService {
       const u = lineName.toUpperCase();
       if (u.includes('ORANGE') || u.includes('AIRPORT')) return 'ORANGE';
       if (u.includes('YELLOW') || u.includes('LINE 2A')) return 'YELLOW';
-      if (u.includes('BLUE') || u.includes('LINE 1') || u.includes('LINE 3'))
-        return 'BLUE';
+      if (u.includes('AQUA') || u.includes('LINE 3')) return 'AQUA';
+      if (u.includes('BLUE') || u.includes('LINE 1')) return 'BLUE';
       if (u.includes('RED') || u.includes('LINE 7')) return 'RED';
       if (u.includes('PINK')) return 'PINK';
       if (u.includes('MAGENTA')) return 'MAGENTA';
       if (u.includes('VIOLET')) return 'VIOLET';
       if (u.includes('GREEN')) return 'GREEN';
-      if (u.includes('AQUA')) return 'AQUA';
       if (u.includes('GREY') || u.includes('GRAY')) return 'GREY';
       if (u.includes('TEAL') || u.includes('RAPID')) return 'RAPID';
       if (u.includes('KOCHI')) return 'KOCHI';
@@ -657,7 +656,10 @@ export class JourneyService {
     ) {
       if (nameUpper.includes('YELLOW') || nameUpper.includes('LINE 2A'))
         color = '#facc15';
-      else if (nameUpper.includes('BLUE')) color = '#3b82f6';
+      else if (nameUpper.includes('AQUA') || nameUpper.includes('LINE 3'))
+        color = '#059DB2';
+      else if (nameUpper.includes('BLUE') || nameUpper.includes('LINE 1'))
+        color = '#007DC5';
       else if (nameUpper.includes('PINK')) color = '#ec4899';
       else if (nameUpper.includes('MAGENTA')) color = '#d946ef';
       else if (nameUpper.includes('RED')) color = '#ef4444';

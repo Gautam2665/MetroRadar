@@ -24,7 +24,7 @@
   "route": {
     "routeId": "ROUTE_MUMBAI_L3",
     "routeName": "Mumbai Metro Line 3 — Aqua Line",
-    "colorHex": "#00AEEF",
+    "colorHex": "#059DB2",
     "textColorHex": "#FFFFFF",
     "startStation": "Aarey JVLR",
     "endStation": "Cuffe Parade",
@@ -192,10 +192,10 @@
     {
       "canonicalId": "STN_L3_005",
       "stationCode": "L3-05",
-      "name": "Sahar Road",
+      "name": "CSMIA Terminal 2",
       "sequence": 5,
-      "latitude": 19.102195763,
-      "longitude": 72.865299239,
+      "latitude": 19.102274072,
+      "longitude": 72.874412621,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "UNDERGROUND",
@@ -203,14 +203,14 @@
       "physicalLayout": {
         "chainageMeters": 3102,
         "interStationDistanceMeters": 817,
-        "railLevelMeters": -14.35,
+        "railLevelMeters": -10,
         "platformLengthMeters": 250,
         "platformCount": 2,
         "platformType": "ISLAND",
         "screenDoorsInstalled": true
       },
       "provenance": {
-        "gisEvidenceId": "E-L3-F-0006",
+        "gisEvidenceId": "E-L3-F-0007",
         "gisSourceId": "SOURCE-004",
         "dprSourceId": "SOURCE-001",
         "dprSection": "Section 4.3 Table 4.3",
@@ -223,10 +223,10 @@
     {
       "canonicalId": "STN_L3_006",
       "stationCode": "L3-06",
-      "name": "CSMIA Terminal 2",
+      "name": "Sahar Road",
       "sequence": 6,
-      "latitude": 19.102274072,
-      "longitude": 72.874412621,
+      "latitude": 19.102195763,
+      "longitude": 72.865299239,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "UNDERGROUND",
@@ -234,14 +234,14 @@
       "physicalLayout": {
         "chainageMeters": 3956,
         "interStationDistanceMeters": 854,
-        "railLevelMeters": -10,
+        "railLevelMeters": -14.35,
         "platformLengthMeters": 250,
         "platformCount": 2,
         "platformType": "ISLAND",
         "screenDoorsInstalled": true
       },
       "provenance": {
-        "gisEvidenceId": "E-L3-F-0007",
+        "gisEvidenceId": "E-L3-F-0006",
         "gisSourceId": "SOURCE-004",
         "dprSourceId": "SOURCE-001",
         "dprSection": "Section 4.3 Table 4.3",

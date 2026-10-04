@@ -134,7 +134,7 @@ async function importMumbaiCTM() {
       data: {
         code: 'MUMBAI_LINE3',
         name: 'Line 3 (Aqua Line)',
-        color: '#00AEEF',
+        color: '#059DB2',
         status: 'ACTIVE',
         traction: 'OVERHEAD_CATENARY',
         signalling: 'CBTC',
@@ -152,7 +152,7 @@ async function importMumbaiCTM() {
       where: { id: line3.id },
       data: {
         name: 'Line 3 (Aqua Line)',
-        color: '#00AEEF',
+        color: '#059DB2',
         systemId: system.id,
         agencyId: agencyMMRCL.id,
         assetOwnerId: assetOwner.id,
@@ -333,36 +333,59 @@ async function importMumbaiCTM() {
     where: { systemId: system.id },
   });
 
-  // Line 1 shape: construct from 12 stations
-  let l1Seq = 1;
-  for (const st of ctmLine1.stations) {
-    await prisma.shape.create({
-      data: {
-        systemId: system.id,
-        shapeId: SHAPE_L1,
-        latitude: st.latitude,
-        longitude: st.longitude,
-        sequence: l1Seq++,
-        isActive: true,
-      },
-    });
+  // Line 1 shape: load from OSM viaduct geometry (229 points) or fallback to 12 stations
+  const osmLine1Path = path.join(__dirname, '../datasets/mumbai/sources/osm-line1-rel-3808111.json');
+  let l1Points = [];
+  if (fs.existsSync(osmLine1Path)) {
+    try {
+      const osm = JSON.parse(fs.readFileSync(osmLine1Path, 'utf8'));
+      const nodes = new Map();
+      osm.elements.filter((e) => e.type === 'node').forEach((n) => nodes.set(n.id, [n.lon, n.lat]));
+      const w3 = osm.elements.find((e) => e.id === 1047356056);
+      const w1 = osm.elements.find((e) => e.id === 49180854);
+      const w2 = osm.elements.find((e) => e.id === 1047356055);
+      if (w3 && w1 && w2) {
+        w3.nodes.forEach((nid) => l1Points.push(nodes.get(nid)));
+        w1.nodes.slice(1).forEach((nid) => l1Points.push(nodes.get(nid)));
+        w2.nodes.slice(1).forEach((nid) => l1Points.push(nodes.get(nid)));
+      }
+    } catch (e) {
+      console.warn('  ⚠️ Could not parse OSM Line 1 file, using station dots fallback:', e);
+    }
+  }
+  if (l1Points.length === 0) {
+    l1Points = ctmLine1.stations.map((st) => [st.longitude, st.latitude]);
   }
 
-  // Line 3 shape: construct from 27 stations
-  let l3Seq = 1;
-  for (const st of ctmLine3.stations) {
-    await prisma.shape.create({
-      data: {
-        systemId: system.id,
-        shapeId: SHAPE_L3,
-        latitude: st.latitude,
-        longitude: st.longitude,
-        sequence: l3Seq++,
-        isActive: true,
-      },
-    });
+  const l1ShapeData = l1Points.map((pt, idx) => ({
+    systemId: system.id,
+    shapeId: SHAPE_L1,
+    latitude: pt[1],
+    longitude: pt[0],
+    sequence: idx + 1,
+    isActive: true,
+  }));
+  await prisma.shape.createMany({ data: l1ShapeData });
+  console.log(`  ✅ Line 1 shape materialized (${l1ShapeData.length} vertices along viaduct).`);
+
+  // Line 3 shape: load from canonical routeAlignment (860 curve vertices)
+  let l3Points = [];
+  if (postgisL3?.routeAlignment?.geometry?.coordinates?.length > 2) {
+    l3Points = postgisL3.routeAlignment.geometry.coordinates;
+  } else {
+    l3Points = ctmLine3.stations.map((st) => [st.longitude, st.latitude]);
   }
-  console.log('  ✅ Shapes created for Line 1 and Line 3.');
+
+  const l3ShapeData = l3Points.map((pt, idx) => ({
+    systemId: system.id,
+    shapeId: SHAPE_L3,
+    latitude: pt[1],
+    longitude: pt[0],
+    sequence: idx + 1,
+    isActive: true,
+  }));
+  await prisma.shape.createMany({ data: l3ShapeData });
+  console.log(`  ✅ Line 3 shape materialized (${l3ShapeData.length} vertices along underground tunnel).`);
 
   // 9. Calendar, Trips, and StopTimes (for Line 1 and Line 3)
   console.log('  Materializing Commercial Trips & StopTimes for line/station linkage...');
