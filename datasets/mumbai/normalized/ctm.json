@@ -1,0 +1,1005 @@
+{
+  "ctmVersion": "1.0.0",
+  "schemaVersion": "ctm-v1-canonical",
+  "systemId": "MUMBAI_LINE3",
+  "systemName": "Mumbai Metro Line 3 (Aqua Line)",
+  "city": "Mumbai",
+  "country": "India",
+  "operator": "Mumbai Metro Rail Corporation Limited (MMRCL)",
+  "ownerAuthority": "MMRCL / MMRDA",
+  "gauge": "STANDARD_1435mm",
+  "electrification": "25kV AC Overhead Catenary (OHE)",
+  "alignment": "UNDERGROUND",
+  "operationalStatus": "OPERATIONAL",
+  "openingYear": 2024,
+  "fullOpeningDate": "2025-10-09",
+  "networkSummary": {
+    "totalRevenueStations": 27,
+    "totalLineLengthKm": 33.5,
+    "depotCount": 1,
+    "depotName": "Aarey Car Shed",
+    "referenceImplementation": true,
+    "evidenceRecordsConsolidated": 599
+  },
+  "route": {
+    "routeId": "ROUTE_MUMBAI_L3",
+    "routeName": "Mumbai Metro Line 3 — Aqua Line",
+    "colorHex": "#00AEEF",
+    "textColorHex": "#FFFFFF",
+    "startStation": "Aarey JVLR",
+    "endStation": "Cuffe Parade",
+    "stationCount": 27,
+    "alignmentGeometry": {
+      "geometryType": "MultiLineString",
+      "coordinateSystem": "EPSG:4326",
+      "vertexCount": 28641,
+      "sourceRef": "SOURCE-004",
+      "localPath": "sources/gis/line-03/community/Line_3_aligment.js"
+    }
+  },
+  "stations": [
+    {
+      "stationId": "STN_L3_001",
+      "stationCode": "L3-01",
+      "name": "Aarey JVLR",
+      "sequence": 1,
+      "coordinates": {
+        "latitude": 19.131010228,
+        "longitude": 72.884255017,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 0,
+      "interStationDistanceMeters": 0,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0002",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_002",
+      "stationCode": "L3-02",
+      "name": "SEEPZ",
+      "sequence": 2,
+      "coordinates": {
+        "latitude": 19.12578036,
+        "longitude": 72.873446679,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 1000,
+      "interStationDistanceMeters": 1000,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0003",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_003",
+      "stationCode": "L3-03",
+      "name": "MIDC",
+      "sequence": 3,
+      "coordinates": {
+        "latitude": 19.117302747,
+        "longitude": 72.873820184,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 1600,
+      "interStationDistanceMeters": 600,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0004",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_004",
+      "stationCode": "L3-04",
+      "name": "Marol Naka",
+      "sequence": 4,
+      "coordinates": {
+        "latitude": 19.108435671,
+        "longitude": 72.878578708,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 2285,
+      "interStationDistanceMeters": 685,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0005",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_005",
+      "stationCode": "L3-05",
+      "name": "Sahar Road",
+      "sequence": 5,
+      "coordinates": {
+        "latitude": 19.102195763,
+        "longitude": 72.865299239,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 3102,
+      "interStationDistanceMeters": 817,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0006",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_006",
+      "stationCode": "L3-06",
+      "name": "CSMIA Terminal 2",
+      "sequence": 6,
+      "coordinates": {
+        "latitude": 19.102274072,
+        "longitude": 72.874412621,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 3956,
+      "interStationDistanceMeters": 854,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0007",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_007",
+      "stationCode": "L3-07",
+      "name": "CSMIA Terminal 1",
+      "sequence": 7,
+      "coordinates": {
+        "latitude": 19.093926228,
+        "longitude": 72.853447245,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 4891,
+      "interStationDistanceMeters": 935,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0008",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_008",
+      "stationCode": "L3-08",
+      "name": "Santacruz",
+      "sequence": 8,
+      "coordinates": {
+        "latitude": 19.078527883,
+        "longitude": 72.847180941,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 5616,
+      "interStationDistanceMeters": 725,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0009",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_009",
+      "stationCode": "L3-09",
+      "name": "Vidyanagari",
+      "sequence": 9,
+      "coordinates": {
+        "latitude": 19.070103121,
+        "longitude": 72.849265641,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 7156,
+      "interStationDistanceMeters": 1540,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0010",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_010",
+      "stationCode": "L3-10",
+      "name": "BKC",
+      "sequence": 10,
+      "coordinates": {
+        "latitude": 19.06021632,
+        "longitude": 72.854955962,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 8067,
+      "interStationDistanceMeters": 911,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0011",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_011",
+      "stationCode": "L3-11",
+      "name": "Dharavi",
+      "sequence": 11,
+      "coordinates": {
+        "latitude": 19.046277471,
+        "longitude": 72.849952345,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 9216,
+      "interStationDistanceMeters": 1149,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0012",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_012",
+      "stationCode": "L3-12",
+      "name": "Sitladevi",
+      "sequence": 12,
+      "coordinates": {
+        "latitude": 19.038391506,
+        "longitude": 72.842133459,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 10316,
+      "interStationDistanceMeters": 1100,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0013",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_013",
+      "stationCode": "L3-13",
+      "name": "Dadar Metro",
+      "sequence": 13,
+      "coordinates": {
+        "latitude": 19.023667191,
+        "longitude": 72.839299629,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 11516,
+      "interStationDistanceMeters": 1200,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0014",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_014",
+      "stationCode": "L3-14",
+      "name": "Siddhivinayak",
+      "sequence": 14,
+      "coordinates": {
+        "latitude": 19.015875533,
+        "longitude": 72.830735413,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 12924,
+      "interStationDistanceMeters": 1408,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0015",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_015",
+      "stationCode": "L3-15",
+      "name": "Worli",
+      "sequence": 15,
+      "coordinates": {
+        "latitude": 19.008780162,
+        "longitude": 72.819401085,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 14479,
+      "interStationDistanceMeters": 1555,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0016",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_016",
+      "stationCode": "L3-16",
+      "name": "Acharya Atre Chowk",
+      "sequence": 16,
+      "coordinates": {
+        "latitude": 18.997126189,
+        "longitude": 72.818178859,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 15756,
+      "interStationDistanceMeters": 1277,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0017",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_017",
+      "stationCode": "L3-17",
+      "name": "Science Centre",
+      "sequence": 17,
+      "coordinates": {
+        "latitude": 18.990318214,
+        "longitude": 72.821770144,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 17525,
+      "interStationDistanceMeters": 1769,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0018",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_018",
+      "stationCode": "L3-18",
+      "name": "Mahalaxmi",
+      "sequence": 18,
+      "coordinates": {
+        "latitude": 18.979485148,
+        "longitude": 72.825295352,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 19306,
+      "interStationDistanceMeters": 1781,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0019",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_019",
+      "stationCode": "L3-19",
+      "name": "Mumbai Central",
+      "sequence": 19,
+      "coordinates": {
+        "latitude": 18.97060328,
+        "longitude": 72.821382487,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 21271,
+      "interStationDistanceMeters": 1965,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0020",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_020",
+      "stationCode": "L3-20",
+      "name": "Grant Road",
+      "sequence": 20,
+      "coordinates": {
+        "latitude": 18.962924015,
+        "longitude": 72.817996664,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 22812,
+      "interStationDistanceMeters": 1541,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0021",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_021",
+      "stationCode": "L3-21",
+      "name": "Girgaon",
+      "sequence": 21,
+      "coordinates": {
+        "latitude": 18.951929406,
+        "longitude": 72.822606415,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 24027,
+      "interStationDistanceMeters": 1215,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0022",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_022",
+      "stationCode": "L3-22",
+      "name": "Kalbadevi",
+      "sequence": 22,
+      "coordinates": {
+        "latitude": 18.946899214,
+        "longitude": 72.826943333,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 26299,
+      "interStationDistanceMeters": 2272,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0023",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_023",
+      "stationCode": "L3-23",
+      "name": "CSMT Metro",
+      "sequence": 23,
+      "coordinates": {
+        "latitude": 18.940664406,
+        "longitude": 72.83216965,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 27906,
+      "interStationDistanceMeters": 1607,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0024",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_024",
+      "stationCode": "L3-24",
+      "name": "Hutatma Chowk",
+      "sequence": 24,
+      "coordinates": {
+        "latitude": 18.934578797,
+        "longitude": 72.832826056,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 28958,
+      "interStationDistanceMeters": 1052,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0025",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_025",
+      "stationCode": "L3-25",
+      "name": "Churchgate",
+      "sequence": 25,
+      "coordinates": {
+        "latitude": 18.930654237,
+        "longitude": 72.826172433,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 29829,
+      "interStationDistanceMeters": 871,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0026",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_026",
+      "stationCode": "L3-26",
+      "name": "Vidhan Bhawan",
+      "sequence": 26,
+      "coordinates": {
+        "latitude": 18.924696421,
+        "longitude": 72.825615997,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 31225,
+      "interStationDistanceMeters": 1396,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0027",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    },
+    {
+      "stationId": "STN_L3_027",
+      "stationCode": "L3-27",
+      "name": "Cuffe Parade",
+      "sequence": 27,
+      "coordinates": {
+        "latitude": 18.912954605,
+        "longitude": 72.820195931,
+        "coordinateSystem": "EPSG:4326"
+      },
+      "chainageMeters": 32546,
+      "interStationDistanceMeters": 1321,
+      "type": "UNDERGROUND",
+      "status": "OPERATIONAL",
+      "platformLengthMeters": 250,
+      "platformCount": 2,
+      "platformType": "ISLAND",
+      "screenDoorsInstalled": true,
+      "provenance": {
+        "gisEvidenceId": "E-L3-F-0028",
+        "sourceId": "SOURCE-004",
+        "confidence": 0.9,
+        "validationStatus": "VALIDATED"
+      }
+    }
+  ],
+  "nonRevenuePoints": [
+    {
+      "pointId": "DEPOT_AAREY",
+      "name": "Aarey Car Shed / Depot",
+      "type": "DEPOT",
+      "status": "OPERATIONAL_DEPOT",
+      "coordinates": {
+        "latitude": 19.131010228,
+        "longitude": 72.884255017
+      }
+    },
+    {
+      "pointId": "EXT_NAVY_NAGAR",
+      "name": "Navy Nagar (Proposed Extension)",
+      "type": "PROPOSED_EXTENSION",
+      "status": "PROPOSED",
+      "coordinates": {
+        "latitude": 18.907305374,
+        "longitude": 72.809644377
+      }
+    }
+  ],
+  "transfers": [
+    {
+      "fromStationId": "STN_L3_004",
+      "fromStationName": "Marol Naka",
+      "toNetwork": "MUMBAI_LINE1",
+      "toStationName": "Marol Naka",
+      "transferType": "METRO_INTERCHANGE",
+      "walkingDistanceMeters": 180,
+      "estWalkTimeMins": 3
+    },
+    {
+      "fromStationId": "STN_L3_006",
+      "fromStationName": "CSMIA Terminal 2",
+      "toNetwork": "MUMBAI_LINE7A",
+      "toStationName": "CSMIA T2",
+      "transferType": "METRO_INTERCHANGE",
+      "walkingDistanceMeters": 250,
+      "estWalkTimeMins": 4
+    },
+    {
+      "fromStationId": "STN_L3_010",
+      "fromStationName": "BKC",
+      "toNetwork": "MUMBAI_LINE2B",
+      "toStationName": "BKC",
+      "transferType": "METRO_INTERCHANGE",
+      "walkingDistanceMeters": 220,
+      "estWalkTimeMins": 3.5
+    },
+    {
+      "fromStationId": "STN_L3_013",
+      "fromStationName": "Dadar Metro",
+      "toNetwork": "SUBURBAN_WR_CR",
+      "toStationName": "Dadar Railway Station",
+      "transferType": "MULTIMODAL",
+      "walkingDistanceMeters": 350,
+      "estWalkTimeMins": 5
+    },
+    {
+      "fromStationId": "STN_L3_018",
+      "fromStationName": "Mahalaxmi",
+      "toNetwork": "MUMBAI_MONORAIL",
+      "toStationName": "Mahalaxmi Monorail",
+      "transferType": "MULTIMODAL",
+      "walkingDistanceMeters": 300,
+      "estWalkTimeMins": 4.5
+    },
+    {
+      "fromStationId": "STN_L3_019",
+      "fromStationName": "Mumbai Central",
+      "toNetwork": "SUBURBAN_WR",
+      "toStationName": "Mumbai Central Railway Station",
+      "transferType": "MULTIMODAL",
+      "walkingDistanceMeters": 200,
+      "estWalkTimeMins": 3
+    },
+    {
+      "fromStationId": "STN_L3_023",
+      "fromStationName": "CSMT Metro",
+      "toNetwork": "SUBURBAN_CR_HARBOUR",
+      "toStationName": "CSMT Central Station",
+      "transferType": "MULTIMODAL",
+      "walkingDistanceMeters": 280,
+      "estWalkTimeMins": 4
+    },
+    {
+      "fromStationId": "STN_L3_025",
+      "fromStationName": "Churchgate",
+      "toNetwork": "SUBURBAN_WR",
+      "toStationName": "Churchgate Terminal",
+      "transferType": "MULTIMODAL",
+      "walkingDistanceMeters": 150,
+      "estWalkTimeMins": 2.5
+    }
+  ],
+  "rollingStock": {
+    "family": "Alstom Metropolis 8-Car",
+    "formation": "DTC-M-T-M-T-M-M-DTC",
+    "carsPerTrain": 8,
+    "carBodyMaterial": "Stainless Steel",
+    "tractionType": "3-Phase VVVF AC Drive",
+    "electrification": "25kV AC Overhead Catenary (OHE)",
+    "dimensions": {
+      "trainLengthMeters": 178.36,
+      "carWidthMeters": 3.2,
+      "doorsPerSidePerCar": 4
+    },
+    "capacity": {
+      "seatedCapacityPerTrain": 382,
+      "normalCapacityPerTrain": 1400,
+      "crushCapacityPerTrain": 2406,
+      "designPassengerDensity": "6 persons/m²"
+    },
+    "performance": {
+      "maxDesignSpeedKmh": 80,
+      "normalAccelerationMs2": 0.78,
+      "maxAccelerationMs2": 1.1,
+      "normalDecelerationMs2": 1,
+      "emergencyDecelerationMs2": 1.3
+    },
+    "provenance": {
+      "sourceId": "SOURCE-001",
+      "document": "dpr-metro-line-III.pdf",
+      "evidenceCategory": "D_ROLLING_STOCK",
+      "evidenceRecordsExtracted": 61
+    }
+  },
+  "operationsBaseline": {
+    "serviceSpan": {
+      "start": "05:00",
+      "end": "24:00"
+    },
+    "designHeadways": {
+      "peakSeconds": 260,
+      "offPeakSeconds": 450,
+      "lateNightSeconds": 600
+    },
+    "nominalDwellSeconds": 30,
+    "sourceRef": "SOURCE-001 & SOURCE-003"
+  },
+  "sourceCatalog": [
+    {
+      "sourceId": "SOURCE-001",
+      "title": "Detailed Project Report for Through Metro Corridor: Colaba – Bandra – SEEPZ (Line 3)",
+      "shortName": "Official Line 3 DPR",
+      "publisher": "Mumbai Metro Rail Corporation Limited (MMRC) / MMRDA / DMRC",
+      "authority": "MMRC / MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "DPR",
+      "documentPath": "sources/dpr/line-03/dpr-metro-line-III.pdf",
+      "originalFilename": "dpr-metro-line-III.pdf",
+      "publicationDate": "2011-11",
+      "format": "PDF",
+      "pages": 533,
+      "sizeBytes": 32765016,
+      "confidenceBaseline": 1,
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "B_STATION",
+        "C_OPERATIONS",
+        "D_ROLLING_STOCK",
+        "E_SIGNALLING"
+      ],
+      "notes": "Authoritative primary source for alignment, station sequence, chainage, inter-station distances, vertical profiles, track design parameters, and physical station layouts."
+    },
+    {
+      "sourceId": "SOURCE-002",
+      "title": "Mumbai Metro GTFS Synthesis & National Transit Expansion Research",
+      "shortName": "Gemini GTFS Research Document",
+      "publisher": "Google DeepMind / Antigravity Research",
+      "authority": "Gemini Research",
+      "authorityLevel": "SECONDARY",
+      "type": "RESEARCH",
+      "documentPath": "sources/research/mumbai-metro-gtfs-synthesis.pdf",
+      "originalFilename": "Mumbai Metro GTFS Synthesis.pdf",
+      "publicationDate": "2026-10",
+      "format": "PDF",
+      "pages": 41,
+      "sizeBytes": 822431,
+      "confidenceBaseline": 0.6,
+      "status": "RESEARCH_AID_ONLY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "C_OPERATIONS",
+        "F_GIS"
+      ],
+      "notes": "Secondary reference document. NOT allowed to directly populate CTM or Category C evidence without primary verification."
+    },
+    {
+      "sourceId": "SOURCE-003",
+      "title": "JICA Experts Study for the Operations and Maintenance Structure of Mumbai Metro Line 3 Project in India (Final Report)",
+      "shortName": "JICA Line 3 O&M Study (2015)",
+      "publisher": "Japan International Cooperation Agency (JICA) / MMRC",
+      "authority": "JICA / MMRC",
+      "authorityLevel": "OFFICIAL",
+      "type": "OFFICIAL_REPORT",
+      "documentPath": "sources/official/jica-line-3-om-study-2015.pdf",
+      "originalFilename": "12246898.pdf",
+      "publicationDate": "2015-10",
+      "format": "PDF",
+      "pages": 289,
+      "sizeBytes": 6271032,
+      "confidenceBaseline": 1,
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "C_OPERATIONS",
+        "D_ROLLING_STOCK",
+        "E_SIGNALLING",
+        "H_HISTORICAL"
+      ],
+      "notes": "Official JICA/MMRC Operations & Maintenance Feasibility & Implementation Report."
+    },
+    {
+      "sourceId": "SOURCE-004",
+      "title": "Mumbai Metro Line 3 — Community GIS Repository (Kaizen711)",
+      "shortName": "Community GIS — Line 3 Station Points & Alignment",
+      "publisher": "Kaizen711 (GitHub contributor)",
+      "authority": "COMMUNITY / THIRD_PARTY",
+      "authorityLevel": "COMMUNITY",
+      "type": "GIS_COMMUNITY",
+      "sourceUrl": "https://github.com/Kaizen711/Mumbai-metro-Line-3",
+      "documentPath": "sources/gis/line-03/community/",
+      "publicationDate": "UNKNOWN",
+      "format": "GeoJSON-in-JS (CRS84 / WGS84 — QGIS-exported EPSG:4326)",
+      "confidenceBaseline": 0.75,
+      "status": "REGISTERED_VERIFIED_FORMAT",
+      "categoriesCovered": [
+        "F_GIS",
+        "A_NETWORK"
+      ],
+      "assetsRegistered": [
+        "Shape_layers/Line_3_Station.js — 28 station Point features (EPSG:4326, [lon, lat, 0.0])",
+        "Shape_layers/Line_3_aligment.js — 2 MultiLineString features: main alignment (28,641 vertices, Cuffe Parade to Aarey Depot) + Navy Nagar spur (15 vertices)"
+      ],
+      "validationRequiredAgainst": [
+        "SOURCE-001 DPR station chainages",
+        "SOURCE-005 Wayfinder positions"
+      ],
+      "acquisitionState": "REGISTERED",
+      "coordinateVerified": true,
+      "coordinateSystem": "EPSG:4326 (WGS84) — confirmed by QGIS .qmd metadata files in repository",
+      "stationCount": 28,
+      "alignmentVertices": 28641,
+      "notes": "Provides 28 station WGS84 coordinates and a 28,641-vertex alignment geometry — the two critical P0 GIS gaps for Line 3. Format confirmed as QGIS-exported GeoJSON (CRS84). Station list includes DPR names (some tentative 2011 names vs 2024 operational names). Must be validated before CTM promotion. Confidence capped at 0.75 as community source."
+    },
+    {
+      "sourceId": "SOURCE-005",
+      "title": "MMRCL Wayfinder — Official Mumbai Metro Line 3 Station Maps and Accessibility Information",
+      "shortName": "MMRCL Wayfinder (operator web GIS)",
+      "publisher": "Mumbai Metro Rail Corporation Limited (MMRCL) / Bhugoal Apps",
+      "authority": "MMRCL (Operator)",
+      "authorityLevel": "OPERATOR_OFFICIAL",
+      "type": "OPERATOR_WEB_GIS",
+      "sourceUrl": "https://wayfinder.bhugolapps.com/home",
+      "documentPath": "sources/gis/line-03/wayfinder/",
+      "publicationDate": "ONGOING",
+      "format": "Interactive Web Application / API",
+      "confidenceBaseline": 0.9,
+      "status": "REGISTERED_UNACQUIRED",
+      "categoriesCovered": [
+        "B_STATION",
+        "F_GIS"
+      ],
+      "assetsExpected": [
+        "Station entrance/exit gate positions",
+        "Lift and escalator positions",
+        "Platform map geometry",
+        "Nearby places and intermodal connections"
+      ],
+      "acquisitionState": "REGISTERED",
+      "notes": "Operator-facing interactive station map. Highest-authority source for B-category GIS gaps: entrance coordinates, lift positions, platform layouts. Addresses knowledge gaps: GAP-L3-B-001, GAP-L3-B-002, GAP-L3-B-003."
+    }
+  ],
+  "auditLedger": {
+    "createdDate": "2026-10-04",
+    "totalFactsIngested": 599,
+    "categoryCounts": {
+      "A_NETWORK": 129,
+      "B_STATION_INFRASTRUCTURE": 314,
+      "C_OPERATIONS": 64,
+      "D_ROLLING_STOCK": 61,
+      "F_GIS_EVIDENCE": 31
+    },
+    "validationStatus": "CTM_VALIDATED",
+    "contractCompliance": true
+  }
+}

@@ -155,19 +155,19 @@
       "evidenceId": "E-NET-SYS-008",
       "category": "SYSTEM",
       "entityType": "rolling_stock_family",
-      "entityKey": "ALSTOM_METROPOLIS_LINE4",
+      "entityKey": "LINE4_ROLLING_STOCK_TENDER",
       "attribute": "rolling_stock_manufacturer_family",
-      "value": "Alstom 6-car trainsets (MMRDA Line 4 contract)",
+      "value": "Line 4 rolling stock contract — lead: Alstom (tender status / depot delay cancellation to be verified by Agent 2 live hunter)",
       "applicableTo": ["MUMBAI_LINE4", "MUMBAI_LINE4A"],
       "source": {
         "sourceId": "SRC-NET-006",
-        "notes": "Line 4 Wadala-Kasarvadavali contract awarded to Alstom for 6-car rakes."
+        "notes": "Unverified tender lead. Subject to active verification by Agent 2 live hunter against MMRDA tenders and official press releases."
       },
-      "evidenceType": "DIRECT",
-      "temporalStatus": "UNDER_CONSTRUCTION",
-      "confidence": 0.90,
+      "evidenceType": "ESTIMATED",
+      "temporalStatus": "UNKNOWN",
+      "confidence": 0.50,
       "priority": "P2",
-      "status": "VALIDATED",
+      "status": "UNVERIFIED_TENDER_LEAD",
       "extractedAt": "2026-10-04"
     }
   ]
