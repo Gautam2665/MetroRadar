@@ -21,6 +21,9 @@
     "build:backend": "npm run build --workspace=apps/backend",
     "build:frontend": "npm run build --workspace=apps/frontend",
     "build": "npm run build:backend && npm run build:frontend",
+    "ctm:import:mumbai-line3": "node tools/import-ctm-mumbai-line3.js",
+    "test:line3-journeys": "node tools/journey-graph-line3.js",
+    "test:line3-golden": "node tools/test-line3-golden-case.js",
     "test": "npm run test --workspaces --if-present"
   },
   "prisma": {

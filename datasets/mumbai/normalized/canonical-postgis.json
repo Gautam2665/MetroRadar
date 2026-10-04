@@ -1,0 +1,1702 @@
+{
+  "importedAt": "2026-10-04T13:48:53.450Z",
+  "system": {
+    "systemId": "MUMBAI_LINE3",
+    "code": "MMRDA_LINE3",
+    "name": "Mumbai Metro Line 3 (Aqua Line)",
+    "city": "Mumbai",
+    "country": "India",
+    "operator": "Mumbai Metro Rail Corporation Limited (MMRCL)",
+    "ownerAuthority": "MMRCL / MMRDA",
+    "gauge": "STANDARD_1435mm",
+    "electrification": "25kV AC Overhead Catenary (OHE)",
+    "alignment": "UNDERGROUND",
+    "status": "OPERATIONAL",
+    "active": true
+  },
+  "lines": [
+    {
+      "lineId": "MUMBAI_LINE3",
+      "code": "LINE3",
+      "name": "Mumbai Metro Line 3 — Aqua Line",
+      "color": "#00AEEF",
+      "status": "ACTIVE",
+      "totalStations": 27,
+      "startStationId": "STN_L3_001",
+      "endStationId": "STN_L3_027"
+    }
+  ],
+  "stations": [
+    {
+      "type": "Feature",
+      "id": "STN_L3_001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.884255017,
+          19.131010228
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_001",
+        "stationCode": "L3-01",
+        "name": "Aarey JVLR",
+        "sequence": 1,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 0,
+        "intermodalTransfers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.873446679,
+          19.12578036
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_002",
+        "stationCode": "L3-02",
+        "name": "SEEPZ",
+        "sequence": 2,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 1000,
+        "intermodalTransfers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_003",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.873820184,
+          19.117302747
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_003",
+        "stationCode": "L3-03",
+        "name": "MIDC",
+        "sequence": 3,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 1600,
+        "intermodalTransfers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_004",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.878578708,
+          19.108435671
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_004",
+        "stationCode": "L3-04",
+        "name": "Marol Naka",
+        "sequence": 4,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 2285,
+        "intermodalTransfers": [
+          "MUMBAI_LINE1"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_005",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.865299239,
+          19.102195763
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_005",
+        "stationCode": "L3-05",
+        "name": "Sahar Road",
+        "sequence": 5,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 3102,
+        "intermodalTransfers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_006",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.874412621,
+          19.102274072
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_006",
+        "stationCode": "L3-06",
+        "name": "CSMIA Terminal 2",
+        "sequence": 6,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 3956,
+        "intermodalTransfers": [
+          "MUMBAI_LINE7A"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_007",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.853447245,
+          19.093926228
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_007",
+        "stationCode": "L3-07",
+        "name": "CSMIA Terminal 1",
+        "sequence": 7,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 4891,
+        "intermodalTransfers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_008",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.847180941,
+          19.078527883
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_008",
+        "stationCode": "L3-08",
+        "name": "Santacruz",
+        "sequence": 8,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 5616,
+        "intermodalTransfers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_009",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.849265641,
+          19.070103121
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_009",
+        "stationCode": "L3-09",
+        "name": "Vidyanagari",
+        "sequence": 9,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 7156,
+        "intermodalTransfers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_010",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.854955962,
+          19.06021632
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_010",
+        "stationCode": "L3-10",
+        "name": "BKC",
+        "sequence": 10,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 8067,
+        "intermodalTransfers": [
+          "MUMBAI_LINE2B"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_011",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.849952345,
+          19.046277471
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_011",
+        "stationCode": "L3-11",
+        "name": "Dharavi",
+        "sequence": 11,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 9216,
+        "intermodalTransfers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_012",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.842133459,
+          19.038391506
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_012",
+        "stationCode": "L3-12",
+        "name": "Sitladevi",
+        "sequence": 12,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 10316,
+        "intermodalTransfers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_013",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.839299629,
+          19.023667191
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_013",
+        "stationCode": "L3-13",
+        "name": "Dadar Metro",
+        "sequence": 13,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 11516,
+        "intermodalTransfers": [
+          "SUBURBAN_WR_CR"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_014",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.830735413,
+          19.015875533
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_014",
+        "stationCode": "L3-14",
+        "name": "Siddhivinayak",
+        "sequence": 14,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 12924,
+        "intermodalTransfers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_015",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.819401085,
+          19.008780162
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_015",
+        "stationCode": "L3-15",
+        "name": "Worli",
+        "sequence": 15,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 14479,
+        "intermodalTransfers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_016",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.818178859,
+          18.997126189
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_016",
+        "stationCode": "L3-16",
+        "name": "Acharya Atre Chowk",
+        "sequence": 16,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 15756,
+        "intermodalTransfers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_017",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.821770144,
+          18.990318214
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_017",
+        "stationCode": "L3-17",
+        "name": "Science Centre",
+        "sequence": 17,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 17525,
+        "intermodalTransfers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_018",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.825295352,
+          18.979485148
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_018",
+        "stationCode": "L3-18",
+        "name": "Mahalaxmi",
+        "sequence": 18,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 19306,
+        "intermodalTransfers": [
+          "MUMBAI_MONORAIL"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_019",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.821382487,
+          18.97060328
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_019",
+        "stationCode": "L3-19",
+        "name": "Mumbai Central",
+        "sequence": 19,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 21271,
+        "intermodalTransfers": [
+          "SUBURBAN_WR"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_020",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.817996664,
+          18.962924015
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_020",
+        "stationCode": "L3-20",
+        "name": "Grant Road",
+        "sequence": 20,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 22812,
+        "intermodalTransfers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_021",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.822606415,
+          18.951929406
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_021",
+        "stationCode": "L3-21",
+        "name": "Girgaon",
+        "sequence": 21,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 24027,
+        "intermodalTransfers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_022",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.826943333,
+          18.946899214
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_022",
+        "stationCode": "L3-22",
+        "name": "Kalbadevi",
+        "sequence": 22,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 26299,
+        "intermodalTransfers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_023",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.83216965,
+          18.940664406
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_023",
+        "stationCode": "L3-23",
+        "name": "CSMT Metro",
+        "sequence": 23,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 27906,
+        "intermodalTransfers": [
+          "SUBURBAN_CR_HARBOUR"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_024",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.832826056,
+          18.934578797
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_024",
+        "stationCode": "L3-24",
+        "name": "Hutatma Chowk",
+        "sequence": 24,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 28958,
+        "intermodalTransfers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_025",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.826172433,
+          18.930654237
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_025",
+        "stationCode": "L3-25",
+        "name": "Churchgate",
+        "sequence": 25,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 29829,
+        "intermodalTransfers": [
+          "SUBURBAN_WR"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_026",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.825615997,
+          18.924696421
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_026",
+        "stationCode": "L3-26",
+        "name": "Vidhan Bhawan",
+        "sequence": 26,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 31225,
+        "intermodalTransfers": []
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN_L3_027",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.820195931,
+          18.912954605
+        ]
+      },
+      "properties": {
+        "canonicalId": "STN_L3_027",
+        "stationCode": "L3-27",
+        "name": "Cuffe Parade",
+        "sequence": 27,
+        "systemId": "MUMBAI_LINE3",
+        "lineId": "MUMBAI_LINE3",
+        "status": "OPERATIONAL",
+        "temporalStatus": "OPERATIONAL",
+        "stationType": "UNDERGROUND",
+        "platformCount": 2,
+        "screenDoorsInstalled": true,
+        "chainageMeters": 32546,
+        "intermodalTransfers": []
+      }
+    }
+  ],
+  "routeAlignment": {
+    "type": "Feature",
+    "id": "ALIGNMENT_MUMBAI_LINE3",
+    "geometry": {
+      "type": "MultiLineString",
+      "crs": {
+        "type": "name",
+        "properties": {
+          "name": "EPSG:4326"
+        }
+      },
+      "coordinates": [
+        [
+          72.81776277,
+          18.91033128
+        ],
+        [
+          72.88595643,
+          19.13082738
+        ]
+      ]
+    },
+    "properties": {
+      "routeId": "ROUTE_MUMBAI_L3",
+      "name": "Mumbai Metro Line 3 — Aqua Line",
+      "color": "#00AEEF",
+      "vertexCount": 28641,
+      "geometrySource": "Kaizen711/Mumbai-metro-Line-3"
+    }
+  },
+  "stationSequences": [
+    {
+      "sequenceId": "SEQ_L3_01",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_001",
+      "sequence": 1,
+      "distanceFromPreviousMeters": 0,
+      "nextStationId": "STN_L3_002",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_02",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_002",
+      "sequence": 2,
+      "distanceFromPreviousMeters": 1000,
+      "nextStationId": "STN_L3_003",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_03",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_003",
+      "sequence": 3,
+      "distanceFromPreviousMeters": 600,
+      "nextStationId": "STN_L3_004",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_04",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_004",
+      "sequence": 4,
+      "distanceFromPreviousMeters": 685,
+      "nextStationId": "STN_L3_005",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_05",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_005",
+      "sequence": 5,
+      "distanceFromPreviousMeters": 817,
+      "nextStationId": "STN_L3_006",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_06",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_006",
+      "sequence": 6,
+      "distanceFromPreviousMeters": 854,
+      "nextStationId": "STN_L3_007",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_07",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_007",
+      "sequence": 7,
+      "distanceFromPreviousMeters": 935,
+      "nextStationId": "STN_L3_008",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_08",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_008",
+      "sequence": 8,
+      "distanceFromPreviousMeters": 725,
+      "nextStationId": "STN_L3_009",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_09",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_009",
+      "sequence": 9,
+      "distanceFromPreviousMeters": 1540,
+      "nextStationId": "STN_L3_010",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_10",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_010",
+      "sequence": 10,
+      "distanceFromPreviousMeters": 911,
+      "nextStationId": "STN_L3_011",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_11",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_011",
+      "sequence": 11,
+      "distanceFromPreviousMeters": 1149,
+      "nextStationId": "STN_L3_012",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_12",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_012",
+      "sequence": 12,
+      "distanceFromPreviousMeters": 1100,
+      "nextStationId": "STN_L3_013",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_13",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_013",
+      "sequence": 13,
+      "distanceFromPreviousMeters": 1200,
+      "nextStationId": "STN_L3_014",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_14",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_014",
+      "sequence": 14,
+      "distanceFromPreviousMeters": 1408,
+      "nextStationId": "STN_L3_015",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_15",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_015",
+      "sequence": 15,
+      "distanceFromPreviousMeters": 1555,
+      "nextStationId": "STN_L3_016",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_16",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_016",
+      "sequence": 16,
+      "distanceFromPreviousMeters": 1277,
+      "nextStationId": "STN_L3_017",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_17",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_017",
+      "sequence": 17,
+      "distanceFromPreviousMeters": 1769,
+      "nextStationId": "STN_L3_018",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_18",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_018",
+      "sequence": 18,
+      "distanceFromPreviousMeters": 1781,
+      "nextStationId": "STN_L3_019",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_19",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_019",
+      "sequence": 19,
+      "distanceFromPreviousMeters": 1965,
+      "nextStationId": "STN_L3_020",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_20",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_020",
+      "sequence": 20,
+      "distanceFromPreviousMeters": 1541,
+      "nextStationId": "STN_L3_021",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_21",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_021",
+      "sequence": 21,
+      "distanceFromPreviousMeters": 1215,
+      "nextStationId": "STN_L3_022",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_22",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_022",
+      "sequence": 22,
+      "distanceFromPreviousMeters": 2272,
+      "nextStationId": "STN_L3_023",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_23",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_023",
+      "sequence": 23,
+      "distanceFromPreviousMeters": 1607,
+      "nextStationId": "STN_L3_024",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_24",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_024",
+      "sequence": 24,
+      "distanceFromPreviousMeters": 1052,
+      "nextStationId": "STN_L3_025",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_25",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_025",
+      "sequence": 25,
+      "distanceFromPreviousMeters": 871,
+      "nextStationId": "STN_L3_026",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_26",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_026",
+      "sequence": 26,
+      "distanceFromPreviousMeters": 1396,
+      "nextStationId": "STN_L3_027",
+      "active": true
+    },
+    {
+      "sequenceId": "SEQ_L3_27",
+      "lineId": "MUMBAI_LINE3",
+      "stationId": "STN_L3_027",
+      "sequence": 27,
+      "distanceFromPreviousMeters": 1321,
+      "nextStationId": null,
+      "active": true
+    }
+  ],
+  "interchanges": [
+    {
+      "transferId": "XFER_MAROL_NAKA_L1",
+      "stationId": "STN_L3_004",
+      "stationName": "Marol Naka",
+      "targetNetwork": "MUMBAI_LINE1",
+      "targetStationName": "Marol Naka",
+      "transferType": "METRO_INTERCHANGE",
+      "physicalConnectivity": "VALIDATED_DPR_DESIGNS",
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SOURCE-001",
+        "dprSection": "Chapter 5 interchange drawings"
+      }
+    },
+    {
+      "transferId": "XFER_CSMIA_T2_L7A",
+      "stationId": "STN_L3_006",
+      "stationName": "CSMIA Terminal 2",
+      "targetNetwork": "MUMBAI_LINE7A",
+      "targetStationName": "CSMIA T2",
+      "transferType": "METRO_INTERCHANGE",
+      "physicalConnectivity": "VALIDATED_DPR_DESIGNS",
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SOURCE-001"
+      }
+    },
+    {
+      "transferId": "XFER_BKC_L2B",
+      "stationId": "STN_L3_010",
+      "stationName": "BKC",
+      "targetNetwork": "MUMBAI_LINE2B",
+      "targetStationName": "BKC",
+      "transferType": "METRO_INTERCHANGE",
+      "physicalConnectivity": "VALIDATED_DPR_DESIGNS",
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SOURCE-001"
+      }
+    },
+    {
+      "transferId": "XFER_DADAR_RAIL",
+      "stationId": "STN_L3_013",
+      "stationName": "Dadar Metro",
+      "targetNetwork": "SUBURBAN_WR_CR",
+      "targetStationName": "Dadar Railway Station",
+      "transferType": "MULTIMODAL",
+      "physicalConnectivity": "VALIDATED_DPR_DESIGNS",
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SOURCE-001"
+      }
+    },
+    {
+      "transferId": "XFER_MAHALAXMI_MONORAIL",
+      "stationId": "STN_L3_018",
+      "stationName": "Mahalaxmi",
+      "targetNetwork": "MUMBAI_MONORAIL",
+      "targetStationName": "Mahalaxmi Monorail",
+      "transferType": "MULTIMODAL",
+      "physicalConnectivity": "VALIDATED_DPR_DESIGNS",
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SOURCE-001"
+      }
+    },
+    {
+      "transferId": "XFER_MUMBAI_CENTRAL_WR",
+      "stationId": "STN_L3_019",
+      "stationName": "Mumbai Central",
+      "targetNetwork": "SUBURBAN_WR",
+      "targetStationName": "Mumbai Central Railway Station",
+      "transferType": "MULTIMODAL",
+      "physicalConnectivity": "VALIDATED_DPR_DESIGNS",
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SOURCE-001"
+      }
+    },
+    {
+      "transferId": "XFER_CSMT_RAIL",
+      "stationId": "STN_L3_023",
+      "stationName": "CSMT Metro",
+      "targetNetwork": "SUBURBAN_CR_HARBOUR",
+      "targetStationName": "CSMT Central Station",
+      "transferType": "MULTIMODAL",
+      "physicalConnectivity": "VALIDATED_DPR_DESIGNS",
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SOURCE-001"
+      }
+    },
+    {
+      "transferId": "XFER_CHURCHGATE_WR",
+      "stationId": "STN_L3_025",
+      "stationName": "Churchgate",
+      "targetNetwork": "SUBURBAN_WR",
+      "targetStationName": "Churchgate Terminal",
+      "transferType": "MULTIMODAL",
+      "physicalConnectivity": "VALIDATED_DPR_DESIGNS",
+      "transferPenaltySeconds": null,
+      "requiresEmpiricalObservation": true,
+      "provenance": {
+        "sourceId": "SOURCE-001"
+      }
+    }
+  ],
+  "topologicalGraph": {
+    "nodes": [
+      {
+        "stationId": "STN_L3_001",
+        "name": "Aarey JVLR",
+        "sequence": 1,
+        "coordinates": [
+          72.884255017,
+          19.131010228
+        ]
+      },
+      {
+        "stationId": "STN_L3_002",
+        "name": "SEEPZ",
+        "sequence": 2,
+        "coordinates": [
+          72.873446679,
+          19.12578036
+        ]
+      },
+      {
+        "stationId": "STN_L3_003",
+        "name": "MIDC",
+        "sequence": 3,
+        "coordinates": [
+          72.873820184,
+          19.117302747
+        ]
+      },
+      {
+        "stationId": "STN_L3_004",
+        "name": "Marol Naka",
+        "sequence": 4,
+        "coordinates": [
+          72.878578708,
+          19.108435671
+        ]
+      },
+      {
+        "stationId": "STN_L3_005",
+        "name": "Sahar Road",
+        "sequence": 5,
+        "coordinates": [
+          72.865299239,
+          19.102195763
+        ]
+      },
+      {
+        "stationId": "STN_L3_006",
+        "name": "CSMIA Terminal 2",
+        "sequence": 6,
+        "coordinates": [
+          72.874412621,
+          19.102274072
+        ]
+      },
+      {
+        "stationId": "STN_L3_007",
+        "name": "CSMIA Terminal 1",
+        "sequence": 7,
+        "coordinates": [
+          72.853447245,
+          19.093926228
+        ]
+      },
+      {
+        "stationId": "STN_L3_008",
+        "name": "Santacruz",
+        "sequence": 8,
+        "coordinates": [
+          72.847180941,
+          19.078527883
+        ]
+      },
+      {
+        "stationId": "STN_L3_009",
+        "name": "Vidyanagari",
+        "sequence": 9,
+        "coordinates": [
+          72.849265641,
+          19.070103121
+        ]
+      },
+      {
+        "stationId": "STN_L3_010",
+        "name": "BKC",
+        "sequence": 10,
+        "coordinates": [
+          72.854955962,
+          19.06021632
+        ]
+      },
+      {
+        "stationId": "STN_L3_011",
+        "name": "Dharavi",
+        "sequence": 11,
+        "coordinates": [
+          72.849952345,
+          19.046277471
+        ]
+      },
+      {
+        "stationId": "STN_L3_012",
+        "name": "Sitladevi",
+        "sequence": 12,
+        "coordinates": [
+          72.842133459,
+          19.038391506
+        ]
+      },
+      {
+        "stationId": "STN_L3_013",
+        "name": "Dadar Metro",
+        "sequence": 13,
+        "coordinates": [
+          72.839299629,
+          19.023667191
+        ]
+      },
+      {
+        "stationId": "STN_L3_014",
+        "name": "Siddhivinayak",
+        "sequence": 14,
+        "coordinates": [
+          72.830735413,
+          19.015875533
+        ]
+      },
+      {
+        "stationId": "STN_L3_015",
+        "name": "Worli",
+        "sequence": 15,
+        "coordinates": [
+          72.819401085,
+          19.008780162
+        ]
+      },
+      {
+        "stationId": "STN_L3_016",
+        "name": "Acharya Atre Chowk",
+        "sequence": 16,
+        "coordinates": [
+          72.818178859,
+          18.997126189
+        ]
+      },
+      {
+        "stationId": "STN_L3_017",
+        "name": "Science Centre",
+        "sequence": 17,
+        "coordinates": [
+          72.821770144,
+          18.990318214
+        ]
+      },
+      {
+        "stationId": "STN_L3_018",
+        "name": "Mahalaxmi",
+        "sequence": 18,
+        "coordinates": [
+          72.825295352,
+          18.979485148
+        ]
+      },
+      {
+        "stationId": "STN_L3_019",
+        "name": "Mumbai Central",
+        "sequence": 19,
+        "coordinates": [
+          72.821382487,
+          18.97060328
+        ]
+      },
+      {
+        "stationId": "STN_L3_020",
+        "name": "Grant Road",
+        "sequence": 20,
+        "coordinates": [
+          72.817996664,
+          18.962924015
+        ]
+      },
+      {
+        "stationId": "STN_L3_021",
+        "name": "Girgaon",
+        "sequence": 21,
+        "coordinates": [
+          72.822606415,
+          18.951929406
+        ]
+      },
+      {
+        "stationId": "STN_L3_022",
+        "name": "Kalbadevi",
+        "sequence": 22,
+        "coordinates": [
+          72.826943333,
+          18.946899214
+        ]
+      },
+      {
+        "stationId": "STN_L3_023",
+        "name": "CSMT Metro",
+        "sequence": 23,
+        "coordinates": [
+          72.83216965,
+          18.940664406
+        ]
+      },
+      {
+        "stationId": "STN_L3_024",
+        "name": "Hutatma Chowk",
+        "sequence": 24,
+        "coordinates": [
+          72.832826056,
+          18.934578797
+        ]
+      },
+      {
+        "stationId": "STN_L3_025",
+        "name": "Churchgate",
+        "sequence": 25,
+        "coordinates": [
+          72.826172433,
+          18.930654237
+        ]
+      },
+      {
+        "stationId": "STN_L3_026",
+        "name": "Vidhan Bhawan",
+        "sequence": 26,
+        "coordinates": [
+          72.825615997,
+          18.924696421
+        ]
+      },
+      {
+        "stationId": "STN_L3_027",
+        "name": "Cuffe Parade",
+        "sequence": 27,
+        "coordinates": [
+          72.820195931,
+          18.912954605
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "edgeId": "EDGE_L3_01_TO_02",
+        "fromStationId": "STN_L3_001",
+        "fromStationName": "Aarey JVLR",
+        "toStationId": "STN_L3_002",
+        "toStationName": "SEEPZ",
+        "sequenceSegment": "1 -> 2",
+        "distanceMeters": 1000,
+        "nominalTravelTimeSeconds": 103,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_02_TO_03",
+        "fromStationId": "STN_L3_002",
+        "fromStationName": "SEEPZ",
+        "toStationId": "STN_L3_003",
+        "toStationName": "MIDC",
+        "sequenceSegment": "2 -> 3",
+        "distanceMeters": 600,
+        "nominalTravelTimeSeconds": 62,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_03_TO_04",
+        "fromStationId": "STN_L3_003",
+        "fromStationName": "MIDC",
+        "toStationId": "STN_L3_004",
+        "toStationName": "Marol Naka",
+        "sequenceSegment": "3 -> 4",
+        "distanceMeters": 685,
+        "nominalTravelTimeSeconds": 70,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_04_TO_05",
+        "fromStationId": "STN_L3_004",
+        "fromStationName": "Marol Naka",
+        "toStationId": "STN_L3_005",
+        "toStationName": "Sahar Road",
+        "sequenceSegment": "4 -> 5",
+        "distanceMeters": 817,
+        "nominalTravelTimeSeconds": 84,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_05_TO_06",
+        "fromStationId": "STN_L3_005",
+        "fromStationName": "Sahar Road",
+        "toStationId": "STN_L3_006",
+        "toStationName": "CSMIA Terminal 2",
+        "sequenceSegment": "5 -> 6",
+        "distanceMeters": 854,
+        "nominalTravelTimeSeconds": 88,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_06_TO_07",
+        "fromStationId": "STN_L3_006",
+        "fromStationName": "CSMIA Terminal 2",
+        "toStationId": "STN_L3_007",
+        "toStationName": "CSMIA Terminal 1",
+        "sequenceSegment": "6 -> 7",
+        "distanceMeters": 935,
+        "nominalTravelTimeSeconds": 96,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_07_TO_08",
+        "fromStationId": "STN_L3_007",
+        "fromStationName": "CSMIA Terminal 1",
+        "toStationId": "STN_L3_008",
+        "toStationName": "Santacruz",
+        "sequenceSegment": "7 -> 8",
+        "distanceMeters": 725,
+        "nominalTravelTimeSeconds": 75,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_08_TO_09",
+        "fromStationId": "STN_L3_008",
+        "fromStationName": "Santacruz",
+        "toStationId": "STN_L3_009",
+        "toStationName": "Vidyanagari",
+        "sequenceSegment": "8 -> 9",
+        "distanceMeters": 1540,
+        "nominalTravelTimeSeconds": 158,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_09_TO_10",
+        "fromStationId": "STN_L3_009",
+        "fromStationName": "Vidyanagari",
+        "toStationId": "STN_L3_010",
+        "toStationName": "BKC",
+        "sequenceSegment": "9 -> 10",
+        "distanceMeters": 911,
+        "nominalTravelTimeSeconds": 94,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_10_TO_11",
+        "fromStationId": "STN_L3_010",
+        "fromStationName": "BKC",
+        "toStationId": "STN_L3_011",
+        "toStationName": "Dharavi",
+        "sequenceSegment": "10 -> 11",
+        "distanceMeters": 1149,
+        "nominalTravelTimeSeconds": 118,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_11_TO_12",
+        "fromStationId": "STN_L3_011",
+        "fromStationName": "Dharavi",
+        "toStationId": "STN_L3_012",
+        "toStationName": "Sitladevi",
+        "sequenceSegment": "11 -> 12",
+        "distanceMeters": 1100,
+        "nominalTravelTimeSeconds": 113,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_12_TO_13",
+        "fromStationId": "STN_L3_012",
+        "fromStationName": "Sitladevi",
+        "toStationId": "STN_L3_013",
+        "toStationName": "Dadar Metro",
+        "sequenceSegment": "12 -> 13",
+        "distanceMeters": 1200,
+        "nominalTravelTimeSeconds": 123,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_13_TO_14",
+        "fromStationId": "STN_L3_013",
+        "fromStationName": "Dadar Metro",
+        "toStationId": "STN_L3_014",
+        "toStationName": "Siddhivinayak",
+        "sequenceSegment": "13 -> 14",
+        "distanceMeters": 1408,
+        "nominalTravelTimeSeconds": 145,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_14_TO_15",
+        "fromStationId": "STN_L3_014",
+        "fromStationName": "Siddhivinayak",
+        "toStationId": "STN_L3_015",
+        "toStationName": "Worli",
+        "sequenceSegment": "14 -> 15",
+        "distanceMeters": 1555,
+        "nominalTravelTimeSeconds": 160,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_15_TO_16",
+        "fromStationId": "STN_L3_015",
+        "fromStationName": "Worli",
+        "toStationId": "STN_L3_016",
+        "toStationName": "Acharya Atre Chowk",
+        "sequenceSegment": "15 -> 16",
+        "distanceMeters": 1277,
+        "nominalTravelTimeSeconds": 131,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_16_TO_17",
+        "fromStationId": "STN_L3_016",
+        "fromStationName": "Acharya Atre Chowk",
+        "toStationId": "STN_L3_017",
+        "toStationName": "Science Centre",
+        "sequenceSegment": "16 -> 17",
+        "distanceMeters": 1769,
+        "nominalTravelTimeSeconds": 182,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_17_TO_18",
+        "fromStationId": "STN_L3_017",
+        "fromStationName": "Science Centre",
+        "toStationId": "STN_L3_018",
+        "toStationName": "Mahalaxmi",
+        "sequenceSegment": "17 -> 18",
+        "distanceMeters": 1781,
+        "nominalTravelTimeSeconds": 183,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_18_TO_19",
+        "fromStationId": "STN_L3_018",
+        "fromStationName": "Mahalaxmi",
+        "toStationId": "STN_L3_019",
+        "toStationName": "Mumbai Central",
+        "sequenceSegment": "18 -> 19",
+        "distanceMeters": 1965,
+        "nominalTravelTimeSeconds": 202,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_19_TO_20",
+        "fromStationId": "STN_L3_019",
+        "fromStationName": "Mumbai Central",
+        "toStationId": "STN_L3_020",
+        "toStationName": "Grant Road",
+        "sequenceSegment": "19 -> 20",
+        "distanceMeters": 1541,
+        "nominalTravelTimeSeconds": 159,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_20_TO_21",
+        "fromStationId": "STN_L3_020",
+        "fromStationName": "Grant Road",
+        "toStationId": "STN_L3_021",
+        "toStationName": "Girgaon",
+        "sequenceSegment": "20 -> 21",
+        "distanceMeters": 1215,
+        "nominalTravelTimeSeconds": 125,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_21_TO_22",
+        "fromStationId": "STN_L3_021",
+        "fromStationName": "Girgaon",
+        "toStationId": "STN_L3_022",
+        "toStationName": "Kalbadevi",
+        "sequenceSegment": "21 -> 22",
+        "distanceMeters": 2272,
+        "nominalTravelTimeSeconds": 234,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_22_TO_23",
+        "fromStationId": "STN_L3_022",
+        "fromStationName": "Kalbadevi",
+        "toStationId": "STN_L3_023",
+        "toStationName": "CSMT Metro",
+        "sequenceSegment": "22 -> 23",
+        "distanceMeters": 1607,
+        "nominalTravelTimeSeconds": 165,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_23_TO_24",
+        "fromStationId": "STN_L3_023",
+        "fromStationName": "CSMT Metro",
+        "toStationId": "STN_L3_024",
+        "toStationName": "Hutatma Chowk",
+        "sequenceSegment": "23 -> 24",
+        "distanceMeters": 1052,
+        "nominalTravelTimeSeconds": 108,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_24_TO_25",
+        "fromStationId": "STN_L3_024",
+        "fromStationName": "Hutatma Chowk",
+        "toStationId": "STN_L3_025",
+        "toStationName": "Churchgate",
+        "sequenceSegment": "24 -> 25",
+        "distanceMeters": 871,
+        "nominalTravelTimeSeconds": 90,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_25_TO_26",
+        "fromStationId": "STN_L3_025",
+        "fromStationName": "Churchgate",
+        "toStationId": "STN_L3_026",
+        "toStationName": "Vidhan Bhawan",
+        "sequenceSegment": "25 -> 26",
+        "distanceMeters": 1396,
+        "nominalTravelTimeSeconds": 144,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      },
+      {
+        "edgeId": "EDGE_L3_26_TO_27",
+        "fromStationId": "STN_L3_026",
+        "fromStationName": "Vidhan Bhawan",
+        "toStationId": "STN_L3_027",
+        "toStationName": "Cuffe Parade",
+        "sequenceSegment": "26 -> 27",
+        "distanceMeters": 1321,
+        "nominalTravelTimeSeconds": 136,
+        "biDirectional": true,
+        "status": "OPERATIONAL"
+      }
+    ],
+    "totalNodes": 27,
+    "totalEdges": 26
+  }
+}

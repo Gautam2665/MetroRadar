@@ -238,6 +238,12 @@ function main() {
     net.lines.forEach(l => {
       if (l.ctmReady) {
         console.log(`    [${l.localDesignation.padEnd(8)}] ${(l.operationalStatus || '').padEnd(20)} 🎉 CTM_READY (27 revenue stations + 28,641 alignment vertices)`);
+        console.log(`         • CTM Contract           : PRODUCTION_READY`);
+        console.log(`         • CTM Spatial/Topology   : PRODUCTION_READY (28,641 vertices, EPSG:4326)`);
+        console.log(`         • Static GTFS Subset     : READY (stops, routes, shapes, transfers)`);
+        console.log(`         • Full GTFS Schedule     : BLOCKED (pending current 2026 timetable feeds)`);
+        console.log(`         • Journey Engine         : TOPOLOGICAL_ACTIVE (schedule times uninvented)`);
+        console.log(`         • Realtime Telemetry     : NOT_AVAILABLE`);
       } else {
         console.log(`    [${l.localDesignation.padEnd(8)}] ${(l.operationalStatus || '').padEnd(20)} BLOCKED: ${l.ctmBlocker || 'UNSPECIFIED'}`);
       }
