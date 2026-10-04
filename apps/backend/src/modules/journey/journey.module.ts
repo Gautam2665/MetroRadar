@@ -6,6 +6,7 @@ import { GraphProviderService } from './graph/graph-provider.service';
 import { RoutingService } from './routing/routing.service';
 import { ScoringService } from './routing/scoring.service';
 import { CandidateFilterService } from './routing/candidate-filter.service';
+import { InterchangeEvaluatorService } from './routing/interchange-evaluator.service';
 import { JourneyService } from './routing/journey.service';
 import { JourneyController } from './controllers/journey.controller';
 
@@ -18,8 +19,9 @@ import { JourneyController } from './controllers/journey.controller';
     RoutingService,
     ScoringService,
     CandidateFilterService,
+    InterchangeEvaluatorService,
     JourneyService,
   ],
-  exports: [GraphProviderService, JourneyService],
+  exports: [GraphProviderService, JourneyService, InterchangeEvaluatorService],
 })
 export class JourneyModule {}

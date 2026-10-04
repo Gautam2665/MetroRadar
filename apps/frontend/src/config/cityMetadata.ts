@@ -43,4 +43,10 @@ export const CITY_METADATA: Record<
     center: [72.5714, 23.0225],
     quickPills: ["Vastral Gam", "Thaltej", "Old High Court", "Motera Stadium"],
   },
+  mumbai: {
+    name: "Mumbai, MH",
+    code: "MM",
+    center: [72.8777, 19.076],
+    quickPills: ["Versova", "Andheri", "Marol Naka", "Ghatkopar", "Mumbai Central", "SEEPZ", "BKC", "Cuffe Parade"],
+  },
 };

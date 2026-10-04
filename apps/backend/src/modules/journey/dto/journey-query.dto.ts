@@ -77,4 +77,27 @@ export class JourneyQueryDto {
   @IsOptional()
   @Type(() => JourneyOptionsDto)
   options?: JourneyOptionsDto;
+
+  @ApiPropertyOptional({ description: 'Passenger mobility: STANDARD | REDUCED', enum: ['STANDARD', 'REDUCED'] })
+  @IsOptional()
+  @IsString()
+  mobility?: 'STANDARD' | 'REDUCED';
+
+  @ApiPropertyOptional({ description: 'Luggage profile: NONE | LIGHT | HEAVY', enum: ['NONE', 'LIGHT', 'HEAVY'] })
+  @IsOptional()
+  @IsString()
+  luggage?: 'NONE' | 'LIGHT' | 'HEAVY';
+
+  @ApiPropertyOptional({ description: 'Optimization objective: MIN_TRAVEL_TIME | MIN_FRICTION | BALANCED' })
+  @IsOptional()
+  @IsString()
+  objective?: 'MIN_TRAVEL_TIME' | 'MIN_FRICTION' | 'BALANCED';
+
+  @ApiPropertyOptional({ description: 'List of physical friction elements to avoid', type: [String] })
+  @IsOptional()
+  avoid?: string | string[];
+
+  @ApiPropertyOptional({ description: 'List of transit preferences', type: [String] })
+  @IsOptional()
+  prefer?: string | string[];
 }

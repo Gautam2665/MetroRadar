@@ -56,6 +56,13 @@ export type RouteOption = {
     leastWalking: boolean;
     accessibilityFriendly: boolean;
   };
+  interchangeFriction?: {
+    level: string;
+    effectiveCostSeconds: number;
+    frictionSeconds: number;
+  };
+  reasonCodes?: string[];
+  humanSummary?: string;
 };
 
 // ── Type for the backend RouteCandidate shape ─────────────────────────────────
@@ -103,6 +110,13 @@ interface BackendCandidate {
     leastWalking: boolean;
     accessibilityFriendly: boolean;
   };
+  interchangeFriction?: {
+    level: string;
+    effectiveCostSeconds: number;
+    frictionSeconds: number;
+  };
+  reasonCodes?: string[];
+  humanSummary?: string;
 }
 
 // ── Label derivation from attribute flags ────────────────────────────────────
@@ -197,6 +211,9 @@ function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
     geojson: candidate.geojson,
     tradeoffLabel: deriveTradeoffLabel(candidate.tradeoffs, candidate.rank),
     attributes: candidate.attributes,
+    interchangeFriction: candidate.interchangeFriction,
+    reasonCodes: candidate.reasonCodes,
+    humanSummary: candidate.humanSummary,
   };
 }
 

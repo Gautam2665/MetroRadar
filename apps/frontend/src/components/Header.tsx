@@ -18,7 +18,7 @@ const CITIES = [
   { code: "bengaluru", name: "Bengaluru, IN", badge: "Certified" },
   { code: "chennai", name: "Chennai, IN", badge: "Certified" },
   { code: "ahmedabad", name: "Ahmedabad, IN", badge: "Certified" },
-  { code: "mumbai", name: "Mumbai, MH", badge: "Beta" },
+  { code: "mumbai", name: "Mumbai, MH", badge: "Live" },
 ];
 
 const CITY_COORDS: Record<string, { lat: number; lng: number }> = {

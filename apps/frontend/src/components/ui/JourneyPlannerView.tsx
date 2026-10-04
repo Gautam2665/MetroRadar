@@ -204,6 +204,17 @@ function JourneyDetailsTimeline({
           </div>
         )}
 
+        {/* Passenger Experience & Interchange Guide */}
+        {route.humanSummary && (
+          <div className="p-2.5 rounded-lg bg-cyan-950/40 border border-cyan-500/30 text-xs text-cyan-200 flex items-start gap-2">
+            <span className="material-symbols-outlined text-sm text-cyan-400 shrink-0 mt-0.5">info</span>
+            <div>
+              <div className="font-semibold text-cyan-300">Station & Interchange Guide</div>
+              <div className="text-[11px] text-slate-300 mt-0.5">{route.humanSummary}</div>
+            </div>
+          </div>
+        )}
+
         {/* Transfers */}
         {transitLegs.slice(1).map((leg, idx) => {
           const prevLeg = transitLegs[idx];

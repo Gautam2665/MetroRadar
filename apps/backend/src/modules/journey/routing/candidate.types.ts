@@ -174,6 +174,18 @@ export interface RouteCandidate {
   // ── Machine-readable attribute flags ────────────────────────────────────
 
   attributes: CandidateAttributes;
+
+  // ── Interchange Intelligence & Reason Codes (Sprint v0.6.5-K) ───────────
+
+  interchangeFriction?: {
+    level: 'MINIMAL' | 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
+    effectiveCostSeconds: number;
+    frictionSeconds: number;
+  };
+
+  reasonCodes?: string[];
+
+  humanSummary?: string;
 }
 
 // ── Journey Response ─────────────────────────────────────────────────────────

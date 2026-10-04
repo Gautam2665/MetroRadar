@@ -11,6 +11,10 @@ import { DEFAULT_WEIGHTS, DEFAULT_K } from '../graph/graph.types';
 import { RoutingService } from './routing.service';
 import { ScoringService } from './scoring.service';
 import { CandidateFilterService } from './candidate-filter.service';
+import {
+  InterchangeEvaluatorService,
+  GenericConstraints,
+} from './interchange-evaluator.service';
 import { JourneyQueryDto } from '../dto/journey-query.dto';
 import {
   RouteCandidate,
@@ -56,11 +60,20 @@ export class JourneyService {
     private readonly router: RoutingService,
     private readonly scorer: ScoringService,
     private readonly filter: CandidateFilterService,
+    private readonly interchangeEvaluator: InterchangeEvaluatorService,
   ) {}
 
   async planJourney(query: JourneyQueryDto): Promise<JourneyResponse> {
     const { from: fromId, to: toId } = query;
     const k = query.k ?? DEFAULT_K;
+
+    const constraints: GenericConstraints = {
+      mobility: query.mobility,
+      luggage: query.luggage,
+      avoid: Array.isArray(query.avoid) ? query.avoid : query.avoid ? [query.avoid] : [],
+      prefer: Array.isArray(query.prefer) ? query.prefer : query.prefer ? [query.prefer] : [],
+      objective: query.objective,
+    };
 
     if (fromId === toId) {
       throw new BadRequestException(
@@ -206,7 +219,7 @@ export class JourneyService {
         journeyScore.walkingSeconds,
       );
 
-      enriched.push({
+      const candidateObj: EnrichedCandidate = {
         id,
         rank: 0, // assigned after filtering + sorting
         score: journeyScore.score,
@@ -237,7 +250,21 @@ export class JourneyService {
           accessibilityFriendly: false,
         } satisfies CandidateAttributes,
         _rankScore: rankScore,
-      });
+      };
+
+      // ── ICX Evaluation ────────────────────────────────────────────────────
+      const evalResult = this.interchangeEvaluator.evaluateCandidate(candidateObj, constraints);
+      candidateObj.interchangeFriction = {
+        level: evalResult.frictionLevel,
+        effectiveCostSeconds: evalResult.effectiveCostSeconds,
+        frictionSeconds: evalResult.frictionSeconds,
+      };
+      candidateObj.reasonCodes = evalResult.reasonCodes;
+      candidateObj.humanSummary = evalResult.humanSummary;
+
+      if (evalResult.isFeasible) {
+        enriched.push(candidateObj);
+      }
     }
 
     // ── 5. Feasibility + dominance filter ────────────────────────────────────
@@ -250,8 +277,20 @@ export class JourneyService {
       );
     }
 
-    // ── 6. Default rank: sort by rankScore ascending ──────────────────────────
-    filtered.sort((a, b) => a._rankScore - b._rankScore);
+    // ── 6. Deterministic Rank: sort by effectiveCost if friction/luggage requested, else rankScore ──
+    const sortByFriction =
+      constraints.objective === 'MIN_FRICTION' ||
+      constraints.luggage === 'HEAVY';
+
+    if (sortByFriction) {
+      filtered.sort(
+        (a, b) =>
+          (a.interchangeFriction?.effectiveCostSeconds ?? a._rankScore) -
+          (b.interchangeFriction?.effectiveCostSeconds ?? b._rankScore),
+      );
+    } else {
+      filtered.sort((a, b) => a._rankScore - b._rankScore);
+    }
     filtered.forEach((c, i) => {
       c.rank = i + 1;
     });
