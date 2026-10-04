@@ -1,0 +1,732 @@
+{
+  "schemaVersion": "tdse-icx-v1",
+  "city": "Mumbai",
+  "country": "India",
+  "lastUpdated": "2026-10-04",
+  "description": "Mumbai Network Interchange Complex Registry (ICX). Models physical connectivity, paid/unpaid boundaries, AFC barriers, vertical drops, and directional pathways with strict epistemological provenance.",
+  "epistemologicalStates": [
+    "KNOWN_FROM_ENGINEERING",
+    "KNOWN_FROM_OBSERVATION",
+    "UNKNOWN_SOURCE_REQUIRED"
+  ],
+  "complexes": [
+    {
+      "complexId": "ICX-MAROL-NAKA",
+      "name": "Marol Naka Interchange Hub",
+      "participatingSystems": ["MUMBAI_LINE1", "MUMBAI_LINE3"],
+      "participatingStations": ["STN_L1_008", "STN_L3_004"],
+      "interchangeType": "UNPAID_OUT_OF_STATION",
+      "attributes": {
+        "paidAreaTransfer": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "sourceId": "SRC-L1-002",
+            "evidence": "Separate fare clearinghouses (MMOPL private concession vs MMRCL JV)"
+          }
+        },
+        "requiresAfcRetap": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "sourceId": "SRC-L1-002",
+            "evidence": "Passenger must tap out of originating station and tap in at destination station"
+          }
+        },
+        "requiresSecurityRescreening": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "sourceId": "SRC-L1-002",
+            "evidence": "Street-level egress breaks the security perimeter; CISF / private screening re-entry required"
+          }
+        },
+        "verticalDropMeters": {
+          "value": 31.5,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SOURCE-001",
+            "section": "Chapter 5 Table 5.7 / Section 5.3.4.iii",
+            "evidence": "L3 platform depth -15.4m to -19.5m below ground; L1 elevated platform +12.0m above ground"
+          }
+        },
+        "straightLineDistanceMeters": {
+          "value": 169.8,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SRC-L1-004",
+            "evidence": "Euclidean distance between OSM node 3175794775 (L1) and OSM node 5787704197 (L3)"
+          }
+        },
+        "walkingDistanceMeters": {
+          "value": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "provenance": {
+            "note": "Estimated ~380m including street walk and vertical stair/escalator flights, but awaiting measured footway survey"
+          }
+        },
+        "outdoorStreetExposure": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Sidewalk along Andheri-Kurla Road between station entry boxes"
+          }
+        },
+        "elevatorAvailability": {
+          "status": "UNKNOWN",
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "provenance": {
+            "note": "Lifts exist within station boxes, but continuous step-free street-to-concourse path is unverified"
+          }
+        },
+        "escalatorDirectionality": {
+          "status": "UNKNOWN",
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "provenance": {
+            "note": "Exact up/down assignment of individual escalator banks is unverified from source documents"
+          }
+        }
+      },
+      "pathways": [
+        {
+          "pathwayId": "PATH-MN-L1-TO-L3",
+          "from": "MUMBAI_LINE1",
+          "to": "MUMBAI_LINE3",
+          "elements": [
+            "VERTICAL_DESCENT_VIADUCT",
+            "AFC_EXIT_MMOPL",
+            "STREET_FOOTPATH_ANDHERI_KURLA_RD",
+            "SECURITY_SCREENING_MMRCL",
+            "AFC_ENTRY_MMRCL",
+            "VERTICAL_DESCENT_UNDERGROUND_3X_ESCALATOR"
+          ],
+          "walkingSeconds": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "luggageFrictionLevel": "EXTREME",
+          "accessibilityStatus": "UNVERIFIED_ELEVATOR"
+        },
+        {
+          "pathwayId": "PATH-MN-L3-TO-L1",
+          "from": "MUMBAI_LINE3",
+          "to": "MUMBAI_LINE1",
+          "elements": [
+            "VERTICAL_ASCENT_UNDERGROUND_3X_ESCALATOR",
+            "AFC_EXIT_MMRCL",
+            "STREET_FOOTPATH_ANDHERI_KURLA_RD",
+            "SECURITY_SCREENING_MMOPL",
+            "AFC_ENTRY_MMOPL",
+            "VERTICAL_ASCENT_VIADUCT"
+          ],
+          "walkingSeconds": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "luggageFrictionLevel": "EXTREME",
+          "accessibilityStatus": "UNVERIFIED_ELEVATOR"
+        }
+      ]
+    },
+    {
+      "complexId": "ICX-BKC",
+      "name": "Bandra Kurla Complex (BKC) Transit Hub",
+      "participatingSystems": ["MUMBAI_LINE3", "MUMBAI_LINE2B", "MAHSR_BULLET_TRAIN"],
+      "participatingStations": ["STN_L3_010", "STN_L2B_BKC", "STN_MAHSR_BKC"],
+      "interchangeType": "PAID_TO_PAID_INTEGRATED",
+      "attributes": {
+        "paidAreaTransfer": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SOURCE-001",
+            "section": "Chapter 5 Section 5.3.4.i, Page 5-57",
+            "evidence": "Section 5.3.4.i explicitly mandates connecting the paid area of Bandra Metro (BKC) with the paid area of adjoining corridor"
+          }
+        },
+        "requiresAfcRetap": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SOURCE-001",
+            "evidence": "Direct paid concourse-to-skywalk link"
+          }
+        },
+        "requiresSecurityRescreening": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SOURCE-001",
+            "evidence": "Shared continuous paid transit perimeter"
+          }
+        },
+        "connectorGeometry": {
+          "type": "ELEVATED_ENCLOSED_SKYWALK_WITH_4_ESCALATORS",
+          "elevationMeters": 8.4,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SOURCE-001",
+            "evidence": "Dedicated vertical circulation bank connecting underground concourse to +8.4m skywalk into Line 2B paid concourse"
+          }
+        },
+        "bulletTrainSubway": {
+          "type": "SUBTERRANEAN_SUBWAY_WITH_TRAVELATOR",
+          "depthMeters": -15.6,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "evidence": "NHSRCL / MMRCL Multi-modal integration engineering design"
+          }
+        },
+        "outdoorStreetExposure": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "evidence": "Fully enclosed climate-controlled structures"
+          }
+        },
+        "elevatorAvailability": {
+          "status": "VERIFIED_ELEVATOR",
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SOURCE-001",
+            "section": "Chapter 5 Section 5.3.4.i",
+            "evidence": "DPR explicitly specifies disabled access lifts connecting all levels (ground, concourse paid area, platform)"
+          }
+        }
+      },
+      "pathways": [
+        {
+          "pathwayId": "PATH-BKC-L3-TO-L2B",
+          "from": "MUMBAI_LINE3",
+          "to": "MUMBAI_LINE2B",
+          "elements": [
+            "VERTICAL_ASCENT_L3_CONCOURSE",
+            "ESCALATOR_BANK_4X",
+            "ENCLOSED_SKYWALK_ELEVATED",
+            "PAID_CONCOURSE_ENTRY_L2B"
+          ],
+          "walkingSeconds": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "luggageFrictionLevel": "LOW",
+          "accessibilityStatus": "VERIFIED_ELEVATOR"
+        },
+        {
+          "pathwayId": "PATH-BKC-L3-TO-MAHSR",
+          "from": "MUMBAI_LINE3",
+          "to": "MAHSR_BULLET_TRAIN",
+          "elements": [
+            "SUBTERRANEAN_PASSAGE",
+            "HORIZONTAL_TRAVELATOR",
+            "BULLET_TRAIN_CONCOURSE_ENTRY"
+          ],
+          "walkingSeconds": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "luggageFrictionLevel": "LOW",
+          "accessibilityStatus": "VERIFIED_ELEVATOR"
+        }
+      ]
+    },
+    {
+      "complexId": "ICX-DAHISAR-EAST",
+      "name": "Dahisar East Junction Hub",
+      "participatingSystems": ["MUMBAI_LINE2A", "MUMBAI_LINE7"],
+      "participatingStations": ["STN_L2A_DAHISAR_EAST", "STN_L7_DAHISAR_EAST"],
+      "interchangeType": "PAID_CROSS_CONCOURSE_SAME_OPERATOR",
+      "attributes": {
+        "paidAreaTransfer": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Both lines built and operated by MMMOCL; unified concourse structure"
+          }
+        },
+        "requiresAfcRetap": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Single ticketing system; zero AFC gates between lines"
+          }
+        },
+        "requiresSecurityRescreening": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Single continuous security perimeter"
+          }
+        },
+        "walkingDistanceMeters": {
+          "value": 50,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Cross-concourse physical walkway between parallel platform structures"
+          }
+        },
+        "outdoorStreetExposure": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION"
+        },
+        "elevatorAvailability": {
+          "status": "VERIFIED_ELEVATOR",
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Full step-free lift access across concourse levels"
+          }
+        }
+      },
+      "pathways": [
+        {
+          "pathwayId": "PATH-DAHISAR-2A-TO-7",
+          "from": "MUMBAI_LINE2A",
+          "to": "MUMBAI_LINE7",
+          "elements": [
+            "CROSS_CONCOURSE_FLAT_WALK"
+          ],
+          "walkingSeconds": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "luggageFrictionLevel": "MINIMAL",
+          "accessibilityStatus": "VERIFIED_ELEVATOR"
+        },
+        {
+          "pathwayId": "PATH-DAHISAR-7-TO-2A",
+          "from": "MUMBAI_LINE7",
+          "to": "MUMBAI_LINE2A",
+          "elements": [
+            "CROSS_CONCOURSE_FLAT_WALK"
+          ],
+          "walkingSeconds": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "luggageFrictionLevel": "MINIMAL",
+          "accessibilityStatus": "VERIFIED_ELEVATOR"
+        }
+      ]
+    },
+    {
+      "complexId": "ICX-DN-NAGAR",
+      "name": "D.N. Nagar / Andheri West Interchange Hub",
+      "participatingSystems": ["MUMBAI_LINE1", "MUMBAI_LINE2A"],
+      "participatingStations": ["STN_L1_002", "STN_L2A_ANDHERI_WEST"],
+      "interchangeType": "ELEVATED_FOB_ASYMMETRIC",
+      "attributes": {
+        "paidAreaTransfer": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Separate operating authorities (Reliance MMOPL vs MMMOCL)"
+          }
+        },
+        "requiresAfcRetap": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Passengers tap out of Line 2A / Line 1 and tap into the other system"
+          }
+        },
+        "requiresSecurityRescreening": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Dedicated security screening at station connector entrances"
+          }
+        },
+        "directionalAsymmetry": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "2A to L1 concourse feeds directly towards Ghatkopar platform; L1 to 2A exits concourse to mezzanine"
+          }
+        },
+        "walkingDistanceMeters": {
+          "value": 120,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Elevated foot overbridge connector structure length"
+          }
+        },
+        "outdoorStreetExposure": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Covered elevated footbridge"
+          }
+        },
+        "elevatorAvailability": {
+          "status": "UNKNOWN",
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "provenance": {
+            "note": "Bridge has stairs and escalators; continuous lift availability across connector unverified"
+          }
+        }
+      },
+      "pathways": [
+        {
+          "pathwayId": "PATH-DNN-2A-TO-L1",
+          "from": "MUMBAI_LINE2A",
+          "to": "MUMBAI_LINE1",
+          "elements": [
+            "AFC_EXIT_MMMOCL",
+            "COVERED_ELEVATED_BRIDGE",
+            "SECURITY_SCREENING_MMOPL",
+            "AFC_ENTRY_MMOPL",
+            "CONCOURSE_DIRECT_TO_GHATKOPAR_PF"
+          ],
+          "walkingSeconds": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "luggageFrictionLevel": "MODERATE",
+          "accessibilityStatus": "UNVERIFIED_ELEVATOR"
+        },
+        {
+          "pathwayId": "PATH-DNN-L1-TO-2A",
+          "from": "MUMBAI_LINE1",
+          "to": "MUMBAI_LINE2A",
+          "elements": [
+            "AFC_EXIT_MMOPL",
+            "MEZZANINE_ACCESS_CORRIDOR",
+            "COVERED_ELEVATED_BRIDGE",
+            "SECURITY_SCREENING_MMMOCL",
+            "AFC_ENTRY_MMMOCL",
+            "L2A_CONCOURSE_TO_PF"
+          ],
+          "walkingSeconds": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "luggageFrictionLevel": "MODERATE",
+          "accessibilityStatus": "UNVERIFIED_ELEVATOR"
+        }
+      ]
+    },
+    {
+      "complexId": "ICX-WEH-GUNDAVALI",
+      "name": "Western Express Highway / Gundavali Interchange Hub",
+      "participatingSystems": ["MUMBAI_LINE1", "MUMBAI_LINE7"],
+      "participatingStations": ["STN_L1_005", "STN_L7_GUNDAVALI"],
+      "interchangeType": "LONG_ELEVATED_SKYWALK",
+      "attributes": {
+        "paidAreaTransfer": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Separate operating authorities (Reliance MMOPL vs MMMOCL)"
+          }
+        },
+        "requiresAfcRetap": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Tap out at Gundavali / WEH and re-tap on connecting line"
+          }
+        },
+        "requiresSecurityRescreening": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Security checkpoint at skywalk terminal entries"
+          }
+        },
+        "walkingDistanceMeters": {
+          "value": 580,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "MMRDA official skywalk civil works specification (580m elevated link)"
+          }
+        },
+        "travelatorInstalled": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Travelators installed along the 580m corridor"
+          }
+        },
+        "outdoorStreetExposure": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Fully covered elevated skywalk above highway"
+          }
+        },
+        "elevatorAvailability": {
+          "status": "VERIFIED_ELEVATOR",
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Station concourses at both ends equipped with operational lifts"
+          }
+        }
+      },
+      "pathways": [
+        {
+          "pathwayId": "PATH-WEH-L7-TO-L1",
+          "from": "MUMBAI_LINE7",
+          "to": "MUMBAI_LINE1",
+          "elements": [
+            "AFC_EXIT_MMMOCL",
+            "COVERED_SKYWALK_580M",
+            "TRAVELATOR_SECTIONS",
+            "SECURITY_SCREENING_MMOPL",
+            "AFC_ENTRY_MMOPL",
+            "L1_WEH_MEZZANINE"
+          ],
+          "walkingSeconds": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "luggageFrictionLevel": "MODERATE",
+          "accessibilityStatus": "VERIFIED_ELEVATOR"
+        },
+        {
+          "pathwayId": "PATH-WEH-L1-TO-L7",
+          "from": "MUMBAI_LINE1",
+          "to": "MUMBAI_LINE7",
+          "elements": [
+            "AFC_EXIT_MMOPL",
+            "COVERED_SKYWALK_580M",
+            "TRAVELATOR_SECTIONS",
+            "SECURITY_SCREENING_MMMOCL",
+            "AFC_ENTRY_MMMOCL",
+            "L7_GUNDAVALI_CONCOURSE"
+          ],
+          "walkingSeconds": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "luggageFrictionLevel": "MODERATE",
+          "accessibilityStatus": "VERIFIED_ELEVATOR"
+        }
+      ]
+    },
+    {
+      "complexId": "ICX-ANDHERI",
+      "name": "Andheri Metro & Suburban Railway Interchange Hub",
+      "participatingSystems": ["MUMBAI_LINE1", "INDIAN_RAILWAYS_WR"],
+      "participatingStations": ["STN_L1_004", "STN_IR_ANDHERI"],
+      "interchangeType": "RAILWAY_FOOT_OVERBRIDGE",
+      "attributes": {
+        "paidAreaTransfer": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION"
+        },
+        "requiresAfcRetap": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Metro smartcard / token vs Western Railway suburban ticketing (UTS/ATVM)"
+          }
+        },
+        "requiresSecurityRescreening": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "provenance": {
+            "evidence": "Suburban railway side is open concourse; security check only upon entering metro"
+          }
+        },
+        "walkingDistanceMeters": {
+          "value": 110,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION"
+        },
+        "crowdFriction": {
+          "value": "EXTREME_PEAK",
+          "knowledgeState": "KNOWN_FROM_OBSERVATION"
+        },
+        "elevatorAvailability": {
+          "status": "UNKNOWN",
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "provenance": {
+            "note": "Railway FOB has lifts on select platforms; complete step-free transfer unverified"
+          }
+        }
+      },
+      "pathways": [
+        {
+          "pathwayId": "PATH-ANDHERI-L1-TO-WR",
+          "from": "MUMBAI_LINE1",
+          "to": "INDIAN_RAILWAYS_WR",
+          "elements": [
+            "AFC_EXIT_METRO",
+            "RAILWAY_FOB_CONCOURSE",
+            "PLATFORM_STAIRS_WR"
+          ],
+          "walkingSeconds": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "luggageFrictionLevel": "HIGH",
+          "accessibilityStatus": "UNVERIFIED_ELEVATOR"
+        }
+      ]
+    },
+    {
+      "complexId": "ICX-GHATKOPAR",
+      "name": "Ghatkopar Metro & Suburban Railway Interchange Hub",
+      "participatingSystems": ["MUMBAI_LINE1", "INDIAN_RAILWAYS_CR"],
+      "participatingStations": ["STN_L1_012", "STN_IR_GHATKOPAR"],
+      "interchangeType": "RAILWAY_FOOT_OVERBRIDGE",
+      "attributes": {
+        "paidAreaTransfer": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION"
+        },
+        "requiresAfcRetap": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION"
+        },
+        "requiresSecurityRescreening": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION"
+        },
+        "walkingDistanceMeters": {
+          "value": 85,
+          "knowledgeState": "KNOWN_FROM_OBSERVATION"
+        },
+        "crowdFriction": {
+          "value": "EXTREME_PEAK",
+          "knowledgeState": "KNOWN_FROM_OBSERVATION"
+        },
+        "elevatorAvailability": {
+          "status": "UNKNOWN",
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED"
+        }
+      },
+      "pathways": [
+        {
+          "pathwayId": "PATH-GHATKOPAR-L1-TO-CR",
+          "from": "MUMBAI_LINE1",
+          "to": "INDIAN_RAILWAYS_CR",
+          "elements": [
+            "AFC_EXIT_METRO",
+            "RAILWAY_FOB",
+            "PLATFORM_STAIRS_CR"
+          ],
+          "walkingSeconds": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "luggageFrictionLevel": "HIGH",
+          "accessibilityStatus": "UNVERIFIED_ELEVATOR"
+        }
+      ]
+    },
+    {
+      "complexId": "ICX-DADAR",
+      "name": "Dadar Metro & Railway Mega Hub",
+      "participatingSystems": ["MUMBAI_LINE3", "SUBURBAN_WR_CR"],
+      "participatingStations": ["STN_L3_013", "STN_IR_DADAR"],
+      "interchangeType": "SUBTERRANEAN_SUBWAY_TO_RAILWAY",
+      "attributes": {
+        "paidAreaTransfer": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SOURCE-001",
+            "section": "Chapter 5 Section 5.3"
+          }
+        },
+        "requiresAfcRetap": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING"
+        },
+        "elevatorAvailability": {
+          "status": "VERIFIED_ELEVATOR",
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SOURCE-001",
+            "evidence": "Line 3 station design mandates full lift provision to ground/subway"
+          }
+        }
+      },
+      "pathways": [
+        {
+          "pathwayId": "PATH-DADAR-L3-TO-RAIL",
+          "from": "MUMBAI_LINE3",
+          "to": "SUBURBAN_WR_CR",
+          "elements": [
+            "VERTICAL_ASCENT_L3",
+            "AFC_EXIT_L3",
+            "SUBWAY_LINK_TO_RAILWAY",
+            "RAILWAY_ENTRY"
+          ],
+          "walkingSeconds": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "luggageFrictionLevel": "MODERATE",
+          "accessibilityStatus": "VERIFIED_ELEVATOR"
+        }
+      ]
+    },
+    {
+      "complexId": "ICX-MUMBAI-CENTRAL",
+      "name": "Mumbai Central Metro & Mainline Terminal Hub",
+      "participatingSystems": ["MUMBAI_LINE3", "SUBURBAN_WR"],
+      "participatingStations": ["STN_L3_019", "STN_IR_MUMBAI_CENTRAL"],
+      "interchangeType": "SUBTERRANEAN_SUBWAY_TO_MAINLINE_TERMINAL",
+      "attributes": {
+        "paidAreaTransfer": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SOURCE-001",
+            "section": "Chapter 5 Section 5.3"
+          }
+        },
+        "requiresAfcRetap": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING"
+        },
+        "elevatorAvailability": {
+          "status": "VERIFIED_ELEVATOR",
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SOURCE-001",
+            "evidence": "Full step-free lift access designed from underground box to surface terminal concourse"
+          }
+        }
+      },
+      "pathways": [
+        {
+          "pathwayId": "PATH-MC-L3-TO-WR",
+          "from": "MUMBAI_LINE3",
+          "to": "SUBURBAN_WR",
+          "elements": [
+            "VERTICAL_ASCENT_L3",
+            "AFC_EXIT_L3",
+            "PEDESTRIAN_SUBWAY_TO_MAINLINE_STATION",
+            "MAINLINE_CONCOURSE_ENTRY"
+          ],
+          "walkingSeconds": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "luggageFrictionLevel": "LOW",
+          "accessibilityStatus": "VERIFIED_ELEVATOR"
+        }
+      ]
+    },
+    {
+      "complexId": "ICX-CSMT",
+      "name": "CSMT Metro & Heritage Railway Terminal Hub",
+      "participatingSystems": ["MUMBAI_LINE3", "SUBURBAN_CR_HARBOUR"],
+      "participatingStations": ["STN_L3_023", "STN_IR_CSMT"],
+      "interchangeType": "SUBTERRANEAN_SUBWAY_TO_HERITAGE_TERMINAL",
+      "attributes": {
+        "paidAreaTransfer": {
+          "value": false,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SOURCE-001",
+            "section": "Chapter 5 Section 5.3"
+          }
+        },
+        "requiresAfcRetap": {
+          "value": true,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING"
+        },
+        "elevatorAvailability": {
+          "status": "VERIFIED_ELEVATOR",
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SOURCE-001",
+            "evidence": "Line 3 underground station box design mandates full elevator provision"
+          }
+        }
+      },
+      "pathways": [
+        {
+          "pathwayId": "PATH-CSMT-L3-TO-CR",
+          "from": "MUMBAI_LINE3",
+          "to": "SUBURBAN_CR_HARBOUR",
+          "elements": [
+            "VERTICAL_ASCENT_L3",
+            "AFC_EXIT_L3",
+            "UNDERGROUND_SUBWAY_TO_SUBURBAN_CONCOURSE",
+            "CR_CONCOURSE_ENTRY"
+          ],
+          "walkingSeconds": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "luggageFrictionLevel": "MODERATE",
+          "accessibilityStatus": "VERIFIED_ELEVATOR"
+        }
+      ]
+    }
+  ]
+}
