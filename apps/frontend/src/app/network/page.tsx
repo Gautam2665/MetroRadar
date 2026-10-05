@@ -7,6 +7,7 @@ import { Header } from "../../components/Header";
 import MapContainer from "../../components/map/MapContainer";
 import { useDigitalTwin } from "../../hooks/useDigitalTwin";
 import { CITY_METADATA } from "../../config/cityMetadata";
+import { useCityContext } from "../../contexts/CityContext";
 
 type SelectedStation = {
   id: string;
@@ -39,7 +40,7 @@ async function fetchStationMeta(stationId: string): Promise<Partial<SelectedStat
 }
 
 function NetworkContent() {
-  const [activeCity, setActiveCity] = useState("delhi");
+  const { activeCity, setActiveCity } = useCityContext();
   const [selectedStation, setSelectedStation] = useState<SelectedStation | null>(null);
   const [inspectorOpen, setInspectorOpen] = useState(false);
   const [activeLevel, setActiveLevel] = useState<"G" | "L1" | "L2">("L1");

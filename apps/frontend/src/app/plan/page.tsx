@@ -5,9 +5,10 @@ import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
 import MapContainer from "../../components/map/MapContainer";
 import { JourneyPlannerContainer, RouteOption } from "../../containers/JourneyPlannerContainer";
+import { useCityContext } from "../../contexts/CityContext";
 
 export default function JourneyPlannerPage() {
-  const [activeCity, setActiveCity] = useState("delhi");
+  const { activeCity, setActiveCity } = useCityContext();
   const [selectedStationId, setSelectedStationId] = useState<string | null>(null);
   const [routeGeojson, setRouteGeojson] = useState<GeoJSON.FeatureCollection | null>(null);
   const [activeRoute, setActiveRoute] = useState<RouteOption | null>(null);

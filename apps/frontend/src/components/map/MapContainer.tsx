@@ -21,7 +21,7 @@ const CITY_CENTERS: Record<string, { center: [number, number]; zoom: number }> =
   bengaluru: { center: [77.5946, 12.9716], zoom: 12 },
   chennai: { center: [80.2707, 13.0827], zoom: 12 },
   ahmedabad: { center: [72.5714, 23.0225], zoom: 12 },
-  mumbai: { center: [72.8777, 19.0760], zoom: 12 },
+  mumbai: { center: [72.8500, 19.1450], zoom: 10.8 },
 };
 
 const SYSTEM_CODES: Record<string, string> = {

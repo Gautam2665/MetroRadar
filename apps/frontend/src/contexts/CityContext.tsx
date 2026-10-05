@@ -12,8 +12,28 @@ const CityContext = createContext<CityContextType>({
   setActiveCity: () => {},
 });
 
+const STORAGE_KEY = "transitos_active_city";
+
 export function CityProvider({ children }: { children: ReactNode }) {
-  const [activeCity, setActiveCity] = useState("delhi");
+  const [activeCity, setActiveCityState] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) return stored;
+      } catch {}
+    }
+    return "delhi";
+  });
+
+  const setActiveCity = (city: string) => {
+    setActiveCityState(city);
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem(STORAGE_KEY, city);
+      } catch {}
+    }
+  };
+
   return (
     <CityContext.Provider value={{ activeCity, setActiveCity }}>
       {children}

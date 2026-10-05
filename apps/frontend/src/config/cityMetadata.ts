@@ -46,7 +46,17 @@ export const CITY_METADATA: Record<
   mumbai: {
     name: "Mumbai, MH",
     code: "MM",
-    center: [72.8777, 19.076],
-    quickPills: ["Versova", "Andheri", "Marol Naka", "Ghatkopar", "Mumbai Central", "SEEPZ", "BKC", "Cuffe Parade"],
+    center: [72.8500, 19.1450],
+    quickPills: [
+      "Versova",
+      "Andheri",
+      "Gundavali",
+      "Dahisar (East)",
+      "Andheri (West)",
+      "Marol Naka",
+      "Ghatkopar",
+      "BKC",
+      "Cuffe Parade",
+    ],
   },
 };
