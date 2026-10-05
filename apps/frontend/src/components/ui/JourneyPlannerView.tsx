@@ -184,7 +184,8 @@ function JourneyDetailsTimeline({
                 </span>
               </div>
               <div className="text-[11.5px] text-slate-300 mt-1">
-                {transitLegs[0].platform || "Platform 1"} · {transitLegs[0].towards
+                {transitLegs[0].platform ? `${transitLegs[0].platform} · ` : ""}
+                {transitLegs[0].towards
                   ? `Towards ${transitLegs[0].towards}`
                   : formatLineName(transitLegs[0].line)}
               </div>
@@ -222,51 +223,26 @@ function JourneyDetailsTimeline({
               (l.fromStation === deboardStation || l.toStation === boardStation)
           );
 
-          // Derive transfer title and duration
+          // Derive transfer title and duration from authoritative backend DTO
           const transferTitle =
             walkLeg?.transferTitle ||
-            (deboardStation.toUpperCase().includes("MAROL NAKA")
-              ? "Transfer to Blue Line (Elevated)"
-              : deboardStation.toUpperCase().includes("DHAULA KUAN")
-              ? "Transfer to Pink Line (Elevated)"
-              : `Transfer to ${nextShortLine}`);
+            (walkLeg as any)?.transferDetails?.name ||
+            `Transfer to ${nextShortLine}`;
 
           const transferDuration =
             walkLeg?.transferDurationText ||
-            (walkLeg?.durationMins
-              ? `~${walkLeg.durationMins} min`
-              : "~5 min");
+            (walkLeg as any)?.transferDetails?.durationDisplay ||
+            (walkLeg?.durationMins ? `~${walkLeg.durationMins} min` : "~5 min");
 
-          let transferSteps: string[] = [];
-          if (walkLeg?.transferInstructions && walkLeg.transferInstructions.length > 0) {
-            transferSteps = walkLeg.transferInstructions;
-          } else if (deboardStation.toUpperCase().includes("MAROL NAKA")) {
-            transferSteps = [
-              "Exit Gate A1/B1 · Walk 155m via Andheri-Kurla Rd",
-              "Re-tap entry at Line 1 Concourse",
-            ];
-          } else if (
-            deboardStation.toUpperCase().includes("DHAULA KUAN") ||
-            boardStation.toUpperCase().includes("SOUTH CAMPUS")
-          ) {
-            transferSteps = [
-              "Follow Skywalk / Travelator to Pink Line (755m)",
-              "Tap in at Durgabai Deshmukh South Campus Concourse",
-            ];
-          } else {
-            transferSteps = [
-              `Follow signs to ${nextShortLine} connecting concourse`,
-              "Re-tap entry at connecting platform",
-            ];
-          }
+          const transferSteps: string[] =
+            walkLeg?.transferInstructions && walkLeg.transferInstructions.length > 0
+              ? walkLeg.transferInstructions
+              : (walkLeg as any)?.transferDetails?.instructions &&
+                (walkLeg as any).transferDetails.instructions.length > 0
+              ? (walkLeg as any).transferDetails.instructions
+              : [`Follow signs to ${nextShortLine} connecting concourse`];
 
-          const deboardDoors =
-            curLeg.doorsOpen ||
-            (curLeg.line?.toUpperCase().includes("AQUA") ||
-            curLeg.line?.toUpperCase().includes("LINE 3") ||
-            curLeg.line?.toUpperCase().includes("AIRPORT")
-              ? "Right"
-              : "Left");
+          const deboardDoors = curLeg.doorsOpen;
 
           return (
             <div key={idx} className="space-y-4">
@@ -277,9 +253,11 @@ function JourneyDetailsTimeline({
                   <div className="text-xs font-bold text-slate-100">
                     DEBOARD · {deboardStation}
                   </div>
-                  <div className="text-[11px] text-amber-300/90 mt-0.5">
-                    Doors open on the {deboardDoors}
-                  </div>
+                  {deboardDoors && (
+                    <div className="text-[11px] text-amber-300/90 mt-0.5">
+                      Doors open on the {deboardDoors}
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -327,7 +305,8 @@ function JourneyDetailsTimeline({
                     </span>
                   </div>
                   <div className="text-[11.5px] text-slate-300 mt-1">
-                    {nextLeg.platform || "Platform 1"} · {nextLeg.towards
+                    {nextLeg.platform ? `${nextLeg.platform} · ` : ""}
+                    {nextLeg.towards
                       ? `Towards ${nextLeg.towards}`
                       : formatLineName(nextLeg.line)}
                   </div>

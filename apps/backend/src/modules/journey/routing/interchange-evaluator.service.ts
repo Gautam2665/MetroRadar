@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
-import { RouteCandidate, JourneyLeg } from './candidate.types';
+import { RouteCandidate, JourneyLeg, TransferDetails } from './candidate.types';
 
 export interface GenericConstraints {
   mobility?: 'STANDARD' | 'REDUCED';
@@ -207,7 +207,7 @@ export class InterchangeEvaluatorService {
       if (complex.complexId === 'ICX-MAROL-NAKA') {
           reasonCodes.push('OUT_OF_STATION_TRANSFER', 'AFC_RETAP', 'SECURITY_RESCREENING', 'OUTDOOR_STREET_WALK');
           summaryParts.push(
-            'Marol Naka: Unpaid street-level transfer. Exit AFC gates, walk ~170m along Andheri-Kurla Road, re-clear security screening and tap in to connecting line (elevated L1 ⇄ underground L3).'
+            'Marol Naka: Unpaid street-level transfer. Exit AFC gates, walk 155m along Andheri-Kurla Road, re-clear security screening and tap in to connecting line (elevated L1 ⇄ underground L3).'
           );
         } else if (complex.complexId === 'ICX-MUMBAI-CENTRAL') {
           reasonCodes.push('IDEAL_FOR_LUGGAGE', 'FLAT_FORECOURT', 'LIFT_VERIFIED');
@@ -277,5 +277,201 @@ export class InterchangeEvaluatorService {
       reasonCodes: [...new Set(reasonCodes)],
       humanSummary,
     };
+  }
+
+  /**
+   * Deterministically resolves transfer details, pathway meters, and durations for an interchange leg.
+   */
+  resolveTransferDetails(
+    fromStationCodeOrName: string,
+    toStationCodeOrName: string,
+    prevLineName?: string | null,
+    nextLineName?: string | null,
+  ): TransferDetails | null {
+    const fromU = (fromStationCodeOrName || '').toUpperCase();
+    const toU = (toStationCodeOrName || '').toUpperCase();
+    const prevU = (prevLineName || '').toUpperCase();
+    const nextU = (nextLineName || '').toUpperCase();
+
+    // 1. Marol Naka (L3 <-> L1)
+    if (fromU.includes('MAROL') && toU.includes('MAROL')) {
+      const toL1 =
+        nextU.includes('LINE 1') ||
+        nextU.includes('BLUE') ||
+        prevU.includes('LINE 3') ||
+        prevU.includes('AQUA');
+
+      return {
+        complexId: 'ICX-MAROL-NAKA',
+        name: 'Marol Naka Interchange Hub',
+        pathwayDistanceMeters: 155,
+        estimatedDurationSeconds: 450,
+        durationDisplay: '~7–8 min',
+        components: {
+          verticalEgressSeconds: 120,
+          afcExitSeconds: 30,
+          streetWalkSeconds: 120,
+          securityScreeningSeconds: 120,
+          afcEntrySeconds: 30,
+          platformAscentSeconds: 30,
+        },
+        attributes: {
+          paidAreaTransfer: false,
+          requiresAfcRetap: true,
+          requiresSecurityRescreening: true,
+          outdoorStreetExposure: true,
+          verticalDropMeters: 31.5,
+        },
+        reasonCodes: [
+          'UNPAID_TRANSFER',
+          'SECURITY_RESCREEN_REQUIRED',
+          'OUTDOOR_STREET_WALK',
+          'VERTICAL_DROP_31M',
+        ],
+        instructions: toL1
+          ? [
+              'Exit Line 3 Gate A1/B1 to street level',
+              'Walk 155m via Andheri-Kurla Road sidewalk',
+              'Enter Line 1 Concourse · Clear security screening',
+              'Tap in through MMOPL AFC gates & ascend to Platform 2 (Versova)',
+            ]
+          : [
+              'Tap out of Line 1 Concourse & descend to street level',
+              'Walk 155m via Andheri-Kurla Road sidewalk',
+              'Enter Line 3 Concourse via Gate A1/B1 · Clear security screening',
+              'Tap in through MMRCL AFC gates & descend to Aqua Line platform',
+            ],
+      };
+    }
+
+    // 2. Dhaula Kuan <-> South Campus Skywalk (Delhi)
+    if (
+      (fromU.includes('DHAULA') && toU.includes('SOUTH CAMPUS')) ||
+      (fromU.includes('SOUTH CAMPUS') && toU.includes('DHAULA'))
+    ) {
+      const toPink = nextU.includes('PINK') || fromU.includes('DHAULA');
+      return {
+        complexId: 'ICX-DHAULA-KUAN-SOUTH-CAMPUS',
+        name: 'Dhaula Kuan – South Campus Skywalk',
+        pathwayDistanceMeters: 755,
+        estimatedDurationSeconds: 480,
+        durationDisplay: '~8 min',
+        components: {
+          verticalEgressSeconds: 60,
+          afcExitSeconds: 30,
+          streetWalkSeconds: 330,
+          securityScreeningSeconds: 0,
+          afcEntrySeconds: 30,
+          platformAscentSeconds: 30,
+        },
+        attributes: {
+          paidAreaTransfer: false,
+          requiresAfcRetap: true,
+          requiresSecurityRescreening: false,
+          outdoorStreetExposure: false,
+          verticalDropMeters: 0,
+        },
+        reasonCodes: ['ELEVATED_SKYWALK', 'TRAVELATOR_AVAILABLE'],
+        instructions: [
+          'Follow Skywalk / Travelator to ' + (toPink ? 'Pink Line (755m)' : 'Airport Express (755m)'),
+          'Tap in at ' + (toPink ? 'Durgabai Deshmukh South Campus Concourse' : 'Dhaula Kuan Concourse'),
+        ],
+      };
+    }
+
+    // 3. CSMT
+    if (fromU.includes('CSMT') || toU.includes('CSMT')) {
+      return {
+        complexId: 'ICX-CSMT',
+        name: 'Chhatrapati Shivaji Maharaj Terminus Hub',
+        pathwayDistanceMeters: 180,
+        estimatedDurationSeconds: 240,
+        durationDisplay: '~4 min',
+        components: {
+          verticalEgressSeconds: 60,
+          afcExitSeconds: 30,
+          streetWalkSeconds: 90,
+          securityScreeningSeconds: 30,
+          afcEntrySeconds: 30,
+          platformAscentSeconds: 0,
+        },
+        attributes: {
+          paidAreaTransfer: false,
+          requiresAfcRetap: true,
+          requiresSecurityRescreening: true,
+          outdoorStreetExposure: false,
+          verticalDropMeters: 15.0,
+        },
+        reasonCodes: ['SUBWAY_CONNECTION', 'WEATHER_PROTECTED'],
+        instructions: [
+          'Direct underground BMC subway connection',
+          'Direct access to CSMT Railway platforms',
+        ],
+      };
+    }
+
+    // 4. Mumbai Central
+    if (fromU.includes('MUMBAI CENTRAL') || toU.includes('MUMBAI CENTRAL')) {
+      return {
+        complexId: 'ICX-MUMBAI-CENTRAL',
+        name: 'Mumbai Central Interchange Hub',
+        pathwayDistanceMeters: 100,
+        estimatedDurationSeconds: 180,
+        durationDisplay: '~3 min',
+        components: {
+          verticalEgressSeconds: 60,
+          afcExitSeconds: 30,
+          streetWalkSeconds: 60,
+          securityScreeningSeconds: 30,
+          afcEntrySeconds: 0,
+          platformAscentSeconds: 0,
+        },
+        attributes: {
+          paidAreaTransfer: false,
+          requiresAfcRetap: true,
+          requiresSecurityRescreening: true,
+          outdoorStreetExposure: true,
+          verticalDropMeters: 16.5,
+        },
+        reasonCodes: ['IDEAL_FOR_LUGGAGE', 'FLAT_FORECOURT', 'LIFT_VERIFIED'],
+        instructions: [
+          'Direct lift/escalator access to station forecourt (100m walk)',
+          'Enter Western Railway main concourse',
+        ],
+      };
+    }
+
+    // 5. Churchgate
+    if (fromU.includes('CHURCHGATE') || toU.includes('CHURCHGATE')) {
+      return {
+        complexId: 'ICX-CHURCHGATE',
+        name: 'Churchgate Interchange Hub',
+        pathwayDistanceMeters: 150,
+        estimatedDurationSeconds: 240,
+        durationDisplay: '~4 min',
+        components: {
+          verticalEgressSeconds: 60,
+          afcExitSeconds: 30,
+          streetWalkSeconds: 120,
+          securityScreeningSeconds: 30,
+          afcEntrySeconds: 0,
+          platformAscentSeconds: 0,
+        },
+        attributes: {
+          paidAreaTransfer: false,
+          requiresAfcRetap: true,
+          requiresSecurityRescreening: true,
+          outdoorStreetExposure: true,
+          verticalDropMeters: 18.0,
+        },
+        reasonCodes: ['PEDESTRIAN_WALK'],
+        instructions: [
+          'Exit station · Walk 150m along pedestrian walkway',
+          'Enter Churchgate Railway Station',
+        ],
+      };
+    }
+
+    return null;
   }
 }

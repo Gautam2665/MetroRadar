@@ -81,6 +81,37 @@ export interface StationRef {
   lng: number;
 }
 
+// ── Transfer Details ─────────────────────────────────────────────────────────
+
+export interface TransferComponents {
+  verticalEgressSeconds: number;
+  afcExitSeconds: number;
+  streetWalkSeconds: number;
+  securityScreeningSeconds: number;
+  afcEntrySeconds: number;
+  platformAscentSeconds: number;
+}
+
+export interface TransferAttributes {
+  paidAreaTransfer: boolean;
+  requiresAfcRetap: boolean;
+  requiresSecurityRescreening: boolean;
+  outdoorStreetExposure: boolean;
+  verticalDropMeters: number;
+}
+
+export interface TransferDetails {
+  complexId: string;
+  name: string;
+  pathwayDistanceMeters: number;
+  estimatedDurationSeconds: number;
+  durationDisplay: string;
+  components: TransferComponents;
+  attributes: TransferAttributes;
+  reasonCodes: string[];
+  instructions: string[];
+}
+
 // ── Journey Leg ───────────────────────────────────────────────────────────────
 
 export interface JourneyLeg {
@@ -94,10 +125,17 @@ export interface JourneyLeg {
   lineName: string | null;
   lineColor: string | null;
   lineCode: string | null;
+  /** Legacy alias for hopCount */
   stationsCount: number;
+  /** Explicit number of inter-station train hops (intermediate segments) */
+  hopCount?: number;
+  /** Total station nodes touched (origin + intermediate + destination) */
+  visitedStationCount?: number;
+  direction?: string;
   towards?: string;
-  platform?: string;
-  doorsOpen?: 'Left' | 'Right';
+  platform?: string | null;
+  doorsOpen?: 'Left' | 'Right' | null;
+  transferDetails?: TransferDetails | null;
   transferTitle?: string;
   transferDurationText?: string;
   transferInstructions?: string[];

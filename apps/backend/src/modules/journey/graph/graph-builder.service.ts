@@ -201,39 +201,44 @@ export class GraphBuilderService {
 
     // ── 5. Build WALK edges for nearby stations (geospatial transfers) ────────
     let walkEdgeCount = 0;
-    const WALKING_THRESHOLD_METERS = 1000; // 1 km max walk
+    const WALKING_THRESHOLD_METERS = 800; // 800m max walk (covers Dhaula Kuan Skywalk 755m)
     const WALKING_SPEED_MPS = 1.2; // 1.2 m/s (~4.3 km/h)
 
     const stationList = [...nodes.values()];
-    for (let i = 0; i < stationList.length; i++) {
-      const s1 = stationList[i];
-      for (let j = i + 1; j < stationList.length; j++) {
-        const s2 = stationList[j];
+    const allLines = new Set<string>();
+    stationList.forEach((s) => s.lineIds.forEach((l) => allLines.add(l)));
 
-        // Skip if stations share any transit line (on the same metro line)
-        const sharesLine = s1.lineIds.some((l1) => s2.lineIds.includes(l1));
-        if (sharesLine) continue;
+    for (const s1 of stationList) {
+      for (const lineId of allLines) {
+        if (s1.lineIds.includes(lineId)) continue; // Already serves this line
 
-        // Calculate walking distance
-        const dist = this.getDistanceMeters(s1.lat, s1.lng, s2.lat, s2.lng);
-        if (dist <= WALKING_THRESHOLD_METERS) {
-          const duration = Math.round(dist / WALKING_SPEED_MPS);
+        // Find candidate stations on this foreign line
+        const candidatesOnLine = stationList.filter((s) => s.lineIds.includes(lineId));
+        let closestStation: (typeof stationList)[0] | null = null;
+        let minDist = Infinity;
+
+        for (const s2 of candidatesOnLine) {
+          const dist = this.getDistanceMeters(s1.lat, s1.lng, s2.lat, s2.lng);
+          if (dist < minDist) {
+            minDist = dist;
+            closestStation = s2;
+          }
+        }
+
+        if (closestStation && minDist <= WALKING_THRESHOLD_METERS) {
+          // If Marol Naka hub, apply physical ICX modeled duration (450s)
+          const isMarolNaka =
+            s1.name.toLowerCase().includes('marol') &&
+            closestStation.name.toLowerCase().includes('marol');
+          const duration = isMarolNaka ? 450 : Math.round(minDist / WALKING_SPEED_MPS);
 
           addEdge({
             from: s1.id,
-            to: s2.id,
+            to: closestStation.id,
             type: EdgeType.WALK,
             duration,
           });
-
-          addEdge({
-            from: s2.id,
-            to: s1.id,
-            type: EdgeType.WALK,
-            duration,
-          });
-
-          walkEdgeCount += 2;
+          walkEdgeCount++;
         }
       }
     }

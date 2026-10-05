@@ -182,10 +182,6 @@ export class JourneyService {
     for (const path of rawPaths) {
       const journeyScore = this.scorer.score(path, weights);
       const waiting = estimateWaiting(journeyScore.transfers);
-      const totalDurationSeconds =
-        journeyScore.inVehicleSeconds +
-        journeyScore.walkingSeconds +
-        waiting.total.seconds;
 
       const stationIds = this.extractStationIds(path, fromId);
       const orderedStations: StationRef[] = stationIds.map((id) => {
@@ -200,8 +196,21 @@ export class JourneyService {
         };
       });
 
-      const legs = this.buildLegs(path, lineMap, stationMap);
+      const legs = await this.buildLegs(path, lineMap, stationMap);
       const geojson = await this.buildGeoJson(orderedStations, legs);
+
+      const walkingSeconds = legs
+        .filter((l) => l.type === EdgeType.WALK || l.type === EdgeType.TRANSFER)
+        .reduce((sum, l) => sum + l.duration, 0);
+
+      const totalPathwayMeters = legs
+        .filter((l) => l.type === EdgeType.WALK || l.type === EdgeType.TRANSFER)
+        .reduce((sum, l) => sum + (l.transferDetails?.pathwayDistanceMeters || 0), 0);
+
+      const totalDurationSeconds =
+        journeyScore.inVehicleSeconds +
+        walkingSeconds +
+        waiting.total.seconds;
 
       const isDirect = journeyScore.transfers === 0;
       const lineNames = [
@@ -216,7 +225,7 @@ export class JourneyService {
       const rankScore = this.scorer.rankScore(
         totalDurationSeconds,
         journeyScore.transfers,
-        journeyScore.walkingSeconds,
+        walkingSeconds,
       );
 
       const candidateObj: EnrichedCandidate = {
@@ -226,10 +235,10 @@ export class JourneyService {
         durationSeconds: totalDurationSeconds,
         duration: Math.round(totalDurationSeconds / 60),
         inVehicleSeconds: journeyScore.inVehicleSeconds,
-        walkingSeconds: journeyScore.walkingSeconds,
+        walkingSeconds,
         waiting,
         transfers: journeyScore.transfers,
-        walkingDistanceMeters: 0, // v1 stub — shape-derived walking distance in future
+        walkingDistanceMeters: totalPathwayMeters,
         legs,
         stations: orderedStations,
         geojson,
@@ -354,7 +363,7 @@ export class JourneyService {
     return [...new Set(ids)];
   }
 
-  private buildLegs(
+  private async buildLegs(
     path: GraphEdge[],
     lineMap: Map<
       string,
@@ -370,7 +379,7 @@ export class JourneyService {
         longitude: number;
       }
     >,
-  ): JourneyLeg[] {
+  ): Promise<JourneyLeg[]> {
     const legs: JourneyLeg[] = [];
     let currentLeg: JourneyLeg | null = null;
 
@@ -390,6 +399,8 @@ export class JourneyService {
         currentLeg.toStationName = toName;
         currentLeg.duration += edge.duration;
         currentLeg.stationsCount += 1;
+        currentLeg.hopCount = currentLeg.stationsCount;
+        currentLeg.visitedStationCount = currentLeg.stationsCount + 1;
       } else {
         if (currentLeg) {
           legs.push(currentLeg);
@@ -406,6 +417,8 @@ export class JourneyService {
           lineColor: line?.color ?? null,
           lineCode: line?.code ?? null,
           stationsCount: 1,
+          hopCount: 1,
+          visitedStationCount: 2,
         };
       }
     }
@@ -415,7 +428,7 @@ export class JourneyService {
     for (let i = 0; i < legs.length; i++) {
       const prev = i > 0 ? legs[i - 1] : null;
       const next = i < legs.length - 1 ? legs[i + 1] : null;
-      this.finalizeLeg(legs[i], prev, next);
+      await this.finalizeLeg(legs[i], prev, next);
     }
     return legs;
   }
@@ -649,52 +662,112 @@ export class JourneyService {
     }
   }
 
-  private finalizeLeg(
+  private async finalizeLeg(
     leg: JourneyLeg,
     prevLeg?: JourneyLeg | null,
     nextLeg?: JourneyLeg | null,
-  ): void {
+  ): Promise<void> {
     if (leg.type === EdgeType.TRANSIT) {
       leg.towards = this.resolveTowards(
         leg.lineName,
         leg.fromStationName,
         leg.toStationName,
       );
-      leg.platform = this.resolvePlatform(
+      leg.direction = (leg.towards || '').toUpperCase();
+      leg.platform = await this.resolvePlatform(
+        leg.from,
+        leg.lineId,
         leg.lineName,
         leg.towards,
       );
-      leg.doorsOpen = this.resolveDoorsOpen(
-        leg.lineName,
-        leg.toStationName,
-      );
+      leg.doorsOpen = this.resolveDoorsOpen(leg.lineName);
     } else if (leg.type === EdgeType.WALK || leg.type === EdgeType.TRANSFER) {
-      const details = this.resolveTransferDetails(
+      const transfer = this.interchangeEvaluator.resolveTransferDetails(
         leg.fromStationName,
         leg.toStationName,
-        leg.duration,
         prevLeg?.lineName,
         nextLeg?.lineName,
       );
-      leg.transferTitle = details.title;
-      leg.transferDurationText = details.durationText;
-      leg.transferInstructions = details.instructions;
+
+      if (transfer) {
+        leg.transferDetails = transfer;
+        leg.transferTitle = transfer.name;
+        leg.transferDurationText = transfer.durationDisplay;
+        leg.transferInstructions = transfer.instructions;
+        leg.duration = transfer.estimatedDurationSeconds;
+      } else {
+        const details = this.resolveTransferDetails(
+          leg.fromStationName,
+          leg.toStationName,
+          leg.duration,
+          prevLeg?.lineName,
+          nextLeg?.lineName,
+        );
+        leg.transferTitle = details.title;
+        leg.transferDurationText = details.durationText;
+        leg.transferInstructions = details.instructions;
+      }
     }
   }
 
-  private resolvePlatform(lineName: string | null, towards?: string): string {
+  private async resolvePlatformFromDb(
+    stationId: string,
+    lineId: string | null,
+    towards?: string,
+  ): Promise<string | null> {
+    if (!lineId || !stationId) return null;
+    try {
+      const tw = (towards || '').toUpperCase();
+      const platforms = await this.db.platform.findMany({
+        where: {
+          level: { stationId },
+          lineId,
+          isActive: true,
+        },
+        include: { towardsStation: true },
+      });
+
+      if (platforms.length === 0) {
+        return null;
+      }
+
+      // 1. Match platform whose towardsStation aligns with route direction
+      const matched = platforms.find((p) => {
+        const termName = p.towardsStation.name.toUpperCase();
+        return tw.includes(termName) || termName.includes(tw);
+      });
+
+      if (matched) {
+        return `Platform ${matched.platformNumber}`;
+      }
+
+      // 2. If single platform at station
+      if (platforms.length === 1) {
+        return `Platform ${platforms[0].platformNumber}`;
+      }
+
+      return null;
+    } catch (err) {
+      this.logger.warn(`Failed resolving platform from DB for station ${stationId}: ${err}`);
+      return null;
+    }
+  }
+
+  private async resolvePlatform(
+    stationId: string,
+    lineId: string | null,
+    lineName: string | null,
+    towards?: string,
+  ): Promise<string | null> {
+    // 1. Authoritative Database-backed platform resolution
+    const dbPlatform = await this.resolvePlatformFromDb(stationId, lineId, towards);
+    if (dbPlatform) {
+      return dbPlatform;
+    }
+
+    // 2. Transitionally for Delhi lines without DB platform records yet:
     const raw = (lineName || '').toUpperCase();
     const tw = (towards || '').toUpperCase();
-
-    // Mumbai Line 1 (Elevated)
-    if (raw.includes('LINE 1') || raw.includes('BLUE')) {
-      return tw.includes('VERSOVA') ? 'Platform 2' : 'Platform 1';
-    }
-
-    // Mumbai Line 3 (Aqua underground)
-    if (raw.includes('LINE 3') || raw.includes('AQUA')) {
-      return tw.includes('AAREY') ? 'Platform 1' : 'Platform 2';
-    }
 
     // Delhi Airport Express
     if (raw.includes('AIRPORT') || raw.includes('ORANGE')) {
@@ -712,17 +785,16 @@ export class JourneyService {
     }
 
     // Delhi Blue Line
-    if (raw.includes('BLUE')) {
+    if (raw.includes('BLUE') && !raw.includes('LINE 1')) {
       return tw.includes('NOIDA') || tw.includes('VAISHALI') ? 'Platform 1' : 'Platform 2';
     }
 
-    return 'Platform 1';
+    return null;
   }
 
   private resolveDoorsOpen(
     lineName: string | null,
-    toStationName: string,
-  ): 'Left' | 'Right' {
+  ): 'Left' | 'Right' | null {
     const raw = (lineName || '').toUpperCase();
 
     // Mumbai Line 3 (Aqua) underground stations are center island platforms
@@ -745,7 +817,7 @@ export class JourneyService {
       return 'Left';
     }
 
-    return 'Left';
+    return null;
   }
 
   private resolveTowards(

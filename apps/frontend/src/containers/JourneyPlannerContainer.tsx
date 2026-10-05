@@ -183,9 +183,10 @@ function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
       towards,
       platform: (leg as any).platform,
       doorsOpen: (leg as any).doorsOpen,
+      transferDetails: (leg as any).transferDetails,
       transferTitle: (leg as any).transferTitle,
       transferDurationText: (leg as any).transferDurationText,
-      stopsCount: leg.stationsCount || undefined,
+      stopsCount: (leg as any).hopCount ?? leg.stationsCount ?? undefined,
       durationMins: durMins,
       durationSeconds: leg.duration,
       transferInstructions: (leg as any).transferInstructions,
@@ -194,7 +195,7 @@ function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
 
   const totalWalkSecs = candidate.walkingSeconds;
   const walkMins = Math.round(totalWalkSecs / 60);
-  const walkDistM = Math.round(totalWalkSecs * 1.1);
+  const totalPathwayMeters = candidate.walkingDistanceMeters ?? 0;
 
   const crowd: RouteOption["crowd"] =
     candidate.transfers === 0 ? "Low" : candidate.transfers === 1 ? "Medium" : "High";
@@ -211,7 +212,7 @@ function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
     smartCardFare: `₹${Math.max(9, fareAmount - 3)}`,
     distance: "",
     interchanges: candidate.transfers,
-    walkDistance: walkDistM > 0 ? `${walkDistM}m` : "0m",
+    walkDistance: totalPathwayMeters > 0 ? `${totalPathwayMeters}m` : "0m",
     walkMins,
     crowd,
     crowdColor,
