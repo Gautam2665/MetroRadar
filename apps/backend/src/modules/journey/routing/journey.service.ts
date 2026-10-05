@@ -668,18 +668,32 @@ export class JourneyService {
     nextLeg?: JourneyLeg | null,
   ): Promise<void> {
     if (leg.type === EdgeType.TRANSIT) {
-      leg.towards = this.resolveTowards(
-        leg.lineName,
-        leg.fromStationName,
-        leg.toStationName,
-      );
-      leg.direction = (leg.towards || '').toUpperCase();
-      leg.platform = await this.resolvePlatform(
+      // 1. Authoritative deterministic DB resolution from StationSequence and Platform
+      const dbResolved = await this.resolveDeterministicDirectionAndPlatform(
         leg.from,
+        leg.to,
         leg.lineId,
-        leg.lineName,
-        leg.towards,
       );
+
+      if (dbResolved.towards) {
+        leg.towards = dbResolved.towards;
+        leg.direction = dbResolved.towards.toUpperCase();
+        leg.platform = dbResolved.platform;
+      } else {
+        // Fallback for systems without StationSequence (e.g., Delhi GTFS headsign / fallback)
+        leg.towards = this.resolveTowards(
+          leg.lineName,
+          leg.fromStationName,
+          leg.toStationName,
+        );
+        leg.direction = (leg.towards || '').toUpperCase();
+        leg.platform = await this.resolvePlatform(
+          leg.from,
+          leg.lineId,
+          leg.lineName,
+          leg.towards,
+        );
+      }
       leg.doorsOpen = this.resolveDoorsOpen(leg.lineName);
     } else if (leg.type === EdgeType.WALK || leg.type === EdgeType.TRANSFER) {
       const transfer = this.interchangeEvaluator.resolveTransferDetails(
@@ -707,6 +721,63 @@ export class JourneyService {
         leg.transferDurationText = details.durationText;
         leg.transferInstructions = details.instructions;
       }
+    }
+  }
+
+  private async resolveDeterministicDirectionAndPlatform(
+    fromStationId: string,
+    toStationId: string,
+    lineId: string | null,
+  ): Promise<{ towards: string | null; platform: string | null }> {
+    if (!lineId || !fromStationId || !toStationId) {
+      return { towards: null, platform: null };
+    }
+
+    try {
+      const [fromSeq, toSeq] = await Promise.all([
+        this.db.stationSequence.findFirst({
+          where: { lineId, stationId: fromStationId, isActive: true },
+          select: { sequence: true },
+        }),
+        this.db.stationSequence.findFirst({
+          where: { lineId, stationId: toStationId, isActive: true },
+          select: { sequence: true },
+        }),
+      ]);
+
+      if (!fromSeq || !toSeq || fromSeq.sequence === toSeq.sequence) {
+        return { towards: null, platform: null };
+      }
+
+      const isIncreasing = toSeq.sequence > fromSeq.sequence;
+      const terminalSeq = await this.db.stationSequence.findFirst({
+        where: { lineId, isActive: true },
+        orderBy: { sequence: isIncreasing ? 'desc' : 'asc' },
+        include: { station: true },
+      });
+
+      if (!terminalSeq) {
+        return { towards: null, platform: null };
+      }
+
+      const towards = terminalSeq.station.name;
+
+      const platform = await this.db.platform.findFirst({
+        where: {
+          level: { stationId: fromStationId },
+          lineId,
+          towardsStationId: terminalSeq.stationId,
+          isActive: true,
+        },
+      });
+
+      return {
+        towards,
+        platform: platform ? `Platform ${platform.platformNumber}` : null,
+      };
+    } catch (err) {
+      this.logger.warn(`Error resolving deterministic platform/direction: ${err}`);
+      return { towards: null, platform: null };
     }
   }
 
@@ -861,27 +932,39 @@ export class JourneyService {
       return toU.includes('DWARKA') ? 'Dwarka Sector - 21' : 'New Delhi';
     }
 
-    // 3. Mumbai Metro line direction heuristics
+    // 3. Mumbai Metro line direction fallbacks (by sequence order of fromStation -> toStation)
     if (upper.includes('LINE 3') || upper.includes('AQUA')) {
-      const northboundStns = ['AAREY', 'SEEPZ', 'MIDC', 'MAROL NAKA', 'CSMIA'];
-      const isNorthbound = northboundStns.some((s) =>
-        toStationName.toUpperCase().includes(s),
-      );
-      return isNorthbound ? 'Aarey JVLR' : 'Cuffe Parade';
+      const L3_STATIONS = [
+        'AAREY', 'SEEPZ', 'MIDC', 'MAROL NAKA', 'CSMIA T2', 'CSMIA TERMINAL 2', 'SAHAR ROAD',
+        'CSMIA T1', 'CSMIA TERMINAL 1', 'SANTACRUZ', 'BANDRA COLONY', 'BKC', 'DHARAVI',
+        'SHITALADEVI', 'DADAR', 'SIDDHIVINAYAK', 'WORLI', 'ACHARYA ATRE CHOWK', 'SCIENCE CENTRE',
+        'MAHALAXMI', 'JAGANNATH BHATANKAR MARG', 'GRANT ROAD', 'GIRGAON', 'KALBADEVI',
+        'CSMT', 'HUTATMA CHOWK', 'CHURCHGATE', 'VIDHAN BHAWAN', 'CUFFE PARADE'
+      ];
+      const fromU = fromStationName.toUpperCase();
+      const toU = toStationName.toUpperCase();
+      const idxFrom = L3_STATIONS.findIndex((s) => fromU.includes(s));
+      const idxTo = L3_STATIONS.findIndex((s) => toU.includes(s));
+      if (idxFrom !== -1 && idxTo !== -1) {
+        return idxTo > idxFrom ? 'Cuffe Parade' : 'Aarey JVLR';
+      }
+      return toStationName;
     }
 
     if (upper.includes('LINE 1') || upper.includes('BLUE')) {
-      const westboundStns = [
-        'VERSOVA',
-        'D. N. NAGAR',
-        'D.N. NAGAR',
-        'AZAD NAGAR',
-        'ANDHERI',
+      const L1_STATIONS = [
+        'VERSOVA', 'D.N. NAGAR', 'D. N. NAGAR', 'AZAD NAGAR', 'ANDHERI',
+        'WESTERN EXPRESS HIGHWAY', 'CHAKALA', 'AIRPORT ROAD', 'MAROL NAKA',
+        'SAKI NAKA', 'ASALPHA', 'JAGRUTI NAGAR', 'GHATKOPAR'
       ];
-      const isWestbound = westboundStns.some((s) =>
-        toStationName.toUpperCase().includes(s),
-      );
-      return isWestbound ? 'Versova' : 'Ghatkopar';
+      const fromU = fromStationName.toUpperCase();
+      const toU = toStationName.toUpperCase();
+      const idxFrom = L1_STATIONS.findIndex((s) => fromU.includes(s));
+      const idxTo = L1_STATIONS.findIndex((s) => toU.includes(s));
+      if (idxFrom !== -1 && idxTo !== -1) {
+        return idxTo > idxFrom ? 'Ghatkopar' : 'Versova';
+      }
+      return toStationName;
     }
 
     // 4. Default: Check if line name contains " to [Destination]"
