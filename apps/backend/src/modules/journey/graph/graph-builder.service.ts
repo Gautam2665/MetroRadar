@@ -200,50 +200,9 @@ export class GraphBuilderService {
     );
 
     // ── 5. Build WALK edges for nearby stations (geospatial transfers) ────────
-    let walkEdgeCount = 0;
-    const WALKING_THRESHOLD_METERS = 800; // 800m max walk (covers Dhaula Kuan Skywalk 755m)
-    const WALKING_SPEED_MPS = 1.2; // 1.2 m/s (~4.3 km/h)
-
-    const stationList = [...nodes.values()];
-    const allLines = new Set<string>();
-    stationList.forEach((s) => s.lineIds.forEach((l) => allLines.add(l)));
-
-    for (const s1 of stationList) {
-      for (const lineId of allLines) {
-        if (s1.lineIds.includes(lineId)) continue; // Already serves this line
-
-        // Find candidate stations on this foreign line
-        const candidatesOnLine = stationList.filter((s) => s.lineIds.includes(lineId));
-        let closestStation: (typeof stationList)[0] | null = null;
-        let minDist = Infinity;
-
-        for (const s2 of candidatesOnLine) {
-          const dist = this.getDistanceMeters(s1.lat, s1.lng, s2.lat, s2.lng);
-          if (dist < minDist) {
-            minDist = dist;
-            closestStation = s2;
-          }
-        }
-
-        if (closestStation && minDist <= WALKING_THRESHOLD_METERS) {
-          // If Marol Naka hub, apply physical ICX modeled duration (450s)
-          const isMarolNaka =
-            s1.name.toLowerCase().includes('marol') &&
-            closestStation.name.toLowerCase().includes('marol');
-          const duration = isMarolNaka ? 450 : Math.round(minDist / WALKING_SPEED_MPS);
-
-          addEdge({
-            from: s1.id,
-            to: closestStation.id,
-            type: EdgeType.WALK,
-            duration,
-          });
-          walkEdgeCount++;
-        }
-      }
-    }
+    const walkEdgeCount = this.buildWalkEdges(nodes, addEdge);
     this.logger.log(
-      `  Built ${walkEdgeCount} WALK edges (nearby station transfers)`,
+      `  Built ${walkEdgeCount} WALK edges (authorized interchange transfers)`,
     );
 
     const graph: TransitGraph = {
@@ -261,6 +220,92 @@ export class GraphBuilderService {
   }
 
   // ── Private Helpers ─────────────────────────────────────────────────────────
+
+  private static readonly REGISTERED_INTERCHANGE_PAIRS: [string, string][] = [
+    // Delhi Skywalk
+    ['dhaulakuan', 'durgabaideshmukhsouthcampus'],
+    ['dhaulakuan', 'southcampus'],
+    // Noida
+    ['noidasector51', 'noidasector52'],
+    ['sector51', 'sector52'],
+  ];
+
+  private static readonly REGISTERED_ICX_CODES = new Set(['STN_L1_008', 'STN_L3_004']);
+
+  private isAuthorizedInterchange(s1: StationNode, s2: StationNode): boolean {
+    const n1 = s1.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const n2 = s2.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+    // 1. Same normalized station name (e.g. Marol Naka <-> Marol Naka, Kashmere Gate <-> Kashmere Gate)
+    if (n1 === n2) return true;
+
+    // 2. Substring match for stations like "Dilli Haat INA" vs "INA"
+    if ((n1.includes(n2) || n2.includes(n1)) && Math.min(n1.length, n2.length) >= 4) {
+      return true;
+    }
+
+    // 3. Known cross-named pairs (Skywalks, dedicated pedestrian corridors)
+    for (const [pairA, pairB] of GraphBuilderService.REGISTERED_INTERCHANGE_PAIRS) {
+      if ((n1.includes(pairA) && n2.includes(pairB)) || (n1.includes(pairB) && n2.includes(pairA))) {
+        return true;
+      }
+    }
+
+    // 4. Explicit registered codes
+    if (
+      GraphBuilderService.REGISTERED_ICX_CODES.has(s1.code) &&
+      GraphBuilderService.REGISTERED_ICX_CODES.has(s2.code)
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
+  private buildWalkEdges(
+    nodes: Map<string, StationNode>,
+    addEdge: (edge: GraphEdge) => void,
+  ): number {
+    let walkEdgeCount = 0;
+    const WALKING_THRESHOLD_METERS = 1000;
+    const WALKING_SPEED_MPS = 1.2; // 1.2 m/s (~4.3 km/h)
+
+    const stationList = [...nodes.values()];
+    const allLines = new Set<string>();
+    stationList.forEach((s) => s.lineIds.forEach((l) => allLines.add(l)));
+
+    for (const s1 of stationList) {
+      for (const lineId of allLines) {
+        if (s1.lineIds.includes(lineId)) continue; // Already serves this line
+
+        // Find candidate stations on this foreign line
+        const candidatesOnLine = stationList.filter((s) => s.lineIds.includes(lineId));
+
+        for (const s2 of candidatesOnLine) {
+          // Strictly reject non-interchange stations
+          if (!this.isAuthorizedInterchange(s1, s2)) continue;
+
+          const dist = this.getDistanceMeters(s1.lat, s1.lng, s2.lat, s2.lng);
+          if (dist <= WALKING_THRESHOLD_METERS) {
+            // If Marol Naka hub, apply physical ICX modeled duration (450s)
+            const isMarolNaka =
+              s1.name.toLowerCase().includes('marol') &&
+              s2.name.toLowerCase().includes('marol');
+            const duration = isMarolNaka ? 450 : Math.round(dist / WALKING_SPEED_MPS);
+
+            addEdge({
+              from: s1.id,
+              to: s2.id,
+              type: EdgeType.WALK,
+              duration,
+            });
+            walkEdgeCount++;
+          }
+        }
+      }
+    }
+    return walkEdgeCount;
+  }
 
   /** Compute median of an array of numbers. Robust against outliers. */
   private median(values: number[]): number {
