@@ -114,30 +114,49 @@ export interface TransferDetails {
 
 // ── Journey Leg ───────────────────────────────────────────────────────────────
 
+export type LegMode = 'METRO' | 'TRANSFER';
+export type DoorSide = 'Left' | 'Right' | null;
+export type DoorSideStatus = 'KNOWN_FROM_ENGINEERING' | 'UNKNOWN_SOURCE_REQUIRED';
+export type PlatformStatus = 'KNOWN' | 'UNKNOWN';
+
 export interface JourneyLeg {
+  id?: string;
+  mode: LegMode;
   from: string;
   fromStationName: string;
+  fromStation?: StationRef;
   to: string;
   toStationName: string;
+  toStation?: StationRef;
   type: EdgeType;
   duration: number;
+  durationSeconds: number;
+  durationMinutes: number;
   lineId: string | null;
   lineName: string | null;
   lineColor: string | null;
   lineCode: string | null;
+  /** Explicit number of inter-station train hops (intermediate segments) */
+  hopCount: number;
+  /** Total station nodes touched (origin + intermediate + destination) */
+  visitedStationCount: number;
   /** Legacy alias for hopCount */
   stationsCount: number;
-  /** Explicit number of inter-station train hops (intermediate segments) */
-  hopCount?: number;
-  /** Total station nodes touched (origin + intermediate + destination) */
-  visitedStationCount?: number;
-  direction?: string;
-  towards?: string;
+  stopsCount: number;
+  /** Passenger-facing string strictly computed by TransitOS: "Ride N stops" */
+  stopsText: string;
+  direction?: string | null;
+  towards?: string | null;
+  boardingPlatform?: string | null;
+  alightingPlatform?: string | null;
   platform?: string | null;
-  doorsOpen?: 'Left' | 'Right' | null;
+  platformStatus?: PlatformStatus;
+  doorsOpen?: DoorSide;
+  doorSideStatus?: DoorSideStatus;
   transferDetails?: TransferDetails | null;
-  transferTitle?: string;
-  transferDurationText?: string;
+  transferTitle?: string | null;
+  transferSummary?: string | null;
+  transferDurationText?: string | null;
   transferInstructions?: string[];
 }
 
@@ -162,10 +181,15 @@ export interface RouteCandidate {
   /** 0–100 composite quality score */
   score: number;
 
+  /** Explicit journey endpoints */
+  origin: StationRef;
+  destination: StationRef;
+
   // ── Timing ──────────────────────────────────────────────────────────────
 
   /** Total journey time including in-vehicle + walking + waiting */
   durationSeconds: number;
+  durationMinutes: number;
   /** Convenience field: durationSeconds / 60 (rounded) */
   duration: number;
 
@@ -183,7 +207,7 @@ export interface RouteCandidate {
   /** Number of line changes (0 = direct) */
   transfers: number;
 
-  /** Estimated total walking distance in meters (v1: 0, future: computed from shape coords) */
+  /** Estimated total walking distance in meters */
   walkingDistanceMeters: number;
 
   // ── Route Detail ─────────────────────────────────────────────────────────
@@ -230,6 +254,8 @@ export interface RouteCandidate {
   reasonCodes?: string[];
 
   humanSummary?: string;
+
+  destinationGuidance?: string | null;
 }
 
 // ── Journey Response ─────────────────────────────────────────────────────────

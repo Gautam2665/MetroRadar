@@ -20,12 +20,22 @@ export type RouteLeg = {
   lineColor?: string;
   fromStation?: string;
   toStation?: string;
-  towards?: string;
-  platform?: string;
-  doorsOpen?: "Left" | "Right";
-  transferTitle?: string;
-  transferDurationText?: string;
+  towards?: string | null;
+  direction?: string | null;
+  platform?: string | null;
+  boardingPlatform?: string | null;
+  alightingPlatform?: string | null;
+  platformStatus?: "KNOWN" | "UNKNOWN";
+  doorsOpen?: "Left" | "Right" | null;
+  doorSideStatus?: "KNOWN_FROM_ENGINEERING" | "UNKNOWN_SOURCE_REQUIRED";
+  transferDetails?: any;
+  transferTitle?: string | null;
+  transferSummary?: string | null;
+  transferDurationText?: string | null;
   stopsCount?: number;
+  hopCount?: number;
+  visitedStationCount?: number;
+  stopsText?: string;
   durationMins?: number;
   durationSeconds?: number;
   transferInstructions?: string[];
@@ -68,6 +78,7 @@ export type RouteOption = {
   };
   reasonCodes?: string[];
   humanSummary?: string;
+  destinationGuidance?: string | null;
 };
 
 // ── Type for the backend RouteCandidate shape ─────────────────────────────────
@@ -76,7 +87,10 @@ interface BackendCandidate {
   id: string;
   rank: number;
   score: number;
+  origin?: { id: string; name: string; code: string; lat: number; lng: number };
+  destination?: { id: string; name: string; code: string; lat: number; lng: number };
   durationSeconds: number;
+  durationMinutes?: number;
   duration: number;
   inVehicleSeconds: number;
   walkingSeconds: number;
@@ -88,14 +102,34 @@ interface BackendCandidate {
   transfers: number;
   walkingDistanceMeters: number;
   legs: Array<{
+    mode?: string;
     type: string;
     lineName: string | null;
     lineCode: string | null;
     lineColor: string | null;
     fromStationName: string;
     toStationName: string;
+    direction?: string | null;
+    towards?: string | null;
+    boardingPlatform?: string | null;
+    alightingPlatform?: string | null;
+    platform?: string | null;
+    platformStatus?: "KNOWN" | "UNKNOWN";
+    doorsOpen?: "Left" | "Right" | null;
+    doorSideStatus?: "KNOWN_FROM_ENGINEERING" | "UNKNOWN_SOURCE_REQUIRED";
+    hopCount?: number;
+    visitedStationCount?: number;
     stationsCount: number;
+    stopsCount?: number;
+    stopsText?: string;
     duration: number;
+    durationSeconds?: number;
+    durationMinutes?: number;
+    transferDetails?: any;
+    transferTitle?: string | null;
+    transferSummary?: string | null;
+    transferDurationText?: string | null;
+    transferInstructions?: string[];
   }>;
   stations: Array<{ id: string; name: string; code: string; lat: number; lng: number }>;
   geojson: GeoJSON.FeatureCollection;
@@ -122,6 +156,7 @@ interface BackendCandidate {
   };
   reasonCodes?: string[];
   humanSummary?: string;
+  destinationGuidance?: string | null;
 }
 
 // ── Label derivation from attribute flags ────────────────────────────────────
@@ -159,16 +194,23 @@ function deriveTradeoffLabel(
 // ── Map backend candidate to frontend RouteOption ────────────────────────────
 
 function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
-  const totalDurationMins = Math.round(candidate.durationSeconds / 60);
+  const totalDurationMins = candidate.durationMinutes ?? Math.round(candidate.durationSeconds / 60);
   const fareAmount = candidate.fare ?? Math.max(10, Math.round(totalDurationMins * 0.9));
 
   const legs: RouteLeg[] = candidate.legs.map((leg) => {
-    const isWalk = leg.type === "WALK" || leg.type === "TRANSFER";
+    const isWalk = leg.mode === "TRANSFER" || leg.type === "WALK" || leg.type === "TRANSFER";
     const rawLine = leg.lineName ?? leg.lineCode ?? "";
     const cleanLine = isWalk ? "Transfer" : formatLineName(rawLine);
     const shortLine = isWalk ? "Transfer" : formatShortLineName(rawLine);
-    const durMins = Math.max(1, Math.round(leg.duration / 60));
-    const towards = isWalk ? undefined : ((leg as any).towards || extractDirection(rawLine, leg.toStationName));
+    const durMins = leg.durationMinutes ?? Math.max(1, Math.round((leg.durationSeconds ?? leg.duration) / 60));
+    const towards = isWalk ? undefined : (leg.towards || undefined);
+    const boardingPlatform = leg.boardingPlatform || leg.platform || null;
+    const alightingPlatform = leg.alightingPlatform || null;
+    const platformStatus = leg.platformStatus || (boardingPlatform ? "KNOWN" : "UNKNOWN");
+    const doorSideStatus = leg.doorSideStatus || "UNKNOWN_SOURCE_REQUIRED";
+    const hopCount = leg.hopCount ?? leg.stationsCount ?? undefined;
+    const visitedStationCount = leg.visitedStationCount ?? (hopCount ? hopCount + 1 : undefined);
+    const stopsText = leg.stopsText || (hopCount ? (hopCount === 1 ? "Ride 1 stop" : `Ride ${hopCount} stops`) : undefined);
 
     return {
       mode: isWalk ? ("walk" as const) : ("subway" as const),
@@ -181,21 +223,29 @@ function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
       fromStation: leg.fromStationName,
       toStation: leg.toStationName,
       towards,
-      platform: (leg as any).platform,
-      doorsOpen: (leg as any).doorsOpen,
-      transferDetails: (leg as any).transferDetails,
-      transferTitle: (leg as any).transferTitle,
-      transferDurationText: (leg as any).transferDurationText,
-      stopsCount: (leg as any).hopCount ?? leg.stationsCount ?? undefined,
+      direction: leg.direction || (towards ? towards.toUpperCase() : null),
+      platform: boardingPlatform,
+      boardingPlatform,
+      alightingPlatform,
+      platformStatus,
+      doorsOpen: leg.doorsOpen || null,
+      doorSideStatus,
+      transferDetails: leg.transferDetails || null,
+      transferTitle: leg.transferTitle || null,
+      transferSummary: leg.transferSummary || null,
+      transferDurationText: leg.transferDurationText || null,
+      stopsCount: hopCount,
+      hopCount,
+      visitedStationCount,
+      stopsText,
       durationMins: durMins,
-      durationSeconds: leg.duration,
-      transferInstructions: (leg as any).transferInstructions,
+      durationSeconds: leg.durationSeconds ?? leg.duration,
+      transferInstructions: leg.transferInstructions || [],
     };
   });
 
-  const totalWalkSecs = candidate.walkingSeconds;
-  const walkMins = Math.round(totalWalkSecs / 60);
   const totalPathwayMeters = candidate.walkingDistanceMeters ?? 0;
+  const walkMins = Math.round(candidate.walkingSeconds / 60);
 
   const crowd: RouteOption["crowd"] =
     candidate.transfers === 0 ? "Low" : candidate.transfers === 1 ? "Medium" : "High";
@@ -225,6 +275,7 @@ function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
     interchangeFriction: candidate.interchangeFriction,
     reasonCodes: candidate.reasonCodes,
     humanSummary: candidate.humanSummary,
+    destinationGuidance: candidate.destinationGuidance || null,
   };
 }
 

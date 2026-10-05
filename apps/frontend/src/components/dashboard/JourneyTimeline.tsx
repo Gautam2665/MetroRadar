@@ -270,7 +270,7 @@ export default function JourneyTimeline({ result, onClose }: JourneyTimelineProp
                             })()}
                           </div>
                           <p className="text-xs text-zinc-400 mt-1 font-medium">
-                            Ride {leg.stationsCount} station{leg.stationsCount > 1 ? "s" : ""} to {leg.toStationName}
+                            Ride {leg.stationsCount} stop{leg.stationsCount > 1 ? "s" : ""} to {leg.toStationName}
                           </p>
                         </div>
                       ) : (

@@ -24,6 +24,10 @@ import {
   estimateWaiting,
   candidateId,
   CandidateAttributes,
+  LegMode,
+  DoorSide,
+  DoorSideStatus,
+  PlatformStatus,
 } from './candidate.types';
 import { GraphEdge } from '../graph/graph.types';
 
@@ -228,11 +232,26 @@ export class JourneyService {
         walkingSeconds,
       );
 
+      const firstStation = orderedStations[0];
+      const lastStation = orderedStations[orderedStations.length - 1];
+      const destNameUpper = (lastStation?.name || '').toUpperCase();
+      let destinationGuidance: string | null = null;
+      if (
+        destNameUpper.includes('MUMBAI CENTRAL') ||
+        destNameUpper.includes('CSMT') ||
+        destNameUpper.includes('CHURCHGATE')
+      ) {
+        destinationGuidance = 'Exit for Mainline Railway Terminal';
+      }
+
       const candidateObj: EnrichedCandidate = {
         id,
         rank: 0, // assigned after filtering + sorting
         score: journeyScore.score,
+        origin: firstStation,
+        destination: lastStation,
         durationSeconds: totalDurationSeconds,
+        durationMinutes: Math.round(totalDurationSeconds / 60),
         duration: Math.round(totalDurationSeconds / 60),
         inVehicleSeconds: journeyScore.inVehicleSeconds,
         walkingSeconds,
@@ -258,6 +277,7 @@ export class JourneyService {
           leastWalking: false,
           accessibilityFriendly: false,
         } satisfies CandidateAttributes,
+        destinationGuidance,
         _rankScore: rankScore,
       };
 
@@ -389,6 +409,21 @@ export class JourneyService {
       const toSt = stationMap.get(edge.to);
       const fromName = fromSt?.name ?? edge.from;
       const toName = toSt?.name ?? edge.to;
+      const fromRef: StationRef = {
+        id: edge.from,
+        name: fromName,
+        code: fromSt?.code ?? '',
+        lat: fromSt?.latitude ?? 0,
+        lng: fromSt?.longitude ?? 0,
+      };
+      const toRef: StationRef = {
+        id: edge.to,
+        name: toName,
+        code: toSt?.code ?? '',
+        lat: toSt?.latitude ?? 0,
+        lng: toSt?.longitude ?? 0,
+      };
+      const legMode: LegMode = edge.type === EdgeType.TRANSIT ? 'METRO' : 'TRANSFER';
 
       if (
         currentLeg !== null &&
@@ -397,28 +432,44 @@ export class JourneyService {
       ) {
         currentLeg.to = edge.to;
         currentLeg.toStationName = toName;
+        currentLeg.toStation = toRef;
         currentLeg.duration += edge.duration;
-        currentLeg.stationsCount += 1;
-        currentLeg.hopCount = currentLeg.stationsCount;
-        currentLeg.visitedStationCount = currentLeg.stationsCount + 1;
+        currentLeg.durationSeconds = currentLeg.duration;
+        currentLeg.durationMinutes = Math.max(1, Math.round(currentLeg.duration / 60));
+        currentLeg.hopCount += 1;
+        currentLeg.stationsCount = currentLeg.hopCount;
+        currentLeg.stopsCount = currentLeg.hopCount;
+        currentLeg.visitedStationCount = currentLeg.hopCount + 1;
+        currentLeg.stopsText = currentLeg.mode === 'METRO'
+          ? (currentLeg.hopCount === 1 ? 'Ride 1 stop' : `Ride ${currentLeg.hopCount} stops`)
+          : 'Transfer';
       } else {
         if (currentLeg) {
           legs.push(currentLeg);
         }
         currentLeg = {
+          mode: legMode,
           from: edge.from,
           fromStationName: fromName,
+          fromStation: fromRef,
           to: edge.to,
           toStationName: toName,
+          toStation: toRef,
           type: edge.type,
           duration: edge.duration,
+          durationSeconds: edge.duration,
+          durationMinutes: Math.max(1, Math.round(edge.duration / 60)),
           lineId: edge.lineId ?? null,
           lineName: line?.name ?? null,
           lineColor: line?.color ?? null,
           lineCode: line?.code ?? null,
-          stationsCount: 1,
           hopCount: 1,
           visitedStationCount: 2,
+          stationsCount: 1,
+          stopsCount: 1,
+          stopsText: legMode === 'METRO' ? 'Ride 1 stop' : 'Transfer',
+          platformStatus: 'UNKNOWN',
+          doorSideStatus: 'UNKNOWN_SOURCE_REQUIRED',
         };
       }
     }
@@ -678,23 +729,25 @@ export class JourneyService {
       if (dbResolved.towards) {
         leg.towards = dbResolved.towards;
         leg.direction = dbResolved.towards.toUpperCase();
-        leg.platform = dbResolved.platform;
+        leg.boardingPlatform = dbResolved.boardingPlatform;
+        leg.alightingPlatform = dbResolved.alightingPlatform;
+        leg.platform = dbResolved.boardingPlatform;
+        leg.platformStatus = dbResolved.boardingPlatform ? 'KNOWN' : 'UNKNOWN';
       } else {
-        // Fallback for systems without StationSequence (e.g., Delhi GTFS headsign / fallback)
-        leg.towards = this.resolveTowards(
-          leg.lineName,
-          leg.fromStationName,
-          leg.toStationName,
-        );
-        leg.direction = (leg.towards || '').toUpperCase();
-        leg.platform = await this.resolvePlatform(
-          leg.from,
-          leg.lineId,
-          leg.lineName,
-          leg.towards,
-        );
+        // Fallback for lines without StationSequence: check if tripHeadsign exists in DB
+        const tripHeadsign = await this.resolveTripHeadsign(leg.lineId, leg.from, leg.to);
+        leg.towards = tripHeadsign;
+        leg.direction = tripHeadsign ? tripHeadsign.toUpperCase() : null;
+        leg.boardingPlatform = null;
+        leg.alightingPlatform = null;
+        leg.platform = null;
+        leg.platformStatus = 'UNKNOWN';
       }
-      leg.doorsOpen = this.resolveDoorsOpen(leg.lineName);
+
+      // 2. Door opening provenance
+      const doorResult = this.resolveDoorSide(leg.lineCode, leg.lineName);
+      leg.doorsOpen = doorResult.doorsOpen;
+      leg.doorSideStatus = doorResult.doorSideStatus;
     } else if (leg.type === EdgeType.WALK || leg.type === EdgeType.TRANSFER) {
       const transfer = this.interchangeEvaluator.resolveTransferDetails(
         leg.fromStationName,
@@ -709,17 +762,20 @@ export class JourneyService {
         leg.transferDurationText = transfer.durationDisplay;
         leg.transferInstructions = transfer.instructions;
         leg.duration = transfer.estimatedDurationSeconds;
+        leg.durationSeconds = transfer.estimatedDurationSeconds;
+        leg.durationMinutes = Math.max(1, Math.round(transfer.estimatedDurationSeconds / 60));
+        leg.transferSummary = `Transfer — ${transfer.pathwayDistanceMeters} m · ${transfer.durationDisplay}`;
       } else {
-        const details = this.resolveTransferDetails(
-          leg.fromStationName,
-          leg.toStationName,
-          leg.duration,
-          prevLeg?.lineName,
-          nextLeg?.lineName,
-        );
-        leg.transferTitle = details.title;
-        leg.transferDurationText = details.durationText;
-        leg.transferInstructions = details.instructions;
+        const durMins = Math.max(1, Math.round(leg.duration / 60));
+        const nextLineLabel = nextLeg?.lineName ? nextLeg.lineName.split('_')[0] : 'connecting line';
+        leg.transferDetails = null;
+        leg.transferTitle = `Transfer to ${nextLineLabel}`;
+        leg.transferDurationText = `~${durMins} min`;
+        leg.transferSummary = `Transfer — ~${durMins} min`;
+        leg.transferInstructions = [
+          `Follow signs to ${leg.toStationName} concourse`,
+          `Proceed to connecting platform`,
+        ];
       }
     }
   }
@@ -728,9 +784,13 @@ export class JourneyService {
     fromStationId: string,
     toStationId: string,
     lineId: string | null,
-  ): Promise<{ towards: string | null; platform: string | null }> {
+  ): Promise<{
+    towards: string | null;
+    boardingPlatform: string | null;
+    alightingPlatform: string | null;
+  }> {
     if (!lineId || !fromStationId || !toStationId) {
-      return { towards: null, platform: null };
+      return { towards: null, boardingPlatform: null, alightingPlatform: null };
     }
 
     try {
@@ -746,7 +806,7 @@ export class JourneyService {
       ]);
 
       if (!fromSeq || !toSeq || fromSeq.sequence === toSeq.sequence) {
-        return { towards: null, platform: null };
+        return { towards: null, boardingPlatform: null, alightingPlatform: null };
       }
 
       const isIncreasing = toSeq.sequence > fromSeq.sequence;
@@ -757,327 +817,86 @@ export class JourneyService {
       });
 
       if (!terminalSeq) {
-        return { towards: null, platform: null };
+        return { towards: null, boardingPlatform: null, alightingPlatform: null };
       }
 
       const towards = terminalSeq.station.name;
 
-      const platform = await this.db.platform.findFirst({
-        where: {
-          level: { stationId: fromStationId },
-          lineId,
-          towardsStationId: terminalSeq.stationId,
-          isActive: true,
-        },
-      });
+      const [boardingPlatform, alightingPlatform] = await Promise.all([
+        this.db.platform.findFirst({
+          where: {
+            level: { stationId: fromStationId },
+            lineId,
+            towardsStationId: terminalSeq.stationId,
+            isActive: true,
+          },
+        }),
+        this.db.platform.findFirst({
+          where: {
+            level: { stationId: toStationId },
+            lineId,
+            towardsStationId: terminalSeq.stationId,
+            isActive: true,
+          },
+        }),
+      ]);
 
       return {
         towards,
-        platform: platform ? `Platform ${platform.platformNumber}` : null,
+        boardingPlatform: boardingPlatform ? `Platform ${boardingPlatform.platformNumber}` : null,
+        alightingPlatform: alightingPlatform ? `Platform ${alightingPlatform.platformNumber}` : null,
       };
     } catch (err) {
       this.logger.warn(`Error resolving deterministic platform/direction: ${err}`);
-      return { towards: null, platform: null };
+      return { towards: null, boardingPlatform: null, alightingPlatform: null };
     }
   }
 
-  private async resolvePlatformFromDb(
-    stationId: string,
+  private resolveDoorSide(
+    lineCode: string | null,
+    lineName: string | null,
+  ): { doorsOpen: DoorSide; doorSideStatus: DoorSideStatus } {
+    const raw = `${lineCode || ''} ${lineName || ''}`.toUpperCase();
+
+    // Mumbai Line 3 (Aqua Line) underground stations: engineering DPR explicitly specifies
+    // center island platforms for all 26 underground stations -> doors open on Right in direction of travel.
+    if (raw.includes('MUMBAI_LINE3') || raw.includes('LINE 3') || raw.includes('AQUA')) {
+      return { doorsOpen: 'Right', doorSideStatus: 'KNOWN_FROM_ENGINEERING' };
+    }
+
+    // Mumbai Line 1 (Blue Line) elevated stations: engineering design specifies
+    // side platforms -> doors open on Left in direction of travel.
+    if (raw.includes('MUMBAI_LINE1') || (raw.includes('LINE 1') && raw.includes('BLUE'))) {
+      return { doorsOpen: 'Left', doorSideStatus: 'KNOWN_FROM_ENGINEERING' };
+    }
+
+    // For any unmeasured or unverified systems/lines, never fabricate or guess.
+    return { doorsOpen: null, doorSideStatus: 'UNKNOWN_SOURCE_REQUIRED' };
+  }
+
+  private async resolveTripHeadsign(
     lineId: string | null,
-    towards?: string,
+    fromStationId: string,
+    toStationId: string,
   ): Promise<string | null> {
-    if (!lineId || !stationId) return null;
+    if (!lineId) return null;
     try {
-      const tw = (towards || '').toUpperCase();
-      const platforms = await this.db.platform.findMany({
+      const trip = await this.db.trip.findFirst({
         where: {
-          level: { stationId },
           lineId,
           isActive: true,
+          tripHeadsign: { not: null },
+          AND: [
+            { stopTimes: { some: { stationId: fromStationId, isActive: true } } },
+            { stopTimes: { some: { stationId: toStationId, isActive: true } } },
+          ],
         },
-        include: { towardsStation: true },
+        select: { tripHeadsign: true },
       });
-
-      if (platforms.length === 0) {
-        return null;
-      }
-
-      // 1. Match platform whose towardsStation aligns with route direction
-      const matched = platforms.find((p) => {
-        const termName = p.towardsStation.name.toUpperCase();
-        return tw.includes(termName) || termName.includes(tw);
-      });
-
-      if (matched) {
-        return `Platform ${matched.platformNumber}`;
-      }
-
-      // 2. If single platform at station
-      if (platforms.length === 1) {
-        return `Platform ${platforms[0].platformNumber}`;
-      }
-
-      return null;
-    } catch (err) {
-      this.logger.warn(`Failed resolving platform from DB for station ${stationId}: ${err}`);
+      return trip?.tripHeadsign ?? null;
+    } catch {
       return null;
     }
-  }
-
-  private async resolvePlatform(
-    stationId: string,
-    lineId: string | null,
-    lineName: string | null,
-    towards?: string,
-  ): Promise<string | null> {
-    // 1. Authoritative Database-backed platform resolution
-    const dbPlatform = await this.resolvePlatformFromDb(stationId, lineId, towards);
-    if (dbPlatform) {
-      return dbPlatform;
-    }
-
-    // 2. Transitionally for Delhi lines without DB platform records yet:
-    const raw = (lineName || '').toUpperCase();
-    const tw = (towards || '').toUpperCase();
-
-    // Delhi Airport Express
-    if (raw.includes('AIRPORT') || raw.includes('ORANGE')) {
-      return tw.includes('NEW DELHI') ? 'Platform 1' : 'Platform 2';
-    }
-
-    // Delhi Pink Line
-    if (raw.includes('PINK')) {
-      return tw.includes('SHIV VIHAR') ? 'Platform 1' : 'Platform 2';
-    }
-
-    // Delhi Yellow Line
-    if (raw.includes('YELLOW')) {
-      return tw.includes('SAMAYPUR') ? 'Platform 1' : 'Platform 2';
-    }
-
-    // Delhi Blue Line
-    if (raw.includes('BLUE') && !raw.includes('LINE 1')) {
-      return tw.includes('NOIDA') || tw.includes('VAISHALI') ? 'Platform 1' : 'Platform 2';
-    }
-
-    return null;
-  }
-
-  private resolveDoorsOpen(
-    lineName: string | null,
-  ): 'Left' | 'Right' | null {
-    const raw = (lineName || '').toUpperCase();
-
-    // Mumbai Line 3 (Aqua) underground stations are center island platforms
-    if (raw.includes('LINE 3') || raw.includes('AQUA')) {
-      return 'Right';
-    }
-
-    // Delhi Airport Express stations have center island platforms
-    if (raw.includes('AIRPORT') || raw.includes('ORANGE')) {
-      return 'Right';
-    }
-
-    // Mumbai Line 1 (elevated side platforms)
-    if (raw.includes('LINE 1') || raw.includes('BLUE')) {
-      return 'Left';
-    }
-
-    // Delhi Pink Line (elevated side platforms)
-    if (raw.includes('PINK')) {
-      return 'Left';
-    }
-
-    return null;
-  }
-
-  private resolveTowards(
-    lineName: string | null,
-    fromStationName: string,
-    toStationName: string,
-  ): string {
-    const raw = lineName || '';
-    const upper = raw.toUpperCase();
-
-    // 1. Pink Line directional resolution using ground truth station sequence
-    if (upper.includes('PINK')) {
-      const PINK_STATIONS = [
-        'MAJLIS PARK', 'AZADPUR', 'SHALIMAR BAGH', 'NETAJI SUBHASH PLACE', 'SHAKURPUR',
-        'PUNJABI BAGH WEST', 'ESI HOSPITAL', 'RAJOURI GARDEN', 'MAYA PURI', 'NARAINA VIHAR',
-        'DELHI CANTT', 'SOUTH CAMPUS', 'MOTI BAGH', 'BHIKAJI CAMA PLACE', 'SAROJINI NAGAR',
-        'INA', 'SOUTH EXTENSION', 'LAJPAT NAGAR', 'VINOBAPURI', 'ASHRAM',
-        'SARAI KALE KHAN', 'NIZAMUDDIN', 'MAYUR VIHAR', 'TRILOKPURI', 'EAST VINOD NAGAR',
-        'MANDAWALI', 'IP EXTENSION', 'ANAND VIHAR', 'KARKARDUMA', 'KRISHNA NAGAR',
-        'EAST AZAD NAGAR', 'WELCOME', 'JAFRABAD', 'MAUJPUR', 'GOKULPURI', 'JOHRI ENCLAVE', 'SHIV VIHAR'
-      ];
-      const fromU = fromStationName.toUpperCase();
-      const toU = toStationName.toUpperCase();
-      const idxFrom = PINK_STATIONS.findIndex((s) => fromU.includes(s));
-      const idxTo = PINK_STATIONS.findIndex((s) => toU.includes(s));
-      if (idxFrom !== -1 && idxTo !== -1) {
-        return idxTo > idxFrom
-          ? 'Shiv Vihar (via INA / Lajpat Nagar)'
-          : 'Majlis Park (via Netaji Subhash Place)';
-      }
-      const eastbound = ['SARAI KALE KHAN', 'NIZAMUDDIN', 'ASHRAM', 'LAJPAT', 'INA', 'MAYUR', 'SHIV VIHAR', 'MOTI BAGH'];
-      if (eastbound.some((s) => toU.includes(s))) {
-        return 'Shiv Vihar (via INA / Lajpat Nagar)';
-      }
-      return 'Majlis Park (via Netaji Subhash Place)';
-    }
-
-    // 2. Airport Express directional resolution
-    if (upper.includes('AIRPORT') || upper.includes('ORANGE')) {
-      const toU = toStationName.toUpperCase();
-      return toU.includes('DWARKA') ? 'Dwarka Sector - 21' : 'New Delhi';
-    }
-
-    // 3. Mumbai Metro line direction fallbacks (by sequence order of fromStation -> toStation)
-    if (upper.includes('LINE 3') || upper.includes('AQUA')) {
-      const L3_STATIONS = [
-        'AAREY', 'SEEPZ', 'MIDC', 'MAROL NAKA', 'CSMIA T2', 'CSMIA TERMINAL 2', 'SAHAR ROAD',
-        'CSMIA T1', 'CSMIA TERMINAL 1', 'SANTACRUZ', 'BANDRA COLONY', 'BKC', 'DHARAVI',
-        'SHITALADEVI', 'DADAR', 'SIDDHIVINAYAK', 'WORLI', 'ACHARYA ATRE CHOWK', 'SCIENCE CENTRE',
-        'MAHALAXMI', 'JAGANNATH BHATANKAR MARG', 'GRANT ROAD', 'GIRGAON', 'KALBADEVI',
-        'CSMT', 'HUTATMA CHOWK', 'CHURCHGATE', 'VIDHAN BHAWAN', 'CUFFE PARADE'
-      ];
-      const fromU = fromStationName.toUpperCase();
-      const toU = toStationName.toUpperCase();
-      const idxFrom = L3_STATIONS.findIndex((s) => fromU.includes(s));
-      const idxTo = L3_STATIONS.findIndex((s) => toU.includes(s));
-      if (idxFrom !== -1 && idxTo !== -1) {
-        return idxTo > idxFrom ? 'Cuffe Parade' : 'Aarey JVLR';
-      }
-      return toStationName;
-    }
-
-    if (upper.includes('LINE 1') || upper.includes('BLUE')) {
-      const L1_STATIONS = [
-        'VERSOVA', 'D.N. NAGAR', 'D. N. NAGAR', 'AZAD NAGAR', 'ANDHERI',
-        'WESTERN EXPRESS HIGHWAY', 'CHAKALA', 'AIRPORT ROAD', 'MAROL NAKA',
-        'SAKI NAKA', 'ASALPHA', 'JAGRUTI NAGAR', 'GHATKOPAR'
-      ];
-      const fromU = fromStationName.toUpperCase();
-      const toU = toStationName.toUpperCase();
-      const idxFrom = L1_STATIONS.findIndex((s) => fromU.includes(s));
-      const idxTo = L1_STATIONS.findIndex((s) => toU.includes(s));
-      if (idxFrom !== -1 && idxTo !== -1) {
-        return idxTo > idxFrom ? 'Ghatkopar' : 'Versova';
-      }
-      return toStationName;
-    }
-
-    // 4. Default: Check if line name contains " to [Destination]"
-    const toMatch = raw.match(/\s+to\s+([^,]+)$/i);
-    if (toMatch && toMatch[1]) {
-      return toMatch[1].trim();
-    }
-
-    return toStationName;
-  }
-
-  private resolveTransferDetails(
-    fromStationName: string,
-    toStationName: string,
-    durationSeconds: number,
-    prevLineName?: string | null,
-    nextLineName?: string | null,
-  ): { title: string; durationText: string; instructions: string[] } {
-    const durMins = Math.max(1, Math.round(durationSeconds / 60));
-    const fromUpper = fromStationName.toUpperCase();
-    const toUpper = toStationName.toUpperCase();
-    const prevUpper = (prevLineName || '').toUpperCase();
-    const nextUpper = (nextLineName || '').toUpperCase();
-
-    // Marol Naka (L3 <-> L1)
-    if (fromUpper.includes('MAROL NAKA') && toUpper.includes('MAROL NAKA')) {
-      const toL1 =
-        nextUpper.includes('LINE 1') ||
-        nextUpper.includes('BLUE') ||
-        prevUpper.includes('LINE 3') ||
-        prevUpper.includes('AQUA');
-      if (toL1) {
-        return {
-          title: 'Transfer to Blue Line (Elevated)',
-          durationText: '~5 min',
-          instructions: [
-            'Exit Gate A1/B1 · Walk 155m via Andheri-Kurla Rd',
-            'Re-tap entry at Line 1 Concourse',
-          ],
-        };
-      } else {
-        return {
-          title: 'Transfer to Aqua Line (Underground)',
-          durationText: '~5 min',
-          instructions: [
-            'Exit Line 1 Concourse to street level · Walk 155m via Andheri-Kurla Rd',
-            'Re-tap entry at Line 3 Concourse (Gate A1/B1)',
-          ],
-        };
-      }
-    }
-
-    // Dhaula Kuan <-> South Campus Skywalk
-    if (
-      (fromUpper.includes('DHAULA KUAN') && toUpper.includes('SOUTH CAMPUS')) ||
-      (fromUpper.includes('SOUTH CAMPUS') && toUpper.includes('DHAULA KUAN'))
-    ) {
-      const toPink = nextUpper.includes('PINK') || fromUpper.includes('DHAULA KUAN');
-      return {
-        title: toPink ? 'Transfer to Pink Line (Elevated)' : 'Transfer to Airport Express',
-        durationText: `~${durMins} min`,
-        instructions: [
-          'Follow Skywalk / Travelator to Pink Line (755m)',
-          'Tap in at Durgabai Deshmukh South Campus Concourse',
-        ],
-      };
-    }
-
-    // Mumbai Central
-    if (fromUpper.includes('MUMBAI CENTRAL')) {
-      return {
-        title: 'Transfer to Western Railway Terminal',
-        durationText: '~3 min',
-        instructions: [
-          'Direct lift/escalator access to station forecourt (100m walk)',
-          'Enter Western Railway main concourse',
-        ],
-      };
-    }
-
-    // Churchgate
-    if (fromUpper.includes('CHURCHGATE')) {
-      return {
-        title: 'Transfer to Western Railway Station',
-        durationText: '~4 min',
-        instructions: [
-          'Exit station · Walk 150m along pedestrian walkway',
-          'Enter Churchgate Railway Station',
-        ],
-      };
-    }
-
-    // CSMT
-    if (fromUpper.includes('CSMT')) {
-      return {
-        title: 'Transfer to Central Railway Terminus',
-        durationText: '~4 min',
-        instructions: [
-          'Direct underground BMC subway connection',
-          'Direct access to CSMT Railway platforms',
-        ],
-      };
-    }
-
-    const nextLineLabel = nextLineName ? nextLineName.split('_')[0] : 'connecting line';
-    return {
-      title: `Transfer to ${nextLineLabel}`,
-      durationText: `~${durMins} min`,
-      instructions: [
-        `Follow signs to ${toStationName} concourse`,
-        `Proceed to connecting platform`,
-      ],
-    };
   }
 
   /**

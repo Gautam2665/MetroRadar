@@ -190,7 +190,9 @@ function JourneyDetailsTimeline({
                   : formatLineName(transitLegs[0].line)}
               </div>
               <div className="text-[11px] text-slate-400 mt-0.5">
-                {transitLegs[0].stopsCount
+                {transitLegs[0].stopsText
+                  ? transitLegs[0].stopsText
+                  : transitLegs[0].stopsCount
                   ? `Ride ${transitLegs[0].stopsCount} stop${transitLegs[0].stopsCount !== 1 ? "s" : ""}`
                   : "In-vehicle transit"}
                 {transitLegs[0].durationMins ? ` (${transitLegs[0].durationMins} min)` : ""}
@@ -230,6 +232,7 @@ function JourneyDetailsTimeline({
             `Transfer to ${nextShortLine}`;
 
           const transferDuration =
+            walkLeg?.transferSummary ||
             walkLeg?.transferDurationText ||
             (walkLeg as any)?.transferDetails?.durationDisplay ||
             (walkLeg?.durationMins ? `~${walkLeg.durationMins} min` : "~5 min");
@@ -253,7 +256,7 @@ function JourneyDetailsTimeline({
                   <div className="text-xs font-bold text-slate-100">
                     DEBOARD · {deboardStation}
                   </div>
-                  {deboardDoors && (
+                  {deboardDoors && curLeg.doorSideStatus === "KNOWN_FROM_ENGINEERING" && (
                     <div className="text-[11px] text-amber-300/90 mt-0.5">
                       Doors open on the {deboardDoors}
                     </div>
@@ -266,7 +269,7 @@ function JourneyDetailsTimeline({
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-1.5 font-bold text-slate-200">
                     <span className="material-symbols-outlined text-[15px] text-amber-400">directions_walk</span>
-                    <span>{transferTitle}</span>
+                    <span>{walkLeg?.transferTitle || transferTitle}</span>
                   </div>
                   <span className="font-mono text-[11px] text-slate-400">
                     {transferDuration}
@@ -311,7 +314,9 @@ function JourneyDetailsTimeline({
                       : formatLineName(nextLeg.line)}
                   </div>
                   <div className="text-[11px] text-slate-400 mt-0.5">
-                    {nextLeg.stopsCount
+                    {nextLeg.stopsText
+                      ? nextLeg.stopsText
+                      : nextLeg.stopsCount
                       ? `Ride ${nextLeg.stopsCount} stop${nextLeg.stopsCount !== 1 ? "s" : ""}`
                       : "In-vehicle transit"}
                     {nextLeg.durationMins ? ` (${nextLeg.durationMins} min)` : ""}
@@ -335,13 +340,7 @@ function JourneyDetailsTimeline({
               </span>
             </div>
             <div className="text-[11.5px] text-slate-400 mt-0.5">
-              Alight platform · {
-                (destination || "").toUpperCase().includes("NIZAMUDDIN") || (destination || "").toUpperCase().includes("SARAI KALE KHAN")
-                  ? "Exit for Railway / RRTS"
-                  : (destination || "").toUpperCase().includes("CSMT") || (destination || "").toUpperCase().includes("CENTRAL")
-                  ? "Exit for Mainline Railway Terminal"
-                  : "Exit station"
-              }
+              Alight platform · {route.destinationGuidance || "Exit station"}
             </div>
           </div>
         </div>

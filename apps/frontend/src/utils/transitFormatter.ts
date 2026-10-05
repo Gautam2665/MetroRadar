@@ -150,7 +150,11 @@ export function buildStepByStepItinerary(
       const shortLine = formatShortLineName(leg.rawLineName || leg.line);
       const direction = leg.towards || extractDirection(leg.rawLineName, leg.toStation);
       
-      const stopsText = leg.stopsCount ? ` · Ride ${leg.stopsCount} station${leg.stopsCount > 1 ? "s" : ""}` : "";
+      const stopsText = leg.stopsText
+        ? ` · ${leg.stopsText}`
+        : leg.stopsCount
+        ? ` · Ride ${leg.stopsCount} stop${leg.stopsCount > 1 ? "s" : ""}`
+        : "";
       const durText = leg.durationMins ? ` (${leg.durationMins} min)` : "";
       const towardsText = direction ? `Towards ${direction}` : "";
 

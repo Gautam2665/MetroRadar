@@ -311,7 +311,7 @@ function NetworkContent() {
                           Next Train
                         </h3>
                         <p className="text-xs text-[#bac9cc] mt-1">
-                          {twin?.platformEtas?.[0]?.platform || "Platform 1"} · {twin?.platformEtas?.[0]?.recommendedCoach || "Metro Line"}
+                          {twin?.platformEtas?.[0]?.platform ? `${twin.platformEtas[0].platform} · ` : ""}{twin?.platformEtas?.[0]?.recommendedCoach || "Metro Line"}
                         </p>
                       </div>
                     </div>
