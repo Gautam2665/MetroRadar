@@ -27,7 +27,6 @@ import {
   LegMode,
   DoorSide,
   DoorSideStatus,
-  PlatformStatus,
 } from './candidate.types';
 import { GraphEdge } from '../graph/graph.types';
 

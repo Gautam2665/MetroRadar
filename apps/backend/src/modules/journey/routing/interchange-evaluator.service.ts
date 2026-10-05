@@ -1,7 +1,31 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
-import { RouteCandidate, JourneyLeg, TransferDetails } from './candidate.types';
+import { RouteCandidate, TransferDetails } from './candidate.types';
+import { EdgeType } from '../graph/edge.types';
+
+interface InterchangeAttribute<T> {
+  value?: T | null;
+  status?: string;
+}
+
+interface InterchangeComplex {
+  complexId: string;
+  name: string;
+  attributes?: {
+    paidAreaTransfer?: InterchangeAttribute<boolean>;
+    requiresSecurityRescreening?: InterchangeAttribute<boolean>;
+    requiresAfcRetap?: InterchangeAttribute<boolean>;
+    verticalDropMeters?: InterchangeAttribute<number>;
+    outdoorStreetExposure?: InterchangeAttribute<boolean>;
+    elevatorAvailability?: InterchangeAttribute<boolean>;
+    suitabilityNote?: InterchangeAttribute<string>;
+  };
+}
+
+interface InterchangeRegistry {
+  complexes: InterchangeComplex[];
+}
 
 export interface GenericConstraints {
   mobility?: 'STANDARD' | 'REDUCED';
@@ -24,8 +48,8 @@ export interface InterchangeEvaluationResult {
 @Injectable()
 export class InterchangeEvaluatorService {
   private readonly logger = new Logger(InterchangeEvaluatorService.name);
-  private icxRegistry: Record<string, any> | null = null;
-  private stationCodeToComplex = new Map<string, any>();
+  private icxRegistry: InterchangeRegistry | null = null;
+  private stationCodeToComplex = new Map<string, InterchangeComplex>();
 
   constructor() {
     this.loadRegistry();
@@ -42,7 +66,10 @@ export class InterchangeEvaluatorService {
     for (const p of candidatePaths) {
       if (fs.existsSync(p)) {
         try {
-          this.icxRegistry = JSON.parse(fs.readFileSync(p, 'utf8'));
+          const parsedRegistry: unknown = JSON.parse(
+            fs.readFileSync(p, 'utf8'),
+          ) as unknown;
+          this.icxRegistry = parsedRegistry as InterchangeRegistry;
           this.logger.log(`Loaded Interchange Complex Registry from ${p}`);
           this.indexRegistry();
           return;
@@ -99,7 +126,6 @@ export class InterchangeEvaluatorService {
     const mobility = constraints.mobility || 'STANDARD';
     const luggage = constraints.luggage || 'NONE';
     const avoidList = (constraints.avoid || []).map((a) => a.toUpperCase());
-    const preferList = (constraints.prefer || []).map((p) => p.toUpperCase());
 
     // 1. Direct route evaluation
     if (isDirect) {
@@ -116,9 +142,9 @@ export class InterchangeEvaluatorService {
     }
 
     // 2. Identify interchange complexes specifically for transfer legs
-    const traversedComplexes = new Set<any>();
+    const traversedComplexes = new Set<InterchangeComplex>();
     for (const leg of candidate.legs) {
-      if (leg.type === 'WALK') {
+      if (leg.type === EdgeType.WALK) {
         // Walk leg connecting two stations
         const fromSt = candidate.stations.find(
           (s) => s.id === leg.from || s.name === leg.fromStationName,

@@ -228,21 +228,21 @@ function JourneyDetailsTimeline({
           // Derive transfer title and duration from authoritative backend DTO
           const transferTitle =
             walkLeg?.transferTitle ||
-            (walkLeg as any)?.transferDetails?.name ||
+            walkLeg?.transferDetails?.name ||
             `Transfer to ${nextShortLine}`;
 
           const transferDuration =
             walkLeg?.transferSummary ||
             walkLeg?.transferDurationText ||
-            (walkLeg as any)?.transferDetails?.durationDisplay ||
+            walkLeg?.transferDetails?.durationDisplay ||
             (walkLeg?.durationMins ? `~${walkLeg.durationMins} min` : "~5 min");
 
           const transferSteps: string[] =
             walkLeg?.transferInstructions && walkLeg.transferInstructions.length > 0
               ? walkLeg.transferInstructions
-              : (walkLeg as any)?.transferDetails?.instructions &&
-                (walkLeg as any).transferDetails.instructions.length > 0
-              ? (walkLeg as any).transferDetails.instructions
+              : walkLeg?.transferDetails?.instructions &&
+                walkLeg.transferDetails.instructions.length > 0
+              ? walkLeg.transferDetails.instructions
               : [`Follow signs to ${nextShortLine} connecting concourse`];
 
           const deboardDoors = curLeg.doorsOpen;

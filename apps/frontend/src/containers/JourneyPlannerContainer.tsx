@@ -6,9 +6,16 @@ import { StationItem } from "../components/StationSearchInput";
 import { ApiClient } from "../services/api/client";
 import { StationApi } from "../services/api/station.api";
 
-import { formatLineName, formatShortLineName, extractDirection } from "../utils/transitFormatter";
+import { formatLineName, formatShortLineName } from "../utils/transitFormatter";
 
 // ── Shared types ─────────────────────────────────────────────────────────────
+
+export type TransferDetails = {
+  complexId?: string;
+  name?: string;
+  durationDisplay?: string;
+  instructions?: string[];
+};
 
 export type RouteLeg = {
   mode: "subway" | "walk" | "cab";
@@ -28,7 +35,7 @@ export type RouteLeg = {
   platformStatus?: "KNOWN" | "UNKNOWN";
   doorsOpen?: "Left" | "Right" | null;
   doorSideStatus?: "KNOWN_FROM_ENGINEERING" | "UNKNOWN_SOURCE_REQUIRED";
-  transferDetails?: any;
+  transferDetails?: TransferDetails | null;
   transferTitle?: string | null;
   transferSummary?: string | null;
   transferDurationText?: string | null;
@@ -125,7 +132,7 @@ interface BackendCandidate {
     duration: number;
     durationSeconds?: number;
     durationMinutes?: number;
-    transferDetails?: any;
+    transferDetails?: TransferDetails | null;
     transferTitle?: string | null;
     transferSummary?: string | null;
     transferDurationText?: string | null;
