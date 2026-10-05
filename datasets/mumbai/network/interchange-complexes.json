@@ -13,8 +13,14 @@
     {
       "complexId": "ICX-MAROL-NAKA",
       "name": "Marol Naka Interchange Hub",
-      "participatingSystems": ["MUMBAI_LINE1", "MUMBAI_LINE3"],
-      "participatingStations": ["STN_L1_008", "STN_L3_004"],
+      "participatingSystems": [
+        "MUMBAI_LINE1",
+        "MUMBAI_LINE3"
+      ],
+      "participatingStations": [
+        "STN_L1_008",
+        "STN_L3_004"
+      ],
       "interchangeType": "UNPAID_OUT_OF_STATION",
       "attributes": {
         "paidAreaTransfer": {
@@ -127,8 +133,16 @@
     {
       "complexId": "ICX-BKC",
       "name": "Bandra Kurla Complex (BKC) Transit Hub",
-      "participatingSystems": ["MUMBAI_LINE3", "MUMBAI_LINE2B", "MAHSR_BULLET_TRAIN"],
-      "participatingStations": ["STN_L3_010", "STN_L2B_BKC", "STN_MAHSR_BKC"],
+      "participatingSystems": [
+        "MUMBAI_LINE3",
+        "MUMBAI_LINE2B",
+        "MAHSR_BULLET_TRAIN"
+      ],
+      "participatingStations": [
+        "STN_L3_010",
+        "STN_L2B_BKC",
+        "STN_MAHSR_BKC"
+      ],
       "interchangeType": "PAID_TO_PAID_INTEGRATED",
       "attributes": {
         "paidAreaTransfer": {
@@ -225,8 +239,14 @@
     {
       "complexId": "ICX-DAHISAR-EAST",
       "name": "Dahisar East Junction Hub",
-      "participatingSystems": ["MUMBAI_LINE2A", "MUMBAI_LINE7"],
-      "participatingStations": ["STN_L2A_DAHISAR_EAST", "STN_L7_DAHISAR_EAST"],
+      "participatingSystems": [
+        "MUMBAI_LINE2A",
+        "MUMBAI_LINE7"
+      ],
+      "participatingStations": [
+        "STN_L2A_001",
+        "STN_L7_001"
+      ],
       "interchangeType": "PAID_CROSS_CONCOURSE_SAME_OPERATOR",
       "attributes": {
         "paidAreaTransfer": {
@@ -251,10 +271,10 @@
           }
         },
         "walkingDistanceMeters": {
-          "value": 50,
-          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "value": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
           "provenance": {
-            "evidence": "Cross-concourse physical walkway between parallel platform structures"
+            "note": "Cross-concourse physical walkway between parallel platform structures unmeasured"
           }
         },
         "outdoorStreetExposure": {
@@ -294,13 +314,45 @@
           "luggageFrictionLevel": "MINIMAL",
           "accessibilityStatus": "VERIFIED_ELEVATOR"
         }
+      ],
+      "pathway": [
+        {
+          "segmentId": "SEG_DAH_L2A_PF_TO_CONCOURSE",
+          "from": "L2A_PLATFORM",
+          "to": "UNIFIED_CONCOURSE",
+          "type": "VERTICAL",
+          "distanceMeters": null,
+          "sourceState": "UNKNOWN_SOURCE_REQUIRED"
+        },
+        {
+          "segmentId": "SEG_DAH_CROSS_CONCOURSE",
+          "from": "UNIFIED_CONCOURSE",
+          "to": "UNIFIED_CONCOURSE",
+          "type": "PEDESTRIAN",
+          "distanceMeters": null,
+          "sourceState": "UNKNOWN_SOURCE_REQUIRED"
+        },
+        {
+          "segmentId": "SEG_DAH_CONCOURSE_TO_L7_PF",
+          "from": "UNIFIED_CONCOURSE",
+          "to": "L7_PLATFORM",
+          "type": "VERTICAL",
+          "distanceMeters": null,
+          "sourceState": "UNKNOWN_SOURCE_REQUIRED"
+        }
       ]
     },
     {
       "complexId": "ICX-DN-NAGAR",
       "name": "D.N. Nagar / Andheri West Interchange Hub",
-      "participatingSystems": ["MUMBAI_LINE1", "MUMBAI_LINE2A"],
-      "participatingStations": ["STN_L1_002", "STN_L2A_ANDHERI_WEST"],
+      "participatingSystems": [
+        "MUMBAI_LINE1",
+        "MUMBAI_LINE2A"
+      ],
+      "participatingStations": [
+        "STN_L1_002",
+        "STN_L2A_017"
+      ],
       "interchangeType": "ELEVATED_FOB_ASYMMETRIC",
       "attributes": {
         "paidAreaTransfer": {
@@ -332,10 +384,10 @@
           }
         },
         "walkingDistanceMeters": {
-          "value": 120,
-          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "value": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
           "provenance": {
-            "evidence": "Elevated foot overbridge connector structure length"
+            "note": "Platform-to-platform internal distance unmeasured pending footway survey"
           }
         },
         "outdoorStreetExposure": {
@@ -387,13 +439,53 @@
           "luggageFrictionLevel": "MODERATE",
           "accessibilityStatus": "UNVERIFIED_ELEVATOR"
         }
+      ],
+      "pathway": [
+        {
+          "segmentId": "SEG_DNN_L2A_PF_TO_CONCOURSE",
+          "from": "L2A_PLATFORM",
+          "to": "L2A_CONCOURSE",
+          "type": "VERTICAL",
+          "distanceMeters": null,
+          "sourceState": "UNKNOWN_SOURCE_REQUIRED"
+        },
+        {
+          "segmentId": "SEG_DNN_L2A_CONCOURSE_TO_FOB",
+          "from": "L2A_CONCOURSE",
+          "to": "FOB",
+          "type": "PEDESTRIAN",
+          "distanceMeters": null,
+          "sourceState": "UNKNOWN_SOURCE_REQUIRED"
+        },
+        {
+          "segmentId": "SEG_DNN_FOB_SPAN",
+          "from": "FOB",
+          "to": "L1_CONCOURSE",
+          "type": "FOB",
+          "structureLengthMeters": null,
+          "sourceState": "UNKNOWN_SOURCE_REQUIRED"
+        },
+        {
+          "segmentId": "SEG_DNN_L1_CONCOURSE_TO_PF",
+          "from": "L1_CONCOURSE",
+          "to": "L1_PLATFORM",
+          "type": "VERTICAL",
+          "distanceMeters": null,
+          "sourceState": "UNKNOWN_SOURCE_REQUIRED"
+        }
       ]
     },
     {
       "complexId": "ICX-WEH-GUNDAVALI",
       "name": "Western Express Highway / Gundavali Interchange Hub",
-      "participatingSystems": ["MUMBAI_LINE1", "MUMBAI_LINE7"],
-      "participatingStations": ["STN_L1_005", "STN_L7_GUNDAVALI"],
+      "participatingSystems": [
+        "MUMBAI_LINE1",
+        "MUMBAI_LINE7"
+      ],
+      "participatingStations": [
+        "STN_L1_005",
+        "STN_L7_014"
+      ],
       "interchangeType": "LONG_ELEVATED_SKYWALK",
       "attributes": {
         "paidAreaTransfer": {
@@ -418,17 +510,10 @@
           }
         },
         "walkingDistanceMeters": {
-          "value": 580,
-          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "value": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
           "provenance": {
-            "evidence": "MMRDA official skywalk civil works specification (580m elevated link)"
-          }
-        },
-        "travelatorInstalled": {
-          "value": true,
-          "knowledgeState": "KNOWN_FROM_OBSERVATION",
-          "provenance": {
-            "evidence": "Travelators installed along the 580m corridor"
+            "note": "Full platform-to-platform walking distance unmeasured. Structural FOB across highway is 58m."
           }
         },
         "outdoorStreetExposure": {
@@ -443,6 +528,14 @@
           "knowledgeState": "KNOWN_FROM_OBSERVATION",
           "provenance": {
             "evidence": "Station concourses at both ends equipped with operational lifts"
+          }
+        },
+        "fobBridgeSpanMeters": {
+          "value": 58,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SRC-MMRDA-CIVIL-TENDER-L7",
+            "evidence": "MMRDA Line 7 as-built engineering package for Western Express Highway Foot Overbridge"
           }
         }
       },
@@ -481,13 +574,57 @@
           "luggageFrictionLevel": "MODERATE",
           "accessibilityStatus": "VERIFIED_ELEVATOR"
         }
+      ],
+      "pathway": [
+        {
+          "segmentId": "SEG_WEH_L7_PF_TO_CONCOURSE",
+          "from": "L7_PLATFORM",
+          "to": "L7_CONCOURSE",
+          "type": "VERTICAL",
+          "distanceMeters": null,
+          "sourceState": "UNKNOWN_SOURCE_REQUIRED"
+        },
+        {
+          "segmentId": "SEG_WEH_L7_CONCOURSE_TO_FOB",
+          "from": "L7_CONCOURSE",
+          "to": "FOB",
+          "type": "PEDESTRIAN",
+          "distanceMeters": null,
+          "sourceState": "UNKNOWN_SOURCE_REQUIRED"
+        },
+        {
+          "segmentId": "SEG_WEH_FOB_SPAN",
+          "from": "FOB",
+          "to": "L1_CONCOURSE",
+          "type": "FOB",
+          "structureLengthMeters": 58,
+          "sourceState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SRC-MMRDA-CIVIL-TENDER-L7",
+            "evidence": "58m structural FOB spanning Western Express Highway"
+          }
+        },
+        {
+          "segmentId": "SEG_WEH_L1_CONCOURSE_TO_PF",
+          "from": "L1_CONCOURSE",
+          "to": "L1_PLATFORM",
+          "type": "VERTICAL",
+          "distanceMeters": null,
+          "sourceState": "UNKNOWN_SOURCE_REQUIRED"
+        }
       ]
     },
     {
       "complexId": "ICX-ANDHERI",
       "name": "Andheri Metro & Suburban Railway Interchange Hub",
-      "participatingSystems": ["MUMBAI_LINE1", "INDIAN_RAILWAYS_WR"],
-      "participatingStations": ["STN_L1_004", "STN_IR_ANDHERI"],
+      "participatingSystems": [
+        "MUMBAI_LINE1",
+        "INDIAN_RAILWAYS_WR"
+      ],
+      "participatingStations": [
+        "STN_L1_004",
+        "STN_IR_ANDHERI"
+      ],
       "interchangeType": "RAILWAY_FOOT_OVERBRIDGE",
       "attributes": {
         "paidAreaTransfer": {
@@ -544,8 +681,14 @@
     {
       "complexId": "ICX-GHATKOPAR",
       "name": "Ghatkopar Metro & Suburban Railway Interchange Hub",
-      "participatingSystems": ["MUMBAI_LINE1", "INDIAN_RAILWAYS_CR"],
-      "participatingStations": ["STN_L1_012", "STN_IR_GHATKOPAR"],
+      "participatingSystems": [
+        "MUMBAI_LINE1",
+        "INDIAN_RAILWAYS_CR"
+      ],
+      "participatingStations": [
+        "STN_L1_012",
+        "STN_IR_GHATKOPAR"
+      ],
       "interchangeType": "RAILWAY_FOOT_OVERBRIDGE",
       "attributes": {
         "paidAreaTransfer": {
@@ -593,8 +736,14 @@
     {
       "complexId": "ICX-DADAR",
       "name": "Dadar Metro & Railway Hub",
-      "participatingSystems": ["MUMBAI_LINE3", "SUBURBAN_WR_CR"],
-      "participatingStations": ["STN_L3_013", "STN_IR_DADAR"],
+      "participatingSystems": [
+        "MUMBAI_LINE3",
+        "SUBURBAN_WR_CR"
+      ],
+      "participatingStations": [
+        "STN_L3_013",
+        "STN_IR_DADAR"
+      ],
       "interchangeType": "LONG_MARKET_STREET_WALK_TO_RAILWAY",
       "attributes": {
         "paidAreaTransfer": {
@@ -670,8 +819,14 @@
     {
       "complexId": "ICX-MUMBAI-CENTRAL",
       "name": "Mumbai Central Metro & Mainline Terminal Hub",
-      "participatingSystems": ["MUMBAI_LINE3", "SUBURBAN_WR"],
-      "participatingStations": ["STN_L3_019", "STN_IR_MUMBAI_CENTRAL"],
+      "participatingSystems": [
+        "MUMBAI_LINE3",
+        "SUBURBAN_WR"
+      ],
+      "participatingStations": [
+        "STN_L3_019",
+        "STN_IR_MUMBAI_CENTRAL"
+      ],
       "interchangeType": "SURFACE_FORECOURT_TO_MAINLINE_TERMINAL",
       "attributes": {
         "paidAreaTransfer": {
@@ -737,8 +892,14 @@
     {
       "complexId": "ICX-CSMT",
       "name": "CSMT Metro & Heritage Railway Terminal Hub",
-      "participatingSystems": ["MUMBAI_LINE3", "SUBURBAN_CR_HARBOUR"],
-      "participatingStations": ["STN_L3_023", "STN_IR_CSMT"],
+      "participatingSystems": [
+        "MUMBAI_LINE3",
+        "SUBURBAN_CR_HARBOUR"
+      ],
+      "participatingStations": [
+        "STN_L3_023",
+        "STN_IR_CSMT"
+      ],
       "interchangeType": "INTEGRATED_BMC_SUBWAY_TO_HERITAGE_TERMINAL",
       "attributes": {
         "paidAreaTransfer": {
@@ -797,8 +958,14 @@
     {
       "complexId": "ICX-CHURCHGATE",
       "name": "Churchgate Metro & Western Railway Suburban Terminal Hub",
-      "participatingSystems": ["MUMBAI_LINE3", "SUBURBAN_WR"],
-      "participatingStations": ["STN_L3_025", "STN_IR_CHURCHGATE"],
+      "participatingSystems": [
+        "MUMBAI_LINE3",
+        "SUBURBAN_WR"
+      ],
+      "participatingStations": [
+        "STN_L3_025",
+        "STN_IR_CHURCHGATE"
+      ],
       "interchangeType": "SURFACE_FOOTPATH_WALK_TO_RAILWAY",
       "attributes": {
         "paidAreaTransfer": {

@@ -228,6 +228,82 @@ async function run() {
     }
   }
 
+  // ── 6. Multi-Line Expansion & Segmented Pathway ICX Grounding ────────────
+  console.log('\n----------------------------------------------------------------');
+  console.log('TEST SUITE 6: Line 2A & 7 Expansion with Segmented ICX Pathways');
+  console.log('----------------------------------------------------------------');
+
+  const [magathane, borivaliW, gundavali, andheriW, dahisar7] = await Promise.all([
+    prisma.station.findFirst({ where: { name: 'Magathane' } }),
+    prisma.station.findFirst({ where: { name: 'Borivali (West)' } }),
+    prisma.station.findFirst({ where: { name: 'Gundavali' } }),
+    prisma.station.findFirst({ where: { name: 'Andheri (West)' } }),
+    prisma.station.findFirst({ where: { code: 'STN_L7_001' } }),
+  ]);
+
+  if (magathane && borivaliW && gundavali && andheriW && dahisar7) {
+    // 6.1 Versova -> Magathane (Line 1 to Line 7 via WEH/Gundavali)
+    {
+      console.log('\n[6.1] Versova -> Magathane (Line 1 -> Line 7 via WEH/Gundavali)');
+      const res = await fetchJourney(versova.id, magathane.id);
+      const c = res.candidates?.[0];
+      countTest(() => assert(c?.transfers === 1, `Candidate transfers is 1 (got: ${c?.transfers})`));
+      countTest(() => assert(c?.legs?.length === 3, `Candidate has 3 legs (got: ${c?.legs?.length})`));
+
+      const leg0 = c?.legs?.[0];
+      countTest(() => assert(leg0?.lineName === 'Line 1 (Blue Line)', `Leg 0 line is Line 1`));
+      countTest(() => assert(leg0?.towards === 'Ghatkopar', `Leg 0 towards is 'Ghatkopar'`));
+      countTest(() => assert(leg0?.boardingPlatform === 'Platform 1', `Leg 0 boardingPlatform is 'Platform 1'`));
+      countTest(() => assert(leg0?.doorsOpen === 'Left', `Leg 0 doorsOpen is 'Left'`));
+
+      const leg1 = c?.legs?.[1];
+      countTest(() => assert(leg1?.mode === 'TRANSFER', `Leg 1 is TRANSFER mode`));
+      countTest(() => assert(leg1?.transferDetails?.complexId === 'ICX-WEH-GUNDAVALI', `Leg 1 complexId is 'ICX-WEH-GUNDAVALI'`));
+      countTest(() => assert(leg1?.transferDetails?.pathwayDistanceMeters === null, `Transfer pathwayDistanceMeters is null (never fabricated 195m/580m)`));
+      countTest(() => assert(leg1?.transferSummary === 'Transfer — ~4 min', `Transfer summary is 'Transfer — ~4 min' (got: '${leg1?.transferSummary}')`));
+
+      const fobSeg = leg1?.transferDetails?.pathway?.find(s => s.type === 'FOB');
+      countTest(() => assert(fobSeg?.structureLengthMeters === 58, `FOB segment structureLengthMeters is 58 (got: ${fobSeg?.structureLengthMeters})`));
+      countTest(() => assert(fobSeg?.sourceState === 'KNOWN_FROM_ENGINEERING', `FOB segment sourceState is 'KNOWN_FROM_ENGINEERING'`));
+
+      const leg2 = c?.legs?.[2];
+      countTest(() => assert(leg2?.lineName === 'Line 7 (Red Line)', `Leg 2 line is Line 7`));
+      countTest(() => assert(leg2?.towards === 'Dahisar (East)', `Leg 2 towards is 'Dahisar (East)'`));
+      countTest(() => assert(leg2?.boardingPlatform === 'Platform 2', `Leg 2 boardingPlatform is 'Platform 2'`));
+      countTest(() => assert(leg2?.doorsOpen === null, `Leg 2 doorsOpen is null (never guessed)`));
+      countTest(() => assert(leg2?.doorSideStatus === 'UNKNOWN_SOURCE_REQUIRED', `Leg 2 doorSideStatus is 'UNKNOWN_SOURCE_REQUIRED'`));
+    }
+
+    // 6.2 Versova -> Borivali (West) (Line 1 to Line 2A via DN Nagar/Andheri West)
+    {
+      console.log('\n[6.2] Versova -> Borivali (West) (Line 1 -> Line 2A via DN Nagar/Andheri West)');
+      const res = await fetchJourney(versova.id, borivaliW.id);
+      const c = res.candidates?.[0];
+      countTest(() => assert(c?.transfers === 1, `Candidate transfers is 1`));
+
+      const leg1 = c?.legs?.[1];
+      countTest(() => assert(leg1?.transferDetails?.complexId === 'ICX-DN-NAGAR', `Leg 1 complexId is 'ICX-DN-NAGAR'`));
+      countTest(() => assert(leg1?.transferDetails?.pathwayDistanceMeters === null, `Transfer pathwayDistanceMeters is null`));
+
+      const leg2 = c?.legs?.[2];
+      countTest(() => assert(leg2?.lineName === 'Line 2A (Yellow Line)', `Leg 2 line is Line 2A`));
+      countTest(() => assert(leg2?.towards === 'Dahisar (East)', `Leg 2 towards is 'Dahisar (East)'`));
+      countTest(() => assert(leg2?.doorsOpen === null, `Leg 2 doorsOpen is null`));
+      countTest(() => assert(leg2?.doorSideStatus === 'UNKNOWN_SOURCE_REQUIRED', `Leg 2 doorSideStatus is 'UNKNOWN_SOURCE_REQUIRED'`));
+    }
+
+    // 6.3 Gundavali -> Dahisar (East) (Line 7 Direct)
+    {
+      console.log('\n[6.3] Gundavali -> Dahisar (East) (Line 7 Direct)');
+      const res = await fetchJourney(gundavali.id, dahisar7.id);
+      const c = res.candidates?.[0];
+      countTest(() => assert(c?.transfers === 0, `Direct Line 7 trip has 0 transfers`));
+      countTest(() => assert(c?.legs?.length === 1, `Direct trip has exactly 1 leg`));
+      countTest(() => assert(c?.legs?.[0]?.towards === 'Dahisar (East)', `Towards is 'Dahisar (East)'`));
+      countTest(() => assert(c?.legs?.[0]?.boardingPlatform === 'Platform 2', `Boarding platform is 'Platform 2'`));
+    }
+  }
+
   console.log('\n================================================================');
   console.log(`🏁 TEST RUN COMPLETE: ${passedTests}/${totalTests} assertions passed (${Math.round((passedTests / totalTests) * 100)}%)`);
   console.log('================================================================');

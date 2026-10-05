@@ -1,0 +1,1165 @@
+{
+  "schemaVersion": "ctm-v1.0",
+  "networkId": "MUMBAI_METRO",
+  "lineId": "MUMBAI_LINE2A",
+  "lineCode": "LINE2A",
+  "lineName": "Mumbai Metro Line 2A (Yellow Line)",
+  "colorHex": "#F0C800",
+  "operator": "MMMOCL (Maha Mumbai Metro Operation Corporation Ltd)",
+  "status": "OPERATIONAL",
+  "commercialRuntimeSeconds": 2160,
+  "totalDistanceMeters": 16905,
+  "stations": [
+    {
+      "canonicalId": "STN_L2A_001",
+      "stationCode": "L2A-01",
+      "name": "Dahisar (East)",
+      "sequence": 1,
+      "latitude": 19.251263,
+      "longitude": 72.867119,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 0,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2A_002",
+      "stationCode": "L2A-02",
+      "name": "Anand Nagar",
+      "sequence": 2,
+      "latitude": 19.257219,
+      "longitude": 72.866134,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 670,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2A_003",
+      "stationCode": "L2A-03",
+      "name": "Kandarpada",
+      "sequence": 3,
+      "latitude": 19.256646,
+      "longitude": 72.850678,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1624,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2A_004",
+      "stationCode": "L2A-04",
+      "name": "Mandapeshwar",
+      "sequence": 4,
+      "latitude": 19.249261,
+      "longitude": 72.845677,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 975,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2A_005",
+      "stationCode": "L2A-05",
+      "name": "Eksar",
+      "sequence": 5,
+      "latitude": 19.240323,
+      "longitude": 72.843438,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1021,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2A_006",
+      "stationCode": "L2A-06",
+      "name": "Borivali (West)",
+      "sequence": 6,
+      "latitude": 19.231194,
+      "longitude": 72.840865,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1050,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2A_007",
+      "stationCode": "L2A-07",
+      "name": "Shimpoli",
+      "sequence": 7,
+      "latitude": 19.222769,
+      "longitude": 72.840918,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 937,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2A_008",
+      "stationCode": "L2A-08",
+      "name": "Kandivali (West)",
+      "sequence": 8,
+      "latitude": 19.214005,
+      "longitude": 72.837355,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1044,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2A_009",
+      "stationCode": "L2A-09",
+      "name": "Dahanukarwadi",
+      "sequence": 9,
+      "latitude": 19.205772,
+      "longitude": 72.834717,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 956,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2A_010",
+      "stationCode": "L2A-10",
+      "name": "Valnai - Meeth Chowky",
+      "sequence": 10,
+      "latitude": 19.196621,
+      "longitude": 72.833786,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1022,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2A_011",
+      "stationCode": "L2A-11",
+      "name": "Malad (West)",
+      "sequence": 11,
+      "latitude": 19.1852,
+      "longitude": 72.83585,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1288,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2A_012",
+      "stationCode": "L2A-12",
+      "name": "Lower Malad",
+      "sequence": 12,
+      "latitude": 19.172953,
+      "longitude": 72.836423,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1363,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2A_013",
+      "stationCode": "L2A-13",
+      "name": "Bangur Nagar",
+      "sequence": 13,
+      "latitude": 19.162259,
+      "longitude": 72.834844,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1201,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2A_014",
+      "stationCode": "L2A-14",
+      "name": "Goregaon (West)",
+      "sequence": 14,
+      "latitude": 19.153138,
+      "longitude": 72.835685,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1018,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2A_015",
+      "stationCode": "L2A-15",
+      "name": "Oshiwara",
+      "sequence": 15,
+      "latitude": 19.145979,
+      "longitude": 72.833752,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 822,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2A_016",
+      "stationCode": "L2A-16",
+      "name": "Lower Oshiwara",
+      "sequence": 16,
+      "latitude": 19.140455,
+      "longitude": 72.831717,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 650,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2A_017",
+      "stationCode": "L2A-17",
+      "name": "Andheri (West)",
+      "sequence": 17,
+      "latitude": 19.129089,
+      "longitude": 72.831415,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1264,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    }
+  ],
+  "stationGraph": {
+    "directed": false,
+    "nodes": [
+      {
+        "stationId": "STN_L2A_001",
+        "name": "Dahisar (East)",
+        "sequence": 1,
+        "coordinates": [
+          72.867119,
+          19.251263
+        ]
+      },
+      {
+        "stationId": "STN_L2A_002",
+        "name": "Anand Nagar",
+        "sequence": 2,
+        "coordinates": [
+          72.866134,
+          19.257219
+        ]
+      },
+      {
+        "stationId": "STN_L2A_003",
+        "name": "Kandarpada",
+        "sequence": 3,
+        "coordinates": [
+          72.850678,
+          19.256646
+        ]
+      },
+      {
+        "stationId": "STN_L2A_004",
+        "name": "Mandapeshwar",
+        "sequence": 4,
+        "coordinates": [
+          72.845677,
+          19.249261
+        ]
+      },
+      {
+        "stationId": "STN_L2A_005",
+        "name": "Eksar",
+        "sequence": 5,
+        "coordinates": [
+          72.843438,
+          19.240323
+        ]
+      },
+      {
+        "stationId": "STN_L2A_006",
+        "name": "Borivali (West)",
+        "sequence": 6,
+        "coordinates": [
+          72.840865,
+          19.231194
+        ]
+      },
+      {
+        "stationId": "STN_L2A_007",
+        "name": "Shimpoli",
+        "sequence": 7,
+        "coordinates": [
+          72.840918,
+          19.222769
+        ]
+      },
+      {
+        "stationId": "STN_L2A_008",
+        "name": "Kandivali (West)",
+        "sequence": 8,
+        "coordinates": [
+          72.837355,
+          19.214005
+        ]
+      },
+      {
+        "stationId": "STN_L2A_009",
+        "name": "Dahanukarwadi",
+        "sequence": 9,
+        "coordinates": [
+          72.834717,
+          19.205772
+        ]
+      },
+      {
+        "stationId": "STN_L2A_010",
+        "name": "Valnai - Meeth Chowky",
+        "sequence": 10,
+        "coordinates": [
+          72.833786,
+          19.196621
+        ]
+      },
+      {
+        "stationId": "STN_L2A_011",
+        "name": "Malad (West)",
+        "sequence": 11,
+        "coordinates": [
+          72.83585,
+          19.1852
+        ]
+      },
+      {
+        "stationId": "STN_L2A_012",
+        "name": "Lower Malad",
+        "sequence": 12,
+        "coordinates": [
+          72.836423,
+          19.172953
+        ]
+      },
+      {
+        "stationId": "STN_L2A_013",
+        "name": "Bangur Nagar",
+        "sequence": 13,
+        "coordinates": [
+          72.834844,
+          19.162259
+        ]
+      },
+      {
+        "stationId": "STN_L2A_014",
+        "name": "Goregaon (West)",
+        "sequence": 14,
+        "coordinates": [
+          72.835685,
+          19.153138
+        ]
+      },
+      {
+        "stationId": "STN_L2A_015",
+        "name": "Oshiwara",
+        "sequence": 15,
+        "coordinates": [
+          72.833752,
+          19.145979
+        ]
+      },
+      {
+        "stationId": "STN_L2A_016",
+        "name": "Lower Oshiwara",
+        "sequence": 16,
+        "coordinates": [
+          72.831717,
+          19.140455
+        ]
+      },
+      {
+        "stationId": "STN_L2A_017",
+        "name": "Andheri (West)",
+        "sequence": 17,
+        "coordinates": [
+          72.831415,
+          19.129089
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "edgeId": "EDGE_L2A_01",
+        "fromStationId": "STN_L2A_001",
+        "fromStationName": "Dahisar (East)",
+        "toStationId": "STN_L2A_002",
+        "toStationName": "Anand Nagar",
+        "sequenceFrom": 1,
+        "sequenceTo": 2,
+        "distanceMeters": 670,
+        "nominalTravelTimeSeconds": 86,
+        "travelTimeSemantics": {
+          "value": 86,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 28
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.867119,
+              19.251263
+            ],
+            [
+              72.866134,
+              19.257219
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L2A_02",
+        "fromStationId": "STN_L2A_002",
+        "fromStationName": "Anand Nagar",
+        "toStationId": "STN_L2A_003",
+        "toStationName": "Kandarpada",
+        "sequenceFrom": 2,
+        "sequenceTo": 3,
+        "distanceMeters": 1624,
+        "nominalTravelTimeSeconds": 208,
+        "travelTimeSemantics": {
+          "value": 208,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 28
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.866134,
+              19.257219
+            ],
+            [
+              72.850678,
+              19.256646
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L2A_03",
+        "fromStationId": "STN_L2A_003",
+        "fromStationName": "Kandarpada",
+        "toStationId": "STN_L2A_004",
+        "toStationName": "Mandapeshwar",
+        "sequenceFrom": 3,
+        "sequenceTo": 4,
+        "distanceMeters": 975,
+        "nominalTravelTimeSeconds": 125,
+        "travelTimeSemantics": {
+          "value": 125,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 28
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.850678,
+              19.256646
+            ],
+            [
+              72.845677,
+              19.249261
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L2A_04",
+        "fromStationId": "STN_L2A_004",
+        "fromStationName": "Mandapeshwar",
+        "toStationId": "STN_L2A_005",
+        "toStationName": "Eksar",
+        "sequenceFrom": 4,
+        "sequenceTo": 5,
+        "distanceMeters": 1021,
+        "nominalTravelTimeSeconds": 130,
+        "travelTimeSemantics": {
+          "value": 130,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 28
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.845677,
+              19.249261
+            ],
+            [
+              72.843438,
+              19.240323
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L2A_05",
+        "fromStationId": "STN_L2A_005",
+        "fromStationName": "Eksar",
+        "toStationId": "STN_L2A_006",
+        "toStationName": "Borivali (West)",
+        "sequenceFrom": 5,
+        "sequenceTo": 6,
+        "distanceMeters": 1050,
+        "nominalTravelTimeSeconds": 134,
+        "travelTimeSemantics": {
+          "value": 134,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 28
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.843438,
+              19.240323
+            ],
+            [
+              72.840865,
+              19.231194
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L2A_06",
+        "fromStationId": "STN_L2A_006",
+        "fromStationName": "Borivali (West)",
+        "toStationId": "STN_L2A_007",
+        "toStationName": "Shimpoli",
+        "sequenceFrom": 6,
+        "sequenceTo": 7,
+        "distanceMeters": 937,
+        "nominalTravelTimeSeconds": 120,
+        "travelTimeSemantics": {
+          "value": 120,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 28
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.840865,
+              19.231194
+            ],
+            [
+              72.840918,
+              19.222769
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L2A_07",
+        "fromStationId": "STN_L2A_007",
+        "fromStationName": "Shimpoli",
+        "toStationId": "STN_L2A_008",
+        "toStationName": "Kandivali (West)",
+        "sequenceFrom": 7,
+        "sequenceTo": 8,
+        "distanceMeters": 1044,
+        "nominalTravelTimeSeconds": 133,
+        "travelTimeSemantics": {
+          "value": 133,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 28
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.840918,
+              19.222769
+            ],
+            [
+              72.837355,
+              19.214005
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L2A_08",
+        "fromStationId": "STN_L2A_008",
+        "fromStationName": "Kandivali (West)",
+        "toStationId": "STN_L2A_009",
+        "toStationName": "Dahanukarwadi",
+        "sequenceFrom": 8,
+        "sequenceTo": 9,
+        "distanceMeters": 956,
+        "nominalTravelTimeSeconds": 122,
+        "travelTimeSemantics": {
+          "value": 122,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 28
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.837355,
+              19.214005
+            ],
+            [
+              72.834717,
+              19.205772
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L2A_09",
+        "fromStationId": "STN_L2A_009",
+        "fromStationName": "Dahanukarwadi",
+        "toStationId": "STN_L2A_010",
+        "toStationName": "Valnai - Meeth Chowky",
+        "sequenceFrom": 9,
+        "sequenceTo": 10,
+        "distanceMeters": 1022,
+        "nominalTravelTimeSeconds": 131,
+        "travelTimeSemantics": {
+          "value": 131,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 28
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.834717,
+              19.205772
+            ],
+            [
+              72.833786,
+              19.196621
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L2A_10",
+        "fromStationId": "STN_L2A_010",
+        "fromStationName": "Valnai - Meeth Chowky",
+        "toStationId": "STN_L2A_011",
+        "toStationName": "Malad (West)",
+        "sequenceFrom": 10,
+        "sequenceTo": 11,
+        "distanceMeters": 1288,
+        "nominalTravelTimeSeconds": 165,
+        "travelTimeSemantics": {
+          "value": 165,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 28
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.833786,
+              19.196621
+            ],
+            [
+              72.83585,
+              19.1852
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L2A_11",
+        "fromStationId": "STN_L2A_011",
+        "fromStationName": "Malad (West)",
+        "toStationId": "STN_L2A_012",
+        "toStationName": "Lower Malad",
+        "sequenceFrom": 11,
+        "sequenceTo": 12,
+        "distanceMeters": 1363,
+        "nominalTravelTimeSeconds": 174,
+        "travelTimeSemantics": {
+          "value": 174,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 28
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.83585,
+              19.1852
+            ],
+            [
+              72.836423,
+              19.172953
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L2A_12",
+        "fromStationId": "STN_L2A_012",
+        "fromStationName": "Lower Malad",
+        "toStationId": "STN_L2A_013",
+        "toStationName": "Bangur Nagar",
+        "sequenceFrom": 12,
+        "sequenceTo": 13,
+        "distanceMeters": 1201,
+        "nominalTravelTimeSeconds": 153,
+        "travelTimeSemantics": {
+          "value": 153,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 28
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.836423,
+              19.172953
+            ],
+            [
+              72.834844,
+              19.162259
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L2A_13",
+        "fromStationId": "STN_L2A_013",
+        "fromStationName": "Bangur Nagar",
+        "toStationId": "STN_L2A_014",
+        "toStationName": "Goregaon (West)",
+        "sequenceFrom": 13,
+        "sequenceTo": 14,
+        "distanceMeters": 1018,
+        "nominalTravelTimeSeconds": 130,
+        "travelTimeSemantics": {
+          "value": 130,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 28
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.834844,
+              19.162259
+            ],
+            [
+              72.835685,
+              19.153138
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L2A_14",
+        "fromStationId": "STN_L2A_014",
+        "fromStationName": "Goregaon (West)",
+        "toStationId": "STN_L2A_015",
+        "toStationName": "Oshiwara",
+        "sequenceFrom": 14,
+        "sequenceTo": 15,
+        "distanceMeters": 822,
+        "nominalTravelTimeSeconds": 105,
+        "travelTimeSemantics": {
+          "value": 105,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 28
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.835685,
+              19.153138
+            ],
+            [
+              72.833752,
+              19.145979
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L2A_15",
+        "fromStationId": "STN_L2A_015",
+        "fromStationName": "Oshiwara",
+        "toStationId": "STN_L2A_016",
+        "toStationName": "Lower Oshiwara",
+        "sequenceFrom": 15,
+        "sequenceTo": 16,
+        "distanceMeters": 650,
+        "nominalTravelTimeSeconds": 83,
+        "travelTimeSemantics": {
+          "value": 83,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 28
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.833752,
+              19.145979
+            ],
+            [
+              72.831717,
+              19.140455
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L2A_16",
+        "fromStationId": "STN_L2A_016",
+        "fromStationName": "Lower Oshiwara",
+        "toStationId": "STN_L2A_017",
+        "toStationName": "Andheri (West)",
+        "sequenceFrom": 16,
+        "sequenceTo": 17,
+        "distanceMeters": 1264,
+        "nominalTravelTimeSeconds": 162,
+        "travelTimeSemantics": {
+          "value": 162,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 28
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.831717,
+              19.140455
+            ],
+            [
+              72.831415,
+              19.129089
+            ]
+          ]
+        }
+      }
+    ]
+  },
+  "rollingStock": {
+    "rakeType": "EMU_6CAR",
+    "manufacturer": "BEML (Bharat Earth Movers Ltd, Bengaluru)",
+    "gaugeMm": 1435,
+    "tractionSystem": "25kV AC Overhead Catenary, VVVF"
+  }
+}

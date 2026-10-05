@@ -1,0 +1,958 @@
+{
+  "schemaVersion": "ctm-v1.0",
+  "networkId": "MUMBAI_METRO",
+  "lineId": "MUMBAI_LINE7",
+  "lineCode": "LINE7",
+  "lineName": "Mumbai Metro Line 7 (Red Line)",
+  "colorHex": "#E31E24",
+  "operator": "MMMOCL (Maha Mumbai Metro Operation Corporation Ltd)",
+  "status": "OPERATIONAL",
+  "commercialRuntimeSeconds": 1920,
+  "totalDistanceMeters": 15470,
+  "stations": [
+    {
+      "canonicalId": "STN_L7_001",
+      "stationCode": "L7-01",
+      "name": "Dahisar (East)",
+      "sequence": 1,
+      "latitude": 19.251263,
+      "longitude": 72.867119,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 0,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L7_002",
+      "stationCode": "L7-02",
+      "name": "Ovaripada",
+      "sequence": 2,
+      "latitude": 19.243411,
+      "longitude": 72.864248,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 924,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L7_003",
+      "stationCode": "L7-03",
+      "name": "Rashtriya Udyan",
+      "sequence": 3,
+      "latitude": 19.234671,
+      "longitude": 72.863161,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 979,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L7_004",
+      "stationCode": "L7-04",
+      "name": "Devipada",
+      "sequence": 4,
+      "latitude": 19.224332,
+      "longitude": 72.86422,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1155,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L7_005",
+      "stationCode": "L7-05",
+      "name": "Magathane",
+      "sequence": 5,
+      "latitude": 19.217203,
+      "longitude": 72.866728,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 835,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L7_006",
+      "stationCode": "L7-06",
+      "name": "Poisar",
+      "sequence": 6,
+      "latitude": 19.203938,
+      "longitude": 72.863499,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1513,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L7_007",
+      "stationCode": "L7-07",
+      "name": "Akurli",
+      "sequence": 7,
+      "latitude": 19.198115,
+      "longitude": 72.860646,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 713,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L7_008",
+      "stationCode": "L7-08",
+      "name": "Kurar",
+      "sequence": 8,
+      "latitude": 19.187264,
+      "longitude": 72.858512,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1227,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L7_009",
+      "stationCode": "L7-09",
+      "name": "Dindoshi",
+      "sequence": 9,
+      "latitude": 19.17972,
+      "longitude": 72.8583,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 839,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L7_010",
+      "stationCode": "L7-10",
+      "name": "Aarey",
+      "sequence": 10,
+      "latitude": 19.169506,
+      "longitude": 72.858801,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1137,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L7_011",
+      "stationCode": "L7-11",
+      "name": "Goregaon (East)",
+      "sequence": 11,
+      "latitude": 19.152442,
+      "longitude": 72.856573,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1912,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L7_012",
+      "stationCode": "L7-12",
+      "name": "Jogeshwari (East)",
+      "sequence": 12,
+      "latitude": 19.142928,
+      "longitude": 72.855166,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1068,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L7_013",
+      "stationCode": "L7-13",
+      "name": "Mogra",
+      "sequence": 13,
+      "latitude": 19.128677,
+      "longitude": 72.855452,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1585,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L7_014",
+      "stationCode": "L7-14",
+      "name": "Gundavali",
+      "sequence": 14,
+      "latitude": 19.114439,
+      "longitude": 72.855172,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1583,
+        "platformCount": 2,
+        "platformType": "SIDE",
+        "screenDoorsInstalled": false
+      },
+      "provenance": {
+        "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
+        "authorityLevel": "OPERATOR_OFFICIAL",
+        "confidence": 0.95,
+        "validationStatus": "VALIDATED",
+        "validatedAt": "2026-10-05"
+      }
+    }
+  ],
+  "stationGraph": {
+    "directed": false,
+    "nodes": [
+      {
+        "stationId": "STN_L7_001",
+        "name": "Dahisar (East)",
+        "sequence": 1,
+        "coordinates": [
+          72.867119,
+          19.251263
+        ]
+      },
+      {
+        "stationId": "STN_L7_002",
+        "name": "Ovaripada",
+        "sequence": 2,
+        "coordinates": [
+          72.864248,
+          19.243411
+        ]
+      },
+      {
+        "stationId": "STN_L7_003",
+        "name": "Rashtriya Udyan",
+        "sequence": 3,
+        "coordinates": [
+          72.863161,
+          19.234671
+        ]
+      },
+      {
+        "stationId": "STN_L7_004",
+        "name": "Devipada",
+        "sequence": 4,
+        "coordinates": [
+          72.86422,
+          19.224332
+        ]
+      },
+      {
+        "stationId": "STN_L7_005",
+        "name": "Magathane",
+        "sequence": 5,
+        "coordinates": [
+          72.866728,
+          19.217203
+        ]
+      },
+      {
+        "stationId": "STN_L7_006",
+        "name": "Poisar",
+        "sequence": 6,
+        "coordinates": [
+          72.863499,
+          19.203938
+        ]
+      },
+      {
+        "stationId": "STN_L7_007",
+        "name": "Akurli",
+        "sequence": 7,
+        "coordinates": [
+          72.860646,
+          19.198115
+        ]
+      },
+      {
+        "stationId": "STN_L7_008",
+        "name": "Kurar",
+        "sequence": 8,
+        "coordinates": [
+          72.858512,
+          19.187264
+        ]
+      },
+      {
+        "stationId": "STN_L7_009",
+        "name": "Dindoshi",
+        "sequence": 9,
+        "coordinates": [
+          72.8583,
+          19.17972
+        ]
+      },
+      {
+        "stationId": "STN_L7_010",
+        "name": "Aarey",
+        "sequence": 10,
+        "coordinates": [
+          72.858801,
+          19.169506
+        ]
+      },
+      {
+        "stationId": "STN_L7_011",
+        "name": "Goregaon (East)",
+        "sequence": 11,
+        "coordinates": [
+          72.856573,
+          19.152442
+        ]
+      },
+      {
+        "stationId": "STN_L7_012",
+        "name": "Jogeshwari (East)",
+        "sequence": 12,
+        "coordinates": [
+          72.855166,
+          19.142928
+        ]
+      },
+      {
+        "stationId": "STN_L7_013",
+        "name": "Mogra",
+        "sequence": 13,
+        "coordinates": [
+          72.855452,
+          19.128677
+        ]
+      },
+      {
+        "stationId": "STN_L7_014",
+        "name": "Gundavali",
+        "sequence": 14,
+        "coordinates": [
+          72.855172,
+          19.114439
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "edgeId": "EDGE_L7_01",
+        "fromStationId": "STN_L7_001",
+        "fromStationName": "Dahisar (East)",
+        "toStationId": "STN_L7_002",
+        "toStationName": "Ovaripada",
+        "sequenceFrom": 1,
+        "sequenceTo": 2,
+        "distanceMeters": 924,
+        "nominalTravelTimeSeconds": 115,
+        "travelTimeSemantics": {
+          "value": 115,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 29
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.867119,
+              19.251263
+            ],
+            [
+              72.864248,
+              19.243411
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L7_02",
+        "fromStationId": "STN_L7_002",
+        "fromStationName": "Ovaripada",
+        "toStationId": "STN_L7_003",
+        "toStationName": "Rashtriya Udyan",
+        "sequenceFrom": 2,
+        "sequenceTo": 3,
+        "distanceMeters": 979,
+        "nominalTravelTimeSeconds": 122,
+        "travelTimeSemantics": {
+          "value": 122,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 29
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.864248,
+              19.243411
+            ],
+            [
+              72.863161,
+              19.234671
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L7_03",
+        "fromStationId": "STN_L7_003",
+        "fromStationName": "Rashtriya Udyan",
+        "toStationId": "STN_L7_004",
+        "toStationName": "Devipada",
+        "sequenceFrom": 3,
+        "sequenceTo": 4,
+        "distanceMeters": 1155,
+        "nominalTravelTimeSeconds": 143,
+        "travelTimeSemantics": {
+          "value": 143,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 29
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.863161,
+              19.234671
+            ],
+            [
+              72.86422,
+              19.224332
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L7_04",
+        "fromStationId": "STN_L7_004",
+        "fromStationName": "Devipada",
+        "toStationId": "STN_L7_005",
+        "toStationName": "Magathane",
+        "sequenceFrom": 4,
+        "sequenceTo": 5,
+        "distanceMeters": 835,
+        "nominalTravelTimeSeconds": 104,
+        "travelTimeSemantics": {
+          "value": 104,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 29
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.86422,
+              19.224332
+            ],
+            [
+              72.866728,
+              19.217203
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L7_05",
+        "fromStationId": "STN_L7_005",
+        "fromStationName": "Magathane",
+        "toStationId": "STN_L7_006",
+        "toStationName": "Poisar",
+        "sequenceFrom": 5,
+        "sequenceTo": 6,
+        "distanceMeters": 1513,
+        "nominalTravelTimeSeconds": 188,
+        "travelTimeSemantics": {
+          "value": 188,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 29
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.866728,
+              19.217203
+            ],
+            [
+              72.863499,
+              19.203938
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L7_06",
+        "fromStationId": "STN_L7_006",
+        "fromStationName": "Poisar",
+        "toStationId": "STN_L7_007",
+        "toStationName": "Akurli",
+        "sequenceFrom": 6,
+        "sequenceTo": 7,
+        "distanceMeters": 713,
+        "nominalTravelTimeSeconds": 88,
+        "travelTimeSemantics": {
+          "value": 88,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 29
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.863499,
+              19.203938
+            ],
+            [
+              72.860646,
+              19.198115
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L7_07",
+        "fromStationId": "STN_L7_007",
+        "fromStationName": "Akurli",
+        "toStationId": "STN_L7_008",
+        "toStationName": "Kurar",
+        "sequenceFrom": 7,
+        "sequenceTo": 8,
+        "distanceMeters": 1227,
+        "nominalTravelTimeSeconds": 152,
+        "travelTimeSemantics": {
+          "value": 152,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 29
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.860646,
+              19.198115
+            ],
+            [
+              72.858512,
+              19.187264
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L7_08",
+        "fromStationId": "STN_L7_008",
+        "fromStationName": "Kurar",
+        "toStationId": "STN_L7_009",
+        "toStationName": "Dindoshi",
+        "sequenceFrom": 8,
+        "sequenceTo": 9,
+        "distanceMeters": 839,
+        "nominalTravelTimeSeconds": 104,
+        "travelTimeSemantics": {
+          "value": 104,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 29
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.858512,
+              19.187264
+            ],
+            [
+              72.8583,
+              19.17972
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L7_09",
+        "fromStationId": "STN_L7_009",
+        "fromStationName": "Dindoshi",
+        "toStationId": "STN_L7_010",
+        "toStationName": "Aarey",
+        "sequenceFrom": 9,
+        "sequenceTo": 10,
+        "distanceMeters": 1137,
+        "nominalTravelTimeSeconds": 141,
+        "travelTimeSemantics": {
+          "value": 141,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 29
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.8583,
+              19.17972
+            ],
+            [
+              72.858801,
+              19.169506
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L7_10",
+        "fromStationId": "STN_L7_010",
+        "fromStationName": "Aarey",
+        "toStationId": "STN_L7_011",
+        "toStationName": "Goregaon (East)",
+        "sequenceFrom": 10,
+        "sequenceTo": 11,
+        "distanceMeters": 1912,
+        "nominalTravelTimeSeconds": 237,
+        "travelTimeSemantics": {
+          "value": 237,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 29
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.858801,
+              19.169506
+            ],
+            [
+              72.856573,
+              19.152442
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L7_11",
+        "fromStationId": "STN_L7_011",
+        "fromStationName": "Goregaon (East)",
+        "toStationId": "STN_L7_012",
+        "toStationName": "Jogeshwari (East)",
+        "sequenceFrom": 11,
+        "sequenceTo": 12,
+        "distanceMeters": 1068,
+        "nominalTravelTimeSeconds": 133,
+        "travelTimeSemantics": {
+          "value": 133,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 29
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.856573,
+              19.152442
+            ],
+            [
+              72.855166,
+              19.142928
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L7_12",
+        "fromStationId": "STN_L7_012",
+        "fromStationName": "Jogeshwari (East)",
+        "toStationId": "STN_L7_013",
+        "toStationName": "Mogra",
+        "sequenceFrom": 12,
+        "sequenceTo": 13,
+        "distanceMeters": 1585,
+        "nominalTravelTimeSeconds": 197,
+        "travelTimeSemantics": {
+          "value": 197,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 29
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.855166,
+              19.142928
+            ],
+            [
+              72.855452,
+              19.128677
+            ]
+          ]
+        }
+      },
+      {
+        "edgeId": "EDGE_L7_13",
+        "fromStationId": "STN_L7_013",
+        "fromStationName": "Mogra",
+        "toStationId": "STN_L7_014",
+        "toStationName": "Gundavali",
+        "sequenceFrom": 13,
+        "sequenceTo": 14,
+        "distanceMeters": 1583,
+        "nominalTravelTimeSeconds": 196,
+        "travelTimeSemantics": {
+          "value": 196,
+          "unit": "seconds",
+          "type": "BASELINE",
+          "provenance": {
+            "sourceId": "SRC-MMMOCL-OFFICIAL-2023",
+            "commercialSpeedKmph": 29
+          }
+        },
+        "trackType": "MAINLINE_ELEVATED",
+        "directional": "BI_DIRECTIONAL_PAIR",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              72.855452,
+              19.128677
+            ],
+            [
+              72.855172,
+              19.114439
+            ]
+          ]
+        }
+      }
+    ]
+  },
+  "rollingStock": {
+    "rakeType": "EMU_6CAR",
+    "manufacturer": "BEML (Bharat Earth Movers Ltd, Bengaluru)",
+    "gaugeMm": 1435,
+    "tractionSystem": "25kV AC Overhead Catenary, VVVF"
+  }
+}

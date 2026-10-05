@@ -764,7 +764,9 @@ export class JourneyService {
         leg.duration = transfer.estimatedDurationSeconds;
         leg.durationSeconds = transfer.estimatedDurationSeconds;
         leg.durationMinutes = Math.max(1, Math.round(transfer.estimatedDurationSeconds / 60));
-        leg.transferSummary = `Transfer — ${transfer.pathwayDistanceMeters} m · ${transfer.durationDisplay}`;
+        leg.transferSummary = transfer.pathwayDistanceMeters
+          ? `Transfer — ${transfer.pathwayDistanceMeters} m · ${transfer.durationDisplay}`
+          : `Transfer — ${transfer.durationDisplay}`;
       } else {
         const durMins = Math.max(1, Math.round(leg.duration / 60));
         const nextLineLabel = nextLeg?.lineName ? nextLeg.lineName.split('_')[0] : 'connecting line';

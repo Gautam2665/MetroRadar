@@ -103,11 +103,20 @@ export interface TransferAttributes {
 export interface TransferDetails {
   complexId: string;
   name: string;
-  pathwayDistanceMeters: number;
+  pathwayDistanceMeters: number | null;
   estimatedDurationSeconds: number;
   durationDisplay: string;
-  components: TransferComponents;
-  attributes: TransferAttributes;
+  components?: TransferComponents;
+  attributes: Partial<TransferAttributes>;
+  pathway?: Array<{
+    segmentId?: string;
+    from: string;
+    to: string;
+    type: string;
+    distanceMeters?: number | null;
+    structureLengthMeters?: number | null;
+    sourceState?: string;
+  }>;
   reasonCodes: string[];
   instructions: string[];
 }

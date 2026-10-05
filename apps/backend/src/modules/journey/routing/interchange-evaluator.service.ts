@@ -344,7 +344,199 @@ export class InterchangeEvaluatorService {
       };
     }
 
-    // 2. Dhaula Kuan <-> South Campus Skywalk (Delhi)
+    // 2. Western Express Highway <-> Gundavali (L1 <-> L7)
+    if (
+      (fromU.includes('GUNDAVALI') && toU.includes('WESTERN EXPRESS')) ||
+      (fromU.includes('WESTERN EXPRESS') && toU.includes('GUNDAVALI'))
+    ) {
+      const toL7 = nextU.includes('LINE 7') || nextU.includes('RED') || fromU.includes('WESTERN');
+      return {
+        complexId: 'ICX-WEH-GUNDAVALI',
+        name: 'Western Express Highway – Gundavali Interchange Hub',
+        pathwayDistanceMeters: null, // Full platform-to-platform distance unmeasured; do not guess
+        estimatedDurationSeconds: 240,
+        durationDisplay: '~4 min',
+        attributes: {
+          paidAreaTransfer: false,
+          requiresAfcRetap: true,
+          requiresSecurityRescreening: true,
+          outdoorStreetExposure: false,
+          verticalDropMeters: 0,
+        },
+        pathway: [
+          {
+            segmentId: 'SEG_WEH_L7_PF_TO_CONCOURSE',
+            from: 'L7_PLATFORM',
+            to: 'L7_CONCOURSE',
+            type: 'VERTICAL',
+            distanceMeters: null,
+            sourceState: 'UNKNOWN_SOURCE_REQUIRED',
+          },
+          {
+            segmentId: 'SEG_WEH_L7_CONCOURSE_TO_FOB',
+            from: 'L7_CONCOURSE',
+            to: 'FOB',
+            type: 'PEDESTRIAN',
+            distanceMeters: null,
+            sourceState: 'UNKNOWN_SOURCE_REQUIRED',
+          },
+          {
+            segmentId: 'SEG_WEH_FOB_SPAN',
+            from: 'FOB',
+            to: 'L1_CONCOURSE',
+            type: 'FOB',
+            structureLengthMeters: 58,
+            sourceState: 'KNOWN_FROM_ENGINEERING',
+          },
+          {
+            segmentId: 'SEG_WEH_L1_CONCOURSE_TO_PF',
+            from: 'L1_CONCOURSE',
+            to: 'L1_PLATFORM',
+            type: 'VERTICAL',
+            distanceMeters: null,
+            sourceState: 'UNKNOWN_SOURCE_REQUIRED',
+          },
+        ],
+        reasonCodes: ['ELEVATED_FOB', 'HIGHWAY_CROSSING_COVERED', 'AFC_RETAP_REQUIRED'],
+        instructions: toL7
+          ? [
+              'Exit Line 1 WEH Concourse to elevated Foot Over Bridge',
+              'Cross Western Express Highway via 58m covered FOB span',
+              'Enter Line 7 Gundavali Concourse · Tap in through MMMOCL AFC gates',
+            ]
+          : [
+              'Exit Line 7 Gundavali Concourse to elevated Foot Over Bridge',
+              'Cross Western Express Highway via 58m covered FOB span',
+              'Enter Line 1 WEH Concourse · Tap in through MMOPL AFC gates',
+            ],
+      };
+    }
+
+    // 3. D.N. Nagar <-> Andheri (West) (L1 <-> L2A)
+    if (
+      (fromU.includes('D. N. NAGAR') && toU.includes('ANDHERI (WEST)')) ||
+      (fromU.includes('ANDHERI (WEST)') && toU.includes('D. N. NAGAR')) ||
+      (fromU.includes('DN NAGAR') && toU.includes('ANDHERI WEST'))
+    ) {
+      const toL2A = nextU.includes('LINE 2A') || nextU.includes('YELLOW') || fromU.includes('NAGAR');
+      return {
+        complexId: 'ICX-DN-NAGAR',
+        name: 'D.N. Nagar – Andheri West Interchange Hub',
+        pathwayDistanceMeters: null,
+        estimatedDurationSeconds: 180,
+        durationDisplay: '~3 min',
+        attributes: {
+          paidAreaTransfer: false,
+          requiresAfcRetap: true,
+          requiresSecurityRescreening: true,
+          outdoorStreetExposure: false,
+          verticalDropMeters: 0,
+        },
+        pathway: [
+          {
+            segmentId: 'SEG_DNN_L2A_PF_TO_CONCOURSE',
+            from: 'L2A_PLATFORM',
+            to: 'L2A_CONCOURSE',
+            type: 'VERTICAL',
+            distanceMeters: null,
+            sourceState: 'UNKNOWN_SOURCE_REQUIRED',
+          },
+          {
+            segmentId: 'SEG_DNN_L2A_CONCOURSE_TO_FOB',
+            from: 'L2A_CONCOURSE',
+            to: 'FOB',
+            type: 'PEDESTRIAN',
+            distanceMeters: null,
+            sourceState: 'UNKNOWN_SOURCE_REQUIRED',
+          },
+          {
+            segmentId: 'SEG_DNN_FOB_SPAN',
+            from: 'FOB',
+            to: 'L1_CONCOURSE',
+            type: 'FOB',
+            structureLengthMeters: null,
+            sourceState: 'UNKNOWN_SOURCE_REQUIRED',
+          },
+          {
+            segmentId: 'SEG_DNN_L1_CONCOURSE_TO_PF',
+            from: 'L1_CONCOURSE',
+            to: 'L1_PLATFORM',
+            type: 'VERTICAL',
+            distanceMeters: null,
+            sourceState: 'UNKNOWN_SOURCE_REQUIRED',
+          },
+        ],
+        reasonCodes: ['ELEVATED_CONNECTOR', 'COVERED_BRIDGE', 'AFC_RETAP_REQUIRED'],
+        instructions: toL2A
+          ? [
+              'Exit Line 1 D.N. Nagar concourse towards elevated connector',
+              'Proceed along covered bridge to Line 2A Andheri West concourse',
+              'Tap in through MMMOCL AFC gates & ascend to Platform 2',
+            ]
+          : [
+              'Exit Line 2A Andheri West concourse towards elevated connector',
+              'Proceed along covered bridge to Line 1 D.N. Nagar concourse',
+              'Tap in through MMOPL AFC gates & ascend to Line 1 platform',
+            ],
+      };
+    }
+
+    // 4. Dahisar (East) Cross-Concourse (L2A <-> L7)
+    if (
+      fromU.includes('DAHISAR') &&
+      toU.includes('DAHISAR') &&
+      (prevU.includes('2A') || prevU.includes('7') || nextU.includes('2A') || nextU.includes('7'))
+    ) {
+      const toL7 = nextU.includes('7') || nextU.includes('RED');
+      return {
+        complexId: 'ICX-DAHISAR-EAST',
+        name: 'Dahisar East Junction Hub',
+        pathwayDistanceMeters: null,
+        estimatedDurationSeconds: 120,
+        durationDisplay: '~2 min',
+        attributes: {
+          paidAreaTransfer: true,
+          requiresAfcRetap: false,
+          requiresSecurityRescreening: false,
+          outdoorStreetExposure: false,
+          verticalDropMeters: 0,
+        },
+        pathway: [
+          {
+            segmentId: 'SEG_DAH_PF_TO_CONCOURSE',
+            from: 'PLATFORM',
+            to: 'UNIFIED_CONCOURSE',
+            type: 'VERTICAL',
+            distanceMeters: null,
+            sourceState: 'UNKNOWN_SOURCE_REQUIRED',
+          },
+          {
+            segmentId: 'SEG_DAH_CROSS_CONCOURSE',
+            from: 'UNIFIED_CONCOURSE',
+            to: 'UNIFIED_CONCOURSE',
+            type: 'PEDESTRIAN',
+            distanceMeters: null,
+            sourceState: 'UNKNOWN_SOURCE_REQUIRED',
+          },
+          {
+            segmentId: 'SEG_DAH_CONCOURSE_TO_PF',
+            from: 'UNIFIED_CONCOURSE',
+            to: 'CONNECTING_PLATFORM',
+            type: 'VERTICAL',
+            distanceMeters: null,
+            sourceState: 'UNKNOWN_SOURCE_REQUIRED',
+          },
+        ],
+        reasonCodes: ['PAID_CROSS_CONCOURSE', 'SAME_OPERATOR_MMMOCL', 'NO_AFC_RETAP'],
+        instructions: [
+          'Cross unified concourse hall between Line 2A and Line 7',
+          'Paid-area seamless transfer · No AFC retap required',
+          toL7 ? 'Ascend to Line 7 Platform 1 (Gundavali)' : 'Ascend to Line 2A Platform 1 (Andheri West)',
+        ],
+      };
+    }
+
+    // 5. Dhaula Kuan <-> South Campus Skywalk (Delhi)
     if (
       (fromU.includes('DHAULA') && toU.includes('SOUTH CAMPUS')) ||
       (fromU.includes('SOUTH CAMPUS') && toU.includes('DHAULA'))

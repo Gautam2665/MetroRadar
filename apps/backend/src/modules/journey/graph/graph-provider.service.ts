@@ -18,7 +18,7 @@ import { GraphEdge, StationNode, TransitGraph } from './graph.types';
 @Injectable()
 export class GraphProviderService {
   private readonly logger = new Logger(GraphProviderService.name);
-  private readonly GRAPH_VERSION = 'v10';
+  private readonly GRAPH_VERSION = 'v11';
   private readonly GRAPH_TTL_SECONDS = 4 * 60 * 60; // 4 hours
 
   constructor(

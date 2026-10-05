@@ -228,9 +228,18 @@ export class GraphBuilderService {
     // Noida
     ['noidasector51', 'noidasector52'],
     ['sector51', 'sector52'],
+    // Mumbai
+    ['westernexpresshighway', 'gundavali'],
+    ['dnnagar', 'andheriwest'],
+    ['dahisareast', 'dahisareast'],
   ];
 
-  private static readonly REGISTERED_ICX_CODES = new Set(['STN_L1_008', 'STN_L3_004']);
+  private static readonly REGISTERED_ICX_CODE_PAIRS: [string, string][] = [
+    ['STN_L1_008', 'STN_L3_004'], // Marol Naka (L1 <-> L3)
+    ['STN_L1_005', 'STN_L7_014'], // WEH <-> Gundavali (L1 <-> L7)
+    ['STN_L1_002', 'STN_L2A_017'], // D.N. Nagar <-> Andheri West (L1 <-> L2A)
+    ['STN_L2A_001', 'STN_L7_001'], // Dahisar East (L2A <-> L7)
+  ];
 
   private isAuthorizedInterchange(s1: StationNode, s2: StationNode): boolean {
     const n1 = s1.name.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -251,12 +260,11 @@ export class GraphBuilderService {
       }
     }
 
-    // 4. Explicit registered codes
-    if (
-      GraphBuilderService.REGISTERED_ICX_CODES.has(s1.code) &&
-      GraphBuilderService.REGISTERED_ICX_CODES.has(s2.code)
-    ) {
-      return true;
+    // 4. Explicit registered ICX code pairs
+    for (const [c1, c2] of GraphBuilderService.REGISTERED_ICX_CODE_PAIRS) {
+      if ((s1.code === c1 && s2.code === c2) || (s1.code === c2 && s2.code === c1)) {
+        return true;
+      }
     }
 
     return false;
