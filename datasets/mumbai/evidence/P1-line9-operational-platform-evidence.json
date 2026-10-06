@@ -1,0 +1,25 @@
+[
+  {
+    "evidenceId": "E-L9-P1-KASHIGAON-PLATFORM-001",
+    "systemCode": "MMRDA_LINE9",
+    "category": "P1_PLATFORM_DIRECTION",
+    "entityType": "platform",
+    "entityKey": "STN_L9_003",
+    "attribute": "platform_number_and_direction",
+    "value": {
+      "platformNumber": "1",
+      "towardsStationId": "STN_L7_001",
+      "towardsStationName": "Dahisar (East)"
+    },
+    "source": {
+      "sourceId": "SRC-USER-L9-OPERATIONAL-OBSERVATIONS",
+      "observation": "User reports Kashigaon Platform 1 serves trains toward Dahisar East."
+    },
+    "evidenceType": "USER_REPORTED",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.8,
+    "status": "USER_REPORTED_NOT_OPERATOR_VERIFIED",
+    "extractedAt": "2026-10-06T00:00:00.000Z",
+    "notes": "This station-specific operational observation is attributed to the user. It is not represented as an operator-issued platform map or independently verified sign survey."
+  }
+]

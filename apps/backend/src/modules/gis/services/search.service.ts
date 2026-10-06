@@ -200,6 +200,45 @@ export class SearchService {
       features.push(...systemsRaw.map((r) => r.feature));
     }
 
+    // These partially open segments remain evidence-backed CTM overlays until
+    // their station records are materialized. Keep them searchable without
+    // fabricating database rows or platform/level counts.
+    const phase1Features = [
+      ...this.geojsonService.getLine2bPhase1SearchFeatures(query),
+      ...this.geojsonService.getLine9Phase1SearchFeatures(query),
+    ]
+      .filter((feature) => {
+        if (!filterTypes) return true;
+        const properties = feature.properties as
+          | Record<string, unknown>
+          | undefined;
+        return filterTypes.includes(String(properties?.type ?? ''));
+      });
+    const knownKeys = new Set<string>();
+    for (const feature of features) {
+      const properties = feature.properties as Record<string, unknown> | undefined;
+      const id = String(properties?.id ?? feature.id ?? '');
+      const code = String(properties?.code ?? '');
+      const name = String(properties?.name ?? '').trim().toLowerCase();
+      if (id) knownKeys.add(id);
+      if (code) knownKeys.add(code);
+      if (name) knownKeys.add(name);
+    }
+
+    for (const feature of phase1Features) {
+      const properties = feature.properties as Record<string, unknown> | undefined;
+      const id = String(properties?.id ?? feature.id ?? '');
+      const code = String(properties?.code ?? '');
+      const name = String(properties?.name ?? '').trim().toLowerCase();
+      if ((id && knownKeys.has(id)) || (code && knownKeys.has(code)) || (name && knownKeys.has(name))) {
+        continue;
+      }
+      if (id) knownKeys.add(id);
+      if (code) knownKeys.add(code);
+      if (name) knownKeys.add(name);
+      features.push(feature);
+    }
+
     return this.geojsonService.wrapFeatureCollection(features);
   }
 

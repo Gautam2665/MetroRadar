@@ -1,0 +1,4 @@
+level_id,level_index,level_name
+LVL_0,0,Street Level 0
+LVL_1,1,Concourse Level 1
+LVL_2,2,Platform Level 2

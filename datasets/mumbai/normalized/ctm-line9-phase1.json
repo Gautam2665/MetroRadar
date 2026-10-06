@@ -1,0 +1,520 @@
+{
+  "schemaVersion": "ctm-v1.0",
+  "networkId": "MUMBAI_METRO",
+  "lineId": "MUMBAI_LINE9",
+  "lineCode": "LINE9",
+  "lineName": "Mumbai Metro Line 9 (Red Line Extension)",
+  "colorHex": "#E31E24",
+  "operator": "MMMOCL",
+  "status": "PARTIALLY_OPERATIONAL",
+  "temporalStatus": "OPERATIONAL_PARTIAL",
+  "routeStationCount": 8,
+  "operationalStationCount": 4,
+  "stationSequenceScope": "CURRENTLY_OPEN_DAHISAR_EAST_TO_KASHIGAON_PHASE_I",
+  "commercialRuntimeSeconds": null,
+  "scheduleStatus": "BLOCKED_SOURCE_REQUIRED",
+  "journeyEngineMode": "TOPOLOGICAL_ACTIVE_TIME_UNKNOWN",
+  "totalDistanceMeters": 3586,
+  "distanceSemantics": "Derived from the clipped official ArcGIS feature 62 geometry; MMRDA's published phase length is 4.7 km.",
+  "stations": [
+    {
+      "canonicalId": "STN_L7_001",
+      "name": "Dahisar (East)",
+      "aliases": [
+        "Dahisar East",
+        "Dahisar(E)"
+      ],
+      "sequence": 1,
+      "latitude": 19.2507979459546,
+      "longitude": 72.86726447601028,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "sharedPhysicalStation": true,
+      "physicalLayout": {
+        "interStationDistanceMeters": 0,
+        "currentLevelCount": null,
+        "currentPlatformCount": null,
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "screenDoorsInstalled": null
+      },
+      "provenance": {
+        "spatialEvidenceId": "E-L9-F-OPS-01",
+        "kmlPlacemark": "Dahisar(E) (M) Station",
+        "arcgisRouteFeatureId": 62,
+        "arcgisStationFeatureId": 996,
+        "distanceToOfficialRouteMeters": 53.9,
+        "distanceToArcgisStationPointMeters": 53.9,
+        "validationStatus": "SPATIAL_CROSSCHECKED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L9_001",
+      "name": "Pandhurang Wadi",
+      "aliases": [
+        "Pandurang Wadi",
+        "Pandurang Wadi Station"
+      ],
+      "sequence": 2,
+      "latitude": 19.26504720295334,
+      "longitude": 72.87515928454522,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "sharedPhysicalStation": false,
+      "physicalLayout": {
+        "interStationDistanceMeters": 1759,
+        "currentLevelCount": null,
+        "currentPlatformCount": null,
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "screenDoorsInstalled": null
+      },
+      "provenance": {
+        "spatialEvidenceId": "E-L9-F-OPS-02",
+        "kmlPlacemark": "Pandurang Wadi(M) Station",
+        "arcgisRouteFeatureId": 62,
+        "arcgisStationFeatureId": 1094,
+        "distanceToOfficialRouteMeters": 10.0,
+        "distanceToArcgisStationPointMeters": 641.9,
+        "validationStatus": "SPATIAL_CROSSCHECK_WARNING_ARCGIS_STATION_POINT_OFFSET",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L9_002",
+      "name": "Miragaon",
+      "aliases": [
+        "Amar Palace (KML placemark)"
+      ],
+      "sequence": 3,
+      "latitude": 19.2711311179,
+      "longitude": 72.8808649736778,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "sharedPhysicalStation": false,
+      "physicalLayout": {
+        "interStationDistanceMeters": 912,
+        "currentLevelCount": null,
+        "currentPlatformCount": null,
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "screenDoorsInstalled": null
+      },
+      "provenance": {
+        "spatialEvidenceId": "E-L9-F-OPS-03",
+        "kmlPlacemark": "Amar Palace(M) Station",
+        "arcgisRouteFeatureId": 62,
+        "arcgisStationFeatureId": 981,
+        "distanceToOfficialRouteMeters": 1.0,
+        "distanceToArcgisStationPointMeters": 234.3,
+        "validationStatus": "SPATIAL_CROSSCHECK_WARNING_ARCGIS_STATION_POINT_OFFSET",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L9_003",
+      "name": "Kashigaon",
+      "aliases": [
+        "Zankar Company (KML placemark)"
+      ],
+      "sequence": 4,
+      "latitude": 19.27769304256498,
+      "longitude": 72.88016037504715,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "sharedPhysicalStation": false,
+      "physicalLayout": {
+        "interStationDistanceMeters": 915,
+        "currentLevelCount": null,
+        "currentPlatformCount": null,
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "screenDoorsInstalled": null
+      },
+      "provenance": {
+        "spatialEvidenceId": "E-L9-F-OPS-04",
+        "kmlPlacemark": "Zankar Company (M) Station",
+        "arcgisRouteFeatureId": 62,
+        "arcgisStationFeatureId": 982,
+        "distanceToOfficialRouteMeters": 2.9,
+        "distanceToArcgisStationPointMeters": 12.2,
+        "validationStatus": "SPATIAL_CROSSCHECKED",
+        "validatedAt": "2026-10-05"
+      }
+    }
+  ],
+  "stationGraph": {
+    "nodes": [
+      {
+        "stationId": "STN_L7_001",
+        "name": "Dahisar (East)",
+        "sequence": 1,
+        "coordinates": [
+          72.86726447601028,
+          19.2507979459546
+        ]
+      },
+      {
+        "stationId": "STN_L9_001",
+        "name": "Pandhurang Wadi",
+        "sequence": 2,
+        "coordinates": [
+          72.87515928454522,
+          19.26504720295334
+        ]
+      },
+      {
+        "stationId": "STN_L9_002",
+        "name": "Miragaon",
+        "sequence": 3,
+        "coordinates": [
+          72.8808649736778,
+          19.2711311179
+        ]
+      },
+      {
+        "stationId": "STN_L9_003",
+        "name": "Kashigaon",
+        "sequence": 4,
+        "coordinates": [
+          72.88016037504715,
+          19.27769304256498
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "edgeId": "EDGE_L9_01_02",
+        "fromStationId": "STN_L7_001",
+        "toStationId": "STN_L9_001",
+        "sequenceFrom": 1,
+        "sequenceTo": 2,
+        "distanceMeters": 1759,
+        "distanceSource": "OFFICIAL_ARCGIS_LINE_FEATURE_62_STATION_PROJECTION",
+        "travelTimeSeconds": null,
+        "travelTimeStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "bidirectional": true
+      },
+      {
+        "edgeId": "EDGE_L9_02_03",
+        "fromStationId": "STN_L9_001",
+        "toStationId": "STN_L9_002",
+        "sequenceFrom": 2,
+        "sequenceTo": 3,
+        "distanceMeters": 912,
+        "distanceSource": "OFFICIAL_ARCGIS_LINE_FEATURE_62_STATION_PROJECTION",
+        "travelTimeSeconds": null,
+        "travelTimeStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "bidirectional": true
+      },
+      {
+        "edgeId": "EDGE_L9_03_04",
+        "fromStationId": "STN_L9_002",
+        "toStationId": "STN_L9_003",
+        "sequenceFrom": 3,
+        "sequenceTo": 4,
+        "distanceMeters": 915,
+        "distanceSource": "OFFICIAL_ARCGIS_LINE_FEATURE_62_STATION_PROJECTION",
+        "travelTimeSeconds": null,
+        "travelTimeStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "bidirectional": true
+      }
+    ],
+    "semantics": "Line 9 continuity reuses the physical Line 7 Dahisar East station entity; no Line 7-to-Line 9 transfer edge is created. No timetable or running times are invented."
+  },
+  "alignmentGeometry": {
+    "geometryType": "LineString",
+    "coordinateSystem": "EPSG:4326",
+    "coordinates": [
+      [
+        72.86711916212012,
+        19.251263173351788
+      ],
+      [
+        72.8680919414531,
+        19.252626518886608
+      ],
+      [
+        72.8682983743054,
+        19.252919232063423
+      ],
+      [
+        72.86849627585742,
+        19.253199847804307
+      ],
+      [
+        72.86873019805573,
+        19.253531537321525
+      ],
+      [
+        72.86886966509684,
+        19.253729293021664
+      ],
+      [
+        72.86891981444589,
+        19.25381252007731
+      ],
+      [
+        72.87065368421682,
+        19.256091622524597
+      ],
+      [
+        72.87107392059829,
+        19.256644001696085
+      ],
+      [
+        72.87127763604687,
+        19.25697695972109
+      ],
+      [
+        72.87148135059708,
+        19.257309917070113
+      ],
+      [
+        72.87163243644811,
+        19.257687253046036
+      ],
+      [
+        72.87200905962253,
+        19.258561276336955
+      ],
+      [
+        72.87241358177478,
+        19.2595029804851
+      ],
+      [
+        72.87254965587906,
+        19.259826280328298
+      ],
+      [
+        72.87280138807617,
+        19.260424368771634
+      ],
+      [
+        72.87317295822716,
+        19.261316359126056
+      ],
+      [
+        72.87358531458696,
+        19.262316975086918
+      ],
+      [
+        72.87375872267445,
+        19.26278969118431
+      ],
+      [
+        72.87386781408259,
+        19.263004362247667
+      ],
+      [
+        72.87396571607552,
+        19.263197682397696
+      ],
+      [
+        72.87433085518734,
+        19.263821649386653
+      ],
+      [
+        72.8745645743664,
+        19.264171956820377
+      ],
+      [
+        72.8749687650403,
+        19.26465464954016
+      ],
+      [
+        72.87559475514769,
+        19.26545090035687
+      ],
+      [
+        72.87626136078406,
+        19.266307637228774
+      ],
+      [
+        72.87680006249366,
+        19.26699432586337
+      ],
+      [
+        72.8769756238429,
+        19.267221295061077
+      ],
+      [
+        72.87725099700333,
+        19.267634007924343
+      ],
+      [
+        72.87762125741062,
+        19.26821490191435
+      ],
+      [
+        72.87803039690343,
+        19.2687626822832
+      ],
+      [
+        72.87836883449175,
+        19.269197796018847
+      ],
+      [
+        72.87851356296548,
+        19.269360844123398
+      ],
+      [
+        72.87871709336109,
+        19.26955143219003
+      ],
+      [
+        72.87896231456904,
+        19.269759429217494
+      ],
+      [
+        72.8793214475449,
+        19.27001632001756
+      ],
+      [
+        72.87971850110384,
+        19.270300333204933
+      ],
+      [
+        72.8801576551069,
+        19.27061445862663
+      ],
+      [
+        72.88091510107975,
+        19.271156251867158
+      ],
+      [
+        72.88158983467282,
+        19.27159244635564
+      ],
+      [
+        72.88251365582279,
+        19.272239135939397
+      ],
+      [
+        72.88257917085477,
+        19.27228385896046
+      ],
+      [
+        72.88264613576764,
+        19.272337087997425
+      ],
+      [
+        72.88266591217861,
+        19.27237597184381
+      ],
+      [
+        72.8826688326016,
+        19.27243519348013
+      ],
+      [
+        72.88265070639581,
+        19.272623683479104
+      ],
+      [
+        72.88257990477837,
+        19.27289068862987
+      ],
+      [
+        72.88235739028586,
+        19.273401047784663
+      ],
+      [
+        72.88221120833799,
+        19.273718657494406
+      ],
+      [
+        72.88211795422835,
+        19.273932417944067
+      ],
+      [
+        72.8820428029683,
+        19.274183875229564
+      ],
+      [
+        72.88200669608375,
+        19.274430387655606
+      ],
+      [
+        72.8819622645115,
+        19.27494111342132
+      ],
+      [
+        72.88189801790071,
+        19.27552727191691
+      ],
+      [
+        72.88185724157333,
+        19.275915415550667
+      ],
+      [
+        72.88182584186089,
+        19.276073494740068
+      ],
+      [
+        72.8817646297591,
+        19.276251966219366
+      ],
+      [
+        72.88167621128063,
+        19.276401852162035
+      ],
+      [
+        72.8815055870722,
+        19.276628925347485
+      ],
+      [
+        72.88116440602899,
+        19.276922872683077
+      ],
+      [
+        72.88083094959887,
+        19.277250585657544
+      ],
+      [
+        72.8805286449462,
+        19.277464782431764
+      ],
+      [
+        72.88023449340307,
+        19.27767151360546
+      ],
+      [
+        72.88017732718691,
+        19.277713572427427
+      ]
+    ],
+    "vertexCount": 64,
+    "source": {
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "featureId": 62,
+      "localPath": "sources/gis/arcgis-mumbai.json"
+    },
+    "clipEndpoints": [
+      "Dahisar (East)",
+      "Kashigaon"
+    ],
+    "validationStatus": "OPERATIONAL_PHASE_I_CROSSCHECKED; REMAINING_LINE9_ROUTE_NOT_OPERATIONAL"
+  },
+  "sourceIds": [
+    "SRC-MMRDA-L9-OVERVIEW",
+    "SRC-ARCGIS-MOHUA-2025",
+    "SRC-USER-L9-KML",
+    "SRC-MMRDA-L7A-L9-DPR"
+  ],
+  "notes": [
+    "MMRDA reports Phase I from Dahisar (East) to Kashigaon, 4.7 km and four stations, operational from 2026-04-07.",
+    "The terminal Dahisar East record reuses STN_L7_001, consistent with MMRDA's description of Line 9 as an extension beyond the existing Line 7 station.",
+    "The KML placemarks Amar Palace and Zankar Company are retained as aliases for MMRDA's current Miragaon and Kashigaon names; ArcGIS feature IDs 981 and 982 confirm that order spatially.",
+    "KML-to-ArcGIS station-point discrepancies for Pandhurang Wadi and Miragaon are recorded; all four KML points are within 54 m of the official Line 9 route geometry.",
+    "DPR levels and platform layout remain design evidence. Current level counts, platform numbers/directions, installed gates, and exact as-built levels remain unknown."
+  ]
+}

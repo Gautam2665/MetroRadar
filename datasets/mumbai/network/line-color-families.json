@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "tdse-line-color-families-v1",
+  "lastUpdated": "2026-10-05",
+  "description": "Display and evidence-search grouping by official corridor color. A color family groups related corridors for source discovery only; it does not merge CTM systems, station identifiers, operating status, or service topology.",
+  "families": [
+    {
+      "familyId": "MUMBAI_YELLOW",
+      "colorName": "Yellow",
+      "colorHex": "#F0C800",
+      "lineIds": ["MUMBAI_LINE2A", "MUMBAI_LINE2B"],
+      "sourceIds": [
+        "SRC-MMRDA-L2A-DPR",
+        "SRC-MMRDA-L2A-L7-EIA-2022",
+        "SRC-MMRDA-L2B-DPR",
+        "SRC-MMRDA-L2B-OVERVIEW",
+        "SRC-MMRDA-L2A-OVERVIEW",
+        "SRC-ARCGIS-MOHUA-2025",
+        "SRC-MMMOCL-STATION-STANDARD-2025",
+        "SRC-MMMOCL-STATION-LAYOUT-TENDER-2026"
+      ],
+      "topologyNote": "Lines 2A and 2B are distinct corridors with distinct CTM systems and station sets. MMRDA identifies interchange/proximity at D.N. Nagar; yellow color does not imply a shared station ID or through-service."
+    },
+    {
+      "familyId": "MUMBAI_RED",
+      "colorName": "Red",
+      "colorHex": "#E31E24",
+      "lineIds": ["MUMBAI_LINE7", "MUMBAI_LINE7A", "MUMBAI_LINE9"],
+      "sourceIds": [
+        "SRC-MMRDA-L7-DPR",
+        "SRC-MMRDA-L7A-L9-DPR",
+        "SRC-MMRDA-L9-OVERVIEW",
+        "SRC-MMRDA-L9-INTERCHANGE-2023",
+        "SRC-MMRDA-L7-L9-TRIALS-2025",
+        "SRC-ARCGIS-MOHUA-2025",
+        "SRC-MMMOCL-STATION-STANDARD-2025",
+        "SRC-MMMOCL-STATION-LAYOUT-TENDER-2026"
+      ],
+      "topologyNote": "Line 9 is documented as the northern extension of Line 7. Line 7A is the airport branch. Keep the three corridor IDs, operational states, and station entities separate even though the passenger-facing family color is Red."
+    },
+    {
+      "familyId": "MUMBAI_PINK",
+      "colorName": "Pink",
+      "colorHex": "#E91E8C",
+      "lineIds": ["MUMBAI_LINE6"],
+      "sourceIds": ["SRC-MMRDA-L6-DPR", "SRC-MMRDA-L6-OVERVIEW", "SRC-ARCGIS-MOHUA-2025", "SRC-MMMOCL-STATION-STANDARD-2025"],
+      "topologyNote": "Line 6 is an independent corridor from Swami Samarth Nagar to Vikhroli (EEH). Its Pink family label is for source discovery and styling only."
+    },
+    {
+      "familyId": "MUMBAI_GREEN",
+      "colorName": "Green",
+      "colorHex": "#009540",
+      "lineIds": ["MUMBAI_LINE4", "MUMBAI_LINE4A", "MUMBAI_LINE10", "MUMBAI_LINE11"],
+      "sourceIds": ["SRC-MMRDA-L4-DPR", "SRC-MMRDA-L4A-DPR", "SRC-MMRDA-L4-OVERVIEW", "SRC-MMRDA-L4A-OVERVIEW", "SRC-MMRDA-L10-DPR", "SRC-MMRDA-L11-DPR", "SRC-ARCGIS-MOHUA-2025", "SRC-MMMOCL-STATION-STANDARD-2025"],
+      "topologyNote": "Line 4, Line 4A, Line 10, and Line 11 remain distinct corridor IDs and station sequences within the Green color family. In particular, separate the Line 4A extension from Line 4 instead of storing their combined station total on one line."
+    },
+    {
+      "familyId": "MUMBAI_ORANGE",
+      "colorName": "Orange",
+      "colorHex": "#F58220",
+      "lineIds": ["MUMBAI_LINE5", "MUMBAI_LINE12"],
+      "sourceIds": ["SRC-MMRDA-L5-DPR", "SRC-MMRDA-L12-DPR", "SRC-MMRDA-L5-OVERVIEW", "SRC-MMRDA-L12-OVERVIEW", "SRC-MMRDA-L12-2026-TENDER", "SRC-ARCGIS-MOHUA-2025", "SRC-MMMOCL-STATION-STANDARD-2025"],
+      "topologyNote": "Line 5 and Line 12 are separate Orange corridors, with a planned interchange at Kalyan; do not combine their station IDs or sequences."
+    }
+  ]
+}

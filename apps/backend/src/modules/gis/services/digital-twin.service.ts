@@ -1,3 +1,4 @@
+import { resolveLineColor } from '../../../common/utils/line-color.util';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DatabaseService } from '../../../database/database.service';
 
@@ -12,6 +13,9 @@ export class DigitalTwinService {
         levels: {
           where: { isActive: true },
           orderBy: { levelNumber: 'asc' },
+          include: {
+            line: { select: { id: true, code: true, name: true, color: true } },
+          },
         },
         entrances: {
           where: { isActive: true },
@@ -209,6 +213,10 @@ export class DigitalTwinService {
       levelNumber: lvl.levelNumber,
       type: lvl.type,
       description: lvl.description,
+      lineId: lvl.lineId,
+      line: lvl.line,
+      evidenceStatus: lvl.evidenceStatus,
+      sourceId: lvl.sourceId,
     }));
 
     const entrancesMapped = station.entrances.map((ent) => ({
@@ -281,7 +289,7 @@ export class DigitalTwinService {
         id: p.id,
         levelId: p.levelId,
         lineId: p.lineId,
-        platformNumber: p.platformNumber,
+        platformNumber: p.platformNumber === 'UNKNOWN' ? null : p.platformNumber,
         length: p.length,
         screenDoors: p.screenDoors,
         wheelchairBoarding: p.wheelchairBoarding,

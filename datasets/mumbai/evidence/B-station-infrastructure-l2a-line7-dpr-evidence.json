@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "station-infrastructure-evidence-v1",
+  "updatedAt": "2026-10-05",
+  "systemCode": "MMRDA_MUMBAI_LINES_2A_7",
+  "methodology": "2015 DPR design evidence transcribed from Chapter 5 tables/text. PDF page is one-based; printed page is the page number shown in the DPR. These facts are proposed design, not present-day as-built or operational status. DPR station keys are deliberately separate from TransitOS current station IDs. Per the TDSE taxonomy, topology fields are in A-network-l2a-line7-records.json and station-structure fields are in B-station-infrastructure-l2a-line7-records.json; this file is the human-readable audit and station schedule.",
+  "sources": {
+    "SRC-MMRDA-L2A-DPR": {
+      "title": "Detailed Project Report for Dahisar (E)–D. N. Nagar Metro Corridor (Mumbai Metro Line 2A)",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "publicationDate": "2015-09",
+      "document": "datasets/mumbai/sources/dpr/line-02a/mmrda-metro-line-2a-dpr.pdf",
+      "url": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2021-10/Metro%20Line%202A_0.pdf"
+    },
+    "SRC-MMRDA-L7-DPR": {
+      "title": "Detailed Project Report for Andheri (E)–Dahisar (E) Metro Corridor (Mumbai Metro Line 7)",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "publicationDate": "2015-08",
+      "document": "datasets/mumbai/sources/dpr/line-07/mmrda-metro-line-7-dpr.pdf",
+      "url": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2021-10/Metro%20Line%207.pdf"
+    }
+  },
+  "dprDesignStations": {
+    "line2a": [
+      {"key":"LINE2A_DPR_STATION_01","name":"Dahisar (E)","chainageM":0.0,"interStationDistanceM":null,"railLevelM":27.7,"railLevelAboveGroundM":9.714,"stationDetailPdfPage":149,"printedPage":"17/97"},
+      {"key":"LINE2A_DPR_STATION_02","name":"Dahisar (W)","chainageM":711.0,"interStationDistanceM":711.0,"railLevelM":18.7,"railLevelAboveGroundM":14.091,"stationDetailPdfPage":150,"printedPage":"18/97"},
+      {"key":"LINE2A_DPR_STATION_03","name":"Rushi Sankul","chainageM":2422.7,"interStationDistanceM":1711.7,"railLevelM":22.0,"railLevelAboveGroundM":13.818,"stationDetailPdfPage":151,"printedPage":"19/97"},
+      {"key":"LINE2A_DPR_STATION_04","name":"I C Colony","chainageM":3383.1,"interStationDistanceM":960.4,"railLevelM":19.6,"railLevelAboveGroundM":13.644,"stationDetailPdfPage":152,"printedPage":"20/97"},
+      {"key":"LINE2A_DPR_STATION_05","name":"LIC Colony","chainageM":4468.4,"interStationDistanceM":1085.3,"railLevelM":19.7,"railLevelAboveGroundM":13.633,"stationDetailPdfPage":153,"printedPage":"21/97"},
+      {"key":"LINE2A_DPR_STATION_06","name":"Don Bosco","chainageM":5537.5,"interStationDistanceM":1069.1,"railLevelM":22.2,"railLevelAboveGroundM":13.566,"stationDetailPdfPage":154,"printedPage":"22/97"},
+      {"key":"LINE2A_DPR_STATION_07","name":"Kastur Park","chainageM":6465.9,"interStationDistanceM":928.4,"railLevelM":21.8,"railLevelAboveGroundM":13.527,"stationDetailPdfPage":155,"printedPage":"23/97"},
+      {"key":"LINE2A_DPR_STATION_08","name":"Ekata Nagar","chainageM":7571.8,"interStationDistanceM":1105.9,"railLevelM":21.6,"railLevelAboveGroundM":14.577,"stationDetailPdfPage":156,"printedPage":"24/97"},
+      {"key":"LINE2A_DPR_STATION_09","name":"Kandivali Nagar","chainageM":8200.3,"interStationDistanceM":628.5,"railLevelM":21.8,"railLevelAboveGroundM":13.567,"stationDetailPdfPage":157,"printedPage":"25/97"},
+      {"key":"LINE2A_DPR_STATION_10","name":"Charkop","chainageM":9535.5,"interStationDistanceM":1335.2,"railLevelM":18.6,"railLevelAboveGroundM":13.525,"stationDetailPdfPage":158,"printedPage":"26/97"},
+      {"key":"LINE2A_DPR_STATION_11","name":"Malad Metro","chainageM":10846.0,"interStationDistanceM":1310.5,"railLevelM":17.7,"railLevelAboveGroundM":13.333,"stationDetailPdfPage":159,"printedPage":"27/97"},
+      {"key":"LINE2A_DPR_STATION_12","name":"Kasturi Park","chainageM":11427.7,"interStationDistanceM":581.7,"railLevelM":18.0,"railLevelAboveGroundM":13.431,"stationDetailPdfPage":160,"printedPage":"28/97","notes":"Conflicts with DPR Table 5.2.1 (printed 6/97, PDF p138), which gives 12243.4m and 1397.4m for station 12. Retain both source claims as unresolved; this record transcribes the station-specific §5.3.2 entry."},
+      {"key":"LINE2A_DPR_STATION_13","name":"Bangur Nagar","chainageM":13183.1,"interStationDistanceM":1755.4,"railLevelM":17.2,"railLevelAboveGroundM":13.792,"stationDetailPdfPage":161,"printedPage":"29/97","notes":"§5.3.2 station detail distance conflicts with Table 5.2.1 (printed 6/97, PDF p138), which gives 939.7m. Chainage agrees at 13183.1m."},
+      {"key":"LINE2A_DPR_STATION_14","name":"Oshiwara Metro","chainageM":14455.5,"interStationDistanceM":1272.4,"railLevelM":18.1,"railLevelAboveGroundM":14.137,"stationDetailPdfPage":162,"printedPage":"30/97"},
+      {"key":"LINE2A_DPR_STATION_15","name":"Samartha Nagar","chainageM":15468.7,"interStationDistanceM":1013.2,"railLevelM":20.6,"railLevelAboveGroundM":13.597,"stationDetailPdfPage":163,"printedPage":"31/97"},
+      {"key":"LINE2A_DPR_STATION_16","name":"Shastri Nagar","chainageM":16433.0,"interStationDistanceM":964.3,"railLevelM":17.2,"railLevelAboveGroundM":13.651,"stationDetailPdfPage":164,"printedPage":"32/97"},
+      {"key":"LINE2A_DPR_STATION_17","name":"D. N. Nagar","chainageM":17578.6,"interStationDistanceM":1145.6,"railLevelM":26.0,"railLevelAboveGroundM":22.22,"stationDetailPdfPage":165,"printedPage":"33/97"}
+    ],
+    "line7": [
+      {"key":"LINE7_DPR_STATION_01","name":"Andheri (E)","chainageM":0.0,"interStationDistanceM":null,"railLevelM":34.3,"railLevelAboveGroundM":13.588,"stationDetailPdfPage":130,"printedPage":"18/92"},
+      {"key":"LINE7_DPR_STATION_02","name":"Shankarwadi","chainageM":1229.8,"interStationDistanceM":1229.8,"railLevelM":37.4,"railLevelAboveGroundM":13.529,"stationDetailPdfPage":131,"printedPage":"19/92"},
+      {"key":"LINE7_DPR_STATION_03","name":"JVLR Junction","chainageM":2413.9,"interStationDistanceM":1184.1,"railLevelM":31.7,"railLevelAboveGroundM":13.705,"stationDetailPdfPage":132,"printedPage":"20/92"},
+      {"key":"LINE7_DPR_STATION_04","name":"Bombay Exhibition","chainageM":3781.5,"interStationDistanceM":1367.6,"railLevelM":27.7,"railLevelAboveGroundM":13.843,"stationDetailPdfPage":133,"printedPage":"21/92"},
+      {"key":"LINE7_DPR_STATION_05","name":"Hub Mall","chainageM":4580.0,"interStationDistanceM":798.5,"railLevelM":28.1,"railLevelAboveGroundM":14.524,"stationDetailPdfPage":134,"printedPage":"22/92"},
+      {"key":"LINE7_DPR_STATION_06","name":"Vishveshwar Nagar","chainageM":5559.7,"interStationDistanceM":979.7,"railLevelM":35.1,"railLevelAboveGroundM":14.083,"stationDetailPdfPage":135,"printedPage":"23/92"},
+      {"key":"LINE7_DPR_STATION_07","name":"Aarey Road Junction","chainageM":6100.0,"interStationDistanceM":540.3,"railLevelM":37.9,"railLevelAboveGroundM":13.424,"stationDetailPdfPage":136,"printedPage":"24/92"},
+      {"key":"LINE7_DPR_STATION_08","name":"Vitt Bhatti Junction","chainageM":7180.0,"interStationDistanceM":1080.0,"railLevelM":50.5,"railLevelAboveGroundM":13.0,"stationDetailPdfPage":137,"printedPage":"25/92"},
+      {"key":"LINE7_DPR_STATION_09","name":"Kurar Village","chainageM":8068.0,"interStationDistanceM":888.0,"railLevelM":36.8,"railLevelAboveGroundM":22.974,"stationDetailPdfPage":138,"printedPage":"26/92"},
+      {"key":"LINE7_DPR_STATION_10","name":"Bandongri","chainageM":9075.7,"interStationDistanceM":1007.7,"railLevelM":38.5,"railLevelAboveGroundM":13.716,"stationDetailPdfPage":139,"printedPage":"27/92"},
+      {"key":"LINE7_DPR_STATION_11","name":"Mahindra & Mahindra","chainageM":9700.0,"interStationDistanceM":624.3,"railLevelM":35.0,"railLevelAboveGroundM":13.5,"stationDetailPdfPage":140,"printedPage":"28/92"},
+      {"key":"LINE7_DPR_STATION_12","name":"Thakur Complex","chainageM":11427.7,"interStationDistanceM":1727.7,"railLevelM":36.4,"railLevelAboveGroundM":13.505,"stationDetailPdfPage":141,"printedPage":"29/92"},
+      {"key":"LINE7_DPR_STATION_13","name":"Borivali Bus Stop","chainageM":12250.0,"interStationDistanceM":822.3,"railLevelM":37.5,"railLevelAboveGroundM":14.531,"stationDetailPdfPage":142,"printedPage":"30/92"},
+      {"key":"LINE7_DPR_STATION_14","name":"Borivali Omkareshwar","chainageM":13376.5,"interStationDistanceM":1126.5,"railLevelM":31.4,"railLevelAboveGroundM":13.573,"stationDetailPdfPage":143,"printedPage":"31/92"},
+      {"key":"LINE7_DPR_STATION_15","name":"Shrinath Nagar","chainageM":14384.5,"interStationDistanceM":1008.0,"railLevelM":30.0,"railLevelAboveGroundM":13.795,"stationDetailPdfPage":144,"printedPage":"32/92"},
+      {"key":"LINE7_DPR_STATION_16","name":"Dahisar (E)","chainageM":15524.9,"interStationDistanceM":1140.4,"railLevelM":18.7,"railLevelAboveGroundM":10.714,"stationDetailPdfPage":145,"printedPage":"33/92"}
+    ]
+  },
+  "designStandardsAndCaveats": [
+    {"line":"line2a","claim":"17 elevated stations proposed; all elevated stations have two platforms; standard platform length 185m; typical lower concourse and upper platforms; terminal station Dahisar (E) has a special arrangement.","sourceId":"SRC-MMRDA-L2A-DPR","section":"§§5.2.1.3–5.2.2.2, 5.3.1.3, 5.3.3.1","printedPages":["5/97","14/97","34/97"],"pdfPages":[137,146,166],"notes":"Internal wording conflict: §5.2.2.2 excludes Dahisar terminal from the two-level standard, while §5.3.3.1 says all stations are two-level. §5.3.3.1 separately confirms two platforms at station 1 and describes about 14.5m platform height. The two-tower terminal plan and this conflicting text do not establish a reliable terminal level inventory. Keep its detailed levels unresolved."},
+    {"line":"line7","claim":"16 elevated stations proposed; typical stations have lower concourse and upper platforms; Dahisar terminal is excepted from standard two-level layout; 185m station length; two platforms at elevated stations.","sourceId":"SRC-MMRDA-L7-DPR","section":"§§5.2.1.3–5.2.2.2, 5.3.4.1, 5.3.5","printedPages":["5/92","34/92–35/92"],"pdfPages":[117,146,147],"notes":"Station 16 has one unpaid area in the proposal. Two unpaid areas are described for most other stations."},
+    {"line":"line2a","claim":"2031 projected vertical circulation per station: 4 lifts ground-to-concourse and 2 concourse-to-platform; 4 escalators ground-to-concourse and 8 concourse-to-platform. Table 5.3.9 also gives station-specific projected peak boarding/alighting, gate counts and stair width.","sourceId":"SRC-MMRDA-L2A-DPR","section":"Table 5.3.9","printedPages":["41/97"],"pdfPages":[173],"notes":"Forecast/design provision only, not installed or currently available equipment."},
+    {"line":"line7","claim":"2031 projected vertical circulation per station: 2 lifts ground-to-concourse and 2 concourse-to-platform; 2 escalators ground-to-concourse and 7 concourse-to-platform. Table 5.3.9 gives station-specific projected peak boarding/alighting, gate counts and stair width.","sourceId":"SRC-MMRDA-L7-DPR","section":"Table 5.3.9","printedPages":["43/92"],"pdfPages":[155],"notes":"Forecast/design provision only, not installed or currently available equipment."},
+    {"line":"line2a","claim":"Dahisar (E) is proposed integrated with the Dahisar (E)–Andheri corridor, with one platform for each corridor; D. N. Nagar proposed integrated with Line 1 by skywalk; D. N. Nagar station detail describes linked station stairs and a combined structure.","sourceId":"SRC-MMRDA-L2A-DPR","section":"§§5.2.3.2, 5.3.2.16, 5.3.3.3","printedPages":["6/97","33/97","34/97"],"pdfPages":[138,165,166],"notes":"This verifies proposed interchange intent only; transfer path length, paid-area continuity, security arrangement, current wayfinding and current as-built configuration are not established by this evidence."},
+    {"line":"line7","claim":"Andheri (E) proposed connection to Line 1 by elevated walkway; detailed configuration describes the walkway crossing WEH below the Andheri flyover and connecting to Line 1 concourse. Dahisar integration with the Charkop–Dahisar corridor was examined/proposed.","sourceId":"SRC-MMRDA-L7-DPR","section":"§§5.2.3.1, 5.3.4.2","printedPages":["6/92","35/92"],"pdfPages":[118,147],"notes":"DPR-era connection proposal only; no transfer length or as-built verification in this source."},
+    {"line":"line7","claim":"DPR station schedule contains 16 entries; current TransitOS CTM contains 14 operational station records. Station-name evolution and omissions mean station-specific design rows cannot be joined to present CTM rows by sequence alone.","sourceId":"SRC-MMRDA-L7-DPR","section":"Table 5.2.1 compared with current normalized CTM","printedPages":["5/92–7/92"],"pdfPages":[117,118,129],"notes":"Keep all DPR records under independent LINE7_DPR_STATION_nn keys pending documented station crosswalk."},
+    {"line":"line2a","claim":"DPR contains an internal station-12 chainage/distance conflict: Table 5.2.1 gives Kasturi Park 12,243.4m and 1,397.4m; §5.3.2.12 gives 11,427.7m and 581.7m. The station-13 distance also differs (939.7m in Table 5.2.1 versus 1,755.4m in §5.3.2.13).","sourceId":"SRC-MMRDA-L2A-DPR","section":"Table 5.2.1; §§5.3.2.12–5.3.2.13","printedPages":["6/97","28/97–29/97"],"pdfPages":[138,160,161],"notes":"Do not silently choose one as definitive for alignment validation. Station-specific values in the schedule above are direct transcriptions from §§5.3.2, and the table values are retained here as a conflict."},
+    {"line":"both","claim":"The DPRs do not establish current station-specific numeric platform labels, direction assignment, island/side arrangement, screen doors, or as-built wheelchair boarding status.","sourceId":"SRC-MMRDA-L2A-DPR and SRC-MMRDA-L7-DPR","section":"Chapter 5 review","printedPages":[],"pdfPages":[],"notes":"Leave these fields unknown until operator/current as-built evidence is available."}
+  ]
+}

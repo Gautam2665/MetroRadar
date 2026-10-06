@@ -252,7 +252,7 @@
       "properties": {
         "canonicalId": "STN_L3_009",
         "stationCode": "L3-09",
-        "name": "Vidyanagari",
+        "name": "Bandra Colony",
         "sequence": 9,
         "systemId": "MUMBAI_LINE3",
         "lineId": "MUMBAI_LINE3",
@@ -4638,7 +4638,7 @@
       },
       {
         "stationId": "STN_L3_009",
-        "name": "Vidyanagari",
+        "name": "Bandra Colony",
         "sequence": 9,
         "coordinates": [
           72.849265641,
@@ -4898,7 +4898,7 @@
         "fromStationId": "STN_L3_008",
         "fromStationName": "Santacruz",
         "toStationId": "STN_L3_009",
-        "toStationName": "Vidyanagari",
+        "toStationName": "Bandra Colony",
         "sequenceSegment": "8 -> 9",
         "distanceMeters": 1540,
         "nominalTravelTimeSeconds": 158,
@@ -4908,7 +4908,7 @@
       {
         "edgeId": "EDGE_L3_09_TO_10",
         "fromStationId": "STN_L3_009",
-        "fromStationName": "Vidyanagari",
+        "fromStationName": "Bandra Colony",
         "toStationId": "STN_L3_010",
         "toStationName": "BKC",
         "sequenceSegment": "9 -> 10",

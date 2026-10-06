@@ -10,6 +10,46 @@ const gisRegistryPath = path.resolve('datasets/mumbai/network/gis-evidence-regis
 const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf-8'));
 const lineRegistry = JSON.parse(fs.readFileSync(lineRegistryPath, 'utf-8'));
 const gisRegistry = JSON.parse(fs.readFileSync(gisRegistryPath, 'utf-8'));
+const arcgisStationsPath = path.resolve('datasets/mumbai/sources/gis/arcgis-mumbai.json');
+const arcgisStations = JSON.parse(fs.readFileSync(arcgisStationsPath, 'utf-8')).stations.features;
+const arcgisStationById = new Map(arcgisStations.map((feature) => [feature.id, feature]));
+
+const OFFICIAL_ARCGIS_STATION_IDS = {
+  MMRDA_LINE2A: [996, 954, 955, 956, 957, 958, 959, 960, 961, 962, 924, 963, 964, 965, 966, 967, 968],
+  MMRDA_LINE7: [996, 995, 994, 993, 992, 991, 990, 989, 988, 987, 986, 985, 984, 980],
+};
+
+function officialStationEvidence(systemCode, lineKey) {
+  return OFFICIAL_ARCGIS_STATION_IDS[systemCode].map((featureId, index) => {
+    const feature = arcgisStationById.get(featureId);
+    if (!feature) throw new Error(`Missing ArcGIS station feature ${featureId}`);
+    const sourceName = feature.properties.name;
+    return {
+      evidenceId: `E-${lineKey}-F-${String(index + 1).padStart(4, '0')}`,
+      systemCode,
+      category: 'F_GIS',
+      entityType: 'station_point',
+      entityKey: `${lineKey}_STN_${sourceName.toUpperCase().replace(/[^A-Z0-9]/g, '_')}`,
+      attribute: 'wgs84_coordinates',
+      value: { longitude: feature.geometry.coordinates[0], latitude: feature.geometry.coordinates[1] },
+      pointClassification: 'REVENUE_STATION',
+      sequencePosition: index + 1,
+      stationNameInSource: sourceName,
+      source: {
+        sourceId: 'SRC-ARCGIS-MOHUA-2025',
+        type: 'OFFICIAL_GIS',
+        document: 'datasets/mumbai/sources/gis/arcgis-mumbai.json',
+        featureId,
+      },
+      evidenceType: 'DIRECT',
+      temporalStatus: 'OPERATIONAL',
+      confidence: 0.9,
+      validationStatus: 'SOURCE_VERIFIED',
+      priority: 'P0',
+      extractedAt: '2026-10-05',
+    };
+  });
+}
 
 // Official DPR station sequence for Line 3 (SOURCE-001 Table 4.3 chainages)
 const DPR_LINE3_STATIONS = [
@@ -306,80 +346,9 @@ const otherLinesGis = [
     extractedAt: "2026-10-04"
   })),
 
-  // Line 2A (17 stations)
-  ...[
-    { name: "Dahisar East", lon: 72.8631, lat: 19.2562 },
-    { name: "Anand Nagar", lon: 72.8587, lat: 19.2504 },
-    { name: "Kandarpada", lon: 72.8541, lat: 19.2438 },
-    { name: "Mandapeshwar", lon: 72.8502, lat: 19.2372 },
-    { name: "Dahisar West", lon: 72.8471, lat: 19.2309 },
-    { name: "Borivali West", lon: 72.8438, lat: 19.2241 },
-    { name: "Pahadi Eksar", lon: 72.8406, lat: 19.2175 },
-    { name: "Kandivali West", lon: 72.8382, lat: 19.2098 },
-    { name: "Dahanukarwadi", lon: 72.8361, lat: 19.2023 },
-    { name: "Valnai", lon: 72.8345, lat: 19.1948 },
-    { name: "Malad West", lon: 72.8339, lat: 19.1867 },
-    { name: "Lower Malad", lon: 72.8334, lat: 19.1789 },
-    { name: "Pahadi Goregaon", lon: 72.8331, lat: 19.1705 },
-    { name: "Goregaon West", lon: 72.8329, lat: 19.1624 },
-    { name: "Oshiwara", lon: 72.8324, lat: 19.1502 },
-    { name: "Lower Oshiwara", lon: 72.8321, lat: 19.1398 },
-    { name: "Andheri West", lon: 72.8315, lat: 19.1252 }
-  ].map((stn, idx) => ({
-    evidenceId: `E-L2A-F-${String(idx + 1).padStart(4, '0')}`,
-    systemCode: "MMRDA_LINE2A",
-    category: "F_GIS",
-    entityType: "station_point",
-    entityKey: `LINE2A_STN_${stn.name.toUpperCase().replace(/[^A-Z0-9]/g, '_')}`,
-    attribute: "wgs84_coordinates",
-    value: { longitude: stn.lon, latitude: stn.lat },
-    pointClassification: "REVENUE_STATION",
-    sequencePosition: idx + 1,
-    stationNameInSource: stn.name,
-    source: { sourceId: "SRC-NET-008", type: "GIS_COMMUNITY", document: "OSM Overpass Mumbai Metro Line 2A" },
-    evidenceType: "DIRECT",
-    temporalStatus: "OPERATIONAL",
-    confidence: 0.65,
-    validationStatus: "UNVERIFIED",
-    priority: "P0",
-    extractedAt: "2026-10-04"
-  })),
-
-  // Line 7 (14 stations)
-  ...[
-    { name: "Dahisar East", lon: 72.8631, lat: 19.2562 },
-    { name: "Ovaripada", lon: 72.8639, lat: 19.2458 },
-    { name: "Rashtriya Udyan", lon: 72.8628, lat: 19.2341 },
-    { name: "Devipada", lon: 72.8617, lat: 19.2238 },
-    { name: "Magathane", lon: 72.8604, lat: 19.2131 },
-    { name: "Poisar", lon: 72.8592, lat: 19.2025 },
-    { name: "Akurli", lon: 72.8581, lat: 19.1918 },
-    { name: "Kurar", lon: 72.8570, lat: 19.1812 },
-    { name: "Dindoshi", lon: 72.8561, lat: 19.1705 },
-    { name: "Aarey", lon: 72.8552, lat: 19.1598 },
-    { name: "Goregaon East", lon: 72.8543, lat: 19.1491 },
-    { name: "Jogeshwari East", lon: 72.8534, lat: 19.1384 },
-    { name: "Mogra", lon: 72.8525, lat: 19.1278 },
-    { name: "Gundavali", lon: 72.8576, lat: 19.1159 }
-  ].map((stn, idx) => ({
-    evidenceId: `E-L7-F-${String(idx + 1).padStart(4, '0')}`,
-    systemCode: "MMRDA_LINE7",
-    category: "F_GIS",
-    entityType: "station_point",
-    entityKey: `LINE7_STN_${stn.name.toUpperCase().replace(/[^A-Z0-9]/g, '_')}`,
-    attribute: "wgs84_coordinates",
-    value: { longitude: stn.lon, latitude: stn.lat },
-    pointClassification: "REVENUE_STATION",
-    sequencePosition: idx + 1,
-    stationNameInSource: stn.name,
-    source: { sourceId: "SRC-NET-008", type: "GIS_COMMUNITY", document: "OSM Overpass Mumbai Metro Line 7" },
-    evidenceType: "DIRECT",
-    temporalStatus: "OPERATIONAL",
-    confidence: 0.65,
-    validationStatus: "UNVERIFIED",
-    priority: "P0",
-    extractedAt: "2026-10-04"
-  })),
+  // Lines 2A and 7 station points directly sourced from the official MoHUA / Esri layer.
+  ...officialStationEvidence('MMRDA_LINE2A', 'LINE2A'),
+  ...officialStationEvidence('MMRDA_LINE7', 'LINE7'),
 
   // Line 9 (3 operational stations)
   ...[
@@ -421,7 +390,7 @@ if (line3) {
   line3.lastUpdated = "2026-10-04";
 }
 
-lineRegistry.networkTotals.ctmReadyLines = 1;
+lineRegistry.networkTotals.ctmReadyLines = lineRegistry.lines.filter(l => l.ctmReady).length;
 lineRegistry.networkTotals.firstCtmReadyLine = "MUMBAI_LINE3";
 
 fs.writeFileSync(lineRegistryPath, JSON.stringify(lineRegistry, null, 2), 'utf-8');
@@ -438,4 +407,3 @@ gisRegistry.validationMatrix.line3.alignmentGeometry.ctmReadyAfterValidation = t
 
 fs.writeFileSync(gisRegistryPath, JSON.stringify(gisRegistry, null, 2), 'utf-8');
 console.log('✅ Updated datasets/mumbai/network/gis-evidence-registry.json with Line 3 VALIDATED state.');
-

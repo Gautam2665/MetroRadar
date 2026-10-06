@@ -2,12 +2,17 @@
   "schemaVersion": "tdse-icx-v1",
   "city": "Mumbai",
   "country": "India",
-  "lastUpdated": "2026-10-04",
-  "description": "Mumbai Network Interchange Complex Registry (ICX). Models physical connectivity, paid/unpaid boundaries, AFC barriers, vertical drops, and directional pathways with strict epistemological provenance.",
+  "lastUpdated": "2026-10-05",
+  "description": "Mumbai network interchange complexes with attributed evidence; unknown pathway and fare attributes are retained as null until operator wayfinding, AFC evidence, as-built plans, or a survey establishes them.",
   "epistemologicalStates": [
     "KNOWN_FROM_ENGINEERING",
     "KNOWN_FROM_OBSERVATION",
-    "UNKNOWN_SOURCE_REQUIRED"
+    "UNKNOWN_SOURCE_REQUIRED",
+    "KNOWN_FROM_SECONDARY_OPERATOR_REPORT",
+    "INFERRED_FROM_PAID_AREA_CONTINUITY",
+    "PATH_TYPE_REPORTED_DISTANCE_UNMEASURED",
+    "CONNECTION_CONFIRMED_ROUTE_MEASUREMENTS_UNKNOWN",
+    "FOB_CONFIRMED_TOTAL_ROUTE_UNMEASURED"
   ],
   "complexes": [
     {
@@ -21,6 +26,15 @@
         "STN_L1_008",
         "STN_L3_004"
       ],
+      "platformTopology": {
+        "hubPlatformCount": 4,
+        "countScope": "ALL_PARTICIPATING_LINES",
+        "byLine": [
+          { "systemId": "MUMBAI_LINE1", "stationId": "STN_L1_008", "platformCount": 2, "platformNumbering": "LINE_LOCAL" },
+          { "systemId": "MUMBAI_LINE3", "stationId": "STN_L3_004", "platformCount": 2, "platformNumbering": "LINE_LOCAL" }
+        ],
+        "provenance": { "sourceIds": ["SRC-MMRDA-L1-DPR", "SOURCE-001"], "status": "DESIGN_COUNTS_CROSSCHECKED" }
+      },
       "interchangeType": "UNPAID_OUT_OF_STATION",
       "attributes": {
         "paidAreaTransfer": {
@@ -241,110 +255,203 @@
       "name": "Dahisar East Junction Hub",
       "participatingSystems": [
         "MUMBAI_LINE2A",
-        "MUMBAI_LINE7"
+        "MUMBAI_LINE7",
+        "MUMBAI_LINE9"
+      ],
+      "participatingLines": [
+        {
+          "code": "MUMBAI_LINE2A",
+          "name": "Metro Line 2A (Yellow)",
+          "color": "#FAB816"
+        },
+        {
+          "code": "MUMBAI_LINE7",
+          "name": "Metro Line 7 (Red)",
+          "color": "#E31E24"
+        },
+        {
+          "code": "MUMBAI_LINE9",
+          "name": "Metro Line 9 (Red extension)",
+          "color": "#E31E24"
+        }
       ],
       "participatingStations": [
         "STN_L2A_001",
         "STN_L7_001"
       ],
-      "interchangeType": "PAID_CROSS_CONCOURSE_SAME_OPERATOR",
+      "platformTopology": {
+        "hubPlatformCount": 4,
+        "countScope": "CURRENTLY_MATERIALIZED_LINE2A_AND_LINE7_STATIONS_ONLY",
+        "byLine": [
+          { "systemId": "MUMBAI_LINE2A", "stationId": "STN_L2A_001", "platformCount": 2, "platformNumbering": "LINE_LOCAL" },
+          { "systemId": "MUMBAI_LINE7", "stationId": "STN_L7_001", "platformCount": 2, "platformNumbering": "LINE_LOCAL" }
+        ],
+        "futureLine9": { "status": "NOT_MATERIALIZED_IN_CURRENT_STATION_MODEL", "platformCount": null },
+        "provenance": { "sourceIds": ["SRC-MMRDA-L2A-DPR", "SRC-MMRDA-L7-DPR"], "status": "DPR_DESIGN_COUNTS" }
+      },
+      "interchangeType": "PAID_AREA_CONCOURSE_TRANSFER_REPORTED",
       "attributes": {
         "paidAreaTransfer": {
           "value": true,
-          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "knowledgeState": "KNOWN_FROM_SECONDARY_OPERATOR_REPORT",
           "provenance": {
-            "evidence": "Both lines built and operated by MMMOCL; unified concourse structure"
+            "sourceId": "SRC-NDTV-DAHISAR-TRANSFER-2026",
+            "evidence": "NDTV Profit reports the Line 2A↔Line 7 interchange can be made without exiting the paid area."
           }
         },
         "requiresAfcRetap": {
           "value": false,
-          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "knowledgeState": "INFERRED_FROM_PAID_AREA_CONTINUITY",
           "provenance": {
-            "evidence": "Single ticketing system; zero AFC gates between lines"
+            "sourceId": "SRC-NDTV-DAHISAR-TRANSFER-2026",
+            "evidence": "No exit/re-entry across AFC is implied by the reported continuous paid-area route; no explicit AFC-device transaction instruction was found."
           }
         },
         "requiresSecurityRescreening": {
-          "value": false,
-          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "value": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
           "provenance": {
-            "evidence": "Single continuous security perimeter"
+            "note": "Current security path for transferring between Line 2A and the Red Line is unverified. Line 7/9 is continuous Red Line service, not a separate transfer."
           }
         },
         "walkingDistanceMeters": {
           "value": null,
           "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
           "provenance": {
-            "note": "Cross-concourse physical walkway between parallel platform structures unmeasured"
+            "note": "No measured passenger route between the Line 2A and Red Line station areas is available."
+          }
+        },
+        "walkingTimeSeconds": {
+          "value": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "provenance": {
+            "note": "No measured Line 2A to Red Line transfer time is available."
           }
         },
         "outdoorStreetExposure": {
-          "value": false,
-          "knowledgeState": "KNOWN_FROM_OBSERVATION"
+          "value": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "provenance": {
+            "note": "Indoor/outdoor conditions for the complete Line 2A to Red Line transfer path are unverified."
+          }
         },
         "elevatorAvailability": {
-          "status": "VERIFIED_ELEVATOR",
-          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "status": "UNKNOWN",
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
           "provenance": {
-            "evidence": "Full step-free lift access across concourse levels"
+            "note": "As-built terminal levels and continuous step-free pathways are unverified."
           }
         }
       },
       "pathways": [
         {
-          "pathwayId": "PATH-DAHISAR-2A-TO-7",
+          "pathwayId": "PATH-DAHISAR-MUMBAI_LINE2A-TO-RED_LINE",
           "from": "MUMBAI_LINE2A",
           "to": "MUMBAI_LINE7",
           "elements": [
-            "CROSS_CONCOURSE_FLAT_WALK"
+            "VERTICAL_PLATFORM_TO_CONCOURSE",
+            "PAID_AREA_CONCOURSE_TRANSFER",
+            "VERTICAL_CONCOURSE_TO_PLATFORM"
           ],
           "walkingSeconds": null,
-          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
-          "luggageFrictionLevel": "MINIMAL",
-          "accessibilityStatus": "VERIFIED_ELEVATOR"
+          "knowledgeState": "PATH_TYPE_REPORTED_DISTANCE_UNMEASURED",
+          "luggageFrictionLevel": "UNKNOWN",
+          "accessibilityStatus": "UNKNOWN_SOURCE_REQUIRED"
         },
         {
-          "pathwayId": "PATH-DAHISAR-7-TO-2A",
+          "pathwayId": "PATH-DAHISAR-RED_LINE-TO-MUMBAI_LINE2A",
           "from": "MUMBAI_LINE7",
           "to": "MUMBAI_LINE2A",
           "elements": [
-            "CROSS_CONCOURSE_FLAT_WALK"
+            "VERTICAL_PLATFORM_TO_CONCOURSE",
+            "PAID_AREA_CONCOURSE_TRANSFER",
+            "VERTICAL_CONCOURSE_TO_PLATFORM"
           ],
           "walkingSeconds": null,
-          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
-          "luggageFrictionLevel": "MINIMAL",
-          "accessibilityStatus": "VERIFIED_ELEVATOR"
+          "knowledgeState": "PATH_TYPE_REPORTED_DISTANCE_UNMEASURED",
+          "luggageFrictionLevel": "UNKNOWN",
+          "accessibilityStatus": "UNKNOWN_SOURCE_REQUIRED"
         }
       ],
       "pathway": [
         {
           "segmentId": "SEG_DAH_L2A_PF_TO_CONCOURSE",
           "from": "L2A_PLATFORM",
-          "to": "UNIFIED_CONCOURSE",
+          "to": "PAID_AREA_CONCOURSE",
           "type": "VERTICAL",
           "distanceMeters": null,
-          "sourceState": "UNKNOWN_SOURCE_REQUIRED"
+          "sourceState": "KNOWN_FROM_SECONDARY_OPERATOR_REPORT",
+          "provenance": {
+            "sourceId": "SRC-NDTV-DAHISAR-TRANSFER-2026"
+          }
         },
         {
           "segmentId": "SEG_DAH_CROSS_CONCOURSE",
-          "from": "UNIFIED_CONCOURSE",
-          "to": "UNIFIED_CONCOURSE",
+          "from": "PAID_AREA_CONCOURSE",
+          "to": "PAID_AREA_CONCOURSE",
           "type": "PEDESTRIAN",
           "distanceMeters": null,
-          "sourceState": "UNKNOWN_SOURCE_REQUIRED"
+          "sourceState": "KNOWN_FROM_SECONDARY_OPERATOR_REPORT",
+          "provenance": {
+            "sourceId": "SRC-NDTV-DAHISAR-TRANSFER-2026"
+          }
         },
         {
           "segmentId": "SEG_DAH_CONCOURSE_TO_L7_PF",
-          "from": "UNIFIED_CONCOURSE",
+          "from": "PAID_AREA_CONCOURSE",
           "to": "L7_PLATFORM",
           "type": "VERTICAL",
           "distanceMeters": null,
-          "sourceState": "UNKNOWN_SOURCE_REQUIRED"
+          "sourceState": "KNOWN_FROM_SECONDARY_OPERATOR_REPORT"
         }
-      ]
+      ],
+      "throughRunningRelations": [
+        {
+          "from": "MUMBAI_LINE7",
+          "to": "MUMBAI_LINE9",
+          "viaStationId": "STN_L7_001",
+          "relation": "CONTINUOUS_RED_LINE_EXTENSION",
+          "sourceId": "SRC-MMRDA-L7A-L9-DPR",
+          "evidence": "The Line 9 DPR routes the extension beyond the existing Dahisar East Line 7 station. Current service continuity through Dahisar East is separately recorded as user-reported until operator confirmation.",
+          "operationalSourceId": "SRC-USER-L9-OPERATIONAL-OBSERVATIONS",
+          "operationalEvidenceStatus": "USER_REPORTED_NOT_OPERATOR_VERIFIED"
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceId": "SRC-ARCGIS-MOHUA-2025",
+          "evidence": "ArcGIS feature 996 identifies one Dahisar (East) station point at 72.86711916212012, 19.251263173351788 as an elevated Red-to-Yellow interchange. The point coincides with the L2A_001/L7_001 CTM location."
+        },
+        {
+          "sourceId": "SRC-MMRDA-L2A-DPR",
+          "evidence": "Chapter 5 special-station description specifies two corridor platforms at Dahisar East: one for the Dahisar East–Andheri corridor (Line 7) and one for the Dahisar East–D.N. Nagar corridor (Line 2A). This is design evidence, not platform numbering or as-built level confirmation."
+        },
+        {
+          "sourceId": "SRC-MMRDA-L2A-L7-EIA-2022",
+          "evidence": "MMRDA's EIA places the Line 2A Dahisar East platform above the existing/proposed Line 7 Dahisar East station. It confirms relative design order, not an as-built floor-level survey."
+        },
+        {
+          "sourceId": "SRC-MMRDA-L7A-L9-DPR",
+          "evidence": "Chapter 4 §4.3 places the Line 9 extension beyond the existing Dahisar East Line 7 station, with Pandurang Wadi as the next station."
+        },
+        {
+          "sourceId": "SRC-MMRDA-L9-OVERVIEW",
+          "evidence": "MMRDA identifies Line 9 as a Line 7 extension and reports Phase I Dahisar East–Kashigaon (four stations) operational from 2026-04-07."
+        },
+        {
+          "sourceId": "SRC-MMRDA-L9-INTERCHANGE-2023",
+          "evidence": "MMRDA names Dahisar East as the interchange between Lines 2A and 7; its separate three-tier design statement refers to Meditiya Nagar, not Dahisar."
+        },
+        {
+          "sourceId": "SRC-NDTV-DAHISAR-TRANSFER-2026",
+          "evidence": "Reports a Line 2A↔Line 7 transfer at Dahisar without exiting the paid area; no walk distance/time supplied."
+        }
+      ],
+      "evidenceSummary": "Current secondary reporting of the 2026 operator change establishes a Line 2A↔Red Line transfer at Dahisar without exiting the paid area; Line 7/9 is a through-running Red corridor, not a separate transfer. Therefore no AFC exit/re-entry is expected at this interchange, but the exact AFC instruction is inferred. Current floor labels, platform numbers, complete walking distance/time, security path and step-free continuity remain unverified."
     },
     {
       "complexId": "ICX-DN-NAGAR",
-      "name": "D.N. Nagar / Andheri West Interchange Hub",
+      "name": "D.N. Nagar (Line 1) / Andheri West (Line 2A) Interchange",
       "participatingSystems": [
         "MUMBAI_LINE1",
         "MUMBAI_LINE2A"
@@ -353,91 +460,103 @@
         "STN_L1_002",
         "STN_L2A_017"
       ],
-      "interchangeType": "ELEVATED_FOB_ASYMMETRIC",
+      "platformTopology": {
+        "hubPlatformCount": 4,
+        "countScope": "ALL_PARTICIPATING_LINES",
+        "byLine": [
+          { "systemId": "MUMBAI_LINE1", "stationId": "STN_L1_002", "platformCount": 2, "platformNumbering": "LINE_LOCAL" },
+          { "systemId": "MUMBAI_LINE2A", "stationId": "STN_L2A_017", "platformCount": 2, "platformNumbering": "LINE_LOCAL" }
+        ],
+        "provenance": { "sourceIds": ["SRC-MMRDA-L1-DPR", "SRC-MMRDA-L2A-DPR"], "status": "DESIGN_COUNTS_CROSSCHECKED" }
+      },
+      "interchangeType": "INTERCHANGE_PATH_UNVERIFIED",
       "attributes": {
         "paidAreaTransfer": {
-          "value": false,
-          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "value": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
           "provenance": {
-            "evidence": "Separate operating authorities (Reliance MMOPL vs MMMOCL)"
+            "note": "Paid-area continuity is not established by the available source."
           }
         },
         "requiresAfcRetap": {
-          "value": true,
-          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "value": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
           "provenance": {
-            "evidence": "Passengers tap out of Line 2A / Line 1 and tap into the other system"
+            "note": "Current AFC retap instructions are required."
           }
         },
         "requiresSecurityRescreening": {
-          "value": true,
-          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "value": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
           "provenance": {
-            "evidence": "Dedicated security screening at station connector entrances"
-          }
-        },
-        "directionalAsymmetry": {
-          "value": true,
-          "knowledgeState": "KNOWN_FROM_OBSERVATION",
-          "provenance": {
-            "evidence": "2A to L1 concourse feeds directly towards Ghatkopar platform; L1 to 2A exits concourse to mezzanine"
+            "note": "Current station security instructions are required."
           }
         },
         "walkingDistanceMeters": {
           "value": null,
           "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
           "provenance": {
-            "note": "Platform-to-platform internal distance unmeasured pending footway survey"
+            "note": "No measured full passenger transfer route is available."
+          }
+        },
+        "walkingTimeSeconds": {
+          "value": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "provenance": {
+            "note": "No measured passenger transfer time is available."
           }
         },
         "outdoorStreetExposure": {
-          "value": false,
-          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "value": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
           "provenance": {
-            "evidence": "Covered elevated footbridge"
+            "note": "Indoor/outdoor route conditions are unverified."
           }
         },
         "elevatorAvailability": {
           "status": "UNKNOWN",
           "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
           "provenance": {
-            "note": "Bridge has stairs and escalators; continuous lift availability across connector unverified"
+            "note": "Step-free continuity across the complete passenger route is unverified."
+          }
+        },
+        "andheriWestLevelCount": {
+          "value": 3,
+          "knowledgeState": "KNOWN_FROM_ENGINEERING",
+          "provenance": {
+            "sourceId": "SRC-MMRDA-ANDHERI-WEST-3LEVEL-2023",
+            "evidence": "MMRDA identifies Property Development, Concourse, and Platform levels at Andheri West."
           }
         }
       },
       "pathways": [
         {
-          "pathwayId": "PATH-DNN-2A-TO-L1",
-          "from": "MUMBAI_LINE2A",
-          "to": "MUMBAI_LINE1",
-          "elements": [
-            "AFC_EXIT_MMMOCL",
-            "COVERED_ELEVATED_BRIDGE",
-            "SECURITY_SCREENING_MMOPL",
-            "AFC_ENTRY_MMOPL",
-            "CONCOURSE_DIRECT_TO_GHATKOPAR_PF"
-          ],
-          "walkingSeconds": null,
-          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
-          "luggageFrictionLevel": "MODERATE",
-          "accessibilityStatus": "UNVERIFIED_ELEVATOR"
-        },
-        {
-          "pathwayId": "PATH-DNN-L1-TO-2A",
+          "pathwayId": "ICX-DN-NAGAR-PATH-A-TO-B",
           "from": "MUMBAI_LINE1",
           "to": "MUMBAI_LINE2A",
           "elements": [
-            "AFC_EXIT_MMOPL",
-            "MEZZANINE_ACCESS_CORRIDOR",
-            "COVERED_ELEVATED_BRIDGE",
-            "SECURITY_SCREENING_MMMOCL",
-            "AFC_ENTRY_MMMOCL",
-            "L2A_CONCOURSE_TO_PF"
+            "PLATFORM_TO_CONCOURSE",
+            "CONNECTED_AT_TWO_LEVELS",
+            "CONCOURSE_TO_PLATFORM"
           ],
           "walkingSeconds": null,
-          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
-          "luggageFrictionLevel": "MODERATE",
-          "accessibilityStatus": "UNVERIFIED_ELEVATOR"
+          "knowledgeState": "CONNECTION_CONFIRMED_ROUTE_MEASUREMENTS_UNKNOWN",
+          "luggageFrictionLevel": "UNKNOWN",
+          "accessibilityStatus": "UNKNOWN_SOURCE_REQUIRED"
+        },
+        {
+          "pathwayId": "ICX-DN-NAGAR-PATH-B-TO-A",
+          "from": "MUMBAI_LINE2A",
+          "to": "MUMBAI_LINE1",
+          "elements": [
+            "PLATFORM_TO_CONCOURSE",
+            "CONNECTED_AT_TWO_LEVELS",
+            "CONCOURSE_TO_PLATFORM"
+          ],
+          "walkingSeconds": null,
+          "knowledgeState": "CONNECTION_CONFIRMED_ROUTE_MEASUREMENTS_UNKNOWN",
+          "luggageFrictionLevel": "UNKNOWN",
+          "accessibilityStatus": "UNKNOWN_SOURCE_REQUIRED"
         }
       ],
       "pathway": [
@@ -463,7 +582,8 @@
           "to": "L1_CONCOURSE",
           "type": "FOB",
           "structureLengthMeters": null,
-          "sourceState": "UNKNOWN_SOURCE_REQUIRED"
+          "sourceState": "UNKNOWN_SOURCE_REQUIRED",
+          "distanceMeters": null
         },
         {
           "segmentId": "SEG_DNN_L1_CONCOURSE_TO_PF",
@@ -473,11 +593,18 @@
           "distanceMeters": null,
           "sourceState": "UNKNOWN_SOURCE_REQUIRED"
         }
+      ],
+      "evidenceSummary": "MMRDA confirms Andheri West has Property Development, Concourse and Platform levels and is connected with D.N. Nagar at two levels for passenger movement. Exact path length/time, paid-area continuity, AFC retap, security and step-free continuity remain unverified.",
+      "sourceEvidence": [
+        {
+          "sourceId": "SRC-MMRDA-ANDHERI-WEST-3LEVEL-2023",
+          "evidence": "MMRDA confirms Andheri West three-level layout and a connection to D.N. Nagar at two levels."
+        }
       ]
     },
     {
       "complexId": "ICX-WEH-GUNDAVALI",
-      "name": "Western Express Highway / Gundavali Interchange Hub",
+      "name": "Western Express Highway (Line 1) / Gundavali (Line 7) Interchange",
       "participatingSystems": [
         "MUMBAI_LINE1",
         "MUMBAI_LINE7"
@@ -486,93 +613,104 @@
         "STN_L1_005",
         "STN_L7_014"
       ],
-      "interchangeType": "LONG_ELEVATED_SKYWALK",
+      "platformTopology": {
+        "hubPlatformCount": 4,
+        "countScope": "ALL_PARTICIPATING_LINES",
+        "byLine": [
+          { "systemId": "MUMBAI_LINE1", "stationId": "STN_L1_005", "platformCount": 2, "platformNumbering": "LINE_LOCAL" },
+          { "systemId": "MUMBAI_LINE7", "stationId": "STN_L7_014", "platformCount": 2, "platformNumbering": "LINE_LOCAL" }
+        ],
+        "provenance": { "sourceIds": ["SRC-MMRDA-L1-DPR", "SRC-MMRDA-GUNDAVALI-FOB-2022"], "status": "DESIGN_COUNTS_CROSSCHECKED" }
+      },
+      "estimatedDurationSeconds": 240,
+      "interchangeType": "INTERCHANGE_PATH_UNVERIFIED",
       "attributes": {
         "paidAreaTransfer": {
-          "value": false,
-          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "value": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
           "provenance": {
-            "evidence": "Separate operating authorities (Reliance MMOPL vs MMMOCL)"
+            "note": "Paid-area continuity is not established by the available source."
           }
         },
         "requiresAfcRetap": {
-          "value": true,
-          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "value": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
           "provenance": {
-            "evidence": "Tap out at Gundavali / WEH and re-tap on connecting line"
+            "note": "Current AFC retap instructions are required."
           }
         },
         "requiresSecurityRescreening": {
-          "value": true,
-          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "value": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
           "provenance": {
-            "evidence": "Security checkpoint at skywalk terminal entries"
+            "note": "Current station security instructions are required."
           }
         },
         "walkingDistanceMeters": {
           "value": null,
           "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
           "provenance": {
-            "note": "Full platform-to-platform walking distance unmeasured. Structural FOB across highway is 58m."
+            "note": "No measured full passenger transfer route is available."
+          }
+        },
+        "walkingTimeSeconds": {
+          "value": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
+          "provenance": {
+            "note": "No measured passenger transfer time is available."
           }
         },
         "outdoorStreetExposure": {
-          "value": false,
-          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "value": null,
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
           "provenance": {
-            "evidence": "Fully covered elevated skywalk above highway"
+            "note": "Indoor/outdoor route conditions are unverified."
           }
         },
         "elevatorAvailability": {
-          "status": "VERIFIED_ELEVATOR",
-          "knowledgeState": "KNOWN_FROM_OBSERVATION",
+          "status": "UNKNOWN",
+          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
           "provenance": {
-            "evidence": "Station concourses at both ends equipped with operational lifts"
+            "note": "Step-free continuity across the complete passenger route is unverified."
           }
         },
         "fobBridgeSpanMeters": {
           "value": 58,
           "knowledgeState": "KNOWN_FROM_ENGINEERING",
           "provenance": {
-            "sourceId": "SRC-MMRDA-CIVIL-TENDER-L7",
-            "evidence": "MMRDA Line 7 as-built engineering package for Western Express Highway Foot Overbridge"
+            "sourceId": "SRC-MMRDA-GUNDAVALI-FOB-2022",
+            "evidence": "MMRDA announcement gives the FOB structural length as 58 m."
           }
         }
       },
       "pathways": [
         {
-          "pathwayId": "PATH-WEH-L7-TO-L1",
-          "from": "MUMBAI_LINE7",
-          "to": "MUMBAI_LINE1",
-          "elements": [
-            "AFC_EXIT_MMMOCL",
-            "COVERED_SKYWALK_580M",
-            "TRAVELATOR_SECTIONS",
-            "SECURITY_SCREENING_MMOPL",
-            "AFC_ENTRY_MMOPL",
-            "L1_WEH_MEZZANINE"
-          ],
-          "walkingSeconds": null,
-          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
-          "luggageFrictionLevel": "MODERATE",
-          "accessibilityStatus": "VERIFIED_ELEVATOR"
-        },
-        {
-          "pathwayId": "PATH-WEH-L1-TO-L7",
+          "pathwayId": "ICX-WEH-GUNDAVALI-PATH-A-TO-B",
           "from": "MUMBAI_LINE1",
           "to": "MUMBAI_LINE7",
           "elements": [
-            "AFC_EXIT_MMOPL",
-            "COVERED_SKYWALK_580M",
-            "TRAVELATOR_SECTIONS",
-            "SECURITY_SCREENING_MMMOCL",
-            "AFC_ENTRY_MMMOCL",
-            "L7_GUNDAVALI_CONCOURSE"
+            "PLATFORM_TO_CONCOURSE",
+            "FOB_58M_STRUCTURAL_SPAN",
+            "LINE1_CONCOURSE_TO_PLATFORM"
           ],
           "walkingSeconds": null,
-          "knowledgeState": "UNKNOWN_SOURCE_REQUIRED",
-          "luggageFrictionLevel": "MODERATE",
-          "accessibilityStatus": "VERIFIED_ELEVATOR"
+          "knowledgeState": "FOB_CONFIRMED_TOTAL_ROUTE_UNMEASURED",
+          "luggageFrictionLevel": "UNKNOWN",
+          "accessibilityStatus": "UNKNOWN_SOURCE_REQUIRED"
+        },
+        {
+          "pathwayId": "ICX-WEH-GUNDAVALI-PATH-B-TO-A",
+          "from": "MUMBAI_LINE7",
+          "to": "MUMBAI_LINE1",
+          "elements": [
+            "PLATFORM_TO_CONCOURSE",
+            "FOB_58M_STRUCTURAL_SPAN",
+            "LINE1_CONCOURSE_TO_PLATFORM"
+          ],
+          "walkingSeconds": null,
+          "knowledgeState": "FOB_CONFIRMED_TOTAL_ROUTE_UNMEASURED",
+          "luggageFrictionLevel": "UNKNOWN",
+          "accessibilityStatus": "UNKNOWN_SOURCE_REQUIRED"
         }
       ],
       "pathway": [
@@ -600,8 +738,8 @@
           "structureLengthMeters": 58,
           "sourceState": "KNOWN_FROM_ENGINEERING",
           "provenance": {
-            "sourceId": "SRC-MMRDA-CIVIL-TENDER-L7",
-            "evidence": "58m structural FOB spanning Western Express Highway"
+            "sourceId": "SRC-MMRDA-GUNDAVALI-FOB-2022",
+            "evidence": "58 m structural bridge span; not total passenger transfer route."
           }
         },
         {
@@ -611,6 +749,13 @@
           "type": "VERTICAL",
           "distanceMeters": null,
           "sourceState": "UNKNOWN_SOURCE_REQUIRED"
+        }
+      ],
+      "evidenceSummary": "MMRDA confirms the Line 1 WEH↔Line 7 Gundavali foot overbridge and its 58 m structure span (4–8 m wide). This structural span is not the complete passenger route. Full walking distance/time, paid-area boundary, AFC, security and step-free continuity remain unverified.",
+      "sourceEvidence": [
+        {
+          "sourceId": "SRC-MMRDA-GUNDAVALI-FOB-2022",
+          "evidence": "MMRDA confirms the 58 m FOB connection between Gundavali (Line 7) and WEH (Line 1); span is not total walk distance."
         }
       ]
     },

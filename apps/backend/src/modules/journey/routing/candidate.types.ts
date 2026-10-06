@@ -104,7 +104,7 @@ export interface TransferDetails {
   complexId: string;
   name: string;
   pathwayDistanceMeters: number | null;
-  estimatedDurationSeconds: number;
+  estimatedDurationSeconds: number | null;
   durationDisplay: string;
   components?: TransferComponents;
   attributes: Partial<TransferAttributes>;
@@ -126,7 +126,7 @@ export interface TransferDetails {
 export type LegMode = 'METRO' | 'TRANSFER';
 export type DoorSide = 'Left' | 'Right' | null;
 export type DoorSideStatus = 'KNOWN_FROM_ENGINEERING' | 'UNKNOWN_SOURCE_REQUIRED';
-export type PlatformStatus = 'KNOWN' | 'UNKNOWN';
+export type PlatformStatus = 'KNOWN' | 'USER_REPORTED' | 'UNKNOWN';
 
 export interface JourneyLeg {
   id?: string;
@@ -160,6 +160,8 @@ export interface JourneyLeg {
   alightingPlatform?: string | null;
   platform?: string | null;
   platformStatus?: PlatformStatus;
+  /** This leg continues the same train service across a corridor-ID boundary. */
+  throughServiceContinuationFromPrevious?: boolean;
   doorsOpen?: DoorSide;
   doorSideStatus?: DoorSideStatus;
   transferDetails?: TransferDetails | null;

@@ -1,0 +1,290 @@
+level_id,level_index,level_name
+LVL_STN_L1_001_G,0.0,Street Level
+LVL_STN_L1_001_C,1.0,Elevated Concourse
+LVL_STN_L1_001_P,2.0,Platform Level
+LVL_STN_L1_002_G,0.0,Street Level
+LVL_STN_L1_002_C,1.0,Elevated Concourse
+LVL_STN_L1_002_P,2.0,Platform Level
+LVL_STN_L1_003_G,0.0,Street Level
+LVL_STN_L1_003_C,1.0,Elevated Concourse
+LVL_STN_L1_003_P,2.0,Platform Level
+LVL_STN_L1_004_G,0.0,Street Level
+LVL_STN_L1_004_C,1.0,Elevated Concourse
+LVL_STN_L1_004_P,2.0,Platform Level
+LVL_STN_L1_005_G,0.0,Street Level
+LVL_STN_L1_005_C,1.0,Elevated Concourse
+LVL_STN_L1_005_P,2.0,Platform Level
+LVL_STN_L1_006_G,0.0,Street Level
+LVL_STN_L1_006_C,1.0,Elevated Concourse
+LVL_STN_L1_006_P,2.0,Platform Level
+LVL_STN_L1_007_G,0.0,Street Level
+LVL_STN_L1_007_C,1.0,Elevated Concourse
+LVL_STN_L1_007_P,2.0,Platform Level
+LVL_STN_L1_008_G,0.0,Street Level
+LVL_STN_L1_008_C,1.0,Elevated Concourse
+LVL_STN_L1_008_P,2.0,Platform Level
+LVL_STN_L1_009_G,0.0,Street Level
+LVL_STN_L1_009_C,1.0,Elevated Concourse
+LVL_STN_L1_009_P,2.0,Platform Level
+LVL_STN_L1_010_G,0.0,Street Level
+LVL_STN_L1_010_C,1.0,Elevated Concourse
+LVL_STN_L1_010_P,2.0,Platform Level
+LVL_STN_L1_011_G,0.0,Street Level
+LVL_STN_L1_011_C,1.0,Elevated Concourse
+LVL_STN_L1_011_P,2.0,Platform Level
+LVL_STN_L1_012_G,0.0,Street Level
+LVL_STN_L1_012_C,1.0,Elevated Concourse
+LVL_STN_L1_012_P,2.0,Platform Level
+LVL_STN_L2A_001_G,0.0,Street Level
+LVL_STN_L2A_001_C,1.0,Elevated Concourse
+LVL_STN_L2A_001_P,2.0,Platform Level
+LVL_STN_L2A_002_G,0.0,Street Level
+LVL_STN_L2A_002_C,1.0,Elevated Concourse
+LVL_STN_L2A_002_P,2.0,Platform Level
+LVL_STN_L2A_003_G,0.0,Street Level
+LVL_STN_L2A_003_C,1.0,Elevated Concourse
+LVL_STN_L2A_003_P,2.0,Platform Level
+LVL_STN_L2A_004_G,0.0,Street Level
+LVL_STN_L2A_004_C,1.0,Elevated Concourse
+LVL_STN_L2A_004_P,2.0,Platform Level
+LVL_STN_L2A_005_G,0.0,Street Level
+LVL_STN_L2A_005_C,1.0,Elevated Concourse
+LVL_STN_L2A_005_P,2.0,Platform Level
+LVL_STN_L2A_006_G,0.0,Street Level
+LVL_STN_L2A_006_C,1.0,Elevated Concourse
+LVL_STN_L2A_006_P,2.0,Platform Level
+LVL_STN_L2A_007_G,0.0,Street Level
+LVL_STN_L2A_007_C,1.0,Elevated Concourse
+LVL_STN_L2A_007_P,2.0,Platform Level
+LVL_STN_L2A_008_G,0.0,Street Level
+LVL_STN_L2A_008_C,1.0,Elevated Concourse
+LVL_STN_L2A_008_P,2.0,Platform Level
+LVL_STN_L2A_009_G,0.0,Street Level
+LVL_STN_L2A_009_C,1.0,Elevated Concourse
+LVL_STN_L2A_009_P,2.0,Platform Level
+LVL_STN_L2A_010_G,0.0,Street Level
+LVL_STN_L2A_010_C,1.0,Elevated Concourse
+LVL_STN_L2A_010_P,2.0,Platform Level
+LVL_STN_L2A_011_G,0.0,Street Level
+LVL_STN_L2A_011_C,1.0,Elevated Concourse
+LVL_STN_L2A_011_P,2.0,Platform Level
+LVL_STN_L2A_012_G,0.0,Street Level
+LVL_STN_L2A_012_C,1.0,Elevated Concourse
+LVL_STN_L2A_012_P,2.0,Platform Level
+LVL_STN_L2A_013_G,0.0,Street Level
+LVL_STN_L2A_013_C,1.0,Elevated Concourse
+LVL_STN_L2A_013_P,2.0,Platform Level
+LVL_STN_L2A_014_G,0.0,Street Level
+LVL_STN_L2A_014_C,1.0,Elevated Concourse
+LVL_STN_L2A_014_P,2.0,Platform Level
+LVL_STN_L2A_015_G,0.0,Street Level
+LVL_STN_L2A_015_C,1.0,Elevated Concourse
+LVL_STN_L2A_015_P,2.0,Platform Level
+LVL_STN_L2A_016_G,0.0,Street Level
+LVL_STN_L2A_016_C,1.0,Elevated Concourse
+LVL_STN_L2A_016_P,2.0,Platform Level
+LVL_STN_L2A_017_G,0.0,Street Level
+LVL_STN_L2A_017_M,1.0,Intermediate Mezzanine & Interchange Level
+LVL_STN_L2A_017_C,2.0,Main Concourse Level
+LVL_STN_L2A_017_P,3.0,Platform Level
+LVL_STN_L9_003_G,0.0,Street Level
+LVL_STN_L9_003_C,1.0,Elevated Concourse
+LVL_STN_L9_003_P,2.0,Platform Level
+LVL_STN_L9_002_G,0.0,Street Level
+LVL_STN_L9_002_C,1.0,Elevated Concourse
+LVL_STN_L9_002_P,2.0,Platform Level
+LVL_STN_L9_001_G,0.0,Street Level
+LVL_STN_L9_001_C,1.0,Elevated Concourse
+LVL_STN_L9_001_P,2.0,Platform Level
+LVL_STN_L7_001_G,0.0,Street Level
+LVL_STN_L7_001_C,1.0,Elevated Concourse
+LVL_STN_L7_001_P,2.0,Platform Level
+LVL_STN_L7_002_G,0.0,Street Level
+LVL_STN_L7_002_C,1.0,Elevated Concourse
+LVL_STN_L7_002_P,2.0,Platform Level
+LVL_STN_L7_003_G,0.0,Street Level
+LVL_STN_L7_003_C,1.0,Elevated Concourse
+LVL_STN_L7_003_P,2.0,Platform Level
+LVL_STN_L7_004_G,0.0,Street Level
+LVL_STN_L7_004_C,1.0,Elevated Concourse
+LVL_STN_L7_004_P,2.0,Platform Level
+LVL_STN_L7_005_G,0.0,Street Level
+LVL_STN_L7_005_C,1.0,Elevated Concourse
+LVL_STN_L7_005_P,2.0,Platform Level
+LVL_STN_L7_006_G,0.0,Street Level
+LVL_STN_L7_006_C,1.0,Elevated Concourse
+LVL_STN_L7_006_P,2.0,Platform Level
+LVL_STN_L7_007_G,0.0,Street Level
+LVL_STN_L7_007_C,1.0,Elevated Concourse
+LVL_STN_L7_007_P,2.0,Platform Level
+LVL_STN_L7_008_G,0.0,Street Level
+LVL_STN_L7_008_C,1.0,Elevated Concourse
+LVL_STN_L7_008_P,2.0,Platform Level
+LVL_STN_L7_009_G,0.0,Street Level
+LVL_STN_L7_009_C,1.0,Elevated Concourse
+LVL_STN_L7_009_P,2.0,Platform Level
+LVL_STN_L7_010_G,0.0,Street Level
+LVL_STN_L7_010_C,1.0,Elevated Concourse
+LVL_STN_L7_010_P,2.0,Platform Level
+LVL_STN_L7_011_G,0.0,Street Level
+LVL_STN_L7_011_C,1.0,Elevated Concourse
+LVL_STN_L7_011_P,2.0,Platform Level
+LVL_STN_L7_012_G,0.0,Street Level
+LVL_STN_L7_012_C,1.0,Elevated Concourse
+LVL_STN_L7_012_P,2.0,Platform Level
+LVL_STN_L7_013_G,0.0,Street Level
+LVL_STN_L7_013_C,1.0,Elevated Concourse
+LVL_STN_L7_013_P,2.0,Platform Level
+LVL_STN_L7_014_G,0.0,Street Level
+LVL_STN_L7_014_C,1.0,Elevated Concourse
+LVL_STN_L7_014_P,2.0,Platform Level
+LVL_STN_L2B_015_G,0.0,Street Level
+LVL_STN_L2B_015_C,1.0,Elevated Concourse
+LVL_STN_L2B_015_P,2.0,Platform Level
+LVL_STN_L2B_016_G,0.0,Street Level
+LVL_STN_L2B_016_C,1.0,Elevated Concourse
+LVL_STN_L2B_016_P,2.0,Platform Level
+LVL_STN_L2B_017_G,0.0,Street Level
+LVL_STN_L2B_017_C,1.0,Elevated Concourse
+LVL_STN_L2B_017_P,2.0,Platform Level
+LVL_STN_L2B_018_G,0.0,Street Level
+LVL_STN_L2B_018_C,1.0,Elevated Concourse
+LVL_STN_L2B_018_P,2.0,Platform Level
+LVL_STN_L2B_019_G,0.0,Street Level
+LVL_STN_L2B_019_C,1.0,Elevated Concourse
+LVL_STN_L2B_019_P,2.0,Platform Level
+LVL_STN_L2B_020_G,0.0,Street Level
+LVL_STN_L2B_020_C,1.0,Elevated Concourse
+LVL_STN_L2B_020_P,2.0,Platform Level
+LVL_STN_L3_001_G,0.0,Street Level
+LVL_STN_L3_001_C,1.0,Mezzanine Concourse
+LVL_STN_L3_001_P,-1.0,Underground Island Platform
+LVL_STN_L3_002_G,0.0,Street Level
+LVL_STN_L3_002_C,1.0,Mezzanine Concourse
+LVL_STN_L3_002_P,-1.0,Underground Island Platform
+LVL_STN_L3_003_G,0.0,Street Level
+LVL_STN_L3_003_C,1.0,Mezzanine Concourse
+LVL_STN_L3_003_P,-1.0,Underground Island Platform
+LVL_STN_L3_004_G,0.0,Street Level
+LVL_STN_L3_004_C,1.0,Mezzanine Concourse
+LVL_STN_L3_004_P,-1.0,Underground Island Platform
+LVL_STN_L3_005_G,0.0,Street Level
+LVL_STN_L3_005_C,1.0,Mezzanine Concourse
+LVL_STN_L3_005_P,-1.0,Underground Island Platform
+LVL_STN_L3_006_G,0.0,Street Level
+LVL_STN_L3_006_C,1.0,Mezzanine Concourse
+LVL_STN_L3_006_P,-1.0,Underground Island Platform
+LVL_STN_L3_007_G,0.0,Street Level
+LVL_STN_L3_007_C,1.0,Mezzanine Concourse
+LVL_STN_L3_007_P,-1.0,Underground Island Platform
+LVL_STN_L3_008_G,0.0,Street Level
+LVL_STN_L3_008_C,1.0,Mezzanine Concourse
+LVL_STN_L3_008_P,-1.0,Underground Island Platform
+LVL_STN_L3_009_G,0.0,Street Level
+LVL_STN_L3_009_C,1.0,Mezzanine Concourse
+LVL_STN_L3_009_P,-1.0,Underground Island Platform
+LVL_STN_L3_010_G,0.0,Street Level
+LVL_STN_L3_010_C,1.0,Mezzanine Concourse
+LVL_STN_L3_010_P,-1.0,Underground Island Platform
+LVL_STN_L3_011_G,0.0,Street Level
+LVL_STN_L3_011_C,1.0,Mezzanine Concourse
+LVL_STN_L3_011_P,-1.0,Underground Island Platform
+LVL_STN_L3_012_G,0.0,Street Level
+LVL_STN_L3_012_C,1.0,Mezzanine Concourse
+LVL_STN_L3_012_P,-1.0,Underground Island Platform
+LVL_STN_L3_013_G,0.0,Street Level
+LVL_STN_L3_013_C,1.0,Mezzanine Concourse
+LVL_STN_L3_013_P,-1.0,Underground Island Platform
+LVL_STN_L3_014_G,0.0,Street Level
+LVL_STN_L3_014_C,1.0,Mezzanine Concourse
+LVL_STN_L3_014_P,-1.0,Underground Island Platform
+LVL_STN_L3_015_G,0.0,Street Level
+LVL_STN_L3_015_C,1.0,Mezzanine Concourse
+LVL_STN_L3_015_P,-1.0,Underground Island Platform
+LVL_STN_L3_016_G,0.0,Street Level
+LVL_STN_L3_016_C,1.0,Mezzanine Concourse
+LVL_STN_L3_016_P,-1.0,Underground Island Platform
+LVL_STN_L3_017_G,0.0,Street Level
+LVL_STN_L3_017_C,1.0,Mezzanine Concourse
+LVL_STN_L3_017_P,-1.0,Underground Island Platform
+LVL_STN_L3_018_G,0.0,Street Level
+LVL_STN_L3_018_C,1.0,Mezzanine Concourse
+LVL_STN_L3_018_P,-1.0,Underground Island Platform
+LVL_STN_L3_019_G,0.0,Street Level
+LVL_STN_L3_019_C,1.0,Mezzanine Concourse
+LVL_STN_L3_019_P,-1.0,Underground Island Platform
+LVL_STN_L3_020_G,0.0,Street Level
+LVL_STN_L3_020_C,1.0,Mezzanine Concourse
+LVL_STN_L3_020_P,-1.0,Underground Island Platform
+LVL_STN_L3_021_G,0.0,Street Level
+LVL_STN_L3_021_C,1.0,Mezzanine Concourse
+LVL_STN_L3_021_P,-1.0,Underground Island Platform
+LVL_STN_L3_022_G,0.0,Street Level
+LVL_STN_L3_022_C,1.0,Mezzanine Concourse
+LVL_STN_L3_022_P,-1.0,Underground Island Platform
+LVL_STN_L3_023_G,0.0,Street Level
+LVL_STN_L3_023_C,1.0,Mezzanine Concourse
+LVL_STN_L3_023_P,-1.0,Underground Island Platform
+LVL_STN_L3_024_G,0.0,Street Level
+LVL_STN_L3_024_C,1.0,Mezzanine Concourse
+LVL_STN_L3_024_P,-1.0,Underground Island Platform
+LVL_STN_L3_025_G,0.0,Street Level
+LVL_STN_L3_025_C,1.0,Mezzanine Concourse
+LVL_STN_L3_025_P,-1.0,Underground Island Platform
+LVL_STN_L3_026_G,0.0,Street Level
+LVL_STN_L3_026_C,1.0,Mezzanine Concourse
+LVL_STN_L3_026_P,-1.0,Underground Island Platform
+LVL_STN_L3_027_G,0.0,Street Level
+LVL_STN_L3_027_C,1.0,Mezzanine Concourse
+LVL_STN_L3_027_P,-1.0,Underground Island Platform
+LVL_STN_MONO_001_G,0.0,Street Level
+LVL_STN_MONO_001_C,1.0,Elevated Concourse
+LVL_STN_MONO_001_P,2.0,Platform Level
+LVL_STN_MONO_002_G,0.0,Street Level
+LVL_STN_MONO_002_C,1.0,Elevated Concourse
+LVL_STN_MONO_002_P,2.0,Platform Level
+LVL_STN_MONO_003_G,0.0,Street Level
+LVL_STN_MONO_003_C,1.0,Elevated Concourse
+LVL_STN_MONO_003_P,2.0,Platform Level
+LVL_STN_MONO_004_G,0.0,Street Level
+LVL_STN_MONO_004_C,1.0,Elevated Concourse
+LVL_STN_MONO_004_P,2.0,Platform Level
+LVL_STN_MONO_005_G,0.0,Street Level
+LVL_STN_MONO_005_C,1.0,Elevated Concourse
+LVL_STN_MONO_005_P,2.0,Platform Level
+LVL_STN_MONO_006_G,0.0,Street Level
+LVL_STN_MONO_006_C,1.0,Elevated Concourse
+LVL_STN_MONO_006_P,2.0,Platform Level
+LVL_STN_MONO_007_G,0.0,Street Level
+LVL_STN_MONO_007_C,1.0,Elevated Concourse
+LVL_STN_MONO_007_P,2.0,Platform Level
+LVL_STN_MONO_008_G,0.0,Street Level
+LVL_STN_MONO_008_C,1.0,Elevated Concourse
+LVL_STN_MONO_008_P,2.0,Platform Level
+LVL_STN_MONO_009_G,0.0,Street Level
+LVL_STN_MONO_009_C,1.0,Elevated Concourse
+LVL_STN_MONO_009_P,2.0,Platform Level
+LVL_STN_MONO_010_G,0.0,Street Level
+LVL_STN_MONO_010_C,1.0,Elevated Concourse
+LVL_STN_MONO_010_P,2.0,Platform Level
+LVL_STN_MONO_011_G,0.0,Street Level
+LVL_STN_MONO_011_C,1.0,Elevated Concourse
+LVL_STN_MONO_011_P,2.0,Platform Level
+LVL_STN_MONO_012_G,0.0,Street Level
+LVL_STN_MONO_012_C,1.0,Elevated Concourse
+LVL_STN_MONO_012_P,2.0,Platform Level
+LVL_STN_MONO_013_G,0.0,Street Level
+LVL_STN_MONO_013_C,1.0,Elevated Concourse
+LVL_STN_MONO_013_P,2.0,Platform Level
+LVL_STN_MONO_014_G,0.0,Street Level
+LVL_STN_MONO_014_C,1.0,Elevated Concourse
+LVL_STN_MONO_014_P,2.0,Platform Level
+LVL_STN_MONO_015_G,0.0,Street Level
+LVL_STN_MONO_015_C,1.0,Elevated Concourse
+LVL_STN_MONO_015_P,2.0,Platform Level
+LVL_STN_MONO_016_G,0.0,Street Level
+LVL_STN_MONO_016_C,1.0,Elevated Concourse
+LVL_STN_MONO_016_P,2.0,Platform Level
+LVL_STN_MONO_017_G,0.0,Street Level
+LVL_STN_MONO_017_C,1.0,Elevated Concourse
+LVL_STN_MONO_017_P,2.0,Platform Level

@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "tdse-color-family-p0-p1-audit-v1",
+  "lastUpdated": "2026-10-05",
+  "purpose": "Track line-owned Category A topology and Category B station-infrastructure evidence by official color family without promoting DPR proposals into current operational station data.",
+  "rules": [
+    "A color family is for discovery and display. Each corridor retains its own systemCode, station identifiers, topology, temporal status, and Category A/B records.",
+    "DPR facts are PROPOSED evidence, even when a corridor has since become operational. Promote them only after crosswalk and as-built/operator confirmation.",
+    "Interchange entities link corridor-owned station records; do not merge levels, platform counts, or station totals across lines.",
+    "Unknown level counts, platform numbering, and directions remain unknown when the available source does not establish them."
+  ],
+  "families": [
+    {
+      "familyId": "MUMBAI_YELLOW",
+      "lineIds": [
+        "MUMBAI_LINE2A",
+        "MUMBAI_LINE2B"
+      ],
+      "dprEvidence": {
+        "MUMBAI_LINE2A": {
+          "records": "A-network-l2a-line7-records.json + B-station-infrastructure-l2a-line7-records.json",
+          "status": "PROPOSED_DPR_CROSSWALK_PENDING"
+        },
+        "MUMBAI_LINE2B": {
+          "records": "A-network-line2b-records.json + B-station-infrastructure-line2b-records.json",
+          "designStations": 22,
+          "status": "PARTIAL_OPERATIONAL_SEGMENT_CROSSWALKED; FULL_ROUTE_AND_AS_BUILT_P1_OPEN",
+          "operationalCtm": "../normalized/ctm-line2b-phase1.json",
+          "operationalCrosswalk": "dpr-operational-station-crosswalk-line2b-phase1.json",
+          "operationalStations": 6
+        }
+      },
+      "currentP0": "Line 2A remains validated. Line 2B now has six operating stations mapped to separate station IDs, supplied KML placemarks, DPR rows, and a clipped ArcGIS route segment; runtime database materialization and the remaining 14 current route stations are still incomplete.",
+      "p1Open": [
+        "Line 2B live database materialization and remaining 14-station current route crosswalk",
+        "Line 2B as-built levels/platform counts, platform numbering/directions, and installed platform-gate status",
+        "D.N. Nagar current transfer pathway and AFC boundary confirmation"
+      ],
+      "conflicts": [
+        "Line 2B DPR has 22 design stations; current operator route inventory lists 20 names and the overview table contains a conflicting 19-station label.",
+        "MMRDA calls the operating BSNL Metro stop Deonar in the phase-opening text but BSNL Metro in the current route list; DPR/KML/ArcGIS also use BSNL Metro.",
+        "The ArcGIS Mankhurd station point is 770 m from the supplied KML placemark although the placemark is 167 m from the ArcGIS route. Chembur's ArcGIS point is 210 m from its KML placemark.",
+        "MMRDA states the Chembur extension is 0.29 km; station-to-station distance from the KML/ArcGIS alignment requires an authoritative as-built reconciliation."
+      ]
+    },
+    {
+      "familyId": "MUMBAI_RED",
+      "lineIds": [
+        "MUMBAI_LINE7",
+        "MUMBAI_LINE7A",
+        "MUMBAI_LINE9"
+      ],
+      "dprEvidence": {
+        "MUMBAI_LINE7": {
+          "records": "A-network-l2a-line7-records.json + B-station-infrastructure-l2a-line7-records.json",
+          "status": "PROPOSED_DPR_CROSSWALK_PENDING"
+        },
+        "MUMBAI_LINE9": {
+          "records": "A-network-red-extension-records.json + B-station-infrastructure-red-extension-records.json",
+          "status": "PHASE_I_P0_CROSSWALKED; FULL_ROUTE_AND_AS_BUILT_P1_OPEN",
+          "operationalCtm": "../normalized/ctm-line9-phase1.json",
+          "operationalCrosswalk": "dpr-operational-station-crosswalk-line9-phase1.json",
+          "operationalStationsInPhase": 4,
+          "uniqueLine9StationEntities": 3
+        },
+        "MUMBAI_LINE7A": {
+          "records": "A-network-red-extension-records.json + B-station-infrastructure-red-extension-records.json",
+          "status": "PROPOSED_DPR_OPERATIONAL_DETAILS_UNAVAILABLE"
+        }
+      },
+      "currentP0": "Line 7 spatial data is validated. Line 9 now has a source-crosschecked four-station Phase I P0 slice from Dahisar East to Kashigaon; Dahisar reuses the Line 7 station entity. Category A records Red through-service continuity at the shared Dahisar node, based on a user-reported current service observation; the remaining four Line 9 route stations and Line 7A are not yet operational CTM entities.",
+      "p1Open": [
+        "Full-route station-to-DPR crosswalk for Line 9; the three unique operational stops now have candidate/DPR-alias mappings",
+        "Line 7A as-built levels/platforms and passenger operations",
+        "Operator-confirmed as-built platform numbers/directions and installed screen-door status; Kashigaon Platform 1 toward Dahisar East is currently user-reported only",
+        "Verified transfer routes and fare boundaries at Dahisar and airport connections"
+      ],
+      "conflicts": [
+        "Line 9's 2017 DPR has a branch at Deepak Hospital; its DPR table row order is not a linear sequence.",
+        "CSIA is underground in the DPR, but its exact station-level inventory is not established there."
+      ]
+    },
+    {
+      "familyId": "MUMBAI_PINK",
+      "lineIds": [
+        "MUMBAI_LINE6"
+      ],
+      "dprEvidence": {
+        "records": "A-network-line6-records.json + B-station-infrastructure-line6-records.json",
+        "stations": 13,
+        "status": "PROPOSED_DPR_STATION_TABLE_AND_RAIL_ELEVATIONS"
+      },
+      "currentP0": "MMRDA lists 13 proposed elevated stations; full current spatial validation is not represented by these DPR records.",
+      "p1Open": [
+        "As-built level inventories",
+        "Current platform numbering/directions",
+        "Installed platform screen-door evidence"
+      ],
+      "sourceFacts": [
+        "DPR Table SP1 specifies side platforms and proposed rail level/platform height from ground for all 13 stations.",
+        "Station-planning chainages differ slightly from executive-summary chainages; the detailed station table was used for the line's station records."
+      ]
+    },
+    {
+      "familyId": "MUMBAI_GREEN",
+      "lineIds": [
+        "MUMBAI_LINE4",
+        "MUMBAI_LINE4A",
+        "MUMBAI_LINE10",
+        "MUMBAI_LINE11"
+      ],
+      "dprEvidence": {
+        "MUMBAI_LINE4": {
+          "records": "A-network-line4-records.json + B-station-infrastructure-line4-records.json",
+          "dprStations": 32,
+          "status": "PROPOSED_TWO_LEVEL_SIDE_PLATFORM_STANDARD"
+        },
+        "MUMBAI_LINE4A": {
+          "records": "A-network-line4a-records.json + B-station-infrastructure-line4a-records.json",
+          "dprStations": 2,
+          "status": "PROPOSED_TWO_LEVEL_SIDE_PLATFORM_STANDARD"
+        },
+        "MUMBAI_LINE10": {
+          "records": "A-network-line10-records.json + B-station-infrastructure-line10-records.json",
+          "dprStations": 4,
+          "status": "PROPOSED_TWO_LEVEL_SIDE_PLATFORM_STANDARD"
+        },
+        "MUMBAI_LINE11": {
+          "records": "A-network-line11-records.json + B-station-infrastructure-line11-records.json",
+          "dprStations": 10,
+          "status": "PROPOSED_MIXED_UNDERGROUND_ELEVATED_WITH_STATION_RAIL_LEVELS"
+        }
+      },
+      "currentP0": "MMRDA reports Lines 4/4A under construction, Line 10 planned, and Line 11 planned. These DPR records do not create operational CTM rows.",
+      "p1Open": [
+        "As-built station level/platform confirmation for Lines 4/4A/10/11",
+        "Current operational names and line-owned station-ID crosswalks",
+        "Platform numbers/directions and installed screen-door evidence"
+      ],
+      "conflicts": [
+        "Line 4 DPR proposes 32 stations; current MMRDA overview lists 30.",
+        "Line 11 DPR's ten numbered stations exclude Wadala (Bhakti Park), which it describes separately as the connection to the existing network."
+      ]
+    },
+    {
+      "familyId": "MUMBAI_ORANGE",
+      "lineIds": [
+        "MUMBAI_LINE5",
+        "MUMBAI_LINE12"
+      ],
+      "dprEvidence": {
+        "MUMBAI_LINE5": {
+          "records": "A-network-line5-records.json + B-station-infrastructure-line5-records.json",
+          "dprStations": 17,
+          "status": "PROPOSED_STATION_NAMES_AND_ELEVATED_TYPE"
+        },
+        "MUMBAI_LINE12": {
+          "records": "A-network-line12-records.json + B-station-infrastructure-line12-records.json",
+          "dprStations": 17,
+          "status": "PROPOSED_TWO_LEVEL_SIDE_PLATFORM_AND_RAIL_ELEVATIONS"
+        }
+      },
+      "currentP0": "MMRDA lists Line 5 as under construction and Line 12 as under construction. The DPR station rows are design proposals, not current CTM station entities.",
+      "p1Open": [
+        "As-built level/platform confirmation for Lines 5 and 12",
+        "Line 12 current 19-station route crosswalk and station-name resolution",
+        "As-built platform numbers/directions and installed screen-door evidence"
+      ],
+      "conflicts": [
+        "Line 5 DPR lists 17 stations; current MMRDA overview lists 15. Its stationing columns are ambiguous and were not transcribed as chainage. The DPR does establish elevated stations, side platforms, and a typical concourse/platform design.",
+        "Line 12 DPR and MMRDA's 2026 tender specify 17 stations, while the current overview page lists 19.",
+        "Line 12 summary and detailed station tables differ in station names/chainage; evidence preserves the source tables rather than reconciling silently."
+      ]
+    }
+  ],
+  "overallStatus": "DPR_CATEGORY_A_B_TRANSCRIPTION_ADVANCED; OPERATIONAL_P0_AND_AS_BUILT_P1_REMAIN_LINE_SPECIFIC_AND_SOURCE_GATED"
+}

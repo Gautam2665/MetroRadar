@@ -114,34 +114,38 @@ if (icxDnn) {
 // 3. Update ICX-DAHISAR-EAST
 const icxDah = icx.complexes.find(c => c.complexId === 'ICX-DAHISAR-EAST');
 if (icxDah) {
-  icxDah.participatingStations = ['STN_L2A_001', 'STN_L7_001'];
+  icxDah.participatingStations = [...new Set([
+    ...(icxDah.participatingStations || []),
+    'STN_L2A_001',
+    'STN_L7_001',
+  ])];
   icxDah.attributes.walkingDistanceMeters = {
     value: null,
     knowledgeState: "UNKNOWN_SOURCE_REQUIRED",
     provenance: {
-      note: "Cross-concourse physical walkway between parallel platform structures unmeasured"
+      note: "Transfer route and distance have not been verified from an authoritative station layout or survey."
     }
   };
   icxDah.pathway = [
     {
       segmentId: "SEG_DAH_L2A_PF_TO_CONCOURSE",
       from: "L2A_PLATFORM",
-      to: "UNIFIED_CONCOURSE",
+      to: "INTERCHANGE_AREA_UNVERIFIED",
       type: "VERTICAL",
       distanceMeters: null,
       sourceState: "UNKNOWN_SOURCE_REQUIRED"
     },
     {
       segmentId: "SEG_DAH_CROSS_CONCOURSE",
-      from: "UNIFIED_CONCOURSE",
-      to: "UNIFIED_CONCOURSE",
+      from: "INTERCHANGE_AREA_UNVERIFIED",
+      to: "INTERCHANGE_AREA_UNVERIFIED",
       type: "PEDESTRIAN",
       distanceMeters: null,
       sourceState: "UNKNOWN_SOURCE_REQUIRED"
     },
     {
       segmentId: "SEG_DAH_CONCOURSE_TO_L7_PF",
-      from: "UNIFIED_CONCOURSE",
+      from: "INTERCHANGE_AREA_UNVERIFIED",
       to: "L7_PLATFORM",
       type: "VERTICAL",
       distanceMeters: null,

@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "tdse-color-family-source-audit-v1",
+  "lastUpdated": "2026-10-05",
+  "purpose": "Check whether evidence can be reused across Mumbai corridors grouped by display color, while retaining separate corridor and station identities.",
+  "colorFamiliesFile": "datasets/mumbai/network/line-color-families.json",
+  "auditSummary": {
+    "yellow": "Sources now cover both Line 2A and Line 2B. They can fill corridor-level topology, proposed station design, selected official operational status, and family-level station standards. They do not yet close full Line 2B CTM/GIS or station-specific as-built infrastructure.",
+    "red": "Sources now cover Line 7 plus the combined Line 7A/9 extension project and current operator phases. They establish Red-family topology and current Line 9 operational GIS points. They do not establish all-station as-built platform/transfer facts or provide Line 7A operational data while it remains under construction.",
+    "colorGroupingRule": "Use MUMBAI_YELLOW or MUMBAI_RED to find shared sources and display styling; retain each MUMBAI_LINE* system code as the evidence subject and preserve its own station IDs, status, and topology."
+  },
+  "families": [
+    {
+      "familyId": "MUMBAI_YELLOW",
+      "members": ["MUMBAI_LINE2A", "MUMBAI_LINE2B"],
+      "sourceCoverage": {
+        "A_NETWORK": ["SRC-MMRDA-L2A-DPR", "SRC-MMRDA-L2B-DPR", "SRC-MMRDA-L2A-OVERVIEW", "SRC-MMRDA-L2B-OVERVIEW", "SRC-ARCGIS-MOHUA-2025"],
+        "B_STATION_DESIGN": ["SRC-MMRDA-L2A-DPR", "SRC-MMRDA-L2B-DPR", "SRC-MMRDA-L2A-L7-EIA-2022", "SRC-MMMOCL-STATION-STANDARD-2025"],
+        "CURRENT_LAYOUT_LEAD": ["SRC-MMMOCL-STATION-LAYOUT-TENDER-2026"],
+        "CURRENT_OPERATIONS": ["SRC-MMRDA-L2A-OVERVIEW", "SRC-MMRDA-L2B-OVERVIEW"]
+      },
+      "findings": [
+        "MMRDA identifies both 2A and 2B as Yellow. Line 2A is an operational 17-station CTM line; Line 2B is a separate partially operational corridor.",
+        "The Line 2B DPR (2016) is now acquired locally and contains proposed station sequence/design and system facts. It gives a 22-station design count. MMRDA's current overview names 20 route stations but its feature table says 19; ArcGIS Yellow feature 54 also reports 22. Preserve the conflict; use the current operator station-name list for the current 20-name route until MMRDA clarifies the count.",
+        "As of 31 August 2026 MMRDA reports five Line 2B stations operational from 7 April and Chembur from 13 August (six total). ArcGIS feature points are source-verified for Chembur, Shivaji Chowk, BSNL Metro, Mankhurd, and Mandale. Diamond Park Metro Station is only a candidate crosswalk for MMRDA's Diamond Garden name and remains unpromoted.",
+        "MMMOCL's 2025 station tender provides family-level typical station information: road/concourse/platform levels, usually two platforms, paid/unpaid areas, security-before-AFC arrangement, circulation equipment, and half-height/full-height PSD use. These are generic standards, not station-by-station as-built facts.",
+        "The 2026 retail/kiosk station-plan tender lists Lines 2A, 7, and 9 annexures, but no Line 2B drawing. Its plans are a layout lead and are not automatically certified as-built engineering drawings."
+      ],
+      "stillOpen": [
+        "Complete current station-name-to-ArcGIS crosswalk for all 20 Line 2B stations, especially Diamond Garden/Diamond Park and stations whose public names are shortened or renamed in GIS.",
+        "Validated Line 2B route shape/KML and complete station-coordinate set before CTM promotion.",
+        "Line 2B current platform numbers/directions and station-specific as-built levels, circulation, PSD installation/type, and accessible path.",
+        "Current Line 2A/2B AFC interoperability and exact passenger-transfer rules at D.N. Nagar. The old DPR proposes interoperable smart-card products; it does not prove the present rule."
+      ]
+    },
+    {
+      "familyId": "MUMBAI_RED",
+      "members": ["MUMBAI_LINE7", "MUMBAI_LINE7A", "MUMBAI_LINE9"],
+      "sourceCoverage": {
+        "A_NETWORK": ["SRC-MMRDA-L7-DPR", "SRC-MMRDA-L7A-L9-DPR", "SRC-MMRDA-L9-OVERVIEW", "SRC-ARCGIS-MOHUA-2025"],
+        "B_STATION_DESIGN": ["SRC-MMRDA-L7-DPR", "SRC-MMRDA-L7A-L9-DPR", "SRC-MMMOCL-STATION-STANDARD-2025"],
+        "CURRENT_LAYOUT_LEAD": ["SRC-MMMOCL-STATION-LAYOUT-TENDER-2026"],
+        "CURRENT_OPERATIONS": ["SRC-MMRDA-L9-OVERVIEW", "SRC-MMRDA-L7-L9-TRIALS-2025"]
+      },
+      "findings": [
+        "Line 7 remains an operational 14-station CTM corridor with 419 alignment vertices and 96.9% supplied-KML coverage. The 2015 DPR's 16 proposed stations are design-era records and should not replace its current CTM station set.",
+        "MMRDA's combined Red extension project comprises eight Line 9 stations plus two Line 7A airport stations. Line 9's current first phase has four operational stations from Dahisar East to Kashigaon as of 7 April 2026; Line 7A remains under construction in MMRDA's 31 August 2026 update.",
+        "Official ArcGIS features 996, 1094, 981, and 982 provide source-verified point coordinates for the four current Line 9 phase-I stations. These replace the three community/OSM bootstrap coordinates; Dahisar reuses the shared L2A/L7 location and must not create a duplicate physical interchange point.",
+        "ArcGIS Red route features identify 14 Line 7 stations and 8 Line 9 stations. The combined 7A/9 DPR provides proposed design evidence for both branches. Do not treat the project-total 10 stations as the count for Line 9 alone.",
+        "The 2026 kiosk/layout tender lists Line 7 and Line 9 plans but no 7A plan. The plans may improve layout evidence but do not by themselves prove passenger directions, AFC boundaries, transfer paths, or as-built status."
+      ],
+      "stillOpen": [
+        "Line 9 canonical CTM station entities and full crosswalk to the official ArcGIS route/points; only the four operational phase-I points are source-verified here.",
+        "Line 7A operational station IDs, passenger wayfinding, commissioning status, and station-specific as-built details; it remains under construction.",
+        "Current platform numbering/directions, station-specific as-built floor labels and screen-door type/status across Lines 7 and 9.",
+        "Dahisar transfer distance/time, paid-area continuity/AFC retap rules, security path, and end-to-end step-free route.",
+        "Current Andheri East/Gundavali–Airport Colony transfer layout and operating instructions for Line 7A; the shared Red color and 2017 DPR are not sufficient to assert passenger-transfer semantics."
+      ]
+    }
+  ],
+  "familyWideStandardsLimits": [
+    "The 2025 MMMOCL source can populate only a generic operator-design-standard layer for the named lines (and upcoming lines). It must not be copied as station-specific installed equipment or exact levels.",
+    "A DPR can populate proposed design evidence for the corridor it covers; it cannot resolve current station names, operational platform numbering/direction, or as-built interchange fare/security pathways by color-family inheritance.",
+    "Color is a display/source-discovery grouping, not a substitute for corridor identity or evidence applicability."
+  ]
+}

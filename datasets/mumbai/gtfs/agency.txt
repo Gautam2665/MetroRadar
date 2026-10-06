@@ -1,0 +1,5 @@
+agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone
+MMOPL,Mumbai Metro One Private Limited,https://www.reliancemumbaimetro.com,Asia/Kolkata,en,022-30310911
+MMMOCL,Maha Mumbai Metro Operations Corporation Ltd,https://www.mmmocl.co.in,Asia/Kolkata,en,022-26597400
+MMRCL,Mumbai Metro Rail Corporation Limited,https://mmrcl.com,Asia/Kolkata,en,022-66634100
+MMRDA_MONO,Maha Mumbai Monorail Operations,https://mmrda.maharashtra.gov.in,Asia/Kolkata,en,022-26590001

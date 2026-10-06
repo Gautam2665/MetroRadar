@@ -28,14 +28,16 @@ export function formatLineName(rawName: string | null | undefined, mode?: string
   if (upper.includes("ORANGE") || upper.includes("AIRPORT")) {
     return "Airport Express (Orange Line)";
   }
+  if (upper.includes("MONORAIL")) return "Monorail";
+  if (upper.startsWith("PURPLE_") || upper.includes("PURPLE LINE")) return "Purple Line";
   if (upper.startsWith("PINK_") || upper.includes("PINK LINE")) return "Pink Line";
-  if (upper.startsWith("YELLOW_") || upper.includes("YELLOW LINE") || upper.includes("LINE 2A")) return "Yellow Line";
-  if (upper.startsWith("BLUE_") || upper.includes("BLUE LINE") || upper.includes("LINE 1")) return "Blue Line";
-  if (upper.startsWith("RED_") || upper.includes("RED LINE") || upper.includes("LINE 7")) return "Red Line";
+  if (upper.startsWith("YELLOW_") || upper.includes("YELLOW LINE") || upper.includes("LINE 2A") || upper.includes("LINE 2B")) return "Yellow Line";
+  if (upper.startsWith("BLUE_") || upper.includes("BLUE LINE") || upper.includes("LINE 1 (BLUE)")) return "Blue Line";
+  if (upper.startsWith("RED_") || upper.includes("RED LINE") || upper.includes("LINE 7") || upper.includes("LINE 9")) return "Red Line";
   if (upper.startsWith("GREEN_") || upper.includes("GREEN LINE")) return "Green Line";
   if (upper.startsWith("VIOLET_") || upper.includes("VIOLET LINE")) return "Violet Line";
   if (upper.startsWith("MAGENTA_") || upper.includes("MAGENTA LINE")) return "Magenta Line";
-  if (upper.startsWith("AQUA_") || upper.includes("AQUA LINE") || upper.includes("LINE 3")) return "Aqua Line";
+  if (upper.startsWith("AQUA_") || upper.includes("AQUA LINE") || upper.includes("LINE 3") || upper.includes("LINE 2 (AQUA)")) return "Aqua Line";
   if (upper.startsWith("GREY_") || upper.startsWith("GRAY_") || upper.includes("GREY LINE")) return "Grey Line";
   if (upper.startsWith("RAPID_") || upper.includes("RAPID METRO")) return "Rapid Metro";
   if (upper.includes("KOCHI")) return "Kochi Metro Line";
@@ -52,12 +54,13 @@ export function formatLineName(rawName: string | null | undefined, mode?: string
 }
 
 /**
- * Short badge name for compact pill displays (e.g. "Airport Express", "Pink Line").
+ * Short badge name for compact pill displays (e.g. "Airport Express", "Pink Line", "Monorail").
  */
 export function formatShortLineName(rawName: string | null | undefined, mode?: string): string {
   if (!rawName || mode === "walk") return "Transfer";
   const fullName = formatLineName(rawName, mode);
   if (fullName.includes("Airport Express")) return "Airport Express";
+  if (fullName.toUpperCase().includes("MONORAIL")) return "Monorail";
   return fullName;
 }
 

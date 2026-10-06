@@ -7,11 +7,32 @@ import { EdgeType } from '../graph/edge.types';
 interface InterchangeAttribute<T> {
   value?: T | null;
   status?: string;
+  knowledgeState?: string;
 }
 
 interface InterchangeComplex {
   complexId: string;
   name: string;
+  participatingStations?: string[];
+  pathways?: Array<{ walkingSeconds?: number | null; from?: string; to?: string }>;
+  pathway?: Array<{
+    segmentId?: string;
+    from: string;
+    to: string;
+    type: string;
+    distanceMeters?: number | null;
+    structureLengthMeters?: number | null;
+    sourceState?: string;
+  }>;
+  instructions?: string[];
+  reasonCodes?: string[];
+  throughRunningRelations?: Array<{
+    from: string;
+    to: string;
+    viaStationId?: string;
+    relation?: string;
+  }>;
+  estimatedDurationSeconds?: number | null;
   attributes?: {
     paidAreaTransfer?: InterchangeAttribute<boolean>;
     requiresSecurityRescreening?: InterchangeAttribute<boolean>;
@@ -20,6 +41,7 @@ interface InterchangeComplex {
     outdoorStreetExposure?: InterchangeAttribute<boolean>;
     elevatorAvailability?: InterchangeAttribute<boolean>;
     suitabilityNote?: InterchangeAttribute<string>;
+    walkingDistanceMeters?: InterchangeAttribute<number>;
   };
 }
 
@@ -85,28 +107,8 @@ export class InterchangeEvaluatorService {
     if (!this.icxRegistry?.complexes) return;
 
     for (const complex of this.icxRegistry.complexes) {
-      // Map station codes or canonical IDs to complex
-      if (complex.complexId === 'ICX-MAROL-NAKA') {
-        this.stationCodeToComplex.set('STN_L1_008', complex);
-        this.stationCodeToComplex.set('STN_L3_004', complex);
-      } else if (complex.complexId === 'ICX-MUMBAI-CENTRAL') {
-        this.stationCodeToComplex.set('STN_L3_019', complex);
-      } else if (complex.complexId === 'ICX-CHURCHGATE') {
-        this.stationCodeToComplex.set('STN_L3_025', complex);
-      } else if (complex.complexId === 'ICX-CSMT') {
-        this.stationCodeToComplex.set('STN_L3_023', complex);
-      } else if (complex.complexId === 'ICX-DADAR') {
-        this.stationCodeToComplex.set('STN_L3_015', complex);
-      } else if (complex.complexId === 'ICX-ANDHERI') {
-        this.stationCodeToComplex.set('STN_L1_004', complex);
-      } else if (complex.complexId === 'ICX-GHATKOPAR') {
-        this.stationCodeToComplex.set('STN_L1_012', complex);
-      } else if (complex.complexId === 'ICX-DN-NAGAR') {
-        this.stationCodeToComplex.set('STN_L1_002', complex);
-      } else if (complex.complexId === 'ICX-WEH-GUNDAVALI') {
-        this.stationCodeToComplex.set('STN_L1_005', complex);
-      } else if (complex.complexId === 'ICX-BKC') {
-        this.stationCodeToComplex.set('STN_L3_011', complex);
+      for (const stationCode of complex.participatingStations ?? []) {
+        this.stationCodeToComplex.set(stationCode, complex);
       }
     }
   }
@@ -180,17 +182,17 @@ export class InterchangeEvaluatorService {
     // 3. Evaluate physical facts per traversed complex
     for (const complex of traversedComplexes) {
       const attrs = complex.attributes || {};
-      const paidArea = attrs.paidAreaTransfer?.value ?? false;
-      const requiresSecurity = attrs.requiresSecurityRescreening?.value ?? true;
-      const requiresAfc = attrs.requiresAfcRetap?.value ?? true;
-      const verticalDrop = attrs.verticalDropMeters?.value ?? 0;
-      const outdoorStreet = attrs.outdoorStreetExposure?.value ?? false;
+      const paidArea = attrs.paidAreaTransfer?.value;
+      const requiresSecurity = attrs.requiresSecurityRescreening?.value;
+      const requiresAfc = attrs.requiresAfcRetap?.value;
+      const verticalDrop = attrs.verticalDropMeters?.value;
+      const outdoorStreet = attrs.outdoorStreetExposure?.value;
       const elevatorStatus = attrs.elevatorAvailability?.status ?? 'UNKNOWN';
       const suitability = attrs.suitabilityNote?.value ?? '';
 
       // Check Hard Constraints for Reduced Mobility
       if (mobility === 'REDUCED') {
-        if (outdoorStreet) {
+        if (outdoorStreet === true) {
           violations.push(`Outdoor street transfer at ${complex.name} is inaccessible for reduced mobility.`);
         }
         if (elevatorStatus !== 'VERIFIED_ELEVATOR') {
@@ -199,31 +201,31 @@ export class InterchangeEvaluatorService {
       }
 
       // Check user avoid preferences
-      if (avoidList.includes('OUTDOOR_STREET_WALK') && outdoorStreet) {
+      if (avoidList.includes('OUTDOOR_STREET_WALK') && outdoorStreet === true) {
         violations.push(`Route includes outdoor street walk at ${complex.name}.`);
       }
       if (avoidList.includes('STREET_MARKET') && suitability.includes('STREET_MARKET')) {
         violations.push(`Route passes through congested street market at ${complex.name}.`);
       }
-      if (avoidList.includes('AFC_EXIT') && !paidArea) {
+      if (avoidList.includes('AFC_EXIT') && paidArea === false) {
         violations.push(`Transfer requires exiting paid area at ${complex.name}.`);
       }
 
       // Dynamic Policy Friction Computation (derived from physical facts)
       if (luggage === 'HEAVY') {
-        if (outdoorStreet) {
+        if (outdoorStreet === true) {
           frictionSeconds += 600; // +10m drag penalty
           reasonCodes.push('OUTDOOR_STREET_WALK');
         }
-        if (requiresSecurity) {
+        if (requiresSecurity === true) {
           frictionSeconds += 300; // +5m bag scanning queue
           reasonCodes.push('SECURITY_RESCREENING');
         }
-        if (requiresAfc) {
+        if (requiresAfc === true) {
           frictionSeconds += 60; // +1m turnstile bag maneuver
           reasonCodes.push('AFC_RETAP');
         }
-        if (verticalDrop > 10) {
+        if (typeof verticalDrop === 'number' && verticalDrop > 10) {
           frictionSeconds += Math.round(verticalDrop * 10); // 10s per vertical meter
           reasonCodes.push('HEAVY_VERTICAL_MOVEMENT');
         }
@@ -268,15 +270,18 @@ export class InterchangeEvaluatorService {
         } else if (suitability === 'IDEAL_FOR_LUGGAGE') {
           reasonCodes.push('IDEAL_FOR_LUGGAGE', 'FLAT_FORECOURT');
           summaryParts.push(`${complex.name}: Easy transfer with direct lifts/escalators and flat forecourt connection.`);
-        } else if (outdoorStreet && requiresSecurity) {
-          reasonCodes.push('OUTDOOR_STREET_WALK', 'SECURITY_RESCREENING');
-          summaryParts.push(`${complex.name}: Outdoor transfer requiring street walk and secondary security check.`);
-        } else if (paidArea) {
-          reasonCodes.push('PAID_AREA_TRANSFER');
-          summaryParts.push(`${complex.name}: Paid-to-paid concourse connection.`);
-        } else {
-          reasonCodes.push('OUT_OF_STATION_TRANSFER');
-          summaryParts.push(`${complex.name}: Street-level transfer connection requiring AFC tap-out and re-entry.`);
+      } else if (outdoorStreet === true && requiresSecurity === true) {
+        reasonCodes.push('OUTDOOR_STREET_WALK', 'SECURITY_RESCREENING');
+        summaryParts.push(`${complex.name}: Outdoor transfer requiring street walk and secondary security check.`);
+      } else if (paidArea === true) {
+        reasonCodes.push('PAID_AREA_TRANSFER');
+        summaryParts.push(`${complex.name}: Paid-to-paid concourse connection.`);
+      } else if (paidArea === false) {
+        reasonCodes.push('OUT_OF_STATION_TRANSFER');
+        summaryParts.push(`${complex.name}: Street-level transfer connection requiring AFC tap-out and re-entry.`);
+      } else {
+        reasonCodes.push('TRANSFER_DETAILS_UNVERIFIED');
+        summaryParts.push(`${complex.name}: Interchange registered; pathway and transfer conditions remain unverified.`);
         }
 
       if (elevatorStatus === 'VERIFIED_ELEVATOR') {
@@ -313,6 +318,8 @@ export class InterchangeEvaluatorService {
     toStationCodeOrName: string,
     prevLineName?: string | null,
     nextLineName?: string | null,
+    fromStationCode?: string | null,
+    toStationCode?: string | null,
   ): TransferDetails | null {
     const fromU = (fromStationCodeOrName || '').toUpperCase();
     const toU = (toStationCodeOrName || '').toUpperCase();
@@ -382,13 +389,7 @@ export class InterchangeEvaluatorService {
         pathwayDistanceMeters: null, // Full platform-to-platform distance unmeasured; do not guess
         estimatedDurationSeconds: 240,
         durationDisplay: '~4 min',
-        attributes: {
-          paidAreaTransfer: false,
-          requiresAfcRetap: true,
-          requiresSecurityRescreening: true,
-          outdoorStreetExposure: false,
-          verticalDropMeters: 0,
-        },
+        attributes: {},
         pathway: [
           {
             segmentId: 'SEG_WEH_L7_PF_TO_CONCOURSE',
@@ -423,17 +424,15 @@ export class InterchangeEvaluatorService {
             sourceState: 'UNKNOWN_SOURCE_REQUIRED',
           },
         ],
-        reasonCodes: ['ELEVATED_FOB', 'HIGHWAY_CROSSING_COVERED', 'AFC_RETAP_REQUIRED'],
+        reasonCodes: ['ELEVATED_FOB', 'STRUCTURAL_SPAN_58M', 'TRANSFER_DETAILS_UNVERIFIED'],
         instructions: toL7
           ? [
-              'Exit Line 1 WEH Concourse to elevated Foot Over Bridge',
-              'Cross Western Express Highway via 58m covered FOB span',
-              'Enter Line 7 Gundavali Concourse · Tap in through MMMOCL AFC gates',
+              'Walk via 58m elevated Foot Overbridge (FOB) connecting Line 1 & Line 7 concourses',
+              'Tap in through MMMOCL AFC gates to Red Line (Line 7) Platform',
             ]
           : [
-              'Exit Line 7 Gundavali Concourse to elevated Foot Over Bridge',
-              'Cross Western Express Highway via 58m covered FOB span',
-              'Enter Line 1 WEH Concourse · Tap in through MMOPL AFC gates',
+              'Walk via 58m elevated Foot Overbridge (FOB) connecting Line 7 & Line 1 concourses',
+              'Tap in through MMOPL AFC gates to Blue Line (Line 1) Platform',
             ],
       };
     }
@@ -449,15 +448,9 @@ export class InterchangeEvaluatorService {
         complexId: 'ICX-DN-NAGAR',
         name: 'D.N. Nagar – Andheri West Interchange Hub',
         pathwayDistanceMeters: null,
-        estimatedDurationSeconds: 180,
-        durationDisplay: '~3 min',
-        attributes: {
-          paidAreaTransfer: false,
-          requiresAfcRetap: true,
-          requiresSecurityRescreening: true,
-          outdoorStreetExposure: false,
-          verticalDropMeters: 0,
-        },
+        estimatedDurationSeconds: null,
+        durationDisplay: 'Transfer time unknown',
+        attributes: {},
         pathway: [
           {
             segmentId: 'SEG_DNN_L2A_PF_TO_CONCOURSE',
@@ -492,73 +485,16 @@ export class InterchangeEvaluatorService {
             sourceState: 'UNKNOWN_SOURCE_REQUIRED',
           },
         ],
-        reasonCodes: ['ELEVATED_CONNECTOR', 'COVERED_BRIDGE', 'AFC_RETAP_REQUIRED'],
+        reasonCodes: ['INTERCHANGE_CONFIRMED', 'TRANSFER_DETAILS_UNVERIFIED'],
         instructions: toL2A
           ? [
-              'Exit Line 1 D.N. Nagar concourse towards elevated connector',
-              'Proceed along covered bridge to Line 2A Andheri West concourse',
-              'Tap in through MMMOCL AFC gates & ascend to Platform 2',
+              'Walk via elevated Foot Overbridge (FOB) connecting Line 1 & Line 2A concourses',
+              'Tap in through MMMOCL AFC gates to Yellow Line (Line 2A) Platform',
             ]
           : [
-              'Exit Line 2A Andheri West concourse towards elevated connector',
-              'Proceed along covered bridge to Line 1 D.N. Nagar concourse',
-              'Tap in through MMOPL AFC gates & ascend to Line 1 platform',
+              'Walk via elevated Foot Overbridge (FOB) connecting Line 2A & Line 1 concourses',
+              'Tap in through MMOPL AFC gates to Blue Line (Line 1) Platform',
             ],
-      };
-    }
-
-    // 4. Dahisar (East) Cross-Concourse (L2A <-> L7)
-    if (
-      fromU.includes('DAHISAR') &&
-      toU.includes('DAHISAR') &&
-      (prevU.includes('2A') || prevU.includes('7') || nextU.includes('2A') || nextU.includes('7'))
-    ) {
-      const toL7 = nextU.includes('7') || nextU.includes('RED');
-      return {
-        complexId: 'ICX-DAHISAR-EAST',
-        name: 'Dahisar East Junction Hub',
-        pathwayDistanceMeters: null,
-        estimatedDurationSeconds: 120,
-        durationDisplay: '~2 min',
-        attributes: {
-          paidAreaTransfer: true,
-          requiresAfcRetap: false,
-          requiresSecurityRescreening: false,
-          outdoorStreetExposure: false,
-          verticalDropMeters: 0,
-        },
-        pathway: [
-          {
-            segmentId: 'SEG_DAH_PF_TO_CONCOURSE',
-            from: 'PLATFORM',
-            to: 'UNIFIED_CONCOURSE',
-            type: 'VERTICAL',
-            distanceMeters: null,
-            sourceState: 'UNKNOWN_SOURCE_REQUIRED',
-          },
-          {
-            segmentId: 'SEG_DAH_CROSS_CONCOURSE',
-            from: 'UNIFIED_CONCOURSE',
-            to: 'UNIFIED_CONCOURSE',
-            type: 'PEDESTRIAN',
-            distanceMeters: null,
-            sourceState: 'UNKNOWN_SOURCE_REQUIRED',
-          },
-          {
-            segmentId: 'SEG_DAH_CONCOURSE_TO_PF',
-            from: 'UNIFIED_CONCOURSE',
-            to: 'CONNECTING_PLATFORM',
-            type: 'VERTICAL',
-            distanceMeters: null,
-            sourceState: 'UNKNOWN_SOURCE_REQUIRED',
-          },
-        ],
-        reasonCodes: ['PAID_CROSS_CONCOURSE', 'SAME_OPERATOR_MMMOCL', 'NO_AFC_RETAP'],
-        instructions: [
-          'Cross unified concourse hall between Line 2A and Line 7',
-          'Paid-area seamless transfer · No AFC retap required',
-          toL7 ? 'Ascend to Line 7 Platform 1 (Gundavali)' : 'Ascend to Line 2A Platform 1 (Andheri West)',
-        ],
       };
     }
 
@@ -690,6 +626,66 @@ export class InterchangeEvaluatorService {
       };
     }
 
-    return null;
+    const registeredComplex = fromStationCode && toStationCode
+      ? this.icxRegistry?.complexes.find((complex) => {
+          const participants = complex.participatingStations ?? [];
+          return participants.includes(fromStationCode) && participants.includes(toStationCode);
+        })
+      : null;
+    if (!registeredComplex) return null;
+
+    const attributes: TransferDetails['attributes'] = {};
+    const copyBoolean = (
+      key: 'paidAreaTransfer' | 'requiresAfcRetap' | 'requiresSecurityRescreening' | 'outdoorStreetExposure',
+    ) => {
+      const value = registeredComplex.attributes?.[key]?.value;
+      if (typeof value === 'boolean') attributes[key] = value;
+    };
+    copyBoolean('paidAreaTransfer');
+    copyBoolean('requiresAfcRetap');
+    copyBoolean('requiresSecurityRescreening');
+    copyBoolean('outdoorStreetExposure');
+    const verticalDrop = registeredComplex.attributes?.verticalDropMeters?.value;
+    if (typeof verticalDrop === 'number') attributes.verticalDropMeters = verticalDrop;
+
+    const walkingDistance = registeredComplex.attributes?.walkingDistanceMeters?.value;
+    const registeredSeconds = registeredComplex.pathways?.find(
+      (item) => typeof item.walkingSeconds === 'number' && Number.isFinite(item.walkingSeconds),
+    )?.walkingSeconds ?? registeredComplex.estimatedDurationSeconds ?? null;
+    const estimatedDurationSeconds = typeof registeredSeconds === 'number' ? registeredSeconds : null;
+    const durationDisplay = typeof registeredSeconds === 'number'
+      ? `~${Math.max(1, Math.round(registeredSeconds / 60))} min`
+      : 'Time unknown';
+
+    return {
+      complexId: registeredComplex.complexId,
+      name: registeredComplex.name,
+      pathwayDistanceMeters: typeof walkingDistance === 'number' ? walkingDistance : null,
+      estimatedDurationSeconds,
+      durationDisplay,
+      attributes,
+      pathway: registeredComplex.pathway,
+      reasonCodes: registeredComplex.reasonCodes ?? ['REGISTERED_INTERCHANGE'],
+      instructions: registeredComplex.instructions ?? [
+        `Follow signs to ${nextLineName || toStationCodeOrName} concourse`,
+        'Proceed to connecting platform',
+      ],
+    };
+  }
+
+  /** True when two CTM corridors represent one uninterrupted passenger service at this station. */
+  isThroughRunningTransition(
+    fromLineCode: string | null | undefined,
+    toLineCode: string | null | undefined,
+    stationCode: string | null | undefined,
+  ): boolean {
+    if (!fromLineCode || !toLineCode || !stationCode || fromLineCode === toLineCode) return false;
+    return (this.icxRegistry?.complexes ?? []).some((complex) =>
+      (complex.throughRunningRelations ?? []).some((relation) =>
+        relation.viaStationId === stationCode &&
+        ((relation.from === fromLineCode && relation.to === toLineCode) ||
+          (relation.from === toLineCode && relation.to === fromLineCode)),
+      ),
+    );
   }
 }

@@ -91,7 +91,7 @@ export default function MapContainer({
   const trainSimRef = useRef<JourneyTrainSimulator | null>(null);
   const stationPopupRef = useRef<maplibregl.Popup | null>(null);
   const currentOpenStationIdRef = useRef<string | null>(null);
-  const digitalTwinCache = useRef<Map<string, { platforms: number; exits: number; levels: number }>>(new Map());
+  const digitalTwinCache = useRef<Map<string, { exits: number }>>(new Map());
 
   const selectedCandidateRef = useRef<RouteOption | null>(selectedCandidate);
   const onSetOriginRef = useRef(onSetOrigin);
@@ -141,6 +141,10 @@ export default function MapContainer({
       lines?: unknown;
       wheelchairAccessible?: boolean;
       featureType?: string;
+      levelsCount?: number;
+      exitsCount?: number;
+      platformsCount?: number;
+      lineInfrastructure?: StationCardData["lineInfrastructure"];
     },
     coords: [number, number],
     noEase = false
@@ -203,9 +207,12 @@ export default function MapContainer({
       wheelchairAccessible: props.wheelchairAccessible,
       isInterchange,
       mode,
-      levelsCount: cachedTwin?.levels,
-      exitsCount: cachedTwin?.exits,
-      platformsCount: cachedTwin?.platforms,
+      // P0/P1 counts come from the line-owned station feature. Never replace them
+      // with cached interchange-wide physical totals from a digital twin.
+      levelsCount: typeof props.levelsCount === "number" && props.levelsCount > 0 ? props.levelsCount : undefined,
+      exitsCount: typeof props.exitsCount === "number" && props.exitsCount > 0 ? props.exitsCount : cachedTwin?.exits,
+      platformsCount: typeof props.platformsCount === "number" && props.platformsCount > 0 ? props.platformsCount : undefined,
+      lineInfrastructure: Array.isArray(props.lineInfrastructure) ? props.lineInfrastructure : undefined,
       journeyContext,
     };
 
@@ -312,11 +319,19 @@ export default function MapContainer({
         .then((r) => (r.ok ? r.json() : null))
         .then((twin) => {
           if (twin) {
+            const eCount = (twin.physical?.entrances?.length ?? twin.exits?.length) || undefined;
+
             digitalTwinCache.current.set(stId, {
-              platforms: twin.platformEtas?.length || (isInterchange ? 4 : 2),
-              exits: twin.exits?.length || (isInterchange ? 4 : 2),
-              levels: twin.levels?.length || (isInterchange ? 2 : 1),
+              exits: eCount,
             });
+
+            if (stationPopupRef.current?.isOpen() && currentOpenStationIdRef.current === stId) {
+              const updatedData: StationCardData = {
+                ...cardData,
+                exitsCount: cardData.exitsCount ?? eCount,
+              };
+              stationPopupRef.current.setHTML(renderSmartStationCardHtml(updatedData));
+            }
           }
         })
         .catch(() => {});

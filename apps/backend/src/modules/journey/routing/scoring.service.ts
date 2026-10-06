@@ -55,12 +55,14 @@ export class ScoringService {
   score(
     edges: GraphEdge[],
     weights: JourneyWeights = DEFAULT_WEIGHTS,
+    isThroughServiceTransition?: (previous: GraphEdge, current: GraphEdge) => boolean,
   ): JourneyScore {
     let inVehicleSeconds = 0;
     let walkingSeconds = 0;
     let transfers = 0;
 
     let currentLineId: string | undefined = undefined;
+    let previousTransitEdge: GraphEdge | undefined;
 
     for (const edge of edges) {
       if (edge.type === EdgeType.TRANSIT) {
@@ -74,13 +76,15 @@ export class ScoringService {
         edge.type === EdgeType.TRANSIT &&
         edge.lineId !== undefined &&
         currentLineId !== undefined &&
-        edge.lineId !== currentLineId
+        edge.lineId !== currentLineId &&
+        !(previousTransitEdge && isThroughServiceTransition?.(previousTransitEdge, edge))
       ) {
         transfers++;
       }
 
       if (edge.type === EdgeType.TRANSIT && edge.lineId !== undefined) {
         currentLineId = edge.lineId;
+        previousTransitEdge = edge;
       }
     }
 
@@ -142,11 +146,26 @@ export class ScoringService {
     const minTransfers = Math.min(...candidates.map((c) => c.transfers));
     const minWalking = Math.min(...candidates.map((c) => c.walkingSeconds));
 
+    const fastestCandidate = candidates.find((c) => c.durationSeconds === minDuration);
+
     for (const c of candidates) {
       c.attributes.fastest = c.durationSeconds === minDuration;
       c.attributes.fewestTransfers = c.transfers === minTransfers;
       c.attributes.direct = c.isDirect;
-      c.attributes.leastWalking = c.walkingSeconds === minWalking;
+
+      // leastWalking badge:
+      // If a candidate is fastest, and also has minWalking, it qualifies for leastWalking.
+      // If an alternative candidate is NOT fastest, it should only get leastWalking if it
+      // actually saves meaningful walking compared to the fastest candidate (>= 30s savings).
+      // Tying the fastest candidate on walking does not justify a "Least Walking" badge.
+      if (c.attributes.fastest) {
+        c.attributes.leastWalking = c.walkingSeconds === minWalking;
+      } else {
+        const fastestWalking = fastestCandidate?.walkingSeconds ?? minWalking;
+        c.attributes.leastWalking =
+          c.walkingSeconds === minWalking && c.walkingSeconds < fastestWalking - 30;
+      }
+
       // v1 stub: accessible = direct route (no platform changes)
       // Future: query accessibility data per station
       c.attributes.accessibilityFriendly = c.isDirect;

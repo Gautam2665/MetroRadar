@@ -1164,25 +1164,23 @@
     "entityKey": "LINE1_STN_VERSOVA",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8213871,
-      "latitude": 19.1302777
+      "longitude": 72.8142,
+      "latitude": 19.1317
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 1,
     "stationNameInSource": "Versova",
     "source": {
-      "sourceId": "SRC-L1-004",
-      "type": "GIS_COMMUNITY_RELATION",
-      "document": "OSM Subway Relation 3808111",
-      "osmNodeId": 623881991
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.95,
-    "validationStatus": "VALIDATED",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04",
-    "validatedAt": "2026-10-04"
+    "extractedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0002",
@@ -1192,25 +1190,23 @@
     "entityKey": "LINE1_STN_D_N__NAGAR",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8308125,
-      "latitude": 19.1281782
+      "longitude": 72.8315,
+      "latitude": 19.1252
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 2,
-    "stationNameInSource": "D. N. Nagar",
+    "stationNameInSource": "D.N. Nagar",
     "source": {
-      "sourceId": "SRC-L1-004",
-      "type": "GIS_COMMUNITY_RELATION",
-      "document": "OSM Subway Relation 3808111",
-      "osmNodeId": 623881914
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.95,
-    "validationStatus": "VALIDATED",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04",
-    "validatedAt": "2026-10-04"
+    "extractedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0003",
@@ -1220,25 +1216,23 @@
     "entityKey": "LINE1_STN_AZAD_NAGAR",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8382668,
-      "latitude": 19.1268055
+      "longitude": 72.8384,
+      "latitude": 19.1219
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 3,
     "stationNameInSource": "Azad Nagar",
     "source": {
-      "sourceId": "SRC-L1-004",
-      "type": "GIS_COMMUNITY_RELATION",
-      "document": "OSM Subway Relation 3808111",
-      "osmNodeId": 3389150482
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.95,
-    "validationStatus": "VALIDATED",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04",
-    "validatedAt": "2026-10-04"
+    "extractedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0004",
@@ -1248,25 +1242,23 @@
     "entityKey": "LINE1_STN_ANDHERI",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8494816,
-      "latitude": 19.1200415
+      "longitude": 72.8465,
+      "latitude": 19.1197
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 4,
     "stationNameInSource": "Andheri",
     "source": {
-      "sourceId": "SRC-L1-004",
-      "type": "GIS_COMMUNITY_RELATION",
-      "document": "OSM Subway Relation 3808111",
-      "osmNodeId": 3389150481
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.95,
-    "validationStatus": "VALIDATED",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04",
-    "validatedAt": "2026-10-04"
+    "extractedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0005",
@@ -1276,25 +1268,23 @@
     "entityKey": "LINE1_STN_WESTERN_EXPRESS_HIGHWAY",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8569834,
-      "latitude": 19.1155638
+      "longitude": 72.8576,
+      "latitude": 19.1159
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 5,
     "stationNameInSource": "Western Express Highway",
     "source": {
-      "sourceId": "SRC-L1-004",
-      "type": "GIS_COMMUNITY_RELATION",
-      "document": "OSM Subway Relation 3808111",
-      "osmNodeId": 3389150483
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.95,
-    "validationStatus": "VALIDATED",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04",
-    "validatedAt": "2026-10-04"
+    "extractedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0006",
@@ -1304,25 +1294,23 @@
     "entityKey": "LINE1_STN_CHAKALA",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8682423,
-      "latitude": 19.1119069
+      "longitude": 72.8647,
+      "latitude": 19.113
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 6,
-    "stationNameInSource": "Chakala (J.B. Nagar)",
+    "stationNameInSource": "Chakala",
     "source": {
-      "sourceId": "SRC-L1-004",
-      "type": "GIS_COMMUNITY_RELATION",
-      "document": "OSM Subway Relation 3808111",
-      "osmNodeId": 3389210700
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.95,
-    "validationStatus": "VALIDATED",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04",
-    "validatedAt": "2026-10-04"
+    "extractedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0007",
@@ -1332,25 +1320,23 @@
     "entityKey": "LINE1_STN_AIRPORT_ROAD",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8747968,
-      "latitude": 19.1099146
+      "longitude": 72.8727,
+      "latitude": 19.1102
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 7,
     "stationNameInSource": "Airport Road",
     "source": {
-      "sourceId": "SRC-L1-004",
-      "type": "GIS_COMMUNITY_RELATION",
-      "document": "OSM Subway Relation 3808111",
-      "osmNodeId": 3175794769
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.95,
-    "validationStatus": "VALIDATED",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04",
-    "validatedAt": "2026-10-04"
+    "extractedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0008",
@@ -1360,25 +1346,23 @@
     "entityKey": "LINE1_STN_MAROL_NAKA",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8801094,
-      "latitude": 19.1079463
+      "longitude": 72.8785,
+      "latitude": 19.1084
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 8,
     "stationNameInSource": "Marol Naka",
     "source": {
-      "sourceId": "SRC-L1-004",
-      "type": "GIS_COMMUNITY_RELATION",
-      "document": "OSM Subway Relation 3808111",
-      "osmNodeId": 3175794775
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.95,
-    "validationStatus": "VALIDATED",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04",
-    "validatedAt": "2026-10-04"
+    "extractedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0009",
@@ -1388,25 +1372,23 @@
     "entityKey": "LINE1_STN_SAKI_NAKA",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8885094,
-      "latitude": 19.1032172
+      "longitude": 72.8854,
+      "latitude": 19.1042
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 9,
     "stationNameInSource": "Saki Naka",
     "source": {
-      "sourceId": "SRC-L1-004",
-      "type": "GIS_COMMUNITY_RELATION",
-      "document": "OSM Subway Relation 3808111",
-      "osmNodeId": 3389210701
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.95,
-    "validationStatus": "VALIDATED",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04",
-    "validatedAt": "2026-10-04"
+    "extractedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0010",
@@ -1416,25 +1398,23 @@
     "entityKey": "LINE1_STN_ASALPHA",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.895413,
-      "latitude": 19.0960972
+      "longitude": 72.8938,
+      "latitude": 19.0964
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 10,
     "stationNameInSource": "Asalpha",
     "source": {
-      "sourceId": "SRC-L1-004",
-      "type": "GIS_COMMUNITY_RELATION",
-      "document": "OSM Subway Relation 3808111",
-      "osmNodeId": 3389249957
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.95,
-    "validationStatus": "VALIDATED",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04",
-    "validatedAt": "2026-10-04"
+    "extractedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0011",
@@ -1444,25 +1424,23 @@
     "entityKey": "LINE1_STN_JAGRUTI_NAGAR",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.9025996,
-      "latitude": 19.0921714
+      "longitude": 72.8988,
+      "latitude": 19.0927
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 11,
     "stationNameInSource": "Jagruti Nagar",
     "source": {
-      "sourceId": "SRC-L1-004",
-      "type": "GIS_COMMUNITY_RELATION",
-      "document": "OSM Subway Relation 3808111",
-      "osmNodeId": 3175794773
+      "sourceId": "SRC-NET-008",
+      "type": "GIS_COMMUNITY",
+      "document": "OSM Overpass Mumbai Metro relation"
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.95,
-    "validationStatus": "VALIDATED",
+    "confidence": 0.65,
+    "validationStatus": "UNVERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04",
-    "validatedAt": "2026-10-04"
+    "extractedAt": "2026-10-04"
   },
   {
     "evidenceId": "E-L1-F-0012",
@@ -1472,44 +1450,16 @@
     "entityKey": "LINE1_STN_GHATKOPAR",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.9081226,
-      "latitude": 19.086286
+      "longitude": 72.908,
+      "latitude": 19.0862
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 12,
     "stationNameInSource": "Ghatkopar",
     "source": {
-      "sourceId": "SRC-L1-004",
-      "type": "GIS_COMMUNITY_RELATION",
-      "document": "OSM Subway Relation 3808111",
-      "osmNodeId": 3175794772
-    },
-    "evidenceType": "DIRECT",
-    "temporalStatus": "OPERATIONAL",
-    "confidence": 0.95,
-    "validationStatus": "VALIDATED",
-    "priority": "P0",
-    "extractedAt": "2026-10-04",
-    "validatedAt": "2026-10-04"
-  },
-  {
-    "evidenceId": "E-L2A-F-0001",
-    "systemCode": "MMRDA_LINE2A",
-    "category": "F_GIS",
-    "entityType": "station_point",
-    "entityKey": "LINE2A_STN_DAHISAR_EAST",
-    "attribute": "wgs84_coordinates",
-    "value": {
-      "longitude": 72.8631,
-      "latitude": 19.2562
-    },
-    "pointClassification": "REVENUE_STATION",
-    "sequencePosition": 1,
-    "stationNameInSource": "Dahisar East",
-    "source": {
       "sourceId": "SRC-NET-008",
       "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 2A"
+      "document": "OSM Overpass Mumbai Metro relation"
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
@@ -1519,784 +1469,841 @@
     "extractedAt": "2026-10-04"
   },
   {
-    "evidenceId": "E-L2A-F-0002",
+    "evidenceId": "E-LINE2A-F-0001",
+    "systemCode": "MMRDA_LINE2A",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE2A_STN_DAHISAR__EAST_",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.86711916212012,
+      "latitude": 19.251263173351788
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 1,
+    "stationNameInSource": "Dahisar (East)",
+    "source": {
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 996
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-05"
+  },
+  {
+    "evidenceId": "E-LINE2A-F-0002",
     "systemCode": "MMRDA_LINE2A",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE2A_STN_ANAND_NAGAR",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8587,
-      "latitude": 19.2504
+      "longitude": 72.86613402646043,
+      "latitude": 19.257218879531713
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 2,
     "stationNameInSource": "Anand Nagar",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 2A"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 954
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L2A-F-0003",
+    "evidenceId": "E-LINE2A-F-0003",
     "systemCode": "MMRDA_LINE2A",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE2A_STN_KANDARPADA",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8541,
-      "latitude": 19.2438
+      "longitude": 72.85067815806093,
+      "latitude": 19.256645815686277
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 3,
     "stationNameInSource": "Kandarpada",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 2A"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 955
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L2A-F-0004",
+    "evidenceId": "E-LINE2A-F-0004",
     "systemCode": "MMRDA_LINE2A",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE2A_STN_MANDAPESHWAR",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8502,
-      "latitude": 19.2372
+      "longitude": 72.84567699522741,
+      "latitude": 19.249260686899433
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 4,
     "stationNameInSource": "Mandapeshwar",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 2A"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 956
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L2A-F-0005",
+    "evidenceId": "E-LINE2A-F-0005",
     "systemCode": "MMRDA_LINE2A",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "LINE2A_STN_DAHISAR_WEST",
+    "entityKey": "LINE2A_STN_EKSAR",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8471,
-      "latitude": 19.2309
+      "longitude": 72.84343814829931,
+      "latitude": 19.24032270245634
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 5,
-    "stationNameInSource": "Dahisar West",
+    "stationNameInSource": "Eksar",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 2A"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 957
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L2A-F-0006",
+    "evidenceId": "E-LINE2A-F-0006",
     "systemCode": "MMRDA_LINE2A",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "LINE2A_STN_BORIVALI_WEST",
+    "entityKey": "LINE2A_STN_BORIVALI__WEST_",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8438,
-      "latitude": 19.2241
+      "longitude": 72.84086467623294,
+      "latitude": 19.23119416043003
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 6,
-    "stationNameInSource": "Borivali West",
+    "stationNameInSource": "Borivali (West)",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 2A"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 958
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L2A-F-0007",
+    "evidenceId": "E-LINE2A-F-0007",
     "systemCode": "MMRDA_LINE2A",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "LINE2A_STN_PAHADI_EKSAR",
+    "entityKey": "LINE2A_STN_SHIMPOLI",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8406,
-      "latitude": 19.2175
+      "longitude": 72.84091831913014,
+      "latitude": 19.222769328553582
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 7,
-    "stationNameInSource": "Pahadi Eksar",
+    "stationNameInSource": "Shimpoli",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 2A"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 959
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L2A-F-0008",
+    "evidenceId": "E-LINE2A-F-0008",
     "systemCode": "MMRDA_LINE2A",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "LINE2A_STN_KANDIVALI_WEST",
+    "entityKey": "LINE2A_STN_KANDIVALI__WEST_",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8382,
-      "latitude": 19.2098
+      "longitude": 72.83735463682103,
+      "latitude": 19.21400522056527
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 8,
-    "stationNameInSource": "Kandivali West",
+    "stationNameInSource": "Kandivali (West)",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 2A"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 960
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L2A-F-0009",
+    "evidenceId": "E-LINE2A-F-0009",
     "systemCode": "MMRDA_LINE2A",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE2A_STN_DAHANUKARWADI",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8361,
-      "latitude": 19.2023
+      "longitude": 72.83471652647836,
+      "latitude": 19.20577235748048
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 9,
     "stationNameInSource": "Dahanukarwadi",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 2A"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 961
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L2A-F-0010",
+    "evidenceId": "E-LINE2A-F-0010",
     "systemCode": "MMRDA_LINE2A",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "LINE2A_STN_VALNAI",
+    "entityKey": "LINE2A_STN_VALNAI___MEETH_CHOWKY",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8345,
-      "latitude": 19.1948
+      "longitude": 72.83378644946076,
+      "latitude": 19.196621398930407
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 10,
-    "stationNameInSource": "Valnai",
+    "stationNameInSource": "Valnai - Meeth Chowky",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 2A"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 962
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L2A-F-0011",
+    "evidenceId": "E-LINE2A-F-0011",
     "systemCode": "MMRDA_LINE2A",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE2A_STN_MALAD_WEST",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8339,
-      "latitude": 19.1867
+      "longitude": 72.83584961466536,
+      "latitude": 19.18519972568229
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 11,
     "stationNameInSource": "Malad West",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 2A"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 924
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L2A-F-0012",
+    "evidenceId": "E-LINE2A-F-0012",
     "systemCode": "MMRDA_LINE2A",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE2A_STN_LOWER_MALAD",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8334,
-      "latitude": 19.1789
+      "longitude": 72.83642326802604,
+      "latitude": 19.172952719427116
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 12,
     "stationNameInSource": "Lower Malad",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 2A"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 963
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L2A-F-0013",
+    "evidenceId": "E-LINE2A-F-0013",
     "systemCode": "MMRDA_LINE2A",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "LINE2A_STN_PAHADI_GOREGAON",
+    "entityKey": "LINE2A_STN_BANGUR_NAGAR",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8331,
-      "latitude": 19.1705
+      "longitude": 72.83484444567651,
+      "latitude": 19.162258577411293
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 13,
-    "stationNameInSource": "Pahadi Goregaon",
+    "stationNameInSource": "Bangur Nagar",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 2A"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 964
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L2A-F-0014",
+    "evidenceId": "E-LINE2A-F-0014",
     "systemCode": "MMRDA_LINE2A",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE2A_STN_GOREGAON_WEST",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8329,
-      "latitude": 19.1624
+      "longitude": 72.83568457528307,
+      "latitude": 19.15313777589469
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 14,
     "stationNameInSource": "Goregaon West",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 2A"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 965
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L2A-F-0015",
+    "evidenceId": "E-LINE2A-F-0015",
     "systemCode": "MMRDA_LINE2A",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE2A_STN_OSHIWARA",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8324,
-      "latitude": 19.1502
+      "longitude": 72.83375219041076,
+      "latitude": 19.145978889224303
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 15,
     "stationNameInSource": "Oshiwara",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 2A"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 966
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L2A-F-0016",
+    "evidenceId": "E-LINE2A-F-0016",
     "systemCode": "MMRDA_LINE2A",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE2A_STN_LOWER_OSHIWARA",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8321,
-      "latitude": 19.1398
+      "longitude": 72.83171672745289,
+      "latitude": 19.14045541844414
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 16,
     "stationNameInSource": "Lower Oshiwara",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 2A"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 967
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L2A-F-0017",
+    "evidenceId": "E-LINE2A-F-0017",
     "systemCode": "MMRDA_LINE2A",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE2A_STN_ANDHERI_WEST",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8315,
-      "latitude": 19.1252
+      "longitude": 72.83141476595665,
+      "latitude": 19.129089278700903
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 17,
     "stationNameInSource": "Andheri West",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 2A"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 968
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L7-F-0001",
+    "evidenceId": "E-LINE7-F-0001",
     "systemCode": "MMRDA_LINE7",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "LINE7_STN_DAHISAR_EAST",
+    "entityKey": "LINE7_STN_DAHISAR__EAST_",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8631,
-      "latitude": 19.2562
+      "longitude": 72.86711916212012,
+      "latitude": 19.251263173351788
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 1,
-    "stationNameInSource": "Dahisar East",
+    "stationNameInSource": "Dahisar (East)",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 7"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 996
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L7-F-0002",
+    "evidenceId": "E-LINE7-F-0002",
     "systemCode": "MMRDA_LINE7",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE7_STN_OVARIPADA",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8639,
-      "latitude": 19.2458
+      "longitude": 72.86424798387702,
+      "latitude": 19.243411344253722
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 2,
     "stationNameInSource": "Ovaripada",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 7"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 995
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L7-F-0003",
+    "evidenceId": "E-LINE7-F-0003",
     "systemCode": "MMRDA_LINE7",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE7_STN_RASHTRIYA_UDYAN",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8628,
-      "latitude": 19.2341
+      "longitude": 72.86316122989406,
+      "latitude": 19.23467084285468
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 3,
     "stationNameInSource": "Rashtriya Udyan",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 7"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 994
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L7-F-0004",
+    "evidenceId": "E-LINE7-F-0004",
     "systemCode": "MMRDA_LINE7",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE7_STN_DEVIPADA",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8617,
-      "latitude": 19.2238
+      "longitude": 72.86422033373255,
+      "latitude": 19.224332353319834
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 4,
     "stationNameInSource": "Devipada",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 7"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 993
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L7-F-0005",
+    "evidenceId": "E-LINE7-F-0005",
     "systemCode": "MMRDA_LINE7",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE7_STN_MAGATHANE",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8604,
-      "latitude": 19.2131
+      "longitude": 72.86672789730486,
+      "latitude": 19.21720314479153
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 5,
     "stationNameInSource": "Magathane",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 7"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 992
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L7-F-0006",
+    "evidenceId": "E-LINE7-F-0006",
     "systemCode": "MMRDA_LINE7",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE7_STN_POISAR",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8592,
-      "latitude": 19.2025
+      "longitude": 72.86349926324054,
+      "latitude": 19.203938035265914
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 6,
     "stationNameInSource": "Poisar",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 7"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 991
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L7-F-0007",
+    "evidenceId": "E-LINE7-F-0007",
     "systemCode": "MMRDA_LINE7",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE7_STN_AKURLI",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8581,
-      "latitude": 19.1918
+      "longitude": 72.86064626150888,
+      "latitude": 19.19811462085893
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 7,
     "stationNameInSource": "Akurli",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 7"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 990
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L7-F-0008",
+    "evidenceId": "E-LINE7-F-0008",
     "systemCode": "MMRDA_LINE7",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE7_STN_KURAR",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.857,
-      "latitude": 19.1812
+      "longitude": 72.85851218868561,
+      "latitude": 19.187264209188704
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 8,
     "stationNameInSource": "Kurar",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 7"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 989
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L7-F-0009",
+    "evidenceId": "E-LINE7-F-0009",
     "systemCode": "MMRDA_LINE7",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE7_STN_DINDOSHI",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8561,
-      "latitude": 19.1705
+      "longitude": 72.8583000281751,
+      "latitude": 19.179720100768193
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 9,
     "stationNameInSource": "Dindoshi",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 7"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 988
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L7-F-0010",
+    "evidenceId": "E-LINE7-F-0010",
     "systemCode": "MMRDA_LINE7",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "LINE7_STN_AAREY",
+    "entityKey": "LINE7_STN_AAREY_METRO_STATION",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8552,
-      "latitude": 19.1598
+      "longitude": 72.85880124228956,
+      "latitude": 19.169505972689198
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 10,
-    "stationNameInSource": "Aarey",
+    "stationNameInSource": "Aarey Metro Station",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 7"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 987
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L7-F-0011",
+    "evidenceId": "E-LINE7-F-0011",
     "systemCode": "MMRDA_LINE7",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "LINE7_STN_GOREGAON_EAST",
+    "entityKey": "LINE7_STN_GOREGAON__EAST_",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8543,
-      "latitude": 19.1491
+      "longitude": 72.8565728499547,
+      "latitude": 19.152442193602823
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 11,
-    "stationNameInSource": "Goregaon East",
+    "stationNameInSource": "Goregaon (East)",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 7"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 986
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L7-F-0012",
+    "evidenceId": "E-LINE7-F-0012",
     "systemCode": "MMRDA_LINE7",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "LINE7_STN_JOGESHWARI_EAST",
+    "entityKey": "LINE7_STN_JOGESHWARI__EAST_",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8534,
-      "latitude": 19.1384
+      "longitude": 72.85516596425228,
+      "latitude": 19.142927914315543
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 12,
-    "stationNameInSource": "Jogeshwari East",
+    "stationNameInSource": "Jogeshwari (East)",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 7"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 985
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L7-F-0013",
+    "evidenceId": "E-LINE7-F-0013",
     "systemCode": "MMRDA_LINE7",
     "category": "F_GIS",
     "entityType": "station_point",
     "entityKey": "LINE7_STN_MOGRA",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8525,
-      "latitude": 19.1278
+      "longitude": 72.85545181087063,
+      "latitude": 19.128677366509592
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 13,
     "stationNameInSource": "Mogra",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 7"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 984
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
-    "evidenceId": "E-L7-F-0014",
+    "evidenceId": "E-LINE7-F-0014",
     "systemCode": "MMRDA_LINE7",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "LINE7_STN_GUNDAVALI",
+    "entityKey": "LINE7_STN_GUNDAVALI_STATION",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8576,
-      "latitude": 19.1159
+      "longitude": 72.85517197667647,
+      "latitude": 19.11443927341809
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 14,
-    "stationNameInSource": "Gundavali",
+    "stationNameInSource": "Gundavali Station",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 7"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 980
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
     "evidenceId": "E-L9-F-0001",
@@ -2306,23 +2313,25 @@
     "entityKey": "LINE9_STN_DAHISAR_EAST",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8631,
-      "latitude": 19.2562
+      "longitude": 72.86711916212012,
+      "latitude": 19.251263173351788
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 1,
-    "stationNameInSource": "Dahisar East",
+    "stationNameInSource": "Dahisar (East)",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 9"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 996
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05",
+    "notes": "Shared physical Dahisar East location; reuse the L2A/L7 CTM interchange point rather than creating a duplicate Line 9 station entity."
   },
   {
     "evidenceId": "E-L9-F-0002",
@@ -2332,48 +2341,1037 @@
     "entityKey": "LINE9_STN_PANDURANG_WADI",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8645,
-      "latitude": 19.2678
+      "longitude": 72.8725496558791,
+      "latitude": 19.2598262803283
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 2,
-    "stationNameInSource": "Pandurang Wadi",
+    "stationNameInSource": "Pandurang Wadi Station",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 9"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 1094
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05"
   },
   {
     "evidenceId": "E-L9-F-0003",
     "systemCode": "MMRDA_LINE9",
     "category": "F_GIS",
     "entityType": "station_point",
-    "entityKey": "LINE9_STN_KASHIGAON",
+    "entityKey": "LINE9_STN_MIRAGAON",
     "attribute": "wgs84_coordinates",
     "value": {
-      "longitude": 72.8662,
-      "latitude": 19.2795
+      "longitude": 72.88266591217861,
+      "latitude": 19.27237597184381
     },
     "pointClassification": "REVENUE_STATION",
     "sequencePosition": 3,
-    "stationNameInSource": "Kashigaon",
+    "stationNameInSource": "Miragaon",
     "source": {
-      "sourceId": "SRC-NET-008",
-      "type": "GIS_COMMUNITY",
-      "document": "OSM Overpass Mumbai Metro Line 9"
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 981
     },
     "evidenceType": "DIRECT",
     "temporalStatus": "OPERATIONAL",
-    "confidence": 0.65,
-    "validationStatus": "UNVERIFIED",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
     "priority": "P0",
-    "extractedAt": "2026-10-04"
+    "extractedAt": "2026-10-05",
+    "notes": "Corrected to match official ArcGIS station feature 981 (Miragaon); current Line 9 names are crosswalked separately from the KML placemark aliases."
+  },
+  {
+    "evidenceId": "E-L9-F-0004",
+    "systemCode": "MMRDA_LINE9",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "LINE9_STN_KASHIGAON",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.8800885836447,
+      "latitude": 19.27777886359229
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 4,
+    "stationNameInSource": "Kashigaon",
+    "source": {
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "type": "OFFICIAL_GIS",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 982
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "SOURCE_VERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "Corrected to match official ArcGIS station feature 982 (Kashigaon); current Line 9 names are crosswalked separately from the KML placemark aliases."
+  },
+  {
+    "evidenceId": "E-ARCGIS-CANDIDATE-LINE5",
+    "systemCode": "MMRDA_LINE5",
+    "category": "F_GIS",
+    "entityType": "alignment_geometry",
+    "entityKey": "MMRDA_LINE5_ARCGIS_ALIGNMENT_CANDIDATE",
+    "attribute": "candidate_linestring_wgs84",
+    "value": {
+      "geometryType": "LineString",
+      "featureDescription": "Thane–Bhiwandi–Kalyan",
+      "arcgisFeatureId": 59,
+      "reportedStationCount": 17,
+      "reportedLengthKm": 23.5,
+      "vertexCount": 429,
+      "startCoordinate": [
+        72.97797841248195,
+        19.216853212139117
+      ],
+      "endCoordinate": [
+        73.12307887588591,
+        19.22838053206042
+      ],
+      "coordinateSystem": "EPSG:4326",
+      "localPath": "sources/gis/arcgis-mumbai.json"
+    },
+    "source": {
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "document": "arcgis-mumbai.json",
+      "featureId": 59,
+      "coordinateSystem": "EPSG:4326"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "UNDER_CONSTRUCTION",
+    "confidence": 0.65,
+    "validationStatus": "CANDIDATE_UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "ArcGIS reports 17 stations and 23.5 km; current MMRDA overview reports 15 stations and 24.9 km. Do not promote pending route/station reconciliation."
+  },
+  {
+    "evidenceId": "E-ARCGIS-CANDIDATE-LINE6",
+    "systemCode": "MMRDA_LINE6",
+    "category": "F_GIS",
+    "entityType": "alignment_geometry",
+    "entityKey": "MMRDA_LINE6_ARCGIS_ALIGNMENT_CANDIDATE",
+    "attribute": "candidate_linestring_wgs84",
+    "value": {
+      "geometryType": "LineString",
+      "featureDescription": "Swami Samarth Nagar–Vikhroli (EEH)",
+      "arcgisFeatureId": 56,
+      "reportedStationCount": 13,
+      "reportedLengthKm": 14.5,
+      "vertexCount": 336,
+      "startCoordinate": [
+        72.82039330519306,
+        19.1429030873043
+      ],
+      "endCoordinate": [
+        72.935047369895,
+        19.124831835639498
+      ],
+      "coordinateSystem": "EPSG:4326",
+      "localPath": "sources/gis/arcgis-mumbai.json"
+    },
+    "source": {
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "document": "arcgis-mumbai.json",
+      "featureId": 56,
+      "coordinateSystem": "EPSG:4326"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "UNDER_CONSTRUCTION",
+    "confidence": 0.65,
+    "validationStatus": "CANDIDATE_UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "ArcGIS reports 13 stations and 14.5 km; current MMRDA overview reports 13 stations and 15.31 km. Candidate geometry only."
+  },
+  {
+    "evidenceId": "E-ARCGIS-CANDIDATE-LINE9",
+    "systemCode": "MMRDA_LINE9",
+    "category": "F_GIS",
+    "entityType": "alignment_geometry",
+    "entityKey": "MMRDA_LINE9_ARCGIS_ALIGNMENT_CANDIDATE",
+    "attribute": "candidate_linestring_wgs84",
+    "value": {
+      "geometryType": "LineString",
+      "featureDescription": "Dahisar East–Mira Bhayander",
+      "arcgisFeatureId": 62,
+      "reportedStationCount": 8,
+      "reportedLengthKm": 11.4,
+      "vertexCount": 147,
+      "startCoordinate": [
+        72.83897364530475,
+        19.299153305481088
+      ],
+      "endCoordinate": [
+        72.86711916212012,
+        19.251263173351788
+      ],
+      "coordinateSystem": "EPSG:4326",
+      "localPath": "sources/gis/arcgis-mumbai.json"
+    },
+    "source": {
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "document": "arcgis-mumbai.json",
+      "featureId": 62,
+      "coordinateSystem": "EPSG:4326"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PARTIAL",
+    "confidence": 0.65,
+    "validationStatus": "CANDIDATE_UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "ArcGIS route feature is a candidate; full station crosswalk and separate CTM route entities remain incomplete."
+  },
+  {
+    "evidenceId": "E-ARCGIS-CANDIDATE-LINE10",
+    "systemCode": "MMRDA_LINE10",
+    "category": "F_GIS",
+    "entityType": "alignment_geometry",
+    "entityKey": "MMRDA_LINE10_ARCGIS_ALIGNMENT_CANDIDATE",
+    "attribute": "candidate_linestring_wgs84",
+    "value": {
+      "geometryType": "LineString",
+      "featureDescription": "Gaimukh–Shivaji Chowk (Mira Road)",
+      "arcgisFeatureId": 64,
+      "reportedStationCount": 8,
+      "reportedLengthKm": 9.2,
+      "vertexCount": 246,
+      "startCoordinate": [
+        72.9501847217459,
+        19.28401831230279
+      ],
+      "endCoordinate": [
+        72.88264613576764,
+        19.272337087997425
+      ],
+      "coordinateSystem": "EPSG:4326",
+      "localPath": "sources/gis/arcgis-mumbai.json"
+    },
+    "source": {
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "document": "arcgis-mumbai.json",
+      "featureId": 64,
+      "coordinateSystem": "EPSG:4326"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PLANNED",
+    "confidence": 0.65,
+    "validationStatus": "CANDIDATE_UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "ArcGIS reports eight stations, while the 2019 DPR lists four; candidate geometry requires route-branch and station reconciliation."
+  },
+  {
+    "evidenceId": "E-ARCGIS-CANDIDATE-LINE11",
+    "systemCode": "MMRDA_LINE11",
+    "category": "F_GIS",
+    "entityType": "alignment_geometry",
+    "entityKey": "MMRDA_LINE11_ARCGIS_ALIGNMENT_CANDIDATE",
+    "attribute": "candidate_linestring_wgs84",
+    "value": {
+      "geometryType": "LineString",
+      "featureDescription": "Wadala–CSMT",
+      "arcgisFeatureId": 63,
+      "reportedStationCount": 10,
+      "reportedLengthKm": 12.7,
+      "vertexCount": 182,
+      "startCoordinate": [
+        72.88012622575006,
+        19.03745534912521
+      ],
+      "endCoordinate": [
+        72.83126290485956,
+        18.941114148681717
+      ],
+      "coordinateSystem": "EPSG:4326",
+      "localPath": "sources/gis/arcgis-mumbai.json"
+    },
+    "source": {
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "document": "arcgis-mumbai.json",
+      "featureId": 63,
+      "coordinateSystem": "EPSG:4326"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PLANNED",
+    "confidence": 0.65,
+    "validationStatus": "CANDIDATE_UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "ArcGIS route is candidate design geometry for a planned corridor; no current operational station rows are implied."
+  },
+  {
+    "evidenceId": "E-ARCGIS-CANDIDATE-LINE12",
+    "systemCode": "MMRDA_LINE12",
+    "category": "F_GIS",
+    "entityType": "alignment_geometry",
+    "entityKey": "MMRDA_LINE12_ARCGIS_ALIGNMENT_CANDIDATE",
+    "attribute": "candidate_linestring_wgs84",
+    "value": {
+      "geometryType": "LineString",
+      "featureDescription": "Kalyan–Taloja",
+      "arcgisFeatureId": 66,
+      "reportedStationCount": 19,
+      "reportedLengthKm": 20.7,
+      "vertexCount": 105,
+      "startCoordinate": [
+        73.12307887588591,
+        19.22838053206042
+      ],
+      "endCoordinate": [
+        73.12091419835927,
+        19.06315780488707
+      ],
+      "coordinateSystem": "EPSG:4326",
+      "localPath": "sources/gis/arcgis-mumbai.json"
+    },
+    "source": {
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "document": "arcgis-mumbai.json",
+      "featureId": 66,
+      "coordinateSystem": "EPSG:4326"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "UNDER_CONSTRUCTION",
+    "confidence": 0.65,
+    "validationStatus": "CANDIDATE_UNVERIFIED",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "ArcGIS reports 19 stations; MMRDA overview also lists 19, while the DPR and a 2026 MMRDA tender list 17. Preserve this conflict."
+  },
+  {
+    "evidenceId": "E-L2B-F-OPS-15",
+    "systemCode": "MMRDA_LINE2B",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "STN_L2B_015",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.89264444077669,
+      "latitude": 19.05393423138822
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 15,
+    "stationNameInSource": "CHEMBUR (M) STATION",
+    "operationalName": "Chembur",
+    "source": {
+      "sourceId": "SRC-USER-L2B-KML",
+      "document": "datasets/mumbai/kml/line_2b.kml",
+      "placemark": "CHEMBUR (M) STATION",
+      "coordinateSystem": "EPSG:4326"
+    },
+    "crossValidation": {
+      "operatorSourceId": "SRC-MMRDA-L2B-OVERVIEW",
+      "officialArcgisRouteFeatureId": 54,
+      "distanceToOfficialRouteMeters": 17.7,
+      "arcgisStationFeatureId": 1030,
+      "distanceToArcgisStationPointMeters": 210.1,
+      "status": "SPATIAL_CROSSCHECK_WARNING_ARCGIS_STATION_POINT_OFFSET"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.82,
+    "validationStatus": "SPATIAL_CROSSCHECK_WARNING_ARCGIS_STATION_POINT_OFFSET",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "MMRDA confirms this station is operating on Line 2B. Coordinate is the supplied station KML placemark, spatially cross-checked against official ArcGIS route feature 54. ArcGIS station-point offsets are preserved; this record does not claim platform-level or entrance-point accuracy."
+  },
+  {
+    "evidenceId": "E-ARCGIS-CANDIDATE-LINE2B",
+    "systemCode": "MMRDA_LINE2B",
+    "category": "F_GIS",
+    "entityType": "alignment_geometry",
+    "entityKey": "MMRDA_LINE2B_ARCGIS_ALIGNMENT_CANDIDATE",
+    "attribute": "candidate_linestring_wgs84",
+    "value": {
+      "geometryType": "LineString",
+      "featureDescription": "Andheri West–Mandale (Line 2B; ArcGIS coordinate order runs Mandale to Andheri West)",
+      "arcgisFeatureId": 54,
+      "reportedStationCount": 22,
+      "reportedLengthKm": 23.6,
+      "vertexCount": 464,
+      "startCoordinate": [
+        72.94121971577177,
+        19.047200586226424
+      ],
+      "endCoordinate": [
+        72.8314147659567,
+        19.1290892787009
+      ],
+      "coordinateSystem": "EPSG:4326",
+      "localPath": "sources/gis/arcgis-mumbai.json"
+    },
+    "source": {
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "document": "arcgis-mumbai.json",
+      "featureId": 54,
+      "coordinateSystem": "EPSG:4326"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL_PARTIAL",
+    "confidence": 0.65,
+    "validationStatus": "CANDIDATE_FULL_ROUTE_STATION_CROSSWALK_PENDING",
+    "priority": "P0",
+    "extractedAt": "2026-10-06",
+    "notes": "ArcGIS feature 54 reports 22 stations and 23.6 km. Its st_length(shape) value is 26244.709 m; retain that separately from the reported length. The full route geometry is a candidate until the station points are matched and ordered. Preserve the validated operational Chembur–Mandale segment."
+  },
+  {
+    "evidenceId": "E-L2B-F-OPS-16",
+    "systemCode": "MMRDA_LINE2B",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "STN_L2B_016",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.9014858081179,
+      "latitude": 19.05185810130003
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 16,
+    "stationNameInSource": "DIAMOND GARDEN (M) STATION",
+    "operationalName": "Diamond Garden",
+    "source": {
+      "sourceId": "SRC-USER-L2B-KML",
+      "document": "datasets/mumbai/kml/line_2b.kml",
+      "placemark": "DIAMOND GARDEN (M) STATION",
+      "coordinateSystem": "EPSG:4326"
+    },
+    "crossValidation": {
+      "operatorSourceId": "SRC-MMRDA-L2B-OVERVIEW",
+      "officialArcgisRouteFeatureId": 54,
+      "distanceToOfficialRouteMeters": 6.8,
+      "arcgisStationFeatureId": 1019,
+      "distanceToArcgisStationPointMeters": 61.1,
+      "status": "SPATIAL_CROSSCHECKED"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "SPATIAL_CROSSCHECKED",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "MMRDA confirms this station is operating on Line 2B. Coordinate is the supplied station KML placemark, spatially cross-checked against official ArcGIS route feature 54. ArcGIS station-point offsets are preserved; this record does not claim platform-level or entrance-point accuracy."
+  },
+  {
+    "evidenceId": "E-L2B-F-OPS-17",
+    "systemCode": "MMRDA_LINE2B",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "STN_L2B_017",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.9068639010636,
+      "latitude": 19.04794473464117
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 17,
+    "stationNameInSource": "SHIVAJI CHOWK (M) STATION",
+    "operationalName": "Shivaji Chowk",
+    "source": {
+      "sourceId": "SRC-USER-L2B-KML",
+      "document": "datasets/mumbai/kml/line_2b.kml",
+      "placemark": "SHIVAJI CHOWK (M) STATION",
+      "coordinateSystem": "EPSG:4326"
+    },
+    "crossValidation": {
+      "operatorSourceId": "SRC-MMRDA-L2B-OVERVIEW",
+      "officialArcgisRouteFeatureId": 54,
+      "distanceToOfficialRouteMeters": 13.4,
+      "arcgisStationFeatureId": 1085,
+      "distanceToArcgisStationPointMeters": 32.5,
+      "status": "SPATIAL_CROSSCHECKED"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "SPATIAL_CROSSCHECKED",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "MMRDA confirms this station is operating on Line 2B. Coordinate is the supplied station KML placemark, spatially cross-checked against official ArcGIS route feature 54. ArcGIS station-point offsets are preserved; this record does not claim platform-level or entrance-point accuracy."
+  },
+  {
+    "evidenceId": "E-L2B-F-OPS-18",
+    "systemCode": "MMRDA_LINE2B",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "STN_L2B_018",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.91727572544646,
+      "latitude": 19.04481972518506
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 18,
+    "stationNameInSource": "BSNL (M) STATION",
+    "operationalName": "BSNL Metro",
+    "source": {
+      "sourceId": "SRC-USER-L2B-KML",
+      "document": "datasets/mumbai/kml/line_2b.kml",
+      "placemark": "BSNL (M) STATION",
+      "coordinateSystem": "EPSG:4326"
+    },
+    "crossValidation": {
+      "operatorSourceId": "SRC-MMRDA-L2B-OVERVIEW",
+      "officialArcgisRouteFeatureId": 54,
+      "distanceToOfficialRouteMeters": 13.5,
+      "arcgisStationFeatureId": 1074,
+      "distanceToArcgisStationPointMeters": 40.8,
+      "status": "SPATIAL_CROSSCHECKED"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "SPATIAL_CROSSCHECKED",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "MMRDA confirms this station is operating on Line 2B. Coordinate is the supplied station KML placemark, spatially cross-checked against official ArcGIS route feature 54. ArcGIS station-point offsets are preserved; this record does not claim platform-level or entrance-point accuracy."
+  },
+  {
+    "evidenceId": "E-L2B-F-OPS-19",
+    "systemCode": "MMRDA_LINE2B",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "STN_L2B_019",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.93059011562615,
+      "latitude": 19.04735419858205
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 19,
+    "stationNameInSource": "MANKHURD (M) STATION",
+    "operationalName": "Mankhurd",
+    "source": {
+      "sourceId": "SRC-USER-L2B-KML",
+      "document": "datasets/mumbai/kml/line_2b.kml",
+      "placemark": "MANKHURD (M) STATION",
+      "coordinateSystem": "EPSG:4326"
+    },
+    "crossValidation": {
+      "operatorSourceId": "SRC-MMRDA-L2B-OVERVIEW",
+      "officialArcgisRouteFeatureId": 54,
+      "distanceToOfficialRouteMeters": 166.5,
+      "arcgisStationFeatureId": 1075,
+      "distanceToArcgisStationPointMeters": 769.6,
+      "status": "SPATIAL_CROSSCHECK_WARNING_ARCGIS_STATION_POINT_OFFSET"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.82,
+    "validationStatus": "SPATIAL_CROSSCHECK_WARNING_ARCGIS_STATION_POINT_OFFSET",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "MMRDA confirms this station is operating on Line 2B. Coordinate is the supplied station KML placemark, spatially cross-checked against official ArcGIS route feature 54. ArcGIS station-point offsets are preserved; this record does not claim platform-level or entrance-point accuracy."
+  },
+  {
+    "evidenceId": "E-L2B-F-OPS-20",
+    "systemCode": "MMRDA_LINE2B",
+    "category": "F_GIS",
+    "entityType": "station_point",
+    "entityKey": "STN_L2B_020",
+    "attribute": "wgs84_coordinates",
+    "value": {
+      "longitude": 72.93879480659635,
+      "latitude": 19.04909002896622
+    },
+    "pointClassification": "REVENUE_STATION",
+    "sequencePosition": 20,
+    "stationNameInSource": "MANDALE (M) STATION",
+    "operationalName": "Mandale",
+    "source": {
+      "sourceId": "SRC-USER-L2B-KML",
+      "document": "datasets/mumbai/kml/line_2b.kml",
+      "placemark": "MANDALE (M) STATION",
+      "coordinateSystem": "EPSG:4326"
+    },
+    "crossValidation": {
+      "operatorSourceId": "SRC-MMRDA-L2B-OVERVIEW",
+      "officialArcgisRouteFeatureId": 54,
+      "distanceToOfficialRouteMeters": 31.3,
+      "arcgisStationFeatureId": 1076,
+      "distanceToArcgisStationPointMeters": 151.3,
+      "status": "SPATIAL_CROSSCHECKED"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "SPATIAL_CROSSCHECKED",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "MMRDA confirms this station is operating on Line 2B. Coordinate is the supplied station KML placemark, spatially cross-checked against official ArcGIS route feature 54. ArcGIS station-point offsets are preserved; this record does not claim platform-level or entrance-point accuracy."
+  },
+  {
+    "evidenceId": "E-L2B-F-ALIGNMENT-OPS-001",
+    "systemCode": "MMRDA_LINE2B",
+    "category": "F_GIS",
+    "entityType": "alignment_geometry",
+    "entityKey": "MUMBAI_LINE2B_OPERATIONAL_SUBSEGMENT_CHEMBUR_MANDALE",
+    "attribute": "validated_subsegment_geometry_reference",
+    "value": {
+      "geometryType": "LineString",
+      "vertexCount": 123,
+      "lengthMeters": 5541,
+      "coordinateSystem": "EPSG:4326",
+      "ctmPath": "normalized/ctm-line2b-phase1.json"
+    },
+    "source": {
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 54
+    },
+    "validation": {
+      "operatorSourceId": "SRC-MMRDA-L2B-OVERVIEW",
+      "stationKmlSourceId": "SRC-USER-L2B-KML",
+      "operationalStationCount": 6,
+      "maximumKmlToRouteOffsetMeters": 166.5,
+      "status": "OPERATIONAL_SUBSEGMENT_CROSSCHECKED"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL_PARTIAL",
+    "confidence": 0.88,
+    "validationStatus": "OPERATIONAL_SUBSEGMENT_CROSSCHECKED; FULL_LINE_REMAINS_CANDIDATE",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "ArcGIS line feature 54 clipped between the KML station markers for Chembur and Mandale. The full 20-station route is not promoted by this segment record."
+  },
+  {
+    "evidenceId": "E-L9-F-OPS-01",
+    "systemCode": "MMRDA_LINE9",
+    "category": "F_GIS",
+    "entityType": "station_point_crosscheck",
+    "entityKey": "STN_L7_001",
+    "attribute": "kml_point_crosschecked_against_arcgis",
+    "value": {
+      "longitude": 72.86726447601028,
+      "latitude": 19.2507979459546
+    },
+    "operatorName": "Dahisar (East)",
+    "source": {
+      "sourceId": "SRC-USER-L9-KML",
+      "document": "datasets/mumbai/kml/line-9_2.kml",
+      "placemark": "Dahisar(E) (M) Station",
+      "coordinateSystem": "EPSG:4326"
+    },
+    "crossValidation": {
+      "operatorSourceId": "SRC-MMRDA-L9-OVERVIEW",
+      "arcgisSourceId": "SRC-ARCGIS-MOHUA-2025",
+      "arcgisRouteFeatureId": 62,
+      "distanceToOfficialRouteMeters": 53.9,
+      "arcgisStationFeatureId": 996,
+      "distanceToArcgisStationPointMeters": 53.9,
+      "status": "SPATIAL_CROSSCHECKED"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "SPATIAL_CROSSCHECKED",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "Operator confirms this stop is in the operational Dahisar East–Kashigaon phase. KML naming is retained as an alias where it differs from MMRDA's current list. Coordinates are cross-checked against the official Line 9 ArcGIS alignment; point offsets are retained and not averaged."
+  },
+  {
+    "evidenceId": "E-L9-F-OPS-02",
+    "systemCode": "MMRDA_LINE9",
+    "category": "F_GIS",
+    "entityType": "station_point_crosscheck",
+    "entityKey": "STN_L9_001",
+    "attribute": "kml_point_crosschecked_against_arcgis",
+    "value": {
+      "longitude": 72.87515928454522,
+      "latitude": 19.26504720295334
+    },
+    "operatorName": "Pandhurang Wadi",
+    "source": {
+      "sourceId": "SRC-USER-L9-KML",
+      "document": "datasets/mumbai/kml/line-9_2.kml",
+      "placemark": "Pandurang Wadi(M) Station",
+      "coordinateSystem": "EPSG:4326"
+    },
+    "crossValidation": {
+      "operatorSourceId": "SRC-MMRDA-L9-OVERVIEW",
+      "arcgisSourceId": "SRC-ARCGIS-MOHUA-2025",
+      "arcgisRouteFeatureId": 62,
+      "distanceToOfficialRouteMeters": 10.0,
+      "arcgisStationFeatureId": 1094,
+      "distanceToArcgisStationPointMeters": 641.9,
+      "status": "SPATIAL_CROSSCHECK_WARNING_ARCGIS_STATION_POINT_OFFSET"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.82,
+    "validationStatus": "SPATIAL_CROSSCHECK_WARNING_ARCGIS_STATION_POINT_OFFSET",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "Operator confirms this stop is in the operational Dahisar East–Kashigaon phase. KML naming is retained as an alias where it differs from MMRDA's current list. Coordinates are cross-checked against the official Line 9 ArcGIS alignment; point offsets are retained and not averaged."
+  },
+  {
+    "evidenceId": "E-L9-F-OPS-03",
+    "systemCode": "MMRDA_LINE9",
+    "category": "F_GIS",
+    "entityType": "station_point_crosscheck",
+    "entityKey": "STN_L9_002",
+    "attribute": "kml_point_crosschecked_against_arcgis",
+    "value": {
+      "longitude": 72.8808649736778,
+      "latitude": 19.2711311179
+    },
+    "operatorName": "Miragaon",
+    "source": {
+      "sourceId": "SRC-USER-L9-KML",
+      "document": "datasets/mumbai/kml/line-9_2.kml",
+      "placemark": "Amar Palace(M) Station",
+      "coordinateSystem": "EPSG:4326"
+    },
+    "crossValidation": {
+      "operatorSourceId": "SRC-MMRDA-L9-OVERVIEW",
+      "arcgisSourceId": "SRC-ARCGIS-MOHUA-2025",
+      "arcgisRouteFeatureId": 62,
+      "distanceToOfficialRouteMeters": 1.0,
+      "arcgisStationFeatureId": 981,
+      "distanceToArcgisStationPointMeters": 234.3,
+      "status": "SPATIAL_CROSSCHECK_WARNING_ARCGIS_STATION_POINT_OFFSET"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.82,
+    "validationStatus": "SPATIAL_CROSSCHECK_WARNING_ARCGIS_STATION_POINT_OFFSET",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "Operator confirms this stop is in the operational Dahisar East–Kashigaon phase. KML naming is retained as an alias where it differs from MMRDA's current list. Coordinates are cross-checked against the official Line 9 ArcGIS alignment; point offsets are retained and not averaged."
+  },
+  {
+    "evidenceId": "E-L9-F-OPS-04",
+    "systemCode": "MMRDA_LINE9",
+    "category": "F_GIS",
+    "entityType": "station_point_crosscheck",
+    "entityKey": "STN_L9_003",
+    "attribute": "kml_point_crosschecked_against_arcgis",
+    "value": {
+      "longitude": 72.88016037504715,
+      "latitude": 19.27769304256498
+    },
+    "operatorName": "Kashigaon",
+    "source": {
+      "sourceId": "SRC-USER-L9-KML",
+      "document": "datasets/mumbai/kml/line-9_2.kml",
+      "placemark": "Zankar Company (M) Station",
+      "coordinateSystem": "EPSG:4326"
+    },
+    "crossValidation": {
+      "operatorSourceId": "SRC-MMRDA-L9-OVERVIEW",
+      "arcgisSourceId": "SRC-ARCGIS-MOHUA-2025",
+      "arcgisRouteFeatureId": 62,
+      "distanceToOfficialRouteMeters": 2.9,
+      "arcgisStationFeatureId": 982,
+      "distanceToArcgisStationPointMeters": 12.2,
+      "status": "SPATIAL_CROSSCHECKED"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL",
+    "confidence": 0.9,
+    "validationStatus": "SPATIAL_CROSSCHECKED",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "Operator confirms this stop is in the operational Dahisar East–Kashigaon phase. KML naming is retained as an alias where it differs from MMRDA's current list. Coordinates are cross-checked against the official Line 9 ArcGIS alignment; point offsets are retained and not averaged."
+  },
+  {
+    "evidenceId": "E-L9-F-OPS-ALIGN",
+    "systemCode": "MMRDA_LINE9",
+    "category": "F_GIS",
+    "entityType": "alignment_geometry",
+    "entityKey": "MUMBAI_LINE9_PHASE_I_DAHISAR_EAST_TO_KASHIGAON",
+    "attribute": "operational_phase_linestring_wgs84",
+    "value": {
+      "geometryType": "LineString",
+      "coordinates": [
+        [
+          72.86711916212012,
+          19.251263173351788
+        ],
+        [
+          72.8680919414531,
+          19.252626518886608
+        ],
+        [
+          72.8682983743054,
+          19.252919232063423
+        ],
+        [
+          72.86849627585742,
+          19.253199847804307
+        ],
+        [
+          72.86873019805573,
+          19.253531537321525
+        ],
+        [
+          72.86886966509684,
+          19.253729293021664
+        ],
+        [
+          72.86891981444589,
+          19.25381252007731
+        ],
+        [
+          72.87065368421682,
+          19.256091622524597
+        ],
+        [
+          72.87107392059829,
+          19.256644001696085
+        ],
+        [
+          72.87127763604687,
+          19.25697695972109
+        ],
+        [
+          72.87148135059708,
+          19.257309917070113
+        ],
+        [
+          72.87163243644811,
+          19.257687253046036
+        ],
+        [
+          72.87200905962253,
+          19.258561276336955
+        ],
+        [
+          72.87241358177478,
+          19.2595029804851
+        ],
+        [
+          72.87254965587906,
+          19.259826280328298
+        ],
+        [
+          72.87280138807617,
+          19.260424368771634
+        ],
+        [
+          72.87317295822716,
+          19.261316359126056
+        ],
+        [
+          72.87358531458696,
+          19.262316975086918
+        ],
+        [
+          72.87375872267445,
+          19.26278969118431
+        ],
+        [
+          72.87386781408259,
+          19.263004362247667
+        ],
+        [
+          72.87396571607552,
+          19.263197682397696
+        ],
+        [
+          72.87433085518734,
+          19.263821649386653
+        ],
+        [
+          72.8745645743664,
+          19.264171956820377
+        ],
+        [
+          72.8749687650403,
+          19.26465464954016
+        ],
+        [
+          72.87559475514769,
+          19.26545090035687
+        ],
+        [
+          72.87626136078406,
+          19.266307637228774
+        ],
+        [
+          72.87680006249366,
+          19.26699432586337
+        ],
+        [
+          72.8769756238429,
+          19.267221295061077
+        ],
+        [
+          72.87725099700333,
+          19.267634007924343
+        ],
+        [
+          72.87762125741062,
+          19.26821490191435
+        ],
+        [
+          72.87803039690343,
+          19.2687626822832
+        ],
+        [
+          72.87836883449175,
+          19.269197796018847
+        ],
+        [
+          72.87851356296548,
+          19.269360844123398
+        ],
+        [
+          72.87871709336109,
+          19.26955143219003
+        ],
+        [
+          72.87896231456904,
+          19.269759429217494
+        ],
+        [
+          72.8793214475449,
+          19.27001632001756
+        ],
+        [
+          72.87971850110384,
+          19.270300333204933
+        ],
+        [
+          72.8801576551069,
+          19.27061445862663
+        ],
+        [
+          72.88091510107975,
+          19.271156251867158
+        ],
+        [
+          72.88158983467282,
+          19.27159244635564
+        ],
+        [
+          72.88251365582279,
+          19.272239135939397
+        ],
+        [
+          72.88257917085477,
+          19.27228385896046
+        ],
+        [
+          72.88264613576764,
+          19.272337087997425
+        ],
+        [
+          72.88266591217861,
+          19.27237597184381
+        ],
+        [
+          72.8826688326016,
+          19.27243519348013
+        ],
+        [
+          72.88265070639581,
+          19.272623683479104
+        ],
+        [
+          72.88257990477837,
+          19.27289068862987
+        ],
+        [
+          72.88235739028586,
+          19.273401047784663
+        ],
+        [
+          72.88221120833799,
+          19.273718657494406
+        ],
+        [
+          72.88211795422835,
+          19.273932417944067
+        ],
+        [
+          72.8820428029683,
+          19.274183875229564
+        ],
+        [
+          72.88200669608375,
+          19.274430387655606
+        ],
+        [
+          72.8819622645115,
+          19.27494111342132
+        ],
+        [
+          72.88189801790071,
+          19.27552727191691
+        ],
+        [
+          72.88185724157333,
+          19.275915415550667
+        ],
+        [
+          72.88182584186089,
+          19.276073494740068
+        ],
+        [
+          72.8817646297591,
+          19.276251966219366
+        ],
+        [
+          72.88167621128063,
+          19.276401852162035
+        ],
+        [
+          72.8815055870722,
+          19.276628925347485
+        ],
+        [
+          72.88116440602899,
+          19.276922872683077
+        ],
+        [
+          72.88083094959887,
+          19.277250585657544
+        ],
+        [
+          72.8805286449462,
+          19.277464782431764
+        ],
+        [
+          72.88023449340307,
+          19.27767151360546
+        ],
+        [
+          72.88017732718691,
+          19.277713572427427
+        ]
+      ],
+      "vertexCount": 64,
+      "derivedLengthMeters": 3586
+    },
+    "source": {
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "document": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "featureId": 62,
+      "coordinateSystem": "EPSG:4326"
+    },
+    "crossValidation": {
+      "operatorSourceId": "SRC-MMRDA-L9-OVERVIEW",
+      "publishedPhaseLengthMeters": 4700,
+      "phaseStations": 4,
+      "stationKmlSourceId": "SRC-USER-L9-KML"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "OPERATIONAL_PHASE_I",
+    "validationStatus": "OPERATIONAL_PHASE_I_CROSSCHECKED",
+    "priority": "P0",
+    "extractedAt": "2026-10-05",
+    "notes": "Clipped official ArcGIS feature 62 between the supplied Dahisar East and Kashigaon station KML projections. Derived geometry length is retained separately from MMRDA's 4.7 km published phase length."
   }
 ]

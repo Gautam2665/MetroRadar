@@ -42,15 +42,16 @@ export class CandidateFilterService {
   private readonly logger = new Logger(CandidateFilterService.name);
 
   /**
-   * Run both filter stages. Returns the surviving candidates.
-   * Input order is not preserved — caller should re-rank afterwards.
+   * Run all filter stages: Feasibility -> Detour -> Dominance.
+   * Returns the surviving candidates.
    */
   filter<T extends FilterableCandidate>(candidates: T[]): T[] {
     const afterFeasibility = this.applyFeasibilityFilter(candidates);
-    const afterDominance = this.applyDominanceFilter(afterFeasibility);
+    const afterDetour = this.applyDetourFilter(afterFeasibility);
+    const afterDominance = this.applyDominanceFilter(afterDetour);
 
     this.logger.debug(
-      `Filter: ${candidates.length} → ${afterFeasibility.length} (feasibility) → ${afterDominance.length} (dominance)`,
+      `Filter: ${candidates.length} → ${afterFeasibility.length} (feasibility) → ${afterDetour.length} (detour) → ${afterDominance.length} (dominance)`,
     );
 
     return afterDominance;
@@ -80,13 +81,68 @@ export class CandidateFilterService {
     });
   }
 
-  // ── Stage 2: Dominance ──────────────────────────────────────────────────────
+  // ── Stage 2: Detour Filter ──────────────────────────────────────────────────
+
+  /**
+   * Remove absurdly circuitous routes that take significantly longer than the fastest option
+   * without providing a substantial reduction in transfers.
+   *
+   * Rules:
+   * 1. If candidate has > transfers than fastest route, it cannot exceed the fastest
+   *    duration by > 25% (and at least 6 minutes slower).
+   * 2. If candidate has ≥ transfers than fastest route, it cannot exceed the fastest
+   *    duration by > 35% (and at least 10 minutes slower).
+   * 3. Any route taking > 40 minutes longer than the fastest route is pruned unless
+   *    it is a direct 0-transfer route.
+   */
+  private applyDetourFilter<T extends FilterableCandidate>(
+    candidates: T[],
+  ): T[] {
+    if (candidates.length <= 1) return candidates;
+
+    const fastest = candidates.reduce(
+      (min, c) => (c.durationSeconds < min.durationSeconds ? c : min),
+      candidates[0],
+    );
+
+    return candidates.filter((c) => {
+      if (c.id === fastest.id) return true;
+
+      const durationDelta = c.durationSeconds - fastest.durationSeconds;
+      const durationRatio = c.durationSeconds / Math.max(fastest.durationSeconds, 1);
+
+      // Rule 1: Strictly more transfers AND slower
+      if (c.transfers > fastest.transfers) {
+        if (durationRatio > 1.25 && durationDelta > 360) {
+          return false;
+        }
+      }
+
+      // Rule 2: Equal or more transfers AND significantly slower
+      if (c.transfers >= fastest.transfers) {
+        if (durationRatio > 1.35 && durationDelta > 600) {
+          return false;
+        }
+      }
+
+      // Rule 3: Absolute excessive detour (> 40 mins slower) unless direct (0 transfers)
+      if (durationDelta > 2400 && c.transfers > 0) {
+        return false;
+      }
+
+      return true;
+    });
+  }
+
+  // ── Stage 3: Dominance ──────────────────────────────────────────────────────
 
   /**
    * Remove any candidate A for which there exists a candidate B that dominates A.
    *
    * B dominates A iff:
-   *   B is at least as good on ALL three dimensions AND strictly better on ≥1.
+   *   1. B is at least as good on ALL three dimensions AND strictly better on ≥1, OR
+   *   2. B is strictly faster AND has fewer-or-equal transfers than A, and any walking
+   *      saved by A is dwarfed by the extra travel time (trade-off dominance).
    */
   private applyDominanceFilter<T extends FilterableCandidate>(
     candidates: T[],
@@ -111,7 +167,7 @@ export class CandidateFilterService {
   }
 
   /**
-   * Returns true if `b` strictly dominates `a`.
+   * Returns true if `b` dominates `a`.
    */
   private dominates(b: FilterableCandidate, a: FilterableCandidate): boolean {
     const atLeastAsGoodOnAll =
@@ -124,6 +180,23 @@ export class CandidateFilterService {
       b.transfers < a.transfers ||
       b.walkingSeconds < a.walkingSeconds;
 
-    return atLeastAsGoodOnAll && strictlyBetterOnAtLeastOne;
+    if (atLeastAsGoodOnAll && strictlyBetterOnAtLeastOne) {
+      return true;
+    }
+
+    // Trade-off / Subsumption Dominance:
+    // If b is strictly faster AND has fewer-or-equal transfers than a:
+    // A passenger would never accept a route that has more or equal transfers,
+    // is much slower, and saves only trivial walking.
+    if (b.durationSeconds < a.durationSeconds && b.transfers <= a.transfers) {
+      const durationDelta = a.durationSeconds - b.durationSeconds;
+      const walkingSavedByA = b.walkingSeconds - a.walkingSeconds;
+      // If a does not save walking, or the extra duration is > 2.5x the walking saved (and >= 10 min slower):
+      if (walkingSavedByA <= 0 || durationDelta > Math.max(600, 2.5 * walkingSavedByA)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

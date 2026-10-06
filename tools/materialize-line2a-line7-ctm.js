@@ -257,26 +257,35 @@ async function materializeLine2aLine7() {
     where: { shapeId: { in: [SHAPE_L2A, SHAPE_L7] } },
   });
 
-  const l2aShapeData = ctm2a.stations.map((st, idx) => ({
+  const l2aCoordinates = ctm2a.alignmentGeometry?.coordinates;
+  const l7Coordinates = ctm7.alignmentGeometry?.coordinates;
+  if (!Array.isArray(l2aCoordinates) || l2aCoordinates.length < 2) {
+    throw new Error('Line 2A CTM is missing its GIS alignment geometry. Rebuild the CTM first.');
+  }
+  if (!Array.isArray(l7Coordinates) || l7Coordinates.length < 2) {
+    throw new Error('Line 7 CTM is missing its GIS alignment geometry. Rebuild the CTM first.');
+  }
+
+  const l2aShapeData = l2aCoordinates.map(([longitude, latitude], idx) => ({
     systemId: system.id,
     shapeId: SHAPE_L2A,
-    latitude: st.latitude,
-    longitude: st.longitude,
+    latitude,
+    longitude,
     sequence: idx + 1,
     isActive: true,
   }));
   await prisma.shape.createMany({ data: l2aShapeData });
 
-  const l7ShapeData = ctm7.stations.map((st, idx) => ({
+  const l7ShapeData = l7Coordinates.map(([longitude, latitude], idx) => ({
     systemId: system.id,
     shapeId: SHAPE_L7,
-    latitude: st.latitude,
-    longitude: st.longitude,
+    latitude,
+    longitude,
     sequence: idx + 1,
     isActive: true,
   }));
   await prisma.shape.createMany({ data: l7ShapeData });
-  console.log('  ✅ Shapes created for Line 2A and Line 7.');
+  console.log(`  ✅ GIS alignment shapes created (Line 2A: ${l2aShapeData.length} vertices, Line 7: ${l7ShapeData.length} vertices).`);
 
   // 9. Calendar, Trips, and StopTimes for Station-Line linkage
   let calendar = await prisma.calendar.findFirst({ where: { serviceId: 'MM_ALL_DAYS' } });
@@ -382,113 +391,43 @@ async function materializeLine2aLine7() {
     where: { stationId: { in: allNewStnIds } },
   });
 
-  // Platforms for Line 2A
-  const stnDahisarEast2A = stationRecordMap.get('STN_L2A_001');
-  const stnAndheriWest = stationRecordMap.get('STN_L2A_017');
-
-  for (let i = 1; i <= 17; i++) {
-    const code = `STN_L2A_${String(i).padStart(3, '0')}`;
-    const station = stationRecordMap.get(code);
-    if (!station) continue;
-
-    const level = await prisma.level.create({
-      data: {
-        stationId: station.id,
-        name: 'Platform Level (Elevated)',
-        levelNumber: 1,
-        type: 'PLATFORM',
-        description: 'Elevated side-platform viaduct layout',
-        isActive: true,
-      },
-    });
-
-    // Platform 1 towards Andheri (West) (all except Andheri West)
-    if (i < 17) {
-      await prisma.platform.create({
-        data: {
-          lineId: line2a.id,
-          levelId: level.id,
-          platformNumber: '1',
-          towardsStationId: stnAndheriWest.id,
-          screenDoors: false,
-          wheelchairBoarding: true,
-          status: 'ACTIVE',
-          isActive: true,
-        },
+  // The DPRs support station levels and two platforms, but do not
+  // establish platform-number/direction assignments. Store the physical
+  // platforms with UNKNOWN identifiers and a null direction so journey
+  // responses stay UNKNOWN until operator wayfinding is acquired.
+  for (const [ctm, line, prefix] of [[ctm2a, line2a, 'STN_L2A_'], [ctm7, line7, 'STN_L7_']]) {
+    for (const st of ctm.stations) {
+      const station = stationRecordMap.get(st.canonicalId);
+      if (!station) continue;
+      await prisma.level.create({
+        data: { stationId: station.id, name: 'Concourse Level', levelNumber: 1, type: 'CONCOURSE', description: 'Lower station level per corridor DPR', isActive: true },
       });
-    }
-
-    // Platform 2 towards Dahisar (East) (all except Dahisar East)
-    if (i > 1) {
-      await prisma.platform.create({
-        data: {
-          lineId: line2a.id,
-          levelId: level.id,
-          platformNumber: '2',
-          towardsStationId: stnDahisarEast2A.id,
-          screenDoors: false,
-          wheelchairBoarding: true,
-          status: 'ACTIVE',
-          isActive: true,
-        },
+      const platformLevel = await prisma.level.create({
+        data: { stationId: station.id, name: 'Platform Level', levelNumber: 2, type: 'PLATFORM', description: 'Upper station level per corridor DPR', isActive: true },
       });
+      if (prefix === 'STN_L2A_' && st.sequence === 17) {
+        await prisma.level.create({
+          data: { stationId: station.id, name: 'Property Development Level', levelNumber: 0, type: 'OTHER', description: 'Additional level documented by MMRDA for Andheri West station; relative ordering not established by source', isActive: true },
+        });
+      }
+      for (let platformIndex = 0; platformIndex < 2; platformIndex++) {
+        await prisma.platform.create({
+          data: {
+            lineId: line.id,
+            levelId: platformLevel.id,
+            platformNumber: 'UNKNOWN',
+            towardsStationId: null,
+            screenDoors: null,
+            wheelchairBoarding: null,
+            status: 'ACTIVE',
+            isActive: true,
+          },
+        });
+      }
     }
   }
 
-  // Platforms for Line 7
-  const stnDahisarEast7 = stationRecordMap.get('STN_L7_001');
-  const stnGundavali = stationRecordMap.get('STN_L7_014');
-
-  for (let i = 1; i <= 14; i++) {
-    const code = `STN_L7_${String(i).padStart(3, '0')}`;
-    const station = stationRecordMap.get(code);
-    if (!station) continue;
-
-    const level = await prisma.level.create({
-      data: {
-        stationId: station.id,
-        name: 'Platform Level (Elevated)',
-        levelNumber: 1,
-        type: 'PLATFORM',
-        description: 'Elevated side-platform viaduct layout',
-        isActive: true,
-      },
-    });
-
-    // Platform 1 towards Gundavali (all except Gundavali)
-    if (i < 14) {
-      await prisma.platform.create({
-        data: {
-          lineId: line7.id,
-          levelId: level.id,
-          platformNumber: '1',
-          towardsStationId: stnGundavali.id,
-          screenDoors: false,
-          wheelchairBoarding: true,
-          status: 'ACTIVE',
-          isActive: true,
-        },
-      });
-    }
-
-    // Platform 2 towards Dahisar (East) (all except Dahisar East)
-    if (i > 1) {
-      await prisma.platform.create({
-        data: {
-          lineId: line7.id,
-          levelId: level.id,
-          platformNumber: '2',
-          towardsStationId: stnDahisarEast7.id,
-          screenDoors: false,
-          wheelchairBoarding: true,
-          status: 'ACTIVE',
-          isActive: true,
-        },
-      });
-    }
-  }
-
-  console.log('  ✅ 62 Platforms & 31 Levels materialized for Line 2A & Line 7!');
+  console.log('  ✅ Concourse/platform levels and 62 documented platforms materialized; arrangement, direction, and numbering remain unknown pending station-level sources.');
   console.log('🎉 Ingestion complete for Mumbai Metro Lines 2A & 7!');
 }
 

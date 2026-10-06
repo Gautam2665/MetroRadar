@@ -160,32 +160,32 @@ export function StationSearchInput({
                   <span className="material-symbols-outlined text-[#bac9cc] text-base flex-shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>subway</span>
                   <ScrollingText text={station.name} className="font-semibold text-[#dfe2ee] leading-tight flex-1" />
                 </div>
-          {/* Line color badges — deduplicated by color, showing short color name */}
+          {/* Line badges — deduplicated by formatted badge label */}
           {(() => {
             const seen = new Set<string>();
-            const deduped = lines.filter((l) => {
-              if (seen.has(l.color)) return false;
-              seen.add(l.color);
-              return true;
-            });
+            const deduped: Array<{ name: string; color: string; badgeName: string }> = [];
+            for (const l of lines) {
+              const badgeName = formatShortLineName(l.name);
+              if (!seen.has(badgeName)) {
+                seen.add(badgeName);
+                deduped.push({ name: l.name, color: l.color, badgeName });
+              }
+            }
             return (
               <div className="flex items-center gap-1 flex-wrap justify-end shrink-0 ml-2">
-                {deduped.map((line, i) => {
-                  const badgeName = formatShortLineName(line.name);
-                  return (
-                    <span
-                      key={i}
-                      className="text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap"
-                      style={{
-                        backgroundColor: `${line.color}22`,
-                        color: line.color,
-                        border: `1px solid ${line.color}50`,
-                      }}
-                    >
-                      {badgeName}
-                    </span>
-                  );
-                })}
+                {deduped.map((item, i) => (
+                  <span
+                    key={i}
+                    className="text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap"
+                    style={{
+                      backgroundColor: `${item.color}22`,
+                      color: item.color,
+                      border: `1px solid ${item.color}50`,
+                    }}
+                  >
+                    {item.badgeName}
+                  </span>
+                ))}
               </div>
             );
           })()}

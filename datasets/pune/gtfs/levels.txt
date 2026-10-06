@@ -1,0 +1,89 @@
+level_id,level_index,level_name
+LVL_CIVIL_COURT_G,0.0,Street / Main Concourse Level
+LVL_CIVIL_COURT_L2,2.0,Elevated Aqua Line Platform Level
+LVL_CIVIL_COURT_UG_M,-1.0,Underground Mezzanine & Intermediate Concourse
+LVL_CIVIL_COURT_UG_P,-2.0,Underground Purple Line Platform Level
+LVL_STN_PUNE_L1_001_G,0.0,Street Level
+LVL_STN_PUNE_L1_001_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L1_001_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L1_002_G,0.0,Street Level
+LVL_STN_PUNE_L1_002_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L1_002_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L1_003_G,0.0,Street Level
+LVL_STN_PUNE_L1_003_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L1_003_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L1_004_G,0.0,Street Level
+LVL_STN_PUNE_L1_004_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L1_004_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L1_005_G,0.0,Street Level
+LVL_STN_PUNE_L1_005_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L1_005_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L1_006_G,0.0,Street Level
+LVL_STN_PUNE_L1_006_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L1_006_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L1_007_G,0.0,Street Level
+LVL_STN_PUNE_L1_007_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L1_007_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L1_008_G,0.0,Street Level
+LVL_STN_PUNE_L1_008_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L1_008_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L1_009_G,0.0,Street Level
+LVL_STN_PUNE_L1_009_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L1_009_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L1_010_G,0.0,Street Level
+LVL_STN_PUNE_L1_010_C,1.0,Mezzanine Concourse
+LVL_STN_PUNE_L1_010_P,-1.0,Underground Island Platform
+LVL_STN_PUNE_L1_011_G,0.0,Street Level
+LVL_STN_PUNE_L1_011_C,1.0,Mezzanine Concourse
+LVL_STN_PUNE_L1_011_P,-1.0,Underground Island Platform
+LVL_STN_PUNE_L1_012_G,0.0,Street Level
+LVL_STN_PUNE_L1_012_C,1.0,Mezzanine Concourse
+LVL_STN_PUNE_L1_012_P,-1.0,Underground Island Platform
+LVL_STN_PUNE_L1_013_G,0.0,Street Level
+LVL_STN_PUNE_L1_013_C,1.0,Mezzanine Concourse
+LVL_STN_PUNE_L1_013_P,-1.0,Underground Island Platform
+LVL_STN_PUNE_L2_001_G,0.0,Street Level
+LVL_STN_PUNE_L2_001_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L2_001_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L2_002_G,0.0,Street Level
+LVL_STN_PUNE_L2_002_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L2_002_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L2_003_G,0.0,Street Level
+LVL_STN_PUNE_L2_003_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L2_003_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L2_004_G,0.0,Street Level
+LVL_STN_PUNE_L2_004_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L2_004_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L2_005_G,0.0,Street Level
+LVL_STN_PUNE_L2_005_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L2_005_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L2_006_G,0.0,Street Level
+LVL_STN_PUNE_L2_006_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L2_006_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L2_007_G,0.0,Street Level
+LVL_STN_PUNE_L2_007_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L2_007_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L2_008_G,0.0,Street Level
+LVL_STN_PUNE_L2_008_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L2_008_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L2_009_G,0.0,Street Level
+LVL_STN_PUNE_L2_009_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L2_009_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L2_010_G,0.0,Street Level
+LVL_STN_PUNE_L2_010_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L2_010_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L2_011_G,0.0,Street Level
+LVL_STN_PUNE_L2_011_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L2_011_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L2_012_G,0.0,Street Level
+LVL_STN_PUNE_L2_012_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L2_012_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L2_013_G,0.0,Street Level
+LVL_STN_PUNE_L2_013_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L2_013_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L2_014_G,0.0,Street Level
+LVL_STN_PUNE_L2_014_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L2_014_P,2.0,Elevated Platform Level
+LVL_STN_PUNE_L2_015_G,0.0,Street Level
+LVL_STN_PUNE_L2_015_C,1.0,Elevated Concourse
+LVL_STN_PUNE_L2_015_P,2.0,Elevated Platform Level

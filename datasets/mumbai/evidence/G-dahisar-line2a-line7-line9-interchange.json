@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "tdse-g-interchange-evidence-v1",
+  "complexId": "ICX-DAHISAR-EAST",
+  "title": "Dahisar East: Line 2A / Red Line interchange and Line 9 continuity",
+  "status": "TOPOLOGY_VERIFIED_PHYSICAL_TRANSFER_DETAILS_OPEN",
+  "lastUpdated": "2026-10-05",
+  "findings": [
+    {
+      "findingId": "DAH-GIS-001",
+      "claim": "One mapped Dahisar East station location is identified as the Red-to-Yellow interchange.",
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "sourceLocator": "datasets/mumbai/sources/gis/arcgis-mumbai.json; feature 996",
+      "evidence": {
+        "name": "Dahisar (East)",
+        "coordinatesWgs84": [72.86711916212012, 19.251263173351788],
+        "remarks": "Elevated, Interchange between Red to Yellow",
+        "type": "Interchange Station"
+      },
+      "transitOsCrosswalk": ["STN_L2A_001", "STN_L7_001"],
+      "evidenceState": "VERIFIED_PRIMARY"
+    },
+    {
+      "findingId": "DAH-DPR-002",
+      "claim": "The L2A design treats Dahisar East as a special two-corridor station, with a platform assigned to each corridor.",
+      "sourceId": "SRC-MMRDA-L2A-DPR",
+      "sourceLocator": "Chapter 5, special station no. 1 Dahisar (East)",
+      "evidence": "One platform is for the Dahisar East–Andheri corridor (Line 7); the other is for the Dahisar East–D.N. Nagar corridor (Line 2A). This identifies corridor allocation only; it does not establish platform number, direction labels, current passenger route, or as-built levels.",
+      "evidenceState": "VERIFIED_PRIMARY_DESIGN_NOT_AS_BUILT"
+    },
+    {
+      "findingId": "DAH-EIA-002B",
+      "claim": "The MMRDA EIA places the Line 2A platform above the already proposed Line 7 Dahisar East station.",
+      "sourceId": "SRC-MMRDA-L2A-L7-EIA-2022",
+      "sourceLocator": "Section 4.1, Salient Features of Line 2A",
+      "evidence": "The EIA describes the Line 2A station starting at Western Express Highway and its platform located above the already proposed Dahisar East metro station for the Andheri East–Dahisar corridor.",
+      "evidenceState": "VERIFIED_PRIMARY_DESIGN_NOT_AS_BUILT",
+      "limits": "Relative design position only; no verified absolute floor labels, elevations, current passenger entrance path, or platform numbering."
+    },
+    {
+      "findingId": "DAH-L9-003",
+      "claim": "Line 9 extends the Red Line beyond the existing Dahisar East Line 7 station; it is not a third interchange movement at Dahisar.",
+      "sourceId": "SRC-MMRDA-L7A-L9-DPR",
+      "sourceLocator": "Chapter 4, §§4.3.1–4.3.2, printed pages 136–137",
+      "evidence": "The DPR describes the alignment as extending beyond Dahisar East station under implementation; Pandurang Wadi is the next station on the extension.",
+      "evidenceState": "VERIFIED_PRIMARY_DESIGN"
+    },
+    {
+      "findingId": "DAH-OP-004",
+      "claim": "Line 9 Phase I is reported operational from Dahisar East to Kashigaon with four stations.",
+      "sourceId": "SRC-MMRDA-L9-OVERVIEW",
+      "sourceLocator": "Current project overview",
+      "evidenceState": "VERIFIED_PRIMARY_OPERATOR"
+    },
+    {
+      "findingId": "DAH-OP-005",
+      "claim": "MMRDA explicitly identifies Dahisar East as an interchange joining Line 2A and Line 7.",
+      "sourceId": "SRC-MMRDA-L9-INTERCHANGE-2023",
+      "sourceLocator": "MMRDA press announcement, 24 February 2023",
+      "caution": "The announcement's three-tier station statement describes Meditiya Nagar, not Dahisar East.",
+      "evidenceState": "VERIFIED_PRIMARY_OPERATOR"
+    }
+  ],
+  "canonicalInterpretation": {
+    "interchangeStations": ["STN_L2A_001", "STN_L7_001"],
+    "linesShownAtSharedLocation": ["MUMBAI_LINE2A", "MUMBAI_LINE7", "MUMBAI_LINE9"],
+    "physicalTransfer": "Line 2A ↔ Red Line (Line 7/9 service); do not create a separate Line 7 ↔ Line 9 transfer edge.",
+    "line9StationEntity": "No separate Dahisar Line 9 CTM station row is invented; MMRDA describes Line 9 as an extension beyond the existing Dahisar East Line 7 station.",
+    "levelResolution": "The DPRs establish proposed corridor/platform layout but not sufficient verified as-built level detail for the level refresh script. Preserve levels as unknown pending current station-layout/as-built evidence."
+  },
+  "openOperationalEvidence": [
+    "Current signed passenger wayfinding/platform labels and platform numbering",
+    "As-built levels and exact vertical circulation at the Line 2A/Red Line connection",
+    "Measured accessible transfer route, distance, and typical walking time",
+    "Paid/unpaid boundary, AFC retap rule, and security rescreening instructions",
+    "Station-specific accessibility confirmation for a continuous step-free route"
+  ],
+  "sourceAcquisitionLead": {
+    "sourceId": "SRC-MMMOCL-STATION-LAYOUT-TENDER-2026",
+    "tenderId": "2026_MMRDA_1324252_1",
+    "annexure": "Annexure_C_Station_layout_with_kiosk_layout_of_Metro_Line_7.pdf and Annexure_D_Station_layout_with_kiosk_layout_of_Metro_Line_9.pdf",
+    "acquisitionState": "DISCOVERED_IN_PUBLIC_TENDER_INDEX_PRIMARY_PORTAL_COPY_NOT_ACQUIRED",
+    "use": "Potentially corroborates current station arrangement and retail/public-area locations; treat as an operator-issued tender drawing, not automatically as an as-built engineering drawing."
+  }
+}

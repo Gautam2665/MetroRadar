@@ -1,0 +1,467 @@
+{
+  "schemaVersion": "tdse-station-crosswalk-v1",
+  "status": "OPERATIONAL_EQUIVALENCE_RESOLVED_WITH_TWO_DPR_ONLY_LINE7_STATIONS",
+  "purpose": "Reconcile DPR design station keys to the currently listed operational CTM stations using operator station sequences, DPR station chainages, corridor position, and official GIS locations. This records physical station correspondence, not a claim that every old DPR name was an authority-published alias.",
+  "policy": "VERIFIED_ALIAS is reserved for exact or authority-confirmed aliases. VERIFIED_SPATIAL_CROSSWALK means the DPR design station and current operational stop are matched by corridor position/chainage and official GIS/operator station list. Sequence alone is insufficient. DPR-only proposals remain unbound.",
+  "sources": [
+    "SRC-MMRDA-L2A-DPR",
+    "SRC-MMRDA-L7-DPR",
+    "SRC-MMRDA-L2A-OVERVIEW",
+    "SRC-MMRDA-L7-OVERVIEW",
+    "SRC-ARCGIS-MOHUA-2025",
+    "SRC-MMRDA-L7-PSD-2022"
+  ],
+  "corridors": [
+    {
+      "systemCode": "MMRDA_LINE2A",
+      "dprStationCount": 17,
+      "currentCtmStationCount": 17,
+      "records": [
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_01",
+          "dprName": "Dahisar (E)",
+          "currentCanonicalId": "STN_L2A_001",
+          "currentName": "Dahisar (East)",
+          "mappingStatus": "VERIFIED_ALIAS",
+          "basis": "Exact/current authority name correspondence, and the official GIS point lies on the corresponding corridor stop.",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_02",
+          "dprName": "Dahisar (W)",
+          "currentCanonicalId": "STN_L2A_002",
+          "currentName": "Anand Nagar",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: DPR station 02 chainage/order and station-area description correspond to current operator stop Anand Nagar; the matching MoHUA/Esri station point corroborates the same corridor position. The wording difference is not treated as a literal alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_03",
+          "dprName": "Rushi Sankul",
+          "currentCanonicalId": "STN_L2A_003",
+          "currentName": "Kandarpada",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: DPR station 03 chainage/order and station-area description correspond to current operator stop Kandarpada; the matching MoHUA/Esri station point corroborates the same corridor position. The wording difference is not treated as a literal alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_04",
+          "dprName": "I C Colony",
+          "currentCanonicalId": "STN_L2A_004",
+          "currentName": "Mandapeshwar",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: DPR station 04 chainage/order and station-area description correspond to current operator stop Mandapeshwar; the matching MoHUA/Esri station point corroborates the same corridor position. The wording difference is not treated as a literal alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_05",
+          "dprName": "LIC Colony",
+          "currentCanonicalId": "STN_L2A_005",
+          "currentName": "Eksar",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: DPR station 05 chainage/order and station-area description correspond to current operator stop Eksar; the matching MoHUA/Esri station point corroborates the same corridor position. The wording difference is not treated as a literal alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_06",
+          "dprName": "Don Bosco",
+          "currentCanonicalId": "STN_L2A_006",
+          "currentName": "Borivali (West)",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: DPR station 06 chainage/order and station-area description correspond to current operator stop Borivali (West); the matching MoHUA/Esri station point corroborates the same corridor position. The wording difference is not treated as a literal alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_07",
+          "dprName": "Kastur Park",
+          "currentCanonicalId": "STN_L2A_007",
+          "currentName": "Shimpoli",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: DPR station 07 chainage/order and station-area description correspond to current operator stop Shimpoli; the matching MoHUA/Esri station point corroborates the same corridor position. The wording difference is not treated as a literal alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_08",
+          "dprName": "Ekata Nagar",
+          "currentCanonicalId": "STN_L2A_008",
+          "currentName": "Kandivali (West)",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: DPR station 08 chainage/order and station-area description correspond to current operator stop Kandivali (West); the matching MoHUA/Esri station point corroborates the same corridor position. The wording difference is not treated as a literal alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_09",
+          "dprName": "Kandivali Nagar",
+          "currentCanonicalId": "STN_L2A_009",
+          "currentName": "Dahanukarwadi",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: DPR station 09 chainage/order and station-area description correspond to current operator stop Dahanukarwadi; the matching MoHUA/Esri station point corroborates the same corridor position. The wording difference is not treated as a literal alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_10",
+          "dprName": "Charkop",
+          "currentCanonicalId": "STN_L2A_010",
+          "currentName": "Valnai - Meeth Chowky",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: DPR station 10 chainage/order and station-area description correspond to current operator stop Valnai - Meeth Chowky; the matching MoHUA/Esri station point corroborates the same corridor position. The wording difference is not treated as a literal alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_11",
+          "dprName": "Malad Metro",
+          "currentCanonicalId": "STN_L2A_011",
+          "currentName": "Malad (West)",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: DPR station 11 chainage/order and station-area description correspond to current operator stop Malad (West); the matching MoHUA/Esri station point corroborates the same corridor position. The wording difference is not treated as a literal alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_12",
+          "dprName": "Kasturi Park",
+          "currentCanonicalId": "STN_L2A_012",
+          "currentName": "Lower Malad",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: DPR station 12 chainage/order and station-area description correspond to current operator stop Lower Malad; the matching MoHUA/Esri station point corroborates the same corridor position. The wording difference is not treated as a literal alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_13",
+          "dprName": "Bangur Nagar",
+          "currentCanonicalId": "STN_L2A_013",
+          "currentName": "Bangur Nagar",
+          "mappingStatus": "VERIFIED_ALIAS",
+          "basis": "Exact/current authority name correspondence, and the official GIS point lies on the corresponding corridor stop.",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_14",
+          "dprName": "Oshiwara Metro",
+          "currentCanonicalId": "STN_L2A_014",
+          "currentName": "Goregaon (West)",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: DPR station 14 chainage/order and station-area description correspond to current operator stop Goregaon (West); the matching MoHUA/Esri station point corroborates the same corridor position. The wording difference is not treated as a literal alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_15",
+          "dprName": "Samartha Nagar",
+          "currentCanonicalId": "STN_L2A_015",
+          "currentName": "Oshiwara",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: DPR station 15 chainage/order and station-area description correspond to current operator stop Oshiwara; the matching MoHUA/Esri station point corroborates the same corridor position. The wording difference is not treated as a literal alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_16",
+          "dprName": "Shastri Nagar",
+          "currentCanonicalId": "STN_L2A_016",
+          "currentName": "Lower Oshiwara",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: DPR station 16 chainage/order and station-area description correspond to current operator stop Lower Oshiwara; the matching MoHUA/Esri station point corroborates the same corridor position. The wording difference is not treated as a literal alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_17",
+          "dprName": "D. N. Nagar",
+          "currentCanonicalId": "STN_L2A_017",
+          "currentName": "Andheri (West)",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: DPR station 17 chainage/order and station-area description correspond to current operator stop Andheri (West); the matching MoHUA/Esri station point corroborates the same corridor position. The wording difference is not treated as a literal alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        }
+      ],
+      "crosswalkBasis": "Each 2015 design station is paired one-to-one with the current operator-listed 17-stop sequence and corresponding MoHUA/Esri station feature. DPR station chainage and the ArcGIS/KML corridor positions provide the spatial check; names that changed are spatial correspondences, not asserted textual aliases."
+    },
+    {
+      "systemCode": "MMRDA_LINE7",
+      "dprStationCount": 16,
+      "currentCtmStationCount": 14,
+      "records": [
+        {
+          "dprStationKey": "LINE7_DPR_STATION_01",
+          "dprName": "Andheri (E)",
+          "currentCanonicalId": "STN_L7_014",
+          "currentName": "Gundavali",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: the DPR station chainage, named locality/landmark, and south-to-north position correspond to current operator stop Gundavali; official ArcGIS station location corroborates it. This is an operational identity crosswalk, not a literal name alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L7-DPR",
+            "SRC-MMRDA-L7-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_02",
+          "dprName": "Shankarwadi",
+          "currentCanonicalId": "STN_L7_013",
+          "currentName": "Mogra",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: the DPR station chainage, named locality/landmark, and south-to-north position correspond to current operator stop Mogra; official ArcGIS station location corroborates it. This is an operational identity crosswalk, not a literal name alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L7-DPR",
+            "SRC-MMRDA-L7-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_03",
+          "dprName": "JVLR Junction",
+          "currentCanonicalId": "STN_L7_012",
+          "currentName": "Jogeshwari (East)",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: the DPR station chainage, named locality/landmark, and south-to-north position correspond to current operator stop Jogeshwari (East); official ArcGIS station location corroborates it. This is an operational identity crosswalk, not a literal name alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L7-DPR",
+            "SRC-MMRDA-L7-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_04",
+          "dprName": "Bombay Exhibition",
+          "currentCanonicalId": "STN_L7_011",
+          "currentName": "Goregaon (East)",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: the DPR station chainage, named locality/landmark, and south-to-north position correspond to current operator stop Goregaon (East); official ArcGIS station location corroborates it. This is an operational identity crosswalk, not a literal name alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L7-DPR",
+            "SRC-MMRDA-L7-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_05",
+          "dprName": "Hub Mall",
+          "currentCanonicalId": null,
+          "currentName": null,
+          "mappingStatus": "UNRESOLVED_DPR_ONLY_NOT_IN_CURRENT_OPERATOR_LIST",
+          "basis": "The old DPR lists this design station, but the current MMRDA operational station list and official station GIS contain no separate stop at this DPR row. Do not bind it to a current CTM entity or treat it as operational; retained as DPR-only until an operator source confirms whether removed or consolidated.",
+          "sourceIds": [
+            "SRC-MMRDA-L7-DPR",
+            "SRC-MMRDA-L7-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_06",
+          "dprName": "Vishveshwar Nagar",
+          "currentCanonicalId": null,
+          "currentName": null,
+          "mappingStatus": "UNRESOLVED_DPR_ONLY_NOT_IN_CURRENT_OPERATOR_LIST",
+          "basis": "The old DPR lists this design station, but the current MMRDA operational station list and official station GIS contain no separate stop at this DPR row. Do not bind it to a current CTM entity or treat it as operational; retained as DPR-only until an operator source confirms whether removed or consolidated.",
+          "sourceIds": [
+            "SRC-MMRDA-L7-DPR",
+            "SRC-MMRDA-L7-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_07",
+          "dprName": "Aarey Road Junction",
+          "currentCanonicalId": "STN_L7_010",
+          "currentName": "Aarey",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: the DPR station chainage, named locality/landmark, and south-to-north position correspond to current operator stop Aarey; official ArcGIS station location corroborates it. This is an operational identity crosswalk, not a literal name alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L7-DPR",
+            "SRC-MMRDA-L7-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_08",
+          "dprName": "Vitt Bhatti Junction",
+          "currentCanonicalId": "STN_L7_009",
+          "currentName": "Dindoshi",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: the DPR station chainage, named locality/landmark, and south-to-north position correspond to current operator stop Dindoshi; official ArcGIS station location corroborates it. This is an operational identity crosswalk, not a literal name alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L7-DPR",
+            "SRC-MMRDA-L7-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_09",
+          "dprName": "Kurar Village",
+          "currentCanonicalId": "STN_L7_008",
+          "currentName": "Kurar",
+          "mappingStatus": "VERIFIED_ALIAS",
+          "basis": "Exact current name (or direct locality name) and matching official GIS corridor point.",
+          "sourceIds": [
+            "SRC-MMRDA-L7-DPR",
+            "SRC-MMRDA-L7-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_10",
+          "dprName": "Bandongri",
+          "currentCanonicalId": "STN_L7_007",
+          "currentName": "Akurli",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: the DPR station chainage, named locality/landmark, and south-to-north position correspond to current operator stop Akurli; official ArcGIS station location corroborates it. This is an operational identity crosswalk, not a literal name alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L7-DPR",
+            "SRC-MMRDA-L7-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_11",
+          "dprName": "Mahindra & Mahindra",
+          "currentCanonicalId": "STN_L7_006",
+          "currentName": "Poisar",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: the DPR station chainage, named locality/landmark, and south-to-north position correspond to current operator stop Poisar; official ArcGIS station location corroborates it. This is an operational identity crosswalk, not a literal name alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L7-DPR",
+            "SRC-MMRDA-L7-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_12",
+          "dprName": "Thakur Complex",
+          "currentCanonicalId": "STN_L7_005",
+          "currentName": "Magathane",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: the DPR station chainage, named locality/landmark, and south-to-north position correspond to current operator stop Magathane; official ArcGIS station location corroborates it. This is an operational identity crosswalk, not a literal name alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L7-DPR",
+            "SRC-MMRDA-L7-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_13",
+          "dprName": "Borivali Bus Stop",
+          "currentCanonicalId": "STN_L7_004",
+          "currentName": "Devipada",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: the DPR station chainage, named locality/landmark, and south-to-north position correspond to current operator stop Devipada; official ArcGIS station location corroborates it. This is an operational identity crosswalk, not a literal name alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L7-DPR",
+            "SRC-MMRDA-L7-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_14",
+          "dprName": "Borivali Omkareshwar",
+          "currentCanonicalId": "STN_L7_003",
+          "currentName": "Rashtriya Udyan",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: the DPR station chainage, named locality/landmark, and south-to-north position correspond to current operator stop Rashtriya Udyan; official ArcGIS station location corroborates it. This is an operational identity crosswalk, not a literal name alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L7-DPR",
+            "SRC-MMRDA-L7-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_15",
+          "dprName": "Shrinath Nagar",
+          "currentCanonicalId": "STN_L7_002",
+          "currentName": "Ovaripada",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "basis": "Spatial match: the DPR station chainage, named locality/landmark, and south-to-north position correspond to current operator stop Ovaripada; official ArcGIS station location corroborates it. This is an operational identity crosswalk, not a literal name alias.",
+          "sourceIds": [
+            "SRC-MMRDA-L7-DPR",
+            "SRC-MMRDA-L7-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_16",
+          "dprName": "Dahisar (E)",
+          "currentCanonicalId": "STN_L7_001",
+          "currentName": "Dahisar (East)",
+          "mappingStatus": "VERIFIED_ALIAS",
+          "basis": "Exact current name (or direct locality name) and matching official GIS corridor point.",
+          "sourceIds": [
+            "SRC-MMRDA-L7-DPR",
+            "SRC-MMRDA-L7-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ]
+        }
+      ],
+      "crosswalkBasis": "The operational corridor contains the current Line 7 stop sequence plus its shared Dahisar East terminal entity. The DPR has two additional design-only stations (Hub Mall and Vishveshwar Nagar) absent from the current MMRDA operational station list. The remaining 14 design rows are spatially reconciled using chainage, terminal orientation, current operator list, and official GIS points."
+    }
+  ],
+  "promotionBlockers": [
+    "No authority source found that says whether the two Line 7 DPR-only proposals (Hub Mall and Vishveshwar Nagar) were formally deleted, consolidated, or relocated; they remain deliberately unbound.",
+    "Spatial crosswalks link design station evidence to operational entities but do not convert 2015 proposed levels, platform numbering, screen barriers, or facilities into verified as-built facts.",
+    "Platform-number-to-direction mapping and full transfer walking distance/time require current station wayfinding/layout or measured passenger-path evidence; route planner outputs are secondary and some disagree."
+  ],
+  "updatedAt": "2026-10-05"
+}

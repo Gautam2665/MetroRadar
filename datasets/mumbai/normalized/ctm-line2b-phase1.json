@@ -1,0 +1,962 @@
+{
+  "schemaVersion": "ctm-v1.0",
+  "networkId": "MUMBAI_METRO",
+  "lineId": "MUMBAI_LINE2B",
+  "lineCode": "LINE2B",
+  "lineName": "Mumbai Metro Line 2B (Yellow Line)",
+  "colorHex": "#F0C800",
+  "operator": "MMMOCL",
+  "status": "PARTIALLY_OPERATIONAL",
+  "temporalStatus": "OPERATIONAL_PARTIAL",
+  "routeStationCount": 20,
+  "operationalStationCount": 6,
+  "stationSequenceScope": "CURRENTLY_OPEN_OPERATIONAL_SUBSEGMENT_ONLY",
+  "commercialRuntimeSeconds": null,
+  "scheduleStatus": "BLOCKED_SOURCE_REQUIRED",
+  "journeyEngineMode": "TOPOLOGICAL_ACTIVE_TIME_UNKNOWN",
+  "totalDistanceMeters": 5541,
+  "distanceSemantics": "Derived from clipped official ArcGIS feature 54 geometry; not an MMRDA published opening-segment length.",
+  "stations": [
+    {
+      "canonicalId": "STN_L2B_015",
+      "stationCode": "L2B-15",
+      "name": "Chembur",
+      "aliases": [],
+      "sequence": 15,
+      "latitude": 19.05393423138822,
+      "longitude": 72.89264444077669,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "openedDate": "2026-08-13",
+      "physicalLayout": {
+        "interStationDistanceMeters": 0,
+        "platformCount": null,
+        "platformArrangement": null,
+        "currentP1Status": "UNKNOWN_SOURCE_REQUIRED"
+      },
+      "stationInfrastructure": {
+        "currentLevelCount": null,
+        "currentPlatformCount": null,
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "screenDoorsInstalled": null,
+        "proposedDesign": {
+          "levelInventory": [
+            "CONCOURSE",
+            "PLATFORM"
+          ],
+          "platformArrangement": "SIDE",
+          "railLevelMeters": 27.0,
+          "platformHeightFromGroundMeters": 19.318,
+          "evidenceStatus": "PROPOSED_DPR_NOT_AS_BUILT"
+        }
+      },
+      "provenance": {
+        "spatialEvidenceId": "E-L2B-F-OPS-15",
+        "dprEntityKey": "LINE2B_DPR_STATION_17",
+        "kmlPlacemark": "CHEMBUR (M) STATION",
+        "arcgisRouteFeatureId": 54,
+        "arcgisStationFeatureId": 1030,
+        "distanceToOfficialRouteMeters": 17.7,
+        "distanceToArcgisStationPointMeters": 210.1,
+        "validationStatus": "SPATIAL_CROSSCHECK_WARNING_ARCGIS_STATION_POINT_OFFSET",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2B_016",
+      "stationCode": "L2B-16",
+      "name": "Diamond Garden",
+      "aliases": [
+        "Deshbhakt N. G. Acharya Udyan"
+      ],
+      "sequence": 16,
+      "latitude": 19.05185810130003,
+      "longitude": 72.9014858081179,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "openedDate": "2026-04-07",
+      "physicalLayout": {
+        "interStationDistanceMeters": 970,
+        "platformCount": null,
+        "platformArrangement": null,
+        "currentP1Status": "UNKNOWN_SOURCE_REQUIRED"
+      },
+      "stationInfrastructure": {
+        "currentLevelCount": null,
+        "currentPlatformCount": null,
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "screenDoorsInstalled": null,
+        "proposedDesign": {
+          "levelInventory": [
+            "CONCOURSE",
+            "PLATFORM"
+          ],
+          "platformArrangement": "SIDE",
+          "railLevelMeters": 31.0,
+          "platformHeightFromGroundMeters": 22.694,
+          "evidenceStatus": "PROPOSED_DPR_NOT_AS_BUILT"
+        }
+      },
+      "provenance": {
+        "spatialEvidenceId": "E-L2B-F-OPS-16",
+        "dprEntityKey": "LINE2B_DPR_STATION_18",
+        "kmlPlacemark": "DIAMOND GARDEN (M) STATION",
+        "arcgisRouteFeatureId": 54,
+        "arcgisStationFeatureId": 1019,
+        "distanceToOfficialRouteMeters": 6.8,
+        "distanceToArcgisStationPointMeters": 61.1,
+        "validationStatus": "SPATIAL_CROSSCHECKED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2B_017",
+      "stationCode": "L2B-17",
+      "name": "Shivaji Chowk",
+      "aliases": [
+        "Chhatrapati Shivaji Maharaj Chowk (Chembur)"
+      ],
+      "sequence": 17,
+      "latitude": 19.04794473464117,
+      "longitude": 72.9068639010636,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "openedDate": "2026-04-07",
+      "physicalLayout": {
+        "interStationDistanceMeters": 732,
+        "platformCount": null,
+        "platformArrangement": null,
+        "currentP1Status": "UNKNOWN_SOURCE_REQUIRED"
+      },
+      "stationInfrastructure": {
+        "currentLevelCount": null,
+        "currentPlatformCount": null,
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "screenDoorsInstalled": null,
+        "proposedDesign": {
+          "levelInventory": [
+            "CONCOURSE",
+            "PLATFORM"
+          ],
+          "platformArrangement": "SIDE",
+          "railLevelMeters": 33.9,
+          "platformHeightFromGroundMeters": 14.473,
+          "evidenceStatus": "PROPOSED_DPR_NOT_AS_BUILT"
+        }
+      },
+      "provenance": {
+        "spatialEvidenceId": "E-L2B-F-OPS-17",
+        "dprEntityKey": "LINE2B_DPR_STATION_19",
+        "kmlPlacemark": "SHIVAJI CHOWK (M) STATION",
+        "arcgisRouteFeatureId": 54,
+        "arcgisStationFeatureId": 1085,
+        "distanceToOfficialRouteMeters": 13.4,
+        "distanceToArcgisStationPointMeters": 32.5,
+        "validationStatus": "SPATIAL_CROSSCHECKED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2B_018",
+      "stationCode": "L2B-18",
+      "name": "BSNL Metro",
+      "aliases": [
+        "Deonar (phase-opening release name)"
+      ],
+      "sequence": 18,
+      "latitude": 19.04481972518506,
+      "longitude": 72.91727572544646,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "openedDate": "2026-04-07",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1186,
+        "platformCount": null,
+        "platformArrangement": null,
+        "currentP1Status": "UNKNOWN_SOURCE_REQUIRED"
+      },
+      "stationInfrastructure": {
+        "currentLevelCount": null,
+        "currentPlatformCount": null,
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "screenDoorsInstalled": null,
+        "proposedDesign": {
+          "levelInventory": [
+            "CONCOURSE",
+            "PLATFORM"
+          ],
+          "platformArrangement": "SIDE",
+          "railLevelMeters": 29.4,
+          "platformHeightFromGroundMeters": 14.259,
+          "evidenceStatus": "PROPOSED_DPR_NOT_AS_BUILT"
+        }
+      },
+      "provenance": {
+        "spatialEvidenceId": "E-L2B-F-OPS-18",
+        "dprEntityKey": "LINE2B_DPR_STATION_20",
+        "kmlPlacemark": "BSNL (M) STATION",
+        "arcgisRouteFeatureId": 54,
+        "arcgisStationFeatureId": 1074,
+        "distanceToOfficialRouteMeters": 13.5,
+        "distanceToArcgisStationPointMeters": 40.8,
+        "validationStatus": "SPATIAL_CROSSCHECKED",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2B_019",
+      "stationCode": "L2B-19",
+      "name": "Mankhurd",
+      "aliases": [
+        "Mankhurd Metro"
+      ],
+      "sequence": 19,
+      "latitude": 19.04735419858205,
+      "longitude": 72.93059011562615,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "openedDate": "2026-04-07",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1597,
+        "platformCount": null,
+        "platformArrangement": null,
+        "currentP1Status": "UNKNOWN_SOURCE_REQUIRED"
+      },
+      "stationInfrastructure": {
+        "currentLevelCount": null,
+        "currentPlatformCount": null,
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "screenDoorsInstalled": null,
+        "proposedDesign": {
+          "levelInventory": [
+            "CONCOURSE",
+            "PLATFORM"
+          ],
+          "platformArrangement": "SIDE",
+          "railLevelMeters": 17.5,
+          "platformHeightFromGroundMeters": 14.341,
+          "evidenceStatus": "PROPOSED_DPR_NOT_AS_BUILT"
+        }
+      },
+      "provenance": {
+        "spatialEvidenceId": "E-L2B-F-OPS-19",
+        "dprEntityKey": "LINE2B_DPR_STATION_21",
+        "kmlPlacemark": "MANKHURD (M) STATION",
+        "arcgisRouteFeatureId": 54,
+        "arcgisStationFeatureId": 1075,
+        "distanceToOfficialRouteMeters": 166.5,
+        "distanceToArcgisStationPointMeters": 769.6,
+        "validationStatus": "SPATIAL_CROSSCHECK_WARNING_ARCGIS_STATION_POINT_OFFSET",
+        "validatedAt": "2026-10-05"
+      }
+    },
+    {
+      "canonicalId": "STN_L2B_020",
+      "stationCode": "L2B-20",
+      "name": "Mandale",
+      "aliases": [
+        "Mandale Metro",
+        "Mandala Metro"
+      ],
+      "sequence": 20,
+      "latitude": 19.04909002896622,
+      "longitude": 72.93879480659635,
+      "coordinateSystem": "EPSG:4326",
+      "status": "OPERATIONAL",
+      "stationType": "ELEVATED",
+      "temporalStatus": "OPERATIONAL",
+      "openedDate": "2026-04-07",
+      "physicalLayout": {
+        "interStationDistanceMeters": 1056,
+        "platformCount": null,
+        "platformArrangement": null,
+        "currentP1Status": "UNKNOWN_SOURCE_REQUIRED"
+      },
+      "stationInfrastructure": {
+        "currentLevelCount": null,
+        "currentPlatformCount": null,
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "screenDoorsInstalled": null,
+        "proposedDesign": {
+          "levelInventory": [
+            "CONCOURSE",
+            "PLATFORM"
+          ],
+          "platformArrangement": "SIDE",
+          "railLevelMeters": 14.2,
+          "platformHeightFromGroundMeters": 11.59,
+          "evidenceStatus": "PROPOSED_DPR_NOT_AS_BUILT"
+        }
+      },
+      "provenance": {
+        "spatialEvidenceId": "E-L2B-F-OPS-20",
+        "dprEntityKey": "LINE2B_DPR_STATION_22",
+        "kmlPlacemark": "MANDALE (M) STATION",
+        "arcgisRouteFeatureId": 54,
+        "arcgisStationFeatureId": 1076,
+        "distanceToOfficialRouteMeters": 31.3,
+        "distanceToArcgisStationPointMeters": 151.3,
+        "validationStatus": "SPATIAL_CROSSCHECKED",
+        "validatedAt": "2026-10-05"
+      }
+    }
+  ],
+  "stationGraph": {
+    "nodes": [
+      {
+        "stationId": "STN_L2B_015",
+        "name": "Chembur",
+        "sequence": 15,
+        "coordinates": [
+          72.89264444077669,
+          19.05393423138822
+        ]
+      },
+      {
+        "stationId": "STN_L2B_016",
+        "name": "Diamond Garden",
+        "sequence": 16,
+        "coordinates": [
+          72.9014858081179,
+          19.05185810130003
+        ]
+      },
+      {
+        "stationId": "STN_L2B_017",
+        "name": "Shivaji Chowk",
+        "sequence": 17,
+        "coordinates": [
+          72.9068639010636,
+          19.04794473464117
+        ]
+      },
+      {
+        "stationId": "STN_L2B_018",
+        "name": "BSNL Metro",
+        "sequence": 18,
+        "coordinates": [
+          72.91727572544646,
+          19.04481972518506
+        ]
+      },
+      {
+        "stationId": "STN_L2B_019",
+        "name": "Mankhurd",
+        "sequence": 19,
+        "coordinates": [
+          72.93059011562615,
+          19.04735419858205
+        ]
+      },
+      {
+        "stationId": "STN_L2B_020",
+        "name": "Mandale",
+        "sequence": 20,
+        "coordinates": [
+          72.93879480659635,
+          19.04909002896622
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "edgeId": "EDGE_L2B_15_16",
+        "fromStationId": "STN_L2B_015",
+        "toStationId": "STN_L2B_016",
+        "sequenceFrom": 15,
+        "sequenceTo": 16,
+        "distanceMeters": 970,
+        "distanceSource": "OFFICIAL_ARCGIS_LINE_FEATURE_54_STATION_PROJECTION",
+        "travelTimeSeconds": null,
+        "travelTimeStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "bidirectional": true
+      },
+      {
+        "edgeId": "EDGE_L2B_16_17",
+        "fromStationId": "STN_L2B_016",
+        "toStationId": "STN_L2B_017",
+        "sequenceFrom": 16,
+        "sequenceTo": 17,
+        "distanceMeters": 732,
+        "distanceSource": "OFFICIAL_ARCGIS_LINE_FEATURE_54_STATION_PROJECTION",
+        "travelTimeSeconds": null,
+        "travelTimeStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "bidirectional": true
+      },
+      {
+        "edgeId": "EDGE_L2B_17_18",
+        "fromStationId": "STN_L2B_017",
+        "toStationId": "STN_L2B_018",
+        "sequenceFrom": 17,
+        "sequenceTo": 18,
+        "distanceMeters": 1186,
+        "distanceSource": "OFFICIAL_ARCGIS_LINE_FEATURE_54_STATION_PROJECTION",
+        "travelTimeSeconds": null,
+        "travelTimeStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "bidirectional": true
+      },
+      {
+        "edgeId": "EDGE_L2B_18_19",
+        "fromStationId": "STN_L2B_018",
+        "toStationId": "STN_L2B_019",
+        "sequenceFrom": 18,
+        "sequenceTo": 19,
+        "distanceMeters": 1597,
+        "distanceSource": "OFFICIAL_ARCGIS_LINE_FEATURE_54_STATION_PROJECTION",
+        "travelTimeSeconds": null,
+        "travelTimeStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "bidirectional": true
+      },
+      {
+        "edgeId": "EDGE_L2B_19_20",
+        "fromStationId": "STN_L2B_019",
+        "toStationId": "STN_L2B_020",
+        "sequenceFrom": 19,
+        "sequenceTo": 20,
+        "distanceMeters": 1056,
+        "distanceSource": "OFFICIAL_ARCGIS_LINE_FEATURE_54_STATION_PROJECTION",
+        "travelTimeSeconds": null,
+        "travelTimeStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "bidirectional": true
+      }
+    ],
+    "semantics": "Operational adjacency only; no timetable or running times are invented."
+  },
+  "alignmentGeometry": {
+    "geometryType": "LineString",
+    "coordinateSystem": "EPSG:4326",
+    "coordinates": [
+      [
+        72.892653754616,
+        19.05409332631185
+      ],
+      [
+        72.8926633887397,
+        19.05409282241365
+      ],
+      [
+        72.8929959971602,
+        19.0540754023326
+      ],
+      [
+        72.89345821001827,
+        19.05406655643581
+      ],
+      [
+        72.89448544612206,
+        19.05406296815002
+      ],
+      [
+        72.894639871011,
+        19.054045147291816
+      ],
+      [
+        72.8950597148287,
+        19.0539966977791
+      ],
+      [
+        72.8953544799212,
+        19.053943298859743
+      ],
+      [
+        72.89583507410661,
+        19.053827562508147
+      ],
+      [
+        72.89619853875878,
+        19.053719271826903
+      ],
+      [
+        72.89661453688875,
+        19.05358653888745
+      ],
+      [
+        72.8972365905786,
+        19.053368664807955
+      ],
+      [
+        72.89940900170156,
+        19.052607753087134
+      ],
+      [
+        72.90064230773825,
+        19.0521922600677
+      ],
+      [
+        72.90176557464426,
+        19.05183291843542
+      ],
+      [
+        72.9020509568336,
+        19.05173075362563
+      ],
+      [
+        72.90255553064723,
+        19.05155011909136
+      ],
+      [
+        72.90306946310947,
+        19.051356280680203
+      ],
+      [
+        72.90350811405598,
+        19.051188819713875
+      ],
+      [
+        72.90375545259305,
+        19.051061022341013
+      ],
+      [
+        72.90399399303021,
+        19.050912240727257
+      ],
+      [
+        72.90426351725986,
+        19.050705826183645
+      ],
+      [
+        72.90460098646433,
+        19.050390432443788
+      ],
+      [
+        72.90502742211962,
+        19.049977345367804
+      ],
+      [
+        72.90538156854733,
+        19.0496361896395
+      ],
+      [
+        72.90567647557361,
+        19.049324750773632
+      ],
+      [
+        72.90609208293645,
+        19.04889486452563
+      ],
+      [
+        72.90664132996915,
+        19.04834029653572
+      ],
+      [
+        72.90696369040886,
+        19.04802074691106
+      ],
+      [
+        72.90715228092299,
+        19.0478403868524
+      ],
+      [
+        72.90743632013098,
+        19.047568744225163
+      ],
+      [
+        72.90780641075669,
+        19.047215496993605
+      ],
+      [
+        72.90813537381375,
+        19.04689026449568
+      ],
+      [
+        72.90841528077142,
+        19.046640647736954
+      ],
+      [
+        72.90869350428626,
+        19.046439784628948
+      ],
+      [
+        72.90902426038063,
+        19.046233727103743
+      ],
+      [
+        72.9094418682916,
+        19.046037825868773
+      ],
+      [
+        72.90998505708603,
+        19.045869357550757
+      ],
+      [
+        72.91042279444585,
+        19.04578665390212
+      ],
+      [
+        72.9106252801008,
+        19.04575693995039
+      ],
+      [
+        72.91084353478223,
+        19.045735691070835
+      ],
+      [
+        72.91121218451022,
+        19.045715647118456
+      ],
+      [
+        72.91200430275808,
+        19.045678181351878
+      ],
+      [
+        72.91273629317071,
+        19.045653253985684
+      ],
+      [
+        72.91328814082617,
+        19.04562740954389
+      ],
+      [
+        72.91376049925707,
+        19.04560547029637
+      ],
+      [
+        72.91413485688034,
+        19.04557969462754
+      ],
+      [
+        72.9144267626353,
+        19.04554568823089
+      ],
+      [
+        72.91489150245428,
+        19.045463405595132
+      ],
+      [
+        72.91549370517296,
+        19.04535428918397
+      ],
+      [
+        72.91592258065256,
+        19.045285709913358
+      ],
+      [
+        72.91656878285387,
+        19.04514528038798
+      ],
+      [
+        72.91694693675757,
+        19.04504771127166
+      ],
+      [
+        72.91730680545362,
+        19.044938129256234
+      ],
+      [
+        72.91766383098184,
+        19.04482295979621
+      ],
+      [
+        72.91785034099776,
+        19.044762795333625
+      ],
+      [
+        72.9184001656472,
+        19.04458776097429
+      ],
+      [
+        72.91883584227179,
+        19.04445866951328
+      ],
+      [
+        72.91943899630635,
+        19.044297319693662
+      ],
+      [
+        72.91978183204633,
+        19.04418606011551
+      ],
+      [
+        72.9200695768049,
+        19.04407730630019
+      ],
+      [
+        72.92035485209472,
+        19.04396414957544
+      ],
+      [
+        72.92087115341438,
+        19.043775508442558
+      ],
+      [
+        72.92133504522374,
+        19.043640904512237
+      ],
+      [
+        72.92191778953507,
+        19.04349056399702
+      ],
+      [
+        72.92251706913582,
+        19.043334158699654
+      ],
+      [
+        72.92308931573476,
+        19.043280123730323
+      ],
+      [
+        72.92330381905153,
+        19.04331265306588
+      ],
+      [
+        72.92342306501564,
+        19.043340629240404
+      ],
+      [
+        72.92360336048641,
+        19.04342378585665
+      ],
+      [
+        72.92372025825435,
+        19.043496200664876
+      ],
+      [
+        72.92384646346689,
+        19.043589455307718
+      ],
+      [
+        72.92404294657909,
+        19.04374894532731
+      ],
+      [
+        72.92426688759629,
+        19.043943852362666
+      ],
+      [
+        72.92451171983372,
+        19.044152607077923
+      ],
+      [
+        72.9249110919444,
+        19.04448869448504
+      ],
+      [
+        72.92514294262767,
+        19.044687403974127
+      ],
+      [
+        72.92545884957038,
+        19.044949247100117
+      ],
+      [
+        72.92566810492929,
+        19.045132311425206
+      ],
+      [
+        72.92608989898949,
+        19.04548745837423
+      ],
+      [
+        72.92631726079127,
+        19.045685952684224
+      ],
+      [
+        72.92648433395937,
+        19.045831873137818
+      ],
+      [
+        72.92666599936095,
+        19.046025612709045
+      ],
+      [
+        72.9268723226188,
+        19.046264224723867
+      ],
+      [
+        72.92707549907819,
+        19.046511253881956
+      ],
+      [
+        72.927332190874,
+        19.046786277796222
+      ],
+      [
+        72.92751678029184,
+        19.046958144266135
+      ],
+      [
+        72.92786027719185,
+        19.047260710745213
+      ],
+      [
+        72.92839080063908,
+        19.047723857402026
+      ],
+      [
+        72.928846801647,
+        19.048096909462807
+      ],
+      [
+        72.92920383885328,
+        19.04836499338499
+      ],
+      [
+        72.92953213805534,
+        19.048546027928438
+      ],
+      [
+        72.92978302942936,
+        19.04866647466457
+      ],
+      [
+        72.93002485141226,
+        19.048752905384315
+      ],
+      [
+        72.93088602585095,
+        19.049060695792615
+      ],
+      [
+        72.93189805257869,
+        19.049410221643498
+      ],
+      [
+        72.93258853902857,
+        19.049637296043002
+      ],
+      [
+        72.93308440996373,
+        19.04981759386117
+      ],
+      [
+        72.93372522227334,
+        19.050055082135305
+      ],
+      [
+        72.93479686928816,
+        19.05043609451267
+      ],
+      [
+        72.93574612893033,
+        19.050747536387277
+      ],
+      [
+        72.93622341462059,
+        19.050912075150087
+      ],
+      [
+        72.93650420102894,
+        19.051000855894383
+      ],
+      [
+        72.93662769961757,
+        19.051009658649903
+      ],
+      [
+        72.93673946081869,
+        19.05100501060485
+      ],
+      [
+        72.93679900744391,
+        19.05099799862871
+      ],
+      [
+        72.9368184595631,
+        19.050993417663296
+      ],
+      [
+        72.93683791168225,
+        19.05098883669773
+      ],
+      [
+        72.93688254807043,
+        19.05097255834813
+      ],
+      [
+        72.93690981643086,
+        19.050960168936015
+      ],
+      [
+        72.93696990114694,
+        19.05092056204005
+      ],
+      [
+        72.93702326646472,
+        19.05088227295917
+      ],
+      [
+        72.93716047424292,
+        19.050757127983488
+      ],
+      [
+        72.9373291850398,
+        19.050578276380413
+      ],
+      [
+        72.93736542577331,
+        19.050541201455683
+      ],
+      [
+        72.93760734387592,
+        19.0503356049988
+      ],
+      [
+        72.93764587621173,
+        19.05030403314519
+      ],
+      [
+        72.93784273212478,
+        19.050168764556275
+      ],
+      [
+        72.9379373588602,
+        19.050102558011915
+      ],
+      [
+        72.93828398279572,
+        19.049874407566374
+      ],
+      [
+        72.93852581555839,
+        19.04970520610721
+      ],
+      [
+        72.93895720542245,
+        19.049330910302327
+      ],
+      [
+        72.93899602139138,
+        19.049297231299107
+      ]
+    ],
+    "vertexCount": 123,
+    "source": {
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "featureId": 54,
+      "localPath": "sources/gis/arcgis-mumbai.json"
+    },
+    "clipEndpoints": [
+      "Chembur",
+      "Mandale"
+    ],
+    "validationStatus": "OPERATIONAL_SUBSEGMENT_CROSSCHECKED; FULL_LINE_REMAINS_CANDIDATE"
+  },
+  "sourceIds": [
+    "SRC-MMRDA-L2B-OVERVIEW",
+    "SRC-ARCGIS-MOHUA-2025",
+    "SRC-USER-L2B-KML",
+    "SRC-MMRDA-L2B-DPR"
+  ],
+  "notes": [
+    "MMRDA's current overview lists 20 route stations and reports six operational stations as of 31 August 2026.",
+    "The supplied KML and ArcGIS line route are close for all six station markers (under 200 m), but several ArcGIS station-point offsets remain; they are recorded individually in the crosswalk.",
+    "DPR levels and side-platform arrangement are proposed design facts. Current platform counts, numbering, direction, installed platform gates, and exact as-built levels remain unknown.",
+    "MMRDA's phase-opening update calls the BSNL Metro stop Deonar; the current project station list, DPR, KML, and ArcGIS use BSNL Metro. Both names are retained as a crosswalk issue."
+  ]
+}

@@ -17,32 +17,39 @@ export interface StationSearchResult {
 function parseSearchFeatures(data: Record<string, unknown> | null | undefined): StationSearchResult[] {
   if (!data || !Array.isArray(data.features)) return [];
   const feats = data.features as Record<string, unknown>[];
-  return feats
-    .filter((f) => {
-      const props = f.properties as Record<string, unknown> | undefined;
-      return props?.type === "station" && props?.id;
-    })
-    .map((f) => {
-      const p = (f.properties || {}) as Record<string, unknown>;
-      const geom = (f.geometry || {}) as { coordinates?: [number, number] };
-      const lines: Array<{ code: string; name: string; color: string }> = Array.isArray(p.lines)
-        ? (p.lines as Record<string, unknown>[]).filter((l) => l.name).map((l) => ({
-            code: (l.code as string) || "",
-            name: (l.name as string) || "",
-            color: (l.color as string) || "",
-          }))
-        : [];
-      return {
-        id: p.id as string,
-        name: (p.name as string) || "Station",
-        code: (p.code as string) || "STN",
-        city: ((p.city as string) || "").toLowerCase(),
-        systemId: (p.systemId as string) || "",
-        lines,
-        lat: geom.coordinates?.[1] ?? 0,
-        lng: geom.coordinates?.[0] ?? 0,
-      } as StationSearchResult;
+  const seen = new Set<string>();
+  const results: StationSearchResult[] = [];
+
+  for (const f of feats) {
+    const props = (f.properties || {}) as Record<string, unknown>;
+    if (props.type !== "station" || !props.id) continue;
+    const name = ((props.name as string) || "").trim();
+    const key = name.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+
+    const geom = (f.geometry || {}) as { coordinates?: [number, number] };
+    const lines: Array<{ code: string; name: string; color: string }> = Array.isArray(props.lines)
+      ? (props.lines as Record<string, unknown>[]).filter((l) => l.name).map((l) => ({
+          code: (l.code as string) || "",
+          name: (l.name as string) || "",
+          color: (l.color as string) || "",
+        }))
+      : [];
+
+    results.push({
+      id: props.id as string,
+      name: name || "Station",
+      code: (props.code as string) || "STN",
+      city: ((props.city as string) || "").toLowerCase(),
+      systemId: (props.systemId as string) || "",
+      lines,
+      lat: geom.coordinates?.[1] ?? 0,
+      lng: geom.coordinates?.[0] ?? 0,
     });
+  }
+
+  return results;
 }
 
 export class StationApi {

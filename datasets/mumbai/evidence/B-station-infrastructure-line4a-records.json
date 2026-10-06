@@ -1,0 +1,146 @@
+[
+  {
+    "evidenceId": "E-L4A-B-0001",
+    "systemCode": "MMRDA_LINE4A",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "station",
+    "entityKey": "LINE4A_DPR_STATION_01",
+    "attribute": "proposed_station_type",
+    "value": "ELEVATED",
+    "source": {
+      "sourceId": "SRC-MMRDA-L4A-DPR",
+      "document": "mmrda-metro-line-4a-dpr.pdf",
+      "page": 44,
+      "printedPage": "20",
+      "section": "§0.5.2 Table 0.9"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "extractionMethod": "MANUAL_DPR_TABLE_TRANSCRIPTION",
+    "confidence": 1.0,
+    "status": "UNVALIDATED",
+    "extractedAt": "2026-10-05T00:00:00.000Z",
+    "notes": "The DPR uses corridor chainages continuous with Line 4. These are Line 4A design records; do not append them to Line 4 station entities."
+  },
+  {
+    "evidenceId": "E-L4A-B-0101",
+    "systemCode": "MMRDA_LINE4A",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "platform",
+    "entityKey": "LINE4A_DPR_STATION_01",
+    "attribute": "proposed_platform_configuration",
+    "value": "SIDE_PLATFORMS",
+    "source": {
+      "sourceId": "SRC-MMRDA-L4A-DPR",
+      "document": "mmrda-metro-line-4a-dpr.pdf",
+      "page": 44,
+      "printedPage": "20",
+      "section": "§0.5.2 Station Types"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "extractionMethod": "MANUAL_DPR_TABLE_TRANSCRIPTION",
+    "confidence": 1.0,
+    "status": "UNVALIDATED",
+    "extractedAt": "2026-10-05T00:00:00.000Z",
+    "notes": "Proposed DPR configuration. This does not establish platform numbering, travel direction, screen doors, or as-built condition."
+  },
+  {
+    "evidenceId": "E-L4A-B-0201",
+    "systemCode": "MMRDA_LINE4A",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "station",
+    "entityKey": "LINE4A_DPR_STATION_01",
+    "attribute": "proposed_level_inventory",
+    "value": [
+      "CONCOURSE",
+      "PLATFORM"
+    ],
+    "source": {
+      "sourceId": "SRC-MMRDA-L4A-DPR",
+      "document": "mmrda-metro-line-4a-dpr.pdf",
+      "page": 166,
+      "printedPage": "142",
+      "section": "§5.3.1"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "extractionMethod": "MANUAL_DPR_TABLE_TRANSCRIPTION",
+    "confidence": 1.0,
+    "status": "UNVALIDATED",
+    "extractedAt": "2026-10-05T00:00:00.000Z",
+    "notes": "Both Line 4A stations are explicitly proposed as two-level stations, with passenger/operating facilities at the lower concourse and platforms above."
+  },
+  {
+    "evidenceId": "E-L4A-B-0002",
+    "systemCode": "MMRDA_LINE4A",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "station",
+    "entityKey": "LINE4A_DPR_STATION_02",
+    "attribute": "proposed_station_type",
+    "value": "ELEVATED",
+    "source": {
+      "sourceId": "SRC-MMRDA-L4A-DPR",
+      "document": "mmrda-metro-line-4a-dpr.pdf",
+      "page": 44,
+      "printedPage": "20",
+      "section": "§0.5.2 Table 0.9"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "extractionMethod": "MANUAL_DPR_TABLE_TRANSCRIPTION",
+    "confidence": 1.0,
+    "status": "UNVALIDATED",
+    "extractedAt": "2026-10-05T00:00:00.000Z",
+    "notes": "The DPR uses corridor chainages continuous with Line 4. These are Line 4A design records; do not append them to Line 4 station entities."
+  },
+  {
+    "evidenceId": "E-L4A-B-0102",
+    "systemCode": "MMRDA_LINE4A",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "platform",
+    "entityKey": "LINE4A_DPR_STATION_02",
+    "attribute": "proposed_platform_configuration",
+    "value": "SIDE_PLATFORMS",
+    "source": {
+      "sourceId": "SRC-MMRDA-L4A-DPR",
+      "document": "mmrda-metro-line-4a-dpr.pdf",
+      "page": 44,
+      "printedPage": "20",
+      "section": "§0.5.2 Station Types"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "extractionMethod": "MANUAL_DPR_TABLE_TRANSCRIPTION",
+    "confidence": 1.0,
+    "status": "UNVALIDATED",
+    "extractedAt": "2026-10-05T00:00:00.000Z",
+    "notes": "Proposed DPR configuration. This does not establish platform numbering, travel direction, screen doors, or as-built condition."
+  },
+  {
+    "evidenceId": "E-L4A-B-0202",
+    "systemCode": "MMRDA_LINE4A",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "station",
+    "entityKey": "LINE4A_DPR_STATION_02",
+    "attribute": "proposed_level_inventory",
+    "value": [
+      "CONCOURSE",
+      "PLATFORM"
+    ],
+    "source": {
+      "sourceId": "SRC-MMRDA-L4A-DPR",
+      "document": "mmrda-metro-line-4a-dpr.pdf",
+      "page": 166,
+      "printedPage": "142",
+      "section": "§5.3.1"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "extractionMethod": "MANUAL_DPR_TABLE_TRANSCRIPTION",
+    "confidence": 1.0,
+    "status": "UNVALIDATED",
+    "extractedAt": "2026-10-05T00:00:00.000Z",
+    "notes": "Both Line 4A stations are explicitly proposed as two-level stations, with passenger/operating facilities at the lower concourse and platforms above."
+  }
+]

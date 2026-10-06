@@ -1,6 +1,12 @@
 export interface DigitalTwinLevel {
   id: string;
   name: string;
+  levelNumber?: number;
+  lineId?: string | null;
+  lineCode?: string | null;
+  lineName?: string | null;
+  lineColor?: string | null;
+  evidenceStatus?: string;
   facilities: string[];
 }
 
@@ -29,18 +35,23 @@ export interface DigitalTwin {
 export function toDigitalTwinModel(dto: Record<string, unknown> | null | undefined, stationId: string, defaultName: string): DigitalTwin {
   if (dto && typeof dto === "object" && "station" in dto && dto.station && typeof dto.station === "object") {
     const stationObj = dto.station as Record<string, unknown>;
-    const rawLevels = Array.isArray(dto.levels) ? dto.levels : [];
+    const physical = (dto.physical && typeof dto.physical === "object")
+      ? dto.physical as Record<string, unknown>
+      : {};
+    const rawLevels = Array.isArray(physical.levels) ? physical.levels : [];
     const mappedLevels: DigitalTwinLevel[] = rawLevels.map((l: unknown) => {
       const lvl = (l && typeof l === "object" ? l : {}) as Record<string, unknown>;
+      const line = (lvl.line && typeof lvl.line === "object" ? lvl.line : {}) as Record<string, unknown>;
       return {
         id: (lvl.id as string) || `lvl-${lvl.levelNumber || 0}`,
         name: (lvl.name as string) || `Level ${lvl.levelNumber || 0}`,
-        facilities: Array.isArray(lvl.platforms)
-          ? lvl.platforms.map((p: unknown) => {
-              const plt = (p && typeof p === "object" ? p : {}) as Record<string, unknown>;
-              return (plt.name as string) || `Platform ${plt.platformNumber || ""}`;
-            })
-          : [],
+        levelNumber: typeof lvl.levelNumber === "number" ? lvl.levelNumber : undefined,
+        lineId: typeof lvl.lineId === "string" ? lvl.lineId : null,
+        lineCode: typeof line.code === "string" ? line.code : null,
+        lineName: typeof line.name === "string" ? line.name : null,
+        lineColor: typeof line.color === "string" ? line.color : null,
+        evidenceStatus: typeof lvl.evidenceStatus === "string" ? lvl.evidenceStatus : "UNVERIFIED",
+        facilities: [],
       };
     });
 
@@ -62,17 +73,8 @@ export function toDigitalTwinModel(dto: Record<string, unknown> | null | undefin
   return {
     stationId,
     stationName: defaultName,
-    levels: [
-      { id: "G", name: "Ground Concourse", facilities: ["Security Gates", "NCMC Recharge Kiosk"] },
-      { id: "L1", name: "Platform Level 1", facilities: ["Northbound Track", "Southbound Track"] },
-      { id: "L2", name: "Platform Level 2", facilities: ["Interchange Passageway"] },
-    ],
-    platformEtas: [
-      { platform: "Platform 2", towards: "Terminal Station", etaMins: 5, crowdLevel: "Low", recommendedCoach: "Coach 2" },
-    ],
-    exits: [
-      { gate: "Gate A", name: "Main Boulevard", distanceMeter: 150 },
-      { gate: "Gate B", name: "Central Plaza", distanceMeter: 210 },
-    ],
+    levels: [],
+    platformEtas: [],
+    exits: [],
   };
 }

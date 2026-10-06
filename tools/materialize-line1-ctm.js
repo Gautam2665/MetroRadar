@@ -52,6 +52,18 @@ const stationObjects = rawStations.map((s, idx) => {
       platformType: "SIDE",
       screenDoorsInstalled: false
     },
+    stationInfrastructure: {
+      stationLevels: ["STREET", "MEZZANINE", "PLATFORM"],
+      platformCount: 2,
+      platformArrangement: "SIDE",
+      evidenceStatus: "DPR_TYPICAL_ELEVATED_STATION_DESIGN",
+      sourceIds: ["SRC-MMRDA-L1-DPR"],
+      notes: s.seq === 8
+        ? "Two Line 1 side platforms. Marol Naka interchange total is four platforms across Blue Line (2) and Aqua Line (2); platform numbers are local to each line."
+        : s.seq === 2
+          ? "Two Line 1 side platforms. The connected Yellow Line Andheri West station is a separate entity with two platforms and an additional Property Development level."
+          : "Typical elevated Line 1 station levels: street/entry, mezzanine/concourse, and platform."
+    },
     provenance: {
       gisEvidenceId: s.evId,
       gisSourceId: "SRC-L1-004",

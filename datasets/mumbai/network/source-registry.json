@@ -209,16 +209,16 @@
 
   "sourceGapSummary": {
     "MUMBAI_LINE1": { "hasOfficialDPR": false, "hasGIS": false, "hasGTFS": "UNKNOWN", "hasOperatorTimetable": false },
-    "MUMBAI_LINE2A": { "hasOfficialDPR": false, "hasGIS": false, "hasGTFS": "UNKNOWN", "hasOperatorTimetable": false },
-    "MUMBAI_LINE2B": { "hasOfficialDPR": false, "hasGIS": false, "hasGTFS": "UNKNOWN", "hasOperatorTimetable": false },
+    "MUMBAI_LINE2A": { "hasOfficialDPR": true, "hasGIS": "OFFICIAL_ARCGIS_AND_CORRIDOR_KML", "hasGTFS": "UNKNOWN", "hasOperatorTimetable": false },
+    "MUMBAI_LINE2B": { "hasOfficialDPR": true, "hasGIS": "PARTIAL_OFFICIAL_ARCGIS_POINTS", "hasGTFS": "UNKNOWN", "hasOperatorTimetable": false },
     "MUMBAI_LINE3": { "hasOfficialDPR": true, "hasGIS": "COMMUNITY_REGISTERED", "hasGTFS": false, "hasOperatorTimetable": false, "deepEvidence": "A+B+C+D" },
     "MUMBAI_LINE4": { "hasOfficialDPR": false, "hasGIS": false, "hasGTFS": false, "hasOperatorTimetable": false },
     "MUMBAI_LINE4A": { "hasOfficialDPR": false, "hasGIS": false, "hasGTFS": false, "hasOperatorTimetable": false },
     "MUMBAI_LINE5": { "hasOfficialDPR": false, "hasGIS": false, "hasGTFS": false, "hasOperatorTimetable": false },
     "MUMBAI_LINE6": { "hasOfficialDPR": false, "hasGIS": false, "hasGTFS": false, "hasOperatorTimetable": false },
-    "MUMBAI_LINE7": { "hasOfficialDPR": false, "hasGIS": false, "hasGTFS": "UNKNOWN", "hasOperatorTimetable": false },
-    "MUMBAI_LINE7A": { "hasOfficialDPR": false, "hasGIS": false, "hasGTFS": false, "hasOperatorTimetable": false },
+    "MUMBAI_LINE7": { "hasOfficialDPR": true, "hasGIS": "OFFICIAL_ARCGIS_AND_CORRIDOR_KML", "hasGTFS": "UNKNOWN", "hasOperatorTimetable": false },
+    "MUMBAI_LINE7A": { "hasOfficialDPR": true, "hasGIS": "OFFICIAL_ARCGIS_ROUTE_NOT_FULLY_CROSSWALKED", "hasGTFS": false, "hasOperatorTimetable": false },
     "MUMBAI_LINE8": { "hasOfficialDPR": false, "hasGIS": false, "hasGTFS": false, "hasOperatorTimetable": false },
-    "MUMBAI_LINE9": { "hasOfficialDPR": false, "hasGIS": false, "hasGTFS": false, "hasOperatorTimetable": false }
+    "MUMBAI_LINE9": { "hasOfficialDPR": true, "hasGIS": "PARTIAL_OFFICIAL_ARCGIS_POINTS", "hasGTFS": false, "hasOperatorTimetable": false }
   }
 }

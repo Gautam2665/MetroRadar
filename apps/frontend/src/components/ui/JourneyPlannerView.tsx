@@ -188,6 +188,7 @@ function JourneyDetailsTimeline({
                 {transitLegs[0].towards
                   ? `Towards ${transitLegs[0].towards}`
                   : formatLineName(transitLegs[0].line)}
+                {transitLegs[0].platformStatus === "USER_REPORTED" ? " · user-reported" : ""}
               </div>
               <div className="text-[11px] text-slate-400 mt-0.5">
                 {transitLegs[0].stopsText
@@ -217,6 +218,26 @@ function JourneyDetailsTimeline({
           const deboardStation = curLeg.toStation || "Transfer Station";
           const boardStation = nextLeg.fromStation || deboardStation;
           const nextShortLine = nextLeg.shortLine || formatShortLineName(nextLeg.line);
+
+          if (nextLeg.throughServiceContinuationFromPrevious) {
+            return (
+              <div key={idx} className="relative">
+                <span className="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full border-2 border-cyan-400 bg-[#151b28] shadow-[0_0_8px_#22d3ee]" />
+                <div>
+                  <div className="text-xs font-bold text-cyan-200">
+                    CONTINUE · {deboardStation}
+                  </div>
+                  <div className="text-[11px] text-slate-300 mt-1">
+                    Stay on the {nextShortLine} service; no transfer is required.
+                  </div>
+                  <div className="text-[11px] text-slate-400 mt-0.5">
+                    {nextLeg.stopsText || "Continue on the same train"}
+                    {nextLeg.durationMins ? ` (${nextLeg.durationMins} min)` : ""}
+                  </div>
+                </div>
+              </div>
+            );
+          }
 
           // Find intervening walk leg if present
           const walkLeg = route.legs.find(
@@ -312,6 +333,7 @@ function JourneyDetailsTimeline({
                     {nextLeg.towards
                       ? `Towards ${nextLeg.towards}`
                       : formatLineName(nextLeg.line)}
+                    {nextLeg.platformStatus === "USER_REPORTED" ? " · user-reported" : ""}
                   </div>
                   <div className="text-[11px] text-slate-400 mt-0.5">
                     {nextLeg.stopsText

@@ -85,11 +85,24 @@ const ALL_SYSTEMS = [
     badgeTier: 'Silver',
     cityFolder: 'ahmedabad',
   },
+  {
+    code: 'MM',
+    name: 'Mumbai Metro',
+    city: 'Mumbai',
+    country: 'India',
+    timezone: 'Asia/Kolkata',
+    website: 'https://mmrda.maharashtra.gov.in',
+    sourceType: SourceType.OFFICIAL,
+    trustTier: TrustTier.TIER_A,
+    qualityScore: 99.0,
+    badgeTier: 'Gold',
+    cityFolder: 'mumbai',
+  },
 ];
 
 async function main() {
   console.log(`\n======================================================`);
-  console.log(` 🚇 Ingesting All 6 Certified Metro Datasets (Direct Context)`);
+  console.log(` 🚇 Ingesting All 7 Certified Metro Datasets (Direct Context)`);
   console.log(`======================================================\n`);
 
   const app = await NestFactory.createApplicationContext(AppModule);

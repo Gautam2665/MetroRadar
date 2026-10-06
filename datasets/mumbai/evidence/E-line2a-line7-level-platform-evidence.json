@@ -1,0 +1,166 @@
+{
+  "schemaVersion": "station-infrastructure-evidence-v1",
+  "updatedAt": "2026-10-05",
+  "sources": [
+    {
+      "sourceId": "SRC-MMRDA-L2A-DPR",
+      "title": "Detailed Project Report for Dahisar (E)–D. N. Nagar Metro Corridor (Line 2A)",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "document": "datasets/mumbai/sources/dpr/line-02a/mmrda-metro-line-2a-dpr.pdf",
+      "url": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2021-10/Metro%20Line%202A_0.pdf",
+      "verifiedSections": [
+        {"section":"§5.2.1.3–5.2.2.2","pdfPages":[137],"printedPages":["5/97"],"claims":["17 proposed elevated stations","typical stations two-level with lower concourse and upper platforms","Dahisar terminal excepted from typical two-level arrangement"]},
+        {"section":"§5.3.1.2–5.3.1.3","pdfPages":[146],"printedPages":["14/97"],"claims":["elevated alignment","two platforms at elevated stations"]},
+        {"section":"§5.3.2.1–5.3.2.17","pdfPages":[149,165],"printedPages":["17/97–33/97"],"claims":["station-specific proposed chainage, rail level, rail height above ground, location and access descriptions"]},
+        {"section":"§5.3.3.1–5.3.3.3","pdfPages":[166],"printedPages":["34/97"],"claims":["185m proposed station length; typical concourse/platform arrangement; Dahisar station 1 has two platforms, one per corridor"]},
+        {"section":"Table 5.3.9","pdfPages":[173],"printedPages":["41/97"],"claims":["2031 projected boarding/alighting, ticket gates, stair width, lift and escalator quantities"]},
+        {"section":"§5.2.3.2; §5.3.2.16","pdfPages":[138,165],"printedPages":["6/97","33/97"],"claims":["D. N. Nagar proposed integration with Line 1 by skywalk; entry linked with East-West corridor stairs and combined structure"]}
+      ]
+    },
+    {
+      "sourceId": "SRC-MMRDA-L7-DPR",
+      "title": "Detailed Project Report for Andheri (E)–Dahisar (E) Metro Corridor (Line 7)",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "document": "datasets/mumbai/sources/dpr/line-07/mmrda-metro-line-7-dpr.pdf",
+      "url": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2021-10/Metro%20Line%207.pdf",
+      "verifiedSections": [
+        {"section":"§5.2.1.3–5.2.2.2","pdfPages":[117,118],"printedPages":["5/92–6/92"],"claims":["16 proposed elevated stations","typical stations two-level with lower concourse and upper platforms","Dahisar terminal excepted from typical two-level arrangement"]},
+        {"section":"§5.3.2.1–5.3.2.16","pdfPages":[130,145],"printedPages":["18/92–33/92"],"claims":["station-specific proposed chainage, rail level, rail height above ground, location and access descriptions"]},
+        {"section":"§5.3.4.1–5.3.5","pdfPages":[146,147],"printedPages":["34/92–35/92"],"claims":["185m typical station length, two platforms, terminal exceptions, one unpaid area proposed for station 16"]},
+        {"section":"Table 5.3.9","pdfPages":[155],"printedPages":["43/92"],"claims":["2031 projected boarding/alighting, ticket gates, stair width, lift and escalator quantities"]},
+        {"section":"§5.2.3.1; §5.3.4.2","pdfPages":[118,147],"printedPages":["6/92","35/92"],"claims":["proposed Andheri East connection to Line 1 by elevated walkway crossing below the Andheri flyover and linking Line 1 concourse"]}
+      ]
+    },
+    {
+      "sourceId": "SRC-MMRDA-L2A-L7-EIA-2022",
+      "title": "Environmental Impact Assessment: Mumbai Metro Lines 2A and 7",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "url": "https://mmrda.maharashtra.gov.in/sites/default/files/2022-07/1.1.pdf",
+      "verifiedSections": [
+        {"section":"§4.1 Salient Features of Line 2A","claim":"The Line 2A Dahisar East platform is located above the already proposed Dahisar East station for the Andheri East–Dahisar corridor (Line 7)."}
+      ],
+      "evidenceLimits": "Relative project-design order only; not a current as-built floor survey, platform-number assignment, or transfer-route description."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L2A-OVERVIEW",
+      "title": "MMRDA Line 2A Current Station List and Commissioning Phases",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "url": "https://www.mmrda.maharashtra.gov.in/en/projects/transport/metro-line-2A/overview?page=1",
+      "evidence": "Publishes the current 17-station Line 2A sequence from Dahisar East through Andheri West and the operational phase groupings.",
+      "evidenceLimits": "Current stop names and service sequence; does not publish station-specific platform numbering or transfer path dimensions."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L7-OVERVIEW",
+      "title": "MMRDA Line 7 Current Station List and Commissioning Phases",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "url": "https://www.mmrda.maharashtra.gov.in/en/projects/transport/metro-line-7/overview?page=0",
+      "evidence": "Publishes the Line 7 operational sequence and Line 1/2A/6 interchange locations. MMRDA lists 13 named stops from Gundavali through Ovaripada; Dahisar East is maintained as the shared corridor terminal entity in the current CTM.",
+      "evidenceLimits": "Current route/station list; no station-by-station platform-number mapping or transfer measurements."
+    },
+    {
+      "sourceId": "SRC-MMRDA-ANDHERI-WEST-3LEVEL-2023",
+      "title": "MMRDA Andheri West station three-level announcement",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "url": "https://mmrda.maharashtra.gov.in/sites/default/files/2023-03/Andheri%20%28W%29%20station%20consist%20of%203%20levels.pdf",
+      "evidence": "As-built Line 2A Andheri West has Property Development, Concourse and Platform levels; the MMRDA release says it is connected with D.N. Nagar (Line 1) at two levels for passenger movement.",
+      "evidenceLimits": "Does not provide passenger-path length, walk duration, AFC retap or security rule."
+    },
+    {
+      "sourceId": "SRC-MMRDA-GUNDAVALI-FOB-2022",
+      "title": "MMRDA Gundavali–WEH Foot Overbridge announcement",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "url": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2022-12/news1%20%281%29.pdf",
+      "evidence": "MMRDA reports a 58 m structural FOB span connecting Gundavali (Line 7) and Western Express Highway (Line 1).",
+      "evidenceLimits": "The 58 m is only the bridge structure span, not the full platform-to-platform passenger route or transfer time."
+    },
+    {
+      "sourceId": "SRC-MMMOCL-FARE-SCHEMES",
+      "title": "MMMOCL Fare Schemes and Products",
+      "publisher": "Maha Mumbai Metro Operation Corporation Limited",
+      "url": "https://www.mmmocl.co.in/fare-schemes-products.html",
+      "evidence": "MMMOCL describes ticket validity for Lines 2A and 7. Used as a scope boundary for those fares; this page does not document the detailed AFC transfer policy with Line 1.",
+      "evidenceLimits": "Does not establish a specific interchange retap rule."
+    },
+    {
+      "sourceId": "SRC-NDTV-DAHISAR-TRANSFER-2026",
+      "title": "NDTV Profit report on Line 2A/7 separation and Dahisar interchange",
+      "publisher": "NDTV Profit",
+      "url": "https://www.ndtvprofit.com/india/mumbai-metros-red-and-yellow-lines-to-part-ways-from-april-8-check-updated-time-table-and-other-key-details-11321423/amp/1",
+      "evidence": "Reports that passengers can transfer between Lines 2A and 7 at Dahisar without exiting the paid area, citing the 8 April 2026 operating change.",
+      "evidenceLimits": "Secondary report; does not give measured walking distance/duration or explicitly describe the AFC device transaction. Treat no-exit as operator-reported and do not infer a meter/minute value."
+    },
+    {
+      "sourceId": "SRC-MMRDA-ANDHERI-WEST-3LEVEL-2023",
+      "title": "Andheri (W) station consist of 3 levels",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "url": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2023-01/Andheri%20%28W%29%20station%20consist%20of%203%20levels.pdf",
+      "evidence": "MMRDA identifies Property Development, Concourse, and Platform levels at Andheri West station.",
+      "appliesTo": "Line 2A Andheri West only"
+    }
+  ],
+  "verifiedAttributes": {
+    "operationalStationCrosswalk": {
+      "line2a": {"matchedOperationalStations":17,"dprStations":17,"method":"Operator current station list + DPR station chainages/locality descriptions + official ArcGIS station positions","status":"VERIFIED_SPATIAL_CROSSWALK"},
+      "line7": {"matchedOperationalStations":14,"dprStations":16,"dprOnlyUnbound":["Hub Mall","Vishveshwar Nagar"],"method":"Operator current station list + DPR station chainages/locality descriptions + official ArcGIS station positions","status":"14_MATCHED_2_DPR_ONLY_UNRESOLVED"}
+    },
+    "line2a": {"elevated":true,"dprStationCount":17,"elevatedPlatformCount":2,"usualLevels":["CONCOURSE","PLATFORM"],"usualLevelsStatus":"DPR_PROPOSED_STANDARD","standardStationLengthM":185,"terminalException":"Dahisar (E) is explicitly excepted from the typical two-level arrangement. Detailed actual level configuration is not resolved by this DPR evidence.","2031DesignCirculation":{"liftsGroundToConcourse":4,"liftsConcourseToPlatform":2,"escalatorsGroundToConcourse":4,"escalatorsConcourseToPlatform":8}},
+    "line7": {"elevated":true,"dprStationCount":16,"elevatedPlatformCount":2,"usualLevels":["CONCOURSE","PLATFORM"],"usualLevelsStatus":"DPR_PROPOSED_STANDARD","standardStationLengthM":185,"terminalException":"Dahisar (E) is explicitly excepted from the typical two-level arrangement. Detailed actual level configuration is not resolved by this DPR evidence.","2031DesignCirculation":{"liftsGroundToConcourse":2,"liftsConcourseToPlatform":2,"escalatorsGroundToConcourse":2,"escalatorsConcourseToPlatform":7}},
+    "line2aDahisarEast": {"proposedIntegration":"Line 7 / Dahisar (E)–Andheri corridor","sourceClaim":"Two corridor platforms are assigned, one to each corridor; MMRDA EIA places the Line 2A platform above the Line 7 Dahisar East station","relativeDesignOrder":"LINE2A_PLATFORM_ABOVE_LINE7_STATION","relativeDesignOrderSource":"SRC-MMRDA-L2A-L7-EIA-2022","configurationStatus":"RELATIVE_DESIGN_ORDER_VERIFIED; current as-built floor count, level names, platform numbering and passenger transfer arrangement not verified"},
+    "line2aAndheriWest": {"levels":["PROPERTY_DEVELOPMENT","CONCOURSE","PLATFORM"],"sourceStatus":"MMRDA_STATION_SPECIFIC_AS_BUILT_ANNOUNCEMENT","interchangeWithLine1":"Connected at two levels for passenger movement; full measured route path is not published."},
+    "line2aDNNagar": {"proposedIntegration":"Line 1 by skywalk; station detail also says linked stairs and combined structure","configurationStatus":"PROPOSED_DPR; transfer distance, paid-area and security arrangements unknown"},
+    "line7AndheriEast": {"proposedIntegration":"Line 1 concourse by elevated walkway below Andheri flyover","configurationStatus":"PROPOSED_DPR; current as-built transfer arrangement not verified"},
+    "gundavaliWeh": {"verifiedStructure":"58 m FOB span","fullPassengerRoute":"UNKNOWN_SOURCE_REQUIRED","sourceId":"SRC-MMRDA-GUNDAVALI-FOB-2022"},
+    "dahisarEastCurrentTransfer": {"paidAreaTransfer":true,"evidenceState":"OPERATOR_REPORTED_BY_SECONDARY_SOURCE_2026","sourceId":"SRC-NDTV-DAHISAR-TRANSFER-2026","walkingDistanceMeters":null,"walkingTimeSeconds":null},
+    "currentPlatformNumbering": {"status":"UNKNOWN_SOURCE_REQUIRED","note":"DPR does not number operational platforms. Public route planners disagree on platform numbers/directions at Line 7 stations, so those values are not promoted into the database."}
+  },
+  "secondarySourceAudit": {
+    "platformNumbering": {
+      "line2a": {
+        "reportedPattern": "Several route planners list Platform 1 toward Dahisar East and Platform 2 toward Andheri West at ordinary stops.",
+        "sourceUrls": ["https://mumbaimetro.info/metro-route/andheri-west-to-dahisar-e", "https://metroyatra.com/mumbai-metro/dahisar-east-metro-station-mumbai"],
+        "conflict": "Terminal-specific pages disagree or describe an alighting/pocket platform, and no current operator station plan found in public sources maps every physical platform number."
+      },
+      "line7": {
+        "reportedPattern": null,
+        "sourceUrls": ["https://trackmymetro.com/mumbai-metro/station/magathane", "https://yometro.com/from-magathane-metro-station-mumbai-to-ghatkopar-metro-station-mumbai"],
+        "conflict": "The cited route planners reverse Platform 1/2 directions at Magathane. Since Red Line through service now continues over Line 9, an older P1-toward-Gundavali assumption is also not safe as a current system-wide mapping."
+      },
+      "handling": "Do not write platformNumber/towardsStationId pairs to PostgreSQL until station signage or an operator as-built platform map resolves station-specific labels."
+    },
+    "interchangeWalkingEstimates": {
+      "andheriWestDnNagar": {
+        "secondaryReports": ["MumbaiMetro.Info: 0.2 km / 6 min", "YoMetro: approximately 0.3 km"],
+        "sourceUrls": ["https://mumbaimetro.info/metro-route/andheri-west-to-d-n-nagar", "https://yometro.com/from-andheri-west-metro-station-mumbai-to-dn-nagar-metro-station-mumbai"],
+        "handling": "Indicative third-party estimates only; they do not define a measured in-station passenger path, so canonical distance/time remain null."
+      },
+      "gundavaliWeh": {
+        "officialStructureSpanMeters": 58,
+        "secondaryReports": ["A published commuter account says about 50 m; another personal report says about 150 m."],
+        "sourceUrls": ["https://www.hindustantimes.com/cities/mumbai-news/given-the-comfort-i-did-not-mind-spending-a-few-extra-minutes-on-the-journey-101760037104379.html", "https://in.linkedin.com/in/aakanksha-bhavsar-3a3875360"],
+        "handling": "Different starting/ending points and user reports conflict; the 58 m bridge span is verified, full route metres/minutes remain null."
+      },
+      "dahisarEast": {
+        "handling": "Paid-area transfer is reported, but no public source found with a measured platform-to-platform distance/time."
+      }
+    }
+  },
+  "dprInternalConflicts": [
+    {"line":"line2a","issue":"Station 12 Kasturi Park chainage/distance differs between Table 5.2.1 and §5.3.2.12; station 13 distance also differs between the two sections.","references":["Table 5.2.1, PDF p138, printed 6/97","§5.3.2.12–13, PDF pp160–161, printed 28/97–29/97"],"handling":"Both claims are preserved in B-station-infrastructure-l2a-line7-dpr-evidence.json; do not resolve by assumption or use these values to validate alignment until the primary design discrepancy is resolved."},
+    {"line":"line2a","issue":"Dahisar terminal level count wording conflicts: §5.2.2.2 says stations are two-level except Dahisar Terminal; §5.3.3.1 says all stations are two-level.","references":["§5.2.2.2, PDF p137, printed 5/97","§5.3.3.1, PDF p166, printed 34/97"],"handling":"MMRDA's EIA independently establishes the relative design order (Line 2A platform above the Line 7 Dahisar station), but does not resolve the number/names of all Dahisar levels or current as-built details. Keep detailed level inventory unresolved; DPR confirms two corridor platforms."}
+  ],
+  "crosswalkCaveats": {
+    "line2a": "All 17 design keys are spatially crosswalked to current operational IDs using official station list, DPR station chainage/locality descriptions, and official GIS locations. Old labels remain design-era names, not current aliases.",
+    "line7": "14 DPR keys spatially crosswalk to current operational CTM IDs. Hub Mall and Vishveshwar Nagar remain unbound DPR-only proposals; available operator list and GIS show no separate operational stations, but do not establish whether the project formally deleted, consolidated, or relocated them."
+  },
+  "unverifiedAttributes": {
+    "platformNumbering":"The DPR does not verify current numeric platform labels at each station.",
+    "platformDirection":"The DPR does not map numeric platform labels to current terminal directions.",
+    "platformArrangement":"Two physical platforms are proposed, but these sources do not substantiate current station-specific island/side arrangement.",
+    "screenDoors":"No station-specific current/as-built evidence collated.",
+    "wheelchairBoarding":"DPR design intent is not proof of current station-specific boarding/accessibility status.",
+    "equipmentAsBuilt":"Projected lift/escalator counts are design forecasts; installed/current operation not verified.",
+    "interchangeWalkDistance":"No measured current transfer distance established.",
+    "paidAreaContinuity":"Not established by these DPRs."
+  },
+  "detailedStationEvidenceFile":"datasets/mumbai/evidence/B-station-infrastructure-l2a-line7-dpr-evidence.json"
+}

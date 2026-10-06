@@ -174,6 +174,7 @@ model Line {
   agency     Agency            @relation(fields: [agencyId], references: [id])
   assetOwner AssetOwner        @relation(fields: [assetOwnerId], references: [id])
   sequences  StationSequence[]
+  levels     Level[]
   platforms  Platform[]
   trips      Trip[]
 
@@ -252,6 +253,9 @@ model StationSequence {
 model Level {
   id          String    @id @default(uuid()) @db.Uuid
   stationId   String    @db.Uuid
+  lineId      String?   @db.Uuid
+  evidenceStatus String  @default("UNVERIFIED")
+  sourceId    String?
   name        String
   levelNumber Int
   type        LevelType
@@ -263,6 +267,7 @@ model Level {
   version     Int       @default(1)
 
   station          Station           @relation(fields: [stationId], references: [id])
+  line             Line?             @relation(fields: [lineId], references: [id])
   platforms        Platform[]
   amenities        Amenity[]
   commercialSpaces CommercialSpace[]
@@ -270,6 +275,7 @@ model Level {
   walkingEdgesTo   WalkingEdge[]     @relation("WalkingEdgeToLevel")
 
   @@index([stationId])
+  @@index([lineId])
   @@index([name])
   @@map("levels")
 }
@@ -278,11 +284,13 @@ model Platform {
   id                 String         @id @default(uuid()) @db.Uuid
   levelId            String         @db.Uuid
   lineId             String         @db.Uuid
+  evidenceStatus     String         @default("UNVERIFIED")
+  sourceId           String?
   platformNumber     String
-  towardsStationId   String         @db.Uuid
+  towardsStationId   String?        @db.Uuid
   length             Float?
-  screenDoors        Boolean        @default(false)
-  wheelchairBoarding Boolean        @default(false)
+  screenDoors        Boolean?
+  wheelchairBoarding Boolean?
   status             PlatformStatus @default(ACTIVE)
   isActive           Boolean        @default(true)
   deletedAt          DateTime?      @db.Timestamptz
@@ -292,7 +300,7 @@ model Platform {
 
   level            Level         @relation(fields: [levelId], references: [id])
   line             Line          @relation(fields: [lineId], references: [id])
-  towardsStation   Station       @relation("PlatformTowardsStation", fields: [towardsStationId], references: [id])
+  towardsStation   Station?      @relation("PlatformTowardsStation", fields: [towardsStationId], references: [id])
   interchangesFrom Interchange[] @relation("InterchangeFromPlatform")
   interchangesTo   Interchange[] @relation("InterchangeToPlatform")
   walkingEdgesFrom WalkingEdge[] @relation("WalkingEdgeFromPlatform")

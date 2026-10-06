@@ -1,0 +1,3 @@
+from_stop_id,to_stop_id,transfer_type,min_transfer_time
+PF_STN_NMM_001_1,PF_STN_NMM_001_2,2,60
+PF_STN_NMM_001_2,PF_STN_NMM_001_1,2,60

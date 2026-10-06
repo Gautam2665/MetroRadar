@@ -24,6 +24,16 @@ export interface StationCardData {
   levelsCount?: number;
   exitsCount?: number;
   platformsCount?: number;
+  lineInfrastructure?: Array<{
+    lineId: string;
+    lineCode: string;
+    lineName: string;
+    color?: string;
+    levelsCount: number;
+    levelsEvidenceStatus: string;
+    platformsCount: number;
+    platformsEvidenceStatus: string;
+  }>;
   isInterchange: boolean;
   mode: SmartStationCardMode;
   journeyContext?: JourneyStationContext | null;
@@ -34,11 +44,32 @@ export interface StationCardData {
  */
 export function renderSmartStationCardHtml(data: StationCardData): string {
   const stationName = data.name.toUpperCase();
-  const exitCount = data.exitsCount ?? (data.isInterchange ? 4 : 2);
-  const platformCount = data.platformsCount ?? (data.isInterchange ? 4 : 2);
+  const exitText = typeof data.exitsCount === "number" ? `${data.exitsCount} exits` : "Exits unknown";
+  const platformText = typeof data.platformsCount === "number" && data.platformsCount > 0
+    ? `${data.platformsCount} platforms`
+    : "Platforms unknown";
   const isAccessible = data.wheelchairAccessible !== false;
-  const accessText = isAccessible ? "Accessible" : "Standard access";
-  const levelText = data.isInterchange ? "Level 1 ⇄ Level 2" : "Level 1";
+  const accessText = data.wheelchairAccessible === undefined ? "Accessibility unknown" : isAccessible ? "Accessible" : "Standard access";
+  const levelText = typeof data.levelsCount === "number" && data.levelsCount > 0
+    ? `${data.levelsCount} levels`
+    : "Levels unknown";
+  const lineInfrastructureHtml = data.lineInfrastructure?.length
+    ? data.lineInfrastructure.map((line) => {
+        const evidenceLabel = (status: string) => {
+          if (status.includes("PROPOSED_DPR")) return "proposed";
+          if (status === "VERIFIED" || status === "OPERATOR_CONFIRMED_AS_BUILT") return "verified";
+          return status === "UNKNOWN" ? "unknown" : "unverified";
+        };
+        const levels = line.levelsCount > 0
+          ? `${line.levelsCount} levels · ${evidenceLabel(line.levelsEvidenceStatus)}`
+          : "levels unknown";
+        const platforms = line.platformsCount > 0
+          ? `${line.platformsCount} platforms · ${evidenceLabel(line.platformsEvidenceStatus)}`
+          : "platforms unknown";
+        const color = line.color || "#94a3b8";
+        return `<div class="flex items-center justify-between gap-2"><span class="truncate" style="color:${color}">${line.lineName}</span><span class="shrink-0 text-slate-300">${levels} · ${platforms}</span></div>`;
+      }).join("")
+    : null;
 
   // Badge in top right: TRANSFER or STATION
   const typeBadgeText = data.isInterchange ? "TRANSFER" : "STATION";
@@ -154,12 +185,10 @@ export function renderSmartStationCardHtml(data: StationCardData): string {
       <div class="text-[11px] text-slate-400 space-y-1 font-mono">
         <div class="flex items-center gap-1.5">
           <span>${data.isInterchange ? "⇄" : "•"}</span>
-          <span>${data.isInterchange ? "Transfer station" : "Station"} · ${levelText}</span>
+          <span>${data.isInterchange ? "Transfer station" : "Station"} · ${levelText} · ${platformText}</span>
         </div>
         <div class="flex items-center gap-2 text-[10px] text-slate-400/90">
-          <span>${platformCount} platforms</span>
-          <span>·</span>
-          <span>${exitCount} exits</span>
+          <span>${exitText}</span>
           <span>·</span>
           <span class="${isAccessible ? "text-emerald-400 font-medium" : ""}">${isAccessible ? "♿ " : ""}${accessText}</span>
         </div>

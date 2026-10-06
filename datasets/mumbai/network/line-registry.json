@@ -6,20 +6,20 @@
   "registryVersion": "1.1.0",
   "schemaVersion": "tdse-network-v1",
   "createdAt": "2026-10-04",
-  "lastUpdated": "2026-10-04",
+  "lastUpdated": "2026-10-05",
   "description": "Network-wide Mumbai Metro Line Registry. Each line entry contains P0 evidence (identity, station sequence, terminals, interchanges, alignment, operational status, source provenance). Deep evidence (P1–P3) lives in per-line evidence/ directories.",
   "acquisitionStrategy": "NETWORK_WIDE_P0_FIRST",
-  "primarySource": "Research compilation — community-verified with operator publications. Temporal status 2026-10-04.",
+  "primarySource": "Current corridor status compiled from official MMRDA/MMMOCL publications; spatial evidence is source-specific and confidence-gated.",
   "networkTotals": {
-    "totalLines": 14,
-    "operationalLines": 5,
-    "partiallyOperationalLines": 1,
-    "underConstructionLines": 5,
+    "totalLines": 15,
+    "operationalLines": 4,
+    "partiallyOperationalLines": 2,
+    "underConstructionLines": 6,
     "plannedLines": 3,
-    "totalOperationalStations": 79,
-    "totalOperationalKm": 101.4,
-    "asOf": "2026-10-04",
-    "ctmReadyLines": 2,
+    "totalOperationalStations": 182,
+    "totalOperationalKm": 80.0,
+    "asOf": "2026-10-05",
+    "ctmReadyLines": 4,
     "firstCtmReadyLine": "MUMBAI_LINE3",
     "secondCtmReadyLine": "MUMBAI_LINE1"
   },
@@ -93,7 +93,8 @@
         "SRC-NET-008",
         "SRC-L1-002",
         "SRC-L1-003",
-        "SRC-L1-004"
+        "SRC-L1-004",
+        "SRC-MMRDA-L1-DPR"
       ],
       "ctmReady": true,
       "ctmBlocker": null,
@@ -106,6 +107,7 @@
     },
     {
       "lineId": "MUMBAI_LINE2A",
+      "colorFamilyId": "MUMBAI_YELLOW",
       "localDesignation": "Line 2A",
       "colorHex": "#F0C800",
       "colorName": "Yellow",
@@ -117,7 +119,7 @@
       "traction": "AC EMU / VVVF (BEML 6-car rakes, Bengaluru)",
       "alignment": "ELEVATED",
       "stationCount": 17,
-      "stationCountConfidence": "COMMUNITY_VERIFIED",
+      "stationCountConfidence": "OFFICIAL_OPERATOR_GIS",
       "terminals": [
         "Dahisar (East)",
         "Andheri (West) / D.N. Nagar"
@@ -145,14 +147,17 @@
           "interchangeType": "METRO_INTERCHANGE"
         }
       ],
-      "evidencePriority": "P0",
+      "evidencePriority": "P0_VALIDATED",
       "deepEvidenceLevel": "NONE",
       "sourceRefs": [
         "SRC-NET-006",
-        "SRC-NET-008"
+        "SRC-NET-008",
+        "SRC-ARCGIS-MOHUA-2025"
       ],
-      "ctmReady": false,
-      "ctmBlocker": "station_coordinates_wgs84",
+      "ctmReady": true,
+      "ctmBlocker": null,
+      "ctmStatusReason": "P0 spatial readiness: all 17 station points resolve to official MoHUA/Esri ArcGIS feature IDs; the station sequence and alignment geometry were checked against the supplied corridor KML. This does not certify platform-level or interchange-path details.",
+      "validatedGisCount": 17,
       "sharedEvidenceRef": [
         "E-NET-SYS-001",
         "E-NET-SYS-003",
@@ -162,6 +167,7 @@
     },
     {
       "lineId": "MUMBAI_LINE2B",
+      "colorFamilyId": "MUMBAI_YELLOW",
       "localDesignation": "Line 2B",
       "colorHex": "#F0C800",
       "colorName": "Yellow",
@@ -172,18 +178,18 @@
       "powerSupply": "25kV AC overhead catenary",
       "traction": "AC EMU / VVVF (BEML 6-car rakes, Bengaluru)",
       "alignment": "ELEVATED",
-      "stationCount": 22,
+      "stationCount": 20,
       "openedStationCount": 6,
-      "stationCountConfidence": "COMMUNITY_VERIFIED",
+      "stationCountConfidence": "OFFICIAL_OPERATOR_LIST_WITH_PAGE_COUNT_CONFLICT",
       "terminals": [
         "D.N. Nagar / Andheri (West)",
         "Mandale"
       ],
-      "lengthKm": 23.6,
+      "lengthKm": 23.643,
       "operationalStatus": "PARTIAL",
       "temporalStatus": "OPERATIONAL",
       "openingYear": 2026,
-      "phaseInfo": "Mandale–Diamond Garden opened Apr 2026 (5 stations); Diamond Garden–Chembur opened Aug 2026 (1 station). Chembur–Andheri W under construction.",
+      "phaseInfo": "MMRDA reports five stations on the Mandale–Diamond Garden phase operational from 2026-04-07 and Chembur from 2026-08-13 (six of the 20 current route names). Current operational segment P0 is transcribed in normalized/ctm-line2b-phase1.json; the full corridor remains under construction.",
       "interchangeStations": [
         {
           "stationName": "D.N. Nagar",
@@ -229,15 +235,32 @@
       "deepEvidenceLevel": "NONE",
       "sourceRefs": [
         "SRC-NET-006",
-        "SRC-NET-008"
+        "SRC-NET-008",
+        "SRC-MMRDA-L2B-DPR",
+        "SRC-MMRDA-L2B-OVERVIEW",
+        "SRC-ARCGIS-MOHUA-2025"
       ],
       "ctmReady": false,
-      "ctmBlocker": "station_coordinates_wgs84",
+      "ctmBlocker": "full_current_station_crosswalk_and_ctm_entities_incomplete",
       "sharedEvidenceRef": [
         "E-NET-SYS-001",
         "E-NET-SYS-003",
         "E-NET-SYS-004",
         "E-NET-SYS-006"
+      ],
+      "operationalSegmentCtmPath": "normalized/ctm-line2b-phase1.json",
+      "operationalSegmentStatus": "SOURCE_CROSS_CHECKED_CTMDATA_NOT_DATABASE_MATERIALIZED",
+      "operationalSegmentStationIds": [
+        "STN_L2B_015",
+        "STN_L2B_016",
+        "STN_L2B_017",
+        "STN_L2B_018",
+        "STN_L2B_019",
+        "STN_L2B_020"
+      ],
+      "openedLengthKm": 5.79,
+      "openedLengthSourceRefs": [
+        "SRC-MMRDA-L2B-OVERVIEW: Phase I 5.5 km + Phase IA 0.29 km"
       ]
     },
     {
@@ -368,62 +391,109 @@
     },
     {
       "lineId": "MUMBAI_LINE4",
-      "localDesignation": "Line 4 + 4A",
+      "localDesignation": "Line 4",
       "colorHex": "#009540",
       "colorName": "Green",
-      "officialName": "Mumbai Metro Line 4 — Green Line (Bhakti Park/Wadala–Gaimukh) + Line 4A (Kasarvadavali–Gaimukh)",
+      "officialName": "Mumbai Metro Line 4 — Green Line (Wadala–Kasarvadavali)",
       "operator": "MMMOCL / MMRDA",
       "ownerAuthority": "MMRDA",
       "gauge": "STANDARD_1435mm",
       "powerSupply": "25kV AC overhead catenary",
       "traction": "AC EMU / VVVF",
       "alignment": "ELEVATED",
-      "stationCount": 34,
-      "stationCountConfidence": "COMMUNITY_SECONDARY",
+      "stationCount": 30,
+      "stationCountConfidence": "OFFICIAL_MMRDA_PROJECT_OVERVIEW",
       "terminals": [
-        "Bhakti Park (Wadala)",
-        "Gaimukh"
+        "Wadala",
+        "Kasarvadavali"
       ],
-      "lengthKm": 37.5,
+      "lengthKm": 32.32,
       "operationalStatus": "UNDER_CONSTRUCTION",
       "temporalStatus": "UNDER_CONSTRUCTION",
       "openingYear": null,
-      "phaseInfo": "Advanced civil work ongoing; trial runs initiated 2025/2026; full completion expected 2026–2028",
+      "phaseInfo": "MMRDA reports the 30-station Wadala–Kasarvadavali corridor as under construction, with project progress dated 31 August 2026. Trial runs on the priority section of Lines 4/4A were flagged off on 22 September 2025.",
       "interchangeStations": [
         {
-          "stationName": "Bhakti Park (Wadala)",
+          "stationName": "Wadala TT",
+          "interchangeType": "METRO_INTERCHANGE",
           "connectsTo": [
             "Mumbai Monorail",
-            "Line 11"
-          ],
-          "interchangeType": "MULTIMODAL"
+            "Line 11",
+            "Line 2B"
+          ]
         },
         {
-          "stationName": "Kanjurmarg / Gandhi Nagar",
+          "stationName": "Gandhi Nagar",
+          "interchangeType": "METRO_INTERCHANGE",
           "connectsTo": [
             "Line 6",
             "Central Line (CR)"
-          ],
-          "interchangeType": "MULTIMODAL"
+          ]
         },
         {
           "stationName": "Kapurbawdi",
+          "interchangeType": "METRO_INTERCHANGE",
           "connectsTo": [
             "Line 5"
-          ],
-          "interchangeType": "METRO_INTERCHANGE"
-        },
-        {
-          "stationName": "Gaimukh",
-          "connectsTo": [
-            "Line 10"
-          ],
-          "interchangeType": "METRO_INTERCHANGE"
+          ]
         }
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
-      "sourceRefs": [],
+      "sourceRefs": [
+        "SRC-MMRDA-L4-DPR",
+        "SRC-MMRDA-L4-OVERVIEW"
+      ],
+      "ctmReady": false,
+      "ctmBlocker": "operational_status_UNDER_CONSTRUCTION",
+      "colorFamilyId": "MUMBAI_GREEN"
+    },
+    {
+      "lineId": "MUMBAI_LINE4A",
+      "colorFamilyId": "MUMBAI_GREEN",
+      "localDesignation": "Line 4A",
+      "colorHex": "#009540",
+      "colorName": "Green",
+      "officialName": "Mumbai Metro Line 4A — Green Line (Kasarvadavali–Gaimukh)",
+      "operator": "MMMOCL / MMRDA",
+      "ownerAuthority": "MMRDA",
+      "gauge": "STANDARD_1435mm",
+      "powerSupply": "25kV AC overhead catenary",
+      "traction": "AC EMU / VVVF",
+      "alignment": "ELEVATED",
+      "stationCount": 2,
+      "stationCountConfidence": "OFFICIAL_MMRDA_PROJECT_OVERVIEW",
+      "terminals": [
+        "Kasarvadavali",
+        "Gaimukh"
+      ],
+      "lengthKm": 2.668,
+      "operationalStatus": "UNDER_CONSTRUCTION",
+      "temporalStatus": "UNDER_CONSTRUCTION",
+      "openingYear": null,
+      "phaseInfo": "MMRDA reports two stations and 2.668 km. Project progress is dated 31 August 2026; technical inspection and priority-section trial run were announced in September 2025.",
+      "interchangeStations": [
+        {
+          "stationName": "Kasarvadavali",
+          "interchangeType": "METRO_INTERCHANGE",
+          "connectsTo": [
+            "Line 4"
+          ]
+        },
+        {
+          "stationName": "Gaimukh",
+          "interchangeType": "METRO_INTERCHANGE",
+          "connectsTo": [
+            "Line 10"
+          ]
+        }
+      ],
+      "evidencePriority": "P0",
+      "deepEvidenceLevel": "NONE",
+      "sourceRefs": [
+        "SRC-MMRDA-L4A-DPR",
+        "SRC-MMRDA-L4A-OVERVIEW"
+      ],
       "ctmReady": false,
       "ctmBlocker": "operational_status_UNDER_CONSTRUCTION"
     },
@@ -439,8 +509,8 @@
       "powerSupply": "25kV AC overhead catenary",
       "traction": "AC EMU / VVVF",
       "alignment": "ELEVATED",
-      "stationCount": 17,
-      "stationCountConfidence": "COMMUNITY_SECONDARY",
+      "stationCount": 15,
+      "stationCountConfidence": "OFFICIAL_MMRDA_PROJECT_OVERVIEW",
       "terminals": [
         "Kapurbawdi (Thane)",
         "Kalyan APMC"
@@ -469,7 +539,11 @@
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
-      "sourceRefs": [],
+      "sourceRefs": [
+        "SRC-MMRDA-L5-DPR",
+        "SRC-MMRDA-L5-OVERVIEW",
+        "SRC-ARCGIS-MOHUA-2025"
+      ],
       "ctmReady": false,
       "ctmBlocker": "operational_status_UNDER_CONSTRUCTION"
     },
@@ -491,7 +565,7 @@
         "Swami Samarth Nagar (Lokhandwala)",
         "Vikhroli EEH"
       ],
-      "lengthKm": 14.7,
+      "lengthKm": 15.31,
       "operationalStatus": "UNDER_CONSTRUCTION",
       "temporalStatus": "UNDER_CONSTRUCTION",
       "openingYear": null,
@@ -537,12 +611,17 @@
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
-      "sourceRefs": [],
+      "sourceRefs": [
+        "SRC-MMRDA-L6-DPR",
+        "SRC-MMRDA-L6-OVERVIEW",
+        "SRC-ARCGIS-MOHUA-2025"
+      ],
       "ctmReady": false,
       "ctmBlocker": "operational_status_UNDER_CONSTRUCTION"
     },
     {
       "lineId": "MUMBAI_LINE7",
+      "colorFamilyId": "MUMBAI_RED",
       "localDesignation": "Line 7",
       "colorHex": "#E31E24",
       "colorName": "Red",
@@ -554,7 +633,7 @@
       "traction": "AC EMU / VVVF (BEML 6-car rakes, Bengaluru)",
       "alignment": "ELEVATED",
       "stationCount": 14,
-      "stationCountConfidence": "COMMUNITY_VERIFIED",
+      "stationCountConfidence": "OFFICIAL_OPERATOR_GIS",
       "terminals": [
         "Dahisar (East)",
         "Gundavali (Andheri East)"
@@ -589,14 +668,17 @@
           "interchangeType": "METRO_INTERCHANGE"
         }
       ],
-      "evidencePriority": "P0",
+      "evidencePriority": "P0_VALIDATED",
       "deepEvidenceLevel": "NONE",
       "sourceRefs": [
         "SRC-NET-006",
-        "SRC-NET-008"
+        "SRC-NET-008",
+        "SRC-ARCGIS-MOHUA-2025"
       ],
-      "ctmReady": false,
-      "ctmBlocker": "station_coordinates_wgs84",
+      "ctmReady": true,
+      "ctmBlocker": null,
+      "ctmStatusReason": "P0 spatial readiness: all 14 station points resolve to official MoHUA/Esri ArcGIS feature IDs; the station sequence and alignment geometry were checked against the supplied corridor KML. This does not certify platform-level or interchange-path details.",
+      "validatedGisCount": 14,
       "sharedEvidenceRef": [
         "E-NET-SYS-001",
         "E-NET-SYS-003",
@@ -606,6 +688,7 @@
     },
     {
       "lineId": "MUMBAI_LINE7A",
+      "colorFamilyId": "MUMBAI_RED",
       "localDesignation": "Line 7A",
       "colorHex": "#E31E24",
       "colorName": "Red (Airport spur)",
@@ -617,7 +700,7 @@
       "traction": "AC EMU / VVVF",
       "alignment": "ELEVATED_AND_UNDERGROUND",
       "stationCount": 2,
-      "stationCountConfidence": "COMMUNITY_SECONDARY",
+      "stationCountConfidence": "OFFICIAL_OPERATOR",
       "terminals": [
         "Gundavali",
         "CSMIA Terminal 2"
@@ -626,7 +709,7 @@
       "operationalStatus": "UNDER_CONSTRUCTION",
       "temporalStatus": "UNDER_CONSTRUCTION",
       "openingYear": null,
-      "phaseInfo": "Partially underground airport link; completion expected 2026–2027",
+      "phaseInfo": "Airport Colony elevated and CSMIA underground are the two planned stations. MMRDA's 31 August 2026 project update still reports construction activity; do not mark operational from Line 7/9 shared branding or the DPR.",
       "interchangeStations": [
         {
           "stationName": "Gundavali",
@@ -647,7 +730,10 @@
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
-      "sourceRefs": [],
+      "sourceRefs": [
+        "SRC-MMRDA-L7A-L9-DPR",
+        "SRC-MMRDA-L9-OVERVIEW"
+      ],
       "ctmReady": false,
       "ctmBlocker": "operational_status_UNDER_CONSTRUCTION"
     },
@@ -699,6 +785,7 @@
     },
     {
       "lineId": "MUMBAI_LINE9",
+      "colorFamilyId": "MUMBAI_RED",
       "localDesignation": "Line 9",
       "colorHex": "#E31E24",
       "colorName": "Red (Northern extension)",
@@ -709,24 +796,25 @@
       "powerSupply": "25kV AC overhead catenary",
       "traction": "AC EMU / VVVF",
       "alignment": "ELEVATED",
-      "stationCount": 10,
-      "openedStationCount": 3,
-      "stationCountConfidence": "COMMUNITY_VERIFIED",
+      "stationCount": 8,
+      "openedStationCount": 4,
+      "stationCountConfidence": "OFFICIAL_OPERATOR",
       "terminals": [
         "Dahisar (East)",
         "Subhash Chandra Bose Stadium (Bhayandar)"
       ],
-      "lengthKm": 12.1,
+      "lengthKm": 10.58,
       "operationalStatus": "PARTIAL",
       "temporalStatus": "OPERATIONAL",
       "openingYear": 2026,
-      "phaseInfo": "Dahisar (E)–Kashigaon (3 stations) opened April 2026. Kashigaon–Bhayandar under construction.",
+      "phaseInfo": "MMRDA reports Phase I from Dahisar East to Kashigaon (4.7 km, four stations) operational from 2026-04-07. The line-owned P0 phase sequence is normalized; Dahisar East reuses STN_L7_001 because Line 9 is a through extension beyond the existing station.",
       "interchangeStations": [
         {
           "stationName": "Dahisar (East)",
           "connectsTo": [
             "Line 2A",
-            "Line 7"
+            "Line 7",
+            "Line 9 (continuous Red Line extension)"
           ],
           "interchangeType": "METRO_INTERCHANGE"
         },
@@ -747,9 +835,27 @@
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
-      "sourceRefs": [],
+      "sourceRefs": [
+        "SRC-MMRDA-L7A-L9-DPR",
+        "SRC-MMRDA-L9-OVERVIEW",
+        "SRC-MMRDA-L9-INTERCHANGE-2023",
+        "SRC-ARCGIS-MOHUA-2025"
+      ],
       "ctmReady": false,
-      "ctmBlocker": "station_coordinates_wgs84"
+      "ctmBlocker": "Phase I P0 topology, GIS, and the local database slice are materialized. The remaining four route stations are not operational; operator-confirmed as-built P1 remains incomplete.",
+      "openedLengthKm": 4.7,
+      "openedLengthSourceRefs": [
+        "SRC-MMRDA-L9-OVERVIEW: Phase I Dahisar East–Kashigaon 4.7 km"
+      ],
+      "operationalSegmentCtmPath": "normalized/ctm-line9-phase1.json",
+      "operationalCrosswalkPath": "evidence/dpr-operational-station-crosswalk-line9-phase1.json",
+      "operationalSegmentStatus": "P0_PHASE_I_CROSS_CHECKED; DB_CTM_AND_P1_OPEN",
+      "operationalSegmentStationIds": [
+        "STN_L7_001",
+        "STN_L9_001",
+        "STN_L9_002",
+        "STN_L9_003"
+      ]
     },
     {
       "lineId": "MUMBAI_LINE10",
@@ -763,13 +869,13 @@
       "powerSupply": "25kV AC overhead catenary",
       "traction": "AC EMU / VVVF",
       "alignment": "ELEVATED",
-      "stationCount": 8,
-      "stationCountConfidence": "COMMUNITY_SECONDARY",
+      "stationCount": 4,
+      "stationCountConfidence": "OFFICIAL_MMRDA_DPR_CURRENT_OVERVIEW_UNAVAILABLE",
       "terminals": [
         "Gaimukh",
         "Shivaji Chowk (Mira Road)"
       ],
-      "lengthKm": 7,
+      "lengthKm": 9.209,
       "operationalStatus": "PLANNED",
       "temporalStatus": "PROPOSED",
       "openingYear": null,
@@ -792,7 +898,10 @@
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
-      "sourceRefs": [],
+      "sourceRefs": [
+        "SRC-MMRDA-L10-DPR",
+        "SRC-ARCGIS-MOHUA-2025"
+      ],
       "ctmReady": false,
       "ctmBlocker": "operational_status_PLANNED"
     },
@@ -808,13 +917,13 @@
       "powerSupply": "25kV AC overhead catenary",
       "traction": "AC EMU / VVVF (underground)",
       "alignment": "UNDERGROUND_AND_ELEVATED",
-      "stationCount": 15,
-      "stationCountConfidence": "COMMUNITY_SECONDARY",
+      "stationCount": 10,
+      "stationCountConfidence": "OFFICIAL_MMRDA_DPR",
       "terminals": [
         "Bhakti Park (Wadala)",
         "CSMT"
       ],
-      "lengthKm": 12,
+      "lengthKm": 12.7,
       "operationalStatus": "PLANNED",
       "temporalStatus": "PROPOSED",
       "openingYear": null,
@@ -847,7 +956,10 @@
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
-      "sourceRefs": [],
+      "sourceRefs": [
+        "SRC-MMRDA-L11-DPR",
+        "SRC-ARCGIS-MOHUA-2025"
+      ],
       "ctmReady": false,
       "ctmBlocker": "operational_status_PLANNED"
     },
@@ -863,13 +975,13 @@
       "powerSupply": "25kV AC overhead catenary",
       "traction": "AC EMU / VVVF",
       "alignment": "ELEVATED",
-      "stationCount": 17,
-      "stationCountConfidence": "COMMUNITY_SECONDARY",
+      "stationCount": 19,
+      "stationCountConfidence": "OFFICIAL_MMRDA_PROJECT_OVERVIEW",
       "terminals": [
         "Kalyan APMC",
         "Taloja"
       ],
-      "lengthKm": 30,
+      "lengthKm": 23.57,
       "operationalStatus": "UNDER_CONSTRUCTION",
       "temporalStatus": "UNDER_CONSTRUCTION",
       "openingYear": null,
@@ -893,7 +1005,12 @@
       ],
       "evidencePriority": "P0",
       "deepEvidenceLevel": "NONE",
-      "sourceRefs": [],
+      "sourceRefs": [
+        "SRC-MMRDA-L12-DPR",
+        "SRC-MMRDA-L12-OVERVIEW",
+        "SRC-MMRDA-L12-2026-TENDER",
+        "SRC-ARCGIS-MOHUA-2025"
+      ],
       "ctmReady": false,
       "ctmBlocker": "operational_status_UNDER_CONSTRUCTION"
     }

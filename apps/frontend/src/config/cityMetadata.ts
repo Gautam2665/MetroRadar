@@ -59,4 +59,35 @@ export const CITY_METADATA: Record<
       "Cuffe Parade",
     ],
   },
+  pune: {
+    name: "Pune, MH",
+    code: "PMRDA",
+    center: [73.8567, 18.5204],
+    quickPills: [
+      "Civil Court",
+      "PCMC",
+      "Swargate",
+      "Vanaz",
+      "Ramwadi",
+      "Pune Railway Station",
+      "Shivaji Nagar",
+      "Deccan Gymkhana",
+    ],
+  },
+  navi_mumbai: {
+    name: "Navi Mumbai, MH",
+    code: "CIDCO",
+    center: [73.0650, 19.0400],
+    quickPills: [
+      "Belapur Terminal",
+      "Utsav Chowk",
+      "Central Park",
+      "CIDCO Science Park",
+      "Pethpada",
+      "Pendhar",
+      "Amandoot",
+      "Sector 7",
+    ],
+  },
 };
+

@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "tdse-operational-line9-crosswalk-v1",
+  "lineId": "MUMBAI_LINE9",
+  "status": "PHASE_I_OPERATIONAL_CROSSWALKED; REMAINING_FOUR_ROUTE_STATIONS_UNDER_CONSTRUCTION",
+  "operatorSource": "SRC-MMRDA-L9-OVERVIEW",
+  "crosswalkBasis": [
+    "MMRDA current route list and Phase I opening notice",
+    "supplied Line 9 KML placemarks",
+    "MoHUA/Esri ArcGIS line feature 62 and station points",
+    "Dahisar East Line 7 physical station identity"
+  ],
+  "records": [
+    {
+      "lineId": "MUMBAI_LINE9",
+      "operationalStationId": "STN_L7_001",
+      "operationalName": "Dahisar (East)",
+      "operatorRouteSequence": 1,
+      "operatorSourceId": "SRC-MMRDA-L9-OVERVIEW",
+      "dprEntityKey": "LINE9_DPR_STATION_01",
+      "dprName": "Pandurang Wadi",
+      "dprCrosswalkStatus": "NAME_MATCHED_OPERATOR_AND_DPR",
+      "sharedExistingStation": true,
+      "kmlPlacemark": "Dahisar(E) (M) Station",
+      "kmlCoordinatesWgs84": {
+        "longitude": 72.86726447601028,
+        "latitude": 19.2507979459546
+      },
+      "arcgisRouteFeatureId": 62,
+      "distanceToOfficialRouteMeters": 53.9,
+      "arcgisStationFeatureId": 996,
+      "arcgisStationName": "Dahisar (East)",
+      "distanceToArcgisStationPointMeters": 53.9,
+      "crosswalkStatus": "SPATIAL_CROSSCHECKED",
+      "aliases": [
+        "Dahisar East",
+        "Dahisar(E)"
+      ],
+      "p1Status": "DPR_DESIGN_EVIDENCE_NOT_PROMOTED_TO_AS_BUILT"
+    },
+    {
+      "lineId": "MUMBAI_LINE9",
+      "operationalStationId": "STN_L9_001",
+      "operationalName": "Pandhurang Wadi",
+      "operatorRouteSequence": 2,
+      "operatorSourceId": "SRC-MMRDA-L9-OVERVIEW",
+      "dprEntityKey": "LINE9_DPR_STATION_02",
+      "dprName": "Amar Palace",
+      "dprCrosswalkStatus": "KML_ALIAS_SPATIALLY_CROSSWALKED_TO_DPR",
+      "sharedExistingStation": false,
+      "kmlPlacemark": "Pandurang Wadi(M) Station",
+      "kmlCoordinatesWgs84": {
+        "longitude": 72.87515928454522,
+        "latitude": 19.26504720295334
+      },
+      "arcgisRouteFeatureId": 62,
+      "distanceToOfficialRouteMeters": 10.0,
+      "arcgisStationFeatureId": 1094,
+      "arcgisStationName": "Pandurang Wadi Station",
+      "distanceToArcgisStationPointMeters": 641.9,
+      "crosswalkStatus": "SPATIAL_CROSSCHECK_WARNING_ARCGIS_STATION_POINT_OFFSET",
+      "aliases": [
+        "Pandurang Wadi",
+        "Pandurang Wadi Station"
+      ],
+      "p1Status": "DPR_DESIGN_EVIDENCE_NOT_PROMOTED_TO_AS_BUILT"
+    },
+    {
+      "lineId": "MUMBAI_LINE9",
+      "operationalStationId": "STN_L9_002",
+      "operationalName": "Miragaon",
+      "operatorRouteSequence": 3,
+      "operatorSourceId": "SRC-MMRDA-L9-OVERVIEW",
+      "dprEntityKey": "LINE9_DPR_STATION_03",
+      "dprName": "Zankar Company",
+      "dprCrosswalkStatus": "KML_ALIAS_SPATIALLY_CROSSWALKED_TO_DPR",
+      "sharedExistingStation": false,
+      "kmlPlacemark": "Amar Palace(M) Station",
+      "kmlCoordinatesWgs84": {
+        "longitude": 72.8808649736778,
+        "latitude": 19.2711311179
+      },
+      "arcgisRouteFeatureId": 62,
+      "distanceToOfficialRouteMeters": 1.0,
+      "arcgisStationFeatureId": 981,
+      "arcgisStationName": "Miragaon",
+      "distanceToArcgisStationPointMeters": 234.3,
+      "crosswalkStatus": "SPATIAL_CROSSCHECK_WARNING_ARCGIS_STATION_POINT_OFFSET",
+      "aliases": [
+        "Amar Palace (KML placemark)"
+      ],
+      "p1Status": "DPR_DESIGN_EVIDENCE_NOT_PROMOTED_TO_AS_BUILT"
+    },
+    {
+      "lineId": "MUMBAI_LINE9",
+      "operationalStationId": "STN_L9_003",
+      "operationalName": "Kashigaon",
+      "operatorRouteSequence": 4,
+      "operatorSourceId": "SRC-MMRDA-L9-OVERVIEW",
+      "dprEntityKey": null,
+      "sharedExistingStation": false,
+      "kmlPlacemark": "Zankar Company (M) Station",
+      "kmlCoordinatesWgs84": {
+        "longitude": 72.88016037504715,
+        "latitude": 19.27769304256498
+      },
+      "arcgisRouteFeatureId": 62,
+      "distanceToOfficialRouteMeters": 2.9,
+      "arcgisStationFeatureId": 982,
+      "arcgisStationName": "Kashigaon",
+      "distanceToArcgisStationPointMeters": 12.2,
+      "crosswalkStatus": "SPATIAL_CROSSCHECKED",
+      "aliases": [
+        "Zankar Company (KML placemark)"
+      ],
+      "p1Status": "DPR_DESIGN_EVIDENCE_NOT_PROMOTED_TO_AS_BUILT"
+    }
+  ],
+  "unresolved": [
+    "Line 9's 2017 DPR uses an earlier station list and branch design; none of its P1 values are promoted to current as-built data by this operational spatial crosswalk.",
+    "Pandhurang Wadi's KML point is about 642 m from ArcGIS station point 1094 but only 48 m from the official route; keep KML coordinates with an explicit warning rather than snapping to the offset point.",
+    "Miragaon's KML point ('Amar Palace') is about 234 m from ArcGIS station point 981 but lies about 6 m from the official route; retain both source coordinates and the alias.",
+    "The clipped ArcGIS geometry distance is derived and must not replace MMRDA's published 4.7 km phase length.",
+    "Current as-built level counts, platform numbers/directions, gate installation, and physical transfer measurements remain source-required."
+  ],
+  "generatedAt": "2026-10-05"
+}

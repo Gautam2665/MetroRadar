@@ -1,0 +1,3 @@
+route_id,agency_id,route_short_name,route_long_name,route_type,route_color,route_text_color
+LINE1,MMOPL,Line 1,Blue Line (Versova - Ghatkopar),1,007DC5,FFFFFF
+LINE2B,MMMOCL,Line 2B,Metro Line 2B (Mandale - Chembur; current operational segment),1,F0C800,000000

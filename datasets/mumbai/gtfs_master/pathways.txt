@@ -1,0 +1,2 @@
+pathway_id,from_stop_id,to_stop_id,pathway_mode,is_bidirectional,length,traversal_time,signposted_as,reversed_signposted_as
+PW_MAROL_L1_AFC_GATE,LVL_L1_008_C,STN_L1_008,6,1,,30,"MMOPL AFC Gates","MMOPL AFC Gates"

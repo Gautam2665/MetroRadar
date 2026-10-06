@@ -49,12 +49,12 @@ export class JourneyOptionsDto {
 
 /** Query parameters for GET /journeys */
 export class JourneyQueryDto {
-  @ApiProperty({ description: 'Origin station ID (UUID)', format: 'uuid' })
-  @IsUUID()
+  @ApiProperty({ description: 'Origin station ID (UUID or station code)' })
+  @IsString()
   from!: string;
 
-  @ApiProperty({ description: 'Destination station ID (UUID)', format: 'uuid' })
-  @IsUUID()
+  @ApiProperty({ description: 'Destination station ID (UUID or station code)' })
+  @IsString()
   to!: string;
 
   @ApiPropertyOptional({

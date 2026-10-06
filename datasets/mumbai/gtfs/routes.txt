@@ -1,0 +1,7 @@
+route_id,agency_id,route_short_name,route_long_name,route_type,route_color,route_text_color
+LINE1,MMOPL,Line 1,Blue Line (Versova - Ghatkopar),1,007DC5,FFFFFF
+LINE2A,MMMOCL,Line 2A,Yellow Line (Dahisar East - Andheri West),1,FACC15,000000
+LINE2B,MMMOCL,Line 2B,Yellow Line (Mandale Depot - Diamond Garden),1,F0C800,000000
+LINE3,MMRCL,Line 3,Aqua Line (Aarey JVLR - Cuffe Parade),1,059DB2,FFFFFF
+LINE7,MMMOCL,Line 7,Red Line (Kashigaon - Gundavali),1,E31E24,FFFFFF
+MONORAIL,MMRDA_MONO,Monorail,Monorail,2,7C3AED,FFFFFF

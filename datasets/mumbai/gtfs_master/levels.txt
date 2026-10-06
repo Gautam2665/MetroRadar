@@ -1,0 +1,25 @@
+level_id,level_index,level_name
+LVL_L1_001_C,1.0,Concourse Level
+LVL_L1_001_P,2.0,Platform Level
+LVL_L1_002_C,1.0,Concourse Level
+LVL_L1_002_P,2.0,Platform Level
+LVL_L1_003_C,1.0,Concourse Level
+LVL_L1_003_P,2.0,Platform Level
+LVL_L1_004_C,1.0,Concourse Level
+LVL_L1_004_P,2.0,Platform Level
+LVL_L1_005_C,1.0,Concourse Level
+LVL_L1_005_P,2.0,Platform Level
+LVL_L1_006_C,1.0,Concourse Level
+LVL_L1_006_P,2.0,Platform Level
+LVL_L1_007_C,1.0,Concourse Level
+LVL_L1_007_P,2.0,Platform Level
+LVL_L1_008_C,1.0,Concourse Level
+LVL_L1_008_P,2.0,Platform Level
+LVL_L1_009_C,1.0,Concourse Level
+LVL_L1_009_P,2.0,Platform Level
+LVL_L1_010_C,1.0,Concourse Level
+LVL_L1_010_P,2.0,Platform Level
+LVL_L1_011_C,1.0,Concourse Level
+LVL_L1_011_P,2.0,Platform Level
+LVL_L1_012_C,1.0,Concourse Level
+LVL_L1_012_P,2.0,Platform Level

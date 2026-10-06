@@ -19,6 +19,8 @@ const CITIES = [
   { code: "chennai", name: "Chennai, IN", badge: "Certified" },
   { code: "ahmedabad", name: "Ahmedabad, IN", badge: "Certified" },
   { code: "mumbai", name: "Mumbai, MH", badge: "Live" },
+  { code: "pune", name: "Pune, MH", badge: "Live" },
+  { code: "navi_mumbai", name: "Navi Mumbai, MH", badge: "Live" },
 ];
 
 const CITY_COORDS: Record<string, { lat: number; lng: number }> = {
@@ -29,6 +31,8 @@ const CITY_COORDS: Record<string, { lat: number; lng: number }> = {
   chennai: { lat: 13.0827, lng: 80.2707 },
   ahmedabad: { lat: 23.0225, lng: 72.5714 },
   mumbai: { lat: 19.076, lng: 72.8777 },
+  pune: { lat: 18.5204, lng: 73.8567 },
+  navi_mumbai: { lat: 19.0400, lng: 73.0650 },
 };
 
 /** Weather cache: city → { temp, icon, fetchedAt } */

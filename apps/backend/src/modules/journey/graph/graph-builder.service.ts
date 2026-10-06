@@ -1,5 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
+import * as fs from 'fs';
+import * as path from 'path';
 import { DatabaseService } from '../../../database/database.service';
+import { InterchangeEvaluatorService } from '../routing/interchange-evaluator.service';
 import { EdgeType } from './edge.types';
 import { GraphEdge, StationNode, TransitGraph } from './graph.types';
 
@@ -17,8 +20,43 @@ import { GraphEdge, StationNode, TransitGraph } from './graph.types';
 @Injectable()
 export class GraphBuilderService {
   private readonly logger = new Logger(GraphBuilderService.name);
+  private interchangeComplexes: Array<{
+    complexId: string;
+    participatingStations?: string[];
+    pathways?: Array<{ walkingSeconds?: number | null }>;
+    pathway?: Array<{ walkingSeconds?: number | null }>;
+    throughRunningRelations?: Array<{
+      from: string;
+      to: string;
+      viaStationId?: string;
+      relation?: string;
+    }>;
+  }> = [];
 
-  constructor(private readonly db: DatabaseService) {}
+  constructor(
+    private readonly db: DatabaseService,
+    private readonly interchangeEvaluator: InterchangeEvaluatorService = new InterchangeEvaluatorService(),
+  ) {}
+
+  private loadInterchangeRegistry() {
+    const candidates = [
+      path.resolve(process.cwd(), 'datasets/mumbai/network/interchange-complexes.json'),
+      path.resolve(process.cwd(), '../../datasets/mumbai/network/interchange-complexes.json'),
+      path.resolve(__dirname, '../../../../../../datasets/mumbai/network/interchange-complexes.json'),
+    ];
+    for (const candidate of candidates) {
+      if (!fs.existsSync(candidate)) continue;
+      try {
+        const parsed = JSON.parse(fs.readFileSync(candidate, 'utf8')) as { complexes?: typeof this.interchangeComplexes };
+        this.interchangeComplexes = parsed.complexes ?? [];
+        return;
+      } catch (error) {
+        this.logger.error(`Could not read interchange registry ${candidate}`, error);
+      }
+    }
+    this.interchangeComplexes = [];
+    this.logger.warn('Interchange registry unavailable; no cross-station interchange edges will be inferred.');
+  }
 
   async build(systemId: string): Promise<TransitGraph> {
     this.logger.log(`Building transit graph for system: ${systemId}`);
@@ -174,10 +212,25 @@ export class GraphBuilderService {
     this.logger.log(`  Built ${transitEdgeCount} TRANSIT edges`);
 
     // ── 4. Build TRANSFER edges for interchange stations ────────────────────
-    // A transfer exists at any station that is served by 2+ lines.
+    // Shared station IDs can also join two CTM corridor IDs for a through
+    // service. Only add a transfer signal when the registry does not declare
+    // that line pair continuous at this exact station.
+    const lineCodes = await this.db.line.findMany({
+      where: { systemId, isActive: true },
+      select: { id: true, code: true },
+    });
+    const lineCodeById = new Map(lineCodes.map((line) => [line.id, line.code]));
     let transferEdgeCount = 0;
     for (const [stationId, node] of nodes) {
-      if (node.lineIds.length < 2) continue;
+      const codes = node.lineIds
+        .map((lineId) => lineCodeById.get(lineId))
+        .filter((code): code is string => Boolean(code));
+      const hasRealInterchangePair = codes.some((fromCode, fromIndex) =>
+        codes.slice(fromIndex + 1).some((toCode) =>
+          !this.interchangeEvaluator.isThroughRunningTransition(fromCode, toCode, node.code),
+        ),
+      );
+      if (!hasRealInterchangePair) continue;
 
       // Self-loop edge representing a same-station line change
       // We model it as station → station with TRANSFER type and a fixed penalty.
@@ -200,6 +253,7 @@ export class GraphBuilderService {
     );
 
     // ── 5. Build WALK edges for nearby stations (geospatial transfers) ────────
+    this.loadInterchangeRegistry();
     const walkEdgeCount = this.buildWalkEdges(nodes, addEdge);
     this.logger.log(
       `  Built ${walkEdgeCount} WALK edges (authorized interchange transfers)`,
@@ -221,94 +275,29 @@ export class GraphBuilderService {
 
   // ── Private Helpers ─────────────────────────────────────────────────────────
 
-  private static readonly REGISTERED_INTERCHANGE_PAIRS: [string, string][] = [
-    // Delhi Skywalk
-    ['dhaulakuan', 'durgabaideshmukhsouthcampus'],
-    ['dhaulakuan', 'southcampus'],
-    // Noida
-    ['noidasector51', 'noidasector52'],
-    ['sector51', 'sector52'],
-    // Mumbai
-    ['westernexpresshighway', 'gundavali'],
-    ['dnnagar', 'andheriwest'],
-    ['dahisareast', 'dahisareast'],
-  ];
-
-  private static readonly REGISTERED_ICX_CODE_PAIRS: [string, string][] = [
-    ['STN_L1_008', 'STN_L3_004'], // Marol Naka (L1 <-> L3)
-    ['STN_L1_005', 'STN_L7_014'], // WEH <-> Gundavali (L1 <-> L7)
-    ['STN_L1_002', 'STN_L2A_017'], // D.N. Nagar <-> Andheri West (L1 <-> L2A)
-    ['STN_L2A_001', 'STN_L7_001'], // Dahisar East (L2A <-> L7)
-  ];
-
-  private isAuthorizedInterchange(s1: StationNode, s2: StationNode): boolean {
-    const n1 = s1.name.toLowerCase().replace(/[^a-z0-9]/g, '');
-    const n2 = s2.name.toLowerCase().replace(/[^a-z0-9]/g, '');
-
-    // 1. Same normalized station name (e.g. Marol Naka <-> Marol Naka, Kashmere Gate <-> Kashmere Gate)
-    if (n1 === n2) return true;
-
-    // 2. Substring match for stations like "Dilli Haat INA" vs "INA"
-    if ((n1.includes(n2) || n2.includes(n1)) && Math.min(n1.length, n2.length) >= 4) {
-      return true;
-    }
-
-    // 3. Known cross-named pairs (Skywalks, dedicated pedestrian corridors)
-    for (const [pairA, pairB] of GraphBuilderService.REGISTERED_INTERCHANGE_PAIRS) {
-      if ((n1.includes(pairA) && n2.includes(pairB)) || (n1.includes(pairB) && n2.includes(pairA))) {
-        return true;
-      }
-    }
-
-    // 4. Explicit registered ICX code pairs
-    for (const [c1, c2] of GraphBuilderService.REGISTERED_ICX_CODE_PAIRS) {
-      if ((s1.code === c1 && s2.code === c2) || (s1.code === c2 && s2.code === c1)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   private buildWalkEdges(
     nodes: Map<string, StationNode>,
     addEdge: (edge: GraphEdge) => void,
   ): number {
     let walkEdgeCount = 0;
-    const WALKING_THRESHOLD_METERS = 1000;
-    const WALKING_SPEED_MPS = 1.2; // 1.2 m/s (~4.3 km/h)
+    const nodeByCode = new Map([...nodes.values()].map((node) => [node.code, node]));
+    for (const complex of this.interchangeComplexes) {
+      const participants = (complex.participatingStations ?? [])
+        .map((code) => nodeByCode.get(code))
+        .filter((node): node is StationNode => Boolean(node));
+      const registeredSeconds = [...(complex.pathways ?? []), ...(complex.pathway ?? [])]
+        .map((pathway) => pathway.walkingSeconds)
+        .find((seconds): seconds is number => typeof seconds === 'number' && Number.isFinite(seconds));
 
-    const stationList = [...nodes.values()];
-    const allLines = new Set<string>();
-    stationList.forEach((s) => s.lineIds.forEach((l) => allLines.add(l)));
-
-    for (const s1 of stationList) {
-      for (const lineId of allLines) {
-        if (s1.lineIds.includes(lineId)) continue; // Already serves this line
-
-        // Find candidate stations on this foreign line
-        const candidatesOnLine = stationList.filter((s) => s.lineIds.includes(lineId));
-
-        for (const s2 of candidatesOnLine) {
-          // Strictly reject non-interchange stations
-          if (!this.isAuthorizedInterchange(s1, s2)) continue;
-
-          const dist = this.getDistanceMeters(s1.lat, s1.lng, s2.lat, s2.lng);
-          if (dist <= WALKING_THRESHOLD_METERS) {
-            // If Marol Naka hub, apply physical ICX modeled duration (450s)
-            const isMarolNaka =
-              s1.name.toLowerCase().includes('marol') &&
-              s2.name.toLowerCase().includes('marol');
-            const duration = isMarolNaka ? 450 : Math.round(dist / WALKING_SPEED_MPS);
-
-            addEdge({
-              from: s1.id,
-              to: s2.id,
-              type: EdgeType.WALK,
-              duration,
-            });
-            walkEdgeCount++;
-          }
+      for (let i = 0; i < participants.length; i++) {
+        for (let j = i + 1; j < participants.length; j++) {
+          const from = participants[i];
+          const to = participants[j];
+          if (from.id === to.id || from.lineIds.some((lineId) => to.lineIds.includes(lineId))) continue;
+          const duration = registeredSeconds ?? 180; // realistic 3 min interchange transfer baseline when pathway seconds unverified
+          addEdge({ from: from.id, to: to.id, type: EdgeType.WALK, duration });
+          addEdge({ from: to.id, to: from.id, type: EdgeType.WALK, duration });
+          walkEdgeCount += 2;
         }
       }
     }

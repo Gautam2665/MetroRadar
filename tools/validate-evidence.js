@@ -145,6 +145,99 @@ function networkReadinessSummary(lineRegistry) {
   return { total: lines.length, operational: operational.length, partiallyOperational: partialOp.length, ctmReady: ctmReady.length, ctmBlocked: ctmBlocked.length, lines };
 }
 
+function validateLine2bPhase1(ctm, crosswalk, sources) {
+  const errors = [];
+  const warnings = [];
+  const stations = ctm?.stations ?? [];
+  const rows = crosswalk?.records ?? [];
+  const expectedSequences = [15, 16, 17, 18, 19, 20];
+  if (ctm?.lineId !== 'MUMBAI_LINE2B') errors.push('Line 2B partial CTM has the wrong lineId.');
+  if (stations.length !== 6 || rows.length !== 6) errors.push('Line 2B operational slice must contain exactly six operator-confirmed stations.');
+  if (JSON.stringify(stations.map((s) => s.sequence)) !== JSON.stringify(expectedSequences)) {
+    errors.push('Line 2B operating slice must preserve MMRDA route positions 15–20.');
+  }
+  if (new Set(stations.map((s) => s.canonicalId)).size !== stations.length) errors.push('Line 2B CTM has duplicate station IDs.');
+  if (ctm?.scheduleStatus !== 'BLOCKED_SOURCE_REQUIRED' || ctm?.commercialRuntimeSeconds !== null) {
+    errors.push('Line 2B must not invent an unsupported current schedule/runtime.');
+  }
+  if (ctm?.alignmentGeometry?.coordinates?.length !== ctm?.alignmentGeometry?.vertexCount || ctm?.alignmentGeometry?.coordinates?.length < 2) {
+    errors.push('Line 2B operational alignment geometry count is invalid.');
+  }
+  if (!sources.some((s) => s.sourceId === 'SRC-USER-L2B-KML')) errors.push('Supplied Line 2B KML source is not registered.');
+  for (let i = 0; i < stations.length; i += 1) {
+    const station = stations[i];
+    const row = rows[i];
+    if (row?.operationalStationId !== station.canonicalId || row?.dprEntityKey !== station.provenance?.dprEntityKey) {
+      errors.push(`Line 2B station/crosswalk mismatch at route sequence ${station.sequence}.`);
+    }
+    if (!Number.isFinite(row?.distanceToOfficialRouteMeters) || row.distanceToOfficialRouteMeters > 200) {
+      errors.push(`Line 2B KML point is not adequately cross-checked to the ArcGIS route at ${station.name}.`);
+    }
+    if (station.stationInfrastructure?.currentLevelCount !== null || station.stationInfrastructure?.currentPlatformCount !== null || station.physicalLayout?.platformCount !== null) {
+      errors.push(`Line 2B ${station.name} incorrectly promotes proposed platform/level facts as current as-built P1.`);
+    }
+    if (station.stationInfrastructure?.platformNumberingStatus !== 'UNKNOWN_SOURCE_REQUIRED' || station.stationInfrastructure?.screenDoorsInstalled !== null) {
+      errors.push(`Line 2B ${station.name} has unsupported current platform semantics.`);
+    }
+    if (row?.distanceToArcgisStationPointMeters > 200) warnings.push(`${station.name} ArcGIS station-point offset ${row.distanceToArcgisStationPointMeters} m is preserved for review.`);
+  }
+  if (ctm?.stationGraph?.edges?.some((edge) => edge.travelTimeSeconds !== null || edge.travelTimeStatus !== 'UNKNOWN_SOURCE_REQUIRED')) {
+    errors.push('Line 2B topological edges must retain unknown travel times until supported by a current source.');
+  }
+  return { valid: errors.length === 0, errors, warnings };
+}
+
+function validateLine9Phase1(ctm, crosswalk, sources) {
+  const errors = [];
+  const warnings = [];
+  const stations = ctm?.stations ?? [];
+  const rows = crosswalk?.records ?? [];
+  const expectedIds = ['STN_L7_001', 'STN_L9_001', 'STN_L9_002', 'STN_L9_003'];
+  const expectedNames = ['Dahisar (East)', 'Pandhurang Wadi', 'Miragaon', 'Kashigaon'];
+  if (ctm?.lineId !== 'MUMBAI_LINE9') errors.push('Line 9 phase-I CTM has the wrong lineId.');
+  if (stations.length !== 4 || rows.length !== 4) errors.push('Line 9 phase-I must contain exactly four operational route stations.');
+  if (JSON.stringify(stations.map((s) => s.canonicalId)) !== JSON.stringify(expectedIds)) {
+    errors.push('Line 9 must reuse Line 7 Dahisar East, followed by three unique Line 9 station entities.');
+  }
+  if (JSON.stringify(stations.map((s) => s.name)) !== JSON.stringify(expectedNames)) {
+    errors.push('Line 9 phase-I station sequence/names do not match current operator order.');
+  }
+  if (stations[0]?.sharedPhysicalStation !== true || stations.slice(1).some((s) => s.sharedPhysicalStation !== false)) {
+    errors.push('Line 9 shared Dahisar East identity must be explicit; downstream stops must remain line-owned.');
+  }
+  if (ctm?.scheduleStatus !== 'BLOCKED_SOURCE_REQUIRED' || ctm?.commercialRuntimeSeconds !== null) {
+    errors.push('Line 9 must not invent an unsupported current schedule/runtime.');
+  }
+  if (ctm?.alignmentGeometry?.coordinates?.length !== ctm?.alignmentGeometry?.vertexCount || ctm?.alignmentGeometry?.coordinates?.length < 2) {
+    errors.push('Line 9 phase-I alignment geometry count is invalid.');
+  }
+  if (!sources.some((s) => s.sourceId === 'SRC-USER-L9-KML')) errors.push('Supplied Line 9 KML source is not registered.');
+  for (let i = 0; i < stations.length; i += 1) {
+    const station = stations[i];
+    const row = rows[i];
+    if (row?.operationalStationId !== station.canonicalId || row?.operatorRouteSequence !== i + 1) {
+      errors.push(`Line 9 station/crosswalk mismatch at route sequence ${i + 1}.`);
+    }
+    if (!Number.isFinite(row?.distanceToOfficialRouteMeters) || row.distanceToOfficialRouteMeters > 100) {
+      errors.push(`Line 9 KML point is not adequately cross-checked to the ArcGIS route at ${station.name}.`);
+    }
+    if (station.physicalLayout?.currentLevelCount !== null || station.physicalLayout?.currentPlatformCount !== null || station.physicalLayout?.screenDoorsInstalled !== null) {
+      errors.push(`Line 9 ${station.name} incorrectly promotes design evidence as current as-built P1.`);
+    }
+    if (station.physicalLayout?.platformNumberingStatus !== 'UNKNOWN_SOURCE_REQUIRED' || station.physicalLayout?.platformDirectionStatus !== 'UNKNOWN_SOURCE_REQUIRED') {
+      errors.push(`Line 9 ${station.name} has unsupported current platform semantics.`);
+    }
+    if (row?.distanceToArcgisStationPointMeters > 200) warnings.push(`${station.name} ArcGIS station-point offset ${row.distanceToArcgisStationPointMeters} m is preserved for review.`);
+  }
+  if (ctm?.stationGraph?.edges?.some((edge) => edge.travelTimeSeconds !== null || edge.travelTimeStatus !== 'UNKNOWN_SOURCE_REQUIRED')) {
+    errors.push('Line 9 topological edges must retain unknown travel times until supported by a current source.');
+  }
+  if (Math.abs((ctm?.totalDistanceMeters ?? 0) - 4700) > 250) {
+    warnings.push(`Line 9 clipped geometry distance ${ctm?.totalDistanceMeters} m differs from MMRDA's published 4,700 m phase length; both source values are retained.`);
+  }
+  return { valid: errors.length === 0, errors, warnings };
+}
+
 function main() {
   console.log('\n🔬 TDSE Evidence System — Sprint v0.6.5-F Audit');
   console.log('────────────────────────────────────────────────────────────');
@@ -155,10 +248,28 @@ function main() {
   const evidenceCPath = path.resolve('datasets/mumbai/evidence/C-operations-evidence.json');
   const evidenceDPath = path.resolve('datasets/mumbai/evidence/D-rolling-stock-evidence.json');
   const evidenceFPath = path.resolve('datasets/mumbai/evidence/F-gis-evidence.json');
+  const evidenceA2a7Path = path.resolve('datasets/mumbai/evidence/A-network-l2a-line7-records.json');
+  const evidenceB2a7Path = path.resolve('datasets/mumbai/evidence/B-station-infrastructure-l2a-line7-records.json');
+  const evidenceA2bPath = path.resolve('datasets/mumbai/evidence/A-network-line2b-records.json');
+  const evidenceB2bPath = path.resolve('datasets/mumbai/evidence/B-station-infrastructure-line2b-records.json');
+  const evidenceA9Path = path.resolve('datasets/mumbai/evidence/A-network-red-extension-records.json');
+  const evidenceB9Path = path.resolve('datasets/mumbai/evidence/B-station-infrastructure-red-extension-records.json');
+  const evidenceP1L9Path = path.resolve('datasets/mumbai/evidence/P1-line9-operational-platform-evidence.json');
+  const colorFamilyLines = ['line4', 'line4a', 'line5', 'line6', 'line10', 'line11', 'line12'];
+  const colorFamilyEvidence = colorFamilyLines.map((line) => ({
+    line,
+    a: path.resolve(`datasets/mumbai/evidence/A-network-${line}-records.json`),
+    b: path.resolve(`datasets/mumbai/evidence/B-station-infrastructure-${line}-records.json`),
+  }));
   const gapsPath = path.resolve('datasets/mumbai/evidence/knowledge-gaps.json');
   const lineRegistryPath = path.resolve('datasets/mumbai/network/line-registry.json');
   const sharedEvidencePath = path.resolve('datasets/mumbai/network/shared-evidence.json');
   const networkSourceRegistryPath = path.resolve('datasets/mumbai/network/source-registry.json');
+  const gisRegistryPath = path.resolve('datasets/mumbai/network/gis-evidence-registry.json');
+  const line2bPhase1CtmPath = path.resolve('datasets/mumbai/normalized/ctm-line2b-phase1.json');
+  const line2bPhase1CrosswalkPath = path.resolve('datasets/mumbai/evidence/dpr-operational-station-crosswalk-line2b-phase1.json');
+  const line9Phase1CtmPath = path.resolve('datasets/mumbai/normalized/ctm-line9-phase1.json');
+  const line9Phase1CrosswalkPath = path.resolve('datasets/mumbai/evidence/dpr-operational-station-crosswalk-line9-phase1.json');
 
   if (!fs.existsSync(sourcesPath)) {
     console.error('❌ Source catalog file not found.');
@@ -171,19 +282,39 @@ function main() {
   const recordsC = fs.existsSync(evidenceCPath) ? JSON.parse(fs.readFileSync(evidenceCPath, 'utf-8')) : [];
   const recordsD = fs.existsSync(evidenceDPath) ? JSON.parse(fs.readFileSync(evidenceDPath, 'utf-8')) : [];
   const recordsF = fs.existsSync(evidenceFPath) ? JSON.parse(fs.readFileSync(evidenceFPath, 'utf-8')) : [];
+  const recordsA2a7 = fs.existsSync(evidenceA2a7Path) ? JSON.parse(fs.readFileSync(evidenceA2a7Path, 'utf-8')) : [];
+  const recordsB2a7 = fs.existsSync(evidenceB2a7Path) ? JSON.parse(fs.readFileSync(evidenceB2a7Path, 'utf-8')) : [];
+  const recordsA2b = fs.existsSync(evidenceA2bPath) ? JSON.parse(fs.readFileSync(evidenceA2bPath, 'utf-8')) : [];
+  const recordsB2b = fs.existsSync(evidenceB2bPath) ? JSON.parse(fs.readFileSync(evidenceB2bPath, 'utf-8')) : [];
+  const recordsA9 = fs.existsSync(evidenceA9Path) ? JSON.parse(fs.readFileSync(evidenceA9Path, 'utf-8')) : [];
+  const recordsB9 = fs.existsSync(evidenceB9Path) ? JSON.parse(fs.readFileSync(evidenceB9Path, 'utf-8')) : [];
+  const recordsP1L9 = fs.existsSync(evidenceP1L9Path) ? JSON.parse(fs.readFileSync(evidenceP1L9Path, 'utf-8')) : [];
+  for (const entry of colorFamilyEvidence) {
+    entry.recordsA = fs.existsSync(entry.a) ? JSON.parse(fs.readFileSync(entry.a, 'utf-8')) : [];
+    entry.recordsB = fs.existsSync(entry.b) ? JSON.parse(fs.readFileSync(entry.b, 'utf-8')) : [];
+  }
   const sharedEvidence = fs.existsSync(sharedEvidencePath) ? JSON.parse(fs.readFileSync(sharedEvidencePath, 'utf-8')) : { sharedEvidence: [] };
-  const allLine3Records = [...recordsA, ...recordsB, ...recordsC, ...recordsD];
+  const allColorFamilyRecords = colorFamilyEvidence.flatMap((entry) => [...entry.recordsA, ...entry.recordsB]);
+  const allEvidenceRecords = [...recordsA, ...recordsB, ...recordsC, ...recordsD, ...recordsA2a7, ...recordsB2a7, ...recordsA2b, ...recordsB2b, ...recordsA9, ...recordsB9, ...recordsP1L9, ...allColorFamilyRecords];
+  const line3EvidenceRecords = allEvidenceRecords.filter((r) => r.systemCode === 'MMRDA_LINE3');
   const knowledgeGaps = fs.existsSync(gapsPath) ? JSON.parse(fs.readFileSync(gapsPath, 'utf-8')) : [];
   const lineRegistry = fs.existsSync(lineRegistryPath) ? JSON.parse(fs.readFileSync(lineRegistryPath, 'utf-8')) : null;
   const networkSources = fs.existsSync(networkSourceRegistryPath) ? JSON.parse(fs.readFileSync(networkSourceRegistryPath, 'utf-8')) : null;
+  const gisRegistry = fs.existsSync(gisRegistryPath) ? JSON.parse(fs.readFileSync(gisRegistryPath, 'utf-8')) : null;
+  const line2bPhase1Ctm = fs.existsSync(line2bPhase1CtmPath) ? JSON.parse(fs.readFileSync(line2bPhase1CtmPath, 'utf-8')) : null;
+  const line2bPhase1Crosswalk = fs.existsSync(line2bPhase1CrosswalkPath) ? JSON.parse(fs.readFileSync(line2bPhase1CrosswalkPath, 'utf-8')) : null;
+  const line9Phase1Ctm = fs.existsSync(line9Phase1CtmPath) ? JSON.parse(fs.readFileSync(line9Phase1CtmPath, 'utf-8')) : null;
+  const line9Phase1Crosswalk = fs.existsSync(line9Phase1CrosswalkPath) ? JSON.parse(fs.readFileSync(line9Phase1CrosswalkPath, 'utf-8')) : null;
 
-  console.log(`📋 Line 3 Source Catalog (${sourcesCatalog.sources.length} sources)`);
+  console.log(`📋 Registered Source Catalog — Mumbai (${sourcesCatalog.sources.length} sources)`);
   for (const s of sourcesCatalog.sources) {
     console.log(`   [${s.sourceId}] ${s.shortName} (${s.authorityLevel}) — ${s.type}`);
   }
 
-  const resAll = validateEvidence(allLine3Records, sourcesCatalog.sources);
+  const resAll = validateEvidence(allEvidenceRecords, sourcesCatalog.sources);
   const resGis = validateGisEvidence(recordsF);
+  const resLine2bPhase1 = validateLine2bPhase1(line2bPhase1Ctm, line2bPhase1Crosswalk, sourcesCatalog.sources);
+  const resLine9Phase1 = validateLine9Phase1(line9Phase1Ctm, line9Phase1Crosswalk, sourcesCatalog.sources);
 
   const sumA = summarizeCategory(recordsA, knowledgeGaps, 'A');
   const sumB = summarizeCategory(recordsB, knowledgeGaps, 'B');
@@ -218,9 +349,14 @@ function main() {
   console.log(`    Alignment geometries  : ${line3Gis.filter(r => r.entityType === 'alignment_geometry').length} (28,641 vertices main + spur)`);
   console.log(`  GIS Errors              : ${resGis.errors.length}`);
   console.log(`  GIS Warnings            : ${resGis.warnings.length}`);
+  console.log(`  Line 2B phase-I P0/P1 errors: ${resLine2bPhase1.errors.length}`);
+  console.log(`  Line 2B point-offset warnings: ${resLine2bPhase1.warnings.length}`);
+  console.log(`  Line 9 phase-I P0/P1 errors: ${resLine9Phase1.errors.length}`);
+  console.log(`  Line 9 ArcGIS point-offset/length warnings: ${resLine9Phase1.warnings.length}`);
 
   if (lineRegistry) {
     const net = networkReadinessSummary(lineRegistry);
+    const readyLineIds = net.lines.filter((l) => l.ctmReady).map((l) => l.lineId);
     const sharedCount = sharedEvidence.sharedEvidence ? sharedEvidence.sharedEvidence.length : 0;
     const netSourceCount = networkSources && networkSources.sources ? networkSources.sources.length : 0;
 
@@ -230,24 +366,60 @@ function main() {
     console.log(`  Total lines registered    : ${net.total}`);
     console.log(`  Fully operational         : ${net.operational}`);
     console.log(`  Partially operational     : ${net.partiallyOperational}`);
-    console.log(`  🎉 CTM-READY LINES       : ${net.ctmReady} (First CTM-ready line: MUMBAI_LINE3)`);
+    console.log(`  🎉 CTM-READY LINES       : ${net.ctmReady} (${readyLineIds.join(', ') || 'none'})`);
     console.log(`  CTM-blocked lines         : ${net.ctmBlocked}`);
     console.log(`\n  Network source registry   : ${netSourceCount} sources registered`);
     console.log(`  Shared system evidence    : ${sharedCount} records (multi-line applicability)`);
     console.log('\n  CTM Status per line:');
     net.lines.forEach(l => {
       if (l.ctmReady) {
-        console.log(`    [${l.localDesignation.padEnd(8)}] ${(l.operationalStatus || '').padEnd(20)} 🎉 CTM_READY (27 revenue stations + 28,641 alignment vertices)`);
-        console.log(`         • CTM Contract           : PRODUCTION_READY`);
-        console.log(`         • CTM Spatial/Topology   : PRODUCTION_READY (28,641 vertices, EPSG:4326)`);
-        console.log(`         • Static GTFS Subset     : READY (stops, routes, shapes, transfers)`);
-        console.log(`         • Full GTFS Schedule     : BLOCKED (pending current 2026 timetable feeds)`);
-        console.log(`         • Journey Engine         : TOPOLOGICAL_ACTIVE (schedule times uninvented)`);
-        console.log(`         • Realtime Telemetry     : NOT_AVAILABLE`);
+        const lineKey = String(l.lineId || '').replace(/^MUMBAI_/, '').toLowerCase();
+        const alignment = gisRegistry?.validationMatrix?.[lineKey]?.alignmentGeometry;
+        const stationCount = Number.isFinite(l.stationCount) ? `${l.stationCount} registered stations` : 'station count not recorded';
+        const vertexCount = Number.isFinite(alignment?.validatedVertexCount)
+          ? `${alignment.validatedVertexCount.toLocaleString()} alignment vertices`
+          : 'alignment vertex count not recorded';
+        const alignmentStatus = alignment?.validationStatus || 'alignment validation not recorded';
+        const coverage = Number.isFinite(alignment?.kmlCorridorCoveragePercent)
+          ? `; ${alignment.kmlCorridorCoveragePercent}% KML coverage`
+          : '';
+        console.log(`    [${l.localDesignation.padEnd(8)}] ${(l.operationalStatus || '').padEnd(20)} 🎉 CTM_READY (${stationCount})`);
+        console.log(`         • Spatial alignment       : ${alignmentStatus} (${vertexCount}${coverage})`);
+        if (l.ctmStatusReason) console.log(`         • Readiness basis         : ${l.ctmStatusReason}`);
       } else {
         console.log(`    [${l.localDesignation.padEnd(8)}] ${(l.operationalStatus || '').padEnd(20)} BLOCKED: ${l.ctmBlocker || 'UNSPECIFIED'}`);
       }
     });
+  }
+
+  console.log('\n' + '─'.repeat(60));
+  console.log('CATEGORY A + B — LINE-OWNED CORRIDOR DPR EVIDENCE');
+  console.log('─'.repeat(60));
+  for (const systemCode of ['MMRDA_LINE2A', 'MMRDA_LINE7']) {
+    const a = recordsA2a7.filter((r) => r.systemCode === systemCode);
+    const b = recordsB2a7.filter((r) => r.systemCode === systemCode);
+    const entityCount = new Set([...a, ...b].map((r) => r.entityKey)).size;
+    console.log(`  ${systemCode.padEnd(14)}: A ${a.length} records; B ${b.length} records; ${entityCount} DPR entities`);
+  }
+  const aLine2b = recordsA2b.filter((r) => r.systemCode === 'MMRDA_LINE2B');
+  const bLine2b = recordsB2b.filter((r) => r.systemCode === 'MMRDA_LINE2B');
+  const line2bDprEntities = new Set([...aLine2b, ...bLine2b].map((r) => r.entityKey)).size;
+  console.log(`  ${'MMRDA_LINE2B'.padEnd(14)}: A ${aLine2b.length} records; B ${bLine2b.length} records; ${line2bDprEntities} DPR entities (proposed)`);
+  console.log(`  Line 2B current P0 slice: ${line2bPhase1Ctm?.stations?.length ?? 0} stations; ${line2bPhase1Ctm?.alignmentGeometry?.vertexCount ?? 0} alignment vertices; database materialization pending`);
+  for (const systemCode of ['MMRDA_LINE9', 'MMRDA_LINE7A']) {
+    const a = recordsA9.filter((r) => r.systemCode === systemCode);
+    const b = recordsB9.filter((r) => r.systemCode === systemCode);
+    const entityCount = new Set([...a, ...b].map((r) => r.entityKey)).size;
+    console.log(`  ${systemCode.padEnd(14)}: A ${a.length} records; B ${b.length} records; ${entityCount} DPR entities (proposed; crosswalk pending)`);
+  }
+  for (const entry of colorFamilyEvidence) {
+    const systems = new Set([...entry.recordsA, ...entry.recordsB].map((r) => r.systemCode));
+    for (const systemCode of systems) {
+      const a = entry.recordsA.filter((r) => r.systemCode === systemCode);
+      const b = entry.recordsB.filter((r) => r.systemCode === systemCode);
+      const entityCount = new Set([...a, ...b].map((r) => r.entityKey)).size;
+      console.log(`  ${systemCode.padEnd(14)}: A ${a.length} records; B ${b.length} records; ${entityCount} DPR entities (proposed; crosswalk pending)`);
+    }
   }
 
   console.log('\n' + '─'.repeat(60));
@@ -258,10 +430,12 @@ function main() {
   console.log(`  Category C (Operations)                    : ${sumC.total} facts (${sumC.gapsCount} gaps)`);
   console.log(`  Category D (Rolling Stock)                 : ${sumD.total} facts (${sumD.gapsCount} gaps)`);
   console.log(`  Category F (GIS Evidence)                  : ${line3Gis.length} records (${l3Validated} VALIDATED)`);
-  console.log(`  Total Line 3 Evidence Records              : ${allLine3Records.length + line3Gis.length} records`);
+  console.log(`  Total Line 3 Evidence Records              : ${line3EvidenceRecords.length + line3Gis.length} records`);
   console.log(`  Coverage Metric                            : NOT SCORED (Unweighted counts only)\n`);
 
-  const totalErrors = resAll.errors.length + resGis.errors.length;
+  const totalErrors = resAll.errors.length + resGis.errors.length + resLine2bPhase1.errors.length + resLine9Phase1.errors.length;
+  for (const error of [...resLine2bPhase1.errors, ...resLine9Phase1.errors]) console.error(`  ❌ ${error}`);
+  for (const warning of [...resLine2bPhase1.warnings, ...resLine9Phase1.warnings]) console.warn(`  ⚠️ ${warning}`);
   if (totalErrors > 0) {
     console.error(`❌ ${totalErrors} validation error(s) found.`);
     process.exit(1);
@@ -270,7 +444,3 @@ function main() {
 }
 
 main();
-
-
-
-

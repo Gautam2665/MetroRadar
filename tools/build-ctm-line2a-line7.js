@@ -1,6 +1,157 @@
 const fs = require('fs');
 const path = require('path');
 
+const arcgisPath = path.resolve('datasets/mumbai/sources/gis/arcgis-mumbai.json');
+const arcgisSource = JSON.parse(fs.readFileSync(arcgisPath, 'utf8'));
+
+function loadCorridorRing(kmlFile) {
+  const source = fs.readFileSync(path.resolve('datasets/mumbai/kml', kmlFile), 'utf8');
+  const polygon = source.match(/<Polygon[\s\S]*?<outerBoundaryIs>[\s\S]*?<coordinates>([\s\S]*?)<\/coordinates>/i);
+  if (!polygon) throw new Error(`No outer polygon boundary in ${kmlFile}`);
+  return polygon[1].trim().split(/\s+/).map((token) => {
+    const [lon, lat] = token.split(',').map(Number);
+    return [lon, lat];
+  });
+}
+
+function isInsideRing(point, ring) {
+  const [x, y] = point;
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [xi, yi] = ring[i];
+    const [xj, yj] = ring[j];
+    const crosses = (yi > y) !== (yj > y);
+    if (crosses && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) {
+      inside = !inside;
+    }
+  }
+  return inside;
+}
+
+function routeDistanceMeters(a, b) {
+  return haversine(a[1], a[0], b[1], b[0]);
+}
+
+function getProjection(point, coordinates, cumulativeMeters) {
+  const metersPerDegreeLat = 110540;
+  const metersPerDegreeLon = 111320 * Math.cos((point[1] * Math.PI) / 180);
+  let nearest = null;
+
+  for (let i = 0; i < coordinates.length - 1; i++) {
+    const a = coordinates[i];
+    const b = coordinates[i + 1];
+    const ax = (a[0] - point[0]) * metersPerDegreeLon;
+    const ay = (a[1] - point[1]) * metersPerDegreeLat;
+    const bx = (b[0] - point[0]) * metersPerDegreeLon;
+    const by = (b[1] - point[1]) * metersPerDegreeLat;
+    const dx = bx - ax;
+    const dy = by - ay;
+    const fraction = Math.max(
+      0,
+      Math.min(1, -(ax * dx + ay * dy) / (dx * dx + dy * dy || 1)),
+    );
+    const distanceMeters = Math.hypot(ax + fraction * dx, ay + fraction * dy);
+    if (!nearest || distanceMeters < nearest.distanceMeters) {
+      nearest = {
+        segmentIndex: i,
+        fraction,
+        distanceMeters,
+        offsetMeters:
+          cumulativeMeters[i] +
+          fraction * (cumulativeMeters[i + 1] - cumulativeMeters[i]),
+        coordinate: [
+          a[0] + fraction * (b[0] - a[0]),
+          a[1] + fraction * (b[1] - a[1]),
+        ],
+      };
+    }
+  }
+
+  return nearest;
+}
+
+function coordinatesBetween(coordinates, projections) {
+  const result = [];
+  for (let i = 0; i < projections.length - 1; i++) {
+    const from = projections[i];
+    const to = projections[i + 1];
+    const segment = [from.coordinate];
+    for (let vertex = from.segmentIndex + 1; vertex <= to.segmentIndex; vertex++) {
+      const vertexOffset = cumulativeRouteMeters[vertex];
+      if (vertexOffset > from.offsetMeters + 0.01 && vertexOffset < to.offsetMeters - 0.01) {
+        segment.push(routeCoordinates[vertex]);
+      }
+    }
+    segment.push(to.coordinate);
+    result.push(segment);
+  }
+  return result;
+}
+
+let routeCoordinates = [];
+let cumulativeRouteMeters = [];
+
+function buildAlignmentGeometry(lineMeta, stations) {
+  const feature = arcgisSource.lines.features.find(
+    (item) => item.properties.uniqueid === lineMeta.arcgisFeatureId,
+  );
+  if (!feature || feature.geometry.type !== 'LineString') {
+    throw new Error(`ArcGIS alignment ${lineMeta.arcgisFeatureId} is missing or is not a LineString`);
+  }
+
+  routeCoordinates = feature.geometry.coordinates;
+  cumulativeRouteMeters = [0];
+  for (let i = 1; i < routeCoordinates.length; i++) {
+    cumulativeRouteMeters.push(
+      cumulativeRouteMeters[i - 1] + routeDistanceMeters(routeCoordinates[i - 1], routeCoordinates[i]),
+    );
+  }
+
+  const projections = stations.map((station) =>
+    getProjection([station.longitude, station.latitude], routeCoordinates, cumulativeRouteMeters),
+  );
+  for (let i = 0; i < projections.length; i++) {
+    if (!projections[i] || projections[i].distanceMeters > 50) {
+      throw new Error(`Station ${stations[i].name} is more than 50m from its ArcGIS alignment`);
+    }
+    if (i > 0 && projections[i].offsetMeters <= projections[i - 1].offsetMeters) {
+      throw new Error(`ArcGIS alignment is not monotonic at ${stations[i].name}`);
+    }
+  }
+
+  const routeSegments = coordinatesBetween(routeCoordinates, projections);
+  const alignmentCoordinates = [routeSegments[0][0]];
+  for (const segment of routeSegments) alignmentCoordinates.push(...segment.slice(1));
+
+  const corridorRing = loadCorridorRing(lineMeta.kmlFile);
+  const corridorCoveragePercent =
+    (alignmentCoordinates.filter((point) => isInsideRing(point, corridorRing)).length /
+      alignmentCoordinates.length) *
+    100;
+
+  return {
+    geometry: {
+      type: 'LineString',
+      coordinates: alignmentCoordinates,
+      source: {
+        provider: 'MoHUA / Esri India Living Atlas',
+        sourceFile: 'datasets/mumbai/sources/gis/arcgis-mumbai.json',
+        sourceFeatureId: lineMeta.arcgisFeatureId,
+        sourceFeatureName: feature.properties.remarks,
+        coordinateSystem: 'EPSG:4326',
+        crossCheckSource: lineMeta.kmlFile,
+        crossCheck: 'ArcGIS trace projected against ordered CTM station points and compared with the KML viaduct corridor polygon',
+        kmlCorridorVertexCoveragePercent: Number(corridorCoveragePercent.toFixed(2)),
+        maxStationProjectionOffsetMeters: Number(
+          Math.max(...projections.map((item) => item.distanceMeters)).toFixed(2),
+        ),
+        vertexCount: alignmentCoordinates.length,
+      },
+    },
+    routeSegments,
+  };
+}
+
 function haversine(lat1, lon1, lat2, lon2) {
   const R = 6371e3;
   const p1 = lat1 * Math.PI / 180;
@@ -13,45 +164,73 @@ function haversine(lat1, lon1, lat2, lon2) {
 }
 
 // 1. Line 2A Stations (Yellow Line - 17 stations from Dahisar East to Andheri West)
-// Coordinates from MoHUA / Esri India Living Atlas (EPSG:4326)
+// Coordinates are resolved by ArcGIS feature ID below (EPSG:4326).
 const rawLine2A = [
-  { seq: 1, id: 'STN_L2A_001', code: 'L2A-01', name: 'Dahisar (East)', lat: 19.251263, lon: 72.867119, type: 'ELEVATED' },
-  { seq: 2, id: 'STN_L2A_002', code: 'L2A-02', name: 'Anand Nagar', lat: 19.257219, lon: 72.866134, type: 'ELEVATED' },
-  { seq: 3, id: 'STN_L2A_003', code: 'L2A-03', name: 'Kandarpada', lat: 19.256646, lon: 72.850678, type: 'ELEVATED' },
-  { seq: 4, id: 'STN_L2A_004', code: 'L2A-04', name: 'Mandapeshwar', lat: 19.249261, lon: 72.845677, type: 'ELEVATED' },
-  { seq: 5, id: 'STN_L2A_005', code: 'L2A-05', name: 'Eksar', lat: 19.240323, lon: 72.843438, type: 'ELEVATED' },
-  { seq: 6, id: 'STN_L2A_006', code: 'L2A-06', name: 'Borivali (West)', lat: 19.231194, lon: 72.840865, type: 'ELEVATED' },
-  { seq: 7, id: 'STN_L2A_007', code: 'L2A-07', name: 'Shimpoli', lat: 19.222769, lon: 72.840918, type: 'ELEVATED' },
-  { seq: 8, id: 'STN_L2A_008', code: 'L2A-08', name: 'Kandivali (West)', lat: 19.214005, lon: 72.837355, type: 'ELEVATED' },
-  { seq: 9, id: 'STN_L2A_009', code: 'L2A-09', name: 'Dahanukarwadi', lat: 19.205772, lon: 72.834717, type: 'ELEVATED' },
-  { seq: 10, id: 'STN_L2A_010', code: 'L2A-10', name: 'Valnai - Meeth Chowky', lat: 19.196621, lon: 72.833786, type: 'ELEVATED' },
-  { seq: 11, id: 'STN_L2A_011', code: 'L2A-11', name: 'Malad (West)', lat: 19.185200, lon: 72.835850, type: 'ELEVATED' },
-  { seq: 12, id: 'STN_L2A_012', code: 'L2A-12', name: 'Lower Malad', lat: 19.172953, lon: 72.836423, type: 'ELEVATED' },
-  { seq: 13, id: 'STN_L2A_013', code: 'L2A-13', name: 'Bangur Nagar', lat: 19.162259, lon: 72.834844, type: 'ELEVATED' },
-  { seq: 14, id: 'STN_L2A_014', code: 'L2A-14', name: 'Goregaon (West)', lat: 19.153138, lon: 72.835685, type: 'ELEVATED' },
-  { seq: 15, id: 'STN_L2A_015', code: 'L2A-15', name: 'Oshiwara', lat: 19.145979, lon: 72.833752, type: 'ELEVATED' },
-  { seq: 16, id: 'STN_L2A_016', code: 'L2A-16', name: 'Lower Oshiwara', lat: 19.140455, lon: 72.831717, type: 'ELEVATED' },
-  { seq: 17, id: 'STN_L2A_017', code: 'L2A-17', name: 'Andheri (West)', lat: 19.129089, lon: 72.831415, type: 'ELEVATED' }
+  { seq: 1, id: 'STN_L2A_001', code: 'L2A-01', name: 'Dahisar (East)', type: 'ELEVATED' },
+  { seq: 2, id: 'STN_L2A_002', code: 'L2A-02', name: 'Anand Nagar', type: 'ELEVATED' },
+  { seq: 3, id: 'STN_L2A_003', code: 'L2A-03', name: 'Kandarpada', type: 'ELEVATED' },
+  { seq: 4, id: 'STN_L2A_004', code: 'L2A-04', name: 'Mandapeshwar', type: 'ELEVATED' },
+  { seq: 5, id: 'STN_L2A_005', code: 'L2A-05', name: 'Eksar', type: 'ELEVATED' },
+  { seq: 6, id: 'STN_L2A_006', code: 'L2A-06', name: 'Borivali (West)', type: 'ELEVATED' },
+  { seq: 7, id: 'STN_L2A_007', code: 'L2A-07', name: 'Shimpoli', type: 'ELEVATED' },
+  { seq: 8, id: 'STN_L2A_008', code: 'L2A-08', name: 'Kandivali (West)', type: 'ELEVATED' },
+  { seq: 9, id: 'STN_L2A_009', code: 'L2A-09', name: 'Dahanukarwadi', type: 'ELEVATED' },
+  { seq: 10, id: 'STN_L2A_010', code: 'L2A-10', name: 'Valnai - Meeth Chowky', type: 'ELEVATED' },
+  { seq: 11, id: 'STN_L2A_011', code: 'L2A-11', name: 'Malad (West)', type: 'ELEVATED' },
+  { seq: 12, id: 'STN_L2A_012', code: 'L2A-12', name: 'Lower Malad', type: 'ELEVATED' },
+  { seq: 13, id: 'STN_L2A_013', code: 'L2A-13', name: 'Bangur Nagar', type: 'ELEVATED' },
+  { seq: 14, id: 'STN_L2A_014', code: 'L2A-14', name: 'Goregaon (West)', type: 'ELEVATED' },
+  { seq: 15, id: 'STN_L2A_015', code: 'L2A-15', name: 'Oshiwara', type: 'ELEVATED' },
+  { seq: 16, id: 'STN_L2A_016', code: 'L2A-16', name: 'Lower Oshiwara', type: 'ELEVATED' },
+  { seq: 17, id: 'STN_L2A_017', code: 'L2A-17', name: 'Andheri (West)', type: 'ELEVATED' }
 ];
 
 // 2. Line 7 Stations (Red Line - 14 stations from Dahisar East to Gundavali)
-// Coordinates from MoHUA / Esri India Living Atlas & MMRDA PIU KML (EPSG:4326)
+// Coordinates are resolved by ArcGIS feature ID below (EPSG:4326).
 const rawLine7 = [
-  { seq: 1, id: 'STN_L7_001', code: 'L7-01', name: 'Dahisar (East)', lat: 19.251263, lon: 72.867119, type: 'ELEVATED' },
-  { seq: 2, id: 'STN_L7_002', code: 'L7-02', name: 'Ovaripada', lat: 19.243411, lon: 72.864248, type: 'ELEVATED' },
-  { seq: 3, id: 'STN_L7_003', code: 'L7-03', name: 'Rashtriya Udyan', lat: 19.234671, lon: 72.863161, type: 'ELEVATED' },
-  { seq: 4, id: 'STN_L7_004', code: 'L7-04', name: 'Devipada', lat: 19.224332, lon: 72.864220, type: 'ELEVATED' },
-  { seq: 5, id: 'STN_L7_005', code: 'L7-05', name: 'Magathane', lat: 19.217203, lon: 72.866728, type: 'ELEVATED' },
-  { seq: 6, id: 'STN_L7_006', code: 'L7-06', name: 'Poisar', lat: 19.203938, lon: 72.863499, type: 'ELEVATED' },
-  { seq: 7, id: 'STN_L7_007', code: 'L7-07', name: 'Akurli', lat: 19.198115, lon: 72.860646, type: 'ELEVATED' },
-  { seq: 8, id: 'STN_L7_008', code: 'L7-08', name: 'Kurar', lat: 19.187264, lon: 72.858512, type: 'ELEVATED' },
-  { seq: 9, id: 'STN_L7_009', code: 'L7-09', name: 'Dindoshi', lat: 19.179720, lon: 72.858300, type: 'ELEVATED' },
-  { seq: 10, id: 'STN_L7_010', code: 'L7-10', name: 'Aarey', lat: 19.169506, lon: 72.858801, type: 'ELEVATED' },
-  { seq: 11, id: 'STN_L7_011', code: 'L7-11', name: 'Goregaon (East)', lat: 19.152442, lon: 72.856573, type: 'ELEVATED' },
-  { seq: 12, id: 'STN_L7_012', code: 'L7-12', name: 'Jogeshwari (East)', lat: 19.142928, lon: 72.855166, type: 'ELEVATED' },
-  { seq: 13, id: 'STN_L7_013', code: 'L7-13', name: 'Mogra', lat: 19.128677, lon: 72.855452, type: 'ELEVATED' },
-  { seq: 14, id: 'STN_L7_014', code: 'L7-14', name: 'Gundavali', lat: 19.114439, lon: 72.855172, type: 'ELEVATED' }
+  { seq: 1, id: 'STN_L7_001', code: 'L7-01', name: 'Dahisar (East)', type: 'ELEVATED' },
+  { seq: 2, id: 'STN_L7_002', code: 'L7-02', name: 'Ovaripada', type: 'ELEVATED' },
+  { seq: 3, id: 'STN_L7_003', code: 'L7-03', name: 'Rashtriya Udyan', type: 'ELEVATED' },
+  { seq: 4, id: 'STN_L7_004', code: 'L7-04', name: 'Devipada', type: 'ELEVATED' },
+  { seq: 5, id: 'STN_L7_005', code: 'L7-05', name: 'Magathane', type: 'ELEVATED' },
+  { seq: 6, id: 'STN_L7_006', code: 'L7-06', name: 'Poisar', type: 'ELEVATED' },
+  { seq: 7, id: 'STN_L7_007', code: 'L7-07', name: 'Akurli', type: 'ELEVATED' },
+  { seq: 8, id: 'STN_L7_008', code: 'L7-08', name: 'Kurar', type: 'ELEVATED' },
+  { seq: 9, id: 'STN_L7_009', code: 'L7-09', name: 'Dindoshi', type: 'ELEVATED' },
+  { seq: 10, id: 'STN_L7_010', code: 'L7-10', name: 'Aarey', type: 'ELEVATED' },
+  { seq: 11, id: 'STN_L7_011', code: 'L7-11', name: 'Goregaon (East)', type: 'ELEVATED' },
+  { seq: 12, id: 'STN_L7_012', code: 'L7-12', name: 'Jogeshwari (East)', type: 'ELEVATED' },
+  { seq: 13, id: 'STN_L7_013', code: 'L7-13', name: 'Mogra', type: 'ELEVATED' },
+  { seq: 14, id: 'STN_L7_014', code: 'L7-14', name: 'Gundavali', type: 'ELEVATED' }
 ];
+
+// Stable MoHUA / Esri station-feature IDs. Coordinates are read from the saved
+// authoritative feature collection; literals above are retained only as the
+// original compilation snapshot and are never used to build CTM geometry.
+const arcgisStationFeatureIds = {
+  STN_L2A_001: 996, STN_L2A_002: 954, STN_L2A_003: 955,
+  STN_L2A_004: 956, STN_L2A_005: 957, STN_L2A_006: 958,
+  STN_L2A_007: 959, STN_L2A_008: 960, STN_L2A_009: 961,
+  STN_L2A_010: 962, STN_L2A_011: 924, STN_L2A_012: 963,
+  STN_L2A_013: 964, STN_L2A_014: 965, STN_L2A_015: 966,
+  STN_L2A_016: 967, STN_L2A_017: 968,
+  STN_L7_001: 996, STN_L7_002: 995, STN_L7_003: 994,
+  STN_L7_004: 993, STN_L7_005: 992, STN_L7_006: 991,
+  STN_L7_007: 990, STN_L7_008: 989, STN_L7_009: 988,
+  STN_L7_010: 987, STN_L7_011: 986, STN_L7_012: 985,
+  STN_L7_013: 984, STN_L7_014: 980,
+};
+const arcgisStationById = new Map(arcgisSource.stations.features.map((feature) => [feature.id, feature]));
+for (const station of [...rawLine2A, ...rawLine7]) {
+  const featureId = arcgisStationFeatureIds[station.id];
+  const feature = arcgisStationById.get(featureId);
+  if (!feature) throw new Error(`Missing ArcGIS station feature ${featureId} for ${station.id}`);
+  station.lat = feature.geometry.coordinates[1];
+  station.lon = feature.geometry.coordinates[0];
+  station.gisFeatureId = featureId;
+  const lineKey = station.id.startsWith('STN_L2A_') ? 'LINE2A' : 'LINE7';
+  station.gisEvidenceId = `E-${lineKey}-F-${String(station.seq).padStart(4, '0')}`;
+}
 
 function buildCtm(lineMeta, rawList, totalRuntimeSecs) {
   let totalDist = 0;
@@ -74,19 +253,32 @@ function buildCtm(lineMeta, rawList, totalRuntimeSecs) {
       temporalStatus: "OPERATIONAL",
       physicalLayout: {
         interStationDistanceMeters: interDist,
+        platformCount: 2
+      },
+      stationInfrastructure: {
+        stationLevels: lineMeta.prefix === 'L2A' && s.seq === 17
+          ? ["PROPERTY_DEVELOPMENT", "CONCOURSE", "PLATFORM"]
+          : ["CONCOURSE", "PLATFORM"],
         platformCount: 2,
-        platformType: "SIDE",
-        screenDoorsInstalled: false
+        evidenceStatus: "CORRIDOR_DPR_VERIFIED",
+        sourceIds: [lineMeta.prefix === 'L2A' ? "SRC-MMRDA-L2A-DPR" : "SRC-MMRDA-L7-DPR"],
+        platformArrangementStatus: "UNKNOWN_SOURCE_REQUIRED",
+        platformNumberingStatus: "UNKNOWN_SOURCE_REQUIRED",
+        platformDirectionStatus: "UNKNOWN_SOURCE_REQUIRED"
       },
       provenance: {
+        gisEvidenceId: s.gisEvidenceId,
         gisSourceId: "SRC-ARCGIS-MOHUA-2025",
-        authorityLevel: "OPERATOR_OFFICIAL",
-        confidence: 0.95,
-        validationStatus: "VALIDATED",
+        gisFeatureId: s.gisFeatureId,
+        authorityLevel: "OFFICIAL_GIS",
+        confidence: 0.9,
+        validationStatus: "SOURCE_VERIFIED",
         validatedAt: "2026-10-05"
       }
     };
   });
+
+  const alignment = buildAlignmentGeometry(lineMeta, stations);
 
   const nodes = stations.map(s => ({
     stationId: s.canonicalId,
@@ -125,10 +317,7 @@ function buildCtm(lineMeta, rawList, totalRuntimeSecs) {
       directional: "BI_DIRECTIONAL_PAIR",
       geometry: {
         type: "LineString",
-        coordinates: [
-          [u.longitude, u.latitude],
-          [v.longitude, v.latitude]
-        ]
+        coordinates: alignment.routeSegments[i]
       }
     });
   }
@@ -145,6 +334,7 @@ function buildCtm(lineMeta, rawList, totalRuntimeSecs) {
     commercialRuntimeSeconds: totalRuntimeSecs,
     totalDistanceMeters: totalDist,
     stations,
+    alignmentGeometry: alignment.geometry,
     stationGraph: {
       directed: false,
       nodes,
@@ -167,7 +357,9 @@ const l2aCtm = buildCtm(
     prefix: 'L2A',
     name: 'Mumbai Metro Line 2A (Yellow Line)',
     colorHex: '#F0C800',
-    sourceRef: 'SRC-MMMOCL-OFFICIAL-2023'
+    sourceRef: 'SRC-MMMOCL-OFFICIAL-2023',
+    arcgisFeatureId: 61,
+    kmlFile: 'metro_line_2a.kml'
   },
   rawLine2A,
   2160
@@ -181,7 +373,9 @@ const l7Ctm = buildCtm(
     prefix: 'L7',
     name: 'Mumbai Metro Line 7 (Red Line)',
     colorHex: '#E31E24',
-    sourceRef: 'SRC-MMMOCL-OFFICIAL-2023'
+    sourceRef: 'SRC-MMMOCL-OFFICIAL-2023',
+    arcgisFeatureId: 55,
+    kmlFile: 'metro_line_7.kml'
   },
   rawLine7,
   1920

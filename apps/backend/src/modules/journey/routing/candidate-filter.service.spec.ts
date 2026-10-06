@@ -115,6 +115,32 @@ describe('CandidateFilterService', () => {
       expect(result).toHaveLength(2);
     });
 
+    it('removes absurd circuitous detour (+55 min slower, more transfers)', () => {
+      // Normal: 83 min, 2 transfers, 690s walk
+      // Detour: 138 min, 3 transfers, 450s walk
+      const normal = makeCandidate('NORMAL', 5000, 2, 690);
+      const detour = makeCandidate('DETOUR', 8282, 3, 450);
+      const result = service.filter([normal, detour]);
+      expect(result.map((c) => c.id)).toContain('NORMAL');
+      expect(result.map((c) => c.id)).not.toContain('DETOUR');
+    });
+
+    it('removes candidate with equal transfers that is > 35% slower', () => {
+      const normal = makeCandidate('A', 2000, 1, 300);
+      const slow = makeCandidate('B', 3200, 1, 300); // 60% slower, same transfers
+      const result = service.filter([normal, slow]);
+      expect(result.map((c) => c.id)).toContain('A');
+      expect(result.map((c) => c.id)).not.toContain('B');
+    });
+
+    it('prunes candidate that trades 20 minutes slower transit for trivial 30s walking savings', () => {
+      const fast = makeCandidate('FAST', 1800, 2, 300);
+      const badTradeoff = makeCandidate('BAD_TRADE', 3000, 2, 270); // +20 min slower for -30s walk
+      const result = service.filter([fast, badTradeoff]);
+      expect(result.map((c) => c.id)).toContain('FAST');
+      expect(result.map((c) => c.id)).not.toContain('BAD_TRADE');
+    });
+
     it('handles single candidate (no filtering applied)', () => {
       const result = service.filter([makeCandidate('A', 1800, 1, 100)]);
       expect(result).toHaveLength(1);

@@ -1,11 +1,501 @@
 {
-  "systemCode": "MMRDA_LINE3",
-  "systemName": "Mumbai Metro Line 3 (Aqua Line)",
+  "systemCode": "MMRDA_MUMBAI_METRO_NETWORK",
+  "systemName": "Mumbai Metro Network",
   "city": "Mumbai",
-  "sourceRegistryVersion": "1.2.0",
-  "lastUpdated": "2026-10-04",
-  "description": "Authoritative TransitOS Source Registry for Mumbai Metro Line 3",
+  "sourceRegistryVersion": "1.3.0",
+  "lastUpdated": "2026-10-05",
+  "description": "Authoritative TransitOS source registry for Mumbai Metro evidence across the registered Mumbai lines",
   "sources": [
+    {
+      "sourceId": "SRC-ARCGIS-MOHUA-2025",
+      "title": "India Metro Network GIS Feature Service",
+      "shortName": "MoHUA / Esri India Metro Network",
+      "publisher": "Ministry of Housing and Urban Affairs / Esri India Living Atlas",
+      "authority": "MOHUA_ESRI_OFFICIAL_GIS",
+      "authorityLevel": "OFFICIAL_GIS",
+      "type": "ARCGIS_FEATURE_SERVICE",
+      "sourceUrl": "https://livingatlas.esri.in/server1/rest/services/MetroNetwork/India_Metro_Network/MapServer",
+      "documentPath": "sources/gis/arcgis-mumbai.json",
+      "publicationDate": "2025",
+      "format": "ArcGIS Feature Service JSON",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "F_GIS"
+      ],
+      "notes": "Station point coordinates and corridor traces are sourced by ArcGIS feature ID. Station sequence is checked against the corridor station list and KML corridor layer."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L1-DPR",
+      "title": "Detailed Project Report for Versova–Andheri–Ghatkopar Metro Corridor (Line 1)",
+      "shortName": "Official MMRDA Line 1 DPR",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "DPR",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2021-10/Metro%20Line%201.pdf",
+      "publicationDate": "2010",
+      "format": "PDF",
+      "status": "VERIFIED_PRIMARY",
+      "documentPath": "sources/dpr/line-01/mmrda-metro-line-1-dpr.pdf",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "B_STATION"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE1"
+      ],
+      "notes": "Official design DPR. Station-specific plan evidence shows Marol Naka's side-platform arrangement; design counts are kept per line at shared interchange complexes."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L2A-DN-NAGAR-LINK",
+      "title": "Andheri (West) station consists of three levels and connects with D.N. Nagar Line 1",
+      "shortName": "MMRDA Andheri West level announcement",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "OPERATOR_PROJECT_ANNOUNCEMENT",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2023-01/Andheri%20%28W%29%20station%20consist%20of%203%20levels.pdf",
+      "publicationDate": "2023-01-13",
+      "format": "PDF",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "B_STATION",
+        "G_INTERCHANGE"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE1",
+        "MUMBAI_LINE2A"
+      ],
+      "notes": "MMRDA identifies the Line 2A Andheri West station's Property Development, Concourse, and Platform levels, and describes connection to Line 1 D.N. Nagar at two levels. This does not imply three platforms per line."
+    },
+    {
+      "sourceId": "SRC-DN-NAGAR-STATION-LAYOUT",
+      "title": "D.N. Nagar Metro Station layout and platform arrangement",
+      "shortName": "D.N. Nagar station layout reference",
+      "publisher": "MetroFare station guide, cross-checked against MMRDA Line 1 DPR",
+      "authority": "SECONDARY_CROSSCHECKED",
+      "authorityLevel": "SECONDARY",
+      "type": "STATION_LAYOUT_REFERENCE",
+      "sourceUrl": "https://www.metrofare.in/en/india/mumbai-metro/dn-nagar-station/",
+      "publicationDate": "2026-10-05",
+      "format": "Web page",
+      "status": "CROSSCHECKED_SECONDARY",
+      "categoriesCovered": [
+        "B_STATION"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE1",
+        "MUMBAI_LINE2A"
+      ],
+      "notes": "Lists two Blue Line and two Yellow Line platforms in a shared station guide and shows the Blue Line station's street, mezzanine, and platform levels. Platform numbers remain line-local in TransitOS; the guide's hub-wide numbering is not canonical."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L2A-DPR",
+      "title": "Detailed Project Report for Dahisar (E)–D. N. Nagar Metro Corridor (Mumbai Metro Line 2A)",
+      "shortName": "Official MMRDA Line 2A DPR",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "DPR",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2021-10/Metro%20Line%202A_0.pdf",
+      "documentPath": "sources/dpr/line-02a/mmrda-metro-line-2a-dpr.pdf",
+      "originalFilename": "Metro Line 2A_0.pdf",
+      "publicationDate": "2015-09",
+      "format": "PDF",
+      "pages": 472,
+      "confidenceBaseline": 1.0,
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "B_STATION"
+      ],
+      "notes": "2015 proposed design source. Chapter 5 includes station sequence, names, proposed chainage and distances (A), plus rail levels, height above ground, platform/level standards and projected station circulation (B). Treat as design-era evidence, not as-built confirmation. A chainage/distance conflict exists between Table 5.2.1 and station-specific entries for L2A stations 12–13."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L2B-DPR",
+      "title": "Detailed Project Report (Updated): D.N. Nagar–Mandala Metro Corridor (Line 2B)",
+      "shortName": "Official MMRDA Line 2B DPR",
+      "publisher": "Mumbai Metropolitan Region Development Authority; prepared by Delhi Metro Rail Corporation",
+      "authority": "MMRDA / DMRC",
+      "authorityLevel": "OFFICIAL",
+      "type": "DPR",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2021-10/Metro%20Line%202B_0.pdf",
+      "documentPath": "sources/dpr/line-02b/mmrda-metro-line-2b-dpr.pdf",
+      "originalFilename": "Metro Line 2B_0.pdf",
+      "publicationDate": "2016-02",
+      "format": "PDF",
+      "pages": 451,
+      "confidenceBaseline": 1.0,
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "B_STATION",
+        "C_OPERATIONS",
+        "D_ROLLING_STOCK",
+        "E_SIGNALLING"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE2B"
+      ],
+      "notes": "The downloaded official design DPR contains station-sequence, station-planning, traction, signalling, AFC and rolling-stock design evidence. It is an older 22-station design baseline and conflicts with MMRDA's current 20-name route list; do not use it to overwrite the current operational list or as-built station values without crosswalk."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L2B-OVERVIEW",
+      "title": "Mumbai Metro Line 2B Current Project Overview and Phase Status",
+      "shortName": "MMRDA Line 2B Overview",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "OPERATOR_PROJECT_OVERVIEW",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/en/projects/transport/metro-line-2b/overview",
+      "publicationDate": "ONGOING",
+      "format": "Official project webpage",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "C_OPERATIONS",
+        "G_INTERCHANGE"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE2B"
+      ],
+      "notes": "As of 31 August 2026, MMRDA reports 5 Line 2B stations operational from 7 April 2026 and one additional station (Chembur) from 13 August 2026. Its overview names 20 route stations, while one project-feature row says 19; record the 20 names with this source-count discrepancy pending clarification. The page identifies the corridor as Yellow."
+    },
+    {
+      "sourceId": "SRC-MMMOCL-STATION-STANDARD-2025",
+      "title": "MMMOCL Metro Station System Particulars and Passenger-Area Standards",
+      "shortName": "MMMOCL Station Standards Tender Document",
+      "publisher": "Maha Mumbai Metro Operation Corporation Limited",
+      "authority": "MMMOCL",
+      "authorityLevel": "OPERATOR_OFFICIAL",
+      "type": "OFFICIAL_TENDER_TECHNICAL_SPECIFICATION",
+      "sourceUrl": "https://www.mmmocl.co.in/pdf/tenders/GeM-Bidding-26032025.pdf",
+      "publicationDate": "2025-03",
+      "format": "PDF tender specification",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "B_STATION",
+        "C_OPERATIONS"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE2A",
+        "MUMBAI_LINE2B",
+        "MUMBAI_LINE7",
+        "MUMBAI_LINE9",
+        "MUMBAI_LINE7A"
+      ],
+      "notes": "Generic operator standards state typical road/concourse/platform levels, two platforms at most stations, paid/unpaid concourse division, security screening before AFC entry, lifts/escalators between levels, and use of half-height and full-height PSDs across the named lines and upcoming lines. This is a family-level standard, not a station-by-station as-built inventory or direction/platform numbering source."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L2A-L7-EIA-2022",
+      "title": "Environmental Impact Assessment: Mumbai Metro Lines 2A and 7",
+      "shortName": "MMRDA L2A/7 EIA",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "ENVIRONMENTAL_IMPACT_ASSESSMENT",
+      "sourceUrl": "https://mmrda.maharashtra.gov.in/sites/default/files/2022-07/1.1.pdf",
+      "publicationDate": "2017",
+      "format": "PDF",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "B_STATION",
+        "G_INTERCHANGE"
+      ],
+      "notes": "MMRDA's EIA describes the Line 2A station at Dahisar East and says its platform is above the already proposed Dahisar East station for the Andheri East–Dahisar corridor (Line 7). This is project/design evidence for relative vertical order, not a current as-built level survey or passenger-path record."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L7-DPR",
+      "title": "Detailed Project Report for Andheri (E)–Dahisar (E) Metro Corridor (Mumbai Metro Line 7)",
+      "shortName": "Official MMRDA Line 7 DPR",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "DPR",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2021-10/Metro%20Line%207.pdf",
+      "documentPath": "sources/dpr/line-07/mmrda-metro-line-7-dpr.pdf",
+      "originalFilename": "Metro Line 7.pdf",
+      "publicationDate": "2015-08",
+      "format": "PDF",
+      "pages": 392,
+      "confidenceBaseline": 1.0,
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "B_STATION"
+      ],
+      "notes": "2015 proposed design source. Chapter 5 contains 16 DPR stations, proposed station order, chainage and distances (A), rail levels, height above ground, design layouts and projected circulation (B). Current TransitOS contains 14 L7 operational station records; preserve the DPR station list independently pending verified crosswalk."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L7A-L9-DPR",
+      "title": "Detailed Project Report: Extension of Line 7 to Mira-Bhayander and CSIA",
+      "shortName": "Official MMRDA Line 7A/9 DPR",
+      "publisher": "Mumbai Metropolitan Region Development Authority; prepared by Delhi Metro Rail Corporation",
+      "authority": "MMRDA / DMRC",
+      "authorityLevel": "OFFICIAL",
+      "type": "DPR",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2021-10/Metro%20Line%207A%20%26%209.pdf",
+      "documentPath": "sources/dpr/line-09/mmrda-metro-line-7a-line-9-dpr.pdf",
+      "originalFilename": "Metro Line 7A & 9.pdf",
+      "publicationDate": "2017-10",
+      "format": "PDF",
+      "pages": 483,
+      "confidenceBaseline": 1.0,
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "B_STATION",
+        "G_INTERCHANGE"
+      ],
+      "notes": "Chapter 4 §4.3 describes the northern extension continuing beyond the existing Dahisar (East) station, with Pandurang Wadi as the next station; §4.3.2 gives proposed two-level station typology except Amar Palace. These are design-era proposals; use later MMRDA operational updates for current status."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L9-OVERVIEW",
+      "title": "Mumbai Metro Line 9 and Line 7A Current Project Overview",
+      "shortName": "MMRDA Line 9/7A Overview",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "OPERATOR_PROJECT_OVERVIEW",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/en/projects/transport/metro-line-9/overview",
+      "publicationDate": "ONGOING",
+      "format": "Official project webpage",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "G_INTERCHANGE"
+      ],
+      "notes": "Identifies Line 9 as an extension of Line 7 and reports Phase I Dahisar East–Kashigaon (4 stations) operational from 2026-04-07."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L9-INTERCHANGE-2023",
+      "title": "MMRDA Announcement: Line 9 Interchanges and Typical Meditiya Nagar Levels",
+      "shortName": "MMRDA Line 9 Interchange Announcement",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "OFFICIAL_PROJECT_ANNOUNCEMENT",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2023-03/news%20%289%29.pdf",
+      "publicationDate": "2023-02-24",
+      "format": "PDF press announcement",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "B_STATION",
+        "G_INTERCHANGE"
+      ],
+      "notes": "Confirms Dahisar East as the Line 9 interchange with Line 7 and Line 2A. The three-tier statement in this release is specifically about Meditiya Nagar and must not be applied to Dahisar."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L7-L9-TRIALS-2025",
+      "title": "MMMOCL Announcement: Line 7/Line 9 Integration Trials",
+      "shortName": "MMRDA Line 7/9 Integration Trials",
+      "publisher": "Maha Mumbai Metro Operation Corporation Limited / MMRDA",
+      "authority": "MMMOCL / MMRDA",
+      "authorityLevel": "OPERATOR_OFFICIAL",
+      "type": "OFFICIAL_OPERATIONS_ANNOUNCEMENT",
+      "sourceUrl": "https://mmrda.maharashtra.gov.in/sites/default/files/2025-10/red_line_metro_7_extension_to_metro_line_9_metro_lines_2a_7_will_follow_a_temporary_timetable_for_7_days.pdf",
+      "publicationDate": "2025-10-11",
+      "format": "PDF press announcement",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "C_OPERATIONS",
+        "G_INTERCHANGE"
+      ],
+      "notes": "Describes Line 9 as an extension of Line 7 and says integration trials were intended to enable seamless Andheri–Mira-Bhayander travel. It does not establish platform numbering, transfer time, or fare boundaries with Line 2A."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L7-PSD-2022",
+      "title": "MMRDA Annual Report 2021-22: Line 7 Platform Screen Doors and Phase Commissioning",
+      "shortName": "MMRDA Annual Report 2021-22",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "ANNUAL_REPORT",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2024-01/annual_report_year_21-22.pdf",
+      "publicationDate": "2022",
+      "format": "PDF annual report",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "B_STATION",
+        "C_OPERATIONS"
+      ],
+      "notes": "States Line 7 Phase 1 PSD gates at the nine Aarey–Ovaripada stations were commissioned and Phase 2 installation was in progress. The report does not state the screen-door subtype or identify station-specific platform directions."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L2A-L7-CMRS-2023",
+      "title": "MMRDA Announcement: CMRS Certificate for Phase 2 Line 2A and Line 7",
+      "shortName": "MMRDA CMRS Certificate Announcement",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "OFFICIAL_SAFETY_CERTIFICATION_ANNOUNCEMENT",
+      "sourceUrl": "https://mmrda.maharashtra.gov.in/sites/default/files/2023-03/MMRDA%20received%20CMRS%20Certificate.pdf",
+      "publicationDate": "2023-01-12",
+      "format": "PDF press announcement",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "B_STATION",
+        "C_OPERATIONS"
+      ],
+      "notes": "Confirms CMRS safety certification for Phase 2 Line 2A/7 after review of S&TC and PSD among other systems, and readiness for commercial operation. Establishes system-level certification, not platform-specific barrier type or numbering/direction."
+    },
+    {
+      "sourceId": "SRC-MMMOCL-STATION-LAYOUT-TENDER-2026",
+      "title": "MMMOCL/NFBR/2026/01: Station Layouts for Lines 2A, 7 and 9",
+      "shortName": "MMMOCL 2026 Station Layout Tender Annexures",
+      "publisher": "Maha Mumbai Metro Operation Corporation Limited / MMRDA",
+      "authority": "MMMOCL / MMRDA",
+      "authorityLevel": "OPERATOR_OFFICIAL",
+      "type": "OFFICIAL_TENDER_STATION_LAYOUT_ANNEXURES",
+      "sourceUrl": "https://mahatenders.gov.in/nicgep/app",
+      "tenderId": "2026_MMRDA_1324252_1",
+      "tenderReference": "MMMOCL/NFBR/2026/01",
+      "publicationDate": "2026-08-07",
+      "status": "REGISTERED_NOT_ACQUIRED_FROM_PRIMARY_PORTAL",
+      "categoriesCovered": [
+        "B_STATION",
+        "G_INTERCHANGE"
+      ],
+      "assetsExpected": [
+        "Annexure_B_Station_layout_with_kiosk_layout_of_Metro_Line_2A.pdf",
+        "Annexure_C_Station_layout_with_kiosk_layout_of_Metro_Line_7.pdf",
+        "Annexure_D_Station_layout_with_kiosk_layout_of_Metro_Line_9.pdf"
+      ],
+      "notes": "Primary e-procurement tender discovered; public tender index lists station-layout annexures for all three lines. Obtain the annexures directly from the Maharashtra eProcurement portal before transcribing station-specific layouts."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L2A-OVERVIEW",
+      "title": "Mumbai Metro Line 2A Overview and Operational Station List",
+      "shortName": "MMRDA Line 2A Overview",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "OPERATOR_PROJECT_OVERVIEW",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/en/projects/transport/metro-line-2A/overview",
+      "publicationDate": "ONGOING",
+      "format": "Official project webpage",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "G_INTERCHANGE"
+      ],
+      "notes": "Current corridor station names and officially identified connections. Does not by itself establish station platform numbers, as-built level elevations, AFC boundaries, or measured interchange walking routes."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L7-OVERVIEW",
+      "title": "Mumbai Metro Line 7 and Line 9 Project Overview",
+      "shortName": "MMRDA Line 7/9 Overview",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "OPERATOR_PROJECT_OVERVIEW",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/en/projects/transport/metro-line-9/overview",
+      "publicationDate": "ONGOING",
+      "format": "Official project webpage",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "G_INTERCHANGE"
+      ],
+      "notes": "Current project and operational update: Line 9 Phase I Dahisar East–Kashigaon opened 7 April 2026, making Dahisar East a three-line node. Does not establish Line 9 CTM station identifiers or Dahisar interchange layout."
+    },
+    {
+      "sourceId": "SRC-MMRDA-GUNDAVALI-FOB-2022",
+      "title": "MMRDA Announcement: Line 7 Gundavali–Line 1 WEH Foot Overbridge",
+      "shortName": "MMRDA Gundavali–WEH FOB Announcement",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "OFFICIAL_PROJECT_ANNOUNCEMENT",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2022-12/news1%20%281%29.pdf",
+      "publicationDate": "2022-12",
+      "format": "PDF press announcement",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "G_INTERCHANGE"
+      ],
+      "notes": "Confirms a foot overbridge connection and a 58 m structure span (4–8 m wide). The span is not the full passenger transfer path distance or time and does not establish fare boundaries, security, lifts, or travelators."
+    },
+    {
+      "sourceId": "SRC-MMRDA-ANDHERI-WEST-3LEVEL-2023",
+      "title": "MMRDA Announcement: Andheri West Station Levels and D.N. Nagar Connection",
+      "shortName": "MMRDA Andheri West Station Connection",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "OFFICIAL_PROJECT_ANNOUNCEMENT",
+      "sourceUrl": "https://mmrda.maharashtra.gov.in/sites/default/files/2023-03/Andheri%20%28W%29%20station%20consist%20of%203%20levels.pdf",
+      "publicationDate": "2023-03",
+      "format": "PDF press announcement",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "B_STATION",
+        "G_INTERCHANGE"
+      ],
+      "notes": "Confirms Andheri West has Property Development, Concourse and Platform levels and is connected to D.N. Nagar at two levels. Does not establish platform numbering/direction, vertical elevations, paid-area continuity, AFC retap, security, or full route distance/time."
+    },
+    {
+      "sourceId": "SRC-MMMOCL-RETAIL-POLICY-2023",
+      "title": "MMMOCL Retail Policy: Typical Station Design and Passenger Areas",
+      "shortName": "MMMOCL Retail Policy",
+      "publisher": "Mumbai Metro One Operation Corporation Limited",
+      "authority": "MMMOCL",
+      "authorityLevel": "OPERATOR_OFFICIAL",
+      "type": "OFFICIAL_POLICY",
+      "sourceUrl": "https://www.mmmocl.co.in/pdf/retail-policies/Policy-5.pdf",
+      "publicationDate": "2023-10",
+      "format": "PDF policy",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "B_STATION"
+      ],
+      "notes": "Describes typical station level and paid/unpaid-area concepts. Generic policy is not station-specific as-built verification and cannot establish exact station levels, platform number/direction, or screen barrier type at Line 2A/7 stations."
+    },
+    {
+      "sourceId": "SRC-MMMOCL-FARE-SCHEMES",
+      "title": "MMMOCL Fare Schemes and Products",
+      "shortName": "MMMOCL Fare Schemes",
+      "publisher": "Maha Mumbai Metro Operation Corporation Limited",
+      "authority": "MMMOCL",
+      "authorityLevel": "OPERATOR_OFFICIAL",
+      "type": "OPERATOR_FARE_PUBLICATION",
+      "sourceUrl": "https://www.mmmocl.co.in/fare-schemes-products.html",
+      "publicationDate": "ONGOING",
+      "format": "Official operator webpage",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "C_OPERATIONS",
+        "G_INTERCHANGE"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE2A",
+        "MUMBAI_LINE7"
+      ],
+      "notes": "Operator fare/ticket product information for Lines 2A and 7. Does not independently document AFC retap requirements at the Line 1 interchanges."
+    },
+    {
+      "sourceId": "SRC-NDTV-DAHISAR-TRANSFER-2026",
+      "title": "NDTV Profit: Line 2A/7 service separation and Dahisar interchange",
+      "shortName": "NDTV Profit Dahisar interchange report",
+      "publisher": "NDTV Profit",
+      "authority": "SECONDARY_REPORTING",
+      "authorityLevel": "SECONDARY",
+      "type": "NEWS_REPORT",
+      "sourceUrl": "https://www.ndtvprofit.com/india/mumbai-metros-red-and-yellow-lines-to-part-ways-from-april-8-check-updated-time-table-and-other-key-details-11321423/amp/1",
+      "publicationDate": "2026-04-07",
+      "format": "Online news report",
+      "status": "SECONDARY_CORROBORATION",
+      "categoriesCovered": [
+        "C_OPERATIONS",
+        "G_INTERCHANGE"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE2A",
+        "MUMBAI_LINE7"
+      ],
+      "notes": "Reports that passengers can change between Lines 2A and 7 at Dahisar without leaving the paid area. Secondary corroboration; no transfer distance or duration is published."
+    },
     {
       "sourceId": "SOURCE-001",
       "title": "Detailed Project Report for Through Metro Corridor: Colaba – Bandra – SEEPZ (Line 3)",
@@ -22,7 +512,13 @@
       "sizeBytes": 32765016,
       "confidenceBaseline": 1.0,
       "status": "VERIFIED_PRIMARY",
-      "categoriesCovered": ["A_NETWORK", "B_STATION", "C_OPERATIONS", "D_ROLLING_STOCK", "E_SIGNALLING"],
+      "categoriesCovered": [
+        "A_NETWORK",
+        "B_STATION",
+        "C_OPERATIONS",
+        "D_ROLLING_STOCK",
+        "E_SIGNALLING"
+      ],
       "notes": "Authoritative primary source for alignment, station sequence, chainage, inter-station distances, vertical profiles, track design parameters, and physical station layouts."
     },
     {
@@ -41,7 +537,11 @@
       "sizeBytes": 822431,
       "confidenceBaseline": 0.6,
       "status": "RESEARCH_AID_ONLY",
-      "categoriesCovered": ["A_NETWORK", "C_OPERATIONS", "F_GIS"],
+      "categoriesCovered": [
+        "A_NETWORK",
+        "C_OPERATIONS",
+        "F_GIS"
+      ],
       "notes": "Secondary reference document. NOT allowed to directly populate CTM or Category C evidence without primary verification."
     },
     {
@@ -60,7 +560,12 @@
       "sizeBytes": 6271032,
       "confidenceBaseline": 1.0,
       "status": "VERIFIED_PRIMARY",
-      "categoriesCovered": ["C_OPERATIONS", "D_ROLLING_STOCK", "E_SIGNALLING", "H_HISTORICAL"],
+      "categoriesCovered": [
+        "C_OPERATIONS",
+        "D_ROLLING_STOCK",
+        "E_SIGNALLING",
+        "H_HISTORICAL"
+      ],
       "notes": "Official JICA/MMRC Operations & Maintenance Feasibility & Implementation Report."
     },
     {
@@ -77,12 +582,18 @@
       "format": "GeoJSON-in-JS (CRS84 / WGS84 — QGIS-exported EPSG:4326)",
       "confidenceBaseline": 0.75,
       "status": "REGISTERED_VERIFIED_FORMAT",
-      "categoriesCovered": ["F_GIS", "A_NETWORK"],
+      "categoriesCovered": [
+        "F_GIS",
+        "A_NETWORK"
+      ],
       "assetsRegistered": [
         "Shape_layers/Line_3_Station.js — 28 station Point features (EPSG:4326, [lon, lat, 0.0])",
         "Shape_layers/Line_3_aligment.js — 2 MultiLineString features: main alignment (28,641 vertices, Cuffe Parade to Aarey Depot) + Navy Nagar spur (15 vertices)"
       ],
-      "validationRequiredAgainst": ["SOURCE-001 DPR station chainages", "SOURCE-005 Wayfinder positions"],
+      "validationRequiredAgainst": [
+        "SOURCE-001 DPR station chainages",
+        "SOURCE-005 Wayfinder positions"
+      ],
       "acquisitionState": "REGISTERED",
       "coordinateVerified": true,
       "coordinateSystem": "EPSG:4326 (WGS84) — confirmed by QGIS .qmd metadata files in repository",
@@ -104,7 +615,10 @@
       "format": "Interactive Web Application / API",
       "confidenceBaseline": 0.9,
       "status": "REGISTERED_UNACQUIRED",
-      "categoriesCovered": ["B_STATION", "F_GIS"],
+      "categoriesCovered": [
+        "B_STATION",
+        "F_GIS"
+      ],
       "assetsExpected": [
         "Station entrance/exit gate positions",
         "Lift and escalator positions",
@@ -113,6 +627,342 @@
       ],
       "acquisitionState": "REGISTERED",
       "notes": "Operator-facing interactive station map. Highest-authority source for B-category GIS gaps: entrance coordinates, lift positions, platform layouts. Addresses knowledge gaps: GAP-L3-B-001, GAP-L3-B-002, GAP-L3-B-003."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L4-DPR",
+      "title": "Detailed Project Report: Wadala–Kasarvadavali Metro Corridor (Line 4)",
+      "shortName": "Official MMRDA Line 4 DPR",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "DPR",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2021-10/Metro%20Line%204.pdf",
+      "originalFilename": "Metro Line 4.pdf",
+      "format": "PDF",
+      "status": "VERIFIED_PRIMARY",
+      "documentPath": "sources/dpr/line-04/mmrda-metro-line-4-dpr.pdf",
+      "pages": 462,
+      "categoriesCovered": [
+        "A_NETWORK",
+        "B_STATION"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE4"
+      ],
+      "notes": "Downloaded from MMRDA's DPR register. The 2016 design table has 32 proposed stations, while MMRDA's current Line 4 overview lists 30; keep the DPR proposal separate from the current corridor inventory. Chapter 5 proposes two station levels (lower concourse, upper platforms) and side platforms."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L4A-DPR",
+      "title": "Detailed Project Report: Extension of Line 4 from Kasarvadavali to Gaimukh (Line 4A)",
+      "shortName": "Official MMRDA Line 4A DPR",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "DPR",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2021-10/Metro%20Line%204A.pdf",
+      "originalFilename": "Metro Line 4A.pdf",
+      "format": "PDF",
+      "status": "VERIFIED_PRIMARY",
+      "documentPath": "sources/dpr/line-04a/mmrda-metro-line-4a-dpr.pdf",
+      "pages": 367,
+      "categoriesCovered": [
+        "A_NETWORK",
+        "B_STATION"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE4A"
+      ],
+      "notes": "Downloaded from MMRDA's DPR register. The two-station extension is kept as distinct line-owned evidence. Chapter 5 specifies two levels at both stations (lower concourse, upper platforms) and side platforms."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L5-DPR",
+      "title": "Detailed Project Report: Thane–Bhiwandi–Kalyan Metro Corridor (Line 5)",
+      "shortName": "Official MMRDA Line 5 DPR",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "DPR",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2021-10/Metro%20Line%205.pdf",
+      "originalFilename": "Metro Line 5.pdf",
+      "format": "PDF",
+      "status": "VERIFIED_PRIMARY",
+      "documentPath": "sources/dpr/line-05/mmrda-metro-line-5-dpr.pdf",
+      "pages": 285,
+      "categoriesCovered": [
+        "A_NETWORK",
+        "B_STATION"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE5"
+      ],
+      "notes": "Downloaded from MMRDA's DPR register. The design report lists 17 proposed stations, whereas MMRDA's current Line 5 overview lists 15. The extracted stationing columns are ambiguous in the source text layer and are not promoted; proposed floor inventory and platform configuration remain unresolved."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L4-OVERVIEW",
+      "title": "Mumbai Metro Line 4 Current Project Overview and Station List",
+      "shortName": "MMRDA Line 4 Overview",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "OPERATOR_PROJECT_OVERVIEW",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/en/projects/transport/metro-line-4/overview",
+      "format": "Official project webpage",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "G_INTERCHANGE"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE4"
+      ],
+      "notes": "MMRDA lists Line 4 as Wadala–Kasarvadavali, 30 stations, 32.32 km, with construction progress dated 31 August 2026. Line 4A is a separate two-station extension."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L4A-OVERVIEW",
+      "title": "Mumbai Metro Line 4A Current Project Overview and Station List",
+      "shortName": "MMRDA Line 4A Overview",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "OPERATOR_PROJECT_OVERVIEW",
+      "sourceUrl": "https://mmrda.maharashtra.gov.in/en/projects/transport/metro-line-4-A/metro-line-4",
+      "format": "Official project webpage",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "G_INTERCHANGE"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE4A"
+      ],
+      "notes": "MMRDA lists Line 4A as Kasarvadavali–Gaimukh, 2 stations, 2.668 km, and under construction in its 31 August 2026 update; the Line 4/4A priority section has begun technical inspection and trial runs."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L6-DPR",
+      "title": "Detailed Project Report: Swami Samarth Nagar–JVLR–Vikhroli Metro Corridor (Line 6)",
+      "shortName": "Official MMRDA Line 6 DPR",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "DPR",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2021-10/Metro%20Line%206.pdf",
+      "originalFilename": "Metro Line 6.pdf",
+      "format": "PDF",
+      "status": "VERIFIED_PRIMARY",
+      "documentPath": "sources/dpr/line-06/mmrda-metro-line-6-dpr.pdf",
+      "pages": 395,
+      "categoriesCovered": [
+        "A_NETWORK",
+        "B_STATION"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE6"
+      ],
+      "notes": "Downloaded from MMRDA's DPR register. Chapter 5's station table gives proposed chainage, side-platform type, highest ground level, rail level, and platform height for 13 stations. It does not establish as-built conditions or passenger platform numbers/directions."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L10-DPR",
+      "title": "Detailed Project Report: Gaimukh–Shivaji Chowk (Mira Road) Metro Corridor (Line 10)",
+      "shortName": "Official MMRDA Line 10 DPR",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "DPR",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2021-10/Metro%20Line%2010.pdf",
+      "originalFilename": "Metro Line 10.pdf",
+      "format": "PDF",
+      "status": "VERIFIED_PRIMARY",
+      "documentPath": "sources/dpr/line-10/mmrda-metro-line-10-dpr.pdf",
+      "pages": 405,
+      "categoriesCovered": [
+        "A_NETWORK",
+        "B_STATION"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE10"
+      ],
+      "notes": "Downloaded from MMRDA's DPR register. The design table lists four elevated stations with side platforms and two-level concourse/platform station design; these proposed facts are kept separate from adjoining Line 4."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L11-DPR",
+      "title": "Detailed Project Report: Wadala–Chhatrapati Shivaji Maharaj Terminus Metro Corridor (Line 11)",
+      "shortName": "Official MMRDA Line 11 DPR",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "DPR",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2021-10/Metro%20Line%2011.pdf",
+      "originalFilename": "Metro Line 11.pdf",
+      "format": "PDF",
+      "status": "VERIFIED_PRIMARY",
+      "documentPath": "sources/dpr/line-11/mmrda-metro-line-11-dpr.pdf",
+      "pages": 486,
+      "categoriesCovered": [
+        "A_NETWORK",
+        "B_STATION"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE11"
+      ],
+      "notes": "Downloaded from MMRDA's DPR register. The DPR proposes ten stations (eight underground, two elevated), with station-specific rail levels and platform depths/heights. It is a proposed design source, not current operational or as-built evidence."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L12-DPR",
+      "title": "Detailed Project Report: Kalyan–Taloja Metro Corridor (Line 12)",
+      "shortName": "Official MMRDA Line 12 DPR",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "DPR",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2021-10/Metro%20Line%2012.pdf",
+      "originalFilename": "Metro Line 12.pdf",
+      "format": "PDF",
+      "status": "VERIFIED_PRIMARY",
+      "documentPath": "sources/dpr/line-12/mmrda-metro-line-12-dpr.pdf",
+      "pages": 418,
+      "categoriesCovered": [
+        "A_NETWORK",
+        "B_STATION"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE12"
+      ],
+      "notes": "Downloaded from MMRDA's DPR register. Chapter 5 specifies proposed two-level side-platform station design and station-specific rail levels/platform heights. The DPR and MMRDA's March 2026 tender list 17 stations, while the current overview lists 19; the summary and detailed station tables also contain station-name/chainage discrepancies. Preserve each version separately."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L12-2026-TENDER",
+      "title": "MMRDA Line 12 Kalyan–Taloja Works Tender Document",
+      "shortName": "MMRDA Line 12 2026 Tender",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "OFFICIAL_PROJECT_TENDER",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2026-03/tender_document.pdf",
+      "publicationDate": "2026-03",
+      "format": "PDF tender document",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "B_STATION"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE12"
+      ],
+      "notes": "The current works tender states a 17-station, fully elevated Line 12. MMRDA's overview page lists 19 stations; preserve this official-source conflict pending an operator station crosswalk."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L5-OVERVIEW",
+      "title": "Mumbai Metro Line 5 Current Project Overview and Station List",
+      "shortName": "MMRDA Line 5 Overview",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "OPERATOR_PROJECT_OVERVIEW",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/en/projects/transport/metro-line-5/overview",
+      "format": "Official project webpage",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "G_INTERCHANGE"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE5"
+      ],
+      "notes": "MMRDA's current project page is the operational authority for the evolving Orange corridor station list and construction status. Keep differences from the older DPR station inventory explicit."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L6-OVERVIEW",
+      "title": "Mumbai Metro Line 6 Current Project Overview and Station List",
+      "shortName": "MMRDA Line 6 Overview",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "OPERATOR_PROJECT_OVERVIEW",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/en/projects/transport/metro-line-6/overview",
+      "format": "Official project webpage",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "G_INTERCHANGE"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE6"
+      ],
+      "notes": "MMRDA lists the current 13-station Pink corridor and five line/railway interchange locations; construction-status dates must be captured from the dated project update."
+    },
+    {
+      "sourceId": "SRC-MMRDA-L12-OVERVIEW",
+      "title": "Mumbai Metro Line 12 Current Project Overview and Station List",
+      "shortName": "MMRDA Line 12 Overview",
+      "publisher": "Mumbai Metropolitan Region Development Authority",
+      "authority": "MMRDA",
+      "authorityLevel": "OFFICIAL",
+      "type": "OPERATOR_PROJECT_OVERVIEW",
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/en/projects/transport/metro-line-12/overview",
+      "format": "Official project webpage",
+      "status": "VERIFIED_PRIMARY",
+      "categoriesCovered": [
+        "A_NETWORK",
+        "G_INTERCHANGE"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE12"
+      ],
+      "notes": "MMRDA overview currently lists 19 stations and 23.57 km, differing from older master-plan values. Use the dated current overview for P0 route basics and preserve the discrepancy against DPR/GIS."
+    },
+    {
+      "sourceId": "SRC-USER-L2B-KML",
+      "title": "Supplied Metro Line 2B station reference KML",
+      "shortName": "Supplied Line 2B station KML",
+      "publisher": "User-provided project asset; original publisher metadata is not embedded",
+      "authority": "USER_PROVIDED_SPATIAL_REFERENCE",
+      "authorityLevel": "USER_PROVIDED",
+      "type": "KML_STATION_REFERENCE",
+      "documentPath": "../kml/line_2b.kml",
+      "publicationDate": "UNKNOWN",
+      "format": "KML",
+      "status": "CROSS_CHECKED_CANDIDATE",
+      "categoriesCovered": [
+        "F_GIS"
+      ],
+      "applicableLines": [
+        "MUMBAI_LINE2B"
+      ],
+      "notes": "Contains labeled Line 2B station placemarks. Operational station identities were checked against MMRDA's current route/phase notices and placemark positions were measured against official ArcGIS line feature 54. Preserve the observed ArcGIS station-point offsets; this supplied asset alone is not an official as-built survey."
+    },
+    {
+      "sourceId": "SRC-USER-L9-KML",
+      "title": "Supplied Line 9 station KML",
+      "shortName": "Supplied Line 9 KML",
+      "publisher": "User-provided GIS reference",
+      "authority": "USER_PROVIDED",
+      "authorityLevel": "USER_PROVIDED",
+      "type": "KML_STATION_REFERENCE",
+      "documentPath": "kml/line-9_2.kml",
+      "format": "KML",
+      "status": "CROSS_CHECKED_AGAINST_OFFICIAL_OPERATOR_AND_ARCGIS_ROUTE",
+      "categoriesCovered": [
+        "F_GIS"
+      ],
+      "applicableTo": [
+        "MMRDA_LINE9"
+      ],
+      "notes": "Station placemarks for the full eight-stop Line 9 design route. Only the first four stations are currently reported operational. Placemark names that differ from MMRDA's current names are retained as aliases, not canonical names."
+    },
+    {
+      "sourceId": "SRC-USER-L9-OPERATIONAL-OBSERVATIONS",
+      "title": "User-reported Line 9/7 continuity and Kashigaon wayfinding",
+      "shortName": "User report: Red through-service and Kashigaon P1",
+      "publisher": "TransitOS user-provided observation",
+      "authority": "USER_PROVIDED_WAYFINDING_OBSERVATION",
+      "authorityLevel": "USER_PROVIDED",
+      "type": "OPERATIONAL_AND_WAYFINDING_OBSERVATION",
+      "publicationDate": "2026-10-06",
+      "format": "User statement in task context",
+      "status": "USER_REPORTED_NOT_OPERATOR_VERIFIED",
+      "categoriesCovered": ["A_NETWORK", "P1_PLATFORM_DIRECTION"],
+      "applicableTo": ["MMRDA_LINE9"],
+      "notes": "User reports that Line 9 service continues through Dahisar East onto Line 7, without a passenger transfer between the Red corridors, and that Kashigaon Platform 1 serves trains toward Dahisar East. Preserve both claims as user-supplied evidence and do not label them operator-verified."
     }
   ]
 }

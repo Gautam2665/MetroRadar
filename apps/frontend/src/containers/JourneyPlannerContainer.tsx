@@ -32,7 +32,8 @@ export type RouteLeg = {
   platform?: string | null;
   boardingPlatform?: string | null;
   alightingPlatform?: string | null;
-  platformStatus?: "KNOWN" | "UNKNOWN";
+  platformStatus?: "KNOWN" | "USER_REPORTED" | "UNKNOWN";
+  throughServiceContinuationFromPrevious?: boolean;
   doorsOpen?: "Left" | "Right" | null;
   doorSideStatus?: "KNOWN_FROM_ENGINEERING" | "UNKNOWN_SOURCE_REQUIRED";
   transferDetails?: TransferDetails | null;
@@ -121,7 +122,8 @@ interface BackendCandidate {
     boardingPlatform?: string | null;
     alightingPlatform?: string | null;
     platform?: string | null;
-    platformStatus?: "KNOWN" | "UNKNOWN";
+    platformStatus?: "KNOWN" | "USER_REPORTED" | "UNKNOWN";
+    throughServiceContinuationFromPrevious?: boolean;
     doorsOpen?: "Left" | "Right" | null;
     doorSideStatus?: "KNOWN_FROM_ENGINEERING" | "UNKNOWN_SOURCE_REQUIRED";
     hopCount?: number;
@@ -235,6 +237,7 @@ function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
       boardingPlatform,
       alightingPlatform,
       platformStatus,
+      throughServiceContinuationFromPrevious: leg.throughServiceContinuationFromPrevious,
       doorsOpen: leg.doorsOpen || null,
       doorSideStatus,
       transferDetails: leg.transferDetails || null,

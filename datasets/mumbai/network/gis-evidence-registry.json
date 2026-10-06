@@ -125,15 +125,189 @@
         "validatedVertexCount": 28641
       }
     },
-    "lines_1_2a_2b_7": {
+    "line2a": {
       "stationPoints": {
-        "primarySource": "SRC-NET-008 OSM",
+        "primarySource": "SRC-ARCGIS-MOHUA-2025 (official station feature IDs)",
         "validationSources": [
-          "SRC-NET-005/006 operator publications station lists"
+          "MMRDA Line 2A corridor KML",
+          "registered Line 2A station sequence"
         ],
-        "promotionCriteria": "Station name matches operator list; sequence correct; coordinate within 200m of known location",
+        "ctmReadyAfterValidation": true,
+        "validationStatus": "VALIDATED",
+        "validatedRecordCount": 17
+      },
+      "alignmentGeometry": {
+        "primarySource": "MMRDA Line 2A corridor KML, snapped to official station points",
+        "ctmReadyAfterValidation": true,
+        "validationStatus": "VALIDATED",
+        "validatedVertexCount": 551,
+        "kmlCorridorCoveragePercent": 100
+      }
+    },
+    "line7": {
+      "stationPoints": {
+        "primarySource": "SRC-ARCGIS-MOHUA-2025 (official station feature IDs)",
+        "validationSources": [
+          "MMRDA Line 7 corridor KML",
+          "registered Line 7 station sequence"
+        ],
+        "ctmReadyAfterValidation": true,
+        "validationStatus": "VALIDATED",
+        "validatedRecordCount": 14
+      },
+      "alignmentGeometry": {
+        "primarySource": "MMRDA Line 7 corridor KML, snapped to official station points",
+        "ctmReadyAfterValidation": true,
+        "validationStatus": "VALIDATED_WITH_PARTIAL_KML_COVERAGE",
+        "validatedVertexCount": 419,
+        "kmlCorridorCoveragePercent": 96.9
+      }
+    },
+    "line2b": {
+      "stationPoints": {
+        "primarySource": "Supplied Line 2B station KML placemarks cross-checked against MMRDA's current operational list and MoHUA/Esri ArcGIS feature 54",
+        "validationSources": [
+          "SRC-MMRDA-L2B-OVERVIEW",
+          "SRC-ARCGIS-MOHUA-2025",
+          "SRC-USER-L2B-KML",
+          "SRC-MMRDA-L2B-DPR"
+        ],
+        "validationStatus": "PARTIAL_OPERATIONAL_SEGMENT_CROSS_CHECKED; FULL_ROUTE_CROSSWALK_PENDING",
+        "crossCheckedOperationalStationPoints": 6,
+        "maxKmlToArcgisRouteOffsetMeters": 166.5,
+        "arcgisStationPointOffsetWarnings": [
+          {
+            "station": "Chembur",
+            "distanceMeters": 210.1,
+            "featureId": 1030
+          },
+          {
+            "station": "Mankhurd",
+            "distanceMeters": 769.6,
+            "featureId": 1075
+          }
+        ],
         "ctmReadyAfterValidation": false,
-        "ctmBlocker": "Requires at least P0 station sequence evidence from operator source before coordinates can be promoted"
+        "ctmBlocker": "The six-station operational segment now has line-owned CTM evidence and a source crosswalk, but current database CTM materialization, as-built P1, and the remaining 14 current route stations are not complete. Mankhurd's ArcGIS station point is offset 770 m from the supplied KML marker."
+      },
+      "alignmentGeometry": {
+        "primarySource": "SRC-ARCGIS-MOHUA-2025 feature 54, clipped at the Chembur and Mandale station projections",
+        "crossValidationSources": [
+          "SRC-MMRDA-L2B-OVERVIEW",
+          "SRC-USER-L2B-KML"
+        ],
+        "operationalSubsegmentVertexCount": 123,
+        "operationalSubsegmentDerivedLengthMeters": 5541,
+        "operationalSubsegmentStatus": "CROSS_CHECKED_CANDIDATE",
+        "fullRouteValidationStatus": "CANDIDATE_UNVERIFIED",
+        "ctmReadyAfterValidation": false
+      }
+    },
+    "line9": {
+      "stationPoints": {
+        "primarySource": "SRC-MMRDA-L9-OVERVIEW + supplied KML cross-checked against SRC-ARCGIS-MOHUA-2025",
+        "validationSources": [
+          "SRC-MMRDA-L9-OVERVIEW",
+          "SRC-ARCGIS-MOHUA-2025",
+          "SRC-USER-L9-KML"
+        ],
+        "validationStatus": "PHASE_I_OPERATIONAL_CROSSWALKED; FOURTH_LINE9_STOP_REUSES_LINE7_DAHISAR_ENTITY",
+        "operationalStationsInPhase": 4,
+        "uniqueLine9StationEntities": 3,
+        "maxKmlToOfficialRouteOffsetMeters": 53.9,
+        "arcgisStationPointOffsetWarnings": [
+          {
+            "station": "Pandhurang Wadi",
+            "distanceMeters": 641.9,
+            "featureId": 1094
+          },
+          {
+            "station": "Miragaon",
+            "distanceMeters": 234.3,
+            "featureId": 981
+          }
+        ],
+        "ctmReadyAfterValidation": false,
+        "ctmBlocker": "The four-stop phase-I P0 sequence, geometry, and local DB slice are materialized; Dahisar East reuses the existing Line 7 station entity. Remaining Line 9 stations are not operational, and operator-confirmed as-built P1 remains open."
+      },
+      "alignmentGeometry": {
+        "primarySource": "SRC-ARCGIS-MOHUA-2025 feature 62, clipped at the Dahisar East and Kashigaon KML station projections",
+        "crossValidationSources": [
+          "SRC-MMRDA-L9-OVERVIEW",
+          "SRC-USER-L9-KML"
+        ],
+        "operationalSubsegmentVertexCount": 64,
+        "operationalSubsegmentDerivedLengthMeters": 3586,
+        "operatorPublishedPhaseLengthMeters": 4700,
+        "operationalSubsegmentStatus": "CROSS_CHECKED_CANDIDATE",
+        "fullRouteValidationStatus": "CANDIDATE_UNVERIFIED_REMAINING_STATIONS_NOT_OPERATIONAL",
+        "ctmReadyAfterValidation": false
+      }
+    },
+    "line5": {
+      "alignmentGeometry": {
+        "primarySource": "SRC-ARCGIS-MOHUA-2025 feature 59",
+        "candidateVertexCount": 429,
+        "reportedLengthKm": 23.5,
+        "reportedStationCount": 17,
+        "validationStatus": "CANDIDATE_UNVERIFIED",
+        "ctmReadyAfterValidation": false,
+        "ctmBlocker": "ArcGIS reports 17 stations/23.5 km while the current MMRDA overview reports 15 stations/24.9 km; reconcile the station set and route before promotion."
+      }
+    },
+    "line6": {
+      "alignmentGeometry": {
+        "primarySource": "SRC-ARCGIS-MOHUA-2025 feature 56",
+        "candidateVertexCount": 336,
+        "reportedLengthKm": 14.5,
+        "reportedStationCount": 13,
+        "validationStatus": "CANDIDATE_UNVERIFIED",
+        "ctmReadyAfterValidation": false,
+        "ctmBlocker": "MMRDA overview reports 15.31 km while ArcGIS reports 14.5 km; station sequence and geometry require alignment validation."
+      }
+    },
+    "line10": {
+      "alignmentGeometry": {
+        "primarySource": "SRC-ARCGIS-MOHUA-2025 feature 64",
+        "candidateVertexCount": 246,
+        "reportedLengthKm": 9.2,
+        "reportedStationCount": 8,
+        "validationStatus": "CANDIDATE_UNVERIFIED",
+        "ctmReadyAfterValidation": false,
+        "ctmBlocker": "ArcGIS lists eight stations against four in the 2019 DPR; current route/station crosswalk is required."
+      }
+    },
+    "line11": {
+      "alignmentGeometry": {
+        "primarySource": "SRC-ARCGIS-MOHUA-2025 feature 63",
+        "candidateVertexCount": 182,
+        "reportedLengthKm": 12.7,
+        "reportedStationCount": 10,
+        "validationStatus": "CANDIDATE_UNVERIFIED",
+        "ctmReadyAfterValidation": false,
+        "ctmBlocker": "Candidate proposed alignment only; no current operational station entities or as-built geometry."
+      }
+    },
+    "line12": {
+      "alignmentGeometry": {
+        "primarySource": "SRC-ARCGIS-MOHUA-2025 feature 66",
+        "candidateVertexCount": 105,
+        "reportedLengthKm": 20.7,
+        "reportedStationCount": 19,
+        "validationStatus": "CANDIDATE_UNVERIFIED",
+        "ctmReadyAfterValidation": false,
+        "ctmBlocker": "Station count differs by source: ArcGIS and current MMRDA overview report 19; the DPR and MMRDA 2026 tender report 17. Geometry-to-station crosswalk remains required."
+      }
+    },
+    "line4Family": {
+      "alignmentGeometry": {
+        "primarySource": "SRC-ARCGIS-MOHUA-2025 feature 58",
+        "candidateVertexCount": 552,
+        "reportedLengthKm": 35.2,
+        "reportedStationCount": 32,
+        "validationStatus": "CANDIDATE_UNVERIFIED_COMBINED_LINE4_LINE4A",
+        "ctmReadyAfterValidation": false,
+        "ctmBlocker": "The ArcGIS feature combines Lines 4 and 4A; it cannot supply line-owned geometries until the corridor boundary is reconciled with current station points and official lengths."
       }
     }
   },
@@ -142,10 +316,10 @@
       "gapId": "GIS-GAP-001",
       "lineId": "MUMBAI_LINE3",
       "attribute": "station_coordinates_wgs84",
-      "description": "Station point coordinates from community GIS (SRC-NET-003) not yet validated against DPR chainages or Wayfinder",
-      "status": "REGISTERED_PENDING_VALIDATION",
+      "description": "Line 3 station points were validated for CTM readiness; entrance and exit coordinates remain an independent P1 acquisition gap.",
+      "status": "RESOLVED_FOR_CTM_STATION_POINTS",
       "priority": "P0",
-      "blocksCTM": true
+      "blocksCTM": false
     },
     {
       "gapId": "GIS-GAP-002",
@@ -159,14 +333,11 @@
     {
       "gapId": "GIS-GAP-003",
       "lineIds": [
-        "MUMBAI_LINE1",
-        "MUMBAI_LINE2A",
-        "MUMBAI_LINE2B",
-        "MUMBAI_LINE7"
+        "MUMBAI_LINE2B"
       ],
       "attribute": "station_coordinates_wgs84",
-      "description": "No official GIS acquired for Lines 1/2A/2B/7. OSM registered as bootstrap source pending validation.",
-      "status": "REGISTERED_PENDING_VALIDATION",
+      "description": "MMRDA reports six currently operational Line 2B stations. All six supplied KML station placemarks are within 167 m of the official ArcGIS route feature and map to the current operator sequence and DPR entries. The ArcGIS station point for Mankhurd is 770 m from its KML marker; Chembur is 210 m from its ArcGIS point. The six-stop CTM slice is now transcribed, while database CTM materialization, as-built P1, and the remaining 14 stations remain open.",
+      "status": "OPERATIONAL_SUBSEGMENT_CROSS_CHECKED_FULL_LINE_PENDING",
       "priority": "P0",
       "blocksCTM": true
     },
@@ -174,16 +345,43 @@
       "gapId": "GIS-GAP-004",
       "lineIds": [
         "MUMBAI_LINE4",
+        "MUMBAI_LINE4A",
         "MUMBAI_LINE5",
         "MUMBAI_LINE6",
         "MUMBAI_LINE8",
-        "MUMBAI_LINE9"
+        "MUMBAI_LINE10",
+        "MUMBAI_LINE11",
+        "MUMBAI_LINE12",
+        "MUMBAI_LINE7A"
       ],
       "attribute": "station_coordinates_wgs84",
-      "description": "No GIS source registered for under-construction/planned lines. Not blocking CTM as lines are not OPERATIONAL.",
-      "status": "NOT_APPLICABLE_NON_OPERATIONAL",
+      "description": "MoHUA/Esri ArcGIS candidate features exist for several non-operational lines, but station-level crosswalks and route geometry have not been validated. Line 4/4A is combined in one feature; Line 7A has no dedicated route feature.",
+      "status": "CANDIDATE_SOURCE_AVAILABLE_VALIDATION_PENDING",
       "priority": "P0",
       "blocksCTM": false
+    },
+    {
+      "gapId": "GIS-GAP-005",
+      "lineIds": [
+        "MUMBAI_LINE9"
+      ],
+      "attribute": "full_station_crosswalk_and_ctm_entities",
+      "description": "Four operational Phase I Line 9 points are source-verified from ArcGIS; the full eight-station corridor crosswalk and distinct CTM route entities are not complete. Dahisar East is shared with the existing Line 2A/7 station complex.",
+      "status": "PARTIAL_PHASE_SOURCE_VERIFIED",
+      "priority": "P0",
+      "blocksCTM": true
+    },
+    {
+      "gapId": "GIS-GAP-006",
+      "lineIds": [
+        "MUMBAI_LINE4",
+        "MUMBAI_LINE4A"
+      ],
+      "attribute": "line_owned_alignment_geometry",
+      "description": "The official ArcGIS Green feature 58 combines Lines 4 and 4A. Establish the Kasarvadavali/Gowniwada boundary and validate each line's own length and station sequence before splitting or promoting geometry.",
+      "status": "COMBINED_CANDIDATE_REQUIRES_BOUNDARY_CROSSWALK",
+      "priority": "P0",
+      "blocksCTM": true
     }
   ]
 }

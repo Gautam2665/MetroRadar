@@ -21,6 +21,8 @@ temp_extracts/
 
 # SQL database backups
 *.sql
+# Prisma schema migrations are source-controlled SQL, not database backups.
+!database/prisma/migrations/**/migration.sql
 
 # Private sync notes and API key dumps
 live tracking api delhi.txt

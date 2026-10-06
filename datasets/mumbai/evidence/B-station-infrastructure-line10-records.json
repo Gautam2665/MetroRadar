@@ -1,0 +1,290 @@
+[
+  {
+    "evidenceId": "E-L10-B-0001",
+    "systemCode": "MMRDA_LINE10",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "station",
+    "entityKey": "LINE10_DPR_STATION_01",
+    "attribute": "proposed_station_type",
+    "value": "ELEVATED",
+    "source": {
+      "sourceId": "SRC-MMRDA-L10-DPR",
+      "document": "mmrda-metro-line-10-dpr.pdf",
+      "page": 46,
+      "printedPage": "21",
+      "section": "§0.5.1 Table 0.12"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "extractionMethod": "MANUAL_DPR_TABLE_TRANSCRIPTION",
+    "confidence": 1.0,
+    "status": "UNVALIDATED",
+    "extractedAt": "2026-10-05T00:00:00.000Z",
+    "notes": "The DPR describes Line 10 as a four-station elevated corridor; some alignment sections run below a hill. Its chainages are continuous with the adjoining Green Line project and remain separate line records."
+  },
+  {
+    "evidenceId": "E-L10-B-0101",
+    "systemCode": "MMRDA_LINE10",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "platform",
+    "entityKey": "LINE10_DPR_STATION_01",
+    "attribute": "proposed_platform_configuration",
+    "value": "SIDE_PLATFORMS",
+    "source": {
+      "sourceId": "SRC-MMRDA-L10-DPR",
+      "document": "mmrda-metro-line-10-dpr.pdf",
+      "page": 46,
+      "printedPage": "21",
+      "section": "§0.5.1 Station Type"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "extractionMethod": "MANUAL_DPR_TABLE_TRANSCRIPTION",
+    "confidence": 1.0,
+    "status": "UNVALIDATED",
+    "extractedAt": "2026-10-05T00:00:00.000Z",
+    "notes": "Proposed DPR configuration. This does not establish platform numbering, travel direction, screen doors, or as-built condition."
+  },
+  {
+    "evidenceId": "E-L10-B-0201",
+    "systemCode": "MMRDA_LINE10",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "station",
+    "entityKey": "LINE10_DPR_STATION_01",
+    "attribute": "proposed_level_inventory",
+    "value": [
+      "CONCOURSE",
+      "PLATFORM"
+    ],
+    "source": {
+      "sourceId": "SRC-MMRDA-L10-DPR",
+      "document": "mmrda-metro-line-10-dpr.pdf",
+      "page": 208,
+      "printedPage": "183",
+      "section": "§5.2 Rail Levels and Alignment"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "extractionMethod": "MANUAL_DPR_TABLE_TRANSCRIPTION",
+    "confidence": 1.0,
+    "status": "UNVALIDATED",
+    "extractedAt": "2026-10-05T00:00:00.000Z",
+    "notes": "The DPR explicitly proposes a two-level station design. Proposed design only; not as-built certification."
+  },
+  {
+    "evidenceId": "E-L10-B-0002",
+    "systemCode": "MMRDA_LINE10",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "station",
+    "entityKey": "LINE10_DPR_STATION_02",
+    "attribute": "proposed_station_type",
+    "value": "ELEVATED",
+    "source": {
+      "sourceId": "SRC-MMRDA-L10-DPR",
+      "document": "mmrda-metro-line-10-dpr.pdf",
+      "page": 46,
+      "printedPage": "21",
+      "section": "§0.5.1 Table 0.12"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "extractionMethod": "MANUAL_DPR_TABLE_TRANSCRIPTION",
+    "confidence": 1.0,
+    "status": "UNVALIDATED",
+    "extractedAt": "2026-10-05T00:00:00.000Z",
+    "notes": "The DPR describes Line 10 as a four-station elevated corridor; some alignment sections run below a hill. Its chainages are continuous with the adjoining Green Line project and remain separate line records."
+  },
+  {
+    "evidenceId": "E-L10-B-0102",
+    "systemCode": "MMRDA_LINE10",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "platform",
+    "entityKey": "LINE10_DPR_STATION_02",
+    "attribute": "proposed_platform_configuration",
+    "value": "SIDE_PLATFORMS",
+    "source": {
+      "sourceId": "SRC-MMRDA-L10-DPR",
+      "document": "mmrda-metro-line-10-dpr.pdf",
+      "page": 46,
+      "printedPage": "21",
+      "section": "§0.5.1 Station Type"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "extractionMethod": "MANUAL_DPR_TABLE_TRANSCRIPTION",
+    "confidence": 1.0,
+    "status": "UNVALIDATED",
+    "extractedAt": "2026-10-05T00:00:00.000Z",
+    "notes": "Proposed DPR configuration. This does not establish platform numbering, travel direction, screen doors, or as-built condition."
+  },
+  {
+    "evidenceId": "E-L10-B-0202",
+    "systemCode": "MMRDA_LINE10",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "station",
+    "entityKey": "LINE10_DPR_STATION_02",
+    "attribute": "proposed_level_inventory",
+    "value": [
+      "CONCOURSE",
+      "PLATFORM"
+    ],
+    "source": {
+      "sourceId": "SRC-MMRDA-L10-DPR",
+      "document": "mmrda-metro-line-10-dpr.pdf",
+      "page": 208,
+      "printedPage": "183",
+      "section": "§5.2 Rail Levels and Alignment"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "extractionMethod": "MANUAL_DPR_TABLE_TRANSCRIPTION",
+    "confidence": 1.0,
+    "status": "UNVALIDATED",
+    "extractedAt": "2026-10-05T00:00:00.000Z",
+    "notes": "The DPR explicitly proposes a two-level station design. Proposed design only; not as-built certification."
+  },
+  {
+    "evidenceId": "E-L10-B-0003",
+    "systemCode": "MMRDA_LINE10",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "station",
+    "entityKey": "LINE10_DPR_STATION_03",
+    "attribute": "proposed_station_type",
+    "value": "ELEVATED",
+    "source": {
+      "sourceId": "SRC-MMRDA-L10-DPR",
+      "document": "mmrda-metro-line-10-dpr.pdf",
+      "page": 46,
+      "printedPage": "21",
+      "section": "§0.5.1 Table 0.12"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "extractionMethod": "MANUAL_DPR_TABLE_TRANSCRIPTION",
+    "confidence": 1.0,
+    "status": "UNVALIDATED",
+    "extractedAt": "2026-10-05T00:00:00.000Z",
+    "notes": "The DPR describes Line 10 as a four-station elevated corridor; some alignment sections run below a hill. Its chainages are continuous with the adjoining Green Line project and remain separate line records."
+  },
+  {
+    "evidenceId": "E-L10-B-0103",
+    "systemCode": "MMRDA_LINE10",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "platform",
+    "entityKey": "LINE10_DPR_STATION_03",
+    "attribute": "proposed_platform_configuration",
+    "value": "SIDE_PLATFORMS",
+    "source": {
+      "sourceId": "SRC-MMRDA-L10-DPR",
+      "document": "mmrda-metro-line-10-dpr.pdf",
+      "page": 46,
+      "printedPage": "21",
+      "section": "§0.5.1 Station Type"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "extractionMethod": "MANUAL_DPR_TABLE_TRANSCRIPTION",
+    "confidence": 1.0,
+    "status": "UNVALIDATED",
+    "extractedAt": "2026-10-05T00:00:00.000Z",
+    "notes": "Proposed DPR configuration. This does not establish platform numbering, travel direction, screen doors, or as-built condition."
+  },
+  {
+    "evidenceId": "E-L10-B-0203",
+    "systemCode": "MMRDA_LINE10",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "station",
+    "entityKey": "LINE10_DPR_STATION_03",
+    "attribute": "proposed_level_inventory",
+    "value": [
+      "CONCOURSE",
+      "PLATFORM"
+    ],
+    "source": {
+      "sourceId": "SRC-MMRDA-L10-DPR",
+      "document": "mmrda-metro-line-10-dpr.pdf",
+      "page": 208,
+      "printedPage": "183",
+      "section": "§5.2 Rail Levels and Alignment"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "extractionMethod": "MANUAL_DPR_TABLE_TRANSCRIPTION",
+    "confidence": 1.0,
+    "status": "UNVALIDATED",
+    "extractedAt": "2026-10-05T00:00:00.000Z",
+    "notes": "The DPR explicitly proposes a two-level station design. Proposed design only; not as-built certification."
+  },
+  {
+    "evidenceId": "E-L10-B-0004",
+    "systemCode": "MMRDA_LINE10",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "station",
+    "entityKey": "LINE10_DPR_STATION_04",
+    "attribute": "proposed_station_type",
+    "value": "ELEVATED",
+    "source": {
+      "sourceId": "SRC-MMRDA-L10-DPR",
+      "document": "mmrda-metro-line-10-dpr.pdf",
+      "page": 46,
+      "printedPage": "21",
+      "section": "§0.5.1 Table 0.12"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "extractionMethod": "MANUAL_DPR_TABLE_TRANSCRIPTION",
+    "confidence": 1.0,
+    "status": "UNVALIDATED",
+    "extractedAt": "2026-10-05T00:00:00.000Z",
+    "notes": "The DPR describes Line 10 as a four-station elevated corridor; some alignment sections run below a hill. Its chainages are continuous with the adjoining Green Line project and remain separate line records."
+  },
+  {
+    "evidenceId": "E-L10-B-0104",
+    "systemCode": "MMRDA_LINE10",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "platform",
+    "entityKey": "LINE10_DPR_STATION_04",
+    "attribute": "proposed_platform_configuration",
+    "value": "SIDE_PLATFORMS",
+    "source": {
+      "sourceId": "SRC-MMRDA-L10-DPR",
+      "document": "mmrda-metro-line-10-dpr.pdf",
+      "page": 46,
+      "printedPage": "21",
+      "section": "§0.5.1 Station Type"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "extractionMethod": "MANUAL_DPR_TABLE_TRANSCRIPTION",
+    "confidence": 1.0,
+    "status": "UNVALIDATED",
+    "extractedAt": "2026-10-05T00:00:00.000Z",
+    "notes": "Proposed DPR configuration. This does not establish platform numbering, travel direction, screen doors, or as-built condition."
+  },
+  {
+    "evidenceId": "E-L10-B-0204",
+    "systemCode": "MMRDA_LINE10",
+    "category": "B_STATION_INFRASTRUCTURE",
+    "entityType": "station",
+    "entityKey": "LINE10_DPR_STATION_04",
+    "attribute": "proposed_level_inventory",
+    "value": [
+      "CONCOURSE",
+      "PLATFORM"
+    ],
+    "source": {
+      "sourceId": "SRC-MMRDA-L10-DPR",
+      "document": "mmrda-metro-line-10-dpr.pdf",
+      "page": 208,
+      "printedPage": "183",
+      "section": "§5.2 Rail Levels and Alignment"
+    },
+    "evidenceType": "DIRECT",
+    "temporalStatus": "PROPOSED",
+    "extractionMethod": "MANUAL_DPR_TABLE_TRANSCRIPTION",
+    "confidence": 1.0,
+    "status": "UNVALIDATED",
+    "extractedAt": "2026-10-05T00:00:00.000Z",
+    "notes": "The DPR explicitly proposes a two-level station design. Proposed design only; not as-built certification."
+  }
+]

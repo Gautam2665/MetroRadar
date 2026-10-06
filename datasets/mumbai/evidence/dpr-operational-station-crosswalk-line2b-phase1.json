@@ -1,0 +1,232 @@
+{
+  "schemaVersion": "tdse-operational-dpr-crosswalk-v1",
+  "lineId": "MUMBAI_LINE2B",
+  "status": "PARTIAL_OPERATIONAL_STATION_CROSSWALK; REMAINING_14_STATIONS_UNRESOLVED",
+  "operatorSource": "SRC-MMRDA-L2B-OVERVIEW",
+  "crosswalkBasis": [
+    "MMRDA current route list",
+    "MMRDA phase opening notices",
+    "DPR station sequence",
+    "supplied station KML placemarks",
+    "MoHUA/Esri ArcGIS line feature 54 and station points"
+  ],
+  "records": [
+    {
+      "lineId": "MUMBAI_LINE2B",
+      "operationalStationId": "STN_L2B_015",
+      "operationalName": "Chembur",
+      "operatorRouteSequence": 15,
+      "phaseOpeningDate": "2026-08-13",
+      "dprEntityKey": "LINE2B_DPR_STATION_17",
+      "dprName": "Chembur",
+      "dprSequence": 17,
+      "kmlPlacemark": "CHEMBUR (M) STATION",
+      "coordinatesWgs84": {
+        "longitude": 72.89264444077669,
+        "latitude": 19.05393423138822
+      },
+      "arcgisRouteFeatureId": 54,
+      "distanceToOfficialRouteMeters": 17.7,
+      "arcgisStationFeatureId": 1030,
+      "arcgisStationName": "Chembur",
+      "distanceToArcgisStationPointMeters": 210.1,
+      "crosswalkStatus": "SPATIAL_CROSSCHECK_WARNING_ARCGIS_STATION_POINT_OFFSET",
+      "aliases": [],
+      "proposedP1": {
+        "levelInventory": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
+        "platformArrangement": "SIDE",
+        "railLevelMeters": 27.0,
+        "platformHeightFromGroundMeters": 19.318,
+        "evidenceStatus": "PROPOSED_DPR_NOT_AS_BUILT",
+        "sourceId": "SRC-MMRDA-L2B-DPR"
+      }
+    },
+    {
+      "lineId": "MUMBAI_LINE2B",
+      "operationalStationId": "STN_L2B_016",
+      "operationalName": "Diamond Garden",
+      "operatorRouteSequence": 16,
+      "phaseOpeningDate": "2026-04-07",
+      "dprEntityKey": "LINE2B_DPR_STATION_18",
+      "dprName": "Diamond Garden",
+      "dprSequence": 18,
+      "kmlPlacemark": "DIAMOND GARDEN (M) STATION",
+      "coordinatesWgs84": {
+        "longitude": 72.9014858081179,
+        "latitude": 19.05185810130003
+      },
+      "arcgisRouteFeatureId": 54,
+      "distanceToOfficialRouteMeters": 6.8,
+      "arcgisStationFeatureId": 1019,
+      "arcgisStationName": "Diamond Park Metro Station",
+      "distanceToArcgisStationPointMeters": 61.1,
+      "crosswalkStatus": "SPATIAL_CROSSCHECKED",
+      "aliases": [
+        "Deshbhakt N. G. Acharya Udyan"
+      ],
+      "proposedP1": {
+        "levelInventory": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
+        "platformArrangement": "SIDE",
+        "railLevelMeters": 31.0,
+        "platformHeightFromGroundMeters": 22.694,
+        "evidenceStatus": "PROPOSED_DPR_NOT_AS_BUILT",
+        "sourceId": "SRC-MMRDA-L2B-DPR"
+      }
+    },
+    {
+      "lineId": "MUMBAI_LINE2B",
+      "operationalStationId": "STN_L2B_017",
+      "operationalName": "Shivaji Chowk",
+      "operatorRouteSequence": 17,
+      "phaseOpeningDate": "2026-04-07",
+      "dprEntityKey": "LINE2B_DPR_STATION_19",
+      "dprName": "Shivaji Chowk",
+      "dprSequence": 19,
+      "kmlPlacemark": "SHIVAJI CHOWK (M) STATION",
+      "coordinatesWgs84": {
+        "longitude": 72.9068639010636,
+        "latitude": 19.04794473464117
+      },
+      "arcgisRouteFeatureId": 54,
+      "distanceToOfficialRouteMeters": 13.4,
+      "arcgisStationFeatureId": 1085,
+      "arcgisStationName": "Shivaji Chk",
+      "distanceToArcgisStationPointMeters": 32.5,
+      "crosswalkStatus": "SPATIAL_CROSSCHECKED",
+      "aliases": [
+        "Chhatrapati Shivaji Maharaj Chowk (Chembur)"
+      ],
+      "proposedP1": {
+        "levelInventory": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
+        "platformArrangement": "SIDE",
+        "railLevelMeters": 33.9,
+        "platformHeightFromGroundMeters": 14.473,
+        "evidenceStatus": "PROPOSED_DPR_NOT_AS_BUILT",
+        "sourceId": "SRC-MMRDA-L2B-DPR"
+      }
+    },
+    {
+      "lineId": "MUMBAI_LINE2B",
+      "operationalStationId": "STN_L2B_018",
+      "operationalName": "BSNL Metro",
+      "operatorRouteSequence": 18,
+      "phaseOpeningDate": "2026-04-07",
+      "dprEntityKey": "LINE2B_DPR_STATION_20",
+      "dprName": "BSNL Metro",
+      "dprSequence": 20,
+      "kmlPlacemark": "BSNL (M) STATION",
+      "coordinatesWgs84": {
+        "longitude": 72.91727572544646,
+        "latitude": 19.04481972518506
+      },
+      "arcgisRouteFeatureId": 54,
+      "distanceToOfficialRouteMeters": 13.5,
+      "arcgisStationFeatureId": 1074,
+      "arcgisStationName": "BSNL Metro Station",
+      "distanceToArcgisStationPointMeters": 40.8,
+      "crosswalkStatus": "SPATIAL_CROSSCHECKED",
+      "aliases": [
+        "Deonar (phase-opening release name)"
+      ],
+      "proposedP1": {
+        "levelInventory": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
+        "platformArrangement": "SIDE",
+        "railLevelMeters": 29.4,
+        "platformHeightFromGroundMeters": 14.259,
+        "evidenceStatus": "PROPOSED_DPR_NOT_AS_BUILT",
+        "sourceId": "SRC-MMRDA-L2B-DPR"
+      }
+    },
+    {
+      "lineId": "MUMBAI_LINE2B",
+      "operationalStationId": "STN_L2B_019",
+      "operationalName": "Mankhurd",
+      "operatorRouteSequence": 19,
+      "phaseOpeningDate": "2026-04-07",
+      "dprEntityKey": "LINE2B_DPR_STATION_21",
+      "dprName": "Mankhurd Metro",
+      "dprSequence": 21,
+      "kmlPlacemark": "MANKHURD (M) STATION",
+      "coordinatesWgs84": {
+        "longitude": 72.93059011562615,
+        "latitude": 19.04735419858205
+      },
+      "arcgisRouteFeatureId": 54,
+      "distanceToOfficialRouteMeters": 166.5,
+      "arcgisStationFeatureId": 1075,
+      "arcgisStationName": "Mankhurd Station",
+      "distanceToArcgisStationPointMeters": 769.6,
+      "crosswalkStatus": "SPATIAL_CROSSCHECK_WARNING_ARCGIS_STATION_POINT_OFFSET",
+      "aliases": [
+        "Mankhurd Metro"
+      ],
+      "proposedP1": {
+        "levelInventory": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
+        "platformArrangement": "SIDE",
+        "railLevelMeters": 17.5,
+        "platformHeightFromGroundMeters": 14.341,
+        "evidenceStatus": "PROPOSED_DPR_NOT_AS_BUILT",
+        "sourceId": "SRC-MMRDA-L2B-DPR"
+      }
+    },
+    {
+      "lineId": "MUMBAI_LINE2B",
+      "operationalStationId": "STN_L2B_020",
+      "operationalName": "Mandale",
+      "operatorRouteSequence": 20,
+      "phaseOpeningDate": "2026-04-07",
+      "dprEntityKey": "LINE2B_DPR_STATION_22",
+      "dprName": "Mandala Metro",
+      "dprSequence": 22,
+      "kmlPlacemark": "MANDALE (M) STATION",
+      "coordinatesWgs84": {
+        "longitude": 72.93879480659635,
+        "latitude": 19.04909002896622
+      },
+      "arcgisRouteFeatureId": 54,
+      "distanceToOfficialRouteMeters": 31.3,
+      "arcgisStationFeatureId": 1076,
+      "arcgisStationName": "Mandale",
+      "distanceToArcgisStationPointMeters": 151.3,
+      "crosswalkStatus": "SPATIAL_CROSSCHECKED",
+      "aliases": [
+        "Mandale Metro",
+        "Mandala Metro"
+      ],
+      "proposedP1": {
+        "levelInventory": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
+        "platformArrangement": "SIDE",
+        "railLevelMeters": 14.2,
+        "platformHeightFromGroundMeters": 11.59,
+        "evidenceStatus": "PROPOSED_DPR_NOT_AS_BUILT",
+        "sourceId": "SRC-MMRDA-L2B-DPR"
+      }
+    }
+  ],
+  "unresolved": [
+    "The DPR's 22-station baseline conflicts with MMRDA's current 20-name route list; only the six operational stations are mapped here.",
+    "MMRDA calls BSNL Metro 'Deonar' in its phase-opening update but BSNL Metro in the current route list and DPR.",
+    "The ArcGIS Mankhurd station point is 770 m from the supplied Mankhurd KML marker; the marker is 167 m from the ArcGIS route geometry. The KML marker is retained with a warning.",
+    "MMRDA reports the Chembur extension as 0.29 km; the KML / ArcGIS route-derived Chembur-to-Diamond Garden spacing is not consistent with that figure and needs authoritative as-built station-center clarification.",
+    "Current as-built level counts, per-line platform counts, platform numbering/directions, and installed half-height gate status are not established by these sources."
+  ],
+  "generatedAt": "2026-10-05"
+}

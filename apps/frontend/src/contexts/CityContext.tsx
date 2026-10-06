@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 
 interface CityContextType {
   activeCity: string;
@@ -15,15 +15,18 @@ const CityContext = createContext<CityContextType>({
 const STORAGE_KEY = "transitos_active_city";
 
 export function CityProvider({ children }: { children: ReactNode }) {
-  const [activeCity, setActiveCityState] = useState<string>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) return stored;
-      } catch {}
+  // Keep the first server and browser render identical. Restore the saved city
+  // after hydration so localStorage cannot change the initial HTML.
+  const [activeCity, setActiveCityState] = useState<string>("delhi");
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) setActiveCityState(stored);
+    } catch {
+      // Storage may be unavailable; the default city remains usable.
     }
-    return "delhi";
-  });
+  }, []);
 
   const setActiveCity = (city: string) => {
     setActiveCityState(city);

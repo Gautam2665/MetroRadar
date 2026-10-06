@@ -27,11 +27,8 @@ export class FeedPollerService implements OnModuleInit {
 
   onModuleInit(): void {
     this.logger.log(
-      `[FeedPoller] Starting background poll every ${this.intervalMs / 1000}s for ${PROVIDER}:${SYSTEM_CODE}`,
+      `[FeedPoller] Background polling disabled. No external telemetry feeds queried.`,
     );
-    // Kick off immediately, then on interval
-    void this.poll();
-    this.timer = setInterval(() => void this.poll(), this.intervalMs);
   }
 
   private async poll(): Promise<void> {

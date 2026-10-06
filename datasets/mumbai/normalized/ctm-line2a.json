@@ -15,23 +15,49 @@
       "stationCode": "L2A-01",
       "name": "Dahisar (East)",
       "sequence": 1,
-      "latitude": 19.251263,
-      "longitude": 72.867119,
+      "latitude": 19.251263173351788,
+      "longitude": 72.86711916212012,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "ELEVATED",
       "temporalStatus": "OPERATIONAL",
       "physicalLayout": {
         "interStationDistanceMeters": 0,
+        "platformCount": 2
+      },
+      "stationInfrastructure": {
+        "stationLevels": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
         "platformCount": 2,
-        "platformType": "SIDE",
-        "screenDoorsInstalled": false
+        "evidenceStatus": "CORRIDOR_DPR_VERIFIED",
+        "sourceIds": [
+          "SRC-MMRDA-L2A-DPR"
+        ],
+        "platformArrangementStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "dprCrosswalk": {
+          "dprStationKey": "LINE2A_DPR_STATION_01",
+          "dprStationName": "Dahisar (E)",
+          "mappingStatus": "VERIFIED_ALIAS",
+          "crosswalkFile": "evidence/dpr-operational-station-crosswalk-l2a-line7.json",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ],
+          "evidenceScope": "DPR design fact correspondence; not proof of as-built state"
+        }
       },
       "provenance": {
+        "gisEvidenceId": "E-LINE2A-F-0001",
         "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
-        "authorityLevel": "OPERATOR_OFFICIAL",
-        "confidence": 0.95,
-        "validationStatus": "VALIDATED",
+        "gisFeatureId": 996,
+        "authorityLevel": "OFFICIAL_GIS",
+        "confidence": 0.9,
+        "validationStatus": "SOURCE_VERIFIED",
         "validatedAt": "2026-10-05"
       }
     },
@@ -40,23 +66,49 @@
       "stationCode": "L2A-02",
       "name": "Anand Nagar",
       "sequence": 2,
-      "latitude": 19.257219,
-      "longitude": 72.866134,
+      "latitude": 19.257218879531713,
+      "longitude": 72.86613402646043,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "ELEVATED",
       "temporalStatus": "OPERATIONAL",
       "physicalLayout": {
         "interStationDistanceMeters": 670,
+        "platformCount": 2
+      },
+      "stationInfrastructure": {
+        "stationLevels": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
         "platformCount": 2,
-        "platformType": "SIDE",
-        "screenDoorsInstalled": false
+        "evidenceStatus": "CORRIDOR_DPR_VERIFIED",
+        "sourceIds": [
+          "SRC-MMRDA-L2A-DPR"
+        ],
+        "platformArrangementStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "dprCrosswalk": {
+          "dprStationKey": "LINE2A_DPR_STATION_02",
+          "dprStationName": "Dahisar (W)",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "crosswalkFile": "evidence/dpr-operational-station-crosswalk-l2a-line7.json",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ],
+          "evidenceScope": "DPR design fact correspondence; not proof of as-built state"
+        }
       },
       "provenance": {
+        "gisEvidenceId": "E-LINE2A-F-0002",
         "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
-        "authorityLevel": "OPERATOR_OFFICIAL",
-        "confidence": 0.95,
-        "validationStatus": "VALIDATED",
+        "gisFeatureId": 954,
+        "authorityLevel": "OFFICIAL_GIS",
+        "confidence": 0.9,
+        "validationStatus": "SOURCE_VERIFIED",
         "validatedAt": "2026-10-05"
       }
     },
@@ -65,23 +117,49 @@
       "stationCode": "L2A-03",
       "name": "Kandarpada",
       "sequence": 3,
-      "latitude": 19.256646,
-      "longitude": 72.850678,
+      "latitude": 19.256645815686277,
+      "longitude": 72.85067815806093,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "ELEVATED",
       "temporalStatus": "OPERATIONAL",
       "physicalLayout": {
         "interStationDistanceMeters": 1624,
+        "platformCount": 2
+      },
+      "stationInfrastructure": {
+        "stationLevels": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
         "platformCount": 2,
-        "platformType": "SIDE",
-        "screenDoorsInstalled": false
+        "evidenceStatus": "CORRIDOR_DPR_VERIFIED",
+        "sourceIds": [
+          "SRC-MMRDA-L2A-DPR"
+        ],
+        "platformArrangementStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "dprCrosswalk": {
+          "dprStationKey": "LINE2A_DPR_STATION_03",
+          "dprStationName": "Rushi Sankul",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "crosswalkFile": "evidence/dpr-operational-station-crosswalk-l2a-line7.json",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ],
+          "evidenceScope": "DPR design fact correspondence; not proof of as-built state"
+        }
       },
       "provenance": {
+        "gisEvidenceId": "E-LINE2A-F-0003",
         "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
-        "authorityLevel": "OPERATOR_OFFICIAL",
-        "confidence": 0.95,
-        "validationStatus": "VALIDATED",
+        "gisFeatureId": 955,
+        "authorityLevel": "OFFICIAL_GIS",
+        "confidence": 0.9,
+        "validationStatus": "SOURCE_VERIFIED",
         "validatedAt": "2026-10-05"
       }
     },
@@ -90,23 +168,49 @@
       "stationCode": "L2A-04",
       "name": "Mandapeshwar",
       "sequence": 4,
-      "latitude": 19.249261,
-      "longitude": 72.845677,
+      "latitude": 19.249260686899433,
+      "longitude": 72.84567699522741,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "ELEVATED",
       "temporalStatus": "OPERATIONAL",
       "physicalLayout": {
         "interStationDistanceMeters": 975,
+        "platformCount": 2
+      },
+      "stationInfrastructure": {
+        "stationLevels": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
         "platformCount": 2,
-        "platformType": "SIDE",
-        "screenDoorsInstalled": false
+        "evidenceStatus": "CORRIDOR_DPR_VERIFIED",
+        "sourceIds": [
+          "SRC-MMRDA-L2A-DPR"
+        ],
+        "platformArrangementStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "dprCrosswalk": {
+          "dprStationKey": "LINE2A_DPR_STATION_04",
+          "dprStationName": "I C Colony",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "crosswalkFile": "evidence/dpr-operational-station-crosswalk-l2a-line7.json",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ],
+          "evidenceScope": "DPR design fact correspondence; not proof of as-built state"
+        }
       },
       "provenance": {
+        "gisEvidenceId": "E-LINE2A-F-0004",
         "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
-        "authorityLevel": "OPERATOR_OFFICIAL",
-        "confidence": 0.95,
-        "validationStatus": "VALIDATED",
+        "gisFeatureId": 956,
+        "authorityLevel": "OFFICIAL_GIS",
+        "confidence": 0.9,
+        "validationStatus": "SOURCE_VERIFIED",
         "validatedAt": "2026-10-05"
       }
     },
@@ -115,23 +219,49 @@
       "stationCode": "L2A-05",
       "name": "Eksar",
       "sequence": 5,
-      "latitude": 19.240323,
-      "longitude": 72.843438,
+      "latitude": 19.24032270245634,
+      "longitude": 72.84343814829931,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "ELEVATED",
       "temporalStatus": "OPERATIONAL",
       "physicalLayout": {
         "interStationDistanceMeters": 1021,
+        "platformCount": 2
+      },
+      "stationInfrastructure": {
+        "stationLevels": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
         "platformCount": 2,
-        "platformType": "SIDE",
-        "screenDoorsInstalled": false
+        "evidenceStatus": "CORRIDOR_DPR_VERIFIED",
+        "sourceIds": [
+          "SRC-MMRDA-L2A-DPR"
+        ],
+        "platformArrangementStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "dprCrosswalk": {
+          "dprStationKey": "LINE2A_DPR_STATION_05",
+          "dprStationName": "LIC Colony",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "crosswalkFile": "evidence/dpr-operational-station-crosswalk-l2a-line7.json",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ],
+          "evidenceScope": "DPR design fact correspondence; not proof of as-built state"
+        }
       },
       "provenance": {
+        "gisEvidenceId": "E-LINE2A-F-0005",
         "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
-        "authorityLevel": "OPERATOR_OFFICIAL",
-        "confidence": 0.95,
-        "validationStatus": "VALIDATED",
+        "gisFeatureId": 957,
+        "authorityLevel": "OFFICIAL_GIS",
+        "confidence": 0.9,
+        "validationStatus": "SOURCE_VERIFIED",
         "validatedAt": "2026-10-05"
       }
     },
@@ -140,23 +270,49 @@
       "stationCode": "L2A-06",
       "name": "Borivali (West)",
       "sequence": 6,
-      "latitude": 19.231194,
-      "longitude": 72.840865,
+      "latitude": 19.23119416043003,
+      "longitude": 72.84086467623294,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "ELEVATED",
       "temporalStatus": "OPERATIONAL",
       "physicalLayout": {
         "interStationDistanceMeters": 1050,
+        "platformCount": 2
+      },
+      "stationInfrastructure": {
+        "stationLevels": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
         "platformCount": 2,
-        "platformType": "SIDE",
-        "screenDoorsInstalled": false
+        "evidenceStatus": "CORRIDOR_DPR_VERIFIED",
+        "sourceIds": [
+          "SRC-MMRDA-L2A-DPR"
+        ],
+        "platformArrangementStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "dprCrosswalk": {
+          "dprStationKey": "LINE2A_DPR_STATION_06",
+          "dprStationName": "Don Bosco",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "crosswalkFile": "evidence/dpr-operational-station-crosswalk-l2a-line7.json",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ],
+          "evidenceScope": "DPR design fact correspondence; not proof of as-built state"
+        }
       },
       "provenance": {
+        "gisEvidenceId": "E-LINE2A-F-0006",
         "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
-        "authorityLevel": "OPERATOR_OFFICIAL",
-        "confidence": 0.95,
-        "validationStatus": "VALIDATED",
+        "gisFeatureId": 958,
+        "authorityLevel": "OFFICIAL_GIS",
+        "confidence": 0.9,
+        "validationStatus": "SOURCE_VERIFIED",
         "validatedAt": "2026-10-05"
       }
     },
@@ -165,23 +321,49 @@
       "stationCode": "L2A-07",
       "name": "Shimpoli",
       "sequence": 7,
-      "latitude": 19.222769,
-      "longitude": 72.840918,
+      "latitude": 19.222769328553582,
+      "longitude": 72.84091831913014,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "ELEVATED",
       "temporalStatus": "OPERATIONAL",
       "physicalLayout": {
         "interStationDistanceMeters": 937,
+        "platformCount": 2
+      },
+      "stationInfrastructure": {
+        "stationLevels": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
         "platformCount": 2,
-        "platformType": "SIDE",
-        "screenDoorsInstalled": false
+        "evidenceStatus": "CORRIDOR_DPR_VERIFIED",
+        "sourceIds": [
+          "SRC-MMRDA-L2A-DPR"
+        ],
+        "platformArrangementStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "dprCrosswalk": {
+          "dprStationKey": "LINE2A_DPR_STATION_07",
+          "dprStationName": "Kastur Park",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "crosswalkFile": "evidence/dpr-operational-station-crosswalk-l2a-line7.json",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ],
+          "evidenceScope": "DPR design fact correspondence; not proof of as-built state"
+        }
       },
       "provenance": {
+        "gisEvidenceId": "E-LINE2A-F-0007",
         "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
-        "authorityLevel": "OPERATOR_OFFICIAL",
-        "confidence": 0.95,
-        "validationStatus": "VALIDATED",
+        "gisFeatureId": 959,
+        "authorityLevel": "OFFICIAL_GIS",
+        "confidence": 0.9,
+        "validationStatus": "SOURCE_VERIFIED",
         "validatedAt": "2026-10-05"
       }
     },
@@ -190,23 +372,49 @@
       "stationCode": "L2A-08",
       "name": "Kandivali (West)",
       "sequence": 8,
-      "latitude": 19.214005,
-      "longitude": 72.837355,
+      "latitude": 19.21400522056527,
+      "longitude": 72.83735463682103,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "ELEVATED",
       "temporalStatus": "OPERATIONAL",
       "physicalLayout": {
         "interStationDistanceMeters": 1044,
+        "platformCount": 2
+      },
+      "stationInfrastructure": {
+        "stationLevels": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
         "platformCount": 2,
-        "platformType": "SIDE",
-        "screenDoorsInstalled": false
+        "evidenceStatus": "CORRIDOR_DPR_VERIFIED",
+        "sourceIds": [
+          "SRC-MMRDA-L2A-DPR"
+        ],
+        "platformArrangementStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "dprCrosswalk": {
+          "dprStationKey": "LINE2A_DPR_STATION_08",
+          "dprStationName": "Ekata Nagar",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "crosswalkFile": "evidence/dpr-operational-station-crosswalk-l2a-line7.json",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ],
+          "evidenceScope": "DPR design fact correspondence; not proof of as-built state"
+        }
       },
       "provenance": {
+        "gisEvidenceId": "E-LINE2A-F-0008",
         "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
-        "authorityLevel": "OPERATOR_OFFICIAL",
-        "confidence": 0.95,
-        "validationStatus": "VALIDATED",
+        "gisFeatureId": 960,
+        "authorityLevel": "OFFICIAL_GIS",
+        "confidence": 0.9,
+        "validationStatus": "SOURCE_VERIFIED",
         "validatedAt": "2026-10-05"
       }
     },
@@ -215,23 +423,49 @@
       "stationCode": "L2A-09",
       "name": "Dahanukarwadi",
       "sequence": 9,
-      "latitude": 19.205772,
-      "longitude": 72.834717,
+      "latitude": 19.20577235748048,
+      "longitude": 72.83471652647836,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "ELEVATED",
       "temporalStatus": "OPERATIONAL",
       "physicalLayout": {
         "interStationDistanceMeters": 956,
+        "platformCount": 2
+      },
+      "stationInfrastructure": {
+        "stationLevels": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
         "platformCount": 2,
-        "platformType": "SIDE",
-        "screenDoorsInstalled": false
+        "evidenceStatus": "CORRIDOR_DPR_VERIFIED",
+        "sourceIds": [
+          "SRC-MMRDA-L2A-DPR"
+        ],
+        "platformArrangementStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "dprCrosswalk": {
+          "dprStationKey": "LINE2A_DPR_STATION_09",
+          "dprStationName": "Kandivali Nagar",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "crosswalkFile": "evidence/dpr-operational-station-crosswalk-l2a-line7.json",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ],
+          "evidenceScope": "DPR design fact correspondence; not proof of as-built state"
+        }
       },
       "provenance": {
+        "gisEvidenceId": "E-LINE2A-F-0009",
         "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
-        "authorityLevel": "OPERATOR_OFFICIAL",
-        "confidence": 0.95,
-        "validationStatus": "VALIDATED",
+        "gisFeatureId": 961,
+        "authorityLevel": "OFFICIAL_GIS",
+        "confidence": 0.9,
+        "validationStatus": "SOURCE_VERIFIED",
         "validatedAt": "2026-10-05"
       }
     },
@@ -240,23 +474,49 @@
       "stationCode": "L2A-10",
       "name": "Valnai - Meeth Chowky",
       "sequence": 10,
-      "latitude": 19.196621,
-      "longitude": 72.833786,
+      "latitude": 19.196621398930407,
+      "longitude": 72.83378644946076,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "ELEVATED",
       "temporalStatus": "OPERATIONAL",
       "physicalLayout": {
         "interStationDistanceMeters": 1022,
+        "platformCount": 2
+      },
+      "stationInfrastructure": {
+        "stationLevels": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
         "platformCount": 2,
-        "platformType": "SIDE",
-        "screenDoorsInstalled": false
+        "evidenceStatus": "CORRIDOR_DPR_VERIFIED",
+        "sourceIds": [
+          "SRC-MMRDA-L2A-DPR"
+        ],
+        "platformArrangementStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "dprCrosswalk": {
+          "dprStationKey": "LINE2A_DPR_STATION_10",
+          "dprStationName": "Charkop",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "crosswalkFile": "evidence/dpr-operational-station-crosswalk-l2a-line7.json",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ],
+          "evidenceScope": "DPR design fact correspondence; not proof of as-built state"
+        }
       },
       "provenance": {
+        "gisEvidenceId": "E-LINE2A-F-0010",
         "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
-        "authorityLevel": "OPERATOR_OFFICIAL",
-        "confidence": 0.95,
-        "validationStatus": "VALIDATED",
+        "gisFeatureId": 962,
+        "authorityLevel": "OFFICIAL_GIS",
+        "confidence": 0.9,
+        "validationStatus": "SOURCE_VERIFIED",
         "validatedAt": "2026-10-05"
       }
     },
@@ -265,23 +525,49 @@
       "stationCode": "L2A-11",
       "name": "Malad (West)",
       "sequence": 11,
-      "latitude": 19.1852,
-      "longitude": 72.83585,
+      "latitude": 19.18519972568229,
+      "longitude": 72.83584961466536,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "ELEVATED",
       "temporalStatus": "OPERATIONAL",
       "physicalLayout": {
         "interStationDistanceMeters": 1288,
+        "platformCount": 2
+      },
+      "stationInfrastructure": {
+        "stationLevels": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
         "platformCount": 2,
-        "platformType": "SIDE",
-        "screenDoorsInstalled": false
+        "evidenceStatus": "CORRIDOR_DPR_VERIFIED",
+        "sourceIds": [
+          "SRC-MMRDA-L2A-DPR"
+        ],
+        "platformArrangementStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "dprCrosswalk": {
+          "dprStationKey": "LINE2A_DPR_STATION_11",
+          "dprStationName": "Malad Metro",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "crosswalkFile": "evidence/dpr-operational-station-crosswalk-l2a-line7.json",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ],
+          "evidenceScope": "DPR design fact correspondence; not proof of as-built state"
+        }
       },
       "provenance": {
+        "gisEvidenceId": "E-LINE2A-F-0011",
         "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
-        "authorityLevel": "OPERATOR_OFFICIAL",
-        "confidence": 0.95,
-        "validationStatus": "VALIDATED",
+        "gisFeatureId": 924,
+        "authorityLevel": "OFFICIAL_GIS",
+        "confidence": 0.9,
+        "validationStatus": "SOURCE_VERIFIED",
         "validatedAt": "2026-10-05"
       }
     },
@@ -290,23 +576,49 @@
       "stationCode": "L2A-12",
       "name": "Lower Malad",
       "sequence": 12,
-      "latitude": 19.172953,
-      "longitude": 72.836423,
+      "latitude": 19.172952719427116,
+      "longitude": 72.83642326802604,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "ELEVATED",
       "temporalStatus": "OPERATIONAL",
       "physicalLayout": {
         "interStationDistanceMeters": 1363,
+        "platformCount": 2
+      },
+      "stationInfrastructure": {
+        "stationLevels": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
         "platformCount": 2,
-        "platformType": "SIDE",
-        "screenDoorsInstalled": false
+        "evidenceStatus": "CORRIDOR_DPR_VERIFIED",
+        "sourceIds": [
+          "SRC-MMRDA-L2A-DPR"
+        ],
+        "platformArrangementStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "dprCrosswalk": {
+          "dprStationKey": "LINE2A_DPR_STATION_12",
+          "dprStationName": "Kasturi Park",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "crosswalkFile": "evidence/dpr-operational-station-crosswalk-l2a-line7.json",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ],
+          "evidenceScope": "DPR design fact correspondence; not proof of as-built state"
+        }
       },
       "provenance": {
+        "gisEvidenceId": "E-LINE2A-F-0012",
         "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
-        "authorityLevel": "OPERATOR_OFFICIAL",
-        "confidence": 0.95,
-        "validationStatus": "VALIDATED",
+        "gisFeatureId": 963,
+        "authorityLevel": "OFFICIAL_GIS",
+        "confidence": 0.9,
+        "validationStatus": "SOURCE_VERIFIED",
         "validatedAt": "2026-10-05"
       }
     },
@@ -315,23 +627,49 @@
       "stationCode": "L2A-13",
       "name": "Bangur Nagar",
       "sequence": 13,
-      "latitude": 19.162259,
-      "longitude": 72.834844,
+      "latitude": 19.162258577411293,
+      "longitude": 72.83484444567651,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "ELEVATED",
       "temporalStatus": "OPERATIONAL",
       "physicalLayout": {
         "interStationDistanceMeters": 1201,
+        "platformCount": 2
+      },
+      "stationInfrastructure": {
+        "stationLevels": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
         "platformCount": 2,
-        "platformType": "SIDE",
-        "screenDoorsInstalled": false
+        "evidenceStatus": "CORRIDOR_DPR_VERIFIED",
+        "sourceIds": [
+          "SRC-MMRDA-L2A-DPR"
+        ],
+        "platformArrangementStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "dprCrosswalk": {
+          "dprStationKey": "LINE2A_DPR_STATION_13",
+          "dprStationName": "Bangur Nagar",
+          "mappingStatus": "VERIFIED_ALIAS",
+          "crosswalkFile": "evidence/dpr-operational-station-crosswalk-l2a-line7.json",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ],
+          "evidenceScope": "DPR design fact correspondence; not proof of as-built state"
+        }
       },
       "provenance": {
+        "gisEvidenceId": "E-LINE2A-F-0013",
         "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
-        "authorityLevel": "OPERATOR_OFFICIAL",
-        "confidence": 0.95,
-        "validationStatus": "VALIDATED",
+        "gisFeatureId": 964,
+        "authorityLevel": "OFFICIAL_GIS",
+        "confidence": 0.9,
+        "validationStatus": "SOURCE_VERIFIED",
         "validatedAt": "2026-10-05"
       }
     },
@@ -340,23 +678,49 @@
       "stationCode": "L2A-14",
       "name": "Goregaon (West)",
       "sequence": 14,
-      "latitude": 19.153138,
-      "longitude": 72.835685,
+      "latitude": 19.15313777589469,
+      "longitude": 72.83568457528307,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "ELEVATED",
       "temporalStatus": "OPERATIONAL",
       "physicalLayout": {
         "interStationDistanceMeters": 1018,
+        "platformCount": 2
+      },
+      "stationInfrastructure": {
+        "stationLevels": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
         "platformCount": 2,
-        "platformType": "SIDE",
-        "screenDoorsInstalled": false
+        "evidenceStatus": "CORRIDOR_DPR_VERIFIED",
+        "sourceIds": [
+          "SRC-MMRDA-L2A-DPR"
+        ],
+        "platformArrangementStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "dprCrosswalk": {
+          "dprStationKey": "LINE2A_DPR_STATION_14",
+          "dprStationName": "Oshiwara Metro",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "crosswalkFile": "evidence/dpr-operational-station-crosswalk-l2a-line7.json",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ],
+          "evidenceScope": "DPR design fact correspondence; not proof of as-built state"
+        }
       },
       "provenance": {
+        "gisEvidenceId": "E-LINE2A-F-0014",
         "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
-        "authorityLevel": "OPERATOR_OFFICIAL",
-        "confidence": 0.95,
-        "validationStatus": "VALIDATED",
+        "gisFeatureId": 965,
+        "authorityLevel": "OFFICIAL_GIS",
+        "confidence": 0.9,
+        "validationStatus": "SOURCE_VERIFIED",
         "validatedAt": "2026-10-05"
       }
     },
@@ -365,23 +729,49 @@
       "stationCode": "L2A-15",
       "name": "Oshiwara",
       "sequence": 15,
-      "latitude": 19.145979,
-      "longitude": 72.833752,
+      "latitude": 19.145978889224303,
+      "longitude": 72.83375219041076,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "ELEVATED",
       "temporalStatus": "OPERATIONAL",
       "physicalLayout": {
         "interStationDistanceMeters": 822,
+        "platformCount": 2
+      },
+      "stationInfrastructure": {
+        "stationLevels": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
         "platformCount": 2,
-        "platformType": "SIDE",
-        "screenDoorsInstalled": false
+        "evidenceStatus": "CORRIDOR_DPR_VERIFIED",
+        "sourceIds": [
+          "SRC-MMRDA-L2A-DPR"
+        ],
+        "platformArrangementStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "dprCrosswalk": {
+          "dprStationKey": "LINE2A_DPR_STATION_15",
+          "dprStationName": "Samartha Nagar",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "crosswalkFile": "evidence/dpr-operational-station-crosswalk-l2a-line7.json",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ],
+          "evidenceScope": "DPR design fact correspondence; not proof of as-built state"
+        }
       },
       "provenance": {
+        "gisEvidenceId": "E-LINE2A-F-0015",
         "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
-        "authorityLevel": "OPERATOR_OFFICIAL",
-        "confidence": 0.95,
-        "validationStatus": "VALIDATED",
+        "gisFeatureId": 966,
+        "authorityLevel": "OFFICIAL_GIS",
+        "confidence": 0.9,
+        "validationStatus": "SOURCE_VERIFIED",
         "validatedAt": "2026-10-05"
       }
     },
@@ -390,23 +780,49 @@
       "stationCode": "L2A-16",
       "name": "Lower Oshiwara",
       "sequence": 16,
-      "latitude": 19.140455,
-      "longitude": 72.831717,
+      "latitude": 19.14045541844414,
+      "longitude": 72.83171672745289,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "ELEVATED",
       "temporalStatus": "OPERATIONAL",
       "physicalLayout": {
         "interStationDistanceMeters": 650,
+        "platformCount": 2
+      },
+      "stationInfrastructure": {
+        "stationLevels": [
+          "CONCOURSE",
+          "PLATFORM"
+        ],
         "platformCount": 2,
-        "platformType": "SIDE",
-        "screenDoorsInstalled": false
+        "evidenceStatus": "CORRIDOR_DPR_VERIFIED",
+        "sourceIds": [
+          "SRC-MMRDA-L2A-DPR"
+        ],
+        "platformArrangementStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "dprCrosswalk": {
+          "dprStationKey": "LINE2A_DPR_STATION_16",
+          "dprStationName": "Shastri Nagar",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "crosswalkFile": "evidence/dpr-operational-station-crosswalk-l2a-line7.json",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ],
+          "evidenceScope": "DPR design fact correspondence; not proof of as-built state"
+        }
       },
       "provenance": {
+        "gisEvidenceId": "E-LINE2A-F-0016",
         "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
-        "authorityLevel": "OPERATOR_OFFICIAL",
-        "confidence": 0.95,
-        "validationStatus": "VALIDATED",
+        "gisFeatureId": 967,
+        "authorityLevel": "OFFICIAL_GIS",
+        "confidence": 0.9,
+        "validationStatus": "SOURCE_VERIFIED",
         "validatedAt": "2026-10-05"
       }
     },
@@ -415,27 +831,2275 @@
       "stationCode": "L2A-17",
       "name": "Andheri (West)",
       "sequence": 17,
-      "latitude": 19.129089,
-      "longitude": 72.831415,
+      "latitude": 19.129089278700903,
+      "longitude": 72.83141476595665,
       "coordinateSystem": "EPSG:4326",
       "status": "OPERATIONAL",
       "stationType": "ELEVATED",
       "temporalStatus": "OPERATIONAL",
       "physicalLayout": {
         "interStationDistanceMeters": 1264,
+        "platformCount": 2
+      },
+      "stationInfrastructure": {
+        "stationLevels": [
+          "PROPERTY_DEVELOPMENT",
+          "CONCOURSE",
+          "PLATFORM"
+        ],
         "platformCount": 2,
-        "platformType": "SIDE",
-        "screenDoorsInstalled": false
+        "evidenceStatus": "CORRIDOR_DPR_VERIFIED",
+        "sourceIds": [
+          "SRC-MMRDA-L2A-DPR"
+        ],
+        "platformArrangementStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformNumberingStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "platformDirectionStatus": "UNKNOWN_SOURCE_REQUIRED",
+        "dprCrosswalk": {
+          "dprStationKey": "LINE2A_DPR_STATION_17",
+          "dprStationName": "D. N. Nagar",
+          "mappingStatus": "VERIFIED_SPATIAL_CROSSWALK",
+          "crosswalkFile": "evidence/dpr-operational-station-crosswalk-l2a-line7.json",
+          "sourceIds": [
+            "SRC-MMRDA-L2A-DPR",
+            "SRC-MMRDA-L2A-OVERVIEW",
+            "SRC-ARCGIS-MOHUA-2025"
+          ],
+          "evidenceScope": "DPR design fact correspondence; not proof of as-built state"
+        }
       },
       "provenance": {
+        "gisEvidenceId": "E-LINE2A-F-0017",
         "gisSourceId": "SRC-ARCGIS-MOHUA-2025",
-        "authorityLevel": "OPERATOR_OFFICIAL",
-        "confidence": 0.95,
-        "validationStatus": "VALIDATED",
+        "gisFeatureId": 968,
+        "authorityLevel": "OFFICIAL_GIS",
+        "confidence": 0.9,
+        "validationStatus": "SOURCE_VERIFIED",
         "validatedAt": "2026-10-05"
       }
     }
   ],
+  "alignmentGeometry": {
+    "type": "LineString",
+    "coordinates": [
+      [
+        72.86711916212012,
+        19.251263173351788
+      ],
+      [
+        72.8680919414531,
+        19.252626518886608
+      ],
+      [
+        72.8682983743054,
+        19.252919232063423
+      ],
+      [
+        72.86849627585742,
+        19.253199847804307
+      ],
+      [
+        72.86873019805573,
+        19.253531537321525
+      ],
+      [
+        72.86886966509684,
+        19.253729293021664
+      ],
+      [
+        72.86891981444589,
+        19.25381252007731
+      ],
+      [
+        72.86896996379495,
+        19.253895746242673
+      ],
+      [
+        72.86903106450563,
+        19.254018029332126
+      ],
+      [
+        72.86908591563687,
+        19.254153431944868
+      ],
+      [
+        72.86912340502865,
+        19.254283205822205
+      ],
+      [
+        72.86915901783973,
+        19.25446704978185
+      ],
+      [
+        72.86916902417371,
+        19.254629531610842
+      ],
+      [
+        72.86917132655577,
+        19.25479451846237
+      ],
+      [
+        72.86916148012196,
+        19.254912909115227
+      ],
+      [
+        72.86912817059121,
+        19.2551116502955
+      ],
+      [
+        72.86906849460856,
+        19.25529378617737
+      ],
+      [
+        72.86899753488763,
+        19.255450935425376
+      ],
+      [
+        72.86889295661554,
+        19.255632827537113
+      ],
+      [
+        72.86880056848182,
+        19.25576593990347
+      ],
+      [
+        72.86872003271998,
+        19.25586607198815
+      ],
+      [
+        72.86862308922944,
+        19.255961579547282
+      ],
+      [
+        72.86849109437486,
+        19.256080324694132
+      ],
+      [
+        72.86827599637334,
+        19.256224307945697
+      ],
+      [
+        72.86806217397951,
+        19.256344386895694
+      ],
+      [
+        72.86765707151564,
+        19.256559269082196
+      ],
+      [
+        72.86728689914324,
+        19.256743717697894
+      ],
+      [
+        72.86686341714862,
+        19.256930429561667
+      ],
+      [
+        72.86650816130151,
+        19.257083333584504
+      ],
+      [
+        72.86613402646043,
+        19.257218879531713
+      ],
+      [
+        72.86568947448085,
+        19.25734785042295
+      ],
+      [
+        72.86504152415797,
+        19.25747436440911
+      ],
+      [
+        72.86432945388678,
+        19.25763433218253
+      ],
+      [
+        72.86405060873773,
+        19.25769697424121
+      ],
+      [
+        72.86387412571702,
+        19.257750490415265
+      ],
+      [
+        72.86365855340502,
+        19.257815858907783
+      ],
+      [
+        72.86338512330053,
+        19.25789877265591
+      ],
+      [
+        72.86308487039994,
+        19.258000067808666
+      ],
+      [
+        72.86287619625104,
+        19.25805367632107
+      ],
+      [
+        72.86265132457922,
+        19.25810051315506
+      ],
+      [
+        72.86225407159428,
+        19.25815627482703
+      ],
+      [
+        72.86198123168292,
+        19.2581858233409
+      ],
+      [
+        72.8612985363215,
+        19.25824131615299
+      ],
+      [
+        72.86074476267811,
+        19.258286327936766
+      ],
+      [
+        72.86016228875967,
+        19.258333670140058
+      ],
+      [
+        72.85966887561514,
+        19.25838374812688
+      ],
+      [
+        72.85861016434042,
+        19.258469787484767
+      ],
+      [
+        72.85827652645062,
+        19.25851213295056
+      ],
+      [
+        72.85812643593295,
+        19.258531861881913
+      ],
+      [
+        72.85792744831774,
+        19.258566459589925
+      ],
+      [
+        72.85742977266717,
+        19.258642082316605
+      ],
+      [
+        72.85717910407534,
+        19.25866245065811
+      ],
+      [
+        72.8567271787239,
+        19.258699171842323
+      ],
+      [
+        72.85639141721678,
+        19.258712617589236
+      ],
+      [
+        72.85599489995207,
+        19.258727929880912
+      ],
+      [
+        72.85558901325892,
+        19.25871774062629
+      ],
+      [
+        72.85511062264088,
+        19.25867276627486
+      ],
+      [
+        72.85478631465365,
+        19.258616779198515
+      ],
+      [
+        72.85434236185034,
+        19.258521758267683
+      ],
+      [
+        72.85395650489309,
+        19.25840336089135
+      ],
+      [
+        72.85362001934388,
+        19.258285161024446
+      ],
+      [
+        72.85315274447916,
+        19.258100123053108
+      ],
+      [
+        72.85265432682016,
+        19.257896130983994
+      ],
+      [
+        72.85238520323915,
+        19.257774633535462
+      ],
+      [
+        72.85211901984405,
+        19.257630372636424
+      ],
+      [
+        72.8516983558645,
+        19.25735759707976
+      ],
+      [
+        72.85132338648849,
+        19.257100113159815
+      ],
+      [
+        72.85086069123507,
+        19.25678659109928
+      ],
+      [
+        72.85067815806093,
+        19.256645815686277
+      ],
+      [
+        72.85049562488676,
+        19.256505041000498
+      ],
+      [
+        72.84989937260852,
+        19.256015475369765
+      ],
+      [
+        72.84946444428056,
+        19.25564449176048
+      ],
+      [
+        72.8491231958637,
+        19.25535799041199
+      ],
+      [
+        72.84894429457822,
+        19.255192303627396
+      ],
+      [
+        72.84885089763645,
+        19.25510272612653
+      ],
+      [
+        72.84862926528956,
+        19.25487717253408
+      ],
+      [
+        72.84840459304374,
+        19.254622569839693
+      ],
+      [
+        72.84822513839603,
+        19.25440286809632
+      ],
+      [
+        72.84800410702208,
+        19.254112449047604
+      ],
+      [
+        72.84776225359813,
+        19.253792666760052
+      ],
+      [
+        72.84764846130615,
+        19.2536442993924
+      ],
+      [
+        72.8474334504412,
+        19.253348716784707
+      ],
+      [
+        72.84723746499569,
+        19.25304096378474
+      ],
+      [
+        72.84704045996229,
+        19.25268789837701
+      ],
+      [
+        72.84687708246325,
+        19.252393170604005
+      ],
+      [
+        72.84667760346959,
+        19.252021990528732
+      ],
+      [
+        72.84646328251078,
+        19.25162773502239
+      ],
+      [
+        72.84626254228246,
+        19.2512265005397
+      ],
+      [
+        72.84610319282912,
+        19.25081363019267
+      ],
+      [
+        72.84604893728094,
+        19.25063650576704
+      ],
+      [
+        72.84596296671161,
+        19.250376052319
+      ],
+      [
+        72.84590094253282,
+        19.25017357041889
+      ],
+      [
+        72.8457452132901,
+        19.249584631974443
+      ],
+      [
+        72.84567699522741,
+        19.249260686899433
+      ],
+      [
+        72.84560877806307,
+        19.248936741184824
+      ],
+      [
+        72.84552373725008,
+        19.248530185096183
+      ],
+      [
+        72.84547640771271,
+        19.248127084852896
+      ],
+      [
+        72.84543960283719,
+        19.247838466237763
+      ],
+      [
+        72.84539504190751,
+        19.247512390674398
+      ],
+      [
+        72.84536929439483,
+        19.247285383173903
+      ],
+      [
+        72.84535632990865,
+        19.247044813314943
+      ],
+      [
+        72.84535093732201,
+        19.246823696112106
+      ],
+      [
+        72.84536690487619,
+        19.246439467169427
+      ],
+      [
+        72.84537762357415,
+        19.246181533577026
+      ],
+      [
+        72.8454013651488,
+        19.24576329047099
+      ],
+      [
+        72.84541708836123,
+        19.245362145117557
+      ],
+      [
+        72.84543080653391,
+        19.245012153718555
+      ],
+      [
+        72.845450711404,
+        19.244504331977975
+      ],
+      [
+        72.84544152163862,
+        19.24429394345137
+      ],
+      [
+        72.84543051997133,
+        19.244166896859166
+      ],
+      [
+        72.8454126964978,
+        19.24401716294631
+      ],
+      [
+        72.84539362077273,
+        19.24389081753602
+      ],
+      [
+        72.84536683750254,
+        19.243736835128434
+      ],
+      [
+        72.84530397339896,
+        19.243484586499395
+      ],
+      [
+        72.84521514439041,
+        19.243159648101877
+      ],
+      [
+        72.84509525253765,
+        19.242728508306616
+      ],
+      [
+        72.84503185752972,
+        19.242529131296973
+      ],
+      [
+        72.84498412015719,
+        19.2424019484862
+      ],
+      [
+        72.84492976309936,
+        19.242280443803907
+      ],
+      [
+        72.8448665243983,
+        19.242131789536163
+      ],
+      [
+        72.84474694066768,
+        19.241909523280977
+      ],
+      [
+        72.84463536541783,
+        19.241730724360725
+      ],
+      [
+        72.84450301932195,
+        19.24153238086182
+      ],
+      [
+        72.84441778806611,
+        19.2414192025151
+      ],
+      [
+        72.84425165004421,
+        19.24121355026059
+      ],
+      [
+        72.84400869887898,
+        19.240952831656895
+      ],
+      [
+        72.84365450214564,
+        19.240555094240477
+      ],
+      [
+        72.84343814829931,
+        19.24032270245634
+      ],
+      [
+        72.84322179445306,
+        19.24009030949504
+      ],
+      [
+        72.84283744486882,
+        19.23969820420179
+      ],
+      [
+        72.84265573904307,
+        19.23950479698863
+      ],
+      [
+        72.84253661794479,
+        19.239376115707728
+      ],
+      [
+        72.84239796837058,
+        19.23922054812213
+      ],
+      [
+        72.84229332811472,
+        19.2391053385684
+      ],
+      [
+        72.84217205375474,
+        19.238957698353204
+      ],
+      [
+        72.84208504922452,
+        19.23884552328587
+      ],
+      [
+        72.84191231397519,
+        19.23860814536134
+      ],
+      [
+        72.84179058416933,
+        19.238426127510916
+      ],
+      [
+        72.84171487775045,
+        19.238295956881174
+      ],
+      [
+        72.84156258456369,
+        19.238030664652097
+      ],
+      [
+        72.84135719285884,
+        19.237652652446
+      ],
+      [
+        72.84111129881275,
+        19.23719470410066
+      ],
+      [
+        72.84096173560613,
+        19.236857016471877
+      ],
+      [
+        72.84088015061204,
+        19.236643672489187
+      ],
+      [
+        72.84082236468474,
+        19.23645765338856
+      ],
+      [
+        72.8407629096877,
+        19.23624919598871
+      ],
+      [
+        72.84067234064243,
+        19.23580692965502
+      ],
+      [
+        72.84062397175424,
+        19.23543432107669
+      ],
+      [
+        72.84059846588839,
+        19.235237841024755
+      ],
+      [
+        72.84058023278307,
+        19.235007405220962
+      ],
+      [
+        72.84057200421506,
+        19.234796514281882
+      ],
+      [
+        72.84057589931014,
+        19.234573667277893
+      ],
+      [
+        72.84059692437937,
+        19.234309658254038
+      ],
+      [
+        72.84062680054906,
+        19.23393450006409
+      ],
+      [
+        72.84064513696066,
+        19.233633088928983
+      ],
+      [
+        72.84066463309726,
+        19.2333882666668
+      ],
+      [
+        72.84068279613402,
+        19.233160190439413
+      ],
+      [
+        72.8407049710468,
+        19.232881743153513
+      ],
+      [
+        72.84072243519424,
+        19.232662449118305
+      ],
+      [
+        72.840737478382,
+        19.232473541695185
+      ],
+      [
+        72.84077585980081,
+        19.231991587213606
+      ],
+      [
+        72.8408247658815,
+        19.23148818665166
+      ],
+      [
+        72.84086467623294,
+        19.23119416043003
+      ],
+      [
+        72.84090458658437,
+        19.230900134530234
+      ],
+      [
+        72.84095381785521,
+        19.23045641101866
+      ],
+      [
+        72.84098917644313,
+        19.23021319897834
+      ],
+      [
+        72.84101200263449,
+        19.22998939408259
+      ],
+      [
+        72.84101908315557,
+        19.22990048562206
+      ],
+      [
+        72.84101723442271,
+        19.2296886559593
+      ],
+      [
+        72.84100937057072,
+        19.229460745081678
+      ],
+      [
+        72.84099316765793,
+        19.22916214853673
+      ],
+      [
+        72.8409794665532,
+        19.228910528084352
+      ],
+      [
+        72.84096085435884,
+        19.22864914107315
+      ],
+      [
+        72.84095438199722,
+        19.22849674492609
+      ],
+      [
+        72.84094594502008,
+        19.228373240921982
+      ],
+      [
+        72.84093545179925,
+        19.228194442529638
+      ],
+      [
+        72.84092618028718,
+        19.228070898432733
+      ],
+      [
+        72.8409130316464,
+        19.227785553403276
+      ],
+      [
+        72.84090547861148,
+        19.227559644194855
+      ],
+      [
+        72.84089750965659,
+        19.227286858526114
+      ],
+      [
+        72.84088944098872,
+        19.227008112892516
+      ],
+      [
+        72.84088256797847,
+        19.22672267356216
+      ],
+      [
+        72.8408750580627,
+        19.226449117176042
+      ],
+      [
+        72.84086848778469,
+        19.226126764348535
+      ],
+      [
+        72.84086385607108,
+        19.225737000716567
+      ],
+      [
+        72.84086028886112,
+        19.225506917164306
+      ],
+      [
+        72.84085953607288,
+        19.22516181498187
+      ],
+      [
+        72.8408592836463,
+        19.224885432274686
+      ],
+      [
+        72.84086558353138,
+        19.224533523508676
+      ],
+      [
+        72.8408755296782,
+        19.224207204873895
+      ],
+      [
+        72.84087801980819,
+        19.223918645149393
+      ],
+      [
+        72.8408867846704,
+        19.22360656446287
+      ],
+      [
+        72.84091239923241,
+        19.223057842795594
+      ],
+      [
+        72.84091831913014,
+        19.222769328553582
+      ],
+      [
+        72.8409291321512,
+        19.222347078988548
+      ],
+      [
+        72.84092209115603,
+        19.221853960017377
+      ],
+      [
+        72.84093477267288,
+        19.221406267769282
+      ],
+      [
+        72.84093702834255,
+        19.22114475176226
+      ],
+      [
+        72.8409272789268,
+        19.220835696569953
+      ],
+      [
+        72.84090887963315,
+        19.220617206703903
+      ],
+      [
+        72.84088575160784,
+        19.22044018372475
+      ],
+      [
+        72.84083117176779,
+        19.220116704516194
+      ],
+      [
+        72.840785057651,
+        19.21988496325737
+      ],
+      [
+        72.84070771001011,
+        19.21947143983534
+      ],
+      [
+        72.84064578195104,
+        19.219160313465544
+      ],
+      [
+        72.8406041567157,
+        19.2189228332945
+      ],
+      [
+        72.84053353565965,
+        19.218633523767156
+      ],
+      [
+        72.8404381058304,
+        19.21830013085939
+      ],
+      [
+        72.84028800453295,
+        19.217887063204344
+      ],
+      [
+        72.84017499287695,
+        19.2176322368883
+      ],
+      [
+        72.84012017947491,
+        19.217523965358193
+      ],
+      [
+        72.84000765650245,
+        19.217283457084555
+      ],
+      [
+        72.83984574056238,
+        19.216981794852874
+      ],
+      [
+        72.83969165433832,
+        19.216690040612036
+      ],
+      [
+        72.83950118544695,
+        19.216359600808286
+      ],
+      [
+        72.83939302199853,
+        19.216209440314945
+      ],
+      [
+        72.83924533088097,
+        19.216016867282768
+      ],
+      [
+        72.83908429169664,
+        19.21583159165811
+      ],
+      [
+        72.8389536164672,
+        19.21570377063642
+      ],
+      [
+        72.83879639961438,
+        19.21555640119234
+      ],
+      [
+        72.83848999415244,
+        19.215283492957504
+      ],
+      [
+        72.83826340400348,
+        19.215065664147605
+      ],
+      [
+        72.8380626619785,
+        19.21484908370415
+      ],
+      [
+        72.83784895546736,
+        19.21460924419686
+      ],
+      [
+        72.83757178208307,
+        19.214290096675903
+      ],
+      [
+        72.83735463682103,
+        19.21400522056527
+      ],
+      [
+        72.83689814263803,
+        19.21339746313686
+      ],
+      [
+        72.83675098781471,
+        19.213194988235536
+      ],
+      [
+        72.83661682981692,
+        19.212984008222186
+      ],
+      [
+        72.83643252606332,
+        19.21269476204317
+      ],
+      [
+        72.83631905177498,
+        19.212480015858116
+      ],
+      [
+        72.83626368590906,
+        19.21236655622322
+      ],
+      [
+        72.83615918668868,
+        19.212140330615775
+      ],
+      [
+        72.83603924363196,
+        19.21184347466981
+      ],
+      [
+        72.83592878947955,
+        19.211587975624326
+      ],
+      [
+        72.83582506281033,
+        19.211339553459112
+      ],
+      [
+        72.83570292427105,
+        19.21105251672939
+      ],
+      [
+        72.83551164420095,
+        19.210604896009425
+      ],
+      [
+        72.83543425793249,
+        19.21041095490052
+      ],
+      [
+        72.83535462767246,
+        19.210188712741548
+      ],
+      [
+        72.83533519172296,
+        19.21013019648138
+      ],
+      [
+        72.83528860599064,
+        19.20996990757888
+      ],
+      [
+        72.83526982131974,
+        19.209883628187065
+      ],
+      [
+        72.83522901444967,
+        19.209607671083603
+      ],
+      [
+        72.83517899715294,
+        19.209261783076357
+      ],
+      [
+        72.8351491605091,
+        19.209069743970716
+      ],
+      [
+        72.83509826016848,
+        19.208599924542014
+      ],
+      [
+        72.8350671820529,
+        19.208353029052525
+      ],
+      [
+        72.8350301472087,
+        19.208123713483396
+      ],
+      [
+        72.83501826070082,
+        19.207982478136497
+      ],
+      [
+        72.83498240624291,
+        19.207556469058197
+      ],
+      [
+        72.83493064621456,
+        19.207187983680473
+      ],
+      [
+        72.83489426085228,
+        19.206916337417127
+      ],
+      [
+        72.83480743688345,
+        19.206318388305444
+      ],
+      [
+        72.83471652647836,
+        19.20577235748048
+      ],
+      [
+        72.83458327488071,
+        19.205260886275912
+      ],
+      [
+        72.83451977566823,
+        19.204971176901754
+      ],
+      [
+        72.8344406700243,
+        19.204619291673286
+      ],
+      [
+        72.83436524477808,
+        19.204198716744
+      ],
+      [
+        72.83430568737309,
+        19.203908578790276
+      ],
+      [
+        72.83415906614904,
+        19.203281061205
+      ],
+      [
+        72.83412613031746,
+        19.20312252506714
+      ],
+      [
+        72.83409838495162,
+        19.20296950124062
+      ],
+      [
+        72.83407018234323,
+        19.202793822532012
+      ],
+      [
+        72.83404169047739,
+        19.202576317359725
+      ],
+      [
+        72.83401542373846,
+        19.202310318486855
+      ],
+      [
+        72.83400444273244,
+        19.20208623551891
+      ],
+      [
+        72.83399280415962,
+        19.20176523552474
+      ],
+      [
+        72.83398856141653,
+        19.20147000578324
+      ],
+      [
+        72.83395987012466,
+        19.2002678304448
+      ],
+      [
+        72.83395249585449,
+        19.199567558069557
+      ],
+      [
+        72.83393821443813,
+        19.198958076032728
+      ],
+      [
+        72.83392825301992,
+        19.198642768334125
+      ],
+      [
+        72.83388970271781,
+        19.19808252325174
+      ],
+      [
+        72.8338581979025,
+        19.197683308580125
+      ],
+      [
+        72.83382596994338,
+        19.19735851036576
+      ],
+      [
+        72.83381017306908,
+        19.196983011631662
+      ],
+      [
+        72.83378644946076,
+        19.196621398930407
+      ],
+      [
+        72.83376272585242,
+        19.196259787131222
+      ],
+      [
+        72.83373954392819,
+        19.19587586582804
+      ],
+      [
+        72.83372443426512,
+        19.19563379119408
+      ],
+      [
+        72.83372593624826,
+        19.19545952567453
+      ],
+      [
+        72.83374280391435,
+        19.195290967817414
+      ],
+      [
+        72.83376934643606,
+        19.195051527370417
+      ],
+      [
+        72.83380944363707,
+        19.19483942204668
+      ],
+      [
+        72.83386090093317,
+        19.194634690528655
+      ],
+      [
+        72.8339610235615,
+        19.19435041665812
+      ],
+      [
+        72.83410982499673,
+        19.19397419333198
+      ],
+      [
+        72.83425888874002,
+        19.19362962562143
+      ],
+      [
+        72.83436871317342,
+        19.193347062898273
+      ],
+      [
+        72.83449620387515,
+        19.193015100009276
+      ],
+      [
+        72.83460287073034,
+        19.192730523013065
+      ],
+      [
+        72.834702527133,
+        19.192454913820075
+      ],
+      [
+        72.83480493417707,
+        19.19212794274543
+      ],
+      [
+        72.8348662145508,
+        19.19189824908603
+      ],
+      [
+        72.83492512157557,
+        19.191664098509822
+      ],
+      [
+        72.8349887761966,
+        19.191402258631587
+      ],
+      [
+        72.835089773784,
+        19.190979675706316
+      ],
+      [
+        72.83518154028351,
+        19.19060752037079
+      ],
+      [
+        72.83529869766454,
+        19.190175792216372
+      ],
+      [
+        72.8353938499144,
+        19.189837924005985
+      ],
+      [
+        72.83544965236153,
+        19.189612929839534
+      ],
+      [
+        72.83550456188327,
+        19.18936803947899
+      ],
+      [
+        72.83556961877447,
+        19.189067801426503
+      ],
+      [
+        72.83563586952667,
+        19.188708683465407
+      ],
+      [
+        72.83569416120545,
+        19.188364069948168
+      ],
+      [
+        72.83573581518687,
+        19.18804967265894
+      ],
+      [
+        72.83577270091075,
+        19.187714570995755
+      ],
+      [
+        72.83579490007807,
+        19.187239167417655
+      ],
+      [
+        72.83580884103296,
+        19.18678383768396
+      ],
+      [
+        72.83581792300048,
+        19.186370460965538
+      ],
+      [
+        72.83582536733923,
+        19.18603641895462
+      ],
+      [
+        72.83584256289039,
+        19.185617852260197
+      ],
+      [
+        72.83584961466536,
+        19.18519972568229
+      ],
+      [
+        72.83585666554202,
+        19.184781598891067
+      ],
+      [
+        72.83586312532725,
+        19.184246496487305
+      ],
+      [
+        72.83586998486275,
+        19.183911186006075
+      ],
+      [
+        72.83587487349453,
+        19.183454180747457
+      ],
+      [
+        72.83588660549215,
+        19.183027905394887
+      ],
+      [
+        72.83589972898012,
+        19.182819460854414
+      ],
+      [
+        72.83594133535082,
+        19.18246153574487
+      ],
+      [
+        72.83597167415292,
+        19.182222780843016
+      ],
+      [
+        72.83602275505491,
+        19.181823027129074
+      ],
+      [
+        72.83606272469515,
+        19.181537090248213
+      ],
+      [
+        72.83613524389142,
+        19.181189593979322
+      ],
+      [
+        72.83621774337047,
+        19.18088983141672
+      ],
+      [
+        72.83630201971717,
+        19.180650508322053
+      ],
+      [
+        72.83640756188159,
+        19.18035741867798
+      ],
+      [
+        72.83648336621687,
+        19.180128008949875
+      ],
+      [
+        72.83651961234024,
+        19.180013026098415
+      ],
+      [
+        72.83655680528797,
+        19.179864734661248
+      ],
+      [
+        72.83657608852383,
+        19.17976997617716
+      ],
+      [
+        72.83660162403412,
+        19.179652092216354
+      ],
+      [
+        72.83661822939213,
+        19.179568321076967
+      ],
+      [
+        72.83664332023633,
+        19.1794353285574
+      ],
+      [
+        72.8366918777707,
+        19.1791353142048
+      ],
+      [
+        72.83674754547053,
+        19.178802986673947
+      ],
+      [
+        72.83683184068187,
+        19.17832624734881
+      ],
+      [
+        72.83688436068495,
+        19.178016102048982
+      ],
+      [
+        72.83695885168325,
+        19.17757611418322
+      ],
+      [
+        72.83703010784822,
+        19.177147757604594
+      ],
+      [
+        72.83707951339221,
+        19.17685917642107
+      ],
+      [
+        72.83714574438147,
+        19.176475866594878
+      ],
+      [
+        72.83717775135506,
+        19.176268337746745
+      ],
+      [
+        72.83719538438575,
+        19.176109746745347
+      ],
+      [
+        72.83720885731839,
+        19.175943509164583
+      ],
+      [
+        72.83721424810844,
+        19.175818447783644
+      ],
+      [
+        72.83721455173898,
+        19.17566646425796
+      ],
+      [
+        72.83720880521612,
+        19.17554210520304
+      ],
+      [
+        72.83719830301213,
+        19.175384636034405
+      ],
+      [
+        72.83717719350126,
+        19.17521796754496
+      ],
+      [
+        72.83715575071545,
+        19.17509409093438
+      ],
+      [
+        72.83713028078218,
+        19.174960093600223
+      ],
+      [
+        72.8370945889193,
+        19.174821879224158
+      ],
+      [
+        72.83702470627844,
+        19.1745784041925
+      ],
+      [
+        72.83688132887087,
+        19.17419550820951
+      ],
+      [
+        72.8367038038044,
+        19.173730928738806
+      ],
+      [
+        72.83652345712964,
+        19.173221544524946
+      ],
+      [
+        72.83642326802604,
+        19.172952719427116
+      ],
+      [
+        72.8363230789224,
+        19.172683893890696
+      ],
+      [
+        72.83603132767767,
+        19.172011540916504
+      ],
+      [
+        72.83585220989822,
+        19.171515864756152
+      ],
+      [
+        72.83572099028974,
+        19.171162094780307
+      ],
+      [
+        72.83560638232748,
+        19.170802924202775
+      ],
+      [
+        72.8355113522485,
+        19.17050487962045
+      ],
+      [
+        72.83545962905109,
+        19.17031253480904
+      ],
+      [
+        72.83540337295473,
+        19.170058553751304
+      ],
+      [
+        72.8353812833819,
+        19.16989804170237
+      ],
+      [
+        72.83536037599195,
+        19.16972766224794
+      ],
+      [
+        72.83534819753167,
+        19.169589345056604
+      ],
+      [
+        72.83531495178133,
+        19.16917393119858
+      ],
+      [
+        72.83527423025117,
+        19.16860553689428
+      ],
+      [
+        72.83523514904473,
+        19.168128422720123
+      ],
+      [
+        72.83520657094058,
+        19.16777217375243
+      ],
+      [
+        72.83519445805732,
+        19.167632618634478
+      ],
+      [
+        72.83517186812284,
+        19.167347384304534
+      ],
+      [
+        72.83514850833221,
+        19.167015582838445
+      ],
+      [
+        72.83512208169317,
+        19.166655715924012
+      ],
+      [
+        72.83509292776894,
+        19.16632239336416
+      ],
+      [
+        72.8350658291901,
+        19.165950705858002
+      ],
+      [
+        72.83504555601077,
+        19.165695362985513
+      ],
+      [
+        72.83501418773935,
+        19.16529369053508
+      ],
+      [
+        72.83498660317193,
+        19.16491887897333
+      ],
+      [
+        72.8349692692802,
+        19.164620871268976
+      ],
+      [
+        72.83494146462553,
+        19.164237983547647
+      ],
+      [
+        72.83490866443954,
+        19.163802120955477
+      ],
+      [
+        72.83487679131495,
+        19.163348932641515
+      ],
+      [
+        72.83485417802429,
+        19.162917906066976
+      ],
+      [
+        72.83484180732454,
+        19.16246628172937
+      ],
+      [
+        72.83484444567651,
+        19.162258577411293
+      ],
+      [
+        72.83484708402851,
+        19.16205087368012
+      ],
+      [
+        72.83485442865428,
+        19.161340879074473
+      ],
+      [
+        72.83486500452011,
+        19.1610702798023
+      ],
+      [
+        72.8348989392783,
+        19.16071705678574
+      ],
+      [
+        72.8349187471303,
+        19.160566639336313
+      ],
+      [
+        72.83496366828439,
+        19.16035738232093
+      ],
+      [
+        72.83501404131395,
+        19.16015017599262
+      ],
+      [
+        72.83517430525224,
+        19.159576249387936
+      ],
+      [
+        72.83522273522583,
+        19.159374110509056
+      ],
+      [
+        72.83525170230045,
+        19.159238925991417
+      ],
+      [
+        72.83527049146295,
+        19.159120965400046
+      ],
+      [
+        72.83529021128007,
+        19.15897238362508
+      ],
+      [
+        72.83529920790762,
+        19.158866805873703
+      ],
+      [
+        72.83530148064531,
+        19.158754153608694
+      ],
+      [
+        72.83530448640823,
+        19.158549818494237
+      ],
+      [
+        72.83529971186249,
+        19.158397120678973
+      ],
+      [
+        72.8352931766188,
+        19.158144678377777
+      ],
+      [
+        72.83528313884385,
+        19.157846480231377
+      ],
+      [
+        72.83527198536125,
+        19.15751837551809
+      ],
+      [
+        72.83525817556041,
+        19.157178975708582
+      ],
+      [
+        72.83524840458504,
+        19.15680068608022
+      ],
+      [
+        72.83523785836363,
+        19.15648563880774
+      ],
+      [
+        72.83523940616085,
+        19.156137379461594
+      ],
+      [
+        72.83524652620781,
+        19.155988829790207
+      ],
+      [
+        72.83525420231192,
+        19.15589232139484
+      ],
+      [
+        72.83527135384563,
+        19.1557124938493
+      ],
+      [
+        72.83528402368438,
+        19.155624168113565
+      ],
+      [
+        72.83531051051054,
+        19.1554650421639
+      ],
+      [
+        72.83535383715501,
+        19.155170939504572
+      ],
+      [
+        72.8353716983578,
+        19.155055865415868
+      ],
+      [
+        72.83540093582536,
+        19.154853197422597
+      ],
+      [
+        72.83543779549811,
+        19.1546330305846
+      ],
+      [
+        72.83546846577853,
+        19.154434799309275
+      ],
+      [
+        72.83549989962694,
+        19.15424573673929
+      ],
+      [
+        72.835537141982,
+        19.15397159062129
+      ],
+      [
+        72.8356187970447,
+        19.15353874223
+      ],
+      [
+        72.83568457528307,
+        19.15313777589469
+      ],
+      [
+        72.83574402309361,
+        19.152737648689968
+      ],
+      [
+        72.83580332447877,
+        19.15227001745856
+      ],
+      [
+        72.8358682888435,
+        19.151852687115582
+      ],
+      [
+        72.83591194516968,
+        19.151513339293185
+      ],
+      [
+        72.83594697497419,
+        19.151288319954038
+      ],
+      [
+        72.83599580290146,
+        19.15094604669406
+      ],
+      [
+        72.83605021924811,
+        19.150577440598507
+      ],
+      [
+        72.83611467786129,
+        19.15018510076582
+      ],
+      [
+        72.83616242960687,
+        19.149878509945093
+      ],
+      [
+        72.83619074630124,
+        19.149700811787145
+      ],
+      [
+        72.8362417643212,
+        19.14938064402993
+      ],
+      [
+        72.8362842133116,
+        19.149102221320046
+      ],
+      [
+        72.83634292091038,
+        19.148733796951287
+      ],
+      [
+        72.83636880586528,
+        19.148571353069254
+      ],
+      [
+        72.83641267958379,
+        19.1482635245164
+      ],
+      [
+        72.83646118591416,
+        19.147950617272706
+      ],
+      [
+        72.83649038924574,
+        19.147775841371566
+      ],
+      [
+        72.83651422873675,
+        19.147626231885443
+      ],
+      [
+        72.8365294668589,
+        19.14750248050652
+      ],
+      [
+        72.83654359825664,
+        19.14736340552634
+      ],
+      [
+        72.83654785986438,
+        19.14728380591496
+      ],
+      [
+        72.83654471935411,
+        19.14718368409636
+      ],
+      [
+        72.83652813555567,
+        19.147074801061716
+      ],
+      [
+        72.83651302229934,
+        19.14700650408939
+      ],
+      [
+        72.83649351897618,
+        19.14694885218974
+      ],
+      [
+        72.83644171852366,
+        19.146816116794966
+      ],
+      [
+        72.83641207861086,
+        19.146761082827325
+      ],
+      [
+        72.83636953619562,
+        19.146689543139612
+      ],
+      [
+        72.83632072084478,
+        19.14661809676936
+      ],
+      [
+        72.83627810027612,
+        19.146563625372647
+      ],
+      [
+        72.83617543361892,
+        19.14646019348584
+      ],
+      [
+        72.83610681490764,
+        19.146399701051745
+      ],
+      [
+        72.83604907838767,
+        19.146354425272413
+      ],
+      [
+        72.83599083431962,
+        19.14631865322273
+      ],
+      [
+        72.83592315344946,
+        19.14627964705796
+      ],
+      [
+        72.83582361113282,
+        19.146234725970764
+      ],
+      [
+        72.83573838975846,
+        19.146203609450513
+      ],
+      [
+        72.83561557029618,
+        19.146172258703935
+      ],
+      [
+        72.83552959703192,
+        19.146154997672603
+      ],
+      [
+        72.83514196949525,
+        19.146106867899523
+      ],
+      [
+        72.83468468928639,
+        19.14605655884214
+      ],
+      [
+        72.83407138249245,
+        19.14599433166896
+      ],
+      [
+        72.83375219041076,
+        19.145978889224303
+      ],
+      [
+        72.83343299922737,
+        19.14596344677825
+      ],
+      [
+        72.8329154681141,
+        19.14593046577523
+      ],
+      [
+        72.83258717340361,
+        19.145913389719144
+      ],
+      [
+        72.83242039578123,
+        19.145899363624263
+      ],
+      [
+        72.83232043844293,
+        19.145885792391883
+      ],
+      [
+        72.83221223906193,
+        19.145862292228795
+      ],
+      [
+        72.83212737521703,
+        19.145839921584333
+      ],
+      [
+        72.83201691747136,
+        19.145804004307937
+      ],
+      [
+        72.83192271833407,
+        19.145760932249566
+      ],
+      [
+        72.83183544880085,
+        19.145705490588924
+      ],
+      [
+        72.8317472270534,
+        19.14564444457299
+      ],
+      [
+        72.83166241710742,
+        19.14556648962221
+      ],
+      [
+        72.83159112500985,
+        19.14549355766611
+      ],
+      [
+        72.83152034944357,
+        19.14540317956677
+      ],
+      [
+        72.83145123576055,
+        19.145297397946493
+      ],
+      [
+        72.83140974796747,
+        19.145213996325644
+      ],
+      [
+        72.83137467684048,
+        19.145112243881055
+      ],
+      [
+        72.8313528738302,
+        19.145035750869667
+      ],
+      [
+        72.83133143823089,
+        19.144944585838477
+      ],
+      [
+        72.83131811801186,
+        19.14485908961646
+      ],
+      [
+        72.83131611117551,
+        19.144786216752
+      ],
+      [
+        72.83132342525855,
+        19.14446258382319
+      ],
+      [
+        72.83136389436213,
+        19.14411276306801
+      ],
+      [
+        72.83138534702941,
+        19.14388391307485
+      ],
+      [
+        72.83140740785615,
+        19.143651520549998
+      ],
+      [
+        72.83143496277918,
+        19.143339984449497
+      ],
+      [
+        72.83146108758429,
+        19.14306292295187
+      ],
+      [
+        72.83150877015954,
+        19.142578456921687
+      ],
+      [
+        72.83154340919693,
+        19.142243839894068
+      ],
+      [
+        72.83157507031909,
+        19.141878238938613
+      ],
+      [
+        72.83157518440515,
+        19.14187692268715
+      ],
+      [
+        72.8316071491579,
+        19.14150644203665
+      ],
+      [
+        72.8316423137097,
+        19.141232200920985
+      ],
+      [
+        72.83169447528499,
+        19.140703087829134
+      ],
+      [
+        72.83171672745289,
+        19.14045541844414
+      ],
+      [
+        72.83173897872248,
+        19.140207749536255
+      ],
+      [
+        72.83177484575683,
+        19.139873589372645
+      ],
+      [
+        72.83179565972195,
+        19.139399340332233
+      ],
+      [
+        72.83182616561068,
+        19.13907166994351
+      ],
+      [
+        72.83184691130384,
+        19.138840406154415
+      ],
+      [
+        72.83186699314203,
+        19.138605933243607
+      ],
+      [
+        72.83189696453319,
+        19.13824925474013
+      ],
+      [
+        72.83191598366437,
+        19.138058007829418
+      ],
+      [
+        72.83193525432384,
+        19.137799674358675
+      ],
+      [
+        72.83195935971618,
+        19.137497899644096
+      ],
+      [
+        72.83197114291777,
+        19.13735593330159
+      ],
+      [
+        72.83199337172948,
+        19.13712037368051
+      ],
+      [
+        72.83202809610678,
+        19.136737324536018
+      ],
+      [
+        72.8320624108523,
+        19.13636973906478
+      ],
+      [
+        72.83209703821156,
+        19.13598072961577
+      ],
+      [
+        72.83213314329947,
+        19.13562405053341
+      ],
+      [
+        72.83214097750705,
+        19.1353316141192
+      ],
+      [
+        72.83213846761416,
+        19.135098233571245
+      ],
+      [
+        72.83211905861414,
+        19.134936617314576
+      ],
+      [
+        72.83209688010807,
+        19.1347779704432
+      ],
+      [
+        72.83206439882402,
+        19.134567954248855
+      ],
+      [
+        72.83200843018855,
+        19.13430903227068
+      ],
+      [
+        72.83196274366985,
+        19.134053089627344
+      ],
+      [
+        72.83187981838935,
+        19.133627224631848
+      ],
+      [
+        72.83181888746026,
+        19.133314711443422
+      ],
+      [
+        72.83175518522853,
+        19.13304176795127
+      ],
+      [
+        72.83171409988067,
+        19.132809622411237
+      ],
+      [
+        72.83166029798167,
+        19.132498074339484
+      ],
+      [
+        72.83159022669459,
+        19.132112536277305
+      ],
+      [
+        72.83154461832927,
+        19.131879551765863
+      ],
+      [
+        72.83150427139662,
+        19.13165798872409
+      ],
+      [
+        72.83148974384186,
+        19.131600210949053
+      ],
+      [
+        72.83148080470644,
+        19.131486870446295
+      ],
+      [
+        72.83147740368479,
+        19.13136759659722
+      ],
+      [
+        72.83148687013123,
+        19.131239638746873
+      ],
+      [
+        72.83151245864212,
+        19.131103154733786
+      ],
+      [
+        72.83154753875229,
+        19.130927509746744
+      ],
+      [
+        72.8316068428324,
+        19.130718131973854
+      ],
+      [
+        72.831636789969,
+        19.13058558212633
+      ],
+      [
+        72.83164485234867,
+        19.130479620422356
+      ],
+      [
+        72.83165101928313,
+        19.130344327364817
+      ],
+      [
+        72.83164155463328,
+        19.130167685188656
+      ],
+      [
+        72.83160609453574,
+        19.12997675736869
+      ],
+      [
+        72.83157155071983,
+        19.12978091020989
+      ],
+      [
+        72.831464602692,
+        19.129291848476218
+      ],
+      [
+        72.83141476595665,
+        19.129089278700903
+      ]
+    ],
+    "source": {
+      "provider": "MoHUA / Esri India Living Atlas",
+      "sourceFile": "datasets/mumbai/sources/gis/arcgis-mumbai.json",
+      "sourceFeatureId": 61,
+      "sourceFeatureName": "Oshiwara (With Line 6) (Line 2A - Yellow Line)",
+      "coordinateSystem": "EPSG:4326",
+      "crossCheckSource": "metro_line_2a.kml",
+      "crossCheck": "ArcGIS trace projected against ordered CTM station points and compared with the KML viaduct corridor polygon",
+      "kmlCorridorVertexCoveragePercent": 100,
+      "maxStationProjectionOffsetMeters": 0,
+      "vertexCount": 551
+    }
+  },
   "stationGraph": {
     "directed": false,
     "nodes": [
@@ -444,8 +3108,8 @@
         "name": "Dahisar (East)",
         "sequence": 1,
         "coordinates": [
-          72.867119,
-          19.251263
+          72.86711916212012,
+          19.251263173351788
         ]
       },
       {
@@ -453,8 +3117,8 @@
         "name": "Anand Nagar",
         "sequence": 2,
         "coordinates": [
-          72.866134,
-          19.257219
+          72.86613402646043,
+          19.257218879531713
         ]
       },
       {
@@ -462,8 +3126,8 @@
         "name": "Kandarpada",
         "sequence": 3,
         "coordinates": [
-          72.850678,
-          19.256646
+          72.85067815806093,
+          19.256645815686277
         ]
       },
       {
@@ -471,8 +3135,8 @@
         "name": "Mandapeshwar",
         "sequence": 4,
         "coordinates": [
-          72.845677,
-          19.249261
+          72.84567699522741,
+          19.249260686899433
         ]
       },
       {
@@ -480,8 +3144,8 @@
         "name": "Eksar",
         "sequence": 5,
         "coordinates": [
-          72.843438,
-          19.240323
+          72.84343814829931,
+          19.24032270245634
         ]
       },
       {
@@ -489,8 +3153,8 @@
         "name": "Borivali (West)",
         "sequence": 6,
         "coordinates": [
-          72.840865,
-          19.231194
+          72.84086467623294,
+          19.23119416043003
         ]
       },
       {
@@ -498,8 +3162,8 @@
         "name": "Shimpoli",
         "sequence": 7,
         "coordinates": [
-          72.840918,
-          19.222769
+          72.84091831913014,
+          19.222769328553582
         ]
       },
       {
@@ -507,8 +3171,8 @@
         "name": "Kandivali (West)",
         "sequence": 8,
         "coordinates": [
-          72.837355,
-          19.214005
+          72.83735463682103,
+          19.21400522056527
         ]
       },
       {
@@ -516,8 +3180,8 @@
         "name": "Dahanukarwadi",
         "sequence": 9,
         "coordinates": [
-          72.834717,
-          19.205772
+          72.83471652647836,
+          19.20577235748048
         ]
       },
       {
@@ -525,8 +3189,8 @@
         "name": "Valnai - Meeth Chowky",
         "sequence": 10,
         "coordinates": [
-          72.833786,
-          19.196621
+          72.83378644946076,
+          19.196621398930407
         ]
       },
       {
@@ -534,8 +3198,8 @@
         "name": "Malad (West)",
         "sequence": 11,
         "coordinates": [
-          72.83585,
-          19.1852
+          72.83584961466536,
+          19.18519972568229
         ]
       },
       {
@@ -543,8 +3207,8 @@
         "name": "Lower Malad",
         "sequence": 12,
         "coordinates": [
-          72.836423,
-          19.172953
+          72.83642326802604,
+          19.172952719427116
         ]
       },
       {
@@ -552,8 +3216,8 @@
         "name": "Bangur Nagar",
         "sequence": 13,
         "coordinates": [
-          72.834844,
-          19.162259
+          72.83484444567651,
+          19.162258577411293
         ]
       },
       {
@@ -561,8 +3225,8 @@
         "name": "Goregaon (West)",
         "sequence": 14,
         "coordinates": [
-          72.835685,
-          19.153138
+          72.83568457528307,
+          19.15313777589469
         ]
       },
       {
@@ -570,8 +3234,8 @@
         "name": "Oshiwara",
         "sequence": 15,
         "coordinates": [
-          72.833752,
-          19.145979
+          72.83375219041076,
+          19.145978889224303
         ]
       },
       {
@@ -579,8 +3243,8 @@
         "name": "Lower Oshiwara",
         "sequence": 16,
         "coordinates": [
-          72.831717,
-          19.140455
+          72.83171672745289,
+          19.14045541844414
         ]
       },
       {
@@ -588,8 +3252,8 @@
         "name": "Andheri (West)",
         "sequence": 17,
         "coordinates": [
-          72.831415,
-          19.129089
+          72.83141476595665,
+          19.129089278700903
         ]
       }
     ],
@@ -619,12 +3283,124 @@
           "type": "LineString",
           "coordinates": [
             [
-              72.867119,
-              19.251263
+              72.86711916212012,
+              19.251263173351788
             ],
             [
-              72.866134,
-              19.257219
+              72.8680919414531,
+              19.252626518886608
+            ],
+            [
+              72.8682983743054,
+              19.252919232063423
+            ],
+            [
+              72.86849627585742,
+              19.253199847804307
+            ],
+            [
+              72.86873019805573,
+              19.253531537321525
+            ],
+            [
+              72.86886966509684,
+              19.253729293021664
+            ],
+            [
+              72.86891981444589,
+              19.25381252007731
+            ],
+            [
+              72.86896996379495,
+              19.253895746242673
+            ],
+            [
+              72.86903106450563,
+              19.254018029332126
+            ],
+            [
+              72.86908591563687,
+              19.254153431944868
+            ],
+            [
+              72.86912340502865,
+              19.254283205822205
+            ],
+            [
+              72.86915901783973,
+              19.25446704978185
+            ],
+            [
+              72.86916902417371,
+              19.254629531610842
+            ],
+            [
+              72.86917132655577,
+              19.25479451846237
+            ],
+            [
+              72.86916148012196,
+              19.254912909115227
+            ],
+            [
+              72.86912817059121,
+              19.2551116502955
+            ],
+            [
+              72.86906849460856,
+              19.25529378617737
+            ],
+            [
+              72.86899753488763,
+              19.255450935425376
+            ],
+            [
+              72.86889295661554,
+              19.255632827537113
+            ],
+            [
+              72.86880056848182,
+              19.25576593990347
+            ],
+            [
+              72.86872003271998,
+              19.25586607198815
+            ],
+            [
+              72.86862308922944,
+              19.255961579547282
+            ],
+            [
+              72.86849109437486,
+              19.256080324694132
+            ],
+            [
+              72.86827599637334,
+              19.256224307945697
+            ],
+            [
+              72.86806217397951,
+              19.256344386895694
+            ],
+            [
+              72.86765707151564,
+              19.256559269082196
+            ],
+            [
+              72.86728689914324,
+              19.256743717697894
+            ],
+            [
+              72.86686341714862,
+              19.256930429561667
+            ],
+            [
+              72.86650816130151,
+              19.257083333584504
+            ],
+            [
+              72.86613402646043,
+              19.257218879531713
             ]
           ]
         }
@@ -654,12 +3430,164 @@
           "type": "LineString",
           "coordinates": [
             [
-              72.866134,
-              19.257219
+              72.86613402646043,
+              19.257218879531713
             ],
             [
-              72.850678,
-              19.256646
+              72.86568947448085,
+              19.25734785042295
+            ],
+            [
+              72.86504152415797,
+              19.25747436440911
+            ],
+            [
+              72.86432945388678,
+              19.25763433218253
+            ],
+            [
+              72.86405060873773,
+              19.25769697424121
+            ],
+            [
+              72.86387412571702,
+              19.257750490415265
+            ],
+            [
+              72.86365855340502,
+              19.257815858907783
+            ],
+            [
+              72.86338512330053,
+              19.25789877265591
+            ],
+            [
+              72.86308487039994,
+              19.258000067808666
+            ],
+            [
+              72.86287619625104,
+              19.25805367632107
+            ],
+            [
+              72.86265132457922,
+              19.25810051315506
+            ],
+            [
+              72.86225407159428,
+              19.25815627482703
+            ],
+            [
+              72.86198123168292,
+              19.2581858233409
+            ],
+            [
+              72.8612985363215,
+              19.25824131615299
+            ],
+            [
+              72.86074476267811,
+              19.258286327936766
+            ],
+            [
+              72.86016228875967,
+              19.258333670140058
+            ],
+            [
+              72.85966887561514,
+              19.25838374812688
+            ],
+            [
+              72.85861016434042,
+              19.258469787484767
+            ],
+            [
+              72.85827652645062,
+              19.25851213295056
+            ],
+            [
+              72.85812643593295,
+              19.258531861881913
+            ],
+            [
+              72.85792744831774,
+              19.258566459589925
+            ],
+            [
+              72.85742977266717,
+              19.258642082316605
+            ],
+            [
+              72.85717910407534,
+              19.25866245065811
+            ],
+            [
+              72.8567271787239,
+              19.258699171842323
+            ],
+            [
+              72.85639141721678,
+              19.258712617589236
+            ],
+            [
+              72.85599489995207,
+              19.258727929880912
+            ],
+            [
+              72.85558901325892,
+              19.25871774062629
+            ],
+            [
+              72.85511062264088,
+              19.25867276627486
+            ],
+            [
+              72.85478631465365,
+              19.258616779198515
+            ],
+            [
+              72.85434236185034,
+              19.258521758267683
+            ],
+            [
+              72.85395650489309,
+              19.25840336089135
+            ],
+            [
+              72.85362001934388,
+              19.258285161024446
+            ],
+            [
+              72.85315274447916,
+              19.258100123053108
+            ],
+            [
+              72.85265432682016,
+              19.257896130983994
+            ],
+            [
+              72.85238520323915,
+              19.257774633535462
+            ],
+            [
+              72.85211901984405,
+              19.257630372636424
+            ],
+            [
+              72.8516983558645,
+              19.25735759707976
+            ],
+            [
+              72.85132338648849,
+              19.257100113159815
+            ],
+            [
+              72.85086069123507,
+              19.25678659109928
+            ],
+            [
+              72.85067815806093,
+              19.256645815686277
             ]
           ]
         }
@@ -689,12 +3617,108 @@
           "type": "LineString",
           "coordinates": [
             [
-              72.850678,
-              19.256646
+              72.85067815806093,
+              19.256645815686277
             ],
             [
-              72.845677,
-              19.249261
+              72.85049562488676,
+              19.256505041000498
+            ],
+            [
+              72.84989937260852,
+              19.256015475369765
+            ],
+            [
+              72.84946444428056,
+              19.25564449176048
+            ],
+            [
+              72.8491231958637,
+              19.25535799041199
+            ],
+            [
+              72.84894429457822,
+              19.255192303627396
+            ],
+            [
+              72.84885089763645,
+              19.25510272612653
+            ],
+            [
+              72.84862926528956,
+              19.25487717253408
+            ],
+            [
+              72.84840459304374,
+              19.254622569839693
+            ],
+            [
+              72.84822513839603,
+              19.25440286809632
+            ],
+            [
+              72.84800410702208,
+              19.254112449047604
+            ],
+            [
+              72.84776225359813,
+              19.253792666760052
+            ],
+            [
+              72.84764846130615,
+              19.2536442993924
+            ],
+            [
+              72.8474334504412,
+              19.253348716784707
+            ],
+            [
+              72.84723746499569,
+              19.25304096378474
+            ],
+            [
+              72.84704045996229,
+              19.25268789837701
+            ],
+            [
+              72.84687708246325,
+              19.252393170604005
+            ],
+            [
+              72.84667760346959,
+              19.252021990528732
+            ],
+            [
+              72.84646328251078,
+              19.25162773502239
+            ],
+            [
+              72.84626254228246,
+              19.2512265005397
+            ],
+            [
+              72.84610319282912,
+              19.25081363019267
+            ],
+            [
+              72.84604893728094,
+              19.25063650576704
+            ],
+            [
+              72.84596296671161,
+              19.250376052319
+            ],
+            [
+              72.84590094253282,
+              19.25017357041889
+            ],
+            [
+              72.8457452132901,
+              19.249584631974443
+            ],
+            [
+              72.84567699522741,
+              19.249260686899433
             ]
           ]
         }
@@ -724,12 +3748,144 @@
           "type": "LineString",
           "coordinates": [
             [
-              72.845677,
-              19.249261
+              72.84567699522741,
+              19.249260686899433
             ],
             [
-              72.843438,
-              19.240323
+              72.84560877806307,
+              19.248936741184824
+            ],
+            [
+              72.84552373725008,
+              19.248530185096183
+            ],
+            [
+              72.84547640771271,
+              19.248127084852896
+            ],
+            [
+              72.84543960283719,
+              19.247838466237763
+            ],
+            [
+              72.84539504190751,
+              19.247512390674398
+            ],
+            [
+              72.84536929439483,
+              19.247285383173903
+            ],
+            [
+              72.84535632990865,
+              19.247044813314943
+            ],
+            [
+              72.84535093732201,
+              19.246823696112106
+            ],
+            [
+              72.84536690487619,
+              19.246439467169427
+            ],
+            [
+              72.84537762357415,
+              19.246181533577026
+            ],
+            [
+              72.8454013651488,
+              19.24576329047099
+            ],
+            [
+              72.84541708836123,
+              19.245362145117557
+            ],
+            [
+              72.84543080653391,
+              19.245012153718555
+            ],
+            [
+              72.845450711404,
+              19.244504331977975
+            ],
+            [
+              72.84544152163862,
+              19.24429394345137
+            ],
+            [
+              72.84543051997133,
+              19.244166896859166
+            ],
+            [
+              72.8454126964978,
+              19.24401716294631
+            ],
+            [
+              72.84539362077273,
+              19.24389081753602
+            ],
+            [
+              72.84536683750254,
+              19.243736835128434
+            ],
+            [
+              72.84530397339896,
+              19.243484586499395
+            ],
+            [
+              72.84521514439041,
+              19.243159648101877
+            ],
+            [
+              72.84509525253765,
+              19.242728508306616
+            ],
+            [
+              72.84503185752972,
+              19.242529131296973
+            ],
+            [
+              72.84498412015719,
+              19.2424019484862
+            ],
+            [
+              72.84492976309936,
+              19.242280443803907
+            ],
+            [
+              72.8448665243983,
+              19.242131789536163
+            ],
+            [
+              72.84474694066768,
+              19.241909523280977
+            ],
+            [
+              72.84463536541783,
+              19.241730724360725
+            ],
+            [
+              72.84450301932195,
+              19.24153238086182
+            ],
+            [
+              72.84441778806611,
+              19.2414192025151
+            ],
+            [
+              72.84425165004421,
+              19.24121355026059
+            ],
+            [
+              72.84400869887898,
+              19.240952831656895
+            ],
+            [
+              72.84365450214564,
+              19.240555094240477
+            ],
+            [
+              72.84343814829931,
+              19.24032270245634
             ]
           ]
         }
@@ -759,12 +3915,148 @@
           "type": "LineString",
           "coordinates": [
             [
-              72.843438,
-              19.240323
+              72.84343814829931,
+              19.24032270245634
             ],
             [
-              72.840865,
-              19.231194
+              72.84322179445306,
+              19.24009030949504
+            ],
+            [
+              72.84283744486882,
+              19.23969820420179
+            ],
+            [
+              72.84265573904307,
+              19.23950479698863
+            ],
+            [
+              72.84253661794479,
+              19.239376115707728
+            ],
+            [
+              72.84239796837058,
+              19.23922054812213
+            ],
+            [
+              72.84229332811472,
+              19.2391053385684
+            ],
+            [
+              72.84217205375474,
+              19.238957698353204
+            ],
+            [
+              72.84208504922452,
+              19.23884552328587
+            ],
+            [
+              72.84191231397519,
+              19.23860814536134
+            ],
+            [
+              72.84179058416933,
+              19.238426127510916
+            ],
+            [
+              72.84171487775045,
+              19.238295956881174
+            ],
+            [
+              72.84156258456369,
+              19.238030664652097
+            ],
+            [
+              72.84135719285884,
+              19.237652652446
+            ],
+            [
+              72.84111129881275,
+              19.23719470410066
+            ],
+            [
+              72.84096173560613,
+              19.236857016471877
+            ],
+            [
+              72.84088015061204,
+              19.236643672489187
+            ],
+            [
+              72.84082236468474,
+              19.23645765338856
+            ],
+            [
+              72.8407629096877,
+              19.23624919598871
+            ],
+            [
+              72.84067234064243,
+              19.23580692965502
+            ],
+            [
+              72.84062397175424,
+              19.23543432107669
+            ],
+            [
+              72.84059846588839,
+              19.235237841024755
+            ],
+            [
+              72.84058023278307,
+              19.235007405220962
+            ],
+            [
+              72.84057200421506,
+              19.234796514281882
+            ],
+            [
+              72.84057589931014,
+              19.234573667277893
+            ],
+            [
+              72.84059692437937,
+              19.234309658254038
+            ],
+            [
+              72.84062680054906,
+              19.23393450006409
+            ],
+            [
+              72.84064513696066,
+              19.233633088928983
+            ],
+            [
+              72.84066463309726,
+              19.2333882666668
+            ],
+            [
+              72.84068279613402,
+              19.233160190439413
+            ],
+            [
+              72.8407049710468,
+              19.232881743153513
+            ],
+            [
+              72.84072243519424,
+              19.232662449118305
+            ],
+            [
+              72.840737478382,
+              19.232473541695185
+            ],
+            [
+              72.84077585980081,
+              19.231991587213606
+            ],
+            [
+              72.8408247658815,
+              19.23148818665166
+            ],
+            [
+              72.84086467623294,
+              19.23119416043003
             ]
           ]
         }
@@ -794,12 +4086,132 @@
           "type": "LineString",
           "coordinates": [
             [
-              72.840865,
-              19.231194
+              72.84086467623294,
+              19.23119416043003
             ],
             [
-              72.840918,
-              19.222769
+              72.84090458658437,
+              19.230900134530234
+            ],
+            [
+              72.84095381785521,
+              19.23045641101866
+            ],
+            [
+              72.84098917644313,
+              19.23021319897834
+            ],
+            [
+              72.84101200263449,
+              19.22998939408259
+            ],
+            [
+              72.84101908315557,
+              19.22990048562206
+            ],
+            [
+              72.84101723442271,
+              19.2296886559593
+            ],
+            [
+              72.84100937057072,
+              19.229460745081678
+            ],
+            [
+              72.84099316765793,
+              19.22916214853673
+            ],
+            [
+              72.8409794665532,
+              19.228910528084352
+            ],
+            [
+              72.84096085435884,
+              19.22864914107315
+            ],
+            [
+              72.84095438199722,
+              19.22849674492609
+            ],
+            [
+              72.84094594502008,
+              19.228373240921982
+            ],
+            [
+              72.84093545179925,
+              19.228194442529638
+            ],
+            [
+              72.84092618028718,
+              19.228070898432733
+            ],
+            [
+              72.8409130316464,
+              19.227785553403276
+            ],
+            [
+              72.84090547861148,
+              19.227559644194855
+            ],
+            [
+              72.84089750965659,
+              19.227286858526114
+            ],
+            [
+              72.84088944098872,
+              19.227008112892516
+            ],
+            [
+              72.84088256797847,
+              19.22672267356216
+            ],
+            [
+              72.8408750580627,
+              19.226449117176042
+            ],
+            [
+              72.84086848778469,
+              19.226126764348535
+            ],
+            [
+              72.84086385607108,
+              19.225737000716567
+            ],
+            [
+              72.84086028886112,
+              19.225506917164306
+            ],
+            [
+              72.84085953607288,
+              19.22516181498187
+            ],
+            [
+              72.8408592836463,
+              19.224885432274686
+            ],
+            [
+              72.84086558353138,
+              19.224533523508676
+            ],
+            [
+              72.8408755296782,
+              19.224207204873895
+            ],
+            [
+              72.84087801980819,
+              19.223918645149393
+            ],
+            [
+              72.8408867846704,
+              19.22360656446287
+            ],
+            [
+              72.84091239923241,
+              19.223057842795594
+            ],
+            [
+              72.84091831913014,
+              19.222769328553582
             ]
           ]
         }
@@ -829,12 +4241,136 @@
           "type": "LineString",
           "coordinates": [
             [
-              72.840918,
-              19.222769
+              72.84091831913014,
+              19.222769328553582
             ],
             [
-              72.837355,
-              19.214005
+              72.8409291321512,
+              19.222347078988548
+            ],
+            [
+              72.84092209115603,
+              19.221853960017377
+            ],
+            [
+              72.84093477267288,
+              19.221406267769282
+            ],
+            [
+              72.84093702834255,
+              19.22114475176226
+            ],
+            [
+              72.8409272789268,
+              19.220835696569953
+            ],
+            [
+              72.84090887963315,
+              19.220617206703903
+            ],
+            [
+              72.84088575160784,
+              19.22044018372475
+            ],
+            [
+              72.84083117176779,
+              19.220116704516194
+            ],
+            [
+              72.840785057651,
+              19.21988496325737
+            ],
+            [
+              72.84070771001011,
+              19.21947143983534
+            ],
+            [
+              72.84064578195104,
+              19.219160313465544
+            ],
+            [
+              72.8406041567157,
+              19.2189228332945
+            ],
+            [
+              72.84053353565965,
+              19.218633523767156
+            ],
+            [
+              72.8404381058304,
+              19.21830013085939
+            ],
+            [
+              72.84028800453295,
+              19.217887063204344
+            ],
+            [
+              72.84017499287695,
+              19.2176322368883
+            ],
+            [
+              72.84012017947491,
+              19.217523965358193
+            ],
+            [
+              72.84000765650245,
+              19.217283457084555
+            ],
+            [
+              72.83984574056238,
+              19.216981794852874
+            ],
+            [
+              72.83969165433832,
+              19.216690040612036
+            ],
+            [
+              72.83950118544695,
+              19.216359600808286
+            ],
+            [
+              72.83939302199853,
+              19.216209440314945
+            ],
+            [
+              72.83924533088097,
+              19.216016867282768
+            ],
+            [
+              72.83908429169664,
+              19.21583159165811
+            ],
+            [
+              72.8389536164672,
+              19.21570377063642
+            ],
+            [
+              72.83879639961438,
+              19.21555640119234
+            ],
+            [
+              72.83848999415244,
+              19.215283492957504
+            ],
+            [
+              72.83826340400348,
+              19.215065664147605
+            ],
+            [
+              72.8380626619785,
+              19.21484908370415
+            ],
+            [
+              72.83784895546736,
+              19.21460924419686
+            ],
+            [
+              72.83757178208307,
+              19.214290096675903
+            ],
+            [
+              72.83735463682103,
+              19.21400522056527
             ]
           ]
         }
@@ -864,12 +4400,124 @@
           "type": "LineString",
           "coordinates": [
             [
-              72.837355,
-              19.214005
+              72.83735463682103,
+              19.21400522056527
             ],
             [
-              72.834717,
-              19.205772
+              72.83689814263803,
+              19.21339746313686
+            ],
+            [
+              72.83675098781471,
+              19.213194988235536
+            ],
+            [
+              72.83661682981692,
+              19.212984008222186
+            ],
+            [
+              72.83643252606332,
+              19.21269476204317
+            ],
+            [
+              72.83631905177498,
+              19.212480015858116
+            ],
+            [
+              72.83626368590906,
+              19.21236655622322
+            ],
+            [
+              72.83615918668868,
+              19.212140330615775
+            ],
+            [
+              72.83603924363196,
+              19.21184347466981
+            ],
+            [
+              72.83592878947955,
+              19.211587975624326
+            ],
+            [
+              72.83582506281033,
+              19.211339553459112
+            ],
+            [
+              72.83570292427105,
+              19.21105251672939
+            ],
+            [
+              72.83551164420095,
+              19.210604896009425
+            ],
+            [
+              72.83543425793249,
+              19.21041095490052
+            ],
+            [
+              72.83535462767246,
+              19.210188712741548
+            ],
+            [
+              72.83533519172296,
+              19.21013019648138
+            ],
+            [
+              72.83528860599064,
+              19.20996990757888
+            ],
+            [
+              72.83526982131974,
+              19.209883628187065
+            ],
+            [
+              72.83522901444967,
+              19.209607671083603
+            ],
+            [
+              72.83517899715294,
+              19.209261783076357
+            ],
+            [
+              72.8351491605091,
+              19.209069743970716
+            ],
+            [
+              72.83509826016848,
+              19.208599924542014
+            ],
+            [
+              72.8350671820529,
+              19.208353029052525
+            ],
+            [
+              72.8350301472087,
+              19.208123713483396
+            ],
+            [
+              72.83501826070082,
+              19.207982478136497
+            ],
+            [
+              72.83498240624291,
+              19.207556469058197
+            ],
+            [
+              72.83493064621456,
+              19.207187983680473
+            ],
+            [
+              72.83489426085228,
+              19.206916337417127
+            ],
+            [
+              72.83480743688345,
+              19.206318388305444
+            ],
+            [
+              72.83471652647836,
+              19.20577235748048
             ]
           ]
         }
@@ -899,12 +4547,100 @@
           "type": "LineString",
           "coordinates": [
             [
-              72.834717,
-              19.205772
+              72.83471652647836,
+              19.20577235748048
             ],
             [
-              72.833786,
-              19.196621
+              72.83458327488071,
+              19.205260886275912
+            ],
+            [
+              72.83451977566823,
+              19.204971176901754
+            ],
+            [
+              72.8344406700243,
+              19.204619291673286
+            ],
+            [
+              72.83436524477808,
+              19.204198716744
+            ],
+            [
+              72.83430568737309,
+              19.203908578790276
+            ],
+            [
+              72.83415906614904,
+              19.203281061205
+            ],
+            [
+              72.83412613031746,
+              19.20312252506714
+            ],
+            [
+              72.83409838495162,
+              19.20296950124062
+            ],
+            [
+              72.83407018234323,
+              19.202793822532012
+            ],
+            [
+              72.83404169047739,
+              19.202576317359725
+            ],
+            [
+              72.83401542373846,
+              19.202310318486855
+            ],
+            [
+              72.83400444273244,
+              19.20208623551891
+            ],
+            [
+              72.83399280415962,
+              19.20176523552474
+            ],
+            [
+              72.83398856141653,
+              19.20147000578324
+            ],
+            [
+              72.83395987012466,
+              19.2002678304448
+            ],
+            [
+              72.83395249585449,
+              19.199567558069557
+            ],
+            [
+              72.83393821443813,
+              19.198958076032728
+            ],
+            [
+              72.83392825301992,
+              19.198642768334125
+            ],
+            [
+              72.83388970271781,
+              19.19808252325174
+            ],
+            [
+              72.8338581979025,
+              19.197683308580125
+            ],
+            [
+              72.83382596994338,
+              19.19735851036576
+            ],
+            [
+              72.83381017306908,
+              19.196983011631662
+            ],
+            [
+              72.83378644946076,
+              19.196621398930407
             ]
           ]
         }
@@ -934,12 +4670,152 @@
           "type": "LineString",
           "coordinates": [
             [
-              72.833786,
-              19.196621
+              72.83378644946076,
+              19.196621398930407
             ],
             [
-              72.83585,
-              19.1852
+              72.83376272585242,
+              19.196259787131222
+            ],
+            [
+              72.83373954392819,
+              19.19587586582804
+            ],
+            [
+              72.83372443426512,
+              19.19563379119408
+            ],
+            [
+              72.83372593624826,
+              19.19545952567453
+            ],
+            [
+              72.83374280391435,
+              19.195290967817414
+            ],
+            [
+              72.83376934643606,
+              19.195051527370417
+            ],
+            [
+              72.83380944363707,
+              19.19483942204668
+            ],
+            [
+              72.83386090093317,
+              19.194634690528655
+            ],
+            [
+              72.8339610235615,
+              19.19435041665812
+            ],
+            [
+              72.83410982499673,
+              19.19397419333198
+            ],
+            [
+              72.83425888874002,
+              19.19362962562143
+            ],
+            [
+              72.83436871317342,
+              19.193347062898273
+            ],
+            [
+              72.83449620387515,
+              19.193015100009276
+            ],
+            [
+              72.83460287073034,
+              19.192730523013065
+            ],
+            [
+              72.834702527133,
+              19.192454913820075
+            ],
+            [
+              72.83480493417707,
+              19.19212794274543
+            ],
+            [
+              72.8348662145508,
+              19.19189824908603
+            ],
+            [
+              72.83492512157557,
+              19.191664098509822
+            ],
+            [
+              72.8349887761966,
+              19.191402258631587
+            ],
+            [
+              72.835089773784,
+              19.190979675706316
+            ],
+            [
+              72.83518154028351,
+              19.19060752037079
+            ],
+            [
+              72.83529869766454,
+              19.190175792216372
+            ],
+            [
+              72.8353938499144,
+              19.189837924005985
+            ],
+            [
+              72.83544965236153,
+              19.189612929839534
+            ],
+            [
+              72.83550456188327,
+              19.18936803947899
+            ],
+            [
+              72.83556961877447,
+              19.189067801426503
+            ],
+            [
+              72.83563586952667,
+              19.188708683465407
+            ],
+            [
+              72.83569416120545,
+              19.188364069948168
+            ],
+            [
+              72.83573581518687,
+              19.18804967265894
+            ],
+            [
+              72.83577270091075,
+              19.187714570995755
+            ],
+            [
+              72.83579490007807,
+              19.187239167417655
+            ],
+            [
+              72.83580884103296,
+              19.18678383768396
+            ],
+            [
+              72.83581792300048,
+              19.186370460965538
+            ],
+            [
+              72.83582536733923,
+              19.18603641895462
+            ],
+            [
+              72.83584256289039,
+              19.185617852260197
+            ],
+            [
+              72.83584961466536,
+              19.18519972568229
             ]
           ]
         }
@@ -969,12 +4845,188 @@
           "type": "LineString",
           "coordinates": [
             [
-              72.83585,
-              19.1852
+              72.83584961466536,
+              19.18519972568229
             ],
             [
-              72.836423,
-              19.172953
+              72.83585666554202,
+              19.184781598891067
+            ],
+            [
+              72.83586312532725,
+              19.184246496487305
+            ],
+            [
+              72.83586998486275,
+              19.183911186006075
+            ],
+            [
+              72.83587487349453,
+              19.183454180747457
+            ],
+            [
+              72.83588660549215,
+              19.183027905394887
+            ],
+            [
+              72.83589972898012,
+              19.182819460854414
+            ],
+            [
+              72.83594133535082,
+              19.18246153574487
+            ],
+            [
+              72.83597167415292,
+              19.182222780843016
+            ],
+            [
+              72.83602275505491,
+              19.181823027129074
+            ],
+            [
+              72.83606272469515,
+              19.181537090248213
+            ],
+            [
+              72.83613524389142,
+              19.181189593979322
+            ],
+            [
+              72.83621774337047,
+              19.18088983141672
+            ],
+            [
+              72.83630201971717,
+              19.180650508322053
+            ],
+            [
+              72.83640756188159,
+              19.18035741867798
+            ],
+            [
+              72.83648336621687,
+              19.180128008949875
+            ],
+            [
+              72.83651961234024,
+              19.180013026098415
+            ],
+            [
+              72.83655680528797,
+              19.179864734661248
+            ],
+            [
+              72.83657608852383,
+              19.17976997617716
+            ],
+            [
+              72.83660162403412,
+              19.179652092216354
+            ],
+            [
+              72.83661822939213,
+              19.179568321076967
+            ],
+            [
+              72.83664332023633,
+              19.1794353285574
+            ],
+            [
+              72.8366918777707,
+              19.1791353142048
+            ],
+            [
+              72.83674754547053,
+              19.178802986673947
+            ],
+            [
+              72.83683184068187,
+              19.17832624734881
+            ],
+            [
+              72.83688436068495,
+              19.178016102048982
+            ],
+            [
+              72.83695885168325,
+              19.17757611418322
+            ],
+            [
+              72.83703010784822,
+              19.177147757604594
+            ],
+            [
+              72.83707951339221,
+              19.17685917642107
+            ],
+            [
+              72.83714574438147,
+              19.176475866594878
+            ],
+            [
+              72.83717775135506,
+              19.176268337746745
+            ],
+            [
+              72.83719538438575,
+              19.176109746745347
+            ],
+            [
+              72.83720885731839,
+              19.175943509164583
+            ],
+            [
+              72.83721424810844,
+              19.175818447783644
+            ],
+            [
+              72.83721455173898,
+              19.17566646425796
+            ],
+            [
+              72.83720880521612,
+              19.17554210520304
+            ],
+            [
+              72.83719830301213,
+              19.175384636034405
+            ],
+            [
+              72.83717719350126,
+              19.17521796754496
+            ],
+            [
+              72.83715575071545,
+              19.17509409093438
+            ],
+            [
+              72.83713028078218,
+              19.174960093600223
+            ],
+            [
+              72.8370945889193,
+              19.174821879224158
+            ],
+            [
+              72.83702470627844,
+              19.1745784041925
+            ],
+            [
+              72.83688132887087,
+              19.17419550820951
+            ],
+            [
+              72.8367038038044,
+              19.173730928738806
+            ],
+            [
+              72.83652345712964,
+              19.173221544524946
+            ],
+            [
+              72.83642326802604,
+              19.172952719427116
             ]
           ]
         }
@@ -1004,12 +5056,132 @@
           "type": "LineString",
           "coordinates": [
             [
-              72.836423,
-              19.172953
+              72.83642326802604,
+              19.172952719427116
             ],
             [
-              72.834844,
-              19.162259
+              72.8363230789224,
+              19.172683893890696
+            ],
+            [
+              72.83603132767767,
+              19.172011540916504
+            ],
+            [
+              72.83585220989822,
+              19.171515864756152
+            ],
+            [
+              72.83572099028974,
+              19.171162094780307
+            ],
+            [
+              72.83560638232748,
+              19.170802924202775
+            ],
+            [
+              72.8355113522485,
+              19.17050487962045
+            ],
+            [
+              72.83545962905109,
+              19.17031253480904
+            ],
+            [
+              72.83540337295473,
+              19.170058553751304
+            ],
+            [
+              72.8353812833819,
+              19.16989804170237
+            ],
+            [
+              72.83536037599195,
+              19.16972766224794
+            ],
+            [
+              72.83534819753167,
+              19.169589345056604
+            ],
+            [
+              72.83531495178133,
+              19.16917393119858
+            ],
+            [
+              72.83527423025117,
+              19.16860553689428
+            ],
+            [
+              72.83523514904473,
+              19.168128422720123
+            ],
+            [
+              72.83520657094058,
+              19.16777217375243
+            ],
+            [
+              72.83519445805732,
+              19.167632618634478
+            ],
+            [
+              72.83517186812284,
+              19.167347384304534
+            ],
+            [
+              72.83514850833221,
+              19.167015582838445
+            ],
+            [
+              72.83512208169317,
+              19.166655715924012
+            ],
+            [
+              72.83509292776894,
+              19.16632239336416
+            ],
+            [
+              72.8350658291901,
+              19.165950705858002
+            ],
+            [
+              72.83504555601077,
+              19.165695362985513
+            ],
+            [
+              72.83501418773935,
+              19.16529369053508
+            ],
+            [
+              72.83498660317193,
+              19.16491887897333
+            ],
+            [
+              72.8349692692802,
+              19.164620871268976
+            ],
+            [
+              72.83494146462553,
+              19.164237983547647
+            ],
+            [
+              72.83490866443954,
+              19.163802120955477
+            ],
+            [
+              72.83487679131495,
+              19.163348932641515
+            ],
+            [
+              72.83485417802429,
+              19.162917906066976
+            ],
+            [
+              72.83484180732454,
+              19.16246628172937
+            ],
+            [
+              72.83484444567651,
+              19.162258577411293
             ]
           ]
         }
@@ -1039,12 +5211,156 @@
           "type": "LineString",
           "coordinates": [
             [
-              72.834844,
-              19.162259
+              72.83484444567651,
+              19.162258577411293
             ],
             [
-              72.835685,
-              19.153138
+              72.83484708402851,
+              19.16205087368012
+            ],
+            [
+              72.83485442865428,
+              19.161340879074473
+            ],
+            [
+              72.83486500452011,
+              19.1610702798023
+            ],
+            [
+              72.8348989392783,
+              19.16071705678574
+            ],
+            [
+              72.8349187471303,
+              19.160566639336313
+            ],
+            [
+              72.83496366828439,
+              19.16035738232093
+            ],
+            [
+              72.83501404131395,
+              19.16015017599262
+            ],
+            [
+              72.83517430525224,
+              19.159576249387936
+            ],
+            [
+              72.83522273522583,
+              19.159374110509056
+            ],
+            [
+              72.83525170230045,
+              19.159238925991417
+            ],
+            [
+              72.83527049146295,
+              19.159120965400046
+            ],
+            [
+              72.83529021128007,
+              19.15897238362508
+            ],
+            [
+              72.83529920790762,
+              19.158866805873703
+            ],
+            [
+              72.83530148064531,
+              19.158754153608694
+            ],
+            [
+              72.83530448640823,
+              19.158549818494237
+            ],
+            [
+              72.83529971186249,
+              19.158397120678973
+            ],
+            [
+              72.8352931766188,
+              19.158144678377777
+            ],
+            [
+              72.83528313884385,
+              19.157846480231377
+            ],
+            [
+              72.83527198536125,
+              19.15751837551809
+            ],
+            [
+              72.83525817556041,
+              19.157178975708582
+            ],
+            [
+              72.83524840458504,
+              19.15680068608022
+            ],
+            [
+              72.83523785836363,
+              19.15648563880774
+            ],
+            [
+              72.83523940616085,
+              19.156137379461594
+            ],
+            [
+              72.83524652620781,
+              19.155988829790207
+            ],
+            [
+              72.83525420231192,
+              19.15589232139484
+            ],
+            [
+              72.83527135384563,
+              19.1557124938493
+            ],
+            [
+              72.83528402368438,
+              19.155624168113565
+            ],
+            [
+              72.83531051051054,
+              19.1554650421639
+            ],
+            [
+              72.83535383715501,
+              19.155170939504572
+            ],
+            [
+              72.8353716983578,
+              19.155055865415868
+            ],
+            [
+              72.83540093582536,
+              19.154853197422597
+            ],
+            [
+              72.83543779549811,
+              19.1546330305846
+            ],
+            [
+              72.83546846577853,
+              19.154434799309275
+            ],
+            [
+              72.83549989962694,
+              19.15424573673929
+            ],
+            [
+              72.835537141982,
+              19.15397159062129
+            ],
+            [
+              72.8356187970447,
+              19.15353874223
+            ],
+            [
+              72.83568457528307,
+              19.15313777589469
             ]
           ]
         }
@@ -1074,12 +5390,180 @@
           "type": "LineString",
           "coordinates": [
             [
-              72.835685,
-              19.153138
+              72.83568457528307,
+              19.15313777589469
             ],
             [
-              72.833752,
-              19.145979
+              72.83574402309361,
+              19.152737648689968
+            ],
+            [
+              72.83580332447877,
+              19.15227001745856
+            ],
+            [
+              72.8358682888435,
+              19.151852687115582
+            ],
+            [
+              72.83591194516968,
+              19.151513339293185
+            ],
+            [
+              72.83594697497419,
+              19.151288319954038
+            ],
+            [
+              72.83599580290146,
+              19.15094604669406
+            ],
+            [
+              72.83605021924811,
+              19.150577440598507
+            ],
+            [
+              72.83611467786129,
+              19.15018510076582
+            ],
+            [
+              72.83616242960687,
+              19.149878509945093
+            ],
+            [
+              72.83619074630124,
+              19.149700811787145
+            ],
+            [
+              72.8362417643212,
+              19.14938064402993
+            ],
+            [
+              72.8362842133116,
+              19.149102221320046
+            ],
+            [
+              72.83634292091038,
+              19.148733796951287
+            ],
+            [
+              72.83636880586528,
+              19.148571353069254
+            ],
+            [
+              72.83641267958379,
+              19.1482635245164
+            ],
+            [
+              72.83646118591416,
+              19.147950617272706
+            ],
+            [
+              72.83649038924574,
+              19.147775841371566
+            ],
+            [
+              72.83651422873675,
+              19.147626231885443
+            ],
+            [
+              72.8365294668589,
+              19.14750248050652
+            ],
+            [
+              72.83654359825664,
+              19.14736340552634
+            ],
+            [
+              72.83654785986438,
+              19.14728380591496
+            ],
+            [
+              72.83654471935411,
+              19.14718368409636
+            ],
+            [
+              72.83652813555567,
+              19.147074801061716
+            ],
+            [
+              72.83651302229934,
+              19.14700650408939
+            ],
+            [
+              72.83649351897618,
+              19.14694885218974
+            ],
+            [
+              72.83644171852366,
+              19.146816116794966
+            ],
+            [
+              72.83641207861086,
+              19.146761082827325
+            ],
+            [
+              72.83636953619562,
+              19.146689543139612
+            ],
+            [
+              72.83632072084478,
+              19.14661809676936
+            ],
+            [
+              72.83627810027612,
+              19.146563625372647
+            ],
+            [
+              72.83617543361892,
+              19.14646019348584
+            ],
+            [
+              72.83610681490764,
+              19.146399701051745
+            ],
+            [
+              72.83604907838767,
+              19.146354425272413
+            ],
+            [
+              72.83599083431962,
+              19.14631865322273
+            ],
+            [
+              72.83592315344946,
+              19.14627964705796
+            ],
+            [
+              72.83582361113282,
+              19.146234725970764
+            ],
+            [
+              72.83573838975846,
+              19.146203609450513
+            ],
+            [
+              72.83561557029618,
+              19.146172258703935
+            ],
+            [
+              72.83552959703192,
+              19.146154997672603
+            ],
+            [
+              72.83514196949525,
+              19.146106867899523
+            ],
+            [
+              72.83468468928639,
+              19.14605655884214
+            ],
+            [
+              72.83407138249245,
+              19.14599433166896
+            ],
+            [
+              72.83375219041076,
+              19.145978889224303
             ]
           ]
         }
@@ -1109,12 +5593,148 @@
           "type": "LineString",
           "coordinates": [
             [
-              72.833752,
-              19.145979
+              72.83375219041076,
+              19.145978889224303
             ],
             [
-              72.831717,
-              19.140455
+              72.83343299922737,
+              19.14596344677825
+            ],
+            [
+              72.8329154681141,
+              19.14593046577523
+            ],
+            [
+              72.83258717340361,
+              19.145913389719144
+            ],
+            [
+              72.83242039578123,
+              19.145899363624263
+            ],
+            [
+              72.83232043844293,
+              19.145885792391883
+            ],
+            [
+              72.83221223906193,
+              19.145862292228795
+            ],
+            [
+              72.83212737521703,
+              19.145839921584333
+            ],
+            [
+              72.83201691747136,
+              19.145804004307937
+            ],
+            [
+              72.83192271833407,
+              19.145760932249566
+            ],
+            [
+              72.83183544880085,
+              19.145705490588924
+            ],
+            [
+              72.8317472270534,
+              19.14564444457299
+            ],
+            [
+              72.83166241710742,
+              19.14556648962221
+            ],
+            [
+              72.83159112500985,
+              19.14549355766611
+            ],
+            [
+              72.83152034944357,
+              19.14540317956677
+            ],
+            [
+              72.83145123576055,
+              19.145297397946493
+            ],
+            [
+              72.83140974796747,
+              19.145213996325644
+            ],
+            [
+              72.83137467684048,
+              19.145112243881055
+            ],
+            [
+              72.8313528738302,
+              19.145035750869667
+            ],
+            [
+              72.83133143823089,
+              19.144944585838477
+            ],
+            [
+              72.83131811801186,
+              19.14485908961646
+            ],
+            [
+              72.83131611117551,
+              19.144786216752
+            ],
+            [
+              72.83132342525855,
+              19.14446258382319
+            ],
+            [
+              72.83136389436213,
+              19.14411276306801
+            ],
+            [
+              72.83138534702941,
+              19.14388391307485
+            ],
+            [
+              72.83140740785615,
+              19.143651520549998
+            ],
+            [
+              72.83143496277918,
+              19.143339984449497
+            ],
+            [
+              72.83146108758429,
+              19.14306292295187
+            ],
+            [
+              72.83150877015954,
+              19.142578456921687
+            ],
+            [
+              72.83154340919693,
+              19.142243839894068
+            ],
+            [
+              72.83157507031909,
+              19.141878238938613
+            ],
+            [
+              72.83157518440515,
+              19.14187692268715
+            ],
+            [
+              72.8316071491579,
+              19.14150644203665
+            ],
+            [
+              72.8316423137097,
+              19.141232200920985
+            ],
+            [
+              72.83169447528499,
+              19.140703087829134
+            ],
+            [
+              72.83171672745289,
+              19.14045541844414
             ]
           ]
         }
@@ -1144,12 +5764,192 @@
           "type": "LineString",
           "coordinates": [
             [
-              72.831717,
-              19.140455
+              72.83171672745289,
+              19.14045541844414
             ],
             [
-              72.831415,
-              19.129089
+              72.83173897872248,
+              19.140207749536255
+            ],
+            [
+              72.83177484575683,
+              19.139873589372645
+            ],
+            [
+              72.83179565972195,
+              19.139399340332233
+            ],
+            [
+              72.83182616561068,
+              19.13907166994351
+            ],
+            [
+              72.83184691130384,
+              19.138840406154415
+            ],
+            [
+              72.83186699314203,
+              19.138605933243607
+            ],
+            [
+              72.83189696453319,
+              19.13824925474013
+            ],
+            [
+              72.83191598366437,
+              19.138058007829418
+            ],
+            [
+              72.83193525432384,
+              19.137799674358675
+            ],
+            [
+              72.83195935971618,
+              19.137497899644096
+            ],
+            [
+              72.83197114291777,
+              19.13735593330159
+            ],
+            [
+              72.83199337172948,
+              19.13712037368051
+            ],
+            [
+              72.83202809610678,
+              19.136737324536018
+            ],
+            [
+              72.8320624108523,
+              19.13636973906478
+            ],
+            [
+              72.83209703821156,
+              19.13598072961577
+            ],
+            [
+              72.83213314329947,
+              19.13562405053341
+            ],
+            [
+              72.83214097750705,
+              19.1353316141192
+            ],
+            [
+              72.83213846761416,
+              19.135098233571245
+            ],
+            [
+              72.83211905861414,
+              19.134936617314576
+            ],
+            [
+              72.83209688010807,
+              19.1347779704432
+            ],
+            [
+              72.83206439882402,
+              19.134567954248855
+            ],
+            [
+              72.83200843018855,
+              19.13430903227068
+            ],
+            [
+              72.83196274366985,
+              19.134053089627344
+            ],
+            [
+              72.83187981838935,
+              19.133627224631848
+            ],
+            [
+              72.83181888746026,
+              19.133314711443422
+            ],
+            [
+              72.83175518522853,
+              19.13304176795127
+            ],
+            [
+              72.83171409988067,
+              19.132809622411237
+            ],
+            [
+              72.83166029798167,
+              19.132498074339484
+            ],
+            [
+              72.83159022669459,
+              19.132112536277305
+            ],
+            [
+              72.83154461832927,
+              19.131879551765863
+            ],
+            [
+              72.83150427139662,
+              19.13165798872409
+            ],
+            [
+              72.83148974384186,
+              19.131600210949053
+            ],
+            [
+              72.83148080470644,
+              19.131486870446295
+            ],
+            [
+              72.83147740368479,
+              19.13136759659722
+            ],
+            [
+              72.83148687013123,
+              19.131239638746873
+            ],
+            [
+              72.83151245864212,
+              19.131103154733786
+            ],
+            [
+              72.83154753875229,
+              19.130927509746744
+            ],
+            [
+              72.8316068428324,
+              19.130718131973854
+            ],
+            [
+              72.831636789969,
+              19.13058558212633
+            ],
+            [
+              72.83164485234867,
+              19.130479620422356
+            ],
+            [
+              72.83165101928313,
+              19.130344327364817
+            ],
+            [
+              72.83164155463328,
+              19.130167685188656
+            ],
+            [
+              72.83160609453574,
+              19.12997675736869
+            ],
+            [
+              72.83157155071983,
+              19.12978091020989
+            ],
+            [
+              72.831464602692,
+              19.129291848476218
+            ],
+            [
+              72.83141476595665,
+              19.129089278700903
             ]
           ]
         }

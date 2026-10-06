@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-10-06T23:34:51+05:30",
+  "feedVersion": "2026.10-operational-v1.0",
+  "status": "SUCCESS",
+  "compliance": "CANONICAL_GTFS_AND_PATHWAYS",
+  "summary": {
+    "totalStations": 96,
+    "totalPlatforms": 198,
+    "totalConcourseNodes": 193,
+    "totalEntrances": 192,
+    "totalLevels": 289,
+    "totalShapes": 4228,
+    "totalTrips": 42,
+    "totalStopTimes": 582,
+    "totalFrequencies": 210,
+    "totalTransfers": 24,
+    "totalPathways": 587,
+    "criticalErrors": 0,
+    "foreignKeyViolations": 0
+  },
+  "routes": [
+    { "id": "MUMBAI_LINE1", "name": "Line 1 (Blue Line)", "stations": 12, "agency": "MMOPL" },
+    { "id": "MUMBAI_LINE2A", "name": "Line 2A (Yellow Line)", "stations": 17, "agency": "MMMOCL" },
+    { "id": "MUMBAI_LINE7", "name": "Line 7 (Red Line)", "stations": 14, "agency": "MMMOCL" },
+    { "id": "MUMBAI_LINE9", "name": "Line 9 (Red Extension Ph 1)", "stations": 4, "agency": "MMMOCL" },
+    { "id": "MUMBAI_LINE2B_PH1", "name": "Line 2B (Yellow Ph 1)", "stations": 6, "agency": "MMMOCL" },
+    { "id": "MUMBAI_LINE3", "name": "Line 3 (Aqua Line)", "stations": 27, "agency": "MMRCL" },
+    { "id": "MUMBAI_MONORAIL", "name": "Mumbai Monorail", "stations": 17, "agency": "MMRDA_MONO" }
+  ]
+}

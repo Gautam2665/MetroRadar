@@ -67,7 +67,7 @@ export function DigitalTwinInspectorView({
                       : "text-[#bac9cc] hover:text-[#dfe2ee] hover:bg-white/5"
                   }`}
                 >
-                  {level.id}
+                  {level.lineCode ? `${level.lineCode} · ` : "Shared · "}{level.levelNumber ?? level.id}
                 </button>
               ))}
             </div>
@@ -76,6 +76,9 @@ export function DigitalTwinInspectorView({
           {/* Level Facilities */}
           <div className="p-3.5 bg-[#141822]/90 rounded-xl border border-white/10 space-y-2 backdrop-blur-md">
             <h4 className="text-xs font-bold text-[#dfe2ee]">{currentLevelObj?.name}</h4>
+            <p className="text-[10px] text-[#bac9cc]">
+              {currentLevelObj?.lineName ?? "Line ownership unresolved"} · {currentLevelObj?.evidenceStatus ?? "UNVERIFIED"}
+            </p>
             <div className="flex flex-wrap gap-1.5">
               {currentLevelObj?.facilities.map((fac, idx) => (
                 <span key={idx} className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-[#bac9cc] border border-white/10">
