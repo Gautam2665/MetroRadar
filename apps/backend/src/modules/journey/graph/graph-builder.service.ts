@@ -350,6 +350,9 @@ export class GraphBuilderService {
     addEdge: (edge: GraphEdge) => void,
   ): number {
     let walkEdgeCount = 0;
+    const addedWalkPairs = new Set<string>();
+
+    // 1. Registered complexes from network evidence
     const nodeByCode = new Map(
       [...nodes.values()].map((node) => [node.code, node]),
     );
@@ -376,13 +379,52 @@ export class GraphBuilderService {
             from.lineIds.some((lineId) => to.lineIds.includes(lineId))
           )
             continue;
-          const duration = registeredSeconds ?? 180; // realistic 3 min interchange transfer baseline when pathway seconds unverified
+          const duration = registeredSeconds ?? 180; // 3 min baseline
+          const pairKey = [from.id, to.id].sort().join(':');
+          if (addedWalkPairs.has(pairKey)) continue;
+          addedWalkPairs.add(pairKey);
+
           addEdge({ from: from.id, to: to.id, type: EdgeType.WALK, duration });
           addEdge({ from: to.id, to: from.id, type: EdgeType.WALK, duration });
           walkEdgeCount += 2;
         }
       }
     }
+
+    // 2. Spatial walking transfers for nearby stations (< 1000m) on different lines
+    const nodeList = [...nodes.values()];
+    const MAX_WALK_DISTANCE_METERS = 1000;
+    const WALKING_SPEED_MPS = 1.2; // 1.2 m/s standard transit walking speed
+
+    for (let i = 0; i < nodeList.length; i++) {
+      for (let j = i + 1; j < nodeList.length; j++) {
+        const from = nodeList[i];
+        const to = nodeList[j];
+
+        if (from.id === to.id) continue;
+        const sharesLine = from.lineIds.some((lineId) => to.lineIds.includes(lineId));
+        if (sharesLine) continue;
+
+        const pairKey = [from.id, to.id].sort().join(':');
+        if (addedWalkPairs.has(pairKey)) continue;
+
+        const dist = this.getDistanceMeters(
+          from.lat,
+          from.lng,
+          to.lat,
+          to.lng,
+        );
+
+        if (dist <= MAX_WALK_DISTANCE_METERS) {
+          addedWalkPairs.add(pairKey);
+          const walkSeconds = Math.max(60, Math.round(dist / WALKING_SPEED_MPS));
+          addEdge({ from: from.id, to: to.id, type: EdgeType.WALK, duration: walkSeconds });
+          addEdge({ from: to.id, to: from.id, type: EdgeType.WALK, duration: walkSeconds });
+          walkEdgeCount += 2;
+        }
+      }
+    }
+
     return walkEdgeCount;
   }
 
