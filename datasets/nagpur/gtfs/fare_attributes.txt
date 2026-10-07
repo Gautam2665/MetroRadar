@@ -1,0 +1,6 @@
+fare_id,price,currency_type,payment_method,transfers,transfer_duration
+FARE_NAG_10,10.00,INR,0,0,
+FARE_NAG_20,20.00,INR,0,0,
+FARE_NAG_30,30.00,INR,0,0,
+FARE_NAG_40,40.00,INR,0,0,
+FARE_NAG_50,50.00,INR,0,0,

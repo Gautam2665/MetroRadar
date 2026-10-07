@@ -17,6 +17,7 @@ import {
 const CITY_CENTERS: Record<string, { center: [number, number]; zoom: number }> = {
   mumbai: { center: [72.8500, 19.1450], zoom: 11.2 },
   pune: { center: [73.8567, 18.5204], zoom: 12 },
+  nagpur: { center: [79.0882, 21.1458], zoom: 12 },
   navi_mumbai: { center: [73.0650, 19.0400], zoom: 12 },
   delhi: { center: [77.2090, 28.6139], zoom: 11 },
   bengaluru: { center: [77.5946, 12.9716], zoom: 12 },
@@ -29,6 +30,7 @@ const CITY_CENTERS: Record<string, { center: [number, number]; zoom: number }> =
 const SYSTEM_CODES: Record<string, string> = {
   mumbai: "MM",
   pune: "PMRDA",
+  nagpur: "NAGPUR",
   navi_mumbai: "CIDCO",
   delhi: "DMRC",
   bengaluru: "BMRCL",

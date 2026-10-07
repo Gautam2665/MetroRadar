@@ -89,5 +89,20 @@ export const CITY_METADATA: Record<
       "Sector 7",
     ],
   },
+  nagpur: {
+    name: "Nagpur, MH",
+    code: "MAHAMETRO",
+    center: [79.0882, 21.1458],
+    quickPills: [
+      "Sitabuldi",
+      "Lokmanya Nagar",
+      "Prajapati Nagar",
+      "Automotive Square",
+      "Khapri",
+      "Nagpur Railway Station",
+      "Zero Mile Freedom Park",
+      "Airport",
+    ],
+  },
 };
 

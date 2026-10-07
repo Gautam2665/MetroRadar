@@ -1,0 +1,110 @@
+level_id,level_index,level_name
+LVL_SITABULDI_G,0.0,Street Level
+LVL_SITABULDI_C,1.0,Central Interchange Concourse (Ticketing & Transfer)
+LVL_SITABULDI_ORANGE,2.0,Elevated Level 2 - Orange Line Platform Level
+LVL_SITABULDI_AQUA,3.0,Elevated Level 3 - Aqua Line Platform Level
+LVL_STN_NAG_AQUA_001_G,0.0,Street Level
+LVL_STN_NAG_AQUA_001_C,1.0,Elevated Concourse
+LVL_STN_NAG_AQUA_001_P,2.0,Elevated Platform Level
+LVL_STN_NAG_AQUA_002_G,0.0,Street Level
+LVL_STN_NAG_AQUA_002_C,1.0,Elevated Concourse
+LVL_STN_NAG_AQUA_002_P,2.0,Elevated Platform Level
+LVL_STN_NAG_AQUA_003_G,0.0,Street Level
+LVL_STN_NAG_AQUA_003_C,1.0,Elevated Concourse
+LVL_STN_NAG_AQUA_003_P,2.0,Elevated Platform Level
+LVL_STN_NAG_AQUA_004_G,0.0,Street Level
+LVL_STN_NAG_AQUA_004_C,1.0,Elevated Concourse
+LVL_STN_NAG_AQUA_004_P,2.0,Elevated Platform Level
+LVL_STN_NAG_AQUA_005_G,0.0,Street Level
+LVL_STN_NAG_AQUA_005_C,1.0,Elevated Concourse
+LVL_STN_NAG_AQUA_005_P,2.0,Elevated Platform Level
+LVL_STN_NAG_AQUA_006_G,0.0,Street Level
+LVL_STN_NAG_AQUA_006_C,1.0,Elevated Concourse
+LVL_STN_NAG_AQUA_006_P,2.0,Elevated Platform Level
+LVL_STN_NAG_AQUA_007_G,0.0,Street Level
+LVL_STN_NAG_AQUA_007_C,1.0,Elevated Concourse
+LVL_STN_NAG_AQUA_007_P,2.0,Elevated Platform Level
+LVL_STN_NAG_AQUA_008_G,0.0,Street Level
+LVL_STN_NAG_AQUA_008_C,1.0,Elevated Concourse
+LVL_STN_NAG_AQUA_008_P,2.0,Elevated Platform Level
+LVL_STN_NAG_AQUA_009_G,0.0,Street Level
+LVL_STN_NAG_AQUA_009_C,1.0,Elevated Concourse
+LVL_STN_NAG_AQUA_009_P,2.0,Elevated Platform Level
+LVL_STN_NAG_AQUA_010_G,0.0,Street Level
+LVL_STN_NAG_AQUA_010_C,1.0,Elevated Concourse
+LVL_STN_NAG_AQUA_010_P,2.0,Elevated Platform Level
+LVL_STN_NAG_AQUA_011_G,0.0,Street Level
+LVL_STN_NAG_AQUA_011_C,1.0,Elevated Concourse
+LVL_STN_NAG_AQUA_011_P,2.0,Elevated Platform Level
+LVL_STN_NAG_AQUA_012_G,0.0,Street Level
+LVL_STN_NAG_AQUA_012_C,1.0,Elevated Concourse
+LVL_STN_NAG_AQUA_012_P,2.0,Elevated Platform Level
+LVL_STN_NAG_AQUA_013_G,0.0,Street Level
+LVL_STN_NAG_AQUA_013_C,1.0,Elevated Concourse
+LVL_STN_NAG_AQUA_013_P,2.0,Elevated Platform Level
+LVL_STN_NAG_AQUA_014_G,0.0,Street Level
+LVL_STN_NAG_AQUA_014_C,1.0,Elevated Concourse
+LVL_STN_NAG_AQUA_014_P,2.0,Elevated Platform Level
+LVL_STN_NAG_AQUA_015_G,0.0,Street Level
+LVL_STN_NAG_AQUA_015_C,1.0,Elevated Concourse
+LVL_STN_NAG_AQUA_015_P,2.0,Elevated Platform Level
+LVL_STN_NAG_AQUA_016_G,0.0,Street Level
+LVL_STN_NAG_AQUA_016_C,1.0,Elevated Concourse
+LVL_STN_NAG_AQUA_016_P,2.0,Elevated Platform Level
+LVL_STN_NAG_AQUA_017_G,0.0,Street Level
+LVL_STN_NAG_AQUA_017_C,1.0,Elevated Concourse
+LVL_STN_NAG_AQUA_017_P,2.0,Elevated Platform Level
+LVL_STN_NAG_AQUA_018_G,0.0,Street Level
+LVL_STN_NAG_AQUA_018_C,1.0,Elevated Concourse
+LVL_STN_NAG_AQUA_018_P,2.0,Elevated Platform Level
+LVL_STN_NAG_ORANGE_001_G,0.0,Street Level
+LVL_STN_NAG_ORANGE_001_C,1.0,Ground Concourse
+LVL_STN_NAG_ORANGE_001_P,0.5,At-Grade Platform Level
+LVL_STN_NAG_ORANGE_002_G,0.0,Street Level
+LVL_STN_NAG_ORANGE_002_C,1.0,Ground Concourse
+LVL_STN_NAG_ORANGE_002_P,0.5,At-Grade Platform Level
+LVL_STN_NAG_ORANGE_003_G,0.0,Street Level
+LVL_STN_NAG_ORANGE_003_C,1.0,Elevated Concourse
+LVL_STN_NAG_ORANGE_003_P,2.0,Elevated Platform Level
+LVL_STN_NAG_ORANGE_004_G,0.0,Street Level
+LVL_STN_NAG_ORANGE_004_C,1.0,Elevated Concourse
+LVL_STN_NAG_ORANGE_004_P,2.0,Elevated Platform Level
+LVL_STN_NAG_ORANGE_005_G,0.0,Street Level
+LVL_STN_NAG_ORANGE_005_C,1.0,Elevated Concourse
+LVL_STN_NAG_ORANGE_005_P,2.0,Elevated Platform Level
+LVL_STN_NAG_ORANGE_006_G,0.0,Street Level
+LVL_STN_NAG_ORANGE_006_C,1.0,Elevated Concourse
+LVL_STN_NAG_ORANGE_006_P,2.0,Elevated Platform Level
+LVL_STN_NAG_ORANGE_007_G,0.0,Street Level
+LVL_STN_NAG_ORANGE_007_C,1.0,Elevated Concourse
+LVL_STN_NAG_ORANGE_007_P,2.0,Elevated Platform Level
+LVL_STN_NAG_ORANGE_008_G,0.0,Street Level
+LVL_STN_NAG_ORANGE_008_C,1.0,Elevated Concourse
+LVL_STN_NAG_ORANGE_008_P,2.0,Elevated Platform Level
+LVL_STN_NAG_ORANGE_009_G,0.0,Street Level
+LVL_STN_NAG_ORANGE_009_C,1.0,Elevated Concourse
+LVL_STN_NAG_ORANGE_009_P,2.0,Elevated Platform Level
+LVL_STN_NAG_ORANGE_010_G,0.0,Street Level
+LVL_STN_NAG_ORANGE_010_C,1.0,Elevated Concourse
+LVL_STN_NAG_ORANGE_010_P,2.0,Elevated Platform Level
+LVL_STN_NAG_ORANGE_011_G,0.0,Street Level
+LVL_STN_NAG_ORANGE_011_C,1.0,Elevated Concourse
+LVL_STN_NAG_ORANGE_011_P,2.0,Elevated Platform Level
+LVL_STN_NAG_ORANGE_012_G,0.0,Street Level
+LVL_STN_NAG_ORANGE_012_C,1.0,Elevated Concourse
+LVL_STN_NAG_ORANGE_012_P,2.0,Elevated Platform Level
+LVL_STN_NAG_ORANGE_013_G,0.0,Street Level
+LVL_STN_NAG_ORANGE_013_C,1.0,Elevated Concourse
+LVL_STN_NAG_ORANGE_013_P,2.0,Elevated Platform Level
+LVL_STN_NAG_ORANGE_014_G,0.0,Street Level
+LVL_STN_NAG_ORANGE_014_C,1.0,Elevated Concourse
+LVL_STN_NAG_ORANGE_014_P,2.0,Elevated Platform Level
+LVL_STN_NAG_ORANGE_015_G,0.0,Street Level
+LVL_STN_NAG_ORANGE_015_C,1.0,Elevated Concourse
+LVL_STN_NAG_ORANGE_015_P,2.0,Elevated Platform Level
+LVL_STN_NAG_ORANGE_016_G,0.0,Street Level
+LVL_STN_NAG_ORANGE_016_C,1.0,Elevated Concourse
+LVL_STN_NAG_ORANGE_016_P,2.0,Elevated Platform Level
+LVL_STN_NAG_ORANGE_017_G,0.0,Street Level
+LVL_STN_NAG_ORANGE_017_C,1.0,Elevated Concourse
+LVL_STN_NAG_ORANGE_017_P,2.0,Elevated Platform Level
