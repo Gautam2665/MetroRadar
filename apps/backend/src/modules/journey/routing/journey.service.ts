@@ -1029,7 +1029,7 @@ export class JourneyService {
       ) {
         const ctm2b = this.loadCtmLine2b();
         const coords: [number, number][] =
-          ctm2b?.alignmentGeometry?.coordinates;
+          ctm2b?.alignmentGeometry?.coordinates || [];
         if (coords && coords.length >= 2) {
           return this.sliceCoordinateArray(coords, fromCoord, toCoord);
         }
