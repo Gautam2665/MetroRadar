@@ -15,23 +15,27 @@ import {
 } from "../../utils/transitPresenter";
 
 const CITY_CENTERS: Record<string, { center: [number, number]; zoom: number }> = {
+  mumbai: { center: [72.8500, 19.1450], zoom: 11.2 },
+  pune: { center: [73.8567, 18.5204], zoom: 12 },
+  navi_mumbai: { center: [73.0650, 19.0400], zoom: 12 },
   delhi: { center: [77.2090, 28.6139], zoom: 11 },
-  kochi: { center: [76.2999, 9.9816], zoom: 12 },
-  hyderabad: { center: [78.4867, 17.3850], zoom: 12 },
   bengaluru: { center: [77.5946, 12.9716], zoom: 12 },
+  hyderabad: { center: [78.4867, 17.3850], zoom: 12 },
   chennai: { center: [80.2707, 13.0827], zoom: 12 },
   ahmedabad: { center: [72.5714, 23.0225], zoom: 12 },
-  mumbai: { center: [72.8500, 19.1450], zoom: 10.8 },
+  kochi: { center: [76.2999, 9.9816], zoom: 12 },
 };
 
 const SYSTEM_CODES: Record<string, string> = {
+  mumbai: "MM",
+  pune: "PMRDA",
+  navi_mumbai: "CIDCO",
   delhi: "DMRC",
-  kochi: "KMRL",
-  hyderabad: "HMRL",
   bengaluru: "BMRCL",
+  hyderabad: "HMRL",
   chennai: "CMRL",
   ahmedabad: "GMRC",
-  mumbai: "MM",
+  kochi: "KMRL",
 };
 
 type MapContainerProps = {
@@ -56,10 +60,10 @@ type MapContainerProps = {
 };
 
 export default function MapContainer({
-  center = [77.2332, 28.6665],
-  zoom = 11,
+  center,
+  zoom,
   activeLayers = ["lines", "stations", "vehicles"],
-  activeCity = "delhi",
+  activeCity = "mumbai",
   selectedStationId = null,
   onStationSelect,
   onSelectStation,
@@ -123,8 +127,10 @@ export default function MapContainer({
   const handleZoomOut = () => effectiveMapRef.current?.zoomOut();
   const handleResetNorth = () => effectiveMapRef.current?.resetNorthPitch();
 
-  const initialCenterRef = useRef(center);
-  const initialZoomRef = useRef(zoom);
+  const defaultCityKey = activeCity?.toLowerCase() || "mumbai";
+  const defaultCityConfig = CITY_CENTERS[defaultCityKey] || CITY_CENTERS.mumbai;
+  const initialCenterRef = useRef(center || defaultCityConfig.center);
+  const initialZoomRef = useRef(zoom !== undefined ? zoom : defaultCityConfig.zoom);
   const onViewportChangeRef = useRef(onViewportChange);
 
   useEffect(() => {
@@ -480,7 +486,8 @@ export default function MapContainer({
     const map = effectiveMapRef.current;
     if (!map || !mapLoaded) return;
 
-    const cityConfig = CITY_CENTERS[activeCity?.toLowerCase() || "delhi"] || CITY_CENTERS.delhi;
+    const cityKey = activeCity?.toLowerCase() || "mumbai";
+    const cityConfig = CITY_CENTERS[cityKey] || CITY_CENTERS.mumbai;
     map.flyTo({
       center: cityConfig.center,
       zoom: cityConfig.zoom,

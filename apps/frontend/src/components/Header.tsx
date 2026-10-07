@@ -12,27 +12,27 @@ interface HeaderProps {
 }
 
 const CITIES = [
-  { code: "delhi", name: "Delhi, IN", badge: "Live" },
-  { code: "kochi", name: "Kochi, KL", badge: "Certified" },
-  { code: "hyderabad", name: "Hyderabad, IN", badge: "Certified" },
-  { code: "bengaluru", name: "Bengaluru, IN", badge: "Certified" },
-  { code: "chennai", name: "Chennai, IN", badge: "Certified" },
-  { code: "ahmedabad", name: "Ahmedabad, IN", badge: "Certified" },
   { code: "mumbai", name: "Mumbai, MH", badge: "Live" },
   { code: "pune", name: "Pune, MH", badge: "Live" },
   { code: "navi_mumbai", name: "Navi Mumbai, MH", badge: "Live" },
+  { code: "delhi", name: "Delhi, IN", badge: "Live" },
+  { code: "bengaluru", name: "Bengaluru, IN", badge: "Certified" },
+  { code: "hyderabad", name: "Hyderabad, IN", badge: "Certified" },
+  { code: "chennai", name: "Chennai, IN", badge: "Certified" },
+  { code: "ahmedabad", name: "Ahmedabad, IN", badge: "Certified" },
+  { code: "kochi", name: "Kochi, KL", badge: "Certified" },
 ];
 
 const CITY_COORDS: Record<string, { lat: number; lng: number }> = {
+  mumbai: { lat: 19.076, lng: 72.8777 },
+  pune: { lat: 18.5204, lng: 73.8567 },
+  navi_mumbai: { lat: 19.0400, lng: 73.0650 },
   delhi: { lat: 28.6139, lng: 77.209 },
   kochi: { lat: 9.9816, lng: 76.2999 },
   hyderabad: { lat: 17.385, lng: 78.4867 },
   bengaluru: { lat: 12.9716, lng: 77.5946 },
   chennai: { lat: 13.0827, lng: 80.2707 },
   ahmedabad: { lat: 23.0225, lng: 72.5714 },
-  mumbai: { lat: 19.076, lng: 72.8777 },
-  pune: { lat: 18.5204, lng: 73.8567 },
-  navi_mumbai: { lat: 19.0400, lng: 73.0650 },
 };
 
 /** Weather cache: city → { temp, icon, fetchedAt } */
@@ -49,7 +49,7 @@ function resolveWeatherIcon(code: number): string {
   return "thunderstorm";
 }
 
-export function Header({ activeCity = "delhi", onCityChange, onSelectStation }: HeaderProps) {
+export function Header({ activeCity = "mumbai", onCityChange, onSelectStation }: HeaderProps) {
   const [openCityMenu, setOpenCityMenu] = useState(false);
   const [searchVal, setSearchVal] = useState("");
   const [weather, setWeather] = useState<{ temp: string; icon: string }>({ temp: "--°C", icon: "wb_sunny" });
@@ -66,7 +66,7 @@ export function Header({ activeCity = "delhi", onCityChange, onSelectStation }: 
         return;
       }
 
-    const coords = CITY_COORDS[city] || CITY_COORDS.delhi;
+    const coords = CITY_COORDS[city] || CITY_COORDS.mumbai;
     fetch(
       `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lng}&current_weather=true`
     )

@@ -19,7 +19,7 @@ export function DashboardContainer() {
   const { data: vehicles } = useRealtime(activeCity, 10000);
   const { data: stations } = useStations(activeCity);
 
-  const meta = CITY_METADATA[activeCity] || CITY_METADATA.delhi;
+  const meta = CITY_METADATA[activeCity] || CITY_METADATA.mumbai || CITY_METADATA.delhi;
 
   const statCards = [
     {

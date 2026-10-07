@@ -1,12 +1,14 @@
 "use client";
 
+import { useCityContext } from "../../contexts/CityContext";
+
 import { useState } from "react";
 import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
 import { CITY_METADATA } from "../../config/cityMetadata";
 
 export default function PaymentsPage() {
-  const [activeCity, setActiveCity] = useState("delhi");
+  const { activeCity, setActiveCity } = useCityContext();
   const [autoTopUp, setAutoTopUp] = useState(true);
   const [walletBalance, setWalletBalance] = useState(256.4);
   const [selectedMethod, setSelectedMethod] = useState("upi");

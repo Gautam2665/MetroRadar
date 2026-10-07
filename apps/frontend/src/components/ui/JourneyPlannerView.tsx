@@ -395,8 +395,8 @@ export function JourneyPlannerView({
   onSearchRoute,
   onQuickPillSelect,
 }: JourneyPlannerViewProps) {
-  const cityKey = activeCity?.toLowerCase() || "delhi";
-  const currentMeta = CITY_METADATA[cityKey] || CITY_METADATA.delhi;
+  const cityKey = activeCity?.toLowerCase() || "mumbai";
+  const currentMeta = CITY_METADATA[cityKey] || CITY_METADATA.mumbai || CITY_METADATA.delhi;
   const originPlaceholder = currentMeta.quickPills?.[0] || "Select origin station";
   const destPlaceholder =
     currentMeta.quickPills?.[currentMeta.quickPills.length - 1] || "Select destination station";

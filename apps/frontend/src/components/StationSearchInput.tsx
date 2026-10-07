@@ -80,7 +80,7 @@ export function StationSearchInput({
       search(value);
     } else if (value.trim().length === 0) {
       // Show city stations on empty focus using city name as query seed
-      search(activeCity || "Delhi");
+      search(activeCity || "Mumbai");
     }
   };
 

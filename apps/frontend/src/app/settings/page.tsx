@@ -1,13 +1,14 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
+import { useCityContext } from "../../contexts/CityContext";
 import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
 import { CITY_METADATA } from "../../config/cityMetadata";
 
 export default function SettingsPage() {
-  const [activeCity, setActiveCity] = useState("delhi");
+  const { activeCity, setActiveCity } = useCityContext();
   const [pushNotifs, setPushNotifs] = useState(true);
   const [delayAlerts, setDelayAlerts] = useState(true);
   const [darkTheme, setDarkTheme] = useState(true);

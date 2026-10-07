@@ -1,12 +1,14 @@
 "use client";
 
+import { useCityContext } from "../../contexts/CityContext";
+
 import { useState } from "react";
 import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
 import { CITY_METADATA } from "../../config/cityMetadata";
 
 export default function AlertsPage() {
-  const [activeCity, setActiveCity] = useState("delhi");
+  const { activeCity, setActiveCity } = useCityContext();
   const [selectedFilter, setSelectedFilter] = useState("All");
 
   const currentMeta = CITY_METADATA[activeCity] || CITY_METADATA.delhi;

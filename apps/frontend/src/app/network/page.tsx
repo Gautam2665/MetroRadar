@@ -62,7 +62,7 @@ function NetworkContent() {
     return () => clearTimeout(timer);
   }, [searchParams]);
 
-  const currentMeta = CITY_METADATA[activeCity] || CITY_METADATA.delhi;
+  const currentMeta = CITY_METADATA[activeCity] || CITY_METADATA.mumbai || CITY_METADATA.delhi;
 
   const { data: twin, loading: twinLoading } = useDigitalTwin(
     inspectorOpen ? selectedStation?.id ?? null : null,

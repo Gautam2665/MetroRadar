@@ -7,20 +7,23 @@ interface CityContextType {
   setActiveCity: (city: string) => void;
 }
 
+const DEFAULT_CITY = "mumbai";
+
 const CityContext = createContext<CityContextType>({
-  activeCity: "delhi",
+  activeCity: DEFAULT_CITY,
   setActiveCity: () => undefined,
 });
 
 const STORAGE_KEY = "transitos_active_city";
 const citySubscribers = new Set<() => void>();
-let inMemoryCity = "delhi";
+let inMemoryCity = DEFAULT_CITY;
 let hasLoadedStoredCity = false;
 
 function getActiveCitySnapshot(): string {
   if (hasLoadedStoredCity) return inMemoryCity;
   try {
-    inMemoryCity = localStorage.getItem(STORAGE_KEY) || inMemoryCity;
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) inMemoryCity = stored;
   } catch {
     // Fall back to the stable in-memory default when storage is unavailable.
   }
@@ -29,7 +32,7 @@ function getActiveCitySnapshot(): string {
 }
 
 function getServerCitySnapshot(): string {
-  return "delhi";
+  return DEFAULT_CITY;
 }
 
 function notifyCitySubscribers(): void {
@@ -40,7 +43,7 @@ function subscribeToCityChanges(notify: () => void): () => void {
   citySubscribers.add(notify);
   const handleStorage = (event: StorageEvent) => {
     if (event.key !== STORAGE_KEY && event.key !== null) return;
-    inMemoryCity = event.newValue || "delhi";
+    inMemoryCity = event.newValue || DEFAULT_CITY;
     hasLoadedStoredCity = true;
     notifyCitySubscribers();
   };
