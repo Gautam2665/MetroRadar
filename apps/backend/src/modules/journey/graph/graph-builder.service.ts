@@ -6,6 +6,66 @@ import { InterchangeEvaluatorService } from '../routing/interchange-evaluator.se
 import { EdgeType } from './edge.types';
 import { GraphEdge, StationNode, TransitGraph } from './graph.types';
 
+interface InterchangeComplexRecord {
+  complexId: string;
+  name: string;
+  participatingStations?: string[];
+  pathways?: Array<{ walkingSeconds?: number | null }>;
+  pathway?: Array<{ walkingSeconds?: number | null }>;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function parsePathways(
+  value: unknown,
+): Array<{ walkingSeconds?: number | null }> | undefined {
+  if (!Array.isArray(value)) return undefined;
+  return (value as unknown[]).flatMap((item) => {
+    if (!isRecord(item)) return [];
+    const seconds = item.walkingSeconds;
+    if (
+      seconds === null ||
+      (typeof seconds === 'number' && Number.isFinite(seconds))
+    ) {
+      return [{ walkingSeconds: seconds }];
+    }
+    return [{}];
+  });
+}
+
+function parseInterchangeRegistry(value: unknown): InterchangeComplexRecord[] {
+  if (!isRecord(value) || !Array.isArray(value.complexes)) return [];
+  return (value.complexes as unknown[]).flatMap((item) => {
+    if (
+      !isRecord(item) ||
+      typeof item.complexId !== 'string' ||
+      typeof item.name !== 'string'
+    ) {
+      return [];
+    }
+    const participatingStations = Array.isArray(item.participatingStations)
+      ? (item.participatingStations as unknown[]).filter(
+          (station): station is string => typeof station === 'string',
+        )
+      : undefined;
+    return [
+      {
+        complexId: item.complexId,
+        name: item.name,
+        ...(participatingStations ? { participatingStations } : {}),
+        ...(Array.isArray(item.pathways)
+          ? { pathways: parsePathways(item.pathways) }
+          : {}),
+        ...(Array.isArray(item.pathway)
+          ? { pathway: parsePathways(item.pathway) }
+          : {}),
+      },
+    ];
+  });
+}
+
 /**
  * GraphBuilderService — builds the station-level transit graph from the
  * Canonical Transit Model (CTM) stored in PostgreSQL.
@@ -20,18 +80,7 @@ import { GraphEdge, StationNode, TransitGraph } from './graph.types';
 @Injectable()
 export class GraphBuilderService {
   private readonly logger = new Logger(GraphBuilderService.name);
-  private interchangeComplexes: Array<{
-    complexId: string;
-    participatingStations?: string[];
-    pathways?: Array<{ walkingSeconds?: number | null }>;
-    pathway?: Array<{ walkingSeconds?: number | null }>;
-    throughRunningRelations?: Array<{
-      from: string;
-      to: string;
-      viaStationId?: string;
-      relation?: string;
-    }>;
-  }> = [];
+  private interchangeComplexes: InterchangeComplexRecord[] = [];
 
   constructor(
     private readonly db: DatabaseService,
@@ -56,10 +105,8 @@ export class GraphBuilderService {
     for (const candidate of candidates) {
       if (!fs.existsSync(candidate)) continue;
       try {
-        const parsed = JSON.parse(fs.readFileSync(candidate, 'utf8')) as {
-          complexes?: typeof this.interchangeComplexes;
-        };
-        this.interchangeComplexes = parsed.complexes ?? [];
+        const parsed: unknown = JSON.parse(fs.readFileSync(candidate, 'utf8'));
+        this.interchangeComplexes = parseInterchangeRegistry(parsed);
         return;
       } catch (error) {
         this.logger.error(
