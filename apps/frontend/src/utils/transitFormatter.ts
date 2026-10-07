@@ -76,10 +76,6 @@ export function extractDirection(rawLineName: string | null | undefined, fallbac
     return fallbackToStation.trim();
   }
   if (!rawLineName) return "";
-  const u = rawLineName.toUpperCase();
-  if (u.includes("PINK")) {
-    return "Majlis Park (via Netaji Subhash Place)";
-  }
 
   // Matches " to [Destination Station]"
   const toMatch = rawLineName.match(/\s+to\s+([^,]+)$/i);

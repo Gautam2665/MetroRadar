@@ -1256,110 +1256,12 @@ export class JourneyService {
             : null,
       ]);
 
-      const fromName = (fromSt?.name || '').toUpperCase();
-      const toName = (toSt?.name || '').toUpperCase();
-      const lineStr =
-        `${lineId || ''} ${line?.code || ''} ${line?.name || ''}`.toUpperCase();
-
-      const isMumbaiLine =
-        lineStr.includes('MUMBAI') ||
-        lineStr.includes('MM_') ||
-        fromName.includes('KASHIGAON') ||
-        fromName.includes('VERSOVA') ||
-        fromName.includes('GHATKOPAR') ||
-        fromName.includes('GUNDAVALI') ||
-        fromName.includes('CUFFE') ||
-        fromName.includes('AAREY');
-
-      if (isMumbaiLine) {
-        // Special handling for Line 9 / Line 7 through-running corridor
-        if (
-          lineStr.includes('LINE 7') ||
-          lineStr.includes('LINE 9') ||
-          lineStr.includes('LINE7') ||
-          lineStr.includes('LINE9') ||
-          lineStr.includes('RED') ||
-          fromName.includes('KASHIGAON') ||
-          fromName.includes('PANDHURANG') ||
-          fromName.includes('MIRAGAON') ||
-          toName.includes('GUNDAVALI') ||
-          toName.includes('DAHISAR')
-        ) {
-          const isSouthbound =
-            (fromSt && toSt && fromSt.latitude > toSt.latitude) ||
-            toName.includes('GUNDAVALI') ||
-            fromName.includes('KASHIGAON');
-
-          const towards = isSouthbound ? 'Gundavali' : 'Kashigaon';
-          const boardingPlatform = isSouthbound ? 'Platform 2' : 'Platform 1';
-          return {
-            towards,
-            boardingPlatform,
-            alightingPlatform: null,
-            platformStatus: 'KNOWN',
-          };
-        }
-
-        // Special handling for Mumbai Line 1 (Versova <-> Ghatkopar)
-        if (
-          lineStr.includes('LINE 1') ||
-          lineStr.includes('LINE1') ||
-          lineStr.includes('BLUE')
-        ) {
-          const isEastbound =
-            (fromSt && toSt && toSt.longitude > fromSt.longitude) ||
-            toName.includes('GHATKOPAR') ||
-            fromName.includes('VERSOVA');
-
-          const towards = isEastbound ? 'Ghatkopar' : 'Versova';
-          const boardingPlatform = isEastbound ? 'Platform 1' : 'Platform 2';
-          return {
-            towards,
-            boardingPlatform,
-            alightingPlatform: null,
-            platformStatus: 'KNOWN',
-          };
-        }
-
-        // Special handling for Mumbai Line 2A (Dahisar East <-> Andheri West)
-        if (
-          lineStr.includes('LINE 2A') ||
-          lineStr.includes('LINE2A') ||
-          lineStr.includes('YELLOW')
-        ) {
-          const isSouthbound =
-            (fromSt && toSt && fromSt.latitude > toSt.latitude) ||
-            toName.includes('ANDHERI') ||
-            fromName.includes('DAHISAR');
-
-          const towards = isSouthbound ? 'Andheri (West)' : 'Dahisar (East)';
-          const boardingPlatform = isSouthbound ? 'Platform 2' : 'Platform 1';
-          return {
-            towards,
-            boardingPlatform,
-            alightingPlatform: null,
-            platformStatus: 'KNOWN',
-          };
-        }
-
-        // Mumbai Line 3 engineering semantics apply only to its canonical line ID.
-        if (lineStr.includes('MUMBAI_LINE3') || lineStr.includes('LINE3')) {
-          const isSouthbound =
-            (fromSt && toSt && fromSt.latitude > toSt.latitude) ||
-            toName.includes('ATRE') ||
-            toName.includes('BKC') ||
-            toName.includes('CUFFE');
-
-          const towards = isSouthbound ? 'Acharya Atre Chowk' : 'Aarey JVLR';
-          const boardingPlatform = isSouthbound ? 'Platform 2' : 'Platform 1';
-          return {
-            towards,
-            boardingPlatform,
-            alightingPlatform: null,
-            platformStatus: 'KNOWN',
-          };
-        }
-      }
+      // Resolve trip headsign from GTFS trips table if available
+      const tripHeadsign = await this.resolveTripHeadsign(
+        lineId,
+        fromStationId,
+        toStationId,
+      );
 
       // General DB station sequence fallback
       if (line?.id && fromSt?.id && toSt?.id) {
@@ -1383,7 +1285,7 @@ export class JourneyService {
           });
 
           if (terminalSeq) {
-            const towards = terminalSeq.station.name;
+            const towards = tripHeadsign || terminalSeq.station.name;
             const boardingPlatform = isIncreasing ? 'Platform 1' : 'Platform 2';
             return {
               towards,

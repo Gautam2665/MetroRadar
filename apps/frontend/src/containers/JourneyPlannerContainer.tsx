@@ -346,50 +346,7 @@ export function combineCandidateGeojsons(
 // ── Fallback data for when no backend is available ────────────────────────────
 
 function makeFallback(): RouteOption[] {
-  return [
-    {
-      id: `f1-${Date.now()}`,
-      label: "⚡ Fastest",
-      duration: "32 min",
-      durationMins: 32,
-      durationSeconds: 1920,
-      fare: "₹30",
-      smartCardFare: "₹27",
-      distance: "18.6 km",
-      interchanges: 1,
-      walkDistance: "350m",
-      walkMins: 4,
-      crowd: "Low" as const,
-      crowdColor: "#4ade80",
-      boardCoach: "Coach 3",
-      score: 95,
-      legs: [
-        { mode: "subway", line: "Yellow Line", color: "#EAB308", fromStation: "Origin", toStation: "Interchange", stopsCount: 7, durationMins: 18 },
-        { mode: "walk", line: "Walk", color: "#bac9cc", durationMins: 3 },
-        { mode: "subway", line: "Blue Line", color: "#3B82F6", fromStation: "Interchange", toStation: "Destination", stopsCount: 5, durationMins: 11 },
-      ],
-    },
-    {
-      id: `f2-${Date.now()}`,
-      label: "◎ Direct",
-      duration: "38 min",
-      durationMins: 38,
-      durationSeconds: 2280,
-      fare: "₹25",
-      smartCardFare: "₹22",
-      distance: "16.2 km",
-      interchanges: 0,
-      walkDistance: "150m",
-      walkMins: 2,
-      crowd: "Low" as const,
-      crowdColor: "#4ade80",
-      boardCoach: "Coach 2",
-      score: 88,
-      legs: [
-        { mode: "subway", line: "Violet Line", color: "#8B5CF6", fromStation: "Origin", toStation: "Destination", stopsCount: 14, durationMins: 36 },
-      ],
-    },
-  ];
+  return [];
 }
 
 // ── Container ─────────────────────────────────────────────────────────────────
