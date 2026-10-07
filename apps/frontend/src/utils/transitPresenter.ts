@@ -41,11 +41,15 @@ export function cleanLineName(rawName: string | null | undefined, mode?: string)
   const str = rawName.trim();
   const upper = str.toUpperCase();
 
-  if (upper.includes('ORANGE') || upper.includes('AIRPORT')) {
+  if (upper.includes('AIRPORT EXPRESS') || upper.startsWith('ORANGE/AIRPORT') || upper.includes('AIRPORT LINE')) {
     return 'Airport Express (Orange Line)';
   }
+  if (upper.startsWith('ORANGE_') || upper.includes('ORANGE LINE') || upper.includes('LINE (ORANGE)') || upper.includes('AUTOMOTIVE') || upper.includes('KHAPRI')) {
+    return 'Orange Line';
+  }
+  if (upper.includes('PURPLE') || upper.includes('PCMC') || upper.includes('SWARGATE')) return 'Purple Line';
   if (upper.includes('YELLOW') || upper.includes('LINE 2A')) return 'Yellow Line';
-  if (upper.includes('AQUA') || upper.includes('LINE 3')) return 'Aqua Line';
+  if (upper.includes('AQUA') || upper.includes('LINE 3') || upper.includes('LOKMANYA') || upper.includes('PRAJAPATI') || upper.includes('VANAZ') || upper.includes('RAMWADI')) return 'Aqua Line';
   if (upper.includes('BLUE') || upper.includes('LINE 1')) return 'Blue Line';
   if (upper.includes('RED') || upper.includes('LINE 7')) return 'Red Line';
   if (upper.includes('PINK')) return 'Pink Line';

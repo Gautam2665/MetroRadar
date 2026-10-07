@@ -531,20 +531,29 @@ export default function MapContainer({
     let layersLoaded = 0;
 
     const syncLayers = async () => {
+      const getActiveMap = () => {
+        const m = effectiveMapRef.current;
+        if (!m || !m.getStyle()) return null;
+        return m;
+      };
+
       // 1. Lines Layer
       if (activeLayers.includes("lines")) {
         try {
           const t0 = performance.now();
           const res = await fetch(`${backendUrl}/map/lines?t=${Date.now()}`);
-          if (res.ok) {
+          const currentMap = getActiveMap();
+          if (res.ok && currentMap) {
             const geojson = await res.json();
+            const mapNow = getActiveMap();
+            if (!mapNow) return;
             apiLatencySetter?.(Math.round(performance.now() - t0));
 
-            if (map.getSource("lines-source")) {
-              (map.getSource("lines-source") as maplibregl.GeoJSONSource).setData(geojson);
+            if (mapNow.getSource("lines-source")) {
+              (mapNow.getSource("lines-source") as maplibregl.GeoJSONSource).setData(geojson);
             } else {
-              map.addSource("lines-source", { type: "geojson", data: geojson });
-              map.addLayer({
+              mapNow.addSource("lines-source", { type: "geojson", data: geojson });
+              mapNow.addLayer({
                 id: "lines-layer",
                 type: "line",
                 source: "lines-source",
@@ -572,8 +581,11 @@ export default function MapContainer({
           console.error("Failed to load lines GIS layer:", err);
         }
       } else {
-        if (map.getLayer("lines-layer")) map.removeLayer("lines-layer");
-        if (map.getSource("lines-source")) map.removeSource("lines-source");
+        const mapNow = getActiveMap();
+        if (mapNow) {
+          if (mapNow.getLayer("lines-layer")) mapNow.removeLayer("lines-layer");
+          if (mapNow.getSource("lines-source")) mapNow.removeSource("lines-source");
+        }
       }
 
       // 2. Stations Layer
@@ -581,15 +593,18 @@ export default function MapContainer({
         try {
           const sysCode = SYSTEM_CODES[activeCity.toLowerCase()] || "DMRC";
           const res = await fetch(`${backendUrl}/map/stations?system=${sysCode}&t=${Date.now()}`);
-          if (res.ok) {
+          const currentMap = getActiveMap();
+          if (res.ok && currentMap) {
             const geojson = await res.json();
+            const mapNow = getActiveMap();
+            if (!mapNow) return;
 
-            if (map.getSource("stations-source")) {
-              (map.getSource("stations-source") as maplibregl.GeoJSONSource).setData(geojson);
+            if (mapNow.getSource("stations-source")) {
+              (mapNow.getSource("stations-source") as maplibregl.GeoJSONSource).setData(geojson);
             } else {
-              map.addSource("stations-source", { type: "geojson", data: geojson });
+              mapNow.addSource("stations-source", { type: "geojson", data: geojson });
 
-              map.addLayer({
+              mapNow.addLayer({
                 id: "stations-layer",
                 type: "circle",
                 source: "stations-source",
@@ -619,9 +634,11 @@ export default function MapContainer({
             }
 
             // Interactive hover & click bindings
-            map.on("mousemove", "stations-layer", (e) => {
-              map.getCanvas().style.cursor = "pointer";
-              const features = map.queryRenderedFeatures(e.point, { layers: ["stations-layer"] });
+            mapNow.on("mousemove", "stations-layer", (e) => {
+              const activeM = getActiveMap();
+              if (!activeM) return;
+              activeM.getCanvas().style.cursor = "pointer";
+              const features = activeM.queryRenderedFeatures(e.point, { layers: ["stations-layer"] });
               if (features.length > 0) {
                 if (popupCloseTimeoutRef.current) {
                   clearTimeout(popupCloseTimeoutRef.current);
@@ -635,8 +652,9 @@ export default function MapContainer({
               }
             });
 
-            map.on("mouseleave", "stations-layer", () => {
-              map.getCanvas().style.cursor = "";
+            mapNow.on("mouseleave", "stations-layer", () => {
+              const activeM = getActiveMap();
+              if (activeM) activeM.getCanvas().style.cursor = "";
               
               popupCloseTimeoutRef.current = setTimeout(() => {
                 if (!pinnedStationIdRef.current) {
@@ -649,8 +667,10 @@ export default function MapContainer({
               }, 250);
             });
 
-            map.on("click", "stations-layer", (e) => {
-              const features = map.queryRenderedFeatures(e.point, { layers: ["stations-layer"] });
+            mapNow.on("click", "stations-layer", (e) => {
+              const activeM = getActiveMap();
+              if (!activeM) return;
+              const features = activeM.queryRenderedFeatures(e.point, { layers: ["stations-layer"] });
               if (features.length > 0) {
                 const props = features[0].properties;
                 const geom = features[0].geometry as GeoJSON.Point;
@@ -674,9 +694,11 @@ export default function MapContainer({
             });
 
             // Map canvas click clears pinned station and closes popup
-            map.on("click", (e) => {
-              const features = map.queryRenderedFeatures(e.point, {
-                layers: ["stations-layer", "journey-route-stations-layer", "journey-transfer-layer", "journey-origin-layer", "journey-dest-layer"].filter((l) => map.getLayer(l)),
+            mapNow.on("click", (e) => {
+              const activeM = getActiveMap();
+              if (!activeM) return;
+              const features = activeM.queryRenderedFeatures(e.point, {
+                layers: ["stations-layer", "journey-route-stations-layer", "journey-transfer-layer", "journey-origin-layer", "journey-dest-layer"].filter((l) => activeM.getLayer(l)),
               });
               if (features.length === 0) {
                 pinnedStationIdRef.current = null;
@@ -692,8 +714,11 @@ export default function MapContainer({
           console.error("Failed to load stations GIS layer:", err);
         }
       } else {
-        if (map.getLayer("stations-layer")) map.removeLayer("stations-layer");
-        if (map.getSource("stations-source")) map.removeSource("stations-source");
+        const mapNow = getActiveMap();
+        if (mapNow) {
+          if (mapNow.getLayer("stations-layer")) mapNow.removeLayer("stations-layer");
+          if (mapNow.getSource("stations-source")) mapNow.removeSource("stations-source");
+        }
       }
 
       setLoadedLayersCount?.(layersLoaded);

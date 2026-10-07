@@ -25,11 +25,14 @@ export function formatLineName(rawName: string | null | undefined, mode?: string
   const str = rawName.trim();
   const upper = str.toUpperCase();
 
-  if (upper.includes("ORANGE") || upper.includes("AIRPORT")) {
+  if (upper.includes("AIRPORT EXPRESS") || upper.startsWith("ORANGE/AIRPORT") || upper.includes("AIRPORT LINE")) {
     return "Airport Express (Orange Line)";
   }
+  if (upper.startsWith("ORANGE_") || upper.includes("ORANGE LINE") || upper.includes("LINE (ORANGE)") || upper.includes("AUTOMOTIVE") || upper.includes("KHAPRI")) {
+    return "Orange Line";
+  }
   if (upper.includes("MONORAIL")) return "Monorail";
-  if (upper.startsWith("PURPLE_") || upper.includes("PURPLE LINE")) return "Purple Line";
+  if (upper.startsWith("PURPLE_") || upper.includes("PURPLE LINE") || upper.includes("PCMC") || upper.includes("SWARGATE")) return "Purple Line";
   if (upper.startsWith("PINK_") || upper.includes("PINK LINE")) return "Pink Line";
   if (upper.startsWith("YELLOW_") || upper.includes("YELLOW LINE") || upper.includes("LINE 2A") || upper.includes("LINE 2B")) return "Yellow Line";
   if (upper.startsWith("BLUE_") || upper.includes("BLUE LINE") || upper.includes("LINE 1 (BLUE)")) return "Blue Line";
@@ -37,7 +40,8 @@ export function formatLineName(rawName: string | null | undefined, mode?: string
   if (upper.startsWith("GREEN_") || upper.includes("GREEN LINE")) return "Green Line";
   if (upper.startsWith("VIOLET_") || upper.includes("VIOLET LINE")) return "Violet Line";
   if (upper.startsWith("MAGENTA_") || upper.includes("MAGENTA LINE")) return "Magenta Line";
-  if (upper.startsWith("AQUA_") || upper.includes("AQUA LINE") || upper.includes("LINE 3") || upper.includes("LINE 2 (AQUA)")) return "Aqua Line";
+  if (upper.startsWith("AQUA_") || upper.includes("AQUA LINE") || upper.includes("LINE 3") || upper.includes("LINE 2 (AQUA)") || upper.includes("LOKMANYA") || upper.includes("PRAJAPATI") || upper.includes("VANAZ") || upper.includes("RAMWADI")) return "Aqua Line";
+  if (upper.includes("BELAPUR") || upper.includes("PENDHAR")) return "Navi Mumbai Line 1";
   if (upper.startsWith("GREY_") || upper.startsWith("GRAY_") || upper.includes("GREY LINE")) return "Grey Line";
   if (upper.startsWith("RAPID_") || upper.includes("RAPID METRO")) return "Rapid Metro";
   if (upper.includes("KOCHI")) return "Kochi Metro Line";
@@ -66,18 +70,14 @@ export function formatShortLineName(rawName: string | null | undefined, mode?: s
 
 /**
  * Extract train headsign / direction ("Towards [Destination]") from raw line string.
- * Example: "ORANGE/AIRPORT_Dwarka Sector - 21 to New Delhi" -> "New Delhi"
- * Example: "PINK_Shiv Vihar to Majlis Park" -> "Majlis Park"
  */
 export function extractDirection(rawLineName: string | null | undefined, fallbackToStation?: string): string {
-  if (!rawLineName) return fallbackToStation || "";
+  if (fallbackToStation && fallbackToStation.trim().length > 0) {
+    return fallbackToStation.trim();
+  }
+  if (!rawLineName) return "";
   const u = rawLineName.toUpperCase();
   if (u.includes("PINK")) {
-    const fallbackUpper = (fallbackToStation || "").toUpperCase();
-    const eastbound = ["SARAI KALE KHAN", "NIZAMUDDIN", "ASHRAM", "LAJPAT", "INA", "MAYUR", "SHIV VIHAR", "MOTI BAGH", "VINOBAPURI", "SOUTH EXTENSION"];
-    if (eastbound.some((s) => fallbackUpper.includes(s))) {
-      return "Shiv Vihar (via INA / Lajpat Nagar)";
-    }
     return "Majlis Park (via Netaji Subhash Place)";
   }
 
@@ -87,19 +87,7 @@ export function extractDirection(rawLineName: string | null | undefined, fallbac
     return toMatch[1].trim();
   }
 
-  if (u.includes("LINE 3") || u.includes("AQUA")) {
-    const fallbackUpper = (fallbackToStation || "").toUpperCase();
-    const isNorth = ["AAREY", "SEEPZ", "MIDC", "MAROL"].some((s) => fallbackUpper.includes(s));
-    return isNorth ? "Aarey JVLR" : "Cuffe Parade";
-  }
-
-  if (u.includes("LINE 1") || u.includes("BLUE")) {
-    const fallbackUpper = (fallbackToStation || "").toUpperCase();
-    const isWest = ["VERSOVA", "D. N. NAGAR", "D.N. NAGAR", "AZAD NAGAR", "ANDHERI"].some((s) => fallbackUpper.includes(s));
-    return isWest ? "Versova" : "Ghatkopar";
-  }
-
-  return fallbackToStation || "";
+  return "";
 }
 
 export type ItineraryStep = {
