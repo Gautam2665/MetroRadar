@@ -53,24 +53,6 @@ export function renderSmartStationCardHtml(data: StationCardData): string {
   const levelText = typeof data.levelsCount === "number" && data.levelsCount > 0
     ? `${data.levelsCount} levels`
     : "Levels unknown";
-  const lineInfrastructureHtml = data.lineInfrastructure?.length
-    ? data.lineInfrastructure.map((line) => {
-        const evidenceLabel = (status: string) => {
-          if (status.includes("PROPOSED_DPR")) return "proposed";
-          if (status === "VERIFIED" || status === "OPERATOR_CONFIRMED_AS_BUILT") return "verified";
-          return status === "UNKNOWN" ? "unknown" : "unverified";
-        };
-        const levels = line.levelsCount > 0
-          ? `${line.levelsCount} levels · ${evidenceLabel(line.levelsEvidenceStatus)}`
-          : "levels unknown";
-        const platforms = line.platformsCount > 0
-          ? `${line.platformsCount} platforms · ${evidenceLabel(line.platformsEvidenceStatus)}`
-          : "platforms unknown";
-        const color = line.color || "#94a3b8";
-        return `<div class="flex items-center justify-between gap-2"><span class="truncate" style="color:${color}">${line.lineName}</span><span class="shrink-0 text-slate-300">${levels} · ${platforms}</span></div>`;
-      }).join("")
-    : null;
-
   // Badge in top right: TRANSFER or STATION
   const typeBadgeText = data.isInterchange ? "TRANSFER" : "STATION";
   const typeBadgeClass = data.isInterchange

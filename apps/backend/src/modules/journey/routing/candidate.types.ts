@@ -125,7 +125,8 @@ export interface TransferDetails {
 
 export type LegMode = 'METRO' | 'TRANSFER';
 export type DoorSide = 'Left' | 'Right' | null;
-export type DoorSideStatus = 'KNOWN_FROM_ENGINEERING' | 'UNKNOWN_SOURCE_REQUIRED';
+export type DoorSideStatus =
+  'KNOWN_FROM_ENGINEERING' | 'UNKNOWN_SOURCE_REQUIRED';
 export type PlatformStatus = 'KNOWN' | 'USER_REPORTED' | 'UNKNOWN';
 
 export interface JourneyLeg {

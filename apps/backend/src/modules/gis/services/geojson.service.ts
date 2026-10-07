@@ -75,6 +75,71 @@ interface InterchangeRegistryData {
   }>;
 }
 
+interface Phase1CtmStation {
+  canonicalId: string;
+  name: string;
+  longitude: number;
+  latitude: number;
+  aliases?: string[];
+  sharedPhysicalStation?: boolean;
+}
+
+interface Phase1CtmData {
+  stations: Phase1CtmStation[];
+  alignmentGeometry?: { coordinates: [number, number][] };
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function parsePhase1Ctm(value: unknown): Phase1CtmData | null {
+  if (!isRecord(value) || !Array.isArray(value.stations)) return null;
+  const stations: Phase1CtmStation[] = [];
+  for (const item of value.stations) {
+    if (
+      !isRecord(item) ||
+      typeof item.canonicalId !== 'string' ||
+      typeof item.name !== 'string' ||
+      typeof item.longitude !== 'number' ||
+      typeof item.latitude !== 'number' ||
+      (item.aliases !== undefined &&
+        (!Array.isArray(item.aliases) ||
+          !item.aliases.every((alias) => typeof alias === 'string')))
+    )
+      return null;
+    stations.push({
+      canonicalId: item.canonicalId,
+      name: item.name,
+      longitude: item.longitude,
+      latitude: item.latitude,
+      ...(Array.isArray(item.aliases) ? { aliases: item.aliases } : {}),
+      ...(typeof item.sharedPhysicalStation === 'boolean'
+        ? { sharedPhysicalStation: item.sharedPhysicalStation }
+        : {}),
+    });
+  }
+
+  let alignmentGeometry: Phase1CtmData['alignmentGeometry'];
+  if (
+    isRecord(value.alignmentGeometry) &&
+    Array.isArray(value.alignmentGeometry.coordinates)
+  ) {
+    const coordinates: [number, number][] = [];
+    for (const point of value.alignmentGeometry.coordinates) {
+      if (
+        !Array.isArray(point) ||
+        typeof point[0] !== 'number' ||
+        typeof point[1] !== 'number'
+      )
+        return null;
+      coordinates.push([point[0], point[1]]);
+    }
+    alignmentGeometry = { coordinates };
+  }
+  return { stations, ...(alignmentGeometry ? { alignmentGeometry } : {}) };
+}
+
 export interface StationFeature {
   type: 'Feature';
   id: string;
@@ -91,16 +156,27 @@ export class GeojsonService {
 
   constructor(private readonly prisma: DatabaseService) {}
 
-  private loadLine2bPhase1Ctm(): Record<string, any> | null {
+  private loadLine2bPhase1Ctm(): Phase1CtmData | null {
     const candidates = [
-      path.resolve(process.cwd(), 'datasets/mumbai/normalized/ctm-line2b-phase1.json'),
-      path.resolve(process.cwd(), '../../datasets/mumbai/normalized/ctm-line2b-phase1.json'),
-      path.resolve(__dirname, '../../../../../../datasets/mumbai/normalized/ctm-line2b-phase1.json'),
+      path.resolve(
+        process.cwd(),
+        'datasets/mumbai/normalized/ctm-line2b-phase1.json',
+      ),
+      path.resolve(
+        process.cwd(),
+        '../../datasets/mumbai/normalized/ctm-line2b-phase1.json',
+      ),
+      path.resolve(
+        __dirname,
+        '../../../../../../datasets/mumbai/normalized/ctm-line2b-phase1.json',
+      ),
     ];
     for (const candidate of candidates) {
       if (!fs.existsSync(candidate)) continue;
       try {
-        return JSON.parse(fs.readFileSync(candidate, 'utf8')) as Record<string, any>;
+        return parsePhase1Ctm(
+          JSON.parse(fs.readFileSync(candidate, 'utf8')) as unknown,
+        );
       } catch {
         return null;
       }
@@ -108,16 +184,27 @@ export class GeojsonService {
     return null;
   }
 
-  private loadLine9Phase1Ctm(): Record<string, any> | null {
+  private loadLine9Phase1Ctm(): Phase1CtmData | null {
     const candidates = [
-      path.resolve(process.cwd(), 'datasets/mumbai/normalized/ctm-line9-phase1.json'),
-      path.resolve(process.cwd(), '../../datasets/mumbai/normalized/ctm-line9-phase1.json'),
-      path.resolve(__dirname, '../../../../../../datasets/mumbai/normalized/ctm-line9-phase1.json'),
+      path.resolve(
+        process.cwd(),
+        'datasets/mumbai/normalized/ctm-line9-phase1.json',
+      ),
+      path.resolve(
+        process.cwd(),
+        '../../datasets/mumbai/normalized/ctm-line9-phase1.json',
+      ),
+      path.resolve(
+        __dirname,
+        '../../../../../../datasets/mumbai/normalized/ctm-line9-phase1.json',
+      ),
     ];
     for (const candidate of candidates) {
       if (!fs.existsSync(candidate)) continue;
       try {
-        return JSON.parse(fs.readFileSync(candidate, 'utf8')) as Record<string, any>;
+        return parsePhase1Ctm(
+          JSON.parse(fs.readFileSync(candidate, 'utf8')) as unknown,
+        );
       } catch {
         return null;
       }
@@ -125,7 +212,7 @@ export class GeojsonService {
     return null;
   }
 
-  private line2bStationFeature(station: Record<string, any>): StationFeature {
+  private line2bStationFeature(station: Phase1CtmStation): StationFeature {
     const id = String(station.canonicalId);
     const line: StationLine = {
       code: 'MUMBAI_LINE2B',
@@ -155,7 +242,7 @@ export class GeojsonService {
     };
   }
 
-  private line9StationFeature(station: Record<string, any>): StationFeature {
+  private line9StationFeature(station: Phase1CtmStation): StationFeature {
     const id = String(station.canonicalId);
     const line: StationLine = {
       code: 'MUMBAI_LINE9',
@@ -165,7 +252,10 @@ export class GeojsonService {
     return {
       type: 'Feature',
       id,
-      geometry: { type: 'Point', coordinates: [station.longitude, station.latitude] },
+      geometry: {
+        type: 'Point',
+        coordinates: [station.longitude, station.latitude],
+      },
       properties: {
         id,
         code: id,
@@ -190,20 +280,41 @@ export class GeojsonService {
     if (!normalizedQuery) return [];
     const results: Record<string, unknown>[] = [];
     for (const station of ctm.stations ?? []) {
-      const searchableNames = [station.name, ...(station.aliases ?? [])]
-        .filter((name: unknown): name is string => typeof name === 'string');
-      if (!searchableNames.some((name: string) => name.toLocaleLowerCase().includes(normalizedQuery))) continue;
+      const searchableNames = [station.name, ...(station.aliases ?? [])].filter(
+        (name: unknown): name is string => typeof name === 'string',
+      );
+      if (
+        !searchableNames.some((name: string) =>
+          name.toLocaleLowerCase().includes(normalizedQuery),
+        )
+      )
+        continue;
       const feature = this.line2bStationFeature(station);
       feature.properties.type = 'station';
       results.push(feature as unknown as Record<string, unknown>);
     }
     const lineName = 'Mumbai Metro Line 2B (Yellow Line)';
-    const lineAliases = ['mumbai metro line 2b', 'mumbai_line2b', 'line2b', 'line 2b', 'yellow line', 'yellow'];
-    if (lineAliases.some((alias) => alias.includes(normalizedQuery) || normalizedQuery.includes(alias))) {
+    const lineAliases = [
+      'mumbai metro line 2b',
+      'mumbai_line2b',
+      'line2b',
+      'line 2b',
+      'yellow line',
+      'yellow',
+    ];
+    if (
+      lineAliases.some(
+        (alias) =>
+          alias.includes(normalizedQuery) || normalizedQuery.includes(alias),
+      )
+    ) {
       results.push({
         type: 'Feature',
         id: 'MUMBAI_LINE2B_PHASE1',
-        geometry: { type: 'LineString', coordinates: ctm.alignmentGeometry?.coordinates ?? [] },
+        geometry: {
+          type: 'LineString',
+          coordinates: ctm.alignmentGeometry?.coordinates ?? [],
+        },
         properties: {
           id: 'MUMBAI_LINE2B_PHASE1',
           code: 'MUMBAI_LINE2B',
@@ -226,17 +337,39 @@ export class GeojsonService {
     const results: Record<string, unknown>[] = [];
     for (const station of ctm.stations ?? []) {
       if (station.sharedPhysicalStation) continue;
-      const searchableNames = [station.name, ...(station.aliases ?? [])]
-        .filter((name: unknown): name is string => typeof name === 'string');
-      if (!searchableNames.some((name: string) => name.toLocaleLowerCase().includes(normalizedQuery))) continue;
-      results.push(this.line9StationFeature(station) as unknown as Record<string, unknown>);
+      const searchableNames = [station.name, ...(station.aliases ?? [])].filter(
+        (name: unknown): name is string => typeof name === 'string',
+      );
+      if (
+        !searchableNames.some((name: string) =>
+          name.toLocaleLowerCase().includes(normalizedQuery),
+        )
+      )
+        continue;
+      results.push(
+        this.line9StationFeature(station) as unknown as Record<string, unknown>,
+      );
     }
-    const lineAliases = ['mumbai metro line 9', 'mumbai_line9', 'line9', 'line 9', 'red line'];
-    if (lineAliases.some((alias) => alias.includes(normalizedQuery) || normalizedQuery.includes(alias))) {
+    const lineAliases = [
+      'mumbai metro line 9',
+      'mumbai_line9',
+      'line9',
+      'line 9',
+      'red line',
+    ];
+    if (
+      lineAliases.some(
+        (alias) =>
+          alias.includes(normalizedQuery) || normalizedQuery.includes(alias),
+      )
+    ) {
       results.push({
         type: 'Feature',
         id: 'MUMBAI_LINE9_PHASE1',
-        geometry: { type: 'LineString', coordinates: ctm.alignmentGeometry?.coordinates ?? [] },
+        geometry: {
+          type: 'LineString',
+          coordinates: ctm.alignmentGeometry?.coordinates ?? [],
+        },
         properties: {
           id: 'MUMBAI_LINE9_PHASE1',
           code: 'MUMBAI_LINE9',
@@ -254,14 +387,25 @@ export class GeojsonService {
   private loadInterchangeRegistry(): InterchangeRegistryData {
     if (this.interchangeRegistry) return this.interchangeRegistry;
     const candidates = [
-      path.resolve(process.cwd(), 'datasets/mumbai/network/interchange-complexes.json'),
-      path.resolve(process.cwd(), '../../datasets/mumbai/network/interchange-complexes.json'),
-      path.resolve(__dirname, '../../../../../../datasets/mumbai/network/interchange-complexes.json'),
+      path.resolve(
+        process.cwd(),
+        'datasets/mumbai/network/interchange-complexes.json',
+      ),
+      path.resolve(
+        process.cwd(),
+        '../../datasets/mumbai/network/interchange-complexes.json',
+      ),
+      path.resolve(
+        __dirname,
+        '../../../../../../datasets/mumbai/network/interchange-complexes.json',
+      ),
     ];
     for (const candidate of candidates) {
       if (!fs.existsSync(candidate)) continue;
       try {
-        this.interchangeRegistry = JSON.parse(fs.readFileSync(candidate, 'utf8')) as InterchangeRegistryData;
+        this.interchangeRegistry = JSON.parse(
+          fs.readFileSync(candidate, 'utf8'),
+        ) as InterchangeRegistryData;
         return this.interchangeRegistry;
       } catch {
         break;
@@ -272,7 +416,9 @@ export class GeojsonService {
   }
 
   private applyInterchangeMembership(features: StationFeature[]): void {
-    const featuresByCode = new Map(features.map((feature) => [feature.properties.code, feature]));
+    const featuresByCode = new Map(
+      features.map((feature) => [feature.properties.code, feature]),
+    );
     for (const complex of this.loadInterchangeRegistry().complexes) {
       const participants = (complex.participatingStations ?? [])
         .map((stationCode) => featuresByCode.get(stationCode))
@@ -291,11 +437,16 @@ export class GeojsonService {
 
       for (const participant of participants) {
         participant.properties.lines = lines;
-        participant.properties.isInterchange = (complex.participatingStations?.length ?? 0) > 1;
+        participant.properties.isInterchange =
+          (complex.participatingStations?.length ?? 0) > 1;
         participant.properties.interchangeComplexIds = [
-          ...new Set([...(participant.properties.interchangeComplexIds ?? []), complex.complexId]),
+          ...new Set([
+            ...(participant.properties.interchangeComplexIds ?? []),
+            complex.complexId,
+          ]),
         ];
-        participant.properties.color = lines[0]?.color || participant.properties.color;
+        participant.properties.color =
+          lines[0]?.color || participant.properties.color;
         participant.properties.lineColor = participant.properties.color;
       }
     }
@@ -402,7 +553,10 @@ export class GeojsonService {
     // Parse features and dynamically resolve color coding from transit route names
     const features = raw.map((r) => {
       const feat = r.feature as unknown as LineFeature;
-      feat.properties.color = resolveLineColor(feat.properties.color, feat.properties.name);
+      feat.properties.color = resolveLineColor(
+        feat.properties.color,
+        feat.properties.name,
+      );
       return feat as unknown as Record<string, unknown>;
     });
 
@@ -410,10 +564,16 @@ export class GeojsonService {
     // operational Line 2B segment. A database shape supersedes this overlay.
     const line2b = this.loadLine2bPhase1Ctm();
     const line2bAlreadyMaterialized = features.some(
-      (feature) => (feature as unknown as LineFeature).properties?.code === 'MUMBAI_LINE2B',
+      (feature) =>
+        (feature as unknown as LineFeature).properties?.code ===
+        'MUMBAI_LINE2B',
     );
     const line2bCoordinates = line2b?.alignmentGeometry?.coordinates;
-    if (!line2bAlreadyMaterialized && line2bCoordinates && line2bCoordinates.length >= 2) {
+    if (
+      !line2bAlreadyMaterialized &&
+      line2bCoordinates &&
+      line2bCoordinates.length >= 2
+    ) {
       features.push({
         type: 'Feature',
         id: 'MUMBAI_LINE2B_PHASE1',
@@ -430,17 +590,22 @@ export class GeojsonService {
           status: 'PARTIALLY_OPERATIONAL',
           scheduleStatus: 'BLOCKED_SOURCE_REQUIRED',
         },
-      } as unknown as Record<string, unknown>);
+      });
     }
 
     // Line 9's open Dahisar East–Kashigaon segment is rendered from its
     // evidence-backed CTM slice; Dahisar East remains the shared Line 7 stop.
     const line9 = this.loadLine9Phase1Ctm();
     const line9AlreadyMaterialized = features.some(
-      (feature) => (feature as unknown as LineFeature).properties?.code === 'MUMBAI_LINE9',
+      (feature) =>
+        (feature as unknown as LineFeature).properties?.code === 'MUMBAI_LINE9',
     );
     const line9Coordinates = line9?.alignmentGeometry?.coordinates;
-    if (!line9AlreadyMaterialized && line9Coordinates && line9Coordinates.length >= 2) {
+    if (
+      !line9AlreadyMaterialized &&
+      line9Coordinates &&
+      line9Coordinates.length >= 2
+    ) {
       features.push({
         type: 'Feature',
         id: 'MUMBAI_LINE9_PHASE1',
@@ -455,7 +620,7 @@ export class GeojsonService {
           scheduleStatus: 'BLOCKED_SOURCE_REQUIRED',
           throughServiceFromLineId: 'MUMBAI_LINE7',
         },
-      } as unknown as Record<string, unknown>);
+      });
     }
 
     return this.wrapFeatureCollection(features);
@@ -622,7 +787,11 @@ export class GeojsonService {
 
     const line2b = this.loadLine2bPhase1Ctm();
     if (line2b?.stations?.length) {
-      const knownCodes = new Set(features.map((feature) => (feature as unknown as StationFeature).properties.code));
+      const knownCodes = new Set(
+        features.map(
+          (feature) => (feature as unknown as StationFeature).properties.code,
+        ),
+      );
       for (const station of line2b.stations) {
         const feature = this.line2bStationFeature(station);
         if (!knownCodes.has(feature.properties.code)) {
@@ -634,7 +803,11 @@ export class GeojsonService {
 
     const line9 = this.loadLine9Phase1Ctm();
     if (line9?.stations?.length) {
-      const knownIds = new Set(features.map((feature) => (feature as unknown as StationFeature).properties.id));
+      const knownIds = new Set(
+        features.map(
+          (feature) => (feature as unknown as StationFeature).properties.id,
+        ),
+      );
       for (const station of line9.stations) {
         if (station.sharedPhysicalStation) continue;
         const feature = this.line9StationFeature(station);
@@ -652,14 +825,21 @@ export class GeojsonService {
   async getStationFeature(id: string): Promise<Record<string, unknown> | null> {
     if (id.startsWith('STN_L2B_')) {
       const line2b = this.loadLine2bPhase1Ctm();
-      const station = line2b?.stations?.find((item: Record<string, any>) => item.canonicalId === id);
-      if (station) return this.line2bStationFeature(station) as unknown as Record<string, unknown>;
+      const station = line2b?.stations.find((item) => item.canonicalId === id);
+      if (station)
+        return this.line2bStationFeature(station) as unknown as Record<
+          string,
+          unknown
+        >;
     }
     if (id.startsWith('STN_L9_')) {
       const line9 = this.loadLine9Phase1Ctm();
-      const station = line9?.stations?.find((item: Record<string, any>) => item.canonicalId === id);
+      const station = line9?.stations.find((item) => item.canonicalId === id);
       if (station && !station.sharedPhysicalStation) {
-        return this.line9StationFeature(station) as unknown as Record<string, unknown>;
+        return this.line9StationFeature(station) as unknown as Record<
+          string,
+          unknown
+        >;
       }
     }
 

@@ -109,7 +109,8 @@ export class CandidateFilterService {
       if (c.id === fastest.id) return true;
 
       const durationDelta = c.durationSeconds - fastest.durationSeconds;
-      const durationRatio = c.durationSeconds / Math.max(fastest.durationSeconds, 1);
+      const durationRatio =
+        c.durationSeconds / Math.max(fastest.durationSeconds, 1);
 
       // Rule 1: Strictly more transfers AND slower
       if (c.transfers > fastest.transfers) {
@@ -192,7 +193,10 @@ export class CandidateFilterService {
       const durationDelta = a.durationSeconds - b.durationSeconds;
       const walkingSavedByA = b.walkingSeconds - a.walkingSeconds;
       // If a does not save walking, or the extra duration is > 2.5x the walking saved (and >= 10 min slower):
-      if (walkingSavedByA <= 0 || durationDelta > Math.max(600, 2.5 * walkingSavedByA)) {
+      if (
+        walkingSavedByA <= 0 ||
+        durationDelta > Math.max(600, 2.5 * walkingSavedByA)
+      ) {
         return true;
       }
     }

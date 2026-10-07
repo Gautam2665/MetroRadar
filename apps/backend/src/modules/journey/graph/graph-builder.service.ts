@@ -40,22 +40,38 @@ export class GraphBuilderService {
 
   private loadInterchangeRegistry() {
     const candidates = [
-      path.resolve(process.cwd(), 'datasets/mumbai/network/interchange-complexes.json'),
-      path.resolve(process.cwd(), '../../datasets/mumbai/network/interchange-complexes.json'),
-      path.resolve(__dirname, '../../../../../../datasets/mumbai/network/interchange-complexes.json'),
+      path.resolve(
+        process.cwd(),
+        'datasets/mumbai/network/interchange-complexes.json',
+      ),
+      path.resolve(
+        process.cwd(),
+        '../../datasets/mumbai/network/interchange-complexes.json',
+      ),
+      path.resolve(
+        __dirname,
+        '../../../../../../datasets/mumbai/network/interchange-complexes.json',
+      ),
     ];
     for (const candidate of candidates) {
       if (!fs.existsSync(candidate)) continue;
       try {
-        const parsed = JSON.parse(fs.readFileSync(candidate, 'utf8')) as { complexes?: typeof this.interchangeComplexes };
+        const parsed = JSON.parse(fs.readFileSync(candidate, 'utf8')) as {
+          complexes?: typeof this.interchangeComplexes;
+        };
         this.interchangeComplexes = parsed.complexes ?? [];
         return;
       } catch (error) {
-        this.logger.error(`Could not read interchange registry ${candidate}`, error);
+        this.logger.error(
+          `Could not read interchange registry ${candidate}`,
+          error,
+        );
       }
     }
     this.interchangeComplexes = [];
-    this.logger.warn('Interchange registry unavailable; no cross-station interchange edges will be inferred.');
+    this.logger.warn(
+      'Interchange registry unavailable; no cross-station interchange edges will be inferred.',
+    );
   }
 
   async build(systemId: string): Promise<TransitGraph> {
@@ -226,9 +242,16 @@ export class GraphBuilderService {
         .map((lineId) => lineCodeById.get(lineId))
         .filter((code): code is string => Boolean(code));
       const hasRealInterchangePair = codes.some((fromCode, fromIndex) =>
-        codes.slice(fromIndex + 1).some((toCode) =>
-          !this.interchangeEvaluator.isThroughRunningTransition(fromCode, toCode, node.code),
-        ),
+        codes
+          .slice(fromIndex + 1)
+          .some(
+            (toCode) =>
+              !this.interchangeEvaluator.isThroughRunningTransition(
+                fromCode,
+                toCode,
+                node.code,
+              ),
+          ),
       );
       if (!hasRealInterchangePair) continue;
 
@@ -280,20 +303,32 @@ export class GraphBuilderService {
     addEdge: (edge: GraphEdge) => void,
   ): number {
     let walkEdgeCount = 0;
-    const nodeByCode = new Map([...nodes.values()].map((node) => [node.code, node]));
+    const nodeByCode = new Map(
+      [...nodes.values()].map((node) => [node.code, node]),
+    );
     for (const complex of this.interchangeComplexes) {
       const participants = (complex.participatingStations ?? [])
         .map((code) => nodeByCode.get(code))
         .filter((node): node is StationNode => Boolean(node));
-      const registeredSeconds = [...(complex.pathways ?? []), ...(complex.pathway ?? [])]
+      const registeredSeconds = [
+        ...(complex.pathways ?? []),
+        ...(complex.pathway ?? []),
+      ]
         .map((pathway) => pathway.walkingSeconds)
-        .find((seconds): seconds is number => typeof seconds === 'number' && Number.isFinite(seconds));
+        .find(
+          (seconds): seconds is number =>
+            typeof seconds === 'number' && Number.isFinite(seconds),
+        );
 
       for (let i = 0; i < participants.length; i++) {
         for (let j = i + 1; j < participants.length; j++) {
           const from = participants[i];
           const to = participants[j];
-          if (from.id === to.id || from.lineIds.some((lineId) => to.lineIds.includes(lineId))) continue;
+          if (
+            from.id === to.id ||
+            from.lineIds.some((lineId) => to.lineIds.includes(lineId))
+          )
+            continue;
           const duration = registeredSeconds ?? 180; // realistic 3 min interchange transfer baseline when pathway seconds unverified
           addEdge({ from: from.id, to: to.id, type: EdgeType.WALK, duration });
           addEdge({ from: to.id, to: from.id, type: EdgeType.WALK, duration });

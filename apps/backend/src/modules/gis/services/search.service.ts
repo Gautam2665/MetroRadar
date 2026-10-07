@@ -31,6 +31,23 @@ interface StationFeature {
   [key: string]: unknown;
 }
 
+function asPrimitiveString(value: unknown): string {
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number' && Number.isFinite(value)) return String(value);
+  return '';
+}
+
+function featureProperties(
+  feature: Record<string, unknown>,
+): Record<string, unknown> {
+  const properties = feature.properties;
+  return typeof properties === 'object' &&
+    properties !== null &&
+    !Array.isArray(properties)
+    ? (properties as Record<string, unknown>)
+    : {};
+}
+
 function resolveLineColor(color: string, lineName: string): string {
   const nameUpper = (lineName || '').toUpperCase();
   let resolved = color || '#3b82f6';
@@ -206,31 +223,32 @@ export class SearchService {
     const phase1Features = [
       ...this.geojsonService.getLine2bPhase1SearchFeatures(query),
       ...this.geojsonService.getLine9Phase1SearchFeatures(query),
-    ]
-      .filter((feature) => {
-        if (!filterTypes) return true;
-        const properties = feature.properties as
-          | Record<string, unknown>
-          | undefined;
-        return filterTypes.includes(String(properties?.type ?? ''));
-      });
+    ].filter((feature) => {
+      if (!filterTypes) return true;
+      const properties = featureProperties(feature);
+      return filterTypes.includes(asPrimitiveString(properties.type));
+    });
     const knownKeys = new Set<string>();
     for (const feature of features) {
-      const properties = feature.properties as Record<string, unknown> | undefined;
-      const id = String(properties?.id ?? feature.id ?? '');
-      const code = String(properties?.code ?? '');
-      const name = String(properties?.name ?? '').trim().toLowerCase();
+      const properties = featureProperties(feature);
+      const id = asPrimitiveString(properties.id ?? feature.id);
+      const code = asPrimitiveString(properties.code);
+      const name = asPrimitiveString(properties.name).trim().toLowerCase();
       if (id) knownKeys.add(id);
       if (code) knownKeys.add(code);
       if (name) knownKeys.add(name);
     }
 
     for (const feature of phase1Features) {
-      const properties = feature.properties as Record<string, unknown> | undefined;
-      const id = String(properties?.id ?? feature.id ?? '');
-      const code = String(properties?.code ?? '');
-      const name = String(properties?.name ?? '').trim().toLowerCase();
-      if ((id && knownKeys.has(id)) || (code && knownKeys.has(code)) || (name && knownKeys.has(name))) {
+      const properties = featureProperties(feature);
+      const id = asPrimitiveString(properties.id ?? feature.id);
+      const code = asPrimitiveString(properties.code);
+      const name = asPrimitiveString(properties.name).trim().toLowerCase();
+      if (
+        (id && knownKeys.has(id)) ||
+        (code && knownKeys.has(code)) ||
+        (name && knownKeys.has(name))
+      ) {
         continue;
       }
       if (id) knownKeys.add(id);

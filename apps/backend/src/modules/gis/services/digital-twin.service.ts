@@ -1,4 +1,3 @@
-import { resolveLineColor } from '../../../common/utils/line-color.util';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DatabaseService } from '../../../database/database.service';
 
@@ -289,7 +288,8 @@ export class DigitalTwinService {
         id: p.id,
         levelId: p.levelId,
         lineId: p.lineId,
-        platformNumber: p.platformNumber === 'UNKNOWN' ? null : p.platformNumber,
+        platformNumber:
+          p.platformNumber === 'UNKNOWN' ? null : p.platformNumber,
         length: p.length,
         screenDoors: p.screenDoors,
         wheelchairBoarding: p.wheelchairBoarding,

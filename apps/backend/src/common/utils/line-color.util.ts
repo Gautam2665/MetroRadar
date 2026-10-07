@@ -3,15 +3,24 @@
  * Single source of truth for line hex color resolution and fallback mapping.
  */
 
-export function resolveLineColor(color: string | null | undefined, lineName: string | null | undefined): string {
+export function resolveLineColor(
+  color: string | null | undefined,
+  lineName: string | null | undefined,
+): string {
   const nameUpper = (lineName || '').toUpperCase();
   let resolved = (color || '#3b82f6').trim();
 
   if (
     !resolved ||
-    ['#000000', '000000', '#ffffff', 'ffffff', '#3b82f6', '3b82f6'].includes(resolved.toLowerCase())
+    ['#000000', '000000', '#ffffff', 'ffffff', '#3b82f6', '3b82f6'].includes(
+      resolved.toLowerCase(),
+    )
   ) {
-    if (nameUpper.includes('YELLOW') || nameUpper.includes('LINE 2A') || nameUpper.includes('LINE 2B')) {
+    if (
+      nameUpper.includes('YELLOW') ||
+      nameUpper.includes('LINE 2A') ||
+      nameUpper.includes('LINE 2B')
+    ) {
       resolved = '#facc15';
     } else if (nameUpper.includes('BLUE') || nameUpper.includes('LINE 1')) {
       resolved = '#3b82f6';
@@ -19,7 +28,11 @@ export function resolveLineColor(color: string | null | undefined, lineName: str
       resolved = '#ec4899';
     } else if (nameUpper.includes('MAGENTA')) {
       resolved = '#d946ef';
-    } else if (nameUpper.includes('RED') || nameUpper.includes('LINE 7') || nameUpper.includes('LINE 9')) {
+    } else if (
+      nameUpper.includes('RED') ||
+      nameUpper.includes('LINE 7') ||
+      nameUpper.includes('LINE 9')
+    ) {
       resolved = '#ef4444';
     } else if (nameUpper.includes('VIOLET')) {
       resolved = '#8b5cf6';

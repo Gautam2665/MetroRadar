@@ -14,7 +14,11 @@ interface InterchangeComplex {
   complexId: string;
   name: string;
   participatingStations?: string[];
-  pathways?: Array<{ walkingSeconds?: number | null; from?: string; to?: string }>;
+  pathways?: Array<{
+    walkingSeconds?: number | null;
+    from?: string;
+    to?: string;
+  }>;
   pathway?: Array<{
     segmentId?: string;
     from: string;
@@ -79,10 +83,22 @@ export class InterchangeEvaluatorService {
 
   private loadRegistry() {
     const candidatePaths = [
-      path.resolve(process.cwd(), 'datasets/mumbai/network/interchange-complexes.json'),
-      path.resolve(__dirname, '../../../../../../datasets/mumbai/network/interchange-complexes.json'),
-      path.resolve(__dirname, '../../../../../datasets/mumbai/network/interchange-complexes.json'),
-      path.resolve(__dirname, '../../../../datasets/mumbai/network/interchange-complexes.json'),
+      path.resolve(
+        process.cwd(),
+        'datasets/mumbai/network/interchange-complexes.json',
+      ),
+      path.resolve(
+        __dirname,
+        '../../../../../../datasets/mumbai/network/interchange-complexes.json',
+      ),
+      path.resolve(
+        __dirname,
+        '../../../../../datasets/mumbai/network/interchange-complexes.json',
+      ),
+      path.resolve(
+        __dirname,
+        '../../../../datasets/mumbai/network/interchange-complexes.json',
+      ),
     ];
 
     for (const p of candidatePaths) {
@@ -100,7 +116,9 @@ export class InterchangeEvaluatorService {
         }
       }
     }
-    this.logger.warn('Interchange Complex Registry not found; running in standalone mode.');
+    this.logger.warn(
+      'Interchange Complex Registry not found; running in standalone mode.',
+    );
   }
 
   private indexRegistry() {
@@ -157,7 +175,9 @@ export class InterchangeEvaluatorService {
         const complexFrom = fromSt
           ? this.stationCodeToComplex.get(fromSt.code)
           : null;
-        const complexTo = toSt ? this.stationCodeToComplex.get(toSt.code) : null;
+        const complexTo = toSt
+          ? this.stationCodeToComplex.get(toSt.code)
+          : null;
         if (complexFrom) traversedComplexes.add(complexFrom);
         if (complexTo) traversedComplexes.add(complexTo);
       }
@@ -177,7 +197,7 @@ export class InterchangeEvaluatorService {
       };
     }
 
-    let summaryParts: string[] = [];
+    const summaryParts: string[] = [];
 
     // 3. Evaluate physical facts per traversed complex
     for (const complex of traversedComplexes) {
@@ -193,7 +213,9 @@ export class InterchangeEvaluatorService {
       // Check Hard Constraints for Reduced Mobility
       if (mobility === 'REDUCED') {
         if (outdoorStreet === true) {
-          violations.push(`Outdoor street transfer at ${complex.name} is inaccessible for reduced mobility.`);
+          violations.push(
+            `Outdoor street transfer at ${complex.name} is inaccessible for reduced mobility.`,
+          );
         }
         if (elevatorStatus !== 'VERIFIED_ELEVATOR') {
           violations.push(`Unverified elevator status at ${complex.name}.`);
@@ -202,13 +224,22 @@ export class InterchangeEvaluatorService {
 
       // Check user avoid preferences
       if (avoidList.includes('OUTDOOR_STREET_WALK') && outdoorStreet === true) {
-        violations.push(`Route includes outdoor street walk at ${complex.name}.`);
+        violations.push(
+          `Route includes outdoor street walk at ${complex.name}.`,
+        );
       }
-      if (avoidList.includes('STREET_MARKET') && suitability.includes('STREET_MARKET')) {
-        violations.push(`Route passes through congested street market at ${complex.name}.`);
+      if (
+        avoidList.includes('STREET_MARKET') &&
+        suitability.includes('STREET_MARKET')
+      ) {
+        violations.push(
+          `Route passes through congested street market at ${complex.name}.`,
+        );
       }
       if (avoidList.includes('AFC_EXIT') && paidArea === false) {
-        violations.push(`Transfer requires exiting paid area at ${complex.name}.`);
+        violations.push(
+          `Transfer requires exiting paid area at ${complex.name}.`,
+        );
       }
 
       // Dynamic Policy Friction Computation (derived from physical facts)
@@ -233,56 +264,75 @@ export class InterchangeEvaluatorService {
 
       // Specific ground-truth physical summaries per complex
       if (complex.complexId === 'ICX-MAROL-NAKA') {
-          reasonCodes.push('OUT_OF_STATION_TRANSFER', 'AFC_RETAP', 'SECURITY_RESCREENING', 'OUTDOOR_STREET_WALK');
-          summaryParts.push(
-            'Marol Naka: Unpaid street-level transfer. Exit AFC gates, walk 155m along Andheri-Kurla Road, re-clear security screening and tap in to connecting line (elevated L1 ⇄ underground L3).'
-          );
-        } else if (complex.complexId === 'ICX-MUMBAI-CENTRAL') {
-          reasonCodes.push('IDEAL_FOR_LUGGAGE', 'FLAT_FORECOURT', 'LIFT_VERIFIED');
-          summaryParts.push(
-            'Mumbai Central: Direct vertical access via lifts/escalators and a 100m flat forecourt walk to Western Railway station entrance. Step-free and ideal for luggage.'
-          );
-        } else if (complex.complexId === 'ICX-CHURCHGATE') {
-          reasonCodes.push('PEDESTRIAN_WALK');
-          summaryParts.push(
-            'Churchgate: Direct pedestrian connection via footpath (~150m) to Western Railway suburban terminus.'
-          );
-        } else if (complex.complexId === 'ICX-CSMT') {
-          reasonCodes.push('SUBWAY_CONNECTION', 'WEATHER_PROTECTED');
-          summaryParts.push(
-            'CSMT: Direct subway connection linking Metro Line 3 to Central Railway Terminus & BMC subway network.'
-          );
-        } else if (complex.complexId === 'ICX-DADAR') {
-          reasonCodes.push('STREET_MARKET_WALK', 'HIGH_CROWD');
-          summaryParts.push(
-            'Dadar: 600m-700m connection through congested street market; heavy pedestrian density.'
-          );
-        } else if (complex.complexId === 'ICX-ANDHERI') {
-          reasonCodes.push('FOB_CONNECTION');
-          summaryParts.push(
-            'Andheri: Direct skywalk & foot overbridge connection between Metro Line 1 and Suburban Railway.'
-          );
-        } else if (complex.complexId === 'ICX-GHATKOPAR') {
-          reasonCodes.push('ELEVATED_FOB');
-          summaryParts.push(
-            'Ghatkopar: Direct elevated concourse foot overbridge linking Line 1 to Central Railway platforms.'
-          );
-        } else if (suitability === 'IDEAL_FOR_LUGGAGE') {
-          reasonCodes.push('IDEAL_FOR_LUGGAGE', 'FLAT_FORECOURT');
-          summaryParts.push(`${complex.name}: Easy transfer with direct lifts/escalators and flat forecourt connection.`);
+        reasonCodes.push(
+          'OUT_OF_STATION_TRANSFER',
+          'AFC_RETAP',
+          'SECURITY_RESCREENING',
+          'OUTDOOR_STREET_WALK',
+        );
+        summaryParts.push(
+          'Marol Naka: Unpaid street-level transfer. Exit AFC gates, walk 155m along Andheri-Kurla Road, re-clear security screening and tap in to connecting line (elevated L1 ⇄ underground L3).',
+        );
+      } else if (complex.complexId === 'ICX-MUMBAI-CENTRAL') {
+        reasonCodes.push(
+          'IDEAL_FOR_LUGGAGE',
+          'FLAT_FORECOURT',
+          'LIFT_VERIFIED',
+        );
+        summaryParts.push(
+          'Mumbai Central: Direct vertical access via lifts/escalators and a 100m flat forecourt walk to Western Railway station entrance. Step-free and ideal for luggage.',
+        );
+      } else if (complex.complexId === 'ICX-CHURCHGATE') {
+        reasonCodes.push('PEDESTRIAN_WALK');
+        summaryParts.push(
+          'Churchgate: Direct pedestrian connection via footpath (~150m) to Western Railway suburban terminus.',
+        );
+      } else if (complex.complexId === 'ICX-CSMT') {
+        reasonCodes.push('SUBWAY_CONNECTION', 'WEATHER_PROTECTED');
+        summaryParts.push(
+          'CSMT: Direct subway connection linking Metro Line 3 to Central Railway Terminus & BMC subway network.',
+        );
+      } else if (complex.complexId === 'ICX-DADAR') {
+        reasonCodes.push('STREET_MARKET_WALK', 'HIGH_CROWD');
+        summaryParts.push(
+          'Dadar: 600m-700m connection through congested street market; heavy pedestrian density.',
+        );
+      } else if (complex.complexId === 'ICX-ANDHERI') {
+        reasonCodes.push('FOB_CONNECTION');
+        summaryParts.push(
+          'Andheri: Direct skywalk & foot overbridge connection between Metro Line 1 and Suburban Railway.',
+        );
+      } else if (complex.complexId === 'ICX-GHATKOPAR') {
+        reasonCodes.push('ELEVATED_FOB');
+        summaryParts.push(
+          'Ghatkopar: Direct elevated concourse foot overbridge linking Line 1 to Central Railway platforms.',
+        );
+      } else if (suitability === 'IDEAL_FOR_LUGGAGE') {
+        reasonCodes.push('IDEAL_FOR_LUGGAGE', 'FLAT_FORECOURT');
+        summaryParts.push(
+          `${complex.name}: Easy transfer with direct lifts/escalators and flat forecourt connection.`,
+        );
       } else if (outdoorStreet === true && requiresSecurity === true) {
         reasonCodes.push('OUTDOOR_STREET_WALK', 'SECURITY_RESCREENING');
-        summaryParts.push(`${complex.name}: Outdoor transfer requiring street walk and secondary security check.`);
+        summaryParts.push(
+          `${complex.name}: Outdoor transfer requiring street walk and secondary security check.`,
+        );
       } else if (paidArea === true) {
         reasonCodes.push('PAID_AREA_TRANSFER');
-        summaryParts.push(`${complex.name}: Paid-to-paid concourse connection.`);
+        summaryParts.push(
+          `${complex.name}: Paid-to-paid concourse connection.`,
+        );
       } else if (paidArea === false) {
         reasonCodes.push('OUT_OF_STATION_TRANSFER');
-        summaryParts.push(`${complex.name}: Street-level transfer connection requiring AFC tap-out and re-entry.`);
+        summaryParts.push(
+          `${complex.name}: Street-level transfer connection requiring AFC tap-out and re-entry.`,
+        );
       } else {
         reasonCodes.push('TRANSFER_DETAILS_UNVERIFIED');
-        summaryParts.push(`${complex.name}: Interchange registered; pathway and transfer conditions remain unverified.`);
-        }
+        summaryParts.push(
+          `${complex.name}: Interchange registered; pathway and transfer conditions remain unverified.`,
+        );
+      }
 
       if (elevatorStatus === 'VERIFIED_ELEVATOR') {
         reasonCodes.push('LIFT_VERIFIED');
@@ -290,14 +340,18 @@ export class InterchangeEvaluatorService {
     }
 
     // Determine friction level
-    let frictionLevel: 'MINIMAL' | 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL' = 'MINIMAL';
+    let frictionLevel: 'MINIMAL' | 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL' =
+      'MINIMAL';
     if (frictionSeconds > 900) frictionLevel = 'CRITICAL';
     else if (frictionSeconds > 500) frictionLevel = 'HIGH';
     else if (frictionSeconds > 200) frictionLevel = 'MODERATE';
     else if (frictionSeconds > 0) frictionLevel = 'LOW';
 
     const isFeasible = violations.length === 0;
-    const humanSummary = summaryParts.length > 0 ? summaryParts.join(' ') : 'Standard transfer between lines.';
+    const humanSummary =
+      summaryParts.length > 0
+        ? summaryParts.join(' ')
+        : 'Standard transfer between lines.';
 
     return {
       isFeasible,
@@ -382,7 +436,10 @@ export class InterchangeEvaluatorService {
       (fromU.includes('GUNDAVALI') && toU.includes('WESTERN EXPRESS')) ||
       (fromU.includes('WESTERN EXPRESS') && toU.includes('GUNDAVALI'))
     ) {
-      const toL7 = nextU.includes('LINE 7') || nextU.includes('RED') || fromU.includes('WESTERN');
+      const toL7 =
+        nextU.includes('LINE 7') ||
+        nextU.includes('RED') ||
+        fromU.includes('WESTERN');
       return {
         complexId: 'ICX-WEH-GUNDAVALI',
         name: 'Western Express Highway – Gundavali Interchange Hub',
@@ -424,7 +481,11 @@ export class InterchangeEvaluatorService {
             sourceState: 'UNKNOWN_SOURCE_REQUIRED',
           },
         ],
-        reasonCodes: ['ELEVATED_FOB', 'STRUCTURAL_SPAN_58M', 'TRANSFER_DETAILS_UNVERIFIED'],
+        reasonCodes: [
+          'ELEVATED_FOB',
+          'STRUCTURAL_SPAN_58M',
+          'TRANSFER_DETAILS_UNVERIFIED',
+        ],
         instructions: toL7
           ? [
               'Walk via 58m elevated Foot Overbridge (FOB) connecting Line 1 & Line 7 concourses',
@@ -443,7 +504,10 @@ export class InterchangeEvaluatorService {
       (fromU.includes('ANDHERI (WEST)') && toU.includes('D. N. NAGAR')) ||
       (fromU.includes('DN NAGAR') && toU.includes('ANDHERI WEST'))
     ) {
-      const toL2A = nextU.includes('LINE 2A') || nextU.includes('YELLOW') || fromU.includes('NAGAR');
+      const toL2A =
+        nextU.includes('LINE 2A') ||
+        nextU.includes('YELLOW') ||
+        fromU.includes('NAGAR');
       return {
         complexId: 'ICX-DN-NAGAR',
         name: 'D.N. Nagar – Andheri West Interchange Hub',
@@ -527,8 +591,12 @@ export class InterchangeEvaluatorService {
         },
         reasonCodes: ['ELEVATED_SKYWALK', 'TRAVELATOR_AVAILABLE'],
         instructions: [
-          'Follow Skywalk / Travelator to ' + (toPink ? 'Pink Line (755m)' : 'Airport Express (755m)'),
-          'Tap in at ' + (toPink ? 'Durgabai Deshmukh South Campus Concourse' : 'Dhaula Kuan Concourse'),
+          'Follow Skywalk / Travelator to ' +
+            (toPink ? 'Pink Line (755m)' : 'Airport Express (755m)'),
+          'Tap in at ' +
+            (toPink
+              ? 'Durgabai Deshmukh South Campus Concourse'
+              : 'Dhaula Kuan Concourse'),
         ],
       };
     }
@@ -626,17 +694,25 @@ export class InterchangeEvaluatorService {
       };
     }
 
-    const registeredComplex = fromStationCode && toStationCode
-      ? this.icxRegistry?.complexes.find((complex) => {
-          const participants = complex.participatingStations ?? [];
-          return participants.includes(fromStationCode) && participants.includes(toStationCode);
-        })
-      : null;
+    const registeredComplex =
+      fromStationCode && toStationCode
+        ? this.icxRegistry?.complexes.find((complex) => {
+            const participants = complex.participatingStations ?? [];
+            return (
+              participants.includes(fromStationCode) &&
+              participants.includes(toStationCode)
+            );
+          })
+        : null;
     if (!registeredComplex) return null;
 
     const attributes: TransferDetails['attributes'] = {};
     const copyBoolean = (
-      key: 'paidAreaTransfer' | 'requiresAfcRetap' | 'requiresSecurityRescreening' | 'outdoorStreetExposure',
+      key:
+        | 'paidAreaTransfer'
+        | 'requiresAfcRetap'
+        | 'requiresSecurityRescreening'
+        | 'outdoorStreetExposure',
     ) => {
       const value = registeredComplex.attributes?.[key]?.value;
       if (typeof value === 'boolean') attributes[key] = value;
@@ -645,22 +721,33 @@ export class InterchangeEvaluatorService {
     copyBoolean('requiresAfcRetap');
     copyBoolean('requiresSecurityRescreening');
     copyBoolean('outdoorStreetExposure');
-    const verticalDrop = registeredComplex.attributes?.verticalDropMeters?.value;
-    if (typeof verticalDrop === 'number') attributes.verticalDropMeters = verticalDrop;
+    const verticalDrop =
+      registeredComplex.attributes?.verticalDropMeters?.value;
+    if (typeof verticalDrop === 'number')
+      attributes.verticalDropMeters = verticalDrop;
 
-    const walkingDistance = registeredComplex.attributes?.walkingDistanceMeters?.value;
-    const registeredSeconds = registeredComplex.pathways?.find(
-      (item) => typeof item.walkingSeconds === 'number' && Number.isFinite(item.walkingSeconds),
-    )?.walkingSeconds ?? registeredComplex.estimatedDurationSeconds ?? null;
-    const estimatedDurationSeconds = typeof registeredSeconds === 'number' ? registeredSeconds : null;
-    const durationDisplay = typeof registeredSeconds === 'number'
-      ? `~${Math.max(1, Math.round(registeredSeconds / 60))} min`
-      : 'Time unknown';
+    const walkingDistance =
+      registeredComplex.attributes?.walkingDistanceMeters?.value;
+    const registeredSeconds =
+      registeredComplex.pathways?.find(
+        (item) =>
+          typeof item.walkingSeconds === 'number' &&
+          Number.isFinite(item.walkingSeconds),
+      )?.walkingSeconds ??
+      registeredComplex.estimatedDurationSeconds ??
+      null;
+    const estimatedDurationSeconds =
+      typeof registeredSeconds === 'number' ? registeredSeconds : null;
+    const durationDisplay =
+      typeof registeredSeconds === 'number'
+        ? `~${Math.max(1, Math.round(registeredSeconds / 60))} min`
+        : 'Time unknown';
 
     return {
       complexId: registeredComplex.complexId,
       name: registeredComplex.name,
-      pathwayDistanceMeters: typeof walkingDistance === 'number' ? walkingDistance : null,
+      pathwayDistanceMeters:
+        typeof walkingDistance === 'number' ? walkingDistance : null,
       estimatedDurationSeconds,
       durationDisplay,
       attributes,
@@ -679,12 +766,19 @@ export class InterchangeEvaluatorService {
     toLineCode: string | null | undefined,
     stationCode: string | null | undefined,
   ): boolean {
-    if (!fromLineCode || !toLineCode || !stationCode || fromLineCode === toLineCode) return false;
+    if (
+      !fromLineCode ||
+      !toLineCode ||
+      !stationCode ||
+      fromLineCode === toLineCode
+    )
+      return false;
     return (this.icxRegistry?.complexes ?? []).some((complex) =>
-      (complex.throughRunningRelations ?? []).some((relation) =>
-        relation.viaStationId === stationCode &&
-        ((relation.from === fromLineCode && relation.to === toLineCode) ||
-          (relation.from === toLineCode && relation.to === fromLineCode)),
+      (complex.throughRunningRelations ?? []).some(
+        (relation) =>
+          relation.viaStationId === stationCode &&
+          ((relation.from === fromLineCode && relation.to === toLineCode) ||
+            (relation.from === toLineCode && relation.to === fromLineCode)),
       ),
     );
   }

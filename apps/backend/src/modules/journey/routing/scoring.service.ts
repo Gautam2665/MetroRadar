@@ -55,7 +55,10 @@ export class ScoringService {
   score(
     edges: GraphEdge[],
     weights: JourneyWeights = DEFAULT_WEIGHTS,
-    isThroughServiceTransition?: (previous: GraphEdge, current: GraphEdge) => boolean,
+    isThroughServiceTransition?: (
+      previous: GraphEdge,
+      current: GraphEdge,
+    ) => boolean,
   ): JourneyScore {
     let inVehicleSeconds = 0;
     let walkingSeconds = 0;
@@ -77,7 +80,10 @@ export class ScoringService {
         edge.lineId !== undefined &&
         currentLineId !== undefined &&
         edge.lineId !== currentLineId &&
-        !(previousTransitEdge && isThroughServiceTransition?.(previousTransitEdge, edge))
+        !(
+          previousTransitEdge &&
+          isThroughServiceTransition?.(previousTransitEdge, edge)
+        )
       ) {
         transfers++;
       }
@@ -146,7 +152,9 @@ export class ScoringService {
     const minTransfers = Math.min(...candidates.map((c) => c.transfers));
     const minWalking = Math.min(...candidates.map((c) => c.walkingSeconds));
 
-    const fastestCandidate = candidates.find((c) => c.durationSeconds === minDuration);
+    const fastestCandidate = candidates.find(
+      (c) => c.durationSeconds === minDuration,
+    );
 
     for (const c of candidates) {
       c.attributes.fastest = c.durationSeconds === minDuration;
@@ -163,7 +171,8 @@ export class ScoringService {
       } else {
         const fastestWalking = fastestCandidate?.walkingSeconds ?? minWalking;
         c.attributes.leastWalking =
-          c.walkingSeconds === minWalking && c.walkingSeconds < fastestWalking - 30;
+          c.walkingSeconds === minWalking &&
+          c.walkingSeconds < fastestWalking - 30;
       }
 
       // v1 stub: accessible = direct route (no platform changes)

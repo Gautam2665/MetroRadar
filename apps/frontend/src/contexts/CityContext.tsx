@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useCallback, useContext, useMemo, useSyncExternalStore, ReactNode } from "react";
 
 interface CityContextType {
   activeCity: string;
@@ -9,36 +9,68 @@ interface CityContextType {
 
 const CityContext = createContext<CityContextType>({
   activeCity: "delhi",
-  setActiveCity: () => {},
+  setActiveCity: () => undefined,
 });
 
 const STORAGE_KEY = "transitos_active_city";
+const citySubscribers = new Set<() => void>();
+let inMemoryCity = "delhi";
+let hasLoadedStoredCity = false;
+
+function getActiveCitySnapshot(): string {
+  if (hasLoadedStoredCity) return inMemoryCity;
+  try {
+    inMemoryCity = localStorage.getItem(STORAGE_KEY) || inMemoryCity;
+  } catch {
+    // Fall back to the stable in-memory default when storage is unavailable.
+  }
+  hasLoadedStoredCity = true;
+  return inMemoryCity;
+}
+
+function getServerCitySnapshot(): string {
+  return "delhi";
+}
+
+function notifyCitySubscribers(): void {
+  citySubscribers.forEach((notify) => notify());
+}
+
+function subscribeToCityChanges(notify: () => void): () => void {
+  citySubscribers.add(notify);
+  const handleStorage = (event: StorageEvent) => {
+    if (event.key !== STORAGE_KEY && event.key !== null) return;
+    inMemoryCity = event.newValue || "delhi";
+    hasLoadedStoredCity = true;
+    notifyCitySubscribers();
+  };
+  window.addEventListener("storage", handleStorage);
+  return () => {
+    citySubscribers.delete(notify);
+    window.removeEventListener("storage", handleStorage);
+  };
+}
 
 export function CityProvider({ children }: { children: ReactNode }) {
-  // Keep the first server and browser render identical. Restore the saved city
-  // after hydration so localStorage cannot change the initial HTML.
-  const [activeCity, setActiveCityState] = useState<string>("delhi");
-
-  useEffect(() => {
+  const activeCity = useSyncExternalStore(
+    subscribeToCityChanges,
+    getActiveCitySnapshot,
+    getServerCitySnapshot,
+  );
+  const setActiveCity = useCallback((city: string) => {
+    inMemoryCity = city;
+    hasLoadedStoredCity = true;
     try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) setActiveCityState(stored);
+      localStorage.setItem(STORAGE_KEY, city);
     } catch {
-      // Storage may be unavailable; the default city remains usable.
+      // The in-memory value still updates when browser storage is unavailable.
     }
+    notifyCitySubscribers();
   }, []);
-
-  const setActiveCity = (city: string) => {
-    setActiveCityState(city);
-    if (typeof window !== "undefined") {
-      try {
-        localStorage.setItem(STORAGE_KEY, city);
-      } catch {}
-    }
-  };
+  const value = useMemo(() => ({ activeCity, setActiveCity }), [activeCity, setActiveCity]);
 
   return (
-    <CityContext.Provider value={{ activeCity, setActiveCity }}>
+    <CityContext.Provider value={value}>
       {children}
     </CityContext.Provider>
   );
