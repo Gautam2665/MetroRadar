@@ -720,8 +720,17 @@ export class TransitImporter {
     for (const stop of stops) {
       if (stop.location_type === '2') {
         const stationCode = stationCodeForStop.get(stop.stop_id);
-        const stationId = stationCode ? stationIdByCode.get(stationCode) : null;
-        if (!stationId) continue;
+        const candidateStationId = stationCode ? stationIdByCode.get(stationCode) : null;
+        if (!candidateStationId) continue;
+
+        // Double check station actually exists in database to satisfy foreign key
+        const validStation = await this.prisma.station.findUnique({
+          where: { id: candidateStationId },
+          select: { id: true },
+        });
+        if (!validStation) continue;
+        const stationId = validStation.id;
+
         const existingEntrances = await this.prisma.entrance.findMany({
           where: { stationId, name: stop.stop_name },
           select: { id: true, latitude: true, longitude: true },
