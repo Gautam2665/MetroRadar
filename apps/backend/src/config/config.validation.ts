@@ -5,8 +5,8 @@ export function validateEnv(config: Record<string, unknown>) {
     errors.push('DATABASE_URL is missing');
   }
 
-  if (!config.REDIS_HOST) {
-    errors.push('REDIS_HOST is missing');
+  if (!config.REDIS_URL && !config.REDIS_HOST) {
+    errors.push('Either REDIS_URL or REDIS_HOST must be provided');
   }
 
   const port = Number(config.PORT ?? 3001);
@@ -15,7 +15,7 @@ export function validateEnv(config: Record<string, unknown>) {
   }
 
   const redisPort = Number(config.REDIS_PORT ?? 6379);
-  if (isNaN(redisPort)) {
+  if (!config.REDIS_URL && isNaN(redisPort)) {
     errors.push('REDIS_PORT must be a number');
   }
 

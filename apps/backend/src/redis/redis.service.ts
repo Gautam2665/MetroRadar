@@ -9,17 +9,27 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
   constructor(private readonly configService: ConfigService) {}
 
   onModuleInit() {
+    const redisUrl = this.configService.get<string>('REDIS_URL');
     const host = this.configService.get<string>('REDIS_HOST', 'localhost');
     const port = this.configService.get<number>('REDIS_PORT', 6379);
 
-    this.client = new Redis({
-      host,
-      port,
-      maxRetriesPerRequest: 1,
-      lazyConnect: true,
-      enableOfflineQueue: false,
-      retryStrategy: () => null,
-    });
+    if (redisUrl) {
+      this.client = new Redis(redisUrl, {
+        maxRetriesPerRequest: 1,
+        lazyConnect: true,
+        enableOfflineQueue: false,
+        retryStrategy: () => null,
+      });
+    } else {
+      this.client = new Redis({
+        host,
+        port,
+        maxRetriesPerRequest: 1,
+        lazyConnect: true,
+        enableOfflineQueue: false,
+        retryStrategy: () => null,
+      });
+    }
     this.client.on('error', () => {
       // Suppress unhandled redis error logs when redis is offline
     });
