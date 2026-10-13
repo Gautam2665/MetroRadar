@@ -2,90 +2,115 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useInfoModal } from "../contexts/InfoModalContext";
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { openInfoModal } = useInfoModal();
 
   const navItems = [
     { label: "Home", href: "/", icon: "home" },
     { label: "Plan Journey", href: "/plan", icon: "directions" },
+    { label: "Explore Lines", href: "/lines", icon: "alt_route" },
+    { label: "Explore Stations", href: "/stations", icon: "location_city" },
     { label: "Live Network", href: "/network", icon: "sensors" },
-    { label: "My Journeys", href: "/journeys", icon: "route" },
-    { label: "Tickets & Passes", href: "/passes", icon: "confirmation_number" },
-    { label: "Alerts", href: "/alerts", icon: "notifications_active" },
-    { label: "Analytics", href: "/analytics", icon: "analytics" },
-    { label: "Payments", href: "/payments", icon: "payments" },
-    { label: "Settings", href: "/settings", icon: "settings" },
   ];
 
   return (
     <>
       {/* Desktop SideNavBar */}
-      <aside className="hidden md:flex flex-col h-screen py-6 fixed left-0 top-0 w-[260px] bg-[#1c2028]/80 backdrop-blur-[20px] border-r border-white/10 z-50 transition-all duration-300">
-        <div className="px-6 mb-8">
-          <Link href="/">
-            <h1 className="text-[24px] font-bold text-[#c3f5ff] tracking-tight hover:opacity-90 transition-opacity cursor-pointer">
-              transitOS
-            </h1>
+      <aside className="hidden md:flex flex-col h-screen pt-5 pb-14 fixed left-0 top-0 w-[260px] bg-[#080E18] border-r border-[#141F30] z-50 transition-all duration-300">
+        <div className="px-5 mb-6">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#00D5E8] to-[#2563EB] flex items-center justify-center shadow-lg shadow-cyan-500/20">
+              <span className="material-symbols-outlined text-white text-[22px]">subway</span>
+            </div>
+            <div>
+              <div className="flex items-center">
+                <span className="text-xl font-bold tracking-tight text-white leading-none">transit</span>
+                <span className="text-xl font-extrabold tracking-tight text-[#00D5E8] leading-none">OS</span>
+              </div>
+            </div>
           </Link>
-          <p className="text-[14px] text-[#bac9cc]">Urban Mobility Platform</p>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-4 space-y-1 scrollbar-hide">
+        <nav className="flex-1 overflow-y-auto px-3 space-y-1.5 scrollbar-hide">
           {navItems.map((item) => {
             const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
             return (
               <Link
                 key={item.label}
                 href={item.href}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg group transition-colors duration-200 ${
+                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl group transition-all duration-200 text-sm ${
                   isActive
-                    ? "bg-[#7000ff]/20 text-[#c3f5ff] border-l-4 border-[#c3f5ff] font-semibold"
-                    : "text-[#bac9cc] hover:bg-white/5 hover:text-[#c3f5ff]"
+                    ? "bg-gradient-to-r from-[#172242] to-[#121E36] border-l-4 border-[#00D5E8] text-white font-semibold shadow-inner"
+                    : "text-slate-400 hover:text-white hover:bg-slate-800/40 font-medium"
                 }`}
               >
                 <span
-                  className="material-symbols-outlined text-[20px]"
+                  className={`material-symbols-outlined text-[20px] transition-colors ${
+                    isActive ? "text-[#00D5E8]" : "text-slate-400 group-hover:text-slate-200"
+                  }`}
                   style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
                 >
                   {item.icon}
                 </span>
-                <span className="text-[14px]">{item.label}</span>
+                <span>{item.label}</span>
               </Link>
             );
           })}
+
+          {/* Info / System Specs Modal Trigger */}
+          <div className="pt-3 border-t border-[#141F30] space-y-1">
+            <button
+              onClick={openInfoModal}
+              className="w-full flex items-center gap-3 px-3.5 py-2 text-slate-400 hover:text-[#00D5E8] hover:bg-slate-800/40 rounded-xl text-xs font-medium transition-all text-left cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-[18px]">info</span>
+              <span>System Specs & Info</span>
+            </button>
+          </div>
         </nav>
 
-        <div className="px-6 mt-auto space-y-4">
-          <div className="glass-panel rounded-xl p-4 border border-white/10">
-            <div className="flex items-center gap-3 mb-3">
-              <span className="material-symbols-outlined text-[#c3f5ff] text-[32px]">
-                account_circle
-              </span>
+        {/* Guest Mode Card */}
+        <div className="px-3 mt-auto mb-2">
+          <div className="bg-[#0D1522] border border-[#19263A] rounded-2xl p-3.5 shadow-md">
+            <div className="flex items-center gap-2.5 mb-2.5">
+              <div className="w-7 h-7 rounded-full bg-cyan-950/60 border border-cyan-500/30 flex items-center justify-center text-[#00D5E8]">
+                <span className="material-symbols-outlined text-[16px]">account_circle</span>
+              </div>
               <div>
-                <p className="text-[16px] font-semibold text-[#dfe2ee]">Gautam Mulay</p>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#4ade80] animate-pulse"></span>
-                  <p className="text-[10px] font-bold tracking-wider text-[#4ade80]">NCMC ACTIVE</p>
+                <h4 className="text-xs font-semibold text-white leading-tight">Guest Mode</h4>
+                <p className="text-[10px] text-slate-400 leading-tight">Explore without an account</p>
+              </div>
+            </div>
+            <div className="space-y-1.5 text-[11px] text-slate-300">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-emerald-400 text-[14px]">check</span>
+                <span>Plan journeys</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-emerald-400 text-[14px]">check</span>
+                <span>View live network</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="material-symbols-outlined text-emerald-400 text-[14px] mt-0.5">check</span>
+                <div>
+                  <span>Save recent journeys</span>
+                  <span className="block text-[10px] text-slate-500">(in this browser)</span>
                 </div>
               </div>
             </div>
-            <Link
-              href="/settings"
-              className="w-full py-2 text-[14px] text-[#bac9cc] hover:text-[#c3f5ff] transition-colors flex items-center justify-center gap-2 border-t border-white/5 pt-2"
-            >
-              <span className="material-symbols-outlined text-sm">settings</span> Account Settings
-            </Link>
           </div>
         </div>
       </aside>
 
       {/* Mobile BottomNavBar */}
-      <nav className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-[#31353e]/95 backdrop-blur-2xl border-t border-white/10 rounded-t-xl md:hidden shadow-xl pb-safe">
+      <nav className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-[#080E18]/95 backdrop-blur-2xl border-t border-[#141F30] md:hidden shadow-xl pb-safe">
         <Link
           href="/"
-          className={`flex flex-col items-center justify-center w-1/4 h-full transition-colors ${
-            pathname === "/" ? "text-[#c3f5ff]" : "text-[#bac9cc]"
+          className={`flex flex-col items-center justify-center w-1/5 h-full transition-colors ${
+            pathname === "/" ? "text-[#00D5E8]" : "text-slate-400"
           }`}
         >
           <span className="material-symbols-outlined text-[20px]">home</span>
@@ -93,30 +118,39 @@ export function Sidebar() {
         </Link>
         <Link
           href="/plan"
-          className={`flex flex-col items-center justify-center w-1/4 h-full transition-colors ${
-            pathname === "/plan" ? "text-[#c3f5ff]" : "text-[#bac9cc]"
+          className={`flex flex-col items-center justify-center w-1/5 h-full transition-colors ${
+            pathname === "/plan" ? "text-[#00D5E8]" : "text-slate-400"
           }`}
         >
           <span className="material-symbols-outlined text-[20px]">directions</span>
           <span className="text-[10px] font-bold tracking-wider uppercase mt-1">Plan</span>
         </Link>
         <Link
-          href="/passes"
-          className={`flex flex-col items-center justify-center w-1/4 h-full transition-colors ${
-            pathname === "/passes" ? "text-[#c3f5ff]" : "text-[#bac9cc]"
+          href="/lines"
+          className={`flex flex-col items-center justify-center w-1/5 h-full transition-colors ${
+            pathname === "/lines" ? "text-[#00D5E8]" : "text-slate-400"
           }`}
         >
-          <span className="material-symbols-outlined text-[20px]">confirmation_number</span>
-          <span className="text-[10px] font-bold tracking-wider uppercase mt-1">Tickets</span>
+          <span className="material-symbols-outlined text-[20px]">alt_route</span>
+          <span className="text-[10px] font-bold tracking-wider uppercase mt-1">Lines</span>
         </Link>
         <Link
-          href="/alerts"
-          className={`flex flex-col items-center justify-center w-1/4 h-full transition-colors ${
-            pathname === "/alerts" ? "text-[#c3f5ff]" : "text-[#bac9cc]"
+          href="/stations"
+          className={`flex flex-col items-center justify-center w-1/5 h-full transition-colors ${
+            pathname === "/stations" ? "text-[#00D5E8]" : "text-slate-400"
           }`}
         >
-          <span className="material-symbols-outlined text-[20px]">notifications</span>
-          <span className="text-[10px] font-bold tracking-wider uppercase mt-1">Alerts</span>
+          <span className="material-symbols-outlined text-[20px]">location_city</span>
+          <span className="text-[10px] font-bold tracking-wider uppercase mt-1">Stations</span>
+        </Link>
+        <Link
+          href="/network"
+          className={`flex flex-col items-center justify-center w-1/5 h-full transition-colors ${
+            pathname === "/network" ? "text-[#00D5E8]" : "text-slate-400"
+          }`}
+        >
+          <span className="material-symbols-outlined text-[20px]">sensors</span>
+          <span className="text-[10px] font-bold tracking-wider uppercase mt-1">Live</span>
         </Link>
       </nav>
     </>

@@ -77,6 +77,21 @@ export class CandidateFilterService {
       if (c.durationSeconds <= 0 || !isFinite(c.durationSeconds)) return false;
       if (c.transfers > MAX_TRANSFERS) return false;
       if (c.durationSeconds > MAX_DURATION_S) return false;
+
+      // Prune routes with out-of-station street walks > 300m between stations
+      // so Candidate 2 selects metro interchanges (e.g. via Andheri West) rather than walking between stations
+      const candAny = c as any;
+      if (Array.isArray(candAny.legs)) {
+        const hasLongStreetWalkBetweenStations = candAny.legs.some((leg: any) => {
+          if (leg.type === 'WALK' && leg.fromStationName && leg.toStationName && leg.fromStationName !== leg.toStationName) {
+            const dist = leg.transferDetails?.pathwayDistanceMeters || Math.round((leg.durationSeconds || leg.duration || 60) * 1.2);
+            return dist > 300;
+          }
+          return false;
+        });
+        if (hasLongStreetWalkBetweenStations) return false;
+      }
+
       return true;
     });
   }

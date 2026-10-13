@@ -6,6 +6,9 @@ import { FeedDownloaderService } from './services/feed-downloader.service';
 import { GtfsRtParserService } from './services/gtfs-rt-parser.service';
 import { VehiclePositionService } from './services/vehicle-position.service';
 import { RealtimeService } from './services/realtime.service';
+import { GtfsRtSyncService } from './services/gtfs-rt-sync.service';
+import { RealtimeNetworkService } from './services/realtime-network.service';
+import { RealtimePredictionService } from './services/realtime-prediction.service';
 
 @Module({
   imports: [DatabaseModule],
@@ -16,7 +19,15 @@ import { RealtimeService } from './services/realtime.service';
     GtfsRtParserService,
     VehiclePositionService,
     RealtimeService,
+    GtfsRtSyncService,
+    RealtimeNetworkService,
+    RealtimePredictionService,
   ],
-  exports: [RealtimeService],
+  exports: [
+    RealtimeService,
+    GtfsRtSyncService,
+    RealtimeNetworkService,
+    RealtimePredictionService,
+  ],
 })
 export class RealtimeModule {}

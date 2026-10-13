@@ -5,6 +5,10 @@ import "./globals.css";
 import { CityProvider } from "../contexts/CityContext";
 import { StationProvider } from "../contexts/StationContext";
 import { JourneyProvider } from "../contexts/JourneyContext";
+import { AssistantUiProvider } from "../contexts/AssistantUiContext";
+import { InfoModalProvider } from "../contexts/InfoModalContext";
+import { AiAssistantDrawer } from "../components/AiAssistantDrawer";
+import { SystemSpecsModal } from "../components/SystemSpecsModal";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -37,7 +41,13 @@ export default function RootLayout({
         <CityProvider>
           <StationProvider>
             <JourneyProvider>
-              {children}
+              <AssistantUiProvider>
+                <InfoModalProvider>
+                  {children}
+                  <AiAssistantDrawer />
+                  <SystemSpecsModal />
+                </InfoModalProvider>
+              </AssistantUiProvider>
             </JourneyProvider>
           </StationProvider>
         </CityProvider>

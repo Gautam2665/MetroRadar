@@ -14,22 +14,27 @@ export interface PlatformEta {
   platform: string;
   towards: string;
   etaMins: number;
-  crowdLevel: "Low" | "Medium" | "High";
+  crowdLevel?: "Low" | "Medium" | "High" | null;
   recommendedCoach: string;
 }
 
 export interface StationExit {
   gate: string;
   name: string;
-  distanceMeter: number;
+  distanceMeter?: number | null;
 }
 
 export interface DigitalTwin {
   stationId: string;
   stationName: string;
+  code?: string;
+  city?: string;
+  wheelchairAccessible?: boolean;
+  lines: Array<{ code: string; name: string; color: string }>;
   levels: DigitalTwinLevel[];
   platformEtas: PlatformEta[];
   exits: StationExit[];
+  rawDto?: Record<string, unknown>;
 }
 
 export function toDigitalTwinModel(dto: Record<string, unknown> | null | undefined, stationId: string, defaultName: string): DigitalTwin {
@@ -51,28 +56,59 @@ export function toDigitalTwinModel(dto: Record<string, unknown> | null | undefin
         lineName: typeof line.name === "string" ? line.name : null,
         lineColor: typeof line.color === "string" ? line.color : null,
         evidenceStatus: typeof lvl.evidenceStatus === "string" ? lvl.evidenceStatus : "UNVERIFIED",
-        facilities: [],
+        facilities: Array.isArray((lvl as any).facilities) && (lvl as any).facilities.length > 0
+          ? ((lvl as any).facilities as string[])
+          : Array.isArray((lvl as any).amenities) && (lvl as any).amenities.length > 0
+          ? ((lvl as any).amenities as any[]).map((a: any) => (a.name || a.type) as string)
+          : [],
       };
     });
+
+    const rawLines = Array.isArray(stationObj.lines) ? stationObj.lines : [];
+    const mappedLines: Array<{ code: string; name: string; color: string }> = rawLines.map((l: unknown) => {
+      const item = l as Record<string, unknown>;
+      return {
+        code: (item?.code as string) || "",
+        name: (item?.name as string) || "",
+        color: (item?.color as string) || "#00e5ff",
+      };
+    });
+
+    const physicalRecord = physical as Record<string, unknown>;
 
     return {
       stationId: (stationObj.id as string) || stationId,
       stationName: (stationObj.name as string) || defaultName,
+      code: (stationObj.code as string) || "",
+      city: (stationObj.city as string) || "",
+      wheelchairAccessible: Boolean(stationObj.wheelchairAccessible),
+      lines: mappedLines,
       levels: mappedLevels,
       platformEtas: (dto.platformEtas as PlatformEta[]) || [],
-      exits: Array.isArray(dto.entrances)
-        ? (dto.entrances as Record<string, unknown>[]).map((e) => ({
-            gate: (e.name as string) || "Entrance",
-            name: (e.description as string) || (e.name as string) || "Station Gate",
-            distanceMeter: 150,
+      exits: Array.isArray(dto.exits) && (dto.exits as unknown[]).length > 0
+        ? (dto.exits as Record<string, unknown>[]).map((e, idx) => ({
+            gate: (e.gate as string) || (e.name as string) || `Gate ${idx + 1}`,
+            name: (e.name as string) || `Exit ${idx + 1}`,
+            distanceMeter: typeof e.distanceMeter === "number" && e.distanceMeter > 0 ? e.distanceMeter : null,
           }))
-        : (dto.exits as StationExit[]) || [],
+        : Array.isArray(physicalRecord.entrances)
+        ? (physicalRecord.entrances as Record<string, unknown>[]).map((e, idx) => ({
+            gate: (e.name as string) || `Gate ${idx + 1}`,
+            name: (e.description as string) || (e.name as string) || "Station Gate",
+            distanceMeter: null,
+          }))
+        : [],
+      rawDto: dto,
     };
   }
 
   return {
     stationId,
     stationName: defaultName,
+    code: "",
+    city: "",
+    wheelchairAccessible: false,
+    lines: [],
     levels: [],
     platformEtas: [],
     exits: [],

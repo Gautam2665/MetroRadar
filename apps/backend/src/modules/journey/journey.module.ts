@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../../database/database.module';
 import { RedisModule } from '../../redis/redis.module';
+import { RealtimeModule } from '../realtime/realtime.module';
 import { GraphBuilderService } from './graph/graph-builder.service';
 import { GraphProviderService } from './graph/graph-provider.service';
 import { RoutingService } from './routing/routing.service';
@@ -11,7 +12,7 @@ import { JourneyService } from './routing/journey.service';
 import { JourneyController } from './controllers/journey.controller';
 
 @Module({
-  imports: [DatabaseModule, RedisModule],
+  imports: [DatabaseModule, RedisModule, RealtimeModule],
   controllers: [JourneyController],
   providers: [
     GraphBuilderService,

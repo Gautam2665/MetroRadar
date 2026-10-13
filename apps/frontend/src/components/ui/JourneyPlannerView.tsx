@@ -90,21 +90,43 @@ function StatsGrid({ route }: { route: RouteOption }) {
         <span>{route.walkDistance || "0m walking"}</span>
       </div>
 
-      <div
-        className="flex items-center justify-center gap-1 font-mono font-medium"
-        style={{ color: route.crowdColor }}
-      >
-        <span className="material-symbols-outlined text-[14px]">groups</span>
-        <span>{route.crowd} crowd</span>
-      </div>
+      {route.crowd && route.crowdColor ? (
+        <div
+          className="flex items-center justify-center gap-1 font-mono font-medium"
+          style={{ color: route.crowdColor }}
+        >
+          <span className="material-symbols-outlined text-[14px]">groups</span>
+          <span>{route.crowd} crowd</span>
+        </div>
+      ) : (
+        <div className="flex items-center justify-center gap-1 font-mono text-slate-500 text-[10px]">
+          <span>Crowding offline</span>
+        </div>
+      )}
     </div>
   );
 }
 
 // ── Coach Recommendation Banner ──────────────────────────────────────────────
 
-function CoachTip({ coach, destination }: { coach?: string; destination?: string }) {
-  const coachLabel = coach || "COACH 3";
+function CoachTip({
+  coach,
+  occupancy,
+  destination,
+}: {
+  coach?: string | null;
+  occupancy?: { status: string; occupancyPercent?: number } | null;
+  destination?: string;
+}) {
+  if (!coach && !occupancy) {
+    return (
+      <div className="mt-3.5 rounded-xl bg-[#080c14]/50 border border-white/[0.06] p-2.5 text-center text-xs text-slate-500 font-mono">
+        Live crowding &amp; carriage updates offline
+      </div>
+    );
+  }
+
+  const coachLabel = coach || (occupancy?.occupancyPercent ? `Coach (Capacity ${occupancy.occupancyPercent}%)` : "Coach");
   const destText = destination ? `at ${destination}` : "at destination";
 
   return (
@@ -117,6 +139,7 @@ function CoachTip({ coach, destination }: { coach?: string; destination?: string
           BOARD {coachLabel.toUpperCase()}
         </div>
         <div className="text-[11px] text-slate-200 leading-snug mt-0.5">
+          {occupancy?.status ? `Crowd Level: ${occupancy.status} · ` : ""}
           Nearest to exit {destText} · Saves ~3 min walking
         </div>
       </div>
@@ -126,7 +149,7 @@ function CoachTip({ coach, destination }: { coach?: string; destination?: string
 
 // ── Stitch Vertical Timeline: Journey Details ────────────────────────────────
 
-function JourneyDetailsTimeline({
+export function JourneyDetailsTimeline({
   route,
   origin,
   destination,
@@ -163,6 +186,19 @@ function JourneyDetailsTimeline({
             : "before:bg-gradient-to-b before:from-emerald-400 via-amber-400 to-rose-500"
         }`}
       >
+        {/* Domain Intelligence / Direct FOB Link Banner */}
+        {route.destinationGuidance && (
+          <div className="p-3 rounded-xl bg-gradient-to-r from-cyan-950/40 to-emerald-950/40 border border-cyan-500/30 text-xs text-cyan-200 shadow-[0_0_15px_rgba(0,229,255,0.08)] mb-3">
+            <div className="flex items-center gap-1.5 font-bold text-cyan-300 mb-1">
+              <span className="material-symbols-outlined text-[16px] text-cyan-400">link</span>
+              <span>Direct Infrastructure Link</span>
+            </div>
+            <div className="text-[11.5px] text-slate-200 leading-relaxed">
+              {route.destinationGuidance}
+            </div>
+          </div>
+        )}
+
         {/* Step 1: Origin Boarding */}
         {transitLegs.length > 0 && (
           <div className="relative">
@@ -183,6 +219,19 @@ function JourneyDetailsTimeline({
                   {transitLegs[0].shortLine || formatShortLineName(transitLegs[0].line)}
                 </span>
               </div>
+              {transitLegs[0].realtimeEtaMins !== undefined && (
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center gap-1 font-mono">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    Departs in {transitLegs[0].realtimeEtaMins} mins ({transitLegs[0].realtimeTimeStr})
+                  </span>
+                  {transitLegs[0].delaySeconds && transitLegs[0].delaySeconds > 0 ? (
+                    <span className="text-xs text-amber-400 font-mono">
+                      +{(transitLegs[0].delaySeconds / 60).toFixed(0)}m delay
+                    </span>
+                  ) : null}
+                </div>
+              )}
               <div className="text-[11.5px] text-slate-300 mt-1">
                 {transitLegs[0].platform ? `${transitLegs[0].platform} · ` : ""}
                 {transitLegs[0].towards
@@ -243,20 +292,24 @@ function JourneyDetailsTimeline({
           const walkLeg = route.legs.find(
             (l) =>
               (l.mode === "walk" || l.type === "WALK" || l.type === "TRANSFER") &&
-              (l.fromStation === deboardStation || l.toStation === boardStation)
+              ((l.fromStation === deboardStation && l.toStation === boardStation) ||
+                (l.fromStation === boardStation && l.toStation === deboardStation))
           );
 
           // Derive transfer title and duration from authoritative backend DTO
           const transferTitle =
             walkLeg?.transferTitle ||
             walkLeg?.transferDetails?.name ||
+            curLeg.transferTitle ||
+            curLeg.transferDetails?.name ||
             `Transfer to ${nextShortLine}`;
 
           const transferDuration =
-            walkLeg?.transferSummary ||
             walkLeg?.transferDurationText ||
             walkLeg?.transferDetails?.durationDisplay ||
-            (walkLeg?.durationMins ? `~${walkLeg.durationMins} min` : "~5 min");
+            curLeg.transferDurationText ||
+            curLeg.transferDetails?.durationDisplay ||
+            (walkLeg?.durationMins ? `~${walkLeg.durationMins} min` : "Time unknown");
 
           const transferSteps: string[] =
             walkLeg?.transferInstructions && walkLeg.transferInstructions.length > 0
@@ -264,7 +317,11 @@ function JourneyDetailsTimeline({
               : walkLeg?.transferDetails?.instructions &&
                 walkLeg.transferDetails.instructions.length > 0
               ? walkLeg.transferDetails.instructions
-              : [`Follow signs to ${nextShortLine} connecting concourse`];
+              : curLeg.transferInstructions && curLeg.transferInstructions.length > 0
+                ? curLeg.transferInstructions
+                : curLeg.transferDetails?.instructions && curLeg.transferDetails.instructions.length > 0
+                  ? curLeg.transferDetails.instructions
+                  : [`Follow signs to ${nextShortLine} connecting concourse`];
 
           const deboardDoors = curLeg.doorsOpen;
 
@@ -328,6 +385,34 @@ function JourneyDetailsTimeline({
                       {nextShortLine}
                     </span>
                   </div>
+                  {nextLeg.connectionWaitMins !== undefined ? (
+                    <div className="flex items-center gap-2 mt-1 flex-wrap">
+                      <span className="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center gap-1 font-mono">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        Connecting Train: Departs in {nextLeg.connectionWaitMins} mins ({nextLeg.realtimeTimeStr})
+                      </span>
+                      <span className="text-xs text-slate-400 font-mono">
+                        (~{nextLeg.connectionWaitMins}m wait after interchange walk)
+                      </span>
+                      {nextLeg.delaySeconds && nextLeg.delaySeconds > 0 ? (
+                        <span className="text-xs text-amber-400 font-mono">
+                          +{(nextLeg.delaySeconds / 60).toFixed(0)}m delay
+                        </span>
+                      ) : null}
+                    </div>
+                  ) : nextLeg.realtimeEtaMins !== undefined ? (
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center gap-1 font-mono">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        Departs in {nextLeg.realtimeEtaMins} mins ({nextLeg.realtimeTimeStr})
+                      </span>
+                      {nextLeg.delaySeconds && nextLeg.delaySeconds > 0 ? (
+                        <span className="text-xs text-amber-400 font-mono">
+                          +{(nextLeg.delaySeconds / 60).toFixed(0)}m delay
+                        </span>
+                      ) : null}
+                    </div>
+                  ) : null}
                   <div className="text-[11.5px] text-slate-300 mt-1">
                     {nextLeg.platform ? `${nextLeg.platform} · ` : ""}
                     {nextLeg.towards
@@ -361,15 +446,21 @@ function JourneyDetailsTimeline({
                 DESTINATION
               </span>
             </div>
-            <div className="text-[11.5px] text-slate-400 mt-0.5">
+            <div className="text-[11.5px] text-slate-300 mt-0.5">
               Alight platform · {route.destinationGuidance || "Exit station"}
             </div>
+            {route.destinationGuidance && route.destinationGuidance.includes("FOB") && (
+              <div className="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-[10.5px] font-semibold text-emerald-400">
+                <span className="material-symbols-outlined text-[13px]">check_circle</span>
+                Zero street walking · Direct Skywalk Access
+              </div>
+            )}
           </div>
         </div>
       </div>
 
       {/* Embedded Coach Guidance Tip */}
-      <CoachTip coach={route.boardCoach} destination={destination} />
+      <CoachTip coach={route.boardCoach} occupancy={route.realtimeOccupancy} destination={destination} />
     </motion.div>
   );
 }
@@ -483,6 +574,7 @@ export function JourneyPlannerView({
                 key={pill}
                 type="button"
                 onClick={() => onQuickPillSelect?.(pill)}
+                suppressHydrationWarning
                 className="px-2 py-0.5 rounded-md bg-[#1e2638]/60 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-300 border border-white/5 hover:border-cyan-500/30 text-[10.5px] font-medium whitespace-nowrap transition-all cursor-pointer"
               >
                 {pill}
@@ -503,6 +595,7 @@ export function JourneyPlannerView({
         <button
           onClick={onSearchRoute}
           disabled={loading || !canSearch}
+          suppressHydrationWarning
           className={`w-full mt-3 py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
             canSearch && !loading
               ? "bg-gradient-to-r from-cyan-500 to-cyan-400 text-slate-950 shadow-[0_0_20px_rgba(6,182,212,0.35)] hover:brightness-110 active:scale-[0.99]"
@@ -656,6 +749,24 @@ export function JourneyPlannerView({
                       </span>
                     )}
                   </div>
+
+                  {/* GTFS-RT Live Train ETA Badges */}
+                  {route.realtime && (route.realtime.primaryTrain?.label || route.realtime.followingTrain?.label) && (
+                    <div className="mt-2.5 flex items-center gap-2 flex-wrap">
+                      {route.realtime.primaryTrain?.label && (
+                        <span className="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[11px] font-bold flex items-center gap-1.5 shadow-[0_0_10px_rgba(16,185,129,0.2)]">
+                          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                          {route.realtime.primaryTrain.label}
+                        </span>
+                      )}
+                      {route.realtime.followingTrain?.label && (
+                        <span className="px-2.5 py-1 rounded-lg bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 text-[11px] font-semibold flex items-center gap-1.5">
+                          <span className="material-symbols-outlined text-[13px] text-cyan-400">schedule</span>
+                          {route.realtime.followingTrain.label}
+                        </span>
+                      )}
+                    </div>
+                  )}
 
                   {/* Metro Line Sequence Chips */}
                   <div className="mt-3">

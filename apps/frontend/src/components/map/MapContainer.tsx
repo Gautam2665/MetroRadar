@@ -6,6 +6,7 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Compass } from "lucide-react";
 import { RouteOption } from "../../containers/JourneyPlannerContainer";
+import { RealtimeVehicle } from "../../models/vehicle";
 import { renderSmartStationCardHtml, StationCardData } from "./SmartStationCard";
 import { JourneyTrainSimulator } from "./JourneyTrainSimulator";
 import {
@@ -59,6 +60,8 @@ type MapContainerProps = {
   selectedCandidate?: RouteOption | null;
   selectedCandidateId?: string | null;
   candidates?: RouteOption[];
+  activeLevel?: "G" | "L1" | "L2" | string;
+  vehicles?: RealtimeVehicle[];
 };
 
 export default function MapContainer({
@@ -67,6 +70,7 @@ export default function MapContainer({
   activeLayers = ["lines", "stations", "vehicles"],
   activeCity = "mumbai",
   selectedStationId = null,
+  activeLevel,
   onStationSelect,
   onSelectStation,
   onSetOrigin,
@@ -77,6 +81,7 @@ export default function MapContainer({
   mapRef,
   journeyGeojson,
   selectedCandidate = null,
+  vehicles = [],
 }: MapContainerProps) {
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -192,7 +197,7 @@ export default function MapContainer({
 
     // 3. Determine if station is an interchange
     const isTransferPoint = props.featureType === "journey-transfer" || journeyContext?.role === "transfer";
-    const isInterchange = cleanLines.length > 1 || isTransferPoint;
+    const isInterchange = cleanLines.length > 1 || isTransferPoint || props.featureType === "interchange";
 
     // 4. Determine Smart Station Card mode
     let mode: SmartStationCardMode = "NORMAL";
@@ -320,8 +325,8 @@ export default function MapContainer({
       }
     }, 50);
 
-    // Pre-cache digital twin metadata in background if not already cached
-    if (!cachedTwin && stId && !stId.startsWith("stn-")) {
+    // Pre-cache digital twin metadata in background on explicit click if not already cached
+    if (!noEase && !cachedTwin && stId && !stId.startsWith("stn-")) {
       const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
       fetch(`${backendUrl}/stations/${encodeURIComponent(stId)}/digital-twin`)
         .then((r) => (r.ok ? r.json() : null))
@@ -366,6 +371,7 @@ export default function MapContainer({
       zoom: initialZoomRef.current,
       pitch: 0,
       bearing: 0,
+      attributionControl: false,
     });
 
     if (mapRef) {
@@ -376,8 +382,6 @@ export default function MapContainer({
     if (typeof window !== "undefined") {
       (window as unknown as { _map?: maplibregl.Map })._map = map;
     }
-
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-left");
 
     const initSimulator = () => {
       setMapLoaded(true);
@@ -578,7 +582,7 @@ export default function MapContainer({
             layersLoaded++;
           }
         } catch (err) {
-          console.error("Failed to load lines GIS layer:", err);
+          console.warn("Failed to load lines GIS layer:", err);
         }
       } else {
         const mapNow = getActiveMap();
@@ -588,16 +592,53 @@ export default function MapContainer({
         }
       }
 
-      // 2. Stations Layer
-      if (activeLayers.includes("stations")) {
+      // 2. Stations / Interchanges / Accessible Lifts Layer
+      if (
+        activeLayers.includes("stations") ||
+        activeLayers.includes("interchanges") ||
+        activeLayers.includes("accessible")
+      ) {
         try {
           const sysCode = SYSTEM_CODES[activeCity.toLowerCase()] || "DMRC";
           const res = await fetch(`${backendUrl}/map/stations?system=${sysCode}&t=${Date.now()}`);
           const currentMap = getActiveMap();
           if (res.ok && currentMap) {
-            const geojson = await res.json();
+            const rawGeojson = await res.json();
             const mapNow = getActiveMap();
             if (!mapNow) return;
+
+            const isInterchangeOnly = activeLayers.includes("interchanges") && !activeLayers.includes("stations");
+            const isAccessibleOnly = activeLayers.includes("accessible") && !activeLayers.includes("stations");
+            const isSpecialFilter = isInterchangeOnly || isAccessibleOnly;
+
+            const geojson =
+              isInterchangeOnly && Array.isArray(rawGeojson?.features)
+                ? {
+                    ...rawGeojson,
+                    features: rawGeojson.features.filter((f: any) => {
+                      const p = f.properties || {};
+                      const linesArr = typeof p.lines === "string" ? JSON.parse(p.lines || "[]") : p.lines;
+                      const infraArr =
+                        typeof p.lineInfrastructure === "string"
+                          ? JSON.parse(p.lineInfrastructure || "[]")
+                          : p.lineInfrastructure;
+                      return (
+                        (Array.isArray(linesArr) && linesArr.length > 1) ||
+                        (Array.isArray(infraArr) && infraArr.length > 1)
+                      );
+                    }),
+                  }
+                : isAccessibleOnly && Array.isArray(rawGeojson?.features)
+                ? {
+                    ...rawGeojson,
+                    features: rawGeojson.features.filter((f: any) => {
+                      const p = f.properties || {};
+                      return p.wheelchairAccessible !== false;
+                    }),
+                  }
+                : rawGeojson;
+
+            const circleColor = isInterchangeOnly ? "#00E5FF" : isAccessibleOnly ? "#34d399" : "#ffffff";
 
             if (mapNow.getSource("stations-source")) {
               (mapNow.getSource("stations-source") as maplibregl.GeoJSONSource).setData(geojson);
@@ -609,14 +650,17 @@ export default function MapContainer({
                 type: "circle",
                 source: "stations-source",
                 paint: {
-                  "circle-color": "#ffffff",
+                  "circle-color": circleColor,
                   "circle-radius": [
                     "interpolate",
                     ["linear"],
                     ["zoom"],
-                    10, 3,
-                    14, 5,
-                    18, 8,
+                    10,
+                    isSpecialFilter ? 6 : 3.5,
+                    14,
+                    isSpecialFilter ? 9 : 5.5,
+                    18,
+                    isSpecialFilter ? 13 : 8.5,
                   ],
                   "circle-stroke-color": [
                     "case",
@@ -626,11 +670,15 @@ export default function MapContainer({
                     ["get", "color"],
                     "#059DB2",
                   ],
-                  "circle-stroke-width": 2,
+                  "circle-stroke-width": isSpecialFilter ? 3 : 2,
                   "circle-opacity": 0.95,
                   "circle-stroke-opacity": 1.0,
                 },
               });
+            }
+            if (mapNow.getLayer("stations-layer")) {
+              mapNow.setPaintProperty("stations-layer", "circle-color", circleColor);
+              mapNow.setPaintProperty("stations-layer", "circle-stroke-width", isSpecialFilter ? 3 : 2);
             }
 
             // Interactive hover & click bindings
@@ -698,11 +746,17 @@ export default function MapContainer({
               const activeM = getActiveMap();
               if (!activeM) return;
               const features = activeM.queryRenderedFeatures(e.point, {
-                layers: ["stations-layer", "journey-route-stations-layer", "journey-transfer-layer", "journey-origin-layer", "journey-dest-layer"].filter((l) => activeM.getLayer(l)),
+                layers: [
+                  "stations-layer",
+                  "vehicles-layer",
+                  "journey-route-stations-layer",
+                  "journey-transfer-layer",
+                  "journey-origin-layer",
+                  "journey-dest-layer",
+                ].filter((l) => activeM.getLayer(l)),
               });
               if (features.length === 0) {
                 pinnedStationIdRef.current = null;
-                
                 stationPopupRef.current?.remove();
                 currentOpenStationIdRef.current = null;
               }
@@ -711,7 +765,7 @@ export default function MapContainer({
             layersLoaded++;
           }
         } catch (err) {
-          console.error("Failed to load stations GIS layer:", err);
+          console.warn("Failed to load stations GIS layer:", err);
         }
       } else {
         const mapNow = getActiveMap();
@@ -726,6 +780,258 @@ export default function MapContainer({
 
     syncLayers();
   }, [activeLayers, activeCity, mapLoaded, apiLatencySetter, setLoadedLayersCount, effectiveMapRef]);
+
+  // ── 3. Live GTFS-RT Vehicle Positions Layer (GeoJSON Source + Glow & Marker Layers) ──
+  useEffect(() => {
+    const map = effectiveMapRef.current;
+    if (!map || !mapLoaded || !map.getStyle()) return;
+
+    const showVehicles = activeLayers.includes("vehicles") || activeLayers.includes("realtime");
+    const validVehicles = showVehicles
+      ? (vehicles || []).filter(
+          (v) => typeof v.lat === "number" && typeof v.lng === "number" && v.lat !== 0 && v.lng !== 0
+        )
+      : [];
+
+    if (!showVehicles || validVehicles.length === 0) {
+      if (map.getSource("vehicles-source")) {
+        (map.getSource("vehicles-source") as maplibregl.GeoJSONSource).setData({
+          type: "FeatureCollection",
+          features: [],
+        });
+      }
+      return;
+    }
+
+    const vehicleGeojson: GeoJSON.FeatureCollection = {
+      type: "FeatureCollection",
+      features: validVehicles.map((v) => ({
+        type: "Feature",
+        properties: {
+          id: v.id,
+          lineId: v.lineId,
+          lineName: v.lineName || "Metro Line",
+          lineColor: v.lineColor || "#00E5FF",
+          previousStationName: v.previousStationName || "",
+          nextStationName: v.nextStationName || "",
+          destination: v.destination || "",
+          speedKmH: v.speedKmH ?? "",
+          bearing: v.bearing ?? "",
+          timestamp: v.timestamp ?? "",
+          delayMins: v.delayMins ?? 0,
+          isEstimated: v.isEstimated ? "true" : "false",
+          positionSource: v.positionSource || "ESTIMATED",
+          status: v.currentStatus || v.status || "IN_TRANSIT_TO",
+        },
+        geometry: {
+          type: "Point",
+          coordinates: [v.lng, v.lat],
+        },
+      })),
+    };
+
+    // Update existing GeoJSON source in-place without recreating layers
+    if (map.getSource("vehicles-source")) {
+      (map.getSource("vehicles-source") as maplibregl.GeoJSONSource).setData(vehicleGeojson);
+      return;
+    }
+
+    map.addSource("vehicles-source", {
+      type: "geojson",
+      data: vehicleGeojson,
+    });
+
+    // Layer 1: Subtle outer glow halo for live trains
+    map.addLayer({
+      id: "vehicles-glow-layer",
+      type: "circle",
+      source: "vehicles-source",
+      paint: {
+        "circle-color": ["coalesce", ["get", "lineColor"], "#00E5FF"],
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 10, 11, 14, 15, 18, 20],
+        "circle-blur": 0.65,
+        "circle-opacity": 0.45,
+      },
+    });
+
+    // Layer 2: Crisp inner vehicle marker
+    map.addLayer({
+      id: "vehicles-layer",
+      type: "circle",
+      source: "vehicles-source",
+      paint: {
+        "circle-color": ["coalesce", ["get", "lineColor"], "#00E5FF"],
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 10, 5.5, 14, 7.5, 18, 10],
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-width": 2.5,
+        "circle-opacity": 1,
+      },
+    });
+
+    const openVehicleInspector = (props: Record<string, any>, coords: [number, number]) => {
+      if (!stationPopupRef.current) {
+        stationPopupRef.current = new maplibregl.Popup({
+          closeButton: false,
+          closeOnClick: false,
+          className: "stitch-station-popup",
+          maxWidth: "310px",
+        });
+      }
+      const lineColor = props.lineColor || "#00E5FF";
+      const lineName = props.lineName || "Metro Corridor";
+      const isEst = String(props.isEstimated) === "true" || props.positionSource === "ESTIMATED";
+      const sourceBadgeText = isEst ? "ESTIMATED POSITION" : "LIVE GPS";
+      const sourceBadgeColor = isEst ? "#fbbf24" : "#34d399";
+      const destText = props.destination ? `Towards ${props.destination}` : "Active Revenue Service";
+      const segText =
+        props.previousStationName && props.nextStationName
+          ? `${props.previousStationName} ➔ ${props.nextStationName}`
+          : props.nextStationName
+          ? `Next Stop: ${props.nextStationName}`
+          : "";
+      const speedVal = props.speedKmH !== "" && props.speedKmH !== undefined ? `${props.speedKmH} km/h` : null;
+      const bearingVal =
+        props.bearing !== "" && props.bearing !== undefined ? `Bearing ${props.bearing}° (Track)` : null;
+      const telemetryLine = [speedVal, bearingVal].filter(Boolean).join(" • ") || "On-Track Alignment";
+      const updatedStr =
+        props.timestamp && !isNaN(Number(props.timestamp))
+          ? new Date(Number(props.timestamp) * 1000).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+            })
+          : "Just now";
+
+      const html = `
+        <div style="background:#0B1320;border:1px solid ${lineColor}66;border-radius:14px;padding:12px 14px;color:#f1f5f9;font-family:Inter,system-ui,sans-serif;box-shadow:0 12px 32px rgba(0,0,0,0.75);min-width:245px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;">
+            <span style="background:${lineColor}22;color:${lineColor};border:1px solid ${lineColor}55;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:0.04em;">
+              ${lineName}
+            </span>
+            <span style="font-size:9.5px;color:${sourceBadgeColor};background:${sourceBadgeColor}18;border:1px solid ${sourceBadgeColor}44;padding:1.5px 6px;border-radius:999px;font-weight:700;">
+              ● ${sourceBadgeText}
+            </span>
+          </div>
+          <div style="font-size:13px;font-weight:800;color:#ffffff;margin-bottom:2px;">
+            ${destText}
+          </div>
+          ${
+            segText
+              ? `<div style="font-size:11px;color:#38bdf8;font-weight:600;margin-bottom:4px;">${segText}</div>`
+              : ""
+          }
+          <div style="font-size:10px;color:#94a3b8;margin-bottom:8px;">
+            ${isEst ? "Derived from GTFS-RT TripUpdates + Timetable" : `Train ${props.id || ""}`}
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.08);padding-top:6px;font-size:10px;color:#cbd5e1;">
+            <span>${telemetryLine}</span>
+            <span style="color:#64748b;">${updatedStr}</span>
+          </div>
+        </div>
+      `;
+
+      currentOpenStationIdRef.current = `veh-${props.id}`;
+      stationPopupRef.current.setLngLat(coords).setHTML(html).addTo(map);
+    };
+
+    map.on("mouseenter", "vehicles-layer", (e) => {
+      map.getCanvas().style.cursor = "pointer";
+      if (e.features && e.features.length > 0) {
+        const feat = e.features[0];
+        const coords = (feat.geometry as GeoJSON.Point).coordinates as [number, number];
+        openVehicleInspector(feat.properties || {}, coords);
+      }
+    });
+
+    map.on("mouseleave", "vehicles-layer", () => {
+      map.getCanvas().style.cursor = "";
+    });
+
+    map.on("click", "vehicles-layer", (e) => {
+      if (e.features && e.features.length > 0) {
+        const feat = e.features[0];
+        const coords = (feat.geometry as GeoJSON.Point).coordinates as [number, number];
+        pinnedStationIdRef.current = `veh-${feat.properties?.id || "train"}`;
+        openVehicleInspector(feat.properties || {}, coords);
+      }
+    });
+  }, [vehicles, activeLayers, mapLoaded, effectiveMapRef]);
+
+  // ── Indoor Floor-Level Vector Layer (G, L1, L2 Switcher & Zoom > 15.5) ────────
+  useEffect(() => {
+    const map = effectiveMapRef.current;
+    if (!map || !mapLoaded || !selectedStationId) {
+      if (map) {
+        if (map.getLayer("station-indoor-platforms")) map.removeLayer("station-indoor-platforms");
+        if (map.getLayer("station-indoor-entrances")) map.removeLayer("station-indoor-entrances");
+        if (map.getSource("station-indoor-source")) map.removeSource("station-indoor-source");
+      }
+      return;
+    }
+
+    const loadIndoorLayer = async () => {
+      try {
+        const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+        const lvlParam = activeLevel ? `?level=${encodeURIComponent(activeLevel)}` : "";
+        const res = await fetch(`${backendUrl}/map/stations/${selectedStationId}/indoor${lvlParam}`);
+        if (!res.ok) return;
+        const indoorGeojson = await res.json();
+        if (!indoorGeojson.features || indoorGeojson.features.length === 0) return;
+
+        if (map.getSource("station-indoor-source")) {
+          (map.getSource("station-indoor-source") as maplibregl.GeoJSONSource).setData(indoorGeojson);
+        } else {
+          map.addSource("station-indoor-source", { type: "geojson", data: indoorGeojson });
+
+          // Indoor Platforms Layer
+          map.addLayer({
+            id: "station-indoor-platforms",
+            type: "circle",
+            source: "station-indoor-source",
+            filter: ["==", ["get", "type"], "platform"],
+            paint: {
+              "circle-color": ["case", ["has", "lineColor"], ["get", "lineColor"], "#00e5ff"],
+              "circle-radius": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                14, 6,
+                16.5, 12,
+                19, 18,
+              ],
+              "circle-stroke-color": "#ffffff",
+              "circle-stroke-width": 2,
+            },
+          });
+
+          // Indoor Entrances Layer
+          map.addLayer({
+            id: "station-indoor-entrances",
+            type: "circle",
+            source: "station-indoor-source",
+            filter: ["==", ["get", "type"], "entrance"],
+            paint: {
+              "circle-color": "#4ade80",
+              "circle-radius": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                14, 5,
+                16.5, 9,
+                19, 14,
+              ],
+              "circle-stroke-color": "#09090b",
+              "circle-stroke-width": 2,
+            },
+          });
+        }
+      } catch (err) {
+        console.warn("Indoor map layer fetch error:", err);
+      }
+    };
+
+    loadIndoorLayer();
+  }, [selectedStationId, activeLevel, mapLoaded, effectiveMapRef]);
 
   // ── Journey Highlight Layers ─────────────────────────────────────────────
   useEffect(() => {
@@ -997,27 +1303,13 @@ export default function MapContainer({
     <div className="flex-1 h-full relative bg-[#080c14] select-none">
       <div ref={containerRef} className="absolute inset-0 w-full h-full" />
 
-      {/* Top-Left Network Indicator Badge (Stitch UI) */}
-      <div className="absolute top-4 left-4 z-20 flex items-center gap-2 pointer-events-none">
-        <div className="px-3 py-1.5 rounded-xl bg-[#0f141f]/90 backdrop-blur-xl border border-white/[0.08] flex items-center gap-2 shadow-xl">
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-          <span className="text-[11px] text-white font-bold tracking-wider uppercase">
-            {activeCity.toUpperCase()} METRO NETWORK
-          </span>
-          <span className="px-2 py-0.5 rounded-full bg-cyan-400/10 border border-cyan-400/30 text-[10px] font-mono text-cyan-300 flex items-center gap-1">
-            <span className="w-1 h-1 rounded-full bg-cyan-400 animate-ping" />
-            {selectedCandidate ? "ROUTE SIM ACTIVE" : "MULTI-CANDIDATE VIEW"}
-          </span>
-        </div>
-      </div>
-
       {/* Right-Side Map Controls */}
       <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
         <div className="flex flex-col rounded-xl bg-[#0f141f]/90 backdrop-blur-xl border border-white/[0.08] shadow-xl overflow-hidden">
           <button
             onClick={handleZoomIn}
             className="w-9 h-9 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition text-sm font-bold active:scale-95 cursor-pointer"
-            title="Zoom In"
+            title="Zoom In" suppressHydrationWarning
           >
             +
           </button>
@@ -1025,7 +1317,7 @@ export default function MapContainer({
           <button
             onClick={handleZoomOut}
             className="w-9 h-9 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition text-sm font-bold active:scale-95 cursor-pointer"
-            title="Zoom Out"
+            title="Zoom Out" suppressHydrationWarning
           >
             -
           </button>
@@ -1033,7 +1325,7 @@ export default function MapContainer({
           <button
             onClick={handleResetNorth}
             className="w-9 h-9 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition active:scale-95 cursor-pointer"
-            title="Reset North"
+            title="Reset North" suppressHydrationWarning
           >
             <Compass className="w-4 h-4 text-cyan-400" />
           </button>
@@ -1044,7 +1336,7 @@ export default function MapContainer({
           {(["3D", "Satellite", "Dark"] as const).map((style) => (
             <button
               key={style}
-              onClick={() => setMapStyle(style)}
+              onClick={() => setMapStyle(style)} suppressHydrationWarning
               className={`px-2.5 py-1 rounded-lg text-[10.5px] font-mono font-medium transition cursor-pointer ${
                 mapStyle === style
                   ? "bg-cyan-500/20 text-cyan-300 border border-cyan-400/40"

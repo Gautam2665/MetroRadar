@@ -47,6 +47,10 @@ export type RouteLeg = {
   durationMins?: number;
   durationSeconds?: number;
   transferInstructions?: string[];
+  realtimeEtaMins?: number;
+  connectionWaitMins?: number;
+  realtimeTimeStr?: string;
+  delaySeconds?: number;
 };
 
 export type RouteOption = {
@@ -62,9 +66,10 @@ export type RouteOption = {
   interchanges: number;
   walkDistance: string;
   walkMins: number;
-  crowd: "Low" | "Medium" | "High";
-  crowdColor: string;
-  boardCoach: string;
+  crowd?: "Low" | "Medium" | "High" | null;
+  crowdColor?: string | null;
+  boardCoach?: string | null;
+  realtimeOccupancy?: { status: string; occupancyPercent?: number } | null;
   score: number;
   legs: RouteLeg[];
   /** GeoJSON for this specific candidate */
@@ -87,6 +92,22 @@ export type RouteOption = {
   reasonCodes?: string[];
   humanSummary?: string;
   destinationGuidance?: string | null;
+  realtime?: {
+    primaryTrain?: {
+      tripId?: string;
+      delaySeconds?: number;
+      etaMinutes?: number;
+      status?: string;
+      label?: string;
+    };
+    followingTrain?: {
+      tripId?: string;
+      delaySeconds?: number;
+      etaMinutes?: number;
+      status?: string;
+      label?: string;
+    };
+  };
 };
 
 // ── Type for the backend RouteCandidate shape ─────────────────────────────────
@@ -109,6 +130,7 @@ interface BackendCandidate {
   };
   transfers: number;
   walkingDistanceMeters: number;
+  smartCardFare?: number;
   legs: Array<{
     mode?: string;
     type: string;
@@ -139,6 +161,10 @@ interface BackendCandidate {
     transferSummary?: string | null;
     transferDurationText?: string | null;
     transferInstructions?: string[];
+    realtimeEtaMins?: number;
+    connectionWaitMins?: number;
+    realtimeTimeStr?: string;
+    delaySeconds?: number;
   }>;
   stations: Array<{ id: string; name: string; code: string; lat: number; lng: number }>;
   geojson: GeoJSON.FeatureCollection;
@@ -166,6 +192,7 @@ interface BackendCandidate {
   reasonCodes?: string[];
   humanSummary?: string;
   destinationGuidance?: string | null;
+  realtime?: RouteOption["realtime"];
 }
 
 // ── Label derivation from attribute flags ────────────────────────────────────
@@ -204,7 +231,8 @@ function deriveTradeoffLabel(
 
 function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
   const totalDurationMins = candidate.durationMinutes ?? Math.round(candidate.durationSeconds / 60);
-  const fareAmount = candidate.fare ?? Math.max(10, Math.round(totalDurationMins * 0.9));
+  const fareDisplay = candidate.fare ? `₹${candidate.fare}` : 'N/A';
+  const smartCardDisplay = candidate.smartCardFare ? `₹${candidate.smartCardFare}` : 'N/A';
 
   const legs: RouteLeg[] = candidate.legs.map((leg) => {
     const isWalk = leg.mode === "TRANSFER" || leg.type === "WALK" || leg.type === "TRANSFER";
@@ -251,16 +279,20 @@ function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
       durationMins: durMins,
       durationSeconds: leg.durationSeconds ?? leg.duration,
       transferInstructions: leg.transferInstructions || [],
+      realtimeEtaMins: leg.realtimeEtaMins,
+      connectionWaitMins: leg.connectionWaitMins,
+      realtimeTimeStr: leg.realtimeTimeStr,
+      delaySeconds: leg.delaySeconds,
     };
   });
 
   const totalPathwayMeters = candidate.walkingDistanceMeters ?? 0;
   const walkMins = Math.round(candidate.walkingSeconds / 60);
 
-  const crowd: RouteOption["crowd"] =
-    candidate.transfers === 0 ? "Low" : candidate.transfers === 1 ? "Medium" : "High";
-  const crowdColor =
-    crowd === "Low" ? "#4ade80" : crowd === "Medium" ? "#fec931" : "#f87171";
+  // Suppress hardcoded crowd & coach callouts unless live GTFS-RT carriage data exists
+  const crowd: RouteOption["crowd"] = null;
+  const crowdColor: string | null = null;
+  const boardCoach: string | null = null;
 
   return {
     id: candidate.id,
@@ -268,15 +300,16 @@ function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
     duration: `${totalDurationMins} min`,
     durationMins: totalDurationMins,
     durationSeconds: candidate.durationSeconds,
-    fare: `₹${fareAmount}`,
-    smartCardFare: `₹${Math.max(9, fareAmount - 3)}`,
+    fare: fareDisplay,
+    smartCardFare: smartCardDisplay,
     distance: "",
     interchanges: candidate.transfers,
     walkDistance: totalPathwayMeters > 0 ? `${totalPathwayMeters}m` : "0m",
     walkMins,
     crowd,
     crowdColor,
-    boardCoach: "Coach 3",
+    boardCoach,
+    realtimeOccupancy: null,
     score: candidate.score,
     legs,
     geojson: candidate.geojson,
@@ -286,6 +319,7 @@ function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
     reasonCodes: candidate.reasonCodes,
     humanSummary: candidate.humanSummary,
     destinationGuidance: candidate.destinationGuidance || null,
+    realtime: candidate.realtime,
   };
 }
 

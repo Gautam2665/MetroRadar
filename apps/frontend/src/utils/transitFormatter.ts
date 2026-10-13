@@ -172,3 +172,48 @@ export function buildStepByStepItinerary(
 
   return steps;
 }
+
+export interface PathwayEdge {
+  pathway_mode: number;
+  length?: number | null;
+  traversal_time?: number | null;
+  stair_count?: number | null;
+  signposted_as?: string | null;
+}
+
+export interface StopNode {
+  stop_name: string;
+  level_name?: string | null;
+}
+
+/**
+ * Programmatically renders GTFS pathway steps from edge attributes:
+ * - pathway_mode 1: Walkway / Sidewalk
+ * - pathway_mode 2: Stairs
+ * - pathway_mode 3: Moving Walkway / Travelator
+ * - pathway_mode 4: Escalator
+ * - pathway_mode 5: Lift / Elevator
+ * - pathway_mode 6: Fare Gate / Turnstile (AFC)
+ * - pathway_mode 7: Security Checkpoint
+ */
+export function formatPathwayStep(edge: PathwayEdge, toNode: StopNode): string {
+  switch (edge.pathway_mode) {
+    case 1: // Walkway
+      return `Walk ${edge.length ?? Math.round((edge.traversal_time || 0) * 1.2)}m via ${edge.signposted_as || toNode.stop_name}`;
+    case 2: // Stairs
+      return `Take stairs (${edge.stair_count ?? 'steps'}) to ${toNode.stop_name}`;
+    case 3: // Travelator / Moving Walkway
+      return `Take moving walkway (${edge.length ?? 0}m) towards ${edge.signposted_as || toNode.stop_name}`;
+    case 4: // Escalator
+      return `Take escalator up/down to ${toNode.stop_name}`;
+    case 5: // Lift / Elevator
+      return `Take lift to ${toNode.level_name || toNode.stop_name}`;
+    case 6: // Fare Gate / Turnstile
+      return `Tap through AFC gates towards ${edge.signposted_as || toNode.stop_name}`;
+    case 7: // Security checkpoint
+      return `Clear security screening at ${toNode.stop_name}`;
+    default:
+      return `Proceed to ${toNode.stop_name}`;
+  }
+}
+

@@ -56,7 +56,7 @@ export class MapController {
   @Get('stations')
   @ApiOperation({ summary: 'Get active stations GeoJSON Features' })
   async getStations(): Promise<unknown> {
-    const cacheKey = 'geojson:stations:v23';
+    const cacheKey = 'geojson:stations:v29';
     const cached =
       await this.redisService.get<Record<string, unknown>>(cacheKey);
     if (cached) return cached;
@@ -70,7 +70,7 @@ export class MapController {
   @ApiOperation({ summary: 'Get single station GeoJSON Feature' })
   @ApiParam({ name: 'id', type: String, description: 'Station UUID' })
   async getStation(@Param('id') id: string): Promise<unknown> {
-    const cacheKey = `geojson:station:v5:${id}`;
+    const cacheKey = `geojson:station:v9:${id}`;
     const cached =
       await this.redisService.get<Record<string, unknown>>(cacheKey);
     if (cached) return cached;
@@ -79,6 +79,17 @@ export class MapController {
     if (!result) throw new BadRequestException(`Station ID ${id} not found`);
     await this.redisService.set(cacheKey, result, 3600);
     return result;
+  }
+
+  @Get('stations/:id/indoor')
+  @ApiOperation({ summary: 'Get station indoor features (levels, platforms, entrances) GeoJSON' })
+  @ApiParam({ name: 'id', type: String, description: 'Station UUID or Code' })
+  @ApiQuery({ name: 'level', type: String, required: false, description: 'Floor level (G, L1, L2)' })
+  async getStationIndoor(
+    @Param('id') id: string,
+    @Query('level') level?: string,
+  ): Promise<unknown> {
+    return this.geojsonService.getStationIndoorGeoJson(id, level);
   }
 
   @Get('search')
@@ -97,7 +108,7 @@ export class MapController {
     if (!q) throw new BadRequestException('Query parameter q is required');
     const filterTypes = type ? type.split(',') : undefined;
 
-    const cacheKey = `search:v12:${q}:${type || 'all'}`;
+    const cacheKey = `search:v17:${q}:${type || 'all'}`;
     const cached =
       await this.redisService.get<Record<string, unknown>>(cacheKey);
     if (cached) return cached;

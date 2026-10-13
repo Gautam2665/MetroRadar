@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TransitOS - Mumbai Metro Navigator</title>
+<!-- Tailwind CSS CDN with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<!-- Custom Tailwind Config -->
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              bg: '#070B12',
+              surface: '#0B1320',
+              card: '#101A27',
+              cardHover: '#142132',
+              cyan: '#00E5FF',
+              cyanDark: '#0097a7',
+              line1: '#1E75FF',
+              line2a: '#F5A623',
+              line3: '#00BA7C',
+              line7: '#EF4444',
+              border: '#1F2E43',
+              subtext: '#8E9EB5'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Scrollbar & Micro-Styles -->
+<style data-purpose="custom-layout-styles">
+    /* Custom Scrollbar for sleek dark look */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #080D15;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1C2B3F;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #283C57;
+    }
+    
+    .gradient-active-nav {
+      background: linear-gradient(90deg, rgba(79, 70, 229, 0.25) 0%, rgba(0, 229, 255, 0.12) 100%);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-brand-bg text-slate-200 h-full flex overflow-hidden font-sans select-none text-[13px]">
+<!-- BEGIN: LeftSidebar -->
+<aside class="w-64 bg-[#080E17] border-r border-brand-border flex flex-col justify-between shrink-0 h-full z-20" data-purpose="primary-sidebar">
+<div>
+<!-- Brand Header -->
+<div class="h-16 flex items-center gap-3 px-5 border-b border-brand-border/60">
+<div class="w-9 h-9 rounded-xl bg-cyan-400 flex items-center justify-center text-brand-bg shadow-[0_0_15px_rgba(0,229,255,0.4)]">
+<i class="w-5 h-5 text-gray-950 stroke-[2.5]" data-lucide="train"></i>
+</div>
+<div>
+<div class="font-bold text-base tracking-tight text-white flex items-center gap-1">
+            transit<span class="text-brand-cyan">OS</span>
+</div>
+<p class="text-[10px] text-brand-subtext leading-none tracking-wide">Mumbai Metro Navigator</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="p-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/40 transition" href="#">
+<i class="w-4 h-4 text-slate-400" data-lucide="home"></i>
+<span class="text-xs font-medium">Home</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/40 transition" href="#">
+<i class="w-4 h-4 text-slate-400" data-lucide="compass"></i>
+<span class="text-xs font-medium">Plan Journey</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/40 transition" href="#">
+<i class="w-4 h-4 text-slate-400" data-lucide="git-branch"></i>
+<span class="text-xs font-medium">Explore Lines</span>
+</a>
+<!-- Active Nav: Explore Stations -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl gradient-active-nav text-brand-cyan font-medium shadow-sm transition" href="#">
+<i class="w-4 h-4 text-brand-cyan" data-lucide="subway"></i>
+<span class="text-xs text-white">Explore Stations</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/40 transition" href="#">
+<i class="w-4 h-4 text-slate-400" data-lucide="activity"></i>
+<span class="text-xs font-medium">Live Network</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/40 transition" href="#">
+<i class="w-4 h-4 text-slate-400" data-lucide="history"></i>
+<span class="text-xs font-medium">Recent Journeys</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/40 transition" href="#">
+<i class="w-4 h-4 text-slate-400" data-lucide="bell"></i>
+<span class="text-xs font-medium">Alerts</span>
+</a>
+</nav>
+<div class="px-3 pt-3 border-t border-brand-border/40 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/40 transition" href="#">
+<i class="w-4 h-4" data-lucide="settings"></i>
+<span class="text-xs font-medium">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/40 transition" href="#">
+<i class="w-4 h-4" data-lucide="help-circle"></i>
+<span class="text-xs font-medium">Help &amp; Feedback</span>
+</a>
+</div>
+</div>
+<!-- Bottom Guest Mode Card -->
+<div class="p-3">
+<div class="bg-[#101A27] rounded-xl p-3 border border-brand-border/80">
+<div class="flex items-center gap-2 mb-2.5">
+<div class="w-7 h-7 rounded-full bg-cyan-950/60 border border-brand-cyan/40 flex items-center justify-center text-brand-cyan">
+<i class="w-3.5 h-3.5" data-lucide="user"></i>
+</div>
+<div>
+<h4 class="text-xs font-bold text-white leading-tight">Guest Mode</h4>
+<p class="text-[10px] text-slate-400 leading-tight">Explore without an account</p>
+</div>
+</div>
+<ul class="space-y-1.5 text-[11px] text-slate-300">
+<li class="flex items-center gap-1.5">
+<i class="w-3.5 h-3.5 text-brand-cyan shrink-0" data-lucide="check"></i>
+<span>Plan journeys</span>
+</li>
+<li class="flex items-center gap-1.5">
+<i class="w-3.5 h-3.5 text-brand-cyan shrink-0" data-lucide="check"></i>
+<span>View live network</span>
+</li>
+<li class="flex items-start gap-1.5">
+<i class="w-3.5 h-3.5 text-brand-cyan shrink-0 mt-0.5" data-lucide="check"></i>
+<span class="leading-tight">Save recent journeys <span class="text-[10px] text-slate-400 block">(in this browser)</span></span>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<!-- END: LeftSidebar -->
+<!-- BEGIN: MainContainer -->
+<div class="flex-1 flex flex-col h-full min-w-0 overflow-hidden">
+<!-- Top Header Bar -->
+<header class="h-16 border-b border-brand-border bg-[#090F19] px-6 flex items-center justify-between shrink-0 gap-6" data-purpose="top-header">
+<!-- Search Input -->
+<div class="relative w-96 max-w-md">
+<i class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-lucide="search"></i>
+<input class="w-full bg-[#101A27] border border-brand-border rounded-lg pl-9 pr-4 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-brand-cyan/70 focus:ring-1 focus:ring-brand-cyan transition" placeholder="Search for a station, place or line..." type="text"/>
+</div>
+<!-- Top Right Badges & Controls -->
+<div class="flex items-center gap-3">
+<!-- Weather Widget -->
+<div class="flex items-center gap-2 bg-[#101A27] border border-brand-border px-3 py-1.5 rounded-lg text-xs">
+<i class="w-4 h-4 text-amber-400 fill-amber-400" data-lucide="sun"></i>
+<div>
+<span class="font-bold text-white text-xs">33°C</span>
+<span class="text-[10px] text-slate-400 ml-1">Mumbai, MH</span>
+</div>
+</div>
+<!-- Transit AI Button -->
+<button class="flex items-center gap-1.5 bg-[#101A27] hover:bg-[#152335] border border-cyan-500/30 text-brand-cyan px-3 py-1.5 rounded-lg text-xs font-semibold shadow-[0_0_10px_rgba(0,229,255,0.15)] transition">
+<i class="w-3.5 h-3.5" data-lucide="sparkles"></i>
+<span>Transit AI</span>
+</button>
+<!-- City Selector -->
+<div class="flex items-center gap-1.5 bg-[#101A27] border border-brand-border px-3 py-1.5 rounded-lg text-xs text-slate-200 cursor-pointer hover:border-slate-600 transition">
+<i class="w-3.5 h-3.5 text-brand-cyan" data-lucide="map-pin"></i>
+<span>Mumbai, MH</span>
+<i class="w-3 h-3 text-slate-400 ml-1" data-lucide="chevron-down"></i>
+</div>
+<!-- Language Switcher -->
+<div class="flex items-center gap-1.5 bg-[#101A27] border border-brand-border px-2.5 py-1.5 rounded-lg text-xs text-slate-200 cursor-pointer hover:border-slate-600 transition">
+<i class="w-3.5 h-3.5 text-slate-400" data-lucide="globe"></i>
+<span>EN</span>
+<i class="w-3 h-3 text-slate-400" data-lucide="chevron-down"></i>
+</div>
+<!-- Notifications -->
+<button class="relative w-8 h-8 rounded-lg bg-[#101A27] border border-brand-border flex items-center justify-center text-slate-300 hover:text-white hover:border-slate-600 transition">
+<i class="w-4 h-4" data-lucide="bell"></i>
+<span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+</button>
+<!-- Profile Avatar -->
+<div class="w-8 h-8 rounded-full bg-slate-700 overflow-hidden ring-1 ring-cyan-500/50 flex items-center justify-center">
+<div class="w-full h-full bg-gradient-to-tr from-cyan-600 to-indigo-600 flex items-center justify-center text-xs font-semibold text-white">
+            U
+          </div>
+</div>
+</div>
+</header>
+<!-- Workspace Columns (Left: Directory List | Right: Detailed Inspector) -->
+<div class="flex-1 flex overflow-hidden">
+<!-- BEGIN: StationDirectory -->
+<section class="w-[430px] border-r border-brand-border flex flex-col bg-[#070B12] shrink-0" data-purpose="station-directory-column">
+<!-- Directory Header & Filters -->
+<div class="p-5 border-b border-brand-border/60 space-y-3 shrink-0">
+<div>
+<span class="text-[10px] font-bold tracking-wider text-brand-cyan uppercase">STATION DIRECTORY</span>
+<h1 class="text-2xl font-extrabold text-white tracking-tight mt-0.5">Find your station</h1>
+<p class="text-xs text-brand-subtext mt-0.5">Search stations, explore facilities, exits and nearby places.</p>
+</div>
+<!-- Secondary Search & Current Location -->
+<div class="flex items-center gap-2">
+<div class="relative flex-1">
+<i class="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" data-lucide="search"></i>
+<input class="w-full bg-[#101A27] border border-brand-border rounded-lg pl-8 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-cyan/80 transition" placeholder="Search station name or area (e.g. Andheri, BKC...)" type="text"/>
+</div>
+<button class="flex items-center gap-1.5 bg-[#101A27] hover:bg-[#172537] border border-cyan-500/40 text-brand-cyan px-2.5 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition">
+<i class="w-3.5 h-3.5" data-lucide="crosshair"></i>
+<span>Use current location</span>
+</button>
+</div>
+<!-- Main Filter Pills -->
+<div class="flex items-center gap-1.5 pt-1 overflow-x-auto no-scrollbar">
+<button class="px-3 py-1 rounded-md bg-brand-cyan text-brand-bg font-semibold text-xs transition">All Stations</button>
+<button class="px-2.5 py-1 rounded-md bg-[#101A27] border border-brand-border hover:border-slate-600 text-slate-300 text-xs transition">Interchanges</button>
+<button class="px-2.5 py-1 rounded-md bg-[#101A27] border border-brand-border hover:border-slate-600 text-slate-300 text-xs transition">Accessible</button>
+<button class="px-2.5 py-1 rounded-md bg-[#101A27] border border-brand-border hover:border-slate-600 text-slate-300 text-xs transition">Parking</button>
+</div>
+<!-- Line Quick Filter Pills -->
+<div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
+<button class="px-2 py-0.5 rounded text-[11px] bg-[#101A27] border border-brand-border text-slate-400 hover:text-white transition">Line 1</button>
+<button class="px-2 py-0.5 rounded text-[11px] bg-[#101A27] border border-brand-border text-slate-400 hover:text-white transition">Line 2A</button>
+<button class="px-2 py-0.5 rounded text-[11px] bg-[#101A27] border border-brand-border text-slate-400 hover:text-white transition">Line 3</button>
+<button class="px-2 py-0.5 rounded text-[11px] bg-[#101A27] border border-brand-border text-slate-400 hover:text-white transition">Line 6</button>
+<button class="px-2 py-0.5 rounded text-[11px] bg-[#101A27] border border-brand-border text-slate-400 hover:text-white transition">Line 7</button>
+</div>
+<!-- Counter and Sort Header -->
+<div class="flex items-center justify-between pt-1">
+<span class="text-xs font-semibold text-brand-cyan">96 stations</span>
+<div class="flex items-center gap-1 text-xs text-slate-400 cursor-pointer hover:text-slate-200">
+<span>Sort by: <strong class="text-slate-200 font-normal">Name (A-Z)</strong></span>
+<i class="w-3.5 h-3.5" data-lucide="chevron-down"></i>
+</div>
+</div>
+</div>
+<!-- Station Scroll List -->
+<div class="flex-1 overflow-y-auto p-4 space-y-2">
+<!-- Station 1: Andheri (West) - SELECTED -->
+<div class="p-3 rounded-xl bg-[#111D2D] border-2 border-brand-cyan/80 shadow-[0_0_15px_rgba(0,229,255,0.1)] flex items-center justify-between cursor-pointer transition">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-cyan-950/80 border border-brand-cyan/50 flex items-center justify-center text-brand-cyan">
+<i class="w-4 h-4" data-lucide="train"></i>
+</div>
+<div>
+<div class="flex items-center gap-1.5 flex-wrap">
+<h3 class="text-xs font-bold text-white">Andheri (West)</h3>
+<span class="px-1.5 py-0.2 rounded text-[10px] bg-blue-600 text-white font-medium">Line 1</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] bg-amber-500 text-black font-semibold">Line 2A</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] bg-red-600 text-white font-medium">Line 7</span>
+</div>
+<p class="text-[11px] text-slate-400 mt-0.5">Andheri West, Mumbai</p>
+</div>
+</div>
+<i class="w-4 h-4 text-brand-cyan shrink-0" data-lucide="shuffle"></i>
+</div>
+<!-- Station 2: Aarey -->
+<div class="p-3 rounded-xl bg-[#101A27] border border-brand-border hover:border-slate-600 flex items-center justify-between cursor-pointer transition">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-slate-800/80 flex items-center justify-center text-slate-400">
+<i class="w-4 h-4" data-lucide="train"></i>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h3 class="text-xs font-bold text-white">Aarey</h3>
+<span class="px-1.5 py-0.2 rounded text-[10px] bg-emerald-600 text-white font-medium">Line 3</span>
+</div>
+<p class="text-[11px] text-slate-400 mt-0.5">Aarey, Mumbai</p>
+</div>
+</div>
+<i class="w-4 h-4 text-slate-500" data-lucide="chevron-right"></i>
+</div>
+<!-- Station 3: Asalpha -->
+<div class="p-3 rounded-xl bg-[#101A27] border border-brand-border hover:border-slate-600 flex items-center justify-between cursor-pointer transition">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-slate-800/80 flex items-center justify-center text-slate-400">
+<i class="w-4 h-4" data-lucide="train"></i>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h3 class="text-xs font-bold text-white">Asalpha</h3>
+<span class="px-1.5 py-0.2 rounded text-[10px] bg-blue-600 text-white font-medium">Line 1</span>
+</div>
+<p class="text-[11px] text-slate-400 mt-0.5">Ghatkopar East, Mumbai</p>
+</div>
+</div>
+<i class="w-4 h-4 text-slate-500" data-lucide="chevron-right"></i>
+</div>
+<!-- Station 4: Azad Nagar -->
+<div class="p-3 rounded-xl bg-[#101A27] border border-brand-border hover:border-slate-600 flex items-center justify-between cursor-pointer transition">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-slate-800/80 flex items-center justify-center text-slate-400">
+<i class="w-4 h-4" data-lucide="train"></i>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h3 class="text-xs font-bold text-white">Azad Nagar</h3>
+<span class="px-1.5 py-0.2 rounded text-[10px] bg-blue-600 text-white font-medium">Line 1</span>
+</div>
+<p class="text-[11px] text-slate-400 mt-0.5">Andheri West, Mumbai</p>
+</div>
+</div>
+<i class="w-4 h-4 text-slate-500" data-lucide="chevron-right"></i>
+</div>
+<!-- Station 5: Bandra -->
+<div class="p-3 rounded-xl bg-[#101A27] border border-brand-border hover:border-slate-600 flex items-center justify-between cursor-pointer transition">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-slate-800/80 flex items-center justify-center text-slate-400">
+<i class="w-4 h-4" data-lucide="train"></i>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h3 class="text-xs font-bold text-white">Bandra</h3>
+<span class="px-1.5 py-0.2 rounded text-[10px] bg-emerald-600 text-white font-medium">Line 3</span>
+</div>
+<p class="text-[11px] text-slate-400 mt-0.5">Bandra East, Mumbai</p>
+</div>
+</div>
+<i class="w-4 h-4 text-slate-500" data-lucide="chevron-right"></i>
+</div>
+<!-- Station 6: Chakala (J B Nagar) -->
+<div class="p-3 rounded-xl bg-[#101A27] border border-brand-border hover:border-slate-600 flex items-center justify-between cursor-pointer transition">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-slate-800/80 flex items-center justify-center text-slate-400">
+<i class="w-4 h-4" data-lucide="train"></i>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h3 class="text-xs font-bold text-white">Chakala (J B Nagar)</h3>
+<span class="px-1.5 py-0.2 rounded text-[10px] bg-blue-600 text-white font-medium">Line 1</span>
+</div>
+<p class="text-[11px] text-slate-400 mt-0.5">Andheri East, Mumbai</p>
+</div>
+</div>
+<i class="w-4 h-4 text-slate-500" data-lucide="chevron-right"></i>
+</div>
+<!-- Station 7: Cuffe Parade -->
+<div class="p-3 rounded-xl bg-[#101A27] border border-brand-border hover:border-slate-600 flex items-center justify-between cursor-pointer transition">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-slate-800/80 flex items-center justify-center text-slate-400">
+<i class="w-4 h-4" data-lucide="train"></i>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h3 class="text-xs font-bold text-white">Cuffe Parade</h3>
+<span class="px-1.5 py-0.2 rounded text-[10px] bg-emerald-600 text-white font-medium">Line 3</span>
+</div>
+<p class="text-[11px] text-slate-400 mt-0.5">Cuffe Parade, Mumbai</p>
+</div>
+</div>
+<i class="w-4 h-4 text-slate-500" data-lucide="chevron-right"></i>
+</div>
+<!-- Station 8: D. N. Nagar -->
+<div class="p-3 rounded-xl bg-[#101A27] border border-brand-border hover:border-slate-600 flex items-center justify-between cursor-pointer transition">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-slate-800/80 flex items-center justify-center text-slate-400">
+<i class="w-4 h-4" data-lucide="train"></i>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h3 class="text-xs font-bold text-white">D. N. Nagar</h3>
+<span class="px-1.5 py-0.2 rounded text-[10px] bg-blue-600 text-white font-medium">Line 1</span>
+</div>
+<p class="text-[11px] text-slate-400 mt-0.5">Andheri West, Mumbai</p>
+</div>
+</div>
+<i class="w-4 h-4 text-slate-500" data-lucide="chevron-right"></i>
+</div>
+</div>
+</section>
+<!-- END: StationDirectory -->
+<!-- BEGIN: StationInspector -->
+<main class="flex-1 flex flex-col bg-[#070B12] overflow-y-auto" data-purpose="station-inspector-details">
+<!-- Inspector Top Header: Station Title & Badges -->
+<div class="p-6 pb-4 border-b border-brand-border/60 shrink-0">
+<div class="flex items-start justify-between">
+<div class="flex items-start gap-4">
+<!-- Station Icon Badge -->
+<div class="w-12 h-12 rounded-xl bg-cyan-950/80 border border-brand-cyan/60 flex items-center justify-center text-brand-cyan shadow-[0_0_15px_rgba(0,229,255,0.25)]">
+<i class="w-7 h-7" data-lucide="train"></i>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="text-xl font-extrabold text-white">Andheri (West)</h2>
+<button class="text-slate-400 hover:text-amber-400 transition">
+<i class="w-4 h-4" data-lucide="star"></i>
+</button>
+</div>
+<div class="flex items-center gap-2 text-xs text-slate-300 mt-1">
+<span class="bg-[#101A27] px-2 py-0.5 rounded border border-brand-border text-[11px] font-mono text-slate-400">STN_L2A_017</span>
+<div class="flex items-center gap-1 text-slate-400 text-xs">
+<i class="w-3.5 h-3.5 text-brand-cyan" data-lucide="map-pin"></i>
+<span>Andheri West, Mumbai</span>
+</div>
+<span class="flex items-center gap-1 bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 text-[11px] px-2 py-0.5 rounded-full font-medium">
+<i class="w-3 h-3" data-lucide="shuffle"></i>
+                    Interchange Station
+                  </span>
+</div>
+</div>
+</div>
+<!-- Connected Lines Mini Cards -->
+<div class="flex items-center gap-2">
+<!-- Line 1 Card -->
+<div class="bg-[#101A27] border border-brand-border rounded-xl px-3 py-2 flex items-center gap-2 min-w-[130px]">
+<div class="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center text-white">
+<i class="w-3 h-3" data-lucide="train"></i>
+</div>
+<div class="leading-tight">
+<span class="text-xs font-bold text-white block">Line 1</span>
+<span class="text-[10px] text-slate-400">Versova ↔ Ghatkopar</span>
+</div>
+</div>
+<!-- Line 2A Card -->
+<div class="bg-[#101A27] border border-brand-border rounded-xl px-3 py-2 flex items-center gap-2 min-w-[145px]">
+<div class="w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center text-black font-black text-[10px]">
+                  2A
+                </div>
+<div class="leading-tight">
+<span class="text-xs font-bold text-white block">Line 2A</span>
+<span class="text-[10px] text-slate-400">Dahisar East ↔ D. N. Nagar</span>
+</div>
+</div>
+<!-- Line 7 Card -->
+<div class="bg-[#101A27] border border-brand-border rounded-xl px-3 py-2 flex items-center gap-2 min-w-[135px]">
+<div class="w-5 h-5 rounded-full bg-red-600 flex items-center justify-center text-white font-bold text-[10px]">
+                  7
+                </div>
+<div class="leading-tight">
+<span class="text-xs font-bold text-white block">Line 7</span>
+<span class="text-[10px] text-slate-400">Dahisar East ↔ Andheri (E)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Station Description -->
+<p class="text-xs text-brand-subtext mt-3 max-w-4xl">
+            Andheri (West) is a major interchange station connecting multiple metro lines and key residential, commercial and business areas.
+          </p>
+</div>
+<!-- Section Navigation Tabs -->
+<div class="px-6 border-b border-brand-border flex items-center gap-6 shrink-0 bg-[#080D16]">
+<button class="py-2.5 text-xs font-bold text-brand-cyan border-b-2 border-brand-cyan">Overview</button>
+<button class="py-2.5 text-xs font-medium text-slate-400 hover:text-slate-200 transition">Live Departures</button>
+<button class="py-2.5 text-xs font-medium text-slate-400 hover:text-slate-200 transition">Exits &amp; Access</button>
+<button class="py-2.5 text-xs font-medium text-slate-400 hover:text-slate-200 transition">Station Map</button>
+<button class="py-2.5 text-xs font-medium text-slate-400 hover:text-slate-200 transition">Amenities</button>
+<button class="py-2.5 text-xs font-medium text-slate-400 hover:text-slate-200 transition">Nearby Places</button>
+</div>
+<!-- Tab Body Content -->
+<div class="p-6 space-y-5 flex-1">
+<!-- Top Grid: Interactive Map & Station Visual / Stats -->
+<div class="grid grid-cols-12 gap-5">
+<!-- Inset Map Representation (7 Cols) -->
+<div class="col-span-6 xl:col-span-7 bg-[#101A27] border border-brand-border rounded-xl h-64 relative overflow-hidden flex flex-col justify-between p-3">
+<!-- Dark Map Background Canvas / SVG Visualization -->
+<svg class="absolute inset-0 w-full h-full object-cover" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<radialgradient cx="50%" cy="50%" id="mapGlow" r="50%">
+<stop offset="0%" stop-color="#0a192f" stop-opacity="0.8"></stop>
+<stop offset="100%" stop-color="#080e18" stop-opacity="1"></stop>
+</radialgradient>
+</defs>
+<rect fill="#080e18" height="100%" width="100%"></rect>
+<!-- Street Grid Lines -->
+<path d="M-50,80 L500,80 M-50,180 L500,180 M120,-20 L120,300 M320,-20 L320,300" stroke="#132338" stroke-dasharray="2 3" stroke-width="1.5"></path>
+<!-- Line 2A (Yellow) -->
+<line stroke="#F5A623" stroke-linecap="round" stroke-width="4" x1="180" x2="260" y1="0" y2="280"></line>
+<!-- Line 7 (Red) -->
+<line stroke="#EF4444" stroke-linecap="round" stroke-width="4" x1="330" x2="260" y1="20" y2="280"></line>
+<!-- Line 1 (Blue) -->
+<line stroke="#1E75FF" stroke-linecap="round" stroke-width="4" x1="80" x2="420" y1="260" y2="180"></line>
+<!-- Interchange Hub Marker -->
+<circle cx="260" cy="180" fill="#00E5FF" r="10" stroke="#FFFFFF" stroke-width="3"></circle>
+<circle cx="260" cy="180" fill="none" opacity="0.4" r="18" stroke="#00E5FF" stroke-width="2"></circle>
+</svg>
+<!-- Map Overlay Markers & UI -->
+<div class="relative z-10 flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<span class="bg-amber-500 text-black text-[10px] font-black px-2 py-0.5 rounded shadow">Line 2A</span>
+<span class="text-[10px] text-slate-400 font-medium">Andheri West</span>
+</div>
+<div class="flex flex-col gap-1 items-end">
+<span class="bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">Line 7</span>
+<span class="text-[10px] text-slate-400 font-medium">Western Exp Highway</span>
+</div>
+</div>
+<!-- Center station callout -->
+<div class="relative z-10 flex items-center justify-center">
+<div class="bg-[#0B1320]/90 border border-brand-cyan/80 px-2.5 py-1 rounded-lg text-center backdrop-blur shadow-lg">
+<span class="text-xs font-bold text-white flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-brand-cyan animate-pulse"></span>
+                    Andheri (West)
+                  </span>
+<span class="text-[10px] text-slate-400">Interchange Hub</span>
+</div>
+</div>
+<!-- Map Footer Info & Controls -->
+<div class="relative z-10 flex items-end justify-between">
+<div class="flex items-center gap-2">
+<div class="bg-[#101A27]/90 border border-brand-border px-2 py-1 rounded text-[11px] text-purple-300 flex items-center gap-1 backdrop-blur">
+<i class="w-3 h-3 text-purple-400" data-lucide="train"></i>
+<span>Andheri Railway Station</span>
+</div>
+<span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">Line 1</span>
+</div>
+<!-- Zoom Controls & Scale -->
+<div class="flex items-center gap-2">
+<div class="bg-[#09101A]/90 border border-brand-border text-[10px] px-1.5 py-0.5 rounded text-slate-400">
+                    1 km
+                  </div>
+<div class="bg-[#09101A]/90 border border-brand-border rounded flex flex-col">
+<button class="p-1 hover:text-brand-cyan text-slate-300 border-b border-brand-border"><i class="w-3 h-3" data-lucide="plus"></i></button>
+<button class="p-1 hover:text-brand-cyan text-slate-300 border-b border-brand-border"><i class="w-3 h-3" data-lucide="minus"></i></button>
+<button class="p-1 hover:text-brand-cyan text-slate-300"><i class="w-3 h-3" data-lucide="locate"></i></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Station Exterior Visual & Quick Facilities (5 Cols) -->
+<div class="col-span-6 xl:col-span-5 flex flex-col justify-between gap-3">
+<!-- Station Photo Card -->
+<div class="relative h-32 rounded-xl overflow-hidden border border-brand-border group">
+<img alt="Andheri West Station Interior" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAw_QzvrLELuqptwx5scB8-62cmkJst9WUBp5XZnQEBp_TJipo9of3QHz8Rov94blJVD2UTu7SLGSsGSIyeogeS1meBLSUk8QqSWWiBH4VYgosQaCx1D4gh6rzQjEB9XMAtKgidmKsVBuYZb0IrPCJiRGsrWsMue1e8HeAPtkACWeAU-vToW4IbTv5AtKlJcvXmJKN1irkn0EPx56niXD2reiEBtll6_VOMAfqSqCzinUYW6lYwM3-WOpVVoktKl14fYA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<button class="absolute bottom-2.5 right-2.5 bg-[#0B1320]/80 hover:bg-black border border-brand-border backdrop-blur text-white text-xs px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition">
+<i class="w-3.5 h-3.5" data-lucide="image"></i>
+<span>View Photos</span>
+</button>
+</div>
+<!-- Facility Quick Stats Grid -->
+<div class="grid grid-cols-4 gap-2">
+<div class="bg-[#101A27] border border-brand-border p-2 rounded-xl text-center">
+<i class="w-4 h-4 text-brand-cyan mx-auto mb-1" data-lucide="building"></i>
+<span class="text-[11px] font-bold text-white block">Elevated</span>
+<span class="text-[10px] text-slate-400">Station Type</span>
+</div>
+<div class="bg-[#101A27] border border-brand-border p-2 rounded-xl text-center">
+<i class="w-4 h-4 text-brand-cyan mx-auto mb-1" data-lucide="columns"></i>
+<span class="text-[11px] font-bold text-white block">2 Platforms</span>
+<span class="text-[10px] text-slate-400">(1 island)</span>
+</div>
+<div class="bg-[#101A27] border border-brand-border p-2 rounded-xl text-center">
+<i class="w-4 h-4 text-brand-cyan mx-auto mb-1" data-lucide="qr-code"></i>
+<span class="text-[10px] font-bold text-white block truncate">STN_L2A_017</span>
+<span class="text-[10px] text-slate-400">Station Code</span>
+</div>
+<div class="bg-[#101A27] border border-brand-border p-2 rounded-xl text-center">
+<i class="w-4 h-4 text-brand-cyan mx-auto mb-1" data-lucide="shuffle"></i>
+<span class="text-[11px] font-bold text-white block">Interchange</span>
+<span class="text-[10px] text-slate-400">3 lines</span>
+</div>
+</div>
+<!-- Address and Location Card -->
+<div class="bg-[#101A27] border border-brand-border p-2.5 rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-cyan-950/60 border border-brand-cyan/40 flex items-center justify-center text-brand-cyan shrink-0">
+<i class="w-4 h-4" data-lucide="map-pin"></i>
+</div>
+<div>
+<span class="text-xs font-semibold text-white block">Andheri West, Mumbai, Maharashtra 400058</span>
+<a class="text-[11px] text-brand-cyan hover:underline flex items-center gap-1" href="#">
+<span>View on Map</span>
+<i class="w-3 h-3" data-lucide="arrow-up-right"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Row: 3 Widget Cards (Next Trains, Amenities, Nearby Places) -->
+<div class="grid grid-cols-12 gap-5 pt-1">
+<!-- Widget 1: Next Trains (4 Cols) -->
+<div class="col-span-4 bg-[#101A27] border border-brand-border rounded-xl p-4 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-brand-border/60">
+<div class="flex items-center gap-2">
+<i class="w-4 h-4 text-amber-400" data-lucide="clock"></i>
+<h3 class="text-xs font-bold text-white">Next Trains</h3>
+</div>
+<a class="text-[11px] text-brand-cyan hover:underline" href="#">View All</a>
+</div>
+<!-- Line selector pills -->
+<div class="flex items-center gap-1.5 mt-3">
+<button class="bg-blue-600 text-white text-xs px-2.5 py-1 rounded font-medium">Line 1</button>
+<button class="bg-[#132032] border border-brand-border text-slate-300 text-xs px-2.5 py-1 rounded hover:text-white">Line 2A</button>
+<button class="bg-[#132032] border border-brand-border text-slate-300 text-xs px-2.5 py-1 rounded hover:text-white">Line 7</button>
+</div>
+<!-- Departures Countdown List -->
+<div class="mt-3 space-y-2">
+<div class="flex items-center justify-between py-1 border-b border-brand-border/40 text-xs">
+<span class="text-slate-300">Towards Ghatkopar</span>
+<span class="font-bold text-brand-cyan">2 min</span>
+</div>
+<div class="flex items-center justify-between py-1 border-b border-brand-border/40 text-xs">
+<span class="text-slate-300">Towards Versova</span>
+<span class="font-bold text-brand-cyan">7 min</span>
+</div>
+<div class="flex items-center justify-between py-1 border-b border-brand-border/40 text-xs">
+<span class="text-slate-300">Towards Ghatkopar</span>
+<span class="font-bold text-slate-300">12 min</span>
+</div>
+<div class="flex items-center justify-between py-1 text-xs">
+<span class="text-slate-300">Towards Versova</span>
+<span class="font-bold text-slate-300">18 min</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Widget 2: Amenities (4 Cols) -->
+<div class="col-span-4 bg-[#101A27] border border-brand-border rounded-xl p-4 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-brand-border/60">
+<div class="flex items-center gap-2">
+<i class="w-4 h-4 text-brand-cyan" data-lucide="shield-check"></i>
+<h3 class="text-xs font-bold text-white">Amenities</h3>
+</div>
+<a class="text-[11px] text-brand-cyan hover:underline" href="#">View All</a>
+</div>
+<!-- Amenities 2x3 Grid -->
+<div class="grid grid-cols-3 gap-2.5 mt-3 text-center">
+<div class="bg-[#0B1320] border border-brand-border/80 p-2 rounded-lg">
+<i class="w-4 h-4 text-brand-cyan mx-auto mb-1" data-lucide="chevrons-up"></i>
+<span class="text-[11px] font-medium text-white block">Escalators</span>
+<span class="text-[10px] text-emerald-400">Available</span>
+</div>
+<div class="bg-[#0B1320] border border-brand-border/80 p-2 rounded-lg">
+<i class="w-4 h-4 text-brand-cyan mx-auto mb-1" data-lucide="arrow-up-down"></i>
+<span class="text-[11px] font-medium text-white block">Lifts</span>
+<span class="text-[10px] text-emerald-400">Available</span>
+</div>
+<div class="bg-[#0B1320] border border-brand-border/80 p-2 rounded-lg">
+<i class="w-4 h-4 text-brand-cyan mx-auto mb-1" data-lucide="users"></i>
+<span class="text-[11px] font-medium text-white block">Toilets</span>
+<span class="text-[10px] text-emerald-400">Available</span>
+</div>
+<div class="bg-[#0B1320] border border-brand-border/80 p-2 rounded-lg">
+<i class="w-4 h-4 text-brand-cyan mx-auto mb-1" data-lucide="parking-circle"></i>
+<span class="text-[11px] font-medium text-white block">Parking</span>
+<span class="text-[10px] text-emerald-400">Available</span>
+</div>
+<div class="bg-[#0B1320] border border-brand-border/80 p-2 rounded-lg">
+<i class="w-4 h-4 text-brand-cyan mx-auto mb-1" data-lucide="shopping-bag"></i>
+<span class="text-[11px] font-medium text-white block">Retail &amp; Shops</span>
+<span class="text-[10px] text-emerald-400">Available</span>
+</div>
+<div class="bg-[#0B1320] border border-brand-border/80 p-2 rounded-lg">
+<i class="w-4 h-4 text-brand-cyan mx-auto mb-1" data-lucide="utensils"></i>
+<span class="text-[11px] font-medium text-white block">Food &amp; Beverages</span>
+<span class="text-[10px] text-emerald-400">Available</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Widget 3: Nearby Places (4 Cols) -->
+<div class="col-span-4 bg-[#101A27] border border-brand-border rounded-xl p-4 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-brand-border/60">
+<div class="flex items-center gap-2">
+<i class="w-4 h-4 text-brand-cyan" data-lucide="navigation"></i>
+<h3 class="text-xs font-bold text-white">Nearby Places</h3>
+</div>
+<a class="text-[11px] text-brand-cyan hover:underline" href="#">View All</a>
+</div>
+<!-- POI Walking Distances List -->
+<div class="mt-3 space-y-2">
+<div class="flex items-center justify-between py-1.5 border-b border-brand-border/40 text-xs">
+<span class="text-slate-300">Andheri Railway Station</span>
+<div class="flex items-center gap-1.5 text-slate-400">
+<span class="text-white font-medium">400 m</span>
+<i class="w-3.5 h-3.5 text-brand-cyan" data-lucide="footprints"></i>
+</div>
+</div>
+<div class="flex items-center justify-between py-1.5 border-b border-brand-border/40 text-xs">
+<span class="text-slate-300">Infinity Mall</span>
+<div class="flex items-center gap-1.5 text-slate-400">
+<span class="text-white font-medium">600 m</span>
+<i class="w-3.5 h-3.5 text-brand-cyan" data-lucide="footprints"></i>
+</div>
+</div>
+<div class="flex items-center justify-between py-1.5 border-b border-brand-border/40 text-xs">
+<span class="text-slate-300">Andheri Bus Depot</span>
+<div class="flex items-center gap-1.5 text-slate-400">
+<span class="text-white font-medium">650 m</span>
+<i class="w-3.5 h-3.5 text-brand-cyan" data-lucide="footprints"></i>
+</div>
+</div>
+<div class="flex items-center justify-between py-1.5 text-xs">
+<span class="text-slate-300">Western Express Highway</span>
+<div class="flex items-center gap-1.5 text-slate-400">
+<span class="text-white font-medium">850 m</span>
+<i class="w-3.5 h-3.5 text-brand-cyan" data-lucide="footprints"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- END: StationInspector -->
+</div>
+</div>
+<!-- END: MainContainer -->
+<!-- Lucide Icon Activation Script -->
+<script data-purpose="icon-renderer">
+    document.addEventListener("DOMContentLoaded", function () {
+      lucide.createIcons();
+    });
+  </script>
+</body></html>

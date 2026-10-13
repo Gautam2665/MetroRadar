@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import axios from 'axios';
 import { DatabaseService } from '../../../database/database.service';
 import { GeojsonService, GeoJsonRawResult } from './geojson.service';
+import { LandmarkRegistry } from './landmark-registry';
 
 interface StationLineProperty {
   code?: string;
@@ -86,7 +88,68 @@ export class SearchService {
     filterTypes?: string[],
   ): Promise<Record<string, unknown>> {
     const formattedQuery = `%${query}%`;
+    const strippedQuery = `%${query.replace(/[^a-zA-Z0-9]/g, '')}%`;
     const features: Record<string, unknown>[] = [];
+
+    // 0. Search landmarks with direct FOB & concourse connections
+    if (!filterTypes || filterTypes.includes('station') || filterTypes.includes('landmark')) {
+      const matchingLandmarks = LandmarkRegistry.search(query);
+      for (const lm of matchingLandmarks) {
+        const stationRecord = await this.prisma.station.findFirst({
+          where: { code: lm.connectedStationCode, isActive: true },
+          select: { id: true, systemId: true, city: true },
+        });
+
+        features.push({
+          type: 'Feature',
+          id: lm.id,
+          geometry: {
+            type: 'Point',
+            coordinates: lm.coordinates,
+          },
+          properties: {
+            id: stationRecord?.id || lm.id,
+            code: lm.connectedStationCode,
+            name: lm.name,
+            displayName: `${lm.name} (${lm.hasDirectFob ? 'Direct FOB to ' : ''}${lm.connectedStationName})`,
+            address: lm.corridorNote || `${lm.connectedStationName} precinct, Mumbai`,
+            type: 'poi',
+            isLandmark: true,
+            city: stationRecord?.city || 'mumbai',
+            systemId: stationRecord?.systemId || '',
+            lines: [
+              {
+                code: lm.connectedLineCode,
+                name: lm.connectedLineName,
+                color: lm.connectedLineColor,
+              },
+            ],
+            lineColor: lm.connectedLineColor,
+            nearestStation: {
+              id: stationRecord?.id,
+              name: lm.connectedStationName,
+              lineName: lm.connectedLineName,
+              lineColor: lm.connectedLineColor,
+              walkDistance: lm.hasDirectFob ? 'Direct FOB' : lm.walkDistanceMeters ? `${lm.walkDistanceMeters}m` : undefined,
+            },
+            landmarkDetails: {
+              landmarkId: lm.id,
+              name: lm.name,
+              category: lm.category,
+              connectedStationCode: lm.connectedStationCode,
+              connectedStationName: lm.connectedStationName,
+              hasDirectFob: lm.hasDirectFob,
+              hasDirectAccess: lm.hasDirectAccess,
+              directFobName: lm.directFobName,
+              walkDistanceMeters: lm.walkDistanceMeters,
+              walkTimeSeconds: lm.walkTimeSeconds,
+              corridorNote: lm.corridorNote,
+              indoorLevel: lm.indoorLevel,
+            },
+          },
+        });
+      }
+    }
 
     // 1. Search stations
     if (!filterTypes || filterTypes.includes('station')) {
@@ -115,21 +178,60 @@ export class SearchService {
                   FROM lines l_sub
                   JOIN trips t_sub ON t_sub."lineId" = l_sub.id
                   JOIN stop_times st_sub ON st_sub."tripId" = t_sub.id
-                  WHERE st_sub."stationId" = st.id AND l_sub."isActive" = true
+                  WHERE st_sub."stationId" = st.id AND l_sub."isActive" = true AND t_sub."isActive" = true AND st_sub."isActive" = true
                   UNION
                   SELECT DISTINCT l_sub2.id, l_sub2.code, l_sub2.name, l_sub2.color
                   FROM lines l_sub2
                   JOIN station_sequences ss_sub ON ss_sub."lineId" = l_sub2.id
                   WHERE ss_sub."stationId" = st.id AND l_sub2."isActive" = true
+                  UNION
+                  SELECT DISTINCT l_sub3.id, l_sub3.code, l_sub3.name, l_sub3.color
+                  FROM lines l_sub3
+                  JOIN platforms tp ON tp."lineId" = l_sub3.id
+                  JOIN interchanges i ON i."toPlatformId" = tp.id
+                  JOIN platforms fp ON fp.id = i."fromPlatformId"
+                  JOIN levels fl ON fl.id = fp."levelId"
+                  WHERE fl."stationId" = st.id AND i."isActive" = true AND fp."isActive" = true AND tp."isActive" = true AND l_sub3."isActive" = true
+                  UNION
+                  SELECT DISTINCT l_sub4.id, l_sub4.code, l_sub4.name, l_sub4.color
+                  FROM lines l_sub4
+                  JOIN platforms fp ON fp."lineId" = l_sub4.id
+                  JOIN interchanges i ON i."fromPlatformId" = fp.id
+                  JOIN platforms tp ON tp.id = i."toPlatformId"
+                  JOIN levels tl ON tl.id = tp."levelId"
+                  WHERE tl."stationId" = st.id AND i."isActive" = true AND fp."isActive" = true AND tp."isActive" = true AND l_sub4."isActive" = true
+                  UNION
+                  SELECT DISTINCT l_sub5.id, l_sub5.code, l_sub5.name, l_sub5.color
+                  FROM lines l_sub5
+                  JOIN trips t_same ON t_same."lineId" = l_sub5.id
+                  JOIN stop_times st_same ON st_same."tripId" = t_same.id
+                  JOIN stations same_stn ON same_stn.id = st_same."stationId"
+                  WHERE LOWER(TRIM(same_stn.name)) = LOWER(TRIM(st.name))
+                    AND same_stn.city = st.city
+                    AND same_stn."isActive" = true
+                    AND t_same."isActive" = true
+                    AND st_same."isActive" = true
+                    AND l_sub5."isActive" = true
                 ) l
               ), '[]'::json)
             )
           ) as feature
         FROM stations st
-        WHERE st."isActive" = true AND (st.name ILIKE $1 OR st.code ILIKE $1 OR st.city ILIKE $1)
+        WHERE st."isActive" = true AND (
+          st.name ILIKE $1 
+          OR st.code ILIKE $1 
+          OR st.city ILIKE $1
+          OR REGEXP_REPLACE(st.name, '[^a-zA-Z0-9]', '', 'g') ILIKE $2
+          OR (
+            SELECT string_agg(substring(word from 1 for 1), '')
+            FROM regexp_split_to_table(st.name, '\\s+') AS word
+            WHERE word ~ '^[a-zA-Z]'
+          ) ILIKE $1
+        )
         LIMIT 100;
       `,
         formattedQuery,
+        strippedQuery,
       );
       const resolvedStationFeatures: Record<string, unknown>[] =
         stationsRaw.map((r) => {
@@ -217,44 +319,168 @@ export class SearchService {
       features.push(...systemsRaw.map((r) => r.feature));
     }
 
-    // These partially open segments remain evidence-backed CTM overlays until
-    // their station records are materialized. Keep them searchable without
-    // fabricating database rows or platform/level counts.
-    const phase1Features = [
-      ...this.geojsonService.getLine2bPhase1SearchFeatures(query),
-      ...this.geojsonService.getLine9Phase1SearchFeatures(query),
-    ].filter((feature) => {
-      if (!filterTypes) return true;
-      const properties = featureProperties(feature);
-      return filterTypes.includes(asPrimitiveString(properties.type));
-    });
-    const knownKeys = new Set<string>();
-    for (const feature of features) {
-      const properties = featureProperties(feature);
-      const id = asPrimitiveString(properties.id ?? feature.id);
-      const code = asPrimitiveString(properties.code);
-      const name = asPrimitiveString(properties.name).trim().toLowerCase();
-      if (id) knownKeys.add(id);
-      if (code) knownKeys.add(code);
-      if (name) knownKeys.add(name);
-    }
+    // 4. Dynamic Geocoding & Closest Station Snapping (Google Maps Platform + Photon Fallback)
+    // If user typed a locality/landmark (e.g. "Evershine Nagar", "Irla", "Hanuman Mandir Vile Parle", "Mithibai College")
+    const cleanQ = query.trim();
+    if (cleanQ.length >= 3 && (!filterTypes || filterTypes.includes('station') || filterTypes.includes('landmark'))) {
+      try {
+        const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+        const candidatePlaces: Array<{ name: string; lat: number; lon: number; address?: string }> = [];
 
-    for (const feature of phase1Features) {
-      const properties = featureProperties(feature);
-      const id = asPrimitiveString(properties.id ?? feature.id);
-      const code = asPrimitiveString(properties.code);
-      const name = asPrimitiveString(properties.name).trim().toLowerCase();
-      if (
-        (id && knownKeys.has(id)) ||
-        (code && knownKeys.has(code)) ||
-        (name && knownKeys.has(name))
-      ) {
-        continue;
+        // 1. Try Official Google Places API (New) if key configured
+        if (apiKey) {
+          try {
+            const googleRes = await axios.post(
+              'https://places.googleapis.com/v1/places:searchText',
+              {
+                textQuery: `${cleanQ} Mumbai`,
+                locationBias: {
+                  rectangle: {
+                    low: { latitude: 18.89, longitude: 72.75 },
+                    high: { latitude: 19.32, longitude: 73.05 },
+                  },
+                },
+                maxResultCount: 4,
+              },
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-Goog-Api-Key': apiKey,
+                  'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.location',
+                },
+                timeout: 3000,
+              },
+            );
+
+            if (Array.isArray(googleRes.data?.places)) {
+              for (const p of googleRes.data.places) {
+                if (p.location?.latitude && p.location?.longitude) {
+                  candidatePlaces.push({
+                    name: p.displayName?.text || cleanQ,
+                    address: p.formattedAddress || 'Mumbai, Maharashtra',
+                    lat: p.location.latitude,
+                    lon: p.location.longitude,
+                  });
+                }
+              }
+            }
+          } catch (gErr) {
+            // Fall back to Photon if Google request fails or quota reached
+          }
+        }
+
+        // 2. Photon fallback if Google yielded 0 places
+        if (candidatePlaces.length === 0) {
+          try {
+            const geoUrl = `https://photon.komoot.io/api/?q=${encodeURIComponent(cleanQ + ', Mumbai')}&limit=3`;
+            const geoRes = await axios.get(geoUrl, { timeout: 3000 });
+            if (geoRes.data && Array.isArray(geoRes.data.features)) {
+              for (const item of geoRes.data.features) {
+                const coords = item.geometry?.coordinates as [number, number];
+                if (coords && coords.length >= 2) {
+                  const props = item.properties || {};
+                  const addrParts = [props.street, props.district, props.city || 'Mumbai'].filter(Boolean);
+                  candidatePlaces.push({
+                    name: props.name || cleanQ,
+                    address: addrParts.length > 0 ? addrParts.join(', ') : 'Mumbai, Maharashtra',
+                    lon: coords[0],
+                    lat: coords[1],
+                  });
+                }
+              }
+            }
+          } catch (pErr) {
+            // Silently ignore photon failure
+          }
+        }
+
+        for (const item of candidatePlaces) {
+          const placeName = item.name;
+          const { lat, lon } = item;
+
+          // Find closest active station in DB using PostGIS ST_Distance
+          const nearestStn = await this.prisma.$queryRawUnsafe<any[]>(
+            `
+            SELECT 
+              st.id, st.code, st.name, st.latitude, st.longitude, st.city, st."systemId",
+              ST_Distance(st.geom::geography, ST_SetSRID(ST_MakePoint($2, $1), 4326)::geography) as distance,
+              COALESCE((
+                SELECT json_agg(json_build_object('code', l.code, 'name', l.name, 'color', COALESCE(l.color, '#00e5ff')))
+                FROM lines l
+                JOIN station_sequences ss ON ss."lineId" = l.id
+                WHERE ss."stationId" = st.id AND l."isActive" = true
+              ), '[]'::json) as lines
+            FROM stations st
+            WHERE st."isActive" = true AND LOWER(st.city) IN ('mumbai', 'mm')
+            ORDER BY distance ASC
+            LIMIT 1;
+            `,
+            lat,
+            lon,
+          );
+
+            if (nearestStn && nearestStn.length > 0) {
+              const stn = nearestStn[0];
+              const distM = Math.round(stn.distance);
+              const lines = Array.isArray(stn.lines) ? stn.lines : [];
+              const primaryLine = lines[0] || { code: 'MM', name: 'Mumbai Metro', color: '#06b6d4' };
+
+              // Avoid duplicate if feature with same id/name already present
+              const alreadyExists = features.some(
+                (f: any) => f.properties?.name?.toLowerCase().includes(placeName.toLowerCase())
+              );
+
+              if (!alreadyExists) {
+                features.push({
+                  type: 'Feature',
+                  id: `place-${placeName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+                  geometry: {
+                    type: 'Point',
+                    coordinates: [lon, lat],
+                  },
+                  properties: {
+                    id: stn.id, // Snaps directly to closest station ID for 1-click route planning!
+                    code: stn.code,
+                    name: placeName,
+                    displayName: `${placeName} (Nearest Metro: ${stn.name} · ~${distM}m)`,
+                    address: item.address || `${stn.name} vicinity, Mumbai`,
+                    type: 'poi',
+                    isLandmark: true,
+                    city: 'mumbai',
+                    systemId: stn.systemId,
+                    lines: lines.map((l: any) => ({
+                      code: l.code,
+                      name: l.name,
+                      color: resolveLineColor(l.color ?? '', l.name ?? ''),
+                    })),
+                    lineColor: resolveLineColor(primaryLine.color ?? '', primaryLine.name ?? ''),
+                    nearestStation: {
+                      id: stn.id,
+                      name: stn.name,
+                      lineName: primaryLine.name,
+                      lineColor: resolveLineColor(primaryLine.color ?? '', primaryLine.name ?? ''),
+                      walkDistance: `${distM}m`,
+                    },
+                    landmarkDetails: {
+                      name: placeName,
+                      address: item.address || 'Mumbai, Maharashtra',
+                      connectedStationCode: stn.code,
+                      connectedStationName: stn.name,
+                      hasDirectFob: distM <= 50,
+                      hasDirectAccess: distM <= 50,
+                      walkDistanceMeters: distM,
+                      walkTimeSeconds: Math.round(distM * 1.2),
+                      corridorNote: `Board/Deboard at ${stn.name}. Distance to ${placeName}: approx ${distM}m.`,
+                      indoorLevel: 'Street / Concourse Level',
+                    },
+                  },
+                });
+              }
+            }
+        }
+      } catch (err: any) {
+        // Silently continue if external geocoder times out
       }
-      if (id) knownKeys.add(id);
-      if (code) knownKeys.add(code);
-      if (name) knownKeys.add(name);
-      features.push(feature);
     }
 
     return this.geojsonService.wrapFeatureCollection(features);

@@ -17,7 +17,14 @@ import {
   CanonicalStopTime,
   CanonicalFrequency,
 } from '../types/domain.types';
-import { LineStatus, TractionType, SignallingType } from '@prisma/client';
+import { LevelType, LineStatus, TractionType, SignallingType } from '@prisma/client';
+import {
+  GtfsLevelRow,
+  GtfsStopRow,
+  GtfsStopTimeRow,
+  GtfsTripRow,
+  GtfsTransferRow,
+} from '../types/gtfs.types';
 
 @Injectable()
 export class TransitImporter {
@@ -529,6 +536,432 @@ export class TransitImporter {
         skipDuplicates: true,
       });
     }
+  }
+
+  async importStationInfrastructure(
+    context: PipelineContext,
+    stops: GtfsStopRow[],
+    feedLevels: GtfsLevelRow[],
+    trips: GtfsTripRow[],
+    stopTimes: GtfsStopTimeRow[],
+    transfers: GtfsTransferRow[] = [],
+  ): Promise<void> {
+    const entranceRows = stops.filter((stop) => stop.location_type === '2');
+    const platformRows = stops.filter(
+      (stop) => stop.location_type === '0' && Boolean(stop.platform_code),
+    );
+    this.initStats(context, 'Level', feedLevels.length);
+    this.initStats(context, 'Platform', platformRows.length);
+    this.initStats(context, 'Entrance', entranceRows.length);
+    this.initStats(context, 'Interchange', transfers.length);
+    if (context.dryRun) return;
+
+    let levelsInserted = 0;
+    let levelsUpdated = 0;
+    let platformsInserted = 0;
+    let platformsUpdated = 0;
+    let entrancesInserted = 0;
+    let entrancesUpdated = 0;
+
+    const stationCodes = Array.from(
+      new Set(
+        stops
+          .filter((stop) => stop.location_type === '1' || stop.parent_station)
+          .map((stop) => stop.parent_station || stop.stop_id),
+      ),
+    );
+    const stations = await this.prisma.station.findMany({
+      where: { systemId: context.systemId, code: { in: stationCodes } },
+      select: { id: true, code: true },
+    });
+    const stationIds = stations.map((station) => station.id);
+    if (stationIds.length === 0) return;
+
+    const stationIdByCode = new Map(
+      stations.map((station) => [station.code, station.id]),
+    );
+    const stationCodeForStop = new Map(
+      stops.map((stop) => [
+        stop.stop_id,
+        stop.parent_station || stop.stop_id,
+      ]),
+    );
+
+    // Replace the active physical records for this system with the current
+    // feed snapshot. Historical rows remain inactive for auditability.
+    await this.prisma.platform.updateMany({
+      where: { level: { stationId: { in: stationIds } } },
+      data: { isActive: false },
+    });
+    await this.prisma.level.updateMany({
+      where: { stationId: { in: stationIds } },
+      data: { isActive: false },
+    });
+    await this.prisma.entrance.updateMany({
+      where: { stationId: { in: stationIds } },
+      data: { isActive: false },
+    });
+
+    const levelById = new Map(feedLevels.map((level) => [level.level_id, level]));
+    const levelStationCode = new Map<string, string>();
+    for (const stop of stops) {
+      if (stop.level_id && levelById.has(stop.level_id)) {
+        const stationCode = stationCodeForStop.get(stop.stop_id);
+        if (stationCode && stationIdByCode.has(stationCode)) {
+          levelStationCode.set(stop.level_id, stationCode);
+        }
+      }
+    }
+
+    const levelDbId = new Map<string, string>();
+    for (const [levelCode, stationCode] of levelStationCode) {
+      const stationId = stationIdByCode.get(stationCode);
+      const level = levelById.get(levelCode);
+      if (!stationId || !level) continue;
+
+      const name = level.level_name || `Level ${level.level_index}`;
+      const nameUpper = name.toUpperCase();
+      const type: LevelType = nameUpper.includes('PLATFORM')
+        ? 'PLATFORM'
+        : nameUpper.includes('CONCOURSE')
+          ? 'CONCOURSE'
+          : nameUpper.includes('STREET') || nameUpper.includes('GROUND')
+            ? 'STREET'
+            : nameUpper.includes('BASEMENT')
+              ? 'BASEMENT'
+              : nameUpper.includes('MEZZANINE')
+                ? 'MEZZANINE'
+                : 'OTHER';
+      const sourceId = `GTFS:${context.systemId}:${levelCode}`;
+      const existing = await this.prisma.level.findFirst({
+        where: { stationId, sourceId },
+        select: { id: true },
+      });
+      const levelData = {
+        stationId,
+        lineId: null,
+        sourceId,
+        evidenceStatus: 'GTFS_STATIC',
+        name,
+        levelNumber: Math.round(Number(level.level_index)),
+        type,
+        isActive: true,
+      };
+      const saved = existing
+        ? await this.prisma.level.update({
+            where: { id: existing.id },
+            data: levelData,
+            select: { id: true },
+          })
+        : await this.prisma.level.create({
+            data: levelData,
+            select: { id: true },
+          });
+      if (existing) levelsUpdated++;
+      else levelsInserted++;
+      levelDbId.set(`${stationCode}\u0000${levelCode}`, saved.id);
+    }
+
+    const routeByTrip = new Map(trips.map((trip) => [trip.trip_id, trip.route_id]));
+    const routeCodesByStop = new Map<string, Set<string>>();
+    for (const stopTime of stopTimes) {
+      const routeCode = routeByTrip.get(stopTime.trip_id);
+      if (!routeCode) continue;
+      const routeCodes = routeCodesByStop.get(stopTime.stop_id) ?? new Set<string>();
+      routeCodes.add(routeCode);
+      routeCodesByStop.set(stopTime.stop_id, routeCodes);
+    }
+    const routeCodes = Array.from(
+      new Set(Array.from(routeCodesByStop.values()).flatMap((codes) => [...codes])),
+    );
+    const lines = await this.prisma.line.findMany({
+      where: { systemId: context.systemId, code: { in: routeCodes } },
+      select: { id: true, code: true },
+    });
+    const lineIdByCode = new Map(lines.map((line) => [line.code, line.id]));
+
+    const timesByTrip = new Map<string, GtfsStopTimeRow[]>();
+    const stopById = new Map(stops.map((stop) => [stop.stop_id, stop]));
+    for (const stopTime of stopTimes) {
+      const tripTimes = timesByTrip.get(stopTime.trip_id) ?? [];
+      tripTimes.push(stopTime);
+      timesByTrip.set(stopTime.trip_id, tripTimes);
+    }
+    const towardsByPlatformLine = new Map<string, Set<string>>();
+    for (const trip of trips) {
+      const lineId = lineIdByCode.get(trip.route_id);
+      const tripTimes = timesByTrip.get(trip.trip_id);
+      if (!lineId || !tripTimes?.length) continue;
+      tripTimes.sort((a, b) => Number(a.stop_sequence) - Number(b.stop_sequence));
+      const terminalStopId = tripTimes[tripTimes.length - 1].stop_id;
+      const terminalStationCode = stationCodeForStop.get(terminalStopId);
+      const terminalStationId = terminalStationCode
+        ? stationIdByCode.get(terminalStationCode)
+        : undefined;
+      if (!terminalStationId) continue;
+
+      for (const stopTime of tripTimes) {
+        const stop = stopById.get(stopTime.stop_id);
+        if (!stop?.platform_code) continue;
+        const key = `${stop.stop_id}\u0000${lineId}`;
+        const destinations = towardsByPlatformLine.get(key) ?? new Set<string>();
+        destinations.add(terminalStationId);
+        towardsByPlatformLine.set(key, destinations);
+      }
+    }
+
+    for (const stop of stops) {
+      if (stop.location_type === '2') {
+        const stationCode = stationCodeForStop.get(stop.stop_id);
+        const stationId = stationCode ? stationIdByCode.get(stationCode) : null;
+        if (!stationId) continue;
+        const existingEntrances = await this.prisma.entrance.findMany({
+          where: { stationId, name: stop.stop_name },
+          select: { id: true, latitude: true, longitude: true },
+        });
+        const existing = existingEntrances.find(
+          (entrance) =>
+            Math.abs(entrance.latitude - Number(stop.stop_lat)) < 0.000001 &&
+            Math.abs(entrance.longitude - Number(stop.stop_lon)) < 0.000001,
+        );
+        const entranceData = {
+          stationId,
+          name: stop.stop_name,
+          latitude: Number(stop.stop_lat),
+          longitude: Number(stop.stop_lon),
+          accessible: stop.wheelchair_boarding === '1',
+          isActive: true,
+        };
+        if (existing) {
+          await this.prisma.entrance.update({
+            where: { id: existing.id },
+            data: entranceData,
+          });
+          entrancesUpdated++;
+        } else {
+          await this.prisma.entrance.create({ data: entranceData });
+          entrancesInserted++;
+        }
+        continue;
+      }
+
+      if (stop.location_type !== '0' || !stop.platform_code || !stop.level_id) {
+        continue;
+      }
+      const stationCode = stationCodeForStop.get(stop.stop_id);
+      if (!stationCode) continue;
+      const stationId = stationIdByCode.get(stationCode);
+      const levelId = levelDbId.get(`${stationCode}\u0000${stop.level_id}`);
+      if (!stationId || !levelId) continue;
+
+      for (const routeCode of routeCodesByStop.get(stop.stop_id) ?? []) {
+        const lineId = lineIdByCode.get(routeCode);
+        if (!lineId) continue;
+        const sourceId = `GTFS:${context.systemId}:${stop.stop_id}:${lineId}`;
+        const existing = await this.prisma.platform.findFirst({
+          where: { sourceId, level: { stationId } },
+          select: { id: true },
+        });
+        const platformData = {
+          levelId,
+          lineId,
+          towardsStationId: (() => {
+            const destinations = towardsByPlatformLine.get(
+              `${stop.stop_id}\u0000${lineId}`,
+            );
+            return destinations?.size === 1 ? [...destinations][0] : null;
+          })(),
+          sourceId,
+          evidenceStatus: 'GTFS_STATIC',
+          platformNumber: stop.platform_code,
+          wheelchairBoarding: stop.wheelchair_boarding === '1',
+          isActive: true,
+        };
+        if (existing) {
+          await this.prisma.platform.update({
+            where: { id: existing.id },
+            data: platformData,
+          });
+          platformsUpdated++;
+        } else {
+          await this.prisma.platform.create({ data: platformData });
+          platformsInserted++;
+        }
+      }
+    }
+
+    await this.importGtfsTransfers(
+      context,
+      stops,
+      transfers,
+      stationIdByCode,
+      stationCodeForStop,
+      stationIds,
+    );
+
+    context.stats.Level.inserted = levelsInserted;
+    context.stats.Level.updated = levelsUpdated;
+    context.stats.Platform.inserted = platformsInserted;
+    context.stats.Platform.updated = platformsUpdated;
+    context.stats.Entrance.inserted = entrancesInserted;
+    context.stats.Entrance.updated = entrancesUpdated;
+    context.logger.log(
+      `GTFS station infrastructure imported: ${levelsInserted + levelsUpdated} levels, ${platformsInserted + platformsUpdated} platforms, ${entrancesInserted + entrancesUpdated} entrances.`,
+    );
+  }
+
+  private async importGtfsTransfers(
+    context: PipelineContext,
+    stops: GtfsStopRow[],
+    transfers: GtfsTransferRow[],
+    stationIdByCode: Map<string, string>,
+    stationCodeForStop: Map<string, string>,
+    stationIds: string[],
+  ): Promise<void> {
+    if (transfers.length === 0) return;
+
+    const platforms = await this.prisma.platform.findMany({
+      where: { level: { stationId: { in: stationIds } } },
+      select: {
+        id: true,
+        lineId: true,
+        wheelchairBoarding: true,
+        isActive: true,
+        sourceId: true,
+        level: { select: { stationId: true } },
+      },
+    });
+    const platformIds = platforms.map((platform) => platform.id);
+    if (platformIds.length > 0) {
+      await this.prisma.interchange.updateMany({
+        where: {
+          OR: [
+            { fromPlatformId: { in: platformIds } },
+            { toPlatformId: { in: platformIds } },
+          ],
+        },
+        data: { isActive: false },
+      });
+    }
+
+    const activePlatforms = platforms.filter((platform) => platform.isActive);
+    const platformsByStation = new Map<string, typeof activePlatforms>();
+    for (const platform of activePlatforms) {
+      const stationPlatforms =
+        platformsByStation.get(platform.level.stationId) ?? [];
+      stationPlatforms.push(platform);
+      platformsByStation.set(platform.level.stationId, stationPlatforms);
+    }
+
+    const stopById = new Map(stops.map((stop) => [stop.stop_id, stop]));
+    const platformPrefix = `GTFS:${context.systemId}:`;
+    const platformForTransferStop = (stopId: string, stationId: string) => {
+      const stop = stopById.get(stopId);
+      if (stop?.platform_code) {
+        const sourcePrefix = `${platformPrefix}${stopId}:`;
+        const matching = activePlatforms.filter((platform) =>
+          platform.sourceId?.startsWith(sourcePrefix),
+        );
+        if (matching.length > 0) return matching;
+      }
+      return platformsByStation.get(stationId) ?? [];
+    };
+
+    const stationRows = await this.prisma.station.findMany({
+      where: { id: { in: stationIds } },
+      select: { id: true, latitude: true, longitude: true },
+    });
+    const stationCoordinates = new Map(
+      stationRows.map((station) => [station.id, station]),
+    );
+    const transferPairs = new Map<
+      string,
+      {
+        fromPlatformId: string;
+        toPlatformId: string;
+        walkingDistance: number;
+        walkingTime: number;
+        accessible: boolean;
+      }
+    >();
+
+    for (const transfer of transfers) {
+      if (Number(transfer.transfer_type) === 3) continue;
+      const fromCode = stationCodeForStop.get(transfer.from_stop_id) ?? transfer.from_stop_id;
+      const toCode = stationCodeForStop.get(transfer.to_stop_id) ?? transfer.to_stop_id;
+      const fromStationId = fromCode ? stationIdByCode.get(fromCode) : undefined;
+      const toStationId = toCode ? stationIdByCode.get(toCode) : undefined;
+      if (!fromStationId || !toStationId || fromStationId === toStationId) continue;
+
+      const fromPlatforms = platformForTransferStop(
+        transfer.from_stop_id,
+        fromStationId,
+      );
+      const toPlatforms = platformForTransferStop(
+        transfer.to_stop_id,
+        toStationId,
+      );
+      const fromCoordinate = stationCoordinates.get(fromStationId);
+      const toCoordinate = stationCoordinates.get(toStationId);
+      if (!fromCoordinate || !toCoordinate) continue;
+
+      const radians = (degrees: number) => (degrees * Math.PI) / 180;
+      const latitudeDelta = radians(toCoordinate.latitude - fromCoordinate.latitude);
+      const longitudeDelta = radians(toCoordinate.longitude - fromCoordinate.longitude);
+      const haversine =
+        Math.sin(latitudeDelta / 2) ** 2 +
+        Math.cos(radians(fromCoordinate.latitude)) *
+          Math.cos(radians(toCoordinate.latitude)) *
+          Math.sin(longitudeDelta / 2) ** 2;
+      const walkingDistance =
+        6371000 * 2 * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine));
+      const walkingTime = Math.max(
+        0,
+        Number.parseInt(transfer.min_transfer_time ?? '0', 10) || 0,
+      );
+
+      for (const fromPlatform of fromPlatforms) {
+        for (const toPlatform of toPlatforms) {
+          if (fromPlatform.lineId === toPlatform.lineId) continue;
+          const key = `${fromPlatform.id}\u0000${toPlatform.id}`;
+          transferPairs.set(key, {
+            fromPlatformId: fromPlatform.id,
+            toPlatformId: toPlatform.id,
+            walkingDistance,
+            walkingTime,
+            accessible:
+              fromPlatform.wheelchairBoarding === true &&
+              toPlatform.wheelchairBoarding === true,
+          });
+        }
+      }
+    }
+
+    let inserted = 0;
+    let updated = 0;
+    for (const pair of transferPairs.values()) {
+      const existing = await this.prisma.interchange.findFirst({
+        where: {
+          fromPlatformId: pair.fromPlatformId,
+          toPlatformId: pair.toPlatformId,
+        },
+        select: { id: true },
+      });
+      const data = { ...pair, verticalMovement: false, isActive: true };
+      if (existing) {
+        await this.prisma.interchange.update({
+          where: { id: existing.id },
+          data,
+        });
+        updated++;
+      } else {
+        await this.prisma.interchange.create({ data });
+        inserted++;
+      }
+    }
+    context.stats.Interchange.inserted = inserted;
+    context.stats.Interchange.updated = updated;
+    context.stats.Interchange.processed = transferPairs.size;
   }
 
   async importFrequencies(

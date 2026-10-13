@@ -9,10 +9,15 @@ export interface NormalizedVehicle {
   currentStopSequence: number | null;
   currentStatus: string | null;
   timestamp: number | null;
-  // Enriched fields (added by RealtimeService from DB)
+  // Enriched & Estimator fields (added by RealtimeService from DB & TripUpdates)
   lineName?: string | null;
   lineColor?: string | null;
+  previousStationName?: string | null;
   nextStationName?: string | null;
+  headsign?: string | null;
+  delaySeconds?: number;
+  isEstimated?: boolean;
+  positionSource?: 'GPS' | 'ESTIMATED';
 }
 
 export interface RealtimeMetadata {

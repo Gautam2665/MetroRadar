@@ -30,3 +30,8 @@ stich and antigravity syn.txt
 mcp.json
 
 scratch/
+
+*.pb
+datasets/**/*.pdf
+datasets/mumbai/manual-gtfsrt/manual-gtfsrt.exe
+datasets/mumbai/manual-gtfsrt/

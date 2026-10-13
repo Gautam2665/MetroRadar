@@ -26,6 +26,8 @@ import { ShapesParser } from './parsers/shapes.parser';
 import { TripsParser } from './parsers/trips.parser';
 import { StopTimesParser } from './parsers/stop-times.parser';
 import { FrequenciesParser } from './parsers/frequencies.parser';
+import { LevelsParser } from './parsers/levels.parser';
+import { TransfersParser } from './parsers/transfers.parser';
 
 // Normalizers
 import { AgencyNormalizer } from './normalizers/agency.normalizer';
@@ -70,6 +72,8 @@ import { FrequenciesTransformer } from './transformers/frequencies.transformer';
     TripsParser,
     StopTimesParser,
     FrequenciesParser,
+    LevelsParser,
+    TransfersParser,
 
     // Normalizers
     AgencyNormalizer,

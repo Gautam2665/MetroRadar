@@ -2,7 +2,9 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useStationsSearch } from "../hooks/useStationsSearch";
-import { StationSearchResult } from "../services/api/station.api";
+import { StationSearchResult, toPlaceSuggestion } from "../services/api/station.api";
+import { PlaceSuggestion } from "../models/search";
+import { PlaceSuggestionItem } from "./PlaceSuggestionItem";
 import { formatShortLineName } from "../utils/transitFormatter";
 import { ScrollingText } from "./ui/ScrollingText";
 
@@ -16,19 +18,26 @@ export type StationItem = {
   city: string;
   systemId: string;
   coordinates: [number, number];
+  isLandmark?: boolean;
+  landmarkDetails?: Record<string, unknown>;
 };
 
 function toStationItem(s: StationSearchResult): StationItem {
   const primary = s.lines[0];
+  const uniqueLineNames = Array.from(
+    new Set(s.lines.map((l) => formatShortLineName(l.name)).filter(Boolean))
+  );
   return {
-    id: s.id,
+    id: s.stationId || s.id,
     name: s.name,
     code: s.code,
     city: s.city,
     systemId: s.systemId,
-    line: s.lines.map((l) => l.name).join(" / ") || "Metro Line",
+    line: uniqueLineNames.join(" / ") || "Metro Line",
     lineColor: primary?.color || "#00e5ff",
     coordinates: [s.lng, s.lat],
+    isLandmark: s.isLandmark,
+    landmarkDetails: s.landmarkDetails,
   };
 }
 
@@ -84,10 +93,21 @@ export function StationSearchInput({
     }
   };
 
-  const handleSelect = (station: StationSearchResult) => {
-    const item = toStationItem(station);
-    onChange(station.name);
-    if (onSelectStation) onSelectStation(item);
+  const handleSelectPlace = (place: PlaceSuggestion) => {
+    onChange(place.name);
+    if (onSelectStation) {
+      onSelectStation({
+        id: place.nearestStation?.id || place.rawStationId || place.id,
+        name: place.name,
+        code: place.code || "STN",
+        city: activeCity || "mumbai",
+        systemId: activeCity || "mumbai",
+        line: place.nearestStation?.lineName || "Metro Line",
+        lineColor: place.nearestStation?.lineColor || "#00e5ff",
+        coordinates: [place.lng || 0, place.lat || 0],
+        isLandmark: place.type === "poi",
+      });
+    }
     setIsOpen(false);
     clear();
   };
@@ -147,52 +167,18 @@ export function StationSearchInput({
             </div>
           ))}
 
-          {/* Results */}
-          {!loading && results.map((station) => {
-            const lines = station.lines || [];
-            return (
-              <button
-                key={station.id}
-                onClick={() => handleSelect(station)}
-                className="w-full text-left px-4 py-2.5 text-sm flex items-center justify-between hover:bg-white/5 transition-colors border-b border-white/5 last:border-none"
-              >
-                <div className="flex items-center gap-2 min-w-0 flex-1 mr-2 overflow-hidden">
-                  <span className="material-symbols-outlined text-[#bac9cc] text-base flex-shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>subway</span>
-                  <ScrollingText text={station.name} className="font-semibold text-[#dfe2ee] leading-tight flex-1" />
-                </div>
-          {/* Line badges — deduplicated by formatted badge label */}
-          {(() => {
-            const seen = new Set<string>();
-            const deduped: Array<{ name: string; color: string; badgeName: string }> = [];
-            for (const l of lines) {
-              const badgeName = formatShortLineName(l.name);
-              if (!seen.has(badgeName)) {
-                seen.add(badgeName);
-                deduped.push({ name: l.name, color: l.color, badgeName });
-              }
-            }
-            return (
-              <div className="flex items-center gap-1 flex-wrap justify-end shrink-0 ml-2">
-                {deduped.map((item, i) => (
-                  <span
-                    key={i}
-                    className="text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap"
-                    style={{
-                      backgroundColor: `${item.color}22`,
-                      color: item.color,
-                      border: `1px solid ${item.color}50`,
-                    }}
-                  >
-                    {item.badgeName}
-                  </span>
-                ))}
-              </div>
-            );
-          })()}
-
-              </button>
-            );
-          })}
+          {/* Results — Google Maps 2-Line Structure */}
+          {!loading &&
+            results.map((station) => {
+              const suggestion = toPlaceSuggestion(station);
+              return (
+                <PlaceSuggestionItem
+                  key={suggestion.id}
+                  suggestion={suggestion}
+                  onSelect={handleSelectPlace}
+                />
+              );
+            })}
 
           {/* Empty state */}
           {!loading && results.length === 0 && value.trim().length >= 2 && (

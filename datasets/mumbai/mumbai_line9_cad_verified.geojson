@@ -1,0 +1,2029 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8628187,
+          19.2565794
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY",
+        "cad_px": [
+          303.12,
+          482.59
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8629572,
+          19.2565272
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "EXIT",
+        "cad_px": [
+          363.59,
+          520.03
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8628621,
+          19.256587
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "GATES",
+        "cad_px": [
+          324.18,
+          482.42
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8636711,
+          19.2567213
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "EXIT",
+        "cad_px": [
+          715.91,
+          482.59
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8638674,
+          19.2566783
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY",
+        "cad_px": [
+          804.36,
+          520.27
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8632546,
+          19.2566802
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "ELEVATOR",
+        "label": "LIFT-1",
+        "cad_px": [
+          516.69,
+          468.57
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8632784,
+          19.2565527
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "ELEVATOR",
+        "label": "LIFT-2",
+        "cad_px": [
+          516.69,
+          533.97
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8633006,
+          19.2565588
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "ELEVATOR",
+        "label": "EL-2",
+        "cad_px": [
+          527.65,
+          532.76
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8632778,
+          19.2566809
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "ELEVATOR",
+        "label": "EL-1",
+        "cad_px": [
+          527.65,
+          470.12
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8625522,
+          19.256406
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "ELEVATOR",
+        "label": "LIFT",
+        "cad_px": [
+          162.77,
+          546.79
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.864049,
+          19.2566722
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "ELEVATOR",
+        "label": "LIFT",
+        "cad_px": [
+          889.12,
+          538.33
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8632931,
+          19.2565575
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "STAIRS",
+        "label": "ST-2",
+        "cad_px": [
+          524.01,
+          532.77
+        ],
+        "marker-color": "#f97316",
+        "marker-symbol": "pitch",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8632687,
+          19.256679
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "STAIRS",
+        "label": "ST-1",
+        "cad_px": [
+          523.21,
+          470.31
+        ],
+        "marker-color": "#f97316",
+        "marker-symbol": "pitch",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8645816,
+          19.2567915
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "STAIRS",
+        "label": "STEPS",
+        "cad_px": [
+          1149.7,
+          523.07
+        ],
+        "marker-color": "#f97316",
+        "marker-symbol": "pitch",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8630179,
+          19.2566271
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "ESCALATOR",
+        "label": "ESC.-01",
+        "cad_px": [
+          400.88,
+          475.37
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8634995,
+          19.256708
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "ESCALATOR",
+        "label": "ESC.-02",
+        "cad_px": [
+          634.16,
+          475.01
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8635214,
+          19.2566014
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "ESCALATOR",
+        "label": "ESC.-03",
+        "cad_px": [
+          635.12,
+          529.85
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8630569,
+          19.2565251
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "ESCALATOR",
+        "label": "ESC.-04",
+        "cad_px": [
+          410.24,
+          529.37
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8623297,
+          19.2564378
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "ESCALATOR",
+        "label": "ESC.-06",
+        "cad_px": [
+          61.04,
+          512.57
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.86458,
+          19.2565164
+        ]
+      },
+      "properties": {
+        "station": "DAHISAR_EAST",
+        "type": "ESCALATOR",
+        "label": "DESCRIPTION",
+        "cad_px": [
+          1124.83,
+          659.8
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8661206,
+          19.2679521
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY",
+        "cad_px": [
+          846.04,
+          403.94
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8666199,
+          19.2682631
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY/EXIT",
+        "cad_px": [
+          1120.35,
+          296.34
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8666131,
+          19.2682556
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY/EXIT-2",
+        "cad_px": [
+          1116.29,
+          299.46
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.866294,
+          19.2682593
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY",
+        "cad_px": [
+          962.94,
+          264.87
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8647163,
+          19.267422
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY",
+        "cad_px": [
+          111.9,
+          530.67
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8651192,
+          19.2677507
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY",
+        "cad_px": [
+          341.71,
+          404.16
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8656201,
+          19.2678279
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "ELEVATOR",
+        "label": "LIFT-2",
+        "cad_px": [
+          591.4,
+          416.04
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8656648,
+          19.2679535
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "ELEVATOR",
+        "label": "EL-01",
+        "cad_px": [
+          626.56,
+          356.54
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.865684,
+          19.2678626
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "ELEVATOR",
+        "label": "EL-02",
+        "cad_px": [
+          625.96,
+          404.9
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8656142,
+          19.2679662
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "ELEVATOR",
+        "label": "EL-1",
+        "cad_px": [
+          603.59,
+          344.89
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8656448,
+          19.2678303
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "ELEVATOR",
+        "label": "EL-2",
+        "cad_px": [
+          603.59,
+          417.37
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8655881,
+          19.2679699
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "ELEVATOR",
+        "label": "LIFT-1",
+        "cad_px": [
+          591.4,
+          340.32
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8646022,
+          19.2673977
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "ELEVATOR",
+        "label": "LIFT",
+        "cad_px": [
+          54.3,
+          531.4
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8663058,
+          19.2682358
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "ELEVATOR",
+        "label": "LIFT",
+        "cad_px": [
+          966.06,
+          278.08
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8665468,
+          19.2680101
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "STAIRS",
+        "label": "STAIRCASE",
+        "cad_px": [
+          1057.7,
+          417.99
+        ],
+        "marker-color": "#f97316",
+        "marker-symbol": "pitch",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8647253,
+          19.2678361
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "STAIRS",
+        "label": "STAIRCASE",
+        "cad_px": [
+          161.16,
+          320.22
+        ],
+        "marker-color": "#f97316",
+        "marker-symbol": "pitch",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8664333,
+          19.2682125
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "STAIRS",
+        "label": "STAIRCASE-02",
+        "cad_px": [
+          1024.98,
+          303.03
+        ],
+        "marker-color": "#f97316",
+        "marker-symbol": "pitch",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8656697,
+          19.2679321
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "STAIRS",
+        "label": "ST-01",
+        "cad_px": [
+          626.63,
+          367.94
+        ],
+        "marker-color": "#f97316",
+        "marker-symbol": "pitch",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8656796,
+          19.2678815
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "STAIRS",
+        "label": "ST-02",
+        "cad_px": [
+          625.91,
+          394.82
+        ],
+        "marker-color": "#f97316",
+        "marker-symbol": "pitch",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.865604,
+          19.2679642
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "STAIRS",
+        "label": "ST-1",
+        "cad_px": [
+          598.43,
+          344.84
+        ],
+        "marker-color": "#f97316",
+        "marker-symbol": "pitch",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8656346,
+          19.2678283
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "STAIRS",
+        "label": "ST-2",
+        "cad_px": [
+          598.43,
+          417.32
+        ],
+        "marker-color": "#f97316",
+        "marker-symbol": "pitch",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8664576,
+          19.2681819
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "STAIRS",
+        "label": "STAIRCASE",
+        "cad_px": [
+          1033.34,
+          321.15
+        ],
+        "marker-color": "#f97316",
+        "marker-symbol": "pitch",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8647277,
+          19.2678366
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "STAIRS",
+        "label": "STAIRCASE-01",
+        "cad_px": [
+          162.37,
+          320.22
+        ],
+        "marker-color": "#f97316",
+        "marker-symbol": "pitch",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8653111,
+          19.2678948
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "ESCALATOR",
+        "label": "ESC.-01",
+        "cad_px": [
+          449.77,
+          350.28
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8653403,
+          19.2677784
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "ESCALATOR",
+        "label": "ESC.-04",
+        "cad_px": [
+          451.21,
+          412.68
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8658318,
+          19.267999
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "ESCALATOR",
+        "label": "ESC.-02",
+        "cad_px": [
+          711.97,
+          350.4
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8659028,
+          19.2678915
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "ESCALATOR",
+        "label": "ESC.-03",
+        "cad_px": [
+          734.53,
+          412.56
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8667738,
+          19.2675609
+        ]
+      },
+      "properties": {
+        "station": "PANDURANGWADI",
+        "type": "ESCALATOR",
+        "label": "DESCRIPTION",
+        "cad_px": [
+          1118.35,
+          670.52
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8674562,
+          19.2807387
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY",
+        "cad_px": [
+          265.12,
+          399.84
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8676191,
+          19.2808467
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "EXIT",
+        "cad_px": [
+          361.69,
+          364.56
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.868672,
+          19.2811604
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY/",
+        "cad_px": [
+          931.38,
+          339.48
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8686738,
+          19.2811548
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "EXIT-2",
+        "cad_px": [
+          931.46,
+          342.72
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8683969,
+          19.2810511
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "EXIT",
+        "cad_px": [
+          778.69,
+          360.48
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8685931,
+          19.2810161
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY",
+        "cad_px": [
+          871.6,
+          405.24
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8690095,
+          19.2812172
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY/",
+        "cad_px": [
+          1107.79,
+          354.6
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8690112,
+          19.2812115
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "EXIT-2",
+        "cad_px": [
+          1107.86,
+          357.84
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8674327,
+          19.2808158
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY",
+        "cad_px": [
+          264.32,
+          355.99
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8673748,
+          19.2808439
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "ELEVATOR",
+        "label": "LIFT",
+        "cad_px": [
+          239.42,
+          333.36
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8673174,
+          19.280868
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "STAIRS",
+        "label": "STAIRCASE",
+        "cad_px": [
+          214.2,
+          312.98
+        ],
+        "marker-color": "#f97316",
+        "marker-symbol": "pitch",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8678024,
+          19.2809657
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "STAIRS",
+        "label": "STEPS",
+        "cad_px": [
+          469.97,
+          326.18
+        ],
+        "marker-color": "#f97316",
+        "marker-symbol": "pitch",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8686987,
+          19.2811687
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "ESCALATOR",
+        "label": "ESC.",
+        "cad_px": [
+          945.89,
+          338.68
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8677074,
+          19.2809069
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "ESCALATOR",
+        "label": "ESC.",
+        "cad_px": [
+          414.28,
+          344.52
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8682658,
+          19.2810498
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "ESCALATOR",
+        "label": "ESC.",
+        "cad_px": [
+          713.08,
+          343.68
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.868296,
+          19.2809273
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "ESCALATOR",
+        "label": "ESC.",
+        "cad_px": [
+          710.8,
+          412.44
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8677476,
+          19.2807813
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "ESCALATOR",
+        "label": "ESC.",
+        "cad_px": [
+          416.56,
+          416.28
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8674849,
+          19.2808544
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "ESCALATOR",
+        "label": "ESC.",
+        "cad_px": [
+          295.86,
+          342.56
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8674538,
+          19.2808428
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "ESCALATOR",
+        "label": "ESCALATOR",
+        "cad_px": [
+          278.67,
+          344.54
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8691703,
+          19.2806556
+        ]
+      },
+      "properties": {
+        "station": "MIRAGAON",
+        "type": "ESCALATOR",
+        "label": "DESCRIPTION",
+        "cad_px": [
+          1108.47,
+          672.89
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8703051,
+          19.2939544
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY-EXIT-1",
+        "cad_px": [
+          226.0,
+          312.32
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8716552,
+          19.2941959
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY-EXIT-2",
+        "cad_px": [
+          976.24,
+          302.72
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8717359,
+          19.2937636
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY-EXIT-3",
+        "cad_px": [
+          976.24,
+          556.64
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8704536,
+          19.2935538
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY-EXIT-4",
+        "cad_px": [
+          265.6,
+          554.6
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.871468,
+          19.2938971
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "EXIT",
+        "cad_px": [
+          845.55,
+          455.22
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.870485,
+          19.2937267
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY",
+        "cad_px": [
+          299.83,
+          459.06
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8705671,
+          19.2938373
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "EXIT",
+        "cad_px": [
+          355.11,
+          403.86
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8714888,
+          19.29399
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY",
+        "cad_px": [
+          866.11,
+          404.22
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8717215,
+          19.2941073
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY/",
+        "cad_px": [
+          1003.03,
+          359.46
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8717226,
+          19.294102
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "EXIT-2",
+        "cad_px": [
+          1003.04,
+          362.58
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8703051,
+          19.2939544
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "GATE_ENTRY_EXIT",
+        "label": "ENTRY-EXIT-1",
+        "cad_px": [
+          226.0,
+          312.32
+        ],
+        "marker-color": "#22c55e",
+        "marker-symbol": "entrance",
+        "marker-size": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8710084,
+          19.2939436
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "ELEVATOR",
+        "label": "LIFT-1",
+        "cad_px": [
+          603.11,
+          385.14
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8710367,
+          19.2937933
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "ELEVATOR",
+        "label": "LIFT-2",
+        "cad_px": [
+          603.23,
+          473.46
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8710657,
+          19.2937958
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "ELEVATOR",
+        "label": "EL-2",
+        "cad_px": [
+          619.07,
+          474.75
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8710382,
+          19.2939444
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "ELEVATOR",
+        "label": "EL-1",
+        "cad_px": [
+          619.19,
+          387.51
+        ],
+        "marker-color": "#06b6d4",
+        "marker-symbol": "commercial",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8710563,
+          19.2937938
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "STAIRS",
+        "label": "ST-2",
+        "cad_px": [
+          613.82,
+          475.03
+        ],
+        "marker-color": "#f97316",
+        "marker-symbol": "pitch",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8710286,
+          19.2939421
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "STAIRS",
+        "label": "ST-1",
+        "cad_px": [
+          613.82,
+          387.91
+        ],
+        "marker-color": "#f97316",
+        "marker-symbol": "pitch",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8716149,
+          19.2941498
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "ESCALATOR",
+        "label": "ESC.-05",
+        "cad_px": [
+          949.97,
+          325.18
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8702738,
+          19.2935679
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "ESCALATOR",
+        "label": "ESC.-06",
+        "cad_px": [
+          170.33,
+          529.54
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8707193,
+          19.2938794
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "ESCALATOR",
+        "label": "ESC.-01",
+        "cad_px": [
+          441.17,
+          394.3
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8713084,
+          19.2939785
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "ESCALATOR",
+        "label": "ESC.-02",
+        "cad_px": [
+          767.93,
+          393.7
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8713352,
+          19.2938496
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "ESCALATOR",
+        "label": "ESC.-03",
+        "cad_px": [
+          769.37,
+          469.66
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8707639,
+          19.2937554
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "ESCALATOR",
+        "label": "ESC.-04",
+        "cad_px": [
+          452.69,
+          469.18
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8720061,
+          19.293592
+        ]
+      },
+      "properties": {
+        "station": "KASHIGAON",
+        "type": "ESCALATOR",
+        "label": "DESCRIPTION",
+        "cad_px": [
+          1104.26,
+          680.04
+        ],
+        "marker-color": "#a855f7",
+        "marker-symbol": "fast-food",
+        "marker-size": "small"
+      }
+    }
+  ]
+}

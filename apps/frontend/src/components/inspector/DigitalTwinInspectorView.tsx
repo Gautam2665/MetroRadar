@@ -64,7 +64,7 @@ export function DigitalTwinInspectorView({
                   className={`flex-1 py-1.5 rounded-lg text-xs font-bold transition-all relative ${
                     activeLevel === level.id
                       ? "bg-[#00e5ff] text-[#00363d] shadow-[0_0_15px_rgba(0,229,255,0.4)]"
-                      : "text-[#bac9cc] hover:text-[#dfe2ee] hover:bg-white/5"
+                      : "text-[#bac9cc] hover:text-[#dfe2ee] hover:bg-white/10"
                   }`}
                 >
                   {level.lineCode ? `${level.lineCode} · ` : "Shared · "}{level.levelNumber ?? level.id}
@@ -105,9 +105,11 @@ export function DigitalTwinInspectorView({
                 </div>
                 <div className="text-right">
                   <span className="text-sm font-bold text-[#00e5ff] block">{eta.etaMins} min</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#10B981]/20 text-[#10B981] font-bold border border-[#10B981]/30">
-                    Crowd: {eta.crowdLevel}
-                  </span>
+                  {eta.crowdLevel ? (
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#10B981]/20 text-[#10B981] font-bold border border-[#10B981]/30">
+                      Crowd: {eta.crowdLevel}
+                    </span>
+                  ) : null}
                 </div>
               </motion.div>
             ))}
@@ -116,14 +118,47 @@ export function DigitalTwinInspectorView({
           {/* Station Exit Walking Distances */}
           <div className="border-t border-white/10 pt-3">
             <span className="text-xs font-bold text-[#bac9cc] uppercase tracking-wider block mb-2">Exits & Walking Distance</span>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              {digitalTwin.exits.map((exit, idx) => (
-                <div key={idx} className="p-2 bg-[#141822]/50 rounded-lg border border-white/10">
-                  <span className="text-[11px] font-bold text-[#dfe2ee] block">{exit.gate}</span>
-                  <span className="text-[10px] text-[#bac9cc]">{exit.name} ({exit.distanceMeter}m)</span>
-                </div>
-              ))}
-            </div>
+            {digitalTwin.exits && digitalTwin.exits.length > 0 ? (
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                {digitalTwin.exits.map((exit, idx) => {
+                  const isFob =
+                    exit.gate.toLowerCase().includes("fob") ||
+                    exit.gate.toLowerCase().includes("skywalk") ||
+                    exit.gate.toLowerCase().includes("direct") ||
+                    exit.name.toLowerCase().includes("fob") ||
+                    exit.name.toLowerCase().includes("skywalk") ||
+                    exit.name.toLowerCase().includes("direct");
+
+                  return (
+                    <div
+                      key={idx}
+                      className={`p-2 rounded-lg border transition-all ${
+                        isFob
+                          ? "bg-cyan-950/30 border-cyan-500/40 shadow-[0_0_10px_rgba(0,229,255,0.1)] col-span-2"
+                          : "bg-[#141822]/50 border-white/10"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-1">
+                        <span className="text-[11px] font-bold text-[#dfe2ee] block truncate">
+                          {exit.gate}
+                        </span>
+                        {isFob && (
+                          <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shrink-0">
+                            FOB LINK
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-[10px] text-[#bac9cc] font-mono block mt-0.5">
+                        {exit.name && exit.name !== exit.gate ? exit.name : ""}
+                        {typeof exit.distanceMeter === "number" && exit.distanceMeter > 0 ? ` (${exit.distanceMeter}m)` : ""}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="text-xs text-[#bac9cc]/60">No gate details available</p>
+            )}
           </div>
         </div>
       )}

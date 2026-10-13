@@ -1,30 +1,64 @@
 {
-  "timestamp": "2026-10-06T23:34:51+05:30",
-  "feedVersion": "2026.10-operational-v1.0",
-  "status": "SUCCESS",
-  "compliance": "CANONICAL_GTFS_AND_PATHWAYS",
-  "summary": {
-    "totalStations": 96,
-    "totalPlatforms": 198,
-    "totalConcourseNodes": 193,
-    "totalEntrances": 192,
-    "totalLevels": 289,
-    "totalShapes": 4228,
-    "totalTrips": 42,
-    "totalStopTimes": 582,
-    "totalFrequencies": 210,
-    "totalTransfers": 24,
-    "totalPathways": 587,
-    "criticalErrors": 0,
-    "foreignKeyViolations": 0
+  "dataset": "mumbai-gtfs-static",
+  "city": "mumbai",
+  "validatedAt": "2026-10-12T06:27:05.678Z",
+  "passed": true,
+  "stages": {
+    "schema": {
+      "passed": true,
+      "details": {
+        "missingRequired": [],
+        "presentOptional": [
+          "calendar.txt",
+          "shapes.txt",
+          "feed_info.txt"
+        ]
+      }
+    },
+    "coordinates": {
+      "passed": true,
+      "details": {
+        "totalStops": 288,
+        "outOfBoundsCount": 0,
+        "outOfBounds": []
+      }
+    },
+    "duplicates": {
+      "passed": true,
+      "details": {
+        "duplicates": {}
+      }
+    },
+    "references": {
+      "passed": true,
+      "details": {
+        "brokenRefsCount": 0,
+        "brokenRefs": []
+      }
+    },
+    "license": {
+      "passed": true,
+      "details": {
+        "missingFields": [],
+        "licenseFile": "C:\\Users\\HP\\OneDrive\\Desktop\\MetroRadar\\datasets\\mumbai\\license.json"
+      }
+    },
+    "checksum": {
+      "passed": true,
+      "details": {
+        "warning": "No sha256 in metadata.json — skipping checksum verification. Update metadata.json after first download."
+      }
+    }
   },
-  "routes": [
-    { "id": "MUMBAI_LINE1", "name": "Line 1 (Blue Line)", "stations": 12, "agency": "MMOPL" },
-    { "id": "MUMBAI_LINE2A", "name": "Line 2A (Yellow Line)", "stations": 17, "agency": "MMMOCL" },
-    { "id": "MUMBAI_LINE7", "name": "Line 7 (Red Line)", "stations": 14, "agency": "MMMOCL" },
-    { "id": "MUMBAI_LINE9", "name": "Line 9 (Red Extension Ph 1)", "stations": 4, "agency": "MMMOCL" },
-    { "id": "MUMBAI_LINE2B_PH1", "name": "Line 2B (Yellow Ph 1)", "stations": 6, "agency": "MMMOCL" },
-    { "id": "MUMBAI_LINE3", "name": "Line 3 (Aqua Line)", "stations": 27, "agency": "MMRCL" },
-    { "id": "MUMBAI_MONORAIL", "name": "Mumbai Monorail", "stations": 17, "agency": "MMRDA_MONO" }
-  ]
+  "counts": {
+    "agencies": 4,
+    "stops": 288,
+    "routes": 6,
+    "trips": 4458,
+    "stopTimes": 71944,
+    "shapes": 2126,
+    "calendars": 3
+  },
+  "warnings": [],
+  "errors": []
 }

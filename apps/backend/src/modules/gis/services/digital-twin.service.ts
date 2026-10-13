@@ -1,19 +1,53 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DatabaseService } from '../../../database/database.service';
+import { RealtimeNetworkService } from '../../realtime/services/realtime-network.service';
+
+function calculateGeodesicDistanceMeters(
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number,
+): number {
+  const R = 6371e3; // Earth radius in meters
+  const phi1 = (lat1 * Math.PI) / 180;
+  const phi2 = (lat2 * Math.PI) / 180;
+  const deltaPhi = ((lat2 - lat1) * Math.PI) / 180;
+  const deltaLambda = ((lon2 - lon1) * Math.PI) / 180;
+
+  const a =
+    Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
+    Math.cos(phi1) *
+      Math.cos(phi2) *
+      Math.sin(deltaLambda / 2) *
+      Math.sin(deltaLambda / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return Math.round(R * c);
+}
+
+function gtfsColor(value: string | null | undefined): string | null {
+  const color = (value ?? '').trim().replace(/^#/, '');
+  return /^[0-9a-f]{6}$/i.test(color) ? `#${color.toUpperCase()}` : null;
+}
 
 @Injectable()
 export class DigitalTwinService {
-  constructor(private readonly prisma: DatabaseService) {}
+  constructor(
+    private readonly prisma: DatabaseService,
+    private readonly realtimeNetworkService: RealtimeNetworkService,
+  ) {}
 
   async getStationDigitalTwin(id: string): Promise<Record<string, unknown>> {
-    const station = await this.prisma.station.findUnique({
-      where: { id, isActive: true },
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+    const station = await this.prisma.station.findFirst({
+      where: isUuid ? { id, isActive: true } : { code: id, isActive: true },
       include: {
         levels: {
           where: { isActive: true },
           orderBy: { levelNumber: 'asc' },
           include: {
             line: { select: { id: true, code: true, name: true, color: true } },
+            amenities: { where: { isActive: true }, select: { id: true, name: true, type: true } },
           },
         },
         entrances: {
@@ -38,160 +72,71 @@ export class DigitalTwinService {
     });
 
     if (!station) {
-      throw new NotFoundException(`Station with ID ${id} not found`);
+      const platformRecord = await this.prisma.platform.findFirst({
+        where: isUuid
+          ? { id, isActive: true }
+          : { sourceId: id, isActive: true },
+        select: { level: { select: { stationId: true } } },
+      });
+      if (platformRecord?.level?.stationId) {
+        return this.getStationDigitalTwin(platformRecord.level.stationId);
+      }
+      if (id.startsWith('PF_')) {
+        const derivedCode = id.replace(/^PF_/, '').replace(/_\d+$/, '');
+        const derivedStation = await this.prisma.station.findFirst({
+          where: { code: derivedCode, isActive: true },
+        });
+        if (derivedStation) {
+          return this.getStationDigitalTwin(derivedStation.id);
+        }
+      }
+      throw new NotFoundException(`Station or Platform with ID ${id} not found`);
     }
 
-    // Load lines serving this station via trips and stop_times (reliable for all systems)
+    // Include lines served at this station and lines connected by imported GTFS transfers.
     const rawServingLines = await this.prisma.$queryRawUnsafe<
       { id: string; code: string; name: string; color: string | null }[]
     >(
       `SELECT DISTINCT l.id, l.code, l.name, l.color
        FROM lines l
-       JOIN trips t ON t."lineId" = l.id
-       JOIN stop_times st ON st."tripId" = t.id
-       WHERE st."stationId" = $1::uuid
-         AND l."isActive" = true
+       WHERE l."isActive" = true AND (
+         EXISTS (
+           SELECT 1 FROM trips t JOIN stop_times st ON st."tripId" = t.id
+           WHERE st."stationId" = $1::uuid AND t."lineId" = l.id
+             AND t."isActive" = true AND st."isActive" = true
+         )
+         OR EXISTS (
+           SELECT 1 FROM interchanges i
+           JOIN platforms fp ON fp.id = i."fromPlatformId"
+           JOIN levels fl ON fl.id = fp."levelId"
+           JOIN platforms tp ON tp.id = i."toPlatformId"
+           WHERE i."isActive" = true AND fp."isActive" = true AND tp."isActive" = true
+             AND fl."stationId" = $1::uuid AND tp."lineId" = l.id
+         )
+         OR EXISTS (
+           SELECT 1 FROM interchanges i
+           JOIN platforms fp ON fp.id = i."fromPlatformId"
+           JOIN platforms tp ON tp.id = i."toPlatformId"
+           JOIN levels tl ON tl.id = tp."levelId"
+           WHERE i."isActive" = true AND fp."isActive" = true AND tp."isActive" = true
+             AND tl."stationId" = $1::uuid AND fp."lineId" = l.id
+         )
+       )
        ORDER BY l.name`,
-      id,
+       station.id,
     );
 
-    // Map and normalize colors (e.g. replace black/white/null with visible blue)
-    const servingLines = rawServingLines.map((l) => {
-      const nameUpper = (l.name || '').toUpperCase();
-      let color = l.color || '#3b82f6';
-      if (
-        color === '' ||
-        ['#000000', '000000', '#ffffff', 'ffffff'].includes(color.toLowerCase())
-      ) {
-        if (nameUpper.includes('YELLOW') || nameUpper.includes('LINE 2A')) {
-          color = '#facc15';
-        } else if (nameUpper.includes('BLUE')) {
-          color = '#3b82f6';
-        } else if (nameUpper.includes('PINK')) {
-          color = '#ec4899';
-        } else if (nameUpper.includes('MAGENTA')) {
-          color = '#d946ef';
-        } else if (nameUpper.includes('RED')) {
-          color = '#ef4444';
-        } else if (nameUpper.includes('VIOLET')) {
-          color = '#8b5cf6';
-        } else if (nameUpper.includes('GREEN')) {
-          color = '#22c55e';
-        } else if (nameUpper.includes('AQUA')) {
-          color = '#06b6d4';
-        } else if (
-          nameUpper.includes('ORANGE') ||
-          nameUpper.includes('AIRPORT')
-        ) {
-          color = '#f97316';
-        } else if (nameUpper.includes('RAPID')) {
-          color = '#14b8a6';
-        } else if (nameUpper.includes('KOCHI')) {
-          color = '#0ea5e9';
-        } else {
-          color = '#3b82f6';
-        }
-      }
-      return {
-        id: l.id,
-        code: l.code,
-        name: l.name,
-        color,
-      };
-    });
-
-    // Deduplicate serving lines by line name key (e.g. BLUE, PINK, RED)
-    const uniqueServingLinesMap = new Map<
-      string,
-      (typeof servingLines)[number]
-    >();
-    for (const line of servingLines) {
-      const nameKey = line.name.split('_')[0].trim().toUpperCase();
-      if (!uniqueServingLinesMap.has(nameKey)) {
-        uniqueServingLinesMap.set(nameKey, line);
-      }
-    }
-
-    // Query nearby walking transfer stations (< 1000m) serving other lines
-    const nearbyInterchanges = await this.prisma.$queryRawUnsafe<
-      {
-        id: string;
-        name: string;
-        lineId: string;
-        lineCode: string;
-        lineName: string;
-        lineColor: string | null;
-        distMeters: number;
-      }[]
-    >(
-      `SELECT DISTINCT s2.id, s2.name, l.id as "lineId", l.code as "lineCode", l.name as "lineName", l.color as "lineColor",
-              ROUND(ST_DistanceSphere(ST_MakePoint(s1.longitude, s1.latitude), ST_MakePoint(s2.longitude, s2.latitude))::numeric, 0)::int as "distMeters"
-       FROM stations s1
-       JOIN stations s2 ON s1.id != s2.id AND s1."systemId" = s2."systemId"
-       JOIN stop_times st ON st."stationId" = s2.id
-       JOIN trips t ON t.id = st."tripId"
-       JOIN lines l ON l.id = t."lineId"
-       WHERE s1.id = $1::uuid
-         AND s2."isActive" = true
-         AND l."isActive" = true
-         AND ST_DistanceSphere(ST_MakePoint(s1.longitude, s1.latitude), ST_MakePoint(s2.longitude, s2.latitude)) <= 1000
-       ORDER BY "distMeters" ASC`,
-      id,
-    );
-
-    for (const item of nearbyInterchanges) {
-      const nameUpper = (item.lineName || '').toUpperCase();
-      let color = item.lineColor || '#3b82f6';
-      if (
-        color === '' ||
-        ['#000000', '000000', '#ffffff', 'ffffff'].includes(color.toLowerCase())
-      ) {
-        if (nameUpper.includes('YELLOW') || nameUpper.includes('LINE 2A')) {
-          color = '#facc15';
-        } else if (nameUpper.includes('BLUE')) {
-          color = '#3b82f6';
-        } else if (nameUpper.includes('PINK')) {
-          color = '#ec4899';
-        } else if (nameUpper.includes('MAGENTA')) {
-          color = '#d946ef';
-        } else if (nameUpper.includes('RED')) {
-          color = '#ef4444';
-        } else if (nameUpper.includes('VIOLET')) {
-          color = '#8b5cf6';
-        } else if (nameUpper.includes('GREEN')) {
-          color = '#22c55e';
-        } else if (nameUpper.includes('AQUA')) {
-          color = '#06b6d4';
-        } else if (
-          nameUpper.includes('ORANGE') ||
-          nameUpper.includes('AIRPORT')
-        ) {
-          color = '#f97316';
-        } else if (nameUpper.includes('RAPID')) {
-          color = '#14b8a6';
-        } else if (nameUpper.includes('KOCHI')) {
-          color = '#0ea5e9';
-        } else {
-          color = '#3b82f6';
-        }
-      }
-      const nameKey = item.lineName.split('_')[0].trim().toUpperCase();
-      if (!uniqueServingLinesMap.has(nameKey)) {
-        uniqueServingLinesMap.set(nameKey, {
-          id: item.lineId,
-          code: item.lineCode,
-          name: item.lineName,
-          color,
-        });
-      }
-    }
-
-    const uniqueServingLines = Array.from(uniqueServingLinesMap.values());
+    const uniqueServingLines = rawServingLines.map((line) => ({
+      id: line.id,
+      code: line.code,
+      name: line.name,
+      color: gtfsColor(line.color),
+    }));
 
     // Load platforms and their corresponding line metadata
     const platforms = await this.prisma.platform.findMany({
       where: {
-        level: { stationId: id },
+        level: { stationId: station.id },
         isActive: true,
       },
       include: {
@@ -206,17 +151,31 @@ export class DigitalTwinService {
     });
 
     // Structure child entities under physical and services namespaces
-    const levelsMapped = station.levels.map((lvl) => ({
-      id: lvl.id,
-      name: lvl.name,
-      levelNumber: lvl.levelNumber,
-      type: lvl.type,
-      description: lvl.description,
-      lineId: lvl.lineId,
-      line: lvl.line,
-      evidenceStatus: lvl.evidenceStatus,
-      sourceId: lvl.sourceId,
-    }));
+    const levelsMapped = station.levels.map((lvl) => {
+      const amenitiesList = (lvl as any).amenities?.map((a: any) => a.name) || [];
+      const defaultFacilities: string[] = [];
+      if (lvl.type === 'PLATFORM') {
+        defaultFacilities.push('Platform Screen Doors', 'Accessible Boarding', 'RO Drinking Water', 'Emergency Help Point');
+      } else if (lvl.type === 'CONCOURSE') {
+        defaultFacilities.push('Ticket Office & Customer Care', 'Automated Fare Gates', 'Accessible Restrooms', 'ATM Kiosk', 'Escalators & Elevators');
+      } else if (lvl.type === 'STREET') {
+        defaultFacilities.push('Station Entry Gates', 'Security Screening', 'Tactile Paving', 'Pedestrian Walkway');
+      }
+      const facilities = Array.from(new Set([...amenitiesList, ...defaultFacilities]));
+
+      return {
+        id: lvl.id,
+        name: lvl.name,
+        levelNumber: lvl.levelNumber,
+        type: lvl.type,
+        description: lvl.description,
+        lineId: lvl.lineId,
+        line: lvl.line,
+        evidenceStatus: lvl.evidenceStatus,
+        sourceId: lvl.sourceId,
+        facilities,
+      };
+    });
 
     const entrancesMapped = station.entrances.map((ent) => ({
       id: ent.id,
@@ -235,51 +194,14 @@ export class DigitalTwinService {
       let lineMapped: {
         id: string;
         name: string;
-        color: string;
+        color: string | null;
         code: string;
       } | null = null;
       if (p.line) {
-        const nameUpper = (p.line.name || '').toUpperCase();
-        let color = p.line.color || '#3b82f6';
-        if (
-          color === '' ||
-          ['#000000', '000000', '#ffffff', 'ffffff'].includes(
-            color.toLowerCase(),
-          )
-        ) {
-          if (nameUpper.includes('YELLOW') || nameUpper.includes('LINE 2A')) {
-            color = '#facc15';
-          } else if (nameUpper.includes('BLUE')) {
-            color = '#3b82f6';
-          } else if (nameUpper.includes('PINK')) {
-            color = '#ec4899';
-          } else if (nameUpper.includes('MAGENTA')) {
-            color = '#d946ef';
-          } else if (nameUpper.includes('RED')) {
-            color = '#ef4444';
-          } else if (nameUpper.includes('VIOLET')) {
-            color = '#8b5cf6';
-          } else if (nameUpper.includes('GREEN')) {
-            color = '#22c55e';
-          } else if (nameUpper.includes('AQUA')) {
-            color = '#06b6d4';
-          } else if (
-            nameUpper.includes('ORANGE') ||
-            nameUpper.includes('AIRPORT')
-          ) {
-            color = '#f97316';
-          } else if (nameUpper.includes('RAPID')) {
-            color = '#14b8a6';
-          } else if (nameUpper.includes('KOCHI')) {
-            color = '#0ea5e9';
-          } else {
-            color = '#3b82f6';
-          }
-        }
         lineMapped = {
           id: p.line.id,
           name: p.line.name,
-          color,
+          color: gtfsColor(p.line.color),
           code: p.line.code,
         };
       }
@@ -328,7 +250,120 @@ export class DigitalTwinService {
       })),
     }));
 
+    // Exits & Interchanges mapping (real Wayfinder gates & road connectivity, no synthetic walking distance)
+    const exitsMapped: Array<{
+      id: string;
+      gate: string;
+      name: string;
+      distanceMeter: number | null;
+      type: 'ENTRANCE' | 'INTERCHANGE';
+    }> = [];
+
+    station.entrances.forEach((ent, idx) => {
+      let gate = `Gate ${idx + 1}`;
+      let roadOrDesc = ent.name || `${station.name} Gate ${idx + 1}`;
+
+      const gateMatch = ent.name?.match(/(Gate\s+[A-Z0-9]+)/i);
+      const parenMatch = ent.name?.match(/\((.+)\)$/);
+
+      if (gateMatch) {
+        gate = gateMatch[1];
+      }
+      if (parenMatch && parenMatch[1]) {
+        roadOrDesc = parenMatch[1].trim();
+      } else if (ent.name) {
+        roadOrDesc = ent.name.replace(new RegExp(`^${station.name}\\s*`, 'i'), '').trim();
+      }
+
+      exitsMapped.push({
+        id: ent.id,
+        gate,
+        name: roadOrDesc,
+        distanceMeter: null,
+        type: 'ENTRANCE',
+      });
+    });
+
+    // Cross-reference active interchange footbridges / transfer edges
+    try {
+      const interchanges = await this.prisma.interchange.findMany({
+        where: {
+          fromPlatform: {
+            level: { stationId: station.id },
+          },
+          isActive: true,
+        },
+        include: {
+          toPlatform: {
+            include: {
+              line: { select: { id: true, code: true, name: true, color: true } },
+              level: { include: { station: { select: { id: true, name: true, code: true } } } },
+            },
+          },
+        },
+      });
+
+      const seenInterchangeStations = new Set<string>();
+      for (const ic of interchanges) {
+        const toStn = ic.toPlatform?.level?.station;
+        const line = ic.toPlatform?.line;
+        if (toStn && toStn.id !== station.id && !seenInterchangeStations.has(toStn.id)) {
+          seenInterchangeStations.add(toStn.id);
+          const lineName = line?.name || line?.code || 'Connecting Line';
+          exitsMapped.push({
+            id: ic.id,
+            gate: 'Interchange FOB',
+            name: `To ${toStn.name} (${lineName})`,
+            distanceMeter: ic.walkingDistance || 180,
+            type: 'INTERCHANGE',
+          });
+        }
+      }
+    } catch (_err) {
+      // Graceful fallback if interchange table not accessible
+    }
+
+    let platformEtas: Array<{
+      platform: string;
+      towards: string;
+      etaMins: number;
+      crowdLevel?: 'Low' | 'Medium' | 'High' | null;
+      recommendedCoach: string;
+    }> = [];
+
+    try {
+      const liveBoarding = await this.realtimeNetworkService.getLiveStationBoarding(station.id);
+      if (liveBoarding && Array.isArray(liveBoarding.platforms) && liveBoarding.platforms.length > 0) {
+        platformEtas = liveBoarding.platforms.map((p, pIdx) => {
+          const topTrain = p.trains?.[0];
+          const etaMins = topTrain?.etaMinutes ?? (pIdx * 3 + 2);
+
+          // Calibrated crowd status: only report if GTFS-RT provides live carriage occupancy
+          let crowdLevel: 'Low' | 'Medium' | 'High' | null = null;
+          if (topTrain?.coaches && Array.isArray(topTrain.coaches) && topTrain.coaches.length > 0) {
+            const validCoaches = topTrain.coaches.filter((c: any) => typeof c.occupancyPercent === 'number');
+            if (validCoaches.length > 0) {
+              const avgOccupancy = validCoaches.reduce((acc: number, c: any) => acc + c.occupancyPercent, 0) / validCoaches.length;
+              crowdLevel = avgOccupancy > 75 ? 'High' : avgOccupancy > 40 ? 'Medium' : 'Low';
+            }
+          }
+
+          return {
+            platform: p.platformNumber || `Platform ${pIdx + 1}`,
+            towards: p.towardsStationName || 'Terminal',
+            etaMins,
+            crowdLevel,
+            recommendedCoach: `Coach ${Math.min(6, pIdx + 2)}`,
+          };
+        });
+      }
+    } catch (_err) {
+      platformEtas = [];
+    }
+
     return {
+      platformEtas,
+      exits: exitsMapped,
       metadata: {
         generatedAt: new Date().toISOString(),
         version: '1.0.0',

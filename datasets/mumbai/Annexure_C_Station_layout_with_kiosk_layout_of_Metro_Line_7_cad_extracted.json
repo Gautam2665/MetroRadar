@@ -1,0 +1,480 @@
+[
+  {
+    "page_index": 1,
+    "station_hint": "Station_Page_1",
+    "page_bounds": {
+      "width": 2384.0,
+      "height": 1684.0
+    },
+    "detected_features": {
+      "gates": [],
+      "lifts": [],
+      "stairs": [],
+      "escalators": [],
+      "grid_anchors": [],
+      "general_labels": []
+    }
+  },
+  {
+    "page_index": 2,
+    "station_hint": "Station_Page_2",
+    "page_bounds": {
+      "width": 2384.0,
+      "height": 1684.0
+    },
+    "detected_features": {
+      "gates": [],
+      "lifts": [],
+      "stairs": [],
+      "escalators": [],
+      "grid_anchors": [],
+      "general_labels": []
+    }
+  },
+  {
+    "page_index": 3,
+    "station_hint": "Station_Page_3",
+    "page_bounds": {
+      "width": 2384.0,
+      "height": 1684.0
+    },
+    "detected_features": {
+      "gates": [],
+      "lifts": [],
+      "stairs": [],
+      "escalators": [],
+      "grid_anchors": [],
+      "general_labels": []
+    }
+  },
+  {
+    "page_index": 4,
+    "station_hint": "Station_Page_4",
+    "page_bounds": {
+      "width": 2384.0,
+      "height": 1684.0
+    },
+    "detected_features": {
+      "gates": [],
+      "lifts": [],
+      "stairs": [],
+      "escalators": [],
+      "grid_anchors": [],
+      "general_labels": []
+    }
+  },
+  {
+    "page_index": 5,
+    "station_hint": "Station_Page_5",
+    "page_bounds": {
+      "width": 2384.0,
+      "height": 1684.0
+    },
+    "detected_features": {
+      "gates": [],
+      "lifts": [],
+      "stairs": [],
+      "escalators": [],
+      "grid_anchors": [],
+      "general_labels": []
+    }
+  },
+  {
+    "page_index": 6,
+    "station_hint": "Station_Page_6",
+    "page_bounds": {
+      "width": 2384.0,
+      "height": 1684.0
+    },
+    "detected_features": {
+      "gates": [],
+      "lifts": [],
+      "stairs": [],
+      "escalators": [],
+      "grid_anchors": [],
+      "general_labels": []
+    }
+  },
+  {
+    "page_index": 7,
+    "station_hint": "Station_Page_7",
+    "page_bounds": {
+      "width": 2384.0,
+      "height": 1684.0
+    },
+    "detected_features": {
+      "gates": [],
+      "lifts": [],
+      "stairs": [],
+      "escalators": [],
+      "grid_anchors": [],
+      "general_labels": []
+    }
+  },
+  {
+    "page_index": 8,
+    "station_hint": "Station_Page_8",
+    "page_bounds": {
+      "width": 2384.0,
+      "height": 1684.0
+    },
+    "detected_features": {
+      "gates": [],
+      "lifts": [],
+      "stairs": [],
+      "escalators": [],
+      "grid_anchors": [
+        {
+          "text": "16000",
+          "center_pt": [
+            1496.99,
+            783.45
+          ],
+          "bbox": [
+            1491.98,
+            769.67,
+            1502.0,
+            797.24
+          ]
+        },
+        {
+          "text": "17000",
+          "center_pt": [
+            1495.43,
+            1017.33
+          ],
+          "bbox": [
+            1490.43,
+            1003.55,
+            1500.44,
+            1031.12
+          ]
+        },
+        {
+          "text": "17000",
+          "center_pt": [
+            1493.75,
+            1258.29
+          ],
+          "bbox": [
+            1488.74,
+            1244.51,
+            1498.76,
+            1272.08
+          ]
+        },
+        {
+          "text": "17000",
+          "center_pt": [
+            1492.01,
+            1499.26
+          ],
+          "bbox": [
+            1486.94,
+            1485.46,
+            1497.08,
+            1513.07
+          ]
+        },
+        {
+          "text": "17000",
+          "center_pt": [
+            1490.33,
+            1740.22
+          ],
+          "bbox": [
+            1485.26,
+            1726.42,
+            1495.4,
+            1754.03
+          ]
+        },
+        {
+          "text": "17000",
+          "center_pt": [
+            1488.83,
+            1981.17
+          ],
+          "bbox": [
+            1483.82,
+            1967.39,
+            1493.84,
+            1994.96
+          ]
+        },
+        {
+          "text": "17000",
+          "center_pt": [
+            1487.09,
+            2222.14
+          ],
+          "bbox": [
+            1482.02,
+            2208.34,
+            1492.16,
+            2235.95
+          ]
+        },
+        {
+          "text": "185000",
+          "center_pt": [
+            1515.89,
+            1947.69
+          ],
+          "bbox": [
+            1510.82,
+            1931.14,
+            1520.96,
+            1964.24
+          ]
+        },
+        {
+          "text": "17000",
+          "center_pt": [
+            750.65,
+            327.22
+          ],
+          "bbox": [
+            745.58,
+            313.42,
+            755.72,
+            341.03
+          ]
+        },
+        {
+          "text": "17000",
+          "center_pt": [
+            748.97,
+            568.18
+          ],
+          "bbox": [
+            743.9,
+            554.38,
+            754.04,
+            581.99
+          ]
+        },
+        {
+          "text": "17000",
+          "center_pt": [
+            747.47,
+            809.13
+          ],
+          "bbox": [
+            742.46,
+            795.35,
+            752.48,
+            822.92
+          ]
+        },
+        {
+          "text": "17000",
+          "center_pt": [
+            745.79,
+            1050.09
+          ],
+          "bbox": [
+            740.78,
+            1036.31,
+            750.8,
+            1063.88
+          ]
+        },
+        {
+          "text": "17000",
+          "center_pt": [
+            744.05,
+            1291.06
+          ],
+          "bbox": [
+            738.98,
+            1277.26,
+            749.12,
+            1304.87
+          ]
+        },
+        {
+          "text": "16000",
+          "center_pt": [
+            742.55,
+            1524.93
+          ],
+          "bbox": [
+            737.54,
+            1511.15,
+            747.56,
+            1538.72
+          ]
+        },
+        {
+          "text": "185000",
+          "center_pt": [
+            777.83,
+            293.72
+          ],
+          "bbox": [
+            772.82,
+            277.19,
+            782.84,
+            310.26
+          ]
+        }
+      ],
+      "general_labels": []
+    }
+  },
+  {
+    "page_index": 9,
+    "station_hint": "Station_Page_9",
+    "page_bounds": {
+      "width": 2384.0,
+      "height": 1684.0
+    },
+    "detected_features": {
+      "gates": [],
+      "lifts": [],
+      "stairs": [],
+      "escalators": [],
+      "grid_anchors": [],
+      "general_labels": []
+    }
+  },
+  {
+    "page_index": 10,
+    "station_hint": "Station_Page_10",
+    "page_bounds": {
+      "width": 2384.0,
+      "height": 1684.0
+    },
+    "detected_features": {
+      "gates": [],
+      "lifts": [],
+      "stairs": [],
+      "escalators": [],
+      "grid_anchors": [
+        {
+          "text": "A",
+          "center_pt": [
+            207.12,
+            1264.27
+          ],
+          "bbox": [
+            205.8,
+            1262.29,
+            208.44,
+            1266.25
+          ]
+        }
+      ],
+      "general_labels": []
+    }
+  },
+  {
+    "page_index": 11,
+    "station_hint": "Station_Page_11",
+    "page_bounds": {
+      "width": 2384.0,
+      "height": 1684.0
+    },
+    "detected_features": {
+      "gates": [],
+      "lifts": [],
+      "stairs": [],
+      "escalators": [],
+      "grid_anchors": [],
+      "general_labels": []
+    }
+  },
+  {
+    "page_index": 12,
+    "station_hint": "Station_Page_12",
+    "page_bounds": {
+      "width": 2384.0,
+      "height": 1684.0
+    },
+    "detected_features": {
+      "gates": [],
+      "lifts": [],
+      "stairs": [],
+      "escalators": [],
+      "grid_anchors": [],
+      "general_labels": []
+    }
+  },
+  {
+    "page_index": 13,
+    "station_hint": "Station_Page_13",
+    "page_bounds": {
+      "width": 2384.0,
+      "height": 1684.0
+    },
+    "detected_features": {
+      "gates": [],
+      "lifts": [],
+      "stairs": [],
+      "escalators": [],
+      "grid_anchors": [
+        {
+          "text": "B",
+          "center_pt": [
+            196.56,
+            1290.55
+          ],
+          "bbox": [
+            195.24,
+            1288.57,
+            197.88,
+            1292.53
+          ]
+        }
+      ],
+      "general_labels": []
+    }
+  },
+  {
+    "page_index": 14,
+    "station_hint": "Station_Page_14",
+    "page_bounds": {
+      "width": 2384.0,
+      "height": 1684.0
+    },
+    "detected_features": {
+      "gates": [],
+      "lifts": [],
+      "stairs": [],
+      "escalators": [],
+      "grid_anchors": [
+        {
+          "text": "6",
+          "center_pt": [
+            1146.6,
+            1397.77
+          ],
+          "bbox": [
+            1143.63,
+            1396.12,
+            1149.57,
+            1399.42
+          ]
+        }
+      ],
+      "general_labels": []
+    }
+  },
+  {
+    "page_index": 15,
+    "station_hint": "Station_Page_15",
+    "page_bounds": {
+      "width": 2384.0,
+      "height": 1684.0
+    },
+    "detected_features": {
+      "gates": [],
+      "lifts": [],
+      "stairs": [],
+      "escalators": [],
+      "grid_anchors": [],
+      "general_labels": []
+    }
+  }
+]

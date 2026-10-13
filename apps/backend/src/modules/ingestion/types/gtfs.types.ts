@@ -26,6 +26,19 @@ export interface GtfsStopRow {
   platform_code?: string;
 }
 
+export interface GtfsLevelRow {
+  level_id: string;
+  level_index: string;
+  level_name?: string;
+}
+
+export interface GtfsTransferRow {
+  from_stop_id: string;
+  to_stop_id: string;
+  transfer_type?: string;
+  min_transfer_time?: string;
+}
+
 export interface GtfsRouteRow {
   route_id: string;
   agency_id?: string;

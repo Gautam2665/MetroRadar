@@ -1,0 +1,3125 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.8744,
+          18.5289
+        ]
+      },
+      "properties": {
+        "name": "Pune Junction Railway Station (Indian Railways)",
+        "id": "PF_IR_PUNE_JN",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.851,
+          18.5325
+        ]
+      },
+      "properties": {
+        "name": "Shivajinagar Railway Station (Indian Railways)",
+        "id": "PF_IR_SHIVAJINAGAR",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857808,
+          18.526784
+        ]
+      },
+      "properties": {
+        "name": "Civil Court (District Court)",
+        "id": "STN_PUNE_CIVIL_COURT",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857808,
+          18.526884
+        ]
+      },
+      "properties": {
+        "name": "Civil Court Gate 1 (Shivaji Nagar Side)",
+        "id": "ENT_CIVIL_COURT_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857808,
+          18.526684
+        ]
+      },
+      "properties": {
+        "name": "Civil Court Gate 2 (District Court Side)",
+        "id": "ENT_CIVIL_COURT_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857808,
+          18.526784
+        ]
+      },
+      "properties": {
+        "name": "Civil Court Central Concourse (Unpaid)",
+        "id": "NODE_CIVIL_COURT_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857808,
+          18.526784
+        ]
+      },
+      "properties": {
+        "name": "Civil Court Central Concourse (Paid)",
+        "id": "NODE_CIVIL_COURT_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857808,
+          18.526784
+        ]
+      },
+      "properties": {
+        "name": "Civil Court Underground Intermediate Mezzanine",
+        "id": "NODE_CIVIL_COURT_UG_M",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857808,
+          18.526784
+        ]
+      },
+      "properties": {
+        "name": "Civil Court Platform 1 (Purple Line to Swargate)",
+        "id": "PF_STN_PUNE_L1_CIVIL_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857808,
+          18.526784
+        ]
+      },
+      "properties": {
+        "name": "Civil Court Platform 2 (Purple Line to PCMC)",
+        "id": "PF_STN_PUNE_L1_CIVIL_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857808,
+          18.526784
+        ]
+      },
+      "properties": {
+        "name": "Civil Court Platform 1 (Aqua Line to Ramwadi)",
+        "id": "PF_STN_PUNE_L2_CIVIL_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857808,
+          18.526784
+        ]
+      },
+      "properties": {
+        "name": "Civil Court Platform 2 (Aqua Line to Vanaz)",
+        "id": "PF_STN_PUNE_L2_CIVIL_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.803333,
+          18.62937
+        ]
+      },
+      "properties": {
+        "name": "PCMC",
+        "id": "STN_PUNE_L1_001",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.803333,
+          18.62947
+        ]
+      },
+      "properties": {
+        "name": "PCMC Gate 1",
+        "id": "ENT_STN_PUNE_L1_001_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.803333,
+          18.62927
+        ]
+      },
+      "properties": {
+        "name": "PCMC Gate 2",
+        "id": "ENT_STN_PUNE_L1_001_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.803333,
+          18.62937
+        ]
+      },
+      "properties": {
+        "name": "PCMC Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L1_001_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.803333,
+          18.62937
+        ]
+      },
+      "properties": {
+        "name": "PCMC Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L1_001_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.803333,
+          18.62937
+        ]
+      },
+      "properties": {
+        "name": "PCMC Platform 1",
+        "id": "PF_STN_PUNE_L1_001_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.803333,
+          18.62937
+        ]
+      },
+      "properties": {
+        "name": "PCMC Platform 2",
+        "id": "PF_STN_PUNE_L1_001_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.815787,
+          18.614581
+        ]
+      },
+      "properties": {
+        "name": "Sant Tukaram Nagar",
+        "id": "STN_PUNE_L1_002",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.815787,
+          18.614681
+        ]
+      },
+      "properties": {
+        "name": "Sant Tukaram Nagar Gate 1",
+        "id": "ENT_STN_PUNE_L1_002_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.815787,
+          18.614481
+        ]
+      },
+      "properties": {
+        "name": "Sant Tukaram Nagar Gate 2",
+        "id": "ENT_STN_PUNE_L1_002_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.815787,
+          18.614581
+        ]
+      },
+      "properties": {
+        "name": "Sant Tukaram Nagar Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L1_002_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.815787,
+          18.614581
+        ]
+      },
+      "properties": {
+        "name": "Sant Tukaram Nagar Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L1_002_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.815787,
+          18.614581
+        ]
+      },
+      "properties": {
+        "name": "Sant Tukaram Nagar Platform 1",
+        "id": "PF_STN_PUNE_L1_002_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.815787,
+          18.614581
+        ]
+      },
+      "properties": {
+        "name": "Sant Tukaram Nagar Platform 2",
+        "id": "PF_STN_PUNE_L1_002_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.820114,
+          18.609412
+        ]
+      },
+      "properties": {
+        "name": "Bhosari (Nashik Phata)",
+        "id": "STN_PUNE_L1_003",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.820114,
+          18.609512
+        ]
+      },
+      "properties": {
+        "name": "Bhosari (Nashik Phata) Gate 1",
+        "id": "ENT_STN_PUNE_L1_003_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.820114,
+          18.609312
+        ]
+      },
+      "properties": {
+        "name": "Bhosari (Nashik Phata) Gate 2",
+        "id": "ENT_STN_PUNE_L1_003_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.820114,
+          18.609412
+        ]
+      },
+      "properties": {
+        "name": "Bhosari (Nashik Phata) Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L1_003_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.820114,
+          18.609412
+        ]
+      },
+      "properties": {
+        "name": "Bhosari (Nashik Phata) Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L1_003_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.820114,
+          18.609412
+        ]
+      },
+      "properties": {
+        "name": "Bhosari (Nashik Phata) Platform 1",
+        "id": "PF_STN_PUNE_L1_003_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.820114,
+          18.609412
+        ]
+      },
+      "properties": {
+        "name": "Bhosari (Nashik Phata) Platform 2",
+        "id": "PF_STN_PUNE_L1_003_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.827312,
+          18.599676
+        ]
+      },
+      "properties": {
+        "name": "Kasarwadi",
+        "id": "STN_PUNE_L1_004",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.827312,
+          18.599776
+        ]
+      },
+      "properties": {
+        "name": "Kasarwadi Gate 1",
+        "id": "ENT_STN_PUNE_L1_004_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.827312,
+          18.599576
+        ]
+      },
+      "properties": {
+        "name": "Kasarwadi Gate 2",
+        "id": "ENT_STN_PUNE_L1_004_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.827312,
+          18.599676
+        ]
+      },
+      "properties": {
+        "name": "Kasarwadi Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L1_004_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.827312,
+          18.599676
+        ]
+      },
+      "properties": {
+        "name": "Kasarwadi Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L1_004_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.827312,
+          18.599676
+        ]
+      },
+      "properties": {
+        "name": "Kasarwadi Platform 1",
+        "id": "PF_STN_PUNE_L1_004_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.827312,
+          18.599676
+        ]
+      },
+      "properties": {
+        "name": "Kasarwadi Platform 2",
+        "id": "PF_STN_PUNE_L1_004_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.83119,
+          18.591177
+        ]
+      },
+      "properties": {
+        "name": "Phugewadi",
+        "id": "STN_PUNE_L1_005",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.83119,
+          18.591277
+        ]
+      },
+      "properties": {
+        "name": "Phugewadi Gate 1",
+        "id": "ENT_STN_PUNE_L1_005_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.83119,
+          18.591077
+        ]
+      },
+      "properties": {
+        "name": "Phugewadi Gate 2",
+        "id": "ENT_STN_PUNE_L1_005_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.83119,
+          18.591177
+        ]
+      },
+      "properties": {
+        "name": "Phugewadi Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L1_005_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.83119,
+          18.591177
+        ]
+      },
+      "properties": {
+        "name": "Phugewadi Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L1_005_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.83119,
+          18.591177
+        ]
+      },
+      "properties": {
+        "name": "Phugewadi Platform 1",
+        "id": "PF_STN_PUNE_L1_005_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.83119,
+          18.591177
+        ]
+      },
+      "properties": {
+        "name": "Phugewadi Platform 2",
+        "id": "PF_STN_PUNE_L1_005_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.833806,
+          18.583796
+        ]
+      },
+      "properties": {
+        "name": "Dapodi",
+        "id": "STN_PUNE_L1_006",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.833806,
+          18.583896
+        ]
+      },
+      "properties": {
+        "name": "Dapodi Gate 1",
+        "id": "ENT_STN_PUNE_L1_006_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.833806,
+          18.583696
+        ]
+      },
+      "properties": {
+        "name": "Dapodi Gate 2",
+        "id": "ENT_STN_PUNE_L1_006_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.833806,
+          18.583796
+        ]
+      },
+      "properties": {
+        "name": "Dapodi Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L1_006_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.833806,
+          18.583796
+        ]
+      },
+      "properties": {
+        "name": "Dapodi Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L1_006_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.833806,
+          18.583796
+        ]
+      },
+      "properties": {
+        "name": "Dapodi Platform 1",
+        "id": "PF_STN_PUNE_L1_006_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.833806,
+          18.583796
+        ]
+      },
+      "properties": {
+        "name": "Dapodi Platform 2",
+        "id": "PF_STN_PUNE_L1_006_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.838141,
+          18.569687
+        ]
+      },
+      "properties": {
+        "name": "Bopodi",
+        "id": "STN_PUNE_L1_007",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.838141,
+          18.569787
+        ]
+      },
+      "properties": {
+        "name": "Bopodi Gate 1",
+        "id": "ENT_STN_PUNE_L1_007_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.838141,
+          18.569587
+        ]
+      },
+      "properties": {
+        "name": "Bopodi Gate 2",
+        "id": "ENT_STN_PUNE_L1_007_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.838141,
+          18.569687
+        ]
+      },
+      "properties": {
+        "name": "Bopodi Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L1_007_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.838141,
+          18.569687
+        ]
+      },
+      "properties": {
+        "name": "Bopodi Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L1_007_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.838141,
+          18.569687
+        ]
+      },
+      "properties": {
+        "name": "Bopodi Platform 1",
+        "id": "PF_STN_PUNE_L1_007_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.838141,
+          18.569687
+        ]
+      },
+      "properties": {
+        "name": "Bopodi Platform 2",
+        "id": "PF_STN_PUNE_L1_007_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.843311,
+          18.56044
+        ]
+      },
+      "properties": {
+        "name": "Khadki",
+        "id": "STN_PUNE_L1_008",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.843311,
+          18.56054
+        ]
+      },
+      "properties": {
+        "name": "Khadki Gate 1",
+        "id": "ENT_STN_PUNE_L1_008_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.843311,
+          18.56034
+        ]
+      },
+      "properties": {
+        "name": "Khadki Gate 2",
+        "id": "ENT_STN_PUNE_L1_008_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.843311,
+          18.56044
+        ]
+      },
+      "properties": {
+        "name": "Khadki Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L1_008_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.843311,
+          18.56044
+        ]
+      },
+      "properties": {
+        "name": "Khadki Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L1_008_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.843311,
+          18.56044
+        ]
+      },
+      "properties": {
+        "name": "Khadki Platform 1",
+        "id": "PF_STN_PUNE_L1_008_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.843311,
+          18.56044
+        ]
+      },
+      "properties": {
+        "name": "Khadki Platform 2",
+        "id": "PF_STN_PUNE_L1_008_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.845952,
+          18.550017
+        ]
+      },
+      "properties": {
+        "name": "Range Hill",
+        "id": "STN_PUNE_L1_009",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.845952,
+          18.550117
+        ]
+      },
+      "properties": {
+        "name": "Range Hill Gate 1",
+        "id": "ENT_STN_PUNE_L1_009_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.845952,
+          18.549917
+        ]
+      },
+      "properties": {
+        "name": "Range Hill Gate 2",
+        "id": "ENT_STN_PUNE_L1_009_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.845952,
+          18.550017
+        ]
+      },
+      "properties": {
+        "name": "Range Hill Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L1_009_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.845952,
+          18.550017
+        ]
+      },
+      "properties": {
+        "name": "Range Hill Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L1_009_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.845952,
+          18.550017
+        ]
+      },
+      "properties": {
+        "name": "Range Hill Platform 1",
+        "id": "PF_STN_PUNE_L1_009_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.845952,
+          18.550017
+        ]
+      },
+      "properties": {
+        "name": "Range Hill Platform 2",
+        "id": "PF_STN_PUNE_L1_009_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.849474,
+          18.532034
+        ]
+      },
+      "properties": {
+        "name": "Shivaji Nagar",
+        "id": "STN_PUNE_L1_010",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.849474,
+          18.532134
+        ]
+      },
+      "properties": {
+        "name": "Shivaji Nagar Gate 1",
+        "id": "ENT_STN_PUNE_L1_010_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.849474,
+          18.531934
+        ]
+      },
+      "properties": {
+        "name": "Shivaji Nagar Gate 2",
+        "id": "ENT_STN_PUNE_L1_010_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.849474,
+          18.532034
+        ]
+      },
+      "properties": {
+        "name": "Shivaji Nagar Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L1_010_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.849474,
+          18.532034
+        ]
+      },
+      "properties": {
+        "name": "Shivaji Nagar Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L1_010_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.849474,
+          18.532034
+        ]
+      },
+      "properties": {
+        "name": "Shivaji Nagar Platform 1",
+        "id": "PF_STN_PUNE_L1_010_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.849474,
+          18.532034
+        ]
+      },
+      "properties": {
+        "name": "Shivaji Nagar Platform 2",
+        "id": "PF_STN_PUNE_L1_010_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.859595,
+          18.52147
+        ]
+      },
+      "properties": {
+        "name": "Budhwar Peth (Kasba Peth)",
+        "id": "STN_PUNE_L1_011",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.859595,
+          18.52157
+        ]
+      },
+      "properties": {
+        "name": "Budhwar Peth (Kasba Peth) Gate 1",
+        "id": "ENT_STN_PUNE_L1_011_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.859595,
+          18.52137
+        ]
+      },
+      "properties": {
+        "name": "Budhwar Peth (Kasba Peth) Gate 2",
+        "id": "ENT_STN_PUNE_L1_011_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.859595,
+          18.52147
+        ]
+      },
+      "properties": {
+        "name": "Budhwar Peth (Kasba Peth) Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L1_011_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.859595,
+          18.52147
+        ]
+      },
+      "properties": {
+        "name": "Budhwar Peth (Kasba Peth) Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L1_011_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.859595,
+          18.52147
+        ]
+      },
+      "properties": {
+        "name": "Budhwar Peth (Kasba Peth) Platform 1",
+        "id": "PF_STN_PUNE_L1_011_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.859595,
+          18.52147
+        ]
+      },
+      "properties": {
+        "name": "Budhwar Peth (Kasba Peth) Platform 2",
+        "id": "PF_STN_PUNE_L1_011_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857043,
+          18.512489
+        ]
+      },
+      "properties": {
+        "name": "Mandai",
+        "id": "STN_PUNE_L1_012",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857043,
+          18.512589
+        ]
+      },
+      "properties": {
+        "name": "Mandai Gate 1",
+        "id": "ENT_STN_PUNE_L1_012_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857043,
+          18.512389
+        ]
+      },
+      "properties": {
+        "name": "Mandai Gate 2",
+        "id": "ENT_STN_PUNE_L1_012_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857043,
+          18.512489
+        ]
+      },
+      "properties": {
+        "name": "Mandai Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L1_012_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857043,
+          18.512489
+        ]
+      },
+      "properties": {
+        "name": "Mandai Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L1_012_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857043,
+          18.512489
+        ]
+      },
+      "properties": {
+        "name": "Mandai Platform 1",
+        "id": "PF_STN_PUNE_L1_012_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857043,
+          18.512489
+        ]
+      },
+      "properties": {
+        "name": "Mandai Platform 2",
+        "id": "PF_STN_PUNE_L1_012_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857899,
+          18.499842
+        ]
+      },
+      "properties": {
+        "name": "Swargate",
+        "id": "STN_PUNE_L1_013",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857899,
+          18.499942
+        ]
+      },
+      "properties": {
+        "name": "Swargate Gate 1",
+        "id": "ENT_STN_PUNE_L1_013_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857899,
+          18.499742
+        ]
+      },
+      "properties": {
+        "name": "Swargate Gate 2",
+        "id": "ENT_STN_PUNE_L1_013_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857899,
+          18.499842
+        ]
+      },
+      "properties": {
+        "name": "Swargate Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L1_013_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857899,
+          18.499842
+        ]
+      },
+      "properties": {
+        "name": "Swargate Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L1_013_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857899,
+          18.499842
+        ]
+      },
+      "properties": {
+        "name": "Swargate Platform 1",
+        "id": "PF_STN_PUNE_L1_013_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.857899,
+          18.499842
+        ]
+      },
+      "properties": {
+        "name": "Swargate Platform 2",
+        "id": "PF_STN_PUNE_L1_013_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.805315,
+          18.507223
+        ]
+      },
+      "properties": {
+        "name": "Vanaz",
+        "id": "STN_PUNE_L2_001",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.805315,
+          18.507323
+        ]
+      },
+      "properties": {
+        "name": "Vanaz Gate 1",
+        "id": "ENT_STN_PUNE_L2_001_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.805315,
+          18.507123
+        ]
+      },
+      "properties": {
+        "name": "Vanaz Gate 2",
+        "id": "ENT_STN_PUNE_L2_001_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.805315,
+          18.507223
+        ]
+      },
+      "properties": {
+        "name": "Vanaz Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L2_001_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.805315,
+          18.507223
+        ]
+      },
+      "properties": {
+        "name": "Vanaz Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L2_001_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.805315,
+          18.507223
+        ]
+      },
+      "properties": {
+        "name": "Vanaz Platform 1",
+        "id": "PF_STN_PUNE_L2_001_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.805315,
+          18.507223
+        ]
+      },
+      "properties": {
+        "name": "Vanaz Platform 2",
+        "id": "PF_STN_PUNE_L2_001_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.814205,
+          18.509641
+        ]
+      },
+      "properties": {
+        "name": "Anand Nagar",
+        "id": "STN_PUNE_L2_002",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.814205,
+          18.509741
+        ]
+      },
+      "properties": {
+        "name": "Anand Nagar Gate 1",
+        "id": "ENT_STN_PUNE_L2_002_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.814205,
+          18.509541
+        ]
+      },
+      "properties": {
+        "name": "Anand Nagar Gate 2",
+        "id": "ENT_STN_PUNE_L2_002_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.814205,
+          18.509641
+        ]
+      },
+      "properties": {
+        "name": "Anand Nagar Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L2_002_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.814205,
+          18.509641
+        ]
+      },
+      "properties": {
+        "name": "Anand Nagar Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L2_002_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.814205,
+          18.509641
+        ]
+      },
+      "properties": {
+        "name": "Anand Nagar Platform 1",
+        "id": "PF_STN_PUNE_L2_002_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.814205,
+          18.509641
+        ]
+      },
+      "properties": {
+        "name": "Anand Nagar Platform 2",
+        "id": "PF_STN_PUNE_L2_002_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.822138,
+          18.508937
+        ]
+      },
+      "properties": {
+        "name": "Ideal Colony",
+        "id": "STN_PUNE_L2_003",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.822138,
+          18.509037
+        ]
+      },
+      "properties": {
+        "name": "Ideal Colony Gate 1",
+        "id": "ENT_STN_PUNE_L2_003_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.822138,
+          18.508837
+        ]
+      },
+      "properties": {
+        "name": "Ideal Colony Gate 2",
+        "id": "ENT_STN_PUNE_L2_003_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.822138,
+          18.508937
+        ]
+      },
+      "properties": {
+        "name": "Ideal Colony Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L2_003_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.822138,
+          18.508937
+        ]
+      },
+      "properties": {
+        "name": "Ideal Colony Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L2_003_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.822138,
+          18.508937
+        ]
+      },
+      "properties": {
+        "name": "Ideal Colony Platform 1",
+        "id": "PF_STN_PUNE_L2_003_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.822138,
+          18.508937
+        ]
+      },
+      "properties": {
+        "name": "Ideal Colony Platform 2",
+        "id": "PF_STN_PUNE_L2_003_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.82888,
+          18.507463
+        ]
+      },
+      "properties": {
+        "name": "Nal Stop",
+        "id": "STN_PUNE_L2_004",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.82888,
+          18.507563
+        ]
+      },
+      "properties": {
+        "name": "Nal Stop Gate 1",
+        "id": "ENT_STN_PUNE_L2_004_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.82888,
+          18.507363
+        ]
+      },
+      "properties": {
+        "name": "Nal Stop Gate 2",
+        "id": "ENT_STN_PUNE_L2_004_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.82888,
+          18.507463
+        ]
+      },
+      "properties": {
+        "name": "Nal Stop Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L2_004_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.82888,
+          18.507463
+        ]
+      },
+      "properties": {
+        "name": "Nal Stop Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L2_004_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.82888,
+          18.507463
+        ]
+      },
+      "properties": {
+        "name": "Nal Stop Platform 1",
+        "id": "PF_STN_PUNE_L2_004_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.82888,
+          18.507463
+        ]
+      },
+      "properties": {
+        "name": "Nal Stop Platform 2",
+        "id": "PF_STN_PUNE_L2_004_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.838036,
+          18.512054
+        ]
+      },
+      "properties": {
+        "name": "Garware College",
+        "id": "STN_PUNE_L2_005",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.838036,
+          18.512154
+        ]
+      },
+      "properties": {
+        "name": "Garware College Gate 1",
+        "id": "ENT_STN_PUNE_L2_005_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.838036,
+          18.511954
+        ]
+      },
+      "properties": {
+        "name": "Garware College Gate 2",
+        "id": "ENT_STN_PUNE_L2_005_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.838036,
+          18.512054
+        ]
+      },
+      "properties": {
+        "name": "Garware College Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L2_005_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.838036,
+          18.512054
+        ]
+      },
+      "properties": {
+        "name": "Garware College Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L2_005_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.838036,
+          18.512054
+        ]
+      },
+      "properties": {
+        "name": "Garware College Platform 1",
+        "id": "PF_STN_PUNE_L2_005_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.838036,
+          18.512054
+        ]
+      },
+      "properties": {
+        "name": "Garware College Platform 2",
+        "id": "PF_STN_PUNE_L2_005_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.844427,
+          18.516411
+        ]
+      },
+      "properties": {
+        "name": "Deccan Gymkhana",
+        "id": "STN_PUNE_L2_006",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.844427,
+          18.516511
+        ]
+      },
+      "properties": {
+        "name": "Deccan Gymkhana Gate 1",
+        "id": "ENT_STN_PUNE_L2_006_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.844427,
+          18.516311
+        ]
+      },
+      "properties": {
+        "name": "Deccan Gymkhana Gate 2",
+        "id": "ENT_STN_PUNE_L2_006_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.844427,
+          18.516411
+        ]
+      },
+      "properties": {
+        "name": "Deccan Gymkhana Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L2_006_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.844427,
+          18.516411
+        ]
+      },
+      "properties": {
+        "name": "Deccan Gymkhana Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L2_006_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.844427,
+          18.516411
+        ]
+      },
+      "properties": {
+        "name": "Deccan Gymkhana Platform 1",
+        "id": "PF_STN_PUNE_L2_006_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.844427,
+          18.516411
+        ]
+      },
+      "properties": {
+        "name": "Deccan Gymkhana Platform 2",
+        "id": "PF_STN_PUNE_L2_006_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.847518,
+          18.520187
+        ]
+      },
+      "properties": {
+        "name": "Chhatrapati Sambhaji Udyan",
+        "id": "STN_PUNE_L2_007",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.847518,
+          18.520287
+        ]
+      },
+      "properties": {
+        "name": "Chhatrapati Sambhaji Udyan Gate 1",
+        "id": "ENT_STN_PUNE_L2_007_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.847518,
+          18.520087
+        ]
+      },
+      "properties": {
+        "name": "Chhatrapati Sambhaji Udyan Gate 2",
+        "id": "ENT_STN_PUNE_L2_007_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.847518,
+          18.520187
+        ]
+      },
+      "properties": {
+        "name": "Chhatrapati Sambhaji Udyan Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L2_007_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.847518,
+          18.520187
+        ]
+      },
+      "properties": {
+        "name": "Chhatrapati Sambhaji Udyan Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L2_007_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.847518,
+          18.520187
+        ]
+      },
+      "properties": {
+        "name": "Chhatrapati Sambhaji Udyan Platform 1",
+        "id": "PF_STN_PUNE_L2_007_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.847518,
+          18.520187
+        ]
+      },
+      "properties": {
+        "name": "Chhatrapati Sambhaji Udyan Platform 2",
+        "id": "PF_STN_PUNE_L2_007_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.85352,
+          18.52283
+        ]
+      },
+      "properties": {
+        "name": "PMC",
+        "id": "STN_PUNE_L2_008",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.85352,
+          18.52293
+        ]
+      },
+      "properties": {
+        "name": "PMC Gate 1",
+        "id": "ENT_STN_PUNE_L2_008_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.85352,
+          18.52273
+        ]
+      },
+      "properties": {
+        "name": "PMC Gate 2",
+        "id": "ENT_STN_PUNE_L2_008_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.85352,
+          18.52283
+        ]
+      },
+      "properties": {
+        "name": "PMC Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L2_008_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.85352,
+          18.52283
+        ]
+      },
+      "properties": {
+        "name": "PMC Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L2_008_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.85352,
+          18.52283
+        ]
+      },
+      "properties": {
+        "name": "PMC Platform 1",
+        "id": "PF_STN_PUNE_L2_008_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.85352,
+          18.52283
+        ]
+      },
+      "properties": {
+        "name": "PMC Platform 2",
+        "id": "PF_STN_PUNE_L2_008_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.865199,
+          18.53006
+        ]
+      },
+      "properties": {
+        "name": "Mangalwar Peth (RTO)",
+        "id": "STN_PUNE_L2_009",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.865199,
+          18.53016
+        ]
+      },
+      "properties": {
+        "name": "Mangalwar Peth (RTO) Gate 1",
+        "id": "ENT_STN_PUNE_L2_009_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.865199,
+          18.52996
+        ]
+      },
+      "properties": {
+        "name": "Mangalwar Peth (RTO) Gate 2",
+        "id": "ENT_STN_PUNE_L2_009_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.865199,
+          18.53006
+        ]
+      },
+      "properties": {
+        "name": "Mangalwar Peth (RTO) Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L2_009_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.865199,
+          18.53006
+        ]
+      },
+      "properties": {
+        "name": "Mangalwar Peth (RTO) Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L2_009_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.865199,
+          18.53006
+        ]
+      },
+      "properties": {
+        "name": "Mangalwar Peth (RTO) Platform 1",
+        "id": "PF_STN_PUNE_L2_009_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.865199,
+          18.53006
+        ]
+      },
+      "properties": {
+        "name": "Mangalwar Peth (RTO) Platform 2",
+        "id": "PF_STN_PUNE_L2_009_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.872535,
+          18.529736
+        ]
+      },
+      "properties": {
+        "name": "Pune Railway Station",
+        "id": "STN_PUNE_L2_010",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.872535,
+          18.529836
+        ]
+      },
+      "properties": {
+        "name": "Pune Railway Station Gate 1",
+        "id": "ENT_STN_PUNE_L2_010_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.872535,
+          18.529636
+        ]
+      },
+      "properties": {
+        "name": "Pune Railway Station Gate 2",
+        "id": "ENT_STN_PUNE_L2_010_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.872535,
+          18.529736
+        ]
+      },
+      "properties": {
+        "name": "Pune Railway Station Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L2_010_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.872535,
+          18.529736
+        ]
+      },
+      "properties": {
+        "name": "Pune Railway Station Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L2_010_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.872535,
+          18.529736
+        ]
+      },
+      "properties": {
+        "name": "Pune Railway Station Platform 1",
+        "id": "PF_STN_PUNE_L2_010_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.872535,
+          18.529736
+        ]
+      },
+      "properties": {
+        "name": "Pune Railway Station Platform 2",
+        "id": "PF_STN_PUNE_L2_010_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.877731,
+          18.532686
+        ]
+      },
+      "properties": {
+        "name": "Ruby Hall Clinic",
+        "id": "STN_PUNE_L2_011",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.877731,
+          18.532786
+        ]
+      },
+      "properties": {
+        "name": "Ruby Hall Clinic Gate 1",
+        "id": "ENT_STN_PUNE_L2_011_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.877731,
+          18.532586
+        ]
+      },
+      "properties": {
+        "name": "Ruby Hall Clinic Gate 2",
+        "id": "ENT_STN_PUNE_L2_011_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.877731,
+          18.532686
+        ]
+      },
+      "properties": {
+        "name": "Ruby Hall Clinic Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L2_011_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.877731,
+          18.532686
+        ]
+      },
+      "properties": {
+        "name": "Ruby Hall Clinic Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L2_011_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.877731,
+          18.532686
+        ]
+      },
+      "properties": {
+        "name": "Ruby Hall Clinic Platform 1",
+        "id": "PF_STN_PUNE_L2_011_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.877731,
+          18.532686
+        ]
+      },
+      "properties": {
+        "name": "Ruby Hall Clinic Platform 2",
+        "id": "PF_STN_PUNE_L2_011_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.883483,
+          18.54063
+        ]
+      },
+      "properties": {
+        "name": "Bund Garden",
+        "id": "STN_PUNE_L2_012",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.883483,
+          18.54073
+        ]
+      },
+      "properties": {
+        "name": "Bund Garden Gate 1",
+        "id": "ENT_STN_PUNE_L2_012_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.883483,
+          18.54053
+        ]
+      },
+      "properties": {
+        "name": "Bund Garden Gate 2",
+        "id": "ENT_STN_PUNE_L2_012_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.883483,
+          18.54063
+        ]
+      },
+      "properties": {
+        "name": "Bund Garden Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L2_012_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.883483,
+          18.54063
+        ]
+      },
+      "properties": {
+        "name": "Bund Garden Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L2_012_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.883483,
+          18.54063
+        ]
+      },
+      "properties": {
+        "name": "Bund Garden Platform 1",
+        "id": "PF_STN_PUNE_L2_012_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.883483,
+          18.54063
+        ]
+      },
+      "properties": {
+        "name": "Bund Garden Platform 2",
+        "id": "PF_STN_PUNE_L2_012_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.88664,
+          18.545385
+        ]
+      },
+      "properties": {
+        "name": "Yerawada",
+        "id": "STN_PUNE_L2_013",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.88664,
+          18.545485
+        ]
+      },
+      "properties": {
+        "name": "Yerawada Gate 1",
+        "id": "ENT_STN_PUNE_L2_013_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.88664,
+          18.545285
+        ]
+      },
+      "properties": {
+        "name": "Yerawada Gate 2",
+        "id": "ENT_STN_PUNE_L2_013_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.88664,
+          18.545385
+        ]
+      },
+      "properties": {
+        "name": "Yerawada Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L2_013_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.88664,
+          18.545385
+        ]
+      },
+      "properties": {
+        "name": "Yerawada Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L2_013_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.88664,
+          18.545385
+        ]
+      },
+      "properties": {
+        "name": "Yerawada Platform 1",
+        "id": "PF_STN_PUNE_L2_013_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.88664,
+          18.545385
+        ]
+      },
+      "properties": {
+        "name": "Yerawada Platform 2",
+        "id": "PF_STN_PUNE_L2_013_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.905634,
+          18.544277
+        ]
+      },
+      "properties": {
+        "name": "Kalyani Nagar",
+        "id": "STN_PUNE_L2_014",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.905634,
+          18.544377
+        ]
+      },
+      "properties": {
+        "name": "Kalyani Nagar Gate 1",
+        "id": "ENT_STN_PUNE_L2_014_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.905634,
+          18.544177
+        ]
+      },
+      "properties": {
+        "name": "Kalyani Nagar Gate 2",
+        "id": "ENT_STN_PUNE_L2_014_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.905634,
+          18.544277
+        ]
+      },
+      "properties": {
+        "name": "Kalyani Nagar Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L2_014_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.905634,
+          18.544277
+        ]
+      },
+      "properties": {
+        "name": "Kalyani Nagar Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L2_014_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.905634,
+          18.544277
+        ]
+      },
+      "properties": {
+        "name": "Kalyani Nagar Platform 1",
+        "id": "PF_STN_PUNE_L2_014_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.905634,
+          18.544277
+        ]
+      },
+      "properties": {
+        "name": "Kalyani Nagar Platform 2",
+        "id": "PF_STN_PUNE_L2_014_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.908736,
+          18.557166
+        ]
+      },
+      "properties": {
+        "name": "Ramwadi",
+        "id": "STN_PUNE_L2_015",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.908736,
+          18.557266
+        ]
+      },
+      "properties": {
+        "name": "Ramwadi Gate 1",
+        "id": "ENT_STN_PUNE_L2_015_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.908736,
+          18.557066
+        ]
+      },
+      "properties": {
+        "name": "Ramwadi Gate 2",
+        "id": "ENT_STN_PUNE_L2_015_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.908736,
+          18.557166
+        ]
+      },
+      "properties": {
+        "name": "Ramwadi Concourse (Unpaid)",
+        "id": "NODE_STN_PUNE_L2_015_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.908736,
+          18.557166
+        ]
+      },
+      "properties": {
+        "name": "Ramwadi Concourse (Paid)",
+        "id": "NODE_STN_PUNE_L2_015_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.908736,
+          18.557166
+        ]
+      },
+      "properties": {
+        "name": "Ramwadi Platform 1",
+        "id": "PF_STN_PUNE_L2_015_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.908736,
+          18.557166
+        ]
+      },
+      "properties": {
+        "name": "Ramwadi Platform 2",
+        "id": "PF_STN_PUNE_L2_015_2",
+        "location_type": "0"
+      }
+    }
+  ]
+}

@@ -13,11 +13,11 @@ import { DEFAULT_WEIGHTS, DEFAULT_K } from '../graph/graph.types';
 import { RoutingService } from './routing.service';
 import { ScoringService } from './scoring.service';
 import { CandidateFilterService } from './candidate-filter.service';
-import {
-  InterchangeEvaluatorService,
-  GenericConstraints,
-} from './interchange-evaluator.service';
+import { InterchangeEvaluatorService, GenericConstraints } from './interchange-evaluator.service';
+import { RealtimePredictionService } from '../../realtime/services/realtime-prediction.service';
 import { JourneyQueryDto } from '../dto/journey-query.dto';
+import { calculateMumbaiFare } from './policy_v1';
+import { LandmarkRegistry } from '../../gis/services/landmark-registry';
 import {
   RouteCandidate,
   JourneyLeg,
@@ -31,6 +31,17 @@ import {
   DoorSideStatus,
 } from './candidate.types';
 import { GraphEdge } from '../graph/graph.types';
+
+function getDistanceMeters(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 6371e3;
+  const p1 = (lat1 * Math.PI) / 180;
+  const p2 = (lat2 * Math.PI) / 180;
+  const dp = ((lat2 - lat1) * Math.PI) / 180;
+  const dl = ((lon2 - lon1) * Math.PI) / 180;
+  const a = Math.sin(dp / 2) * Math.sin(dp / 2) + Math.cos(p1) * Math.cos(p2) * Math.sin(dl / 2) * Math.sin(dl / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return Math.round(R * c);
+}
 
 // ── Internal type for enriched-but-not-yet-ranked candidate ──────────────────
 
@@ -95,15 +106,39 @@ export class JourneyService {
     private readonly scorer: ScoringService,
     private readonly filter: CandidateFilterService,
     private readonly interchangeEvaluator: InterchangeEvaluatorService,
+    private readonly realtimePrediction: RealtimePredictionService,
   ) {}
 
   private async resolveStation(identifier: string) {
+    // 0. Check if identifier is a registered landmark (e.g. LM_OBEROI_SKY_CITY or "Infiniti Mall")
+    const landmark = LandmarkRegistry.findByNameOrAlias(identifier);
+    if (landmark) {
+      const station = await this.db.station.findFirst({
+        where: { code: landmark.connectedStationCode, isActive: true },
+        select: {
+          id: true,
+          code: true,
+          name: true,
+          systemId: true,
+          latitude: true,
+          longitude: true,
+          system: { select: { id: true, code: true } },
+        },
+      });
+      if (station) {
+        return {
+          ...station,
+          resolvedFromLandmark: landmark,
+        };
+      }
+    }
+
     const isUuid =
       /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
         identifier,
       );
     if (isUuid) {
-      return this.db.station.findUnique({
+      const stn = await this.db.station.findUnique({
         where: { id: identifier },
         select: {
           id: true,
@@ -115,8 +150,11 @@ export class JourneyService {
           system: { select: { id: true, code: true } },
         },
       });
+      if (stn) return stn;
     }
-    return this.db.station.findFirst({
+
+    // Try finding by station code first
+    let stn = await this.db.station.findFirst({
       where: { code: identifier, isActive: true },
       select: {
         id: true,
@@ -128,6 +166,29 @@ export class JourneyService {
         system: { select: { id: true, code: true } },
       },
     });
+
+    if (!stn) {
+      stn = await this.db.station.findFirst({
+        where: {
+          name: {
+            contains: identifier,
+            mode: 'insensitive',
+          },
+          isActive: true,
+        },
+        select: {
+          id: true,
+          code: true,
+          name: true,
+          systemId: true,
+          latitude: true,
+          longitude: true,
+          system: { select: { id: true, code: true } },
+        },
+      });
+    }
+
+    return stn;
   }
 
   async planJourney(query: JourneyQueryDto): Promise<JourneyResponse> {
@@ -284,12 +345,19 @@ export class JourneyService {
         .filter((l) => l.type === EdgeType.WALK || l.type === EdgeType.TRANSFER)
         .reduce((sum, l) => sum + l.duration, 0);
 
-      const totalPathwayMeters = legs
-        .filter((l) => l.type === EdgeType.WALK || l.type === EdgeType.TRANSFER)
-        .reduce(
-          (sum, l) => sum + (l.transferDetails?.pathwayDistanceMeters || 0),
-          0,
-        );
+      const totalPathwayMeters = legs.reduce((sum, leg, index) => {
+        if (leg.type === EdgeType.WALK || leg.type === EdgeType.TRANSFER) {
+          return sum + (leg.transferDetails?.pathwayDistanceMeters ?? 0);
+        }
+        const next = legs[index + 1];
+        const hasSeparateWalkLeg = next?.type === EdgeType.WALK || next?.type === EdgeType.TRANSFER;
+        const isLineChange = next?.type === EdgeType.TRANSIT &&
+          next.lineId !== leg.lineId &&
+          !next.throughServiceContinuationFromPrevious;
+        return sum + (!hasSeparateWalkLeg && isLineChange
+          ? (leg.transferDetails?.pathwayDistanceMeters ?? 0)
+          : 0);
+      }, 0);
 
       const totalDurationSeconds =
         journeyScore.inVehicleSeconds + walkingSeconds + waiting.total.seconds;
@@ -322,6 +390,27 @@ export class JourneyService {
         destinationGuidance = 'Exit for Mainline Railway Terminal';
       }
 
+      let totalDistanceMeters = 0;
+      for (let i = 0; i < orderedStations.length - 1; i++) {
+        const s1 = orderedStations[i];
+        const s2 = orderedStations[i + 1];
+        totalDistanceMeters += getDistanceMeters(s1.lat, s1.lng, s2.lat, s2.lng);
+      }
+      
+      const fareDetails = calculateMumbaiFare(totalDistanceMeters);
+
+      const firstTransitLeg = legs.find((l) => l.type === EdgeType.TRANSIT);
+      const originStationId = firstStation?.id || fromStation.id;
+      const originLineId = firstTransitLeg?.lineId || '';
+      
+      // Predict real-time departures and ETAs for each BOARD leg in the journey
+      await this.realtimePrediction.predictLegsRealtime(legs);
+
+      const realtimeData = await this.realtimePrediction.predictJourneyTrains(
+        originStationId,
+        originLineId,
+      );
+
       const candidateObj: EnrichedCandidate = {
         id,
         rank: 0, // assigned after filtering + sorting
@@ -341,7 +430,9 @@ export class JourneyService {
         geojson,
         isDirect,
         lines: lineNames,
-        fare: undefined,
+        fare: fareDetails.paperFare,
+        smartCardFare: fareDetails.smartCardFare,
+        realtime: realtimeData,
         confidence: 0.8,
         tradeoffs: {
           durationDeltaSeconds: 0,
@@ -371,6 +462,47 @@ export class JourneyService {
       };
       candidateObj.reasonCodes = evalResult.reasonCodes;
       candidateObj.humanSummary = evalResult.humanSummary;
+
+      // ── Landmark Infrastructure Intelligence ─────────────────────────────
+      if ((toStation as any).resolvedFromLandmark) {
+        const destLm = (toStation as any).resolvedFromLandmark;
+        candidateObj.destinationLandmark = {
+          id: destLm.id,
+          name: destLm.name,
+          category: destLm.category,
+          hasDirectFob: destLm.hasDirectFob,
+          hasDirectAccess: destLm.hasDirectAccess,
+          directFobName: destLm.directFobName,
+          walkDistanceMeters: destLm.walkDistanceMeters,
+          walkTimeSeconds: destLm.walkTimeSeconds,
+          corridorNote: destLm.corridorNote,
+          indoorLevel: destLm.indoorLevel,
+        };
+        candidateObj.destinationGuidance = destLm.corridorNote;
+      }
+
+      if ((fromStation as any).resolvedFromLandmark) {
+        const origLm = (fromStation as any).resolvedFromLandmark;
+        candidateObj.originLandmark = {
+          id: origLm.id,
+          name: origLm.name,
+          category: origLm.category,
+          hasDirectFob: origLm.hasDirectFob,
+          hasDirectAccess: origLm.hasDirectAccess,
+          directFobName: origLm.directFobName,
+          walkDistanceMeters: origLm.walkDistanceMeters,
+          walkTimeSeconds: origLm.walkTimeSeconds,
+          corridorNote: origLm.corridorNote,
+          indoorLevel: origLm.indoorLevel,
+        };
+      }
+
+      if (candidateObj.destinationLandmark?.hasDirectFob) {
+        const fobNotice = `${candidateObj.destinationLandmark.name} is directly connected via FOB to ${toStation.name}. Zero street walking required.`;
+        candidateObj.humanSummary = candidateObj.humanSummary
+          ? `${candidateObj.humanSummary} • ${fobNotice}`
+          : fobNotice;
+      }
 
       if (evalResult.isFeasible) {
         enriched.push(candidateObj);
@@ -751,10 +883,10 @@ export class JourneyService {
     const segments: Array<{
       coords: [number, number][];
       lineId: string | null;
+      type: EdgeType;
       color: string;
       lineName: string | null;
     }> = [];
-    let currentSegment: (typeof segments)[0] | null = null;
 
     for (const run of corridorRuns) {
       if (
@@ -791,17 +923,16 @@ export class JourneyService {
       }
 
       const color = run.lineColor ?? '#94a3b8';
-      if (currentSegment === null || currentSegment.color !== color) {
-        currentSegment = {
-          coords: [...segmentCoords],
-          lineId: run.lineId,
-          color,
-          lineName: run.lineName,
-        };
-        segments.push(currentSegment);
-      } else {
-        currentSegment.coords.push(...segmentCoords.slice(1));
-      }
+      // Keep each contiguous corridor run distinct. Color alone is not an
+      // identity: separate corridors can share Yellow/Red branding, and a
+      // same-color return segment must not be stitched across a transfer.
+      segments.push({
+        coords: segmentCoords,
+        lineId: run.lineId,
+        type: run.type,
+        color,
+        lineName: run.lineName,
+      });
     }
 
     for (const seg of segments) {
@@ -812,6 +943,7 @@ export class JourneyService {
           lineId: seg.lineId,
           lineName: seg.lineName,
           color: seg.color,
+          mode: seg.type,
         },
         geometry: { type: 'LineString', coordinates: seg.coords },
       });
@@ -840,30 +972,6 @@ export class JourneyService {
       });
     }
 
-    const getLineFamily = (lineName: string | null | undefined): string => {
-      if (!lineName) return '';
-      const u = lineName.toUpperCase();
-      if (u.includes('ORANGE') || u.includes('AIRPORT')) return 'ORANGE';
-      if (
-        u.includes('YELLOW') ||
-        u.includes('LINE 2A') ||
-        u.includes('LINE 2B')
-      )
-        return 'YELLOW';
-      if (u.includes('AQUA') || u.includes('LINE 3')) return 'AQUA';
-      if (u.includes('BLUE') || u.includes('LINE 1')) return 'BLUE';
-      if (u.includes('RED') || u.includes('LINE 7') || u.includes('LINE 9'))
-        return 'RED';
-      if (u.includes('PINK')) return 'PINK';
-      if (u.includes('MAGENTA')) return 'MAGENTA';
-      if (u.includes('VIOLET')) return 'VIOLET';
-      if (u.includes('GREEN')) return 'GREEN';
-      if (u.includes('GREY') || u.includes('GRAY')) return 'GREY';
-      if (u.includes('TEAL') || u.includes('RAPID')) return 'RAPID';
-      if (u.includes('KOCHI')) return 'KOCHI';
-      return lineName;
-    };
-
     const transferStationIds = new Set<string>();
     for (let i = 1; i < legs.length; i++) {
       const prev = legs[i - 1];
@@ -872,7 +980,7 @@ export class JourneyService {
         prev.type === EdgeType.TRANSIT &&
         curr.type === EdgeType.TRANSIT &&
         !curr.throughServiceContinuationFromPrevious &&
-        getLineFamily(prev.lineName) !== getLineFamily(curr.lineName)
+        prev.lineId !== curr.lineId
       ) {
         transferStationIds.add(curr.from);
       } else if (
@@ -881,7 +989,7 @@ export class JourneyService {
         prev.type === EdgeType.TRANSIT &&
         i + 1 < legs.length &&
         legs[i + 1].type === EdgeType.TRANSIT &&
-        getLineFamily(prev.lineName) !== getLineFamily(legs[i + 1].lineName)
+        prev.lineId !== legs[i + 1].lineId
       ) {
         transferStationIds.add(curr.from);
       }
@@ -918,42 +1026,42 @@ export class JourneyService {
           str,
         );
 
-      let line: { code: string | null; name: string | null } | null = null;
+      let line: { id: string; code: string | null; name: string | null } | null = null;
       if (lineId) {
         line = isUuid(lineId)
           ? await this.db.line.findUnique({
               where: { id: lineId },
-              select: { code: true, name: true },
+              select: { id: true, code: true, name: true },
             })
           : await this.db.line.findFirst({
               where: { code: lineId },
-              select: { code: true, name: true },
+              select: { id: true, code: true, name: true },
             });
       }
 
-      let fromSt: { code: string | null; name: string | null } | null = null;
+      let fromSt: { id: string; code: string | null; name: string | null } | null = null;
       if (fromStationId) {
         fromSt = isUuid(fromStationId)
           ? await this.db.station.findUnique({
               where: { id: fromStationId },
-              select: { code: true, name: true },
+              select: { id: true, code: true, name: true },
             })
           : await this.db.station.findFirst({
               where: { code: fromStationId },
-              select: { code: true, name: true },
+              select: { id: true, code: true, name: true },
             });
       }
 
-      let toSt: { code: string | null; name: string | null } | null = null;
+      let toSt: { id: string; code: string | null; name: string | null } | null = null;
       if (toStationId) {
         toSt = isUuid(toStationId)
           ? await this.db.station.findUnique({
               where: { id: toStationId },
-              select: { code: true, name: true },
+              select: { id: true, code: true, name: true },
             })
           : await this.db.station.findFirst({
               where: { code: toStationId },
-              select: { code: true, name: true },
+              select: { id: true, code: true, name: true },
             });
       }
 
@@ -964,39 +1072,73 @@ export class JourneyService {
       const toStr =
         `${toStationId || ''} ${toSt?.code || ''} ${toSt?.name || ''}`.toUpperCase();
 
+      const actualLineId = line?.id || (isUuid(lineId) ? lineId : null);
+      const actualFromId = fromSt?.id || (isUuid(fromStationId) ? fromStationId : null);
+      const actualToId = toSt?.id || (isUuid(toStationId) ? toStationId : null);
+
       // 1. Authoritative Database Shapes Check (Full GTFS Shapes)
-      if (lineId && isUuid(lineId)) {
+      if (actualLineId) {
         let shapeId: string | null = null;
-        if (isUuid(fromStationId) && isUuid(toStationId)) {
-          const trip = await this.db.trip.findFirst({
+        if (actualFromId && actualToId) {
+          const trips = await this.db.trip.findMany({
             where: {
-              lineId,
+              lineId: actualLineId,
               shapeId: { not: null },
               isActive: true,
               AND: [
                 {
                   stopTimes: {
-                    some: { stationId: fromStationId, isActive: true },
+                    some: { stationId: actualFromId, isActive: true },
                   },
                 },
                 {
                   stopTimes: {
-                    some: { stationId: toStationId, isActive: true },
+                    some: { stationId: actualToId, isActive: true },
                   },
                 },
               ],
             },
-            select: { shapeId: true },
+            select: {
+              shapeId: true,
+              stopTimes: {
+                where: {
+                  stationId: { in: [actualFromId, actualToId] },
+                  isActive: true,
+                },
+                select: { stationId: true, stopSequence: true },
+              },
+            },
+            take: 20,
           });
-          shapeId = trip?.shapeId ?? null;
+          const directionMatchedTrip = trips.find((trip) => {
+            const fromStop = trip.stopTimes.find(
+              (stopTime) => stopTime.stationId === actualFromId,
+            );
+            const toStop = trip.stopTimes.find(
+              (stopTime) => stopTime.stationId === actualToId,
+            );
+            return (
+              fromStop !== undefined &&
+              toStop !== undefined &&
+              fromStop.stopSequence < toStop.stopSequence
+            );
+          });
+          shapeId = directionMatchedTrip?.shapeId ?? null;
         }
 
-        if (!shapeId) {
-          const fallbackTrip = await this.db.trip.findFirst({
-            where: { lineId, shapeId: { not: null }, isActive: true },
-            select: { shapeId: true },
+        if (!shapeId && line?.code) {
+          const aliasCode = line.code.replace('MUMBAI_', '');
+          const altLine = await this.db.line.findFirst({
+            where: { OR: [{ code: aliasCode }, { code: `MUMBAI_${aliasCode}` }], id: { not: actualLineId } },
+            select: { id: true },
           });
-          shapeId = fallbackTrip?.shapeId ?? null;
+          if (altLine) {
+            const fallbackTrip = await this.db.trip.findFirst({
+              where: { lineId: altLine.id, shapeId: { not: null }, isActive: true },
+              select: { shapeId: true },
+            });
+            shapeId = fallbackTrip?.shapeId ?? null;
+          }
         }
 
         if (shapeId) {
@@ -1012,6 +1154,62 @@ export class JourneyService {
               s.latitude,
             ]);
             return this.sliceCoordinateArray(dbCoords, fromCoord, toCoord);
+          }
+        }
+      }
+
+      // The selected graph edge can reference a stale line record while the
+      // GTFS feed represents the same through-service corridor on another
+      // route (Mumbai Line 9 is through-running as Line 7). Resolve geometry
+      // from the GTFS trip that actually serves both endpoint stations.
+      if (actualFromId && actualToId) {
+        const matchingTrips = await this.db.trip.findMany({
+          where: {
+            shapeId: { not: null },
+            isActive: true,
+            AND: [
+              { stopTimes: { some: { stationId: actualFromId, isActive: true } } },
+              { stopTimes: { some: { stationId: actualToId, isActive: true } } },
+            ],
+          },
+          select: {
+            shapeId: true,
+            stopTimes: {
+              where: {
+                stationId: { in: [actualFromId, actualToId] },
+                isActive: true,
+              },
+              select: { stationId: true, stopSequence: true },
+            },
+          },
+          take: 100,
+        });
+        const selectedTrip = matchingTrips.find((trip) => {
+          const fromStop = trip.stopTimes.find(
+            (stopTime) => stopTime.stationId === actualFromId,
+          );
+          const toStop = trip.stopTimes.find(
+            (stopTime) => stopTime.stationId === actualToId,
+          );
+          return (
+            fromStop !== undefined &&
+            toStop !== undefined &&
+            fromStop.stopSequence < toStop.stopSequence
+          );
+        }) ?? matchingTrips[0];
+
+        if (selectedTrip?.shapeId) {
+          const shapes = await this.db.shape.findMany({
+            where: { shapeId: selectedTrip.shapeId, isActive: true },
+            select: { latitude: true, longitude: true, sequence: true },
+            orderBy: { sequence: 'asc' },
+          });
+          if (shapes.length >= 2) {
+            const coords: [number, number][] = shapes.map((shape) => [
+              shape.longitude,
+              shape.latitude,
+            ]);
+            return this.sliceCoordinateArray(coords, fromCoord, toCoord);
           }
         }
       }
@@ -1124,9 +1322,32 @@ export class JourneyService {
       }
 
       // 2. Door opening provenance
-      const doorResult = this.resolveDoorSide(leg.lineCode, leg.lineName);
+      const doorResult = this.resolveDoorSide();
       leg.doorsOpen = doorResult.doorsOpen;
       leg.doorSideStatus = doorResult.doorSideStatus;
+      if (
+        nextLeg?.type === EdgeType.TRANSIT &&
+        nextLeg.lineId !== leg.lineId &&
+        !nextLeg.throughServiceContinuationFromPrevious
+      ) {
+        const transfer = this.interchangeEvaluator.resolveTransferDetails(
+          leg.toStationName,
+          nextLeg.fromStationName,
+          leg.lineName,
+          nextLeg.lineName,
+          leg.toStation?.code,
+          nextLeg.fromStation?.code,
+        );
+        if (transfer) {
+          leg.transferDetails = transfer;
+          leg.transferTitle = transfer.name;
+          leg.transferDurationText = transfer.durationDisplay;
+          leg.transferInstructions = transfer.instructions;
+          leg.transferSummary = transfer.pathwayDistanceMeters !== null
+            ? `${transfer.pathwayDistanceMeters} m · ${transfer.durationDisplay}`
+            : transfer.durationDisplay;
+        }
+      }
     } else if (leg.type === EdgeType.WALK || leg.type === EdgeType.TRANSFER) {
       const transfer = this.interchangeEvaluator.resolveTransferDetails(
         leg.fromStationName,
@@ -1155,9 +1376,9 @@ export class JourneyService {
           leg.durationSeconds = fallbackDuration;
           leg.durationMinutes = Math.max(1, Math.round(fallbackDuration / 60));
         }
-        leg.transferSummary = transfer.pathwayDistanceMeters
-          ? `Transfer — ${transfer.pathwayDistanceMeters} m · ${transfer.durationDisplay}`
-          : `Transfer — ${transfer.durationDisplay}`;
+        leg.transferSummary = transfer.pathwayDistanceMeters !== null
+          ? `${transfer.pathwayDistanceMeters} m · ${transfer.durationDisplay}`
+          : transfer.durationDisplay;
       } else {
         const durMins = Math.max(1, Math.round(leg.duration / 60));
         const nextLineLabel = nextLeg?.lineName
@@ -1263,38 +1484,99 @@ export class JourneyService {
         toStationId,
       );
 
-      // General DB station sequence fallback
-      if (line?.id && fromSt?.id && toSt?.id) {
-        const [fromSeq, toSeq] = await Promise.all([
-          this.db.stationSequence.findFirst({
-            where: { lineId: line.id, stationId: fromSt.id, isActive: true },
-            select: { sequence: true },
-          }),
-          this.db.stationSequence.findFirst({
-            where: { lineId: line.id, stationId: toSt.id, isActive: true },
-            select: { sequence: true },
-          }),
-        ]);
+      if (!fromSt || !toSt) {
+        return {
+          towards: null,
+          boardingPlatform: null,
+          alightingPlatform: null,
+          platformStatus: 'UNKNOWN',
+        };
+      }
 
-        if (fromSeq && toSeq && fromSeq.sequence !== toSeq.sequence) {
-          const isIncreasing = toSeq.sequence > fromSeq.sequence;
-          const terminalSeq = await this.db.stationSequence.findFirst({
-            where: { lineId: line.id, isActive: true },
-            orderBy: { sequence: isIncreasing ? 'desc' : 'asc' },
-            include: { station: true },
+      // Resolve the direction from a GTFS trip that actually visits both
+      // stations in the requested order. Never infer a platform number.
+      const matchingTrips = await this.db.trip.findMany({
+        where: {
+          isActive: true,
+          stopTimes: { some: { stationId: fromSt.id, isActive: true } },
+          AND: [
+            { stopTimes: { some: { stationId: toSt.id, isActive: true } } },
+          ],
+        },
+        select: {
+          id: true,
+          lineId: true,
+          tripHeadsign: true, directionId: true,
+          stopTimes: {
+            where: { isActive: true },
+            orderBy: { stopSequence: 'asc' },
+            select: { stationId: true, stopSequence: true },
+          },
+        },
+        take: 100,
+      });
+
+      const forwardTrips = matchingTrips.filter((trip) => {
+        const fromStop = trip.stopTimes.find((stop) => stop.stationId === fromSt.id);
+        const toStop = trip.stopTimes.find((stop) => stop.stationId === toSt.id);
+        return fromStop && toStop && fromStop.stopSequence < toStop.stopSequence;
+      });
+      const selectedTrip = forwardTrips.find((trip) => trip.lineId === line?.id) ?? forwardTrips[0];
+      const selectedFromStop = selectedTrip?.stopTimes.find(
+        (stop) => stop.stationId === fromSt.id,
+      );
+      const terminalStop = selectedTrip?.stopTimes.at(-1);
+      const terminalStation = terminalStop
+        ? await this.db.station.findUnique({
+            where: { id: terminalStop.stationId },
+            select: { id: true, name: true },
+          })
+        : null;
+      const platform = selectedTrip && selectedFromStop && terminalStation
+        ? await this.db.platform.findFirst({
+            where: {
+              isActive: true,
+              lineId: selectedTrip.lineId,
+              towardsStationId: terminalStation.id,
+              level: { stationId: fromSt.id },
+            },
+            orderBy: { platformNumber: 'asc' },
+            select: { platformNumber: true },
+          })
+        : null;
+
+      let platformNumber: string | null = platform?.platformNumber ?? null;
+
+      if (!platformNumber && (selectedTrip?.lineId || line?.id) && fromSt?.id) {
+        const targetLineId = selectedTrip?.lineId || line?.id;
+        if (targetLineId) {
+          const platforms = await this.db.platform.findMany({
+            where: {
+              isActive: true,
+              lineId: targetLineId,
+              level: { stationId: fromSt.id },
+            },
+            orderBy: { platformNumber: 'asc' },
+            select: { platformNumber: true },
           });
-
-          if (terminalSeq) {
-            const towards = tripHeadsign || terminalSeq.station.name;
-            const boardingPlatform = isIncreasing ? 'Platform 1' : 'Platform 2';
-            return {
-              towards,
-              boardingPlatform,
-              alightingPlatform: null,
-              platformStatus: 'KNOWN',
-            };
+          if (platforms.length > 0) {
+            const dirIdx = selectedTrip?.directionId === 1 ? 1 : 0;
+            platformNumber = (platforms[dirIdx] || platforms[0]).platformNumber;
           }
         }
+      }
+
+      if (selectedTrip || platformNumber) {
+        return {
+          towards: terminalStation?.name ?? tripHeadsign ?? selectedTrip?.tripHeadsign ?? null,
+          boardingPlatform: platformNumber && platformNumber !== 'UNKNOWN'
+            ? `Platform ${platformNumber}`
+            : null,
+          alightingPlatform: null,
+          platformStatus: platformNumber && platformNumber !== 'UNKNOWN'
+            ? 'KNOWN'
+            : 'UNKNOWN',
+        };
       }
 
       return {
@@ -1316,27 +1598,12 @@ export class JourneyService {
     }
   }
 
-  private resolveDoorSide(
-    lineCode: string | null,
-    lineName: string | null,
-  ): { doorsOpen: DoorSide; doorSideStatus: DoorSideStatus } {
-    const raw = `${lineCode || ''} ${lineName || ''}`.toUpperCase();
-
-    // Mumbai Line 3 underground platform semantics are scoped to its canonical line ID.
-    if (raw.includes('MUMBAI_LINE3')) {
-      return { doorsOpen: 'Right', doorSideStatus: 'KNOWN_FROM_ENGINEERING' };
-    }
-
-    // Mumbai Line 1 (Blue Line) elevated stations: engineering design specifies
-    // side platforms -> doors open on Left in direction of travel.
-    if (
-      raw.includes('MUMBAI_LINE1') ||
-      (raw.includes('LINE 1') && raw.includes('BLUE'))
-    ) {
-      return { doorsOpen: 'Left', doorSideStatus: 'KNOWN_FROM_ENGINEERING' };
-    }
-
-    // For any unmeasured or unverified systems/lines, never fabricate or guess.
+  private resolveDoorSide(): {
+    doorsOpen: DoorSide;
+    doorSideStatus: DoorSideStatus;
+  } {
+    // GTFS has no door-side field; report unknown until an authoritative source
+    // for this journey's platform provides it.
     return { doorsOpen: null, doorSideStatus: 'UNKNOWN_SOURCE_REQUIRED' };
   }
 
@@ -1347,61 +1614,55 @@ export class JourneyService {
   ): Promise<string | null> {
     if (!lineId) return null;
     try {
-      const trip = await this.db.trip.findFirst({
+      const trips = await this.db.trip.findMany({
         where: {
           lineId,
           isActive: true,
           tripHeadsign: { not: null },
-          AND: [
-            {
-              stopTimes: { some: { stationId: fromStationId, isActive: true } },
+          stopTimes: {
+            some: {
+              stationId: { in: [fromStationId, toStationId] },
+              isActive: true,
             },
-            { stopTimes: { some: { stationId: toStationId, isActive: true } } },
-          ],
+          },
         },
-        select: { tripHeadsign: true },
+        select: {
+          tripHeadsign: true,
+          stopTimes: {
+            where: {
+              stationId: { in: [fromStationId, toStationId] },
+              isActive: true,
+            },
+            select: { stationId: true, stopSequence: true },
+          },
+        },
+        take: 10,
       });
-      return trip?.tripHeadsign ?? null;
+
+      for (const t of trips) {
+        const fromST = t.stopTimes.find((st) => st.stationId === fromStationId);
+        const toST = t.stopTimes.find((st) => st.stationId === toStationId);
+        if (
+          fromST &&
+          toST &&
+          fromST.stopSequence < toST.stopSequence &&
+          t.tripHeadsign
+        ) {
+          return t.tripHeadsign;
+        }
+      }
+      return null;
     } catch {
       return null;
     }
   }
 
-  /**
-   * Resolve display color for a line, falling back to name-based color matching.
-   */
+  /** Return the GTFS route color when valid; unknown colors remain unknown. */
   private resolveLineColor(l: {
     name: string | null;
     color: string | null;
   }): string {
-    const nameUpper = (l.name || '').toUpperCase();
-    let color = l.color || '';
-
-    if (
-      !color ||
-      ['#000000', '000000', '#ffffff', 'ffffff'].includes(color.toLowerCase())
-    ) {
-      if (nameUpper.includes('YELLOW') || nameUpper.includes('LINE 2A'))
-        color = '#facc15';
-      else if (nameUpper.includes('AQUA') || nameUpper.includes('LINE 3'))
-        color = '#059DB2';
-      else if (nameUpper.includes('BLUE') || nameUpper.includes('LINE 1'))
-        color = '#007DC5';
-      else if (nameUpper.includes('PINK')) color = '#ec4899';
-      else if (nameUpper.includes('MAGENTA')) color = '#d946ef';
-      else if (nameUpper.includes('RED')) color = '#ef4444';
-      else if (nameUpper.includes('VIOLET')) color = '#8b5cf6';
-      else if (nameUpper.includes('GREEN')) color = '#22c55e';
-      else if (nameUpper.includes('GOLD')) color = '#eab308';
-      else if (nameUpper.includes('ORANGE') || nameUpper.includes('AIRPORT'))
-        color = '#f97316';
-      else if (nameUpper.includes('GREY') || nameUpper.includes('GRAY'))
-        color = '#808080';
-      else if (nameUpper.includes('TEAL') || nameUpper.includes('RAPID'))
-        color = '#14b8a6';
-      else if (nameUpper.includes('KOCHI')) color = '#0ea5e9';
-      else color = '#3b82f6';
-    }
-    return color;
+    const color = (l.color ?? '').trim().replace(/^#/, '');
+    return /^[0-9a-f]{6}$/i.test(color) ? `#${color.toUpperCase()}` : '';
   }
 }

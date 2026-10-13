@@ -4,6 +4,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { StationSearchInput, StationItem } from "./StationSearchInput";
+import { useAssistantUi } from "../contexts/AssistantUiContext";
+import { useInfoModal } from "../contexts/InfoModalContext";
+import { Sparkles, Info } from "lucide-react";
 
 interface HeaderProps {
   activeCity?: string;
@@ -52,6 +55,8 @@ function resolveWeatherIcon(code: number): string {
 }
 
 export function Header({ activeCity = "mumbai", onCityChange, onSelectStation }: HeaderProps) {
+  const { toggleAssistant, isOpen: isAssistantOpen } = useAssistantUi();
+  const { openInfoModal } = useInfoModal();
   const [openCityMenu, setOpenCityMenu] = useState(false);
   const [searchVal, setSearchVal] = useState("");
   const [weather, setWeather] = useState<{ temp: string; icon: string }>({ temp: "--°C", icon: "wb_sunny" });
@@ -72,7 +77,10 @@ export function Header({ activeCity = "mumbai", onCityChange, onSelectStation }:
     fetch(
       `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lng}&current_weather=true`
     )
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`Weather service status: ${res.status}`);
+        return res.json();
+      })
       .then((data) => {
         if (data?.current_weather?.temperature !== undefined) {
           const temp = `${Math.round(data.current_weather.temperature)}°C`;
@@ -117,49 +125,36 @@ export function Header({ activeCity = "mumbai", onCityChange, onSelectStation }:
           </div>
         </div>
 
-        {/* City Selector */}
-        <div className="relative">
-          <button
-            onClick={() => setOpenCityMenu(!openCityMenu)}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-[#c3f5ff]/50 transition-colors text-[#c3f5ff] text-[14px] font-semibold"
-          >
-            <span className="material-symbols-outlined text-sm">location_on</span>
-            <span>{currentCityObj.name}</span>
-            <span className="material-symbols-outlined text-xs">expand_more</span>
-          </button>
+        {/* Transit AI Assistant Button */}
+        <button
+          onClick={toggleAssistant}
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-200 text-xs font-semibold ${
+            isAssistantOpen
+              ? "bg-[#00e5ff] text-black border-[#00e5ff] shadow-[0_0_15px_rgba(0,229,255,0.4)]"
+              : "bg-gradient-to-r from-[#00e5ff]/15 to-[#7000ff]/15 border-[#00e5ff]/30 text-[#00e5ff] hover:border-[#00e5ff]/60 hover:bg-[#00e5ff]/20"
+          }`}
+          title="Open MetroRadar Transit AI Assistant"
+        >
+          <Sparkles className={`w-3.5 h-3.5 ${isAssistantOpen ? "text-black animate-spin" : "text-[#00e5ff] animate-pulse"}`} />
+          <span className="tracking-wide">Transit AI</span>
+        </button>
 
-          {openCityMenu && (
-            <div className="absolute right-0 mt-2 w-56 bg-[#1c2028] border border-white/10 rounded-xl shadow-2xl py-2 z-50">
-              <div className="px-3 py-1 text-[10px] font-bold text-[#bac9cc] uppercase tracking-wider border-b border-white/5">
-                Certified Metro Networks
-              </div>
-              {CITIES.map((c) => (
-                <button
-                  key={c.code}
-                  onClick={() => {
-                    if (onCityChange) onCityChange(c.code);
-                    setOpenCityMenu(false);
-                  }}
-                  className={`w-full text-left px-4 py-2.5 text-[14px] flex items-center justify-between hover:bg-white/5 transition-colors ${
-                    activeCity === c.code ? "text-[#c3f5ff] font-bold bg-white/5" : "text-[#dfe2ee]"
-                  }`}
-                >
-                  <span>{c.name}</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#c3f5ff]/10 text-[#c3f5ff] border border-[#c3f5ff]/30">
-                    {c.badge}
-                  </span>
-                </button>
-              ))}
-            </div>
-          )}
+        {/* City Indicator (Locked to Mumbai, MH) */}
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#c3f5ff] text-[13px] font-semibold">
+          <span className="material-symbols-outlined text-sm text-[#00e5ff]">location_on</span>
+          <span>Mumbai, MH</span>
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-3">
-          <Link href="/alerts" className="relative text-[#bac9cc] hover:text-[#c3f5ff] transition-colors p-2 rounded-full hover:bg-white/5">
-            <span className="material-symbols-outlined text-[20px]">notifications</span>
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#ffb4ab] rounded-full" />
-          </Link>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={openInfoModal}
+            className="flex items-center justify-center text-[#bac9cc] hover:text-[#00e5ff] hover:bg-white/10 transition-colors w-8 h-8 rounded-full"
+            title="System Specs & Information"
+            aria-label="System Specs & Information"
+          >
+            <Info className="w-4 h-4" />
+          </button>
           <div className="w-8 h-8 rounded-full overflow-hidden border border-white/10">
             <img
               alt="Gautam Mulay Avatar"

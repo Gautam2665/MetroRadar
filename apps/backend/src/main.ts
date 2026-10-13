@@ -3,11 +3,31 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 
+import helmet from 'helmet';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Enable CORS so the Next.js frontend can query it
-  app.enableCors();
+  // Security Headers via Helmet (stops clickjacking, MIME-sniffing, XSS)
+  app.use(helmet());
+
+  // Strict CORS: Allow only local dev frontend and production deployment domains
+  const allowedOrigins = process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(',').map((o) => o.trim())
+    : ['http://localhost:3000', 'http://127.0.0.1:3000'];
+
+  app.enableCors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g. mobile apps, curl, server-to-server) or allowed origins
+      if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS blocked for origin: ${origin}`));
+      }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
+  });
 
   // Configure Swagger documentation
   const config = new DocumentBuilder()

@@ -1,0 +1,330 @@
+{
+  "schemaVersion": "station-access-design-inventory-v1",
+  "createdAt": "2026-10-12",
+  "status": "DPR_PROPOSED_ACCESS_NOT_AS_BUILT",
+  "description": "Station-by-station access-side descriptions and catchment areas transcribed from MMRDA DPR station-location pages. They describe proposed station access in 2015 design documents, not verified current gate IDs or as-built routes.",
+  "extractionMethod": "PDF text extraction with repeated-character normalization, then field-boundary parsing; source PDF page references are retained for visual verification.",
+  "fields": {
+    "locationDescription": "DPR description of station position and surroundings.",
+    "entryExitDescription": "DPR proposed entry/exit side(s) and adjacent access context.",
+    "catchmentArea": "Localities the DPR expected the station to serve."
+  },
+  "lines": {
+    "line2a": {
+      "sourceId": "SRC-MMRDA-L2A-DPR",
+      "publisher": "MMRDA",
+      "publicationDate": "2015",
+      "sourceDocument": "datasets/mumbai/sources/dpr/line-02a/mmrda-metro-line-2a-dpr.pdf",
+      "stations": [
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_01",
+          "stationNameInDpr": "Dahisar (E)",
+          "pdfPage": 149,
+          "printedPage": "17/97",
+          "locationDescription": "Located on W.E.H 5th lane on west side, station centerline pases through Karan marble. Station Block is proposed on the land of Tanvy Contractors Pvt. Limited",
+          "entryExitDescription": "Entry and exits provided on West side through station tower as above",
+          "catchmentArea": "Avadhut Nagar,CS Complex,Shakti Nagar,Penkarpada, Dharkhadi, Ketkipada, Maratha Colony, N.I Complex"
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_02",
+          "stationNameInDpr": "Dahisar (W)",
+          "pdfPage": 150,
+          "printedPage": "18/97",
+          "locationDescription": "Located oncentral verge/along themedian of Link Road",
+          "entryExitDescription": "Western entry/exit within the footpath, in front of open plot beside Shivalaya building whereas eastern entry/exit located within the footpath in front of an existing residential building and open green space",
+          "catchmentArea": "Shakti Nagar, Shrinath Nagar, Daulat Nagar, Ambawadi, Krishna Colony, Anand Nagar, C.S. Complex, Dahisar Railway Station"
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_03",
+          "stationNameInDpr": "Rushi Sankul",
+          "pdfPage": 151,
+          "printedPage": "19/97",
+          "locationDescription": "Located on central verge/along the median of Linking Road, station centerline passes through Prithvi Villa building on west of the alignment",
+          "entryExitDescription": "Western and eastern entry/exit within the footpath, in front of existing residential buildings",
+          "catchmentArea": "Dahisar West, Avdhut Nagar, Krishna Colony, Shakti Nagar, Ambawadi, Dahisar Railway Station"
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_04",
+          "stationNameInDpr": "I C Colony",
+          "pdfPage": 152,
+          "printedPage": "20/97",
+          "locationDescription": "Located on central verge/along the median of Linking Road, station centerline passes through open BMC land beside MHADA toilet on east of the alignment",
+          "entryExitDescription": "Western entry/exit within the footpath, in front of existinglocalshops whereas eastern entry/exit located within the footpath in front of an open plot near Auto garage",
+          "catchmentArea": "Kandar Pada, Dahisar West, Mandapeshwar"
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_05",
+          "stationNameInDpr": "LIC Colony",
+          "pdfPage": 153,
+          "printedPage": "21/97",
+          "locationDescription": "Located on central verge/along the median of Linking Road, station centerline passes through Amazing Park building on east of the alignment",
+          "entryExitDescription": "Western entry/exit within the footpath, in front of an open plot beside the Eskay Resort whereas eastern entry/exit located within the footpath in front of existing high rise residential buildings",
+          "catchmentArea": "I.C Colony, LIC Colony, Borivli West, Jivan Bima Nagar, Yogi Nagar"
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_06",
+          "stationNameInDpr": "Don Bosco",
+          "pdfPage": 154,
+          "printedPage": "22/97",
+          "locationDescription": "Located on central verge/along the median of Linking Road, station centerline passes through Vishram Yog C-2 building on west side ofthealignment",
+          "entryExitDescription": "Western entry/exit within the footpath, in front of Borivli Head post office whereas eastern entry/exit located within the footpath infront ofexisting residential buildings",
+          "catchmentArea": "Yogi Jayraj Nagar, Babhai, Vazira Naka area, Haridas Nagar, Kastur Park, MHADA Colony, Roshan Nagar, Borivli Railway Station, GovindNagar"
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_07",
+          "stationNameInDpr": "Kastur Park",
+          "pdfPage": 155,
+          "printedPage": "23/97",
+          "locationDescription": "Located on central verge/along the median of Linking Road, station centerline passes through the Green Wood building on east side ofthe alignment",
+          "entryExitDescription": "Western entry/exit within the footpath, in front of high rise residential areas whereas eastern entry/exit located within the footpath in front of under construction AHCL building",
+          "catchmentArea": "Padma Nagar, Satya Nagar, Mahavir Nagar, Shimpoli, Haridas Nagar, Kastur Park, Mhatre Wadi, Dalvi Nagar"
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_08",
+          "stationNameInDpr": "Ekata Nagar",
+          "pdfPage": 156,
+          "printedPage": "24/97",
+          "locationDescription": "Located on central verge/along the median of Linking Road, station centerline passes through road beside Bharat petrol pump on east sideof alignment",
+          "entryExitDescription": "Western entry/exit within the footpath, in front of Charkop pumping station whereas eastern entry/exit located within the footpath in front of existing local shop area",
+          "catchmentArea": "Sector 4 of Charkop, Shravan Nagar, Sector 6-7 of Charkop, Padma Nagar, Satya Nagar, Mohan Nagar, Mahavir Nagar, Shimpoli, Haridas Nagar, Siddhi Vinayak Nagar"
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_09",
+          "stationNameInDpr": "Kandivali Nagar",
+          "pdfPage": 157,
+          "printedPage": "25/97",
+          "locationDescription": "Located on central verge/along the median of Linking Road, station centerline passes through the under construction J.P Corporation building premises on west of the alignment",
+          "entryExitDescription": "Western entry/exit within the footpath, in front of under construction J.P. Corporation building whereas eastern entry/exit located within the footpath in front of existing chawl buildings",
+          "catchmentArea": "Dahanukar Wadi, Kandivli West, Sidhi Vinayak Nagar, Mohan Nagar, Shravan Nagar, Bander Pakhadi, Kandivli Railway Station"
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_10",
+          "stationNameInDpr": "Charkop",
+          "pdfPage": 158,
+          "printedPage": "26/97",
+          "locationDescription": "Located on central verge of Link Road, station centerline passes through the boundary line of Sonal Link Residency on the east of the alignment",
+          "entryExitDescription": "Western entry/exits within open spaces along the Road whereas eastern stairs within the footpath in front of existing shop area",
+          "catchmentArea": "Sai Baba Nagar, Ushma nagar, Mith Chowky area, Lourdes Colony, Jai Janta Nagar, Ganesh Nagar and may extend to Dominic Colony, other areas in Kandivali West like Gandhi Nagar, Bhut Nagar, Hemu Colony and Bhagal Colony"
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_11",
+          "stationNameInDpr": "Malad Metro",
+          "pdfPage": 159,
+          "printedPage": "27/97",
+          "locationDescription": "Along the median of Link Road, station centerline passes through the open plot beside the Palm Court Building on west of the alignment",
+          "entryExitDescription": "Entry/exits in front of open plot beside the Palm Court Building on western side of station structure whereas eastern stairs opposite the vacant area",
+          "catchmentArea": "Usha Nagar, Bhandarwada, NSC Colony, Liberty Garden Area, Malad Industrial Units Cooperative Society and Evershine Nagar. Commuters from Malad West areas, Kumbhar Wada and Mamletdar Wada may also use the station"
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_12",
+          "stationNameInDpr": "Kasturi Park",
+          "pdfPage": 160,
+          "printedPage": "28/97",
+          "locationDescription": "Along the median of Link Road, station centerline passes beside the Shopper's Stop Building on west of the alignment",
+          "entryExitDescription": "Entry/exits in front of Shopper's Stop Building on west of the alignment within open spaces whereas eastern stairs opposite the vacant area",
+          "catchmentArea": "Entire commercial and Mall area, Prem Nagar, Hanuman Nagar, Bangur Nagar,and other Goregaon West areas. Commuters from Motilal Nagar Part I, Shiva ji Nagar, police Colony and part of Malad West may also use the station"
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_13",
+          "stationNameInDpr": "Bangur Nagar",
+          "pdfPage": 161,
+          "printedPage": "29/97",
+          "locationDescription": "Located on central verge of Link Road, station centerline passes through the Manav Kalyan Building premises on the west of the alignment",
+          "entryExitDescription": "Western entry/exits in front of Manav Kalyan Building within open spaces whereas eastern stairs opposite the shops area within the footpath",
+          "catchmentArea": "Bhagat Singh Nagar, Motilal Nagar Part I, Mitha Nagar and Laxmi Nagar and may extend to part of Bangru Nagar, Motilal Nagar Part II and areas upto Ayyappa Temple"
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_14",
+          "stationNameInDpr": "Oshiwara Metro",
+          "pdfPage": 162,
+          "printedPage": "30/97",
+          "locationDescription": "Located on central verge of Goregaon Link Road, station centre line passes through the Oshiwara bus depot premises",
+          "entryExitDescription": "Both the entry/exits along Goregaon Link Road, Western structures located on the open plot beside Trupti Auto whereas western stairs within the Oshiwara Bus Depot Premises",
+          "catchmentArea": "Entire Goregaon West area including Bhagat Singh Nagar Colonies No. 1, 2, 3, Oshiwara Industrial Estate, Kulandi Industrial Estate, Motilal Nagar Part I, Prakash Nagarand BEST nagar and may extend to Haryana Basti, MHADA colony, Oshiwara, Gulshan Nagar, Subhash Nagar and several areas in Goregaon East"
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_15",
+          "stationNameInDpr": "Samartha Nagar",
+          "pdfPage": 163,
+          "printedPage": "31/97",
+          "locationDescription": "Located on central verge of Goregaon Link Road, station centerline passes beside the Classic Supermarket on west of the alignment",
+          "entryExitDescription": "Located both side of station, Western structures beside the Classic Supermarket within the open space whereas eastern stairs in front of shops area",
+          "catchmentArea": "Kadam Nagar, Vikas Nagar, Anand Nagar, Yamuna Nagar and Milat Nagar and may extend to Amboli Hill area, Behram Baug, Oshiwara area, and MHADA Colony"
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_16",
+          "stationNameInDpr": "Shastri Nagar",
+          "pdfPage": 164,
+          "printedPage": "32/97",
+          "locationDescription": "Along the median of New Link Road,",
+          "entryExitDescription": "both the entry/exits along New Link Road, Western structures located on the space in front of City Mall whereas eastern stairs on the open space opposite the State Bank of Mysore",
+          "catchmentArea": "Largely Shastri Nagar and Shastri Nagar D Phase, Veera Desai Industrial Estate, Amboli Hill, Saibaba Nagar and part of Jogeshwari west area. Commuters from Lokhandwala Complex, S Samrath Nagar, part of Andheri West and part of SV Patel Nagar may also use the station"
+        },
+        {
+          "dprStationKey": "LINE2A_DPR_STATION_17",
+          "stationNameInDpr": "D. N. Nagar",
+          "pdfPage": 165,
+          "printedPage": "33/97",
+          "locationDescription": "Along the median of New Link Road, DN Nagar would serve as interchange between the Dahisar -Bandra-Mandale corridor and the Versova-Andheri-Ghatkopar corridor",
+          "entryExitDescription": "Entry/exits of this station is linked with stairs of East west corridor station and combined structure is located on the intersection of JP Road and New Link Road",
+          "catchmentArea": "Interchange station between the two proposed East West and North South MRTS corridors and would cater to DN Nagar, Indian Oil Nagar, New LIC Colony, Madhuban Colony and MHADA Colony Phase I and may extend to Shanti Nagar and Bahadurgarh Colony"
+        }
+      ],
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2021-10/Metro%20Line%202A_0.pdf"
+    },
+    "line7": {
+      "sourceId": "SRC-MMRDA-L7-DPR",
+      "publisher": "MMRDA",
+      "publicationDate": "2015",
+      "sourceDocument": "datasets/mumbai/sources/dpr/line-07/mmrda-metro-line-7-dpr.pdf",
+      "stations": [
+        {
+          "dprStationKey": "LINE7_DPR_STATION_01",
+          "stationNameInDpr": "Andheri (E)",
+          "pdfPage": 130,
+          "printedPage": "18/92",
+          "locationDescription": "Located on Western Express Highway surface Road by the side of L & T building on East side of the flyover",
+          "entryExitDescription": "Entry and exit provided on East side on L & T Building side. Connection to WEH metro Station of Mumbai Line -1 is proposed by providing sky walk",
+          "catchmentArea": "Chakala, Mota Nagar, Kanti Nagar, J.B Nagar, Netaji Subhash Nagar, Gundavli, WEH Station, Andheri Station"
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_02",
+          "stationNameInDpr": "Shankarwadi",
+          "pdfPage": 131,
+          "printedPage": "19/92",
+          "locationDescription": "Located on W.E.H 5th lane on West side, station centerline passes through Andheri Mistry Coop. Housing Society",
+          "entryExitDescription": "Entry and exits provided on West side, on acquired land",
+          "catchmentArea": "Natwar Nagar,Janata Colony, Amboli, Jogeshwari (E), Hind Nagar, MHADA Colony, Sanjay Nagar. Service Road Near Flyover Underpass Below Flyover RoadsideLocal Shops Hutments"
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_03",
+          "stationNameInDpr": "JVLR Junction",
+          "pdfPage": 132,
+          "printedPage": "20/92",
+          "locationDescription": "Located on W.E.H 5th lane on west side, station centerline passes through theHindustan gas Agency onWestside of the alignment",
+          "entryExitDescription": "Entry and exit are proposed to be provided on West side on acquired land",
+          "catchmentArea": "Momin Nagar, BR Nagar,Prabhat Nagar, Ram Nagar,Bandrekar Wadi, Gupha Tekdi,Majas Wadi,Squatters Colony, Laxmi Nagar, JogeshwariCaves, Poonam Nagar, Vaishali Nagar"
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_04",
+          "stationNameInDpr": "Bombay Exhibition",
+          "pdfPage": 133,
+          "printedPage": "21/92",
+          "locationDescription": "Located on W.E.H 6th lane on west, station centerline passes throughNESCO buildingonWest side of the alignment",
+          "entryExitDescription": "Entry and exitprovided on West side on Government land",
+          "catchmentArea": "Shivshankar Nagar, Bombay Exhibition Center, Aarey Milk Colony, Konkan Krishi Vidyapith"
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_05",
+          "stationNameInDpr": "Hub Mall",
+          "pdfPage": 134,
+          "printedPage": "22/92",
+          "locationDescription": "Located on WEH 5th lane on west side,Centre line passes through Krishna Tyre services on west side",
+          "entryExitDescription": "Entry and exitprovided on West side on the acquired land",
+          "catchmentArea": "Goregaon"
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_06",
+          "stationNameInDpr": "Vishveshwar Nagar",
+          "pdfPage": 135,
+          "printedPage": "23/92",
+          "locationDescription": "Located on W.E.H surface road with station centerline passing through theland belonging to payas college",
+          "entryExitDescription": "Entry and exit provided on West side in the Government land",
+          "catchmentArea": "Vishveshwar nagar, Sonawala Industrial Estate, Aarey Milk Colony, Goregaon Station"
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_07",
+          "stationNameInDpr": "Aarey Road Junction",
+          "pdfPage": 136,
+          "printedPage": "24/92",
+          "locationDescription": "Located on W.E.H Service Road, station centerline passes raja Mobile centre near Virani Industrial Building",
+          "entryExitDescription": "Entry and exit provided one on Government land and other on Private land",
+          "catchmentArea": "Naik wadi, Hanuman Tekdi, IITC, Vishveshwar Nagar, Jai Prakash Nagar, Aarey Milk Colony, Piramal Nagar, Goregaon Station"
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_08",
+          "stationNameInDpr": "Vitt Bhatti Junction",
+          "pdfPage": 137,
+          "printedPage": "25/92",
+          "locationDescription": "Located on W.E.H 5th lane, station centerline passes through Hutments and road side shops on West of the alignment",
+          "entryExitDescription": "Entry and exit provided on West side falls on Private shops",
+          "catchmentArea": "IITC, VITT Bhatti, Dindoshipada, Upper Goving Nagar, Koyana Vasahat, Panchbawadi, Dindoshi, Hanuman Tekdi, Banjarpada, Mira Nagar, Yasho Dham, Gokul Dham, Pandurangwadi"
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_09",
+          "stationNameInDpr": "Kurar Village",
+          "pdfPage": 138,
+          "printedPage": "26/92",
+          "locationDescription": "Located on W.E.H 5th lane on west side, station centerline passes through hutments on West of the alignment",
+          "entryExitDescription": "Entry and exit provided on West side, on private land",
+          "catchmentArea": "Pathanwadi, Triveni Nagar, Parekh Nagar, Kurar Village, Malad (E), Raheja Township,, Dhanjiwadi, Malad Station"
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_10",
+          "stationNameInDpr": "Bandongri",
+          "pdfPage": 139,
+          "printedPage": "27/92",
+          "locationDescription": "Located on W.E.H 5th lane on west side, station centerline passes through Kohinoor marble shop",
+          "entryExitDescription": "Entry and exit provided on West side, on acquired land of Bandongri Hutment and road side marble shops",
+          "catchmentArea": "Kurar Village, Hanuman Nagar, Raheja Estate, Pushpa Park, Malad Station"
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_11",
+          "stationNameInDpr": "Mahindra & Mahindra",
+          "pdfPage": 140,
+          "printedPage": "28/92",
+          "locationDescription": "Located on W.E.H 5thlane on west side, station centerline passes through army open area",
+          "entryExitDescription": "Entry and exit provided on West side, on open land",
+          "catchmentArea": "Hanuman Nagar, Samata Nagar, Kandivali Station, Lokhandwala Complex, Damu Nagar, Ashok Nagar, Mahindra &Mahindra Limited"
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_12",
+          "stationNameInDpr": "Thakur Complex",
+          "pdfPage": 141,
+          "printedPage": "29/92",
+          "locationDescription": "Located on W.E.H 5th lane, station centerline passes throughopen plot of Spectra Motor Limited",
+          "entryExitDescription": "Entry and exitprovided on West side, on vacant land",
+          "catchmentArea": "Chikhal Wadi, Asha Nagar, Thakur College, Saraf Chaudhary Nagar, Janata Nagar, Poisar, Magathane"
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_13",
+          "stationNameInDpr": "Borivali Bus Stop",
+          "pdfPage": 142,
+          "printedPage": "30/92",
+          "locationDescription": "Located on W.E.H 5th lane on west side, station centerline passes through tata steel area",
+          "entryExitDescription": "Entry and exit provided on West side, in front of Tata Steel Industrial bldg",
+          "catchmentArea": "Magathane, Rajendra Nagar, Dattapada, Asara Colony, Tata Steel, Borivali BusDepot"
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_14",
+          "stationNameInDpr": "Borivali Omkareshwar",
+          "pdfPage": 143,
+          "printedPage": "31/92",
+          "locationDescription": "Located on W.E.H 5th lane on west side, station centerline passes through private shops",
+          "entryExitDescription": "Entry and exit provided on West side, near krisna Complex Bus stop",
+          "catchmentArea": "Sukar Wadi, Krishna Nagar, Abhinav Nagar, Kajupada, Daulat Nagar, Raheja Complex, Borivali Station, Chinchpada, Sanjay Gandhi National Park, Nancy Colony"
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_15",
+          "stationNameInDpr": "Shrinath Nagar",
+          "pdfPage": 144,
+          "printedPage": "32/92",
+          "locationDescription": "Located on W.E.H 5th lane on west side, station centerline passes through a building near Toyota Show room building",
+          "entryExitDescription": "Entry and exit provided on West side, on acquired land of Ovaripada roadside Marble and Granite shops",
+          "catchmentArea": "Amba wadi, Ashokvan, Srinath Nagar, Daulat Nagar, Shankeshwar Nagar, Maruti Nagar, Dahisar Station, Mahavir Nagar, Shanti Nagar, Balaji Nagar, Maratha Colony, Ekta Nagar, Mandapeshwar, Nancy Colony, Mhatre Wadi, Ovaripada"
+        },
+        {
+          "dprStationKey": "LINE7_DPR_STATION_16",
+          "stationNameInDpr": "Dahisar (E)",
+          "pdfPage": 145,
+          "printedPage": "33/92",
+          "locationDescription": "Located on W.E.H 5th lane on west side, station centerline passes through Karan marble. Station Block is proposed on the land of Tanvy Contractors Pvt. Limited",
+          "entryExitDescription": "Entry and exits provided on West side through station tower as above",
+          "catchmentArea": "Avadhut Nagar,CS Complex,Shakti Nagar,Penkarpada, Dharkhadi, Ketkipada, Maratha Colony, N.I Complex"
+        }
+      ],
+      "sourceUrl": "https://www.mmrda.maharashtra.gov.in/sites/default/files/2021-10/Metro%20Line%207.pdf"
+    }
+  },
+  "joinCaveat": "Rows use independent DPR station sequence keys. Match to present-day station ids only through a documented station-name crosswalk; Line 7 has a known design-station count/name conflict with the current operational station set."
+}

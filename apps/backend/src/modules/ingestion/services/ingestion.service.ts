@@ -29,6 +29,15 @@ import { ShapesParser } from '../parsers/shapes.parser';
 import { TripsParser } from '../parsers/trips.parser';
 import { StopTimesParser } from '../parsers/stop-times.parser';
 import { FrequenciesParser } from '../parsers/frequencies.parser';
+import { LevelsParser } from '../parsers/levels.parser';
+import { TransfersParser } from '../parsers/transfers.parser';
+import {
+  GtfsLevelRow,
+  GtfsStopRow,
+  GtfsStopTimeRow,
+  GtfsTripRow,
+  GtfsTransferRow,
+} from '../types/gtfs.types';
 
 // Normalizers
 import { AgencyNormalizer } from '../normalizers/agency.normalizer';
@@ -72,6 +81,8 @@ export class IngestionService {
     private readonly tripsParser: TripsParser,
     private readonly stopTimesParser: StopTimesParser,
     private readonly frequenciesParser: FrequenciesParser,
+    private readonly levelsParser: LevelsParser,
+    private readonly transfersParser: TransfersParser,
 
     // Normalizers
     private readonly agencyNormalizer: AgencyNormalizer,
@@ -161,15 +172,38 @@ export class IngestionService {
         await this.importer.importAgencies(context, domain);
       }
 
+      const stopToStationCode = new Map<string, string>();
+      let normalizedStops: GtfsStopRow[] = [];
+      let feedLevels: GtfsLevelRow[] = [];
+      let feedTransfers: GtfsTransferRow[] = [];
+      let feedTrips: GtfsTripRow[] = [];
+      let normalizedStopTimes: GtfsStopTimeRow[] = [];
+
       // 4. PIPELINE STAGE: STOPS (STATIONS)
       if (fs.existsSync(path.join(extractedDir, 'stops.txt'))) {
         const rawStops = await this.stopsParser.parse(context);
-        const normalized = this.stationNormalizer.normalize(context, rawStops);
+        normalizedStops = this.stationNormalizer.normalize(context, rawStops);
+        // Keep GTFS child platform stop_ids resolvable by stop_times after
+        // StationTransformer folds them into their parent station record.
+        for (const stop of normalizedStops) {
+          stopToStationCode.set(
+            stop.stop_id,
+            stop.parent_station ||
+              (stop.location_type === '1' ? stop.stop_id : `ST_${stop.stop_id}`),
+          );
+        }
         const domain = await this.stationTransformer.transform(
           context,
-          normalized,
+          normalizedStops,
         );
         await this.importer.importStations(context, domain);
+      }
+
+      if (fs.existsSync(path.join(extractedDir, 'levels.txt'))) {
+        feedLevels = await this.levelsParser.parse(context);
+      }
+      if (fs.existsSync(path.join(extractedDir, 'transfers.txt'))) {
+        feedTransfers = await this.transfersParser.parse(context);
       }
 
       // 5. PIPELINE STAGE: ROUTES (LINES)
@@ -224,8 +258,8 @@ export class IngestionService {
 
       // 9. PIPELINE STAGE: TRIPS
       if (fs.existsSync(path.join(extractedDir, 'trips.txt'))) {
-        const rawTrips = await this.tripsParser.parse(context);
-        const normalized = this.tripNormalizer.normalize(context, rawTrips);
+        feedTrips = await this.tripsParser.parse(context);
+        const normalized = this.tripNormalizer.normalize(context, feedTrips);
         const domain = await this.tripTransformer.transform(
           context,
           normalized,
@@ -236,15 +270,30 @@ export class IngestionService {
       // 10. PIPELINE STAGE: STOP TIMES
       if (fs.existsSync(path.join(extractedDir, 'stop_times.txt'))) {
         const rawStopTimes = await this.stopTimesParser.parse(context);
-        const normalized = this.stopTimesNormalizer.normalize(
+        normalizedStopTimes = this.stopTimesNormalizer.normalize(
           context,
           rawStopTimes,
         );
+        const stationNormalized = normalizedStopTimes.map((row) => ({
+          ...row,
+          stop_id: stopToStationCode.get(row.stop_id) ?? row.stop_id,
+        }));
         const domain = await this.stopTimesTransformer.transform(
           context,
-          normalized,
+          stationNormalized,
         );
         await this.importer.importStopTimes(context, domain);
+      }
+
+      if (normalizedStops.length > 0 && feedLevels.length > 0) {
+        await this.importer.importStationInfrastructure(
+          context,
+          normalizedStops,
+          feedLevels,
+          feedTrips,
+          normalizedStopTimes,
+          feedTransfers,
+        );
       }
 
       // 11. PIPELINE STAGE: FREQUENCIES

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TransitOS — Mumbai Metro Navigator</title>
+<!-- Load Tailwind CSS v3 with forms and container queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Custom Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              darkest: '#060A10',
+              bg: '#080C14',
+              sidebar: '#0B131F',
+              card: '#101A28',
+              cardHover: '#152234',
+              border: 'rgba(255, 255, 255, 0.08)',
+              cyan: '#00D5E8',
+              cyanGlow: '#00F0FF',
+              blue: '#2878FF',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- BEGIN: Custom Visual Effects Styles -->
+<style data-purpose="custom-effects">
+    /* Subtle custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #080C14;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1c2b3d;
+      border-radius: 9999px;
+    }
+    /* Map and gradient glow accents */
+    .hero-glow-text {
+      background: linear-gradient(135deg, #00D5E8 0%, #3B82F6 50%, #A855F7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .neon-cyan-glow {
+      box-shadow: 0 0 35px -5px rgba(0, 213, 232, 0.35);
+    }
+    .voice-avatar-glow {
+      box-shadow: 0 0 25px 3px rgba(0, 213, 232, 0.4), inset 0 0 15px rgba(0, 213, 232, 0.6);
+    }
+    .satellite-bg {
+      background-image: 
+        radial-gradient(circle at 75% 38%, rgba(8, 20, 38, 0.4) 0%, rgba(8, 12, 20, 0.95) 85%),
+        radial-gradient(circle at 10% 20%, rgba(0, 150, 255, 0.05) 0%, transparent 60%);
+    }
+  </style>
+<!-- END: Custom Visual Effects Styles -->
+</head>
+<body class="h-full bg-brand-bg text-slate-100 font-sans antialiased flex overflow-hidden select-none">
+<!-- BEGIN: LeftSidebar -->
+<aside class="w-[260px] flex-shrink-0 bg-brand-sidebar border-r border-brand-border flex flex-col justify-between p-4 z-30 select-none">
+<div class="space-y-6">
+<!-- App Branding -->
+<div class="flex items-center gap-3 px-2 pt-1" data-purpose="brand-header">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8 7h8m-8 4h8m-4 8l-2 2H6m8-2l2 2h4M5 4h14a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<div class="flex items-center gap-1">
+<span class="text-xl font-bold tracking-tight text-white leading-none">transit</span>
+<span class="text-xl font-extrabold tracking-tight text-cyan-400 leading-none">OS</span>
+</div>
+<p class="text-[11px] font-medium text-slate-400 mt-1 leading-none tracking-wide">Mumbai Metro Navigator</p>
+</div>
+</div>
+<!-- Navigation Menu -->
+<nav class="space-y-1.5" data-purpose="primary-navigation">
+<!-- Active Link: Home -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-blue-950/80 to-slate-900 border border-blue-500/30 text-white font-medium text-sm transition-all shadow-md shadow-blue-900/10" href="#">
+<svg class="w-5 h-5 text-cyan-400" fill="currentColor" viewbox="0 0 20 20">
+<path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+</svg>
+<span class="text-slate-100">Home</span>
+</a>
+<!-- Plan Journey -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/40 text-sm font-medium transition-all group" href="#">
+<svg class="w-5 h-5 text-slate-400 group-hover:text-slate-200" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Plan Journey</span>
+</a>
+<!-- Live Network -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/40 text-sm font-medium transition-all group" href="#">
+<svg class="w-5 h-5 text-slate-400 group-hover:text-slate-200" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Live Network</span>
+</a>
+<!-- Stations -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/40 text-sm font-medium transition-all group" href="#">
+<svg class="w-5 h-5 text-slate-400 group-hover:text-slate-200" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Stations</span>
+</a>
+<!-- Recent Journeys -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/40 text-sm font-medium transition-all group" href="#">
+<svg class="w-5 h-5 text-slate-400 group-hover:text-slate-200" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Recent Journeys</span>
+</a>
+<!-- Alerts -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/40 text-sm font-medium transition-all group" href="#">
+<svg class="w-5 h-5 text-slate-400 group-hover:text-slate-200" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Alerts</span>
+</a>
+</nav>
+<!-- Divider -->
+<hr class="border-brand-border mx-2"/>
+<!-- Secondary Links -->
+<div class="space-y-1.5" data-purpose="secondary-navigation">
+<a class="flex items-center gap-3.5 px-3.5 py-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 rounded-xl text-sm font-medium transition-all" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3.5 px-3.5 py-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 rounded-xl text-sm font-medium transition-all" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Help &amp; Feedback</span>
+</a>
+</div>
+</div>
+<!-- Bottom Guest Mode Card -->
+<div class="bg-brand-card/90 border border-brand-border/80 rounded-2xl p-3.5 mt-auto" data-purpose="guest-mode-card">
+<div class="flex items-center gap-2.5 mb-2.5">
+<div class="w-7 h-7 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<h4 class="text-xs font-semibold text-white leading-tight">Guest Mode</h4>
+<p class="text-[10px] text-slate-400 leading-tight">Explore without an account</p>
+</div>
+</div>
+<div class="space-y-1.5 text-[11px] text-slate-300">
+<div class="flex items-center gap-2">
+<svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+<span>Plan journeys</span>
+</div>
+<div class="flex items-center gap-2">
+<svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+<span>View live network</span>
+</div>
+<div class="flex items-start gap-2">
+<svg class="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+<div>
+<span>Save recent journeys</span>
+<span class="block text-[10px] text-slate-500">(in this browser)</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- END: LeftSidebar -->
+<!-- BEGIN: MainContentArea -->
+<div class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- BEGIN: TopHeader -->
+<header class="h-16 flex-shrink-0 border-b border-brand-border/60 bg-brand-bg/80 backdrop-blur-md px-6 flex items-center justify-between z-20" data-purpose="top-navigation-bar">
+<!-- Search Input Container -->
+<div class="w-[420px] relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</span>
+<input class="w-full bg-[#111A28] border border-brand-border/80 rounded-full py-2 pl-10 pr-4 text-xs text-slate-200 placeholder-slate-400 focus:outline-none focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500 transition-all" placeholder="Search for a station, place, landmark or line..." type="text"/>
+</div>
+<!-- Right Header Status Widgets -->
+<div class="flex items-center gap-3">
+<!-- Weather Status -->
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-card border border-brand-border/50 text-xs text-slate-300">
+<svg class="w-4 h-4 text-amber-400" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+<span class="font-semibold text-white">33°C</span>
+<span class="text-slate-400 text-[11px]">Mumbai, MH</span>
+</div>
+<!-- Transit AI Button -->
+<button class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-[#0E2F4C] to-[#0A2239] border border-cyan-500/40 text-cyan-300 text-xs font-semibold hover:border-cyan-400 transition-all shadow-sm">
+<svg class="w-3.5 h-3.5 text-cyan-400 animate-pulse" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" fill-rule="evenodd"></path>
+</svg>
+<span>Transit AI</span>
+</button>
+<!-- Location Selector -->
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-brand-card border border-brand-border/60 text-xs text-slate-200 hover:border-slate-600 transition-all">
+<svg class="w-3.5 h-3.5 text-slate-400" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" fill-rule="evenodd"></path>
+</svg>
+<span class="font-medium">Mumbai, MH</span>
+<svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<!-- Language Selector -->
+<button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-brand-card border border-brand-border/60 text-xs text-slate-200 hover:border-slate-600 transition-all">
+<svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="font-medium">EN</span>
+<svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<!-- Notification Bell Icon -->
+<button class="relative p-2 rounded-full text-slate-400 hover:text-white hover:bg-slate-800 transition-all">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+</button>
+</div>
+</header>
+<!-- END: TopHeader -->
+<!-- BEGIN: HeroAndInteractiveMapSection -->
+<main class="flex-1 relative flex flex-col justify-between p-8 overflow-hidden satellite-bg" data-purpose="hero-map-viewport">
+<!-- Realistic Mumbai Metro Transit Map SVG Overlay -->
+<div class="absolute inset-0 pointer-events-none opacity-90 overflow-hidden" data-purpose="mumbai-metro-svg-map">
+<svg class="w-full h-full" fill="none" viewbox="0 0 1200 700" xmlns="http://www.w3.org/2000/svg">
+<!-- Coastline / Island Geography Representation -->
+<path d="M 620,0 C 600,100 580,240 670,390 C 720,470 730,550 710,700 L 1200,700 L 1200,0 Z" fill="#0B1321" fill-opacity="0.3"></path>
+<path d="M 640,0 C 620,120 590,260 680,410 C 730,490 740,580 730,700" stroke="#16253b" stroke-dasharray="4 4" stroke-width="2"></path>
+<!-- Background Grid Roads and Local Railway traces -->
+<g opacity="0.6" stroke="#162233" stroke-width="1.2">
+<path d="M 700,50 L 730,700"></path>
+<path d="M 740,30 L 790,690"></path>
+<path d="M 820,10 L 890,650"></path>
+<path d="M 640,330 L 1050,450"></path>
+<path d="M 670,220 L 980,310"></path>
+<path d="M 720,530 L 1080,510"></path>
+</g>
+<!-- Metro Line 7 (Red) -->
+<g id="line-7">
+<path d="M 850,20 L 840,160 L 820,290 L 800,345" stroke="#EF4444" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"></path>
+<circle cx="845" cy="90" fill="#FFFFFF" r="4" stroke="#EF4444" stroke-width="2"></circle>
+<circle cx="832" cy="210" fill="#FFFFFF" r="4" stroke="#EF4444" stroke-width="2"></circle>
+</g>
+<!-- Metro Line 2A (Yellow) -->
+<g id="line-2a">
+<path d="M 780,20 L 770,180 L 785,320 L 800,345" stroke="#EAB308" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"></path>
+<circle cx="773" cy="110" fill="#FFFFFF" r="4" stroke="#EAB308" stroke-width="2"></circle>
+<circle cx="780" cy="260" fill="#FFFFFF" r="4" stroke="#EAB308" stroke-width="2"></circle>
+</g>
+<!-- Metro Line 1 (Blue) -->
+<g id="line-1">
+<path d="M 680,270 L 740,315 L 800,345 L 860,375 L 940,430 L 970,450" stroke="#2563EB" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.5"></path>
+<circle cx="700" cy="285" fill="#FFFFFF" r="4" stroke="#2563EB" stroke-width="2"></circle>
+<circle cx="740" cy="315" fill="#FFFFFF" r="4.5" stroke="#2563EB" stroke-width="2"></circle>
+<circle cx="860" cy="375" fill="#FFFFFF" r="4" stroke="#2563EB" stroke-width="2"></circle>
+<circle cx="940" cy="430" fill="#FFFFFF" r="4" stroke="#2563EB" stroke-width="2"></circle>
+</g>
+<!-- Metro Line 3 (Aqua / Cyan) - Underground Corridor -->
+<g id="line-3">
+<path d="M 800,345 L 830,420 L 880,480 L 930,550 L 960,620 L 970,680" stroke="#06B6D4" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"></path>
+<circle cx="830" cy="420" fill="#FFFFFF" r="4" stroke="#06B6D4" stroke-width="2"></circle>
+<circle cx="880" cy="480" fill="#FFFFFF" r="4" stroke="#06B6D4" stroke-width="2"></circle>
+<circle cx="930" cy="550" fill="#FFFFFF" r="4" stroke="#06B6D4" stroke-width="2"></circle>
+</g>
+<!-- Metro Line 6 (Pink/Purple - Under Construction) -->
+<g id="line-6">
+<path d="M 870,410 L 930,460 L 990,520 L 1020,550" stroke="#C026D3" stroke-dasharray="7 5" stroke-linecap="round" stroke-linejoin="round" stroke-width="4.5"></path>
+<circle cx="930" cy="460" fill="#FFFFFF" r="3.5" stroke="#C026D3" stroke-width="2"></circle>
+<circle cx="990" cy="520" fill="#FFFFFF" r="3.5" stroke="#C026D3" stroke-width="2"></circle>
+</g>
+<!-- Interchanges & Station Labels with Nodes -->
+<!-- Andheri Central Interchange Node -->
+<circle cx="800" cy="345" fill="#080C14" r="10" stroke="#FFFFFF" stroke-width="3"></circle>
+<circle cx="800" cy="345" fill="#00D5E8" r="4.5"></circle>
+<!-- Bandra Kurla Complex Node -->
+<circle cx="880" cy="480" fill="#080C14" r="7" stroke="#00D5E8" stroke-width="2.5"></circle>
+<!-- CSMIA Airport Node -->
+<circle cx="850" cy="445" fill="#080C14" r="6" stroke="#FFFFFF" stroke-width="2"></circle>
+</svg>
+<!-- Metro Labels (HTML overlay pinned over SVG coordinates) -->
+<div class="absolute left-[815px] top-[330px] flex items-center gap-1.5 z-10">
+<span class="text-sm font-bold text-white tracking-wide drop-shadow-md">Andheri</span>
+</div>
+<div class="absolute left-[750px] top-[410px] text-xs font-semibold text-slate-300">
+          Bandra
+        </div>
+<div class="absolute left-[920px] top-[410px] text-xs font-semibold text-slate-300">
+          Kurla
+        </div>
+<div class="absolute left-[845px] top-[505px] flex items-center gap-1 text-xs font-semibold text-slate-200">
+<svg class="w-3.5 h-3.5 text-slate-300" fill="currentColor" viewbox="0 0 20 20">
+<path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+</svg>
+          CSMIA
+        </div>
+<div class="absolute left-[1070px] top-[410px] text-base font-extrabold text-slate-400 tracking-wider">
+          Navi Mumbai
+        </div>
+<div class="absolute left-[755px] top-[565px] text-xl font-black text-slate-400 tracking-widest uppercase opacity-75">
+          Mumbai
+        </div>
+<!-- Line Badge Floating Tags -->
+<div class="absolute left-[818px] top-[95px] px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[11px] shadow-lg">
+          Line 7
+        </div>
+<div class="absolute left-[808px] top-[220px] px-2 py-0.5 rounded bg-yellow-500 text-slate-950 font-bold text-[11px] shadow-lg">
+          Line 2A
+        </div>
+<div class="absolute left-[835px] top-[370px] px-2 py-0.5 rounded bg-blue-600 text-white font-bold text-[11px] shadow-lg">
+          Line 1
+        </div>
+<div class="absolute left-[945px] top-[345px] px-2 py-0.5 rounded bg-cyan-600 text-white font-bold text-[11px] shadow-lg">
+          Line 3
+        </div>
+<div class="absolute left-[970px] top-[465px] px-2 py-0.5 rounded bg-purple-700 text-white font-bold text-[11px] shadow-lg flex flex-col items-center">
+<span>Line 6</span>
+<span class="text-[9px] font-normal text-purple-200">(Under Construction)</span>
+</div>
+</div>
+<!-- Top Left: Hero Headline & Description -->
+<div class="relative z-10 max-w-xl pt-4 space-y-5">
+<!-- Tagline Pill -->
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-400 text-xs font-semibold tracking-wide" data-purpose="platform-tag">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+<span>INDIA'S URBAN MOBILITY PLATFORM</span>
+</div>
+<!-- Big Bold Title -->
+<h1 class="text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08]">
+          Make your<br/>
+<span class="hero-glow-text">transit journey</span><br/>
+          intelligent.
+        </h1>
+<!-- Subtitle -->
+<p class="text-sm md:text-base text-slate-300 font-normal leading-relaxed max-w-lg">
+          No more selecting stations. Just tell us where you want to go — type or speak — and TransitOS will plan, guide and keep you updated across Mumbai's metro network.
+        </p>
+<!-- Action Buttons Group -->
+<div class="pt-2 flex flex-wrap items-center gap-3.5" data-purpose="hero-action-buttons">
+<!-- Primary Plan Journey Button -->
+<button class="flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-sm transition-all transform hover:-translate-y-0.5 neon-cyan-glow">
+<div class="p-1 rounded-lg bg-black/10">
+<svg class="w-5 h-5 text-slate-950 -rotate-45" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+</div>
+<div class="text-left">
+<div class="flex items-center gap-1.5 leading-tight">
+<span>Plan Journey</span>
+<span class="text-sm">→</span>
+</div>
+<span class="text-[11px] font-normal text-slate-800">From anywhere to anywhere</span>
+</div>
+</button>
+<!-- Explore Metro Lines Button -->
+<button class="flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-brand-card/90 hover:bg-brand-cardHover border border-brand-border/80 text-white font-medium text-sm transition-all hover:border-slate-600">
+<div class="p-1.5 rounded-xl bg-cyan-500/10 text-cyan-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8 7h8m-8 4h8m-4 8l-2 2H6m8-2l2 2h4M5 4h14a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div class="text-left">
+<div class="leading-tight font-semibold text-slate-100">Explore Metro Lines</div>
+<span class="text-[11px] font-normal text-slate-400">View routes, stations and more</span>
+</div>
+</button>
+<!-- Explore Stations Button -->
+<button class="flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-brand-card/90 hover:bg-brand-cardHover border border-brand-border/80 text-white font-medium text-sm transition-all hover:border-slate-600">
+<div class="p-1.5 rounded-xl bg-cyan-500/10 text-cyan-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div class="text-left">
+<div class="leading-tight font-semibold text-slate-100">Explore Stations</div>
+<span class="text-[11px] font-normal text-slate-400">Find station details, exits &amp; more</span>
+</div>
+</button>
+</div>
+</div>
+<!-- Floating Transit AI Voice Assistant Card -->
+<div class="absolute right-8 top-10 w-[390px] bg-brand-card/90 backdrop-blur-xl border border-cyan-500/25 rounded-3xl p-5 shadow-2xl z-20" data-purpose="ai-voice-assistant-card">
+<!-- Voice Query Bar Mockup -->
+<div class="mb-4 bg-[#0A121E] border border-cyan-500/30 rounded-2xl p-2.5 flex items-center justify-between">
+<div class="flex items-center gap-2 text-cyan-400 text-xs">
+<svg class="w-4 h-4 text-cyan-400 animate-pulse" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" fill-rule="evenodd"></path>
+</svg>
+<span class="text-slate-200 font-medium">Where do you want <strong class="text-white">to go?</strong></span>
+</div>
+<div class="flex items-center gap-1 text-cyan-400">
+<span class="w-1 h-3 bg-cyan-400 rounded-full animate-pulse"></span>
+<span class="w-1 h-5 bg-cyan-400 rounded-full animate-pulse"></span>
+<span class="w-1 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
+<span class="w-1 h-4 bg-cyan-400 rounded-full animate-pulse"></span>
+</div>
+</div>
+<!-- Assistant Header with Glowing Sphere Indicator -->
+<div class="flex items-start justify-between mb-4">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<h3 class="text-sm font-bold text-white leading-tight">Where do you want to go?</h3>
+<p class="text-[11px] text-slate-400 mt-0.5">Try saying...</p>
+</div>
+</div>
+<!-- Pulsing Audio Listener Sphere -->
+<div class="w-14 h-14 rounded-full bg-gradient-to-b from-[#04334C] to-[#011B29] border border-cyan-400/80 flex items-center justify-center voice-avatar-glow relative cursor-pointer group">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-4 bg-cyan-300 rounded-full group-hover:h-5 transition-all"></span>
+<span class="w-1.5 h-4 bg-cyan-300 rounded-full group-hover:h-5 transition-all"></span>
+</div>
+</div>
+</div>
+<!-- Suggestion Chips / Prompts -->
+<div class="space-y-2">
+<button class="w-full text-left px-3 py-2 rounded-xl bg-brand-bg/80 border border-brand-border/60 hover:border-cyan-500/40 text-xs text-slate-300 hover:text-white transition-all flex items-center justify-between">
+<span>"Take me from Andheri to BKC"</span>
+<span class="text-slate-500 text-xs">↵</span>
+</button>
+<button class="w-full text-left px-3 py-2 rounded-xl bg-brand-bg/80 border border-brand-border/60 hover:border-cyan-500/40 text-xs text-slate-300 hover:text-white transition-all flex items-center justify-between">
+<span>"Show nearest metro station"</span>
+<span class="text-slate-500 text-xs">↵</span>
+</button>
+<button class="w-full text-left px-3 py-2 rounded-xl bg-brand-bg/80 border border-brand-border/60 hover:border-cyan-500/40 text-xs text-slate-300 hover:text-white transition-all flex items-center justify-between">
+<span>"When is the next train from Dahisar?"</span>
+<span class="text-slate-500 text-xs">↵</span>
+</button>
+</div>
+</div>
+<!-- BEGIN: BottomNetworkOverviewCards -->
+<section class="grid grid-cols-5 gap-3.5 relative z-20 pt-6" data-purpose="network-overview-stats">
+<!-- Card 1: Metro Lines -->
+<div class="bg-brand-card/90 backdrop-blur-md border border-brand-border rounded-2xl p-3.5 flex items-center justify-between hover:border-slate-600 transition-all cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8 7h8m-8 4h8m-4 8l-2 2H6m8-2l2 2h4M5 4h14a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<p class="text-[11px] font-medium text-slate-400">Metro Lines</p>
+<div class="flex items-baseline gap-1.5 mt-0.5">
+<span class="text-xl font-bold text-white">4</span>
+<span class="text-[10px] text-slate-400 font-normal">Operational Lines</span>
+</div>
+</div>
+</div>
+<svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<!-- Card 2: Stations Mapped -->
+<div class="bg-brand-card/90 backdrop-blur-md border border-brand-border rounded-2xl p-3.5 flex items-center justify-between hover:border-slate-600 transition-all cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<p class="text-[11px] font-medium text-slate-400">Stations Mapped</p>
+<div class="flex items-baseline gap-1.5 mt-0.5">
+<span class="text-xl font-bold text-white">96</span>
+<span class="text-[10px] text-slate-400 font-normal">Across Mumbai</span>
+</div>
+</div>
+</div>
+<svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<!-- Card 3: Interchanges -->
+<div class="bg-brand-card/90 backdrop-blur-md border border-brand-border rounded-2xl p-3.5 flex items-center justify-between hover:border-slate-600 transition-all cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<p class="text-[11px] font-medium text-slate-400">Interchanges</p>
+<div class="flex items-baseline gap-1.5 mt-0.5">
+<span class="text-xl font-bold text-white">12</span>
+<span class="text-[10px] text-slate-400 font-normal">Seamless connectivity</span>
+</div>
+</div>
+</div>
+<svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<!-- Card 4: Next Train -->
+<div class="bg-brand-card/90 backdrop-blur-md border border-brand-border rounded-2xl p-3.5 flex items-center justify-between hover:border-slate-600 transition-all cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<p class="text-[11px] font-medium text-slate-400">Next Train</p>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="text-xs font-bold text-slate-100 flex items-center gap-1">Select a station <span class="text-slate-400">&gt;</span></span>
+</div>
+<p class="text-[10px] text-slate-400 font-normal">View real-time departures</p>
+</div>
+</div>
+</div>
+<!-- Card 5: Service Alerts -->
+<div class="bg-brand-card/90 backdrop-blur-md border border-brand-border rounded-2xl p-3.5 flex items-center justify-between hover:border-slate-600 transition-all cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<p class="text-[11px] font-medium text-slate-400">Service Alerts</p>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
+<span class="text-xs font-bold text-white flex items-center gap-1">No active alerts <span class="text-slate-400">&gt;</span></span>
+</div>
+<p class="text-[10px] text-slate-400 font-normal">All lines operating normally</p>
+</div>
+</div>
+</div>
+</section>
+<!-- END: BottomNetworkOverviewCards -->
+</main>
+<!-- END: HeroAndInteractiveMapSection -->
+</div>
+<!-- END: MainContentArea -->
+</body></html>

@@ -48,15 +48,13 @@ export const CITY_METADATA: Record<
     code: "MM",
     center: [72.8500, 19.1450],
     quickPills: [
-      "Versova",
-      "Andheri",
       "Gundavali",
+      "Andheri",
       "Dahisar (East)",
-      "Andheri (West)",
       "Marol Naka",
       "Ghatkopar",
       "BKC",
-      "Cuffe Parade",
+      "Versova",
     ],
   },
   pune: {

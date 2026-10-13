@@ -170,6 +170,10 @@ export interface JourneyLeg {
   transferSummary?: string | null;
   transferDurationText?: string | null;
   transferInstructions?: string[];
+  realtimeEtaMins?: number;
+  connectionWaitMins?: number;
+  realtimeTimeStr?: string;
+  delaySeconds?: number;
 }
 
 // ── Route Candidate ───────────────────────────────────────────────────────────
@@ -241,6 +245,12 @@ export interface RouteCandidate {
   /** Estimated fare in INR. undefined until fare data is ingested */
   fare?: number;
 
+  /** Estimated smart card fare in INR (discounted) */
+  smartCardFare?: number;
+
+  /** Dynamic GTFS-RT departure predictions & ETAs */
+  realtime?: any;
+
   /**
    * 0–1 confidence that this route is operational right now.
    * v1: 0.8 (heuristic). Future: derived from realtime feed health + schedule currency.
@@ -268,6 +278,32 @@ export interface RouteCandidate {
   humanSummary?: string;
 
   destinationGuidance?: string | null;
+
+  originLandmark?: {
+    id: string;
+    name: string;
+    category: string;
+    hasDirectFob: boolean;
+    hasDirectAccess: boolean;
+    directFobName?: string;
+    walkDistanceMeters: number;
+    walkTimeSeconds: number;
+    corridorNote: string;
+    indoorLevel: string;
+  };
+
+  destinationLandmark?: {
+    id: string;
+    name: string;
+    category: string;
+    hasDirectFob: boolean;
+    hasDirectAccess: boolean;
+    directFobName?: string;
+    walkDistanceMeters: number;
+    walkTimeSeconds: number;
+    corridorNote: string;
+    indoorLevel: string;
+  };
 }
 
 // ── Journey Response ─────────────────────────────────────────────────────────

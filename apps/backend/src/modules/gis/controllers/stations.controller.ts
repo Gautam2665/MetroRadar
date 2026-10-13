@@ -18,13 +18,13 @@ export class StationsController {
   })
   @ApiParam({ name: 'id', type: String, description: 'Station UUID' })
   async getDigitalTwin(@Param('id') id: string): Promise<unknown> {
-    const cacheKey = `digitaltwin:v2:station:${id}`;
+    const cacheKey = `digitaltwin:v6:station:${id}`;
     const cached =
       await this.redisService.get<Record<string, unknown>>(cacheKey);
     if (cached) return cached;
 
     const result = await this.digitalTwinService.getStationDigitalTwin(id);
-    await this.redisService.set(cacheKey, result, 3600);
+    await this.redisService.set(cacheKey, result, 30);
     return result;
   }
 }

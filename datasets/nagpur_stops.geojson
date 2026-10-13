@@ -1,0 +1,3845 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.0886,
+          21.1522
+        ]
+      },
+      "properties": {
+        "name": "Nagpur Junction Railway Station (Indian Railways)",
+        "id": "PF_IR_NAGPUR_JN",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.0805,
+          21.1211
+        ]
+      },
+      "properties": {
+        "name": "Ajni Railway Station (Indian Railways)",
+        "id": "PF_IR_AJNI",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.082559,
+          21.141485
+        ]
+      },
+      "properties": {
+        "name": "Sitabuldi (Interchange)",
+        "id": "STN_NAG_SITABULDI",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.082559,
+          21.141605
+        ]
+      },
+      "properties": {
+        "name": "Sitabuldi Gate 1 (Munje Square Side)",
+        "id": "ENT_SITABULDI_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.082559,
+          21.141365
+        ]
+      },
+      "properties": {
+        "name": "Sitabuldi Gate 2 (Tekdi Road Side)",
+        "id": "ENT_SITABULDI_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.082559,
+          21.141485
+        ]
+      },
+      "properties": {
+        "name": "Sitabuldi Central Concourse (Unpaid)",
+        "id": "NODE_SITABULDI_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.082559,
+          21.141485
+        ]
+      },
+      "properties": {
+        "name": "Sitabuldi Central Interchange Concourse (Paid)",
+        "id": "NODE_SITABULDI_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.082639,
+          21.141485
+        ]
+      },
+      "properties": {
+        "name": "Sitabuldi Platform 1 (Aqua Line to Prajapati Nagar)",
+        "id": "PF_STN_NAG_AQUA_SITABULDI_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.082479,
+          21.141485
+        ]
+      },
+      "properties": {
+        "name": "Sitabuldi Platform 2 (Aqua Line to Lokmanya Nagar)",
+        "id": "PF_STN_NAG_AQUA_SITABULDI_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.082559,
+          21.141565
+        ]
+      },
+      "properties": {
+        "name": "Sitabuldi Platform 3 (Orange Line to Automotive Square)",
+        "id": "PF_STN_NAG_ORANGE_SITABULDI_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.082559,
+          21.141405
+        ]
+      },
+      "properties": {
+        "name": "Sitabuldi Platform 4 (Orange Line to Khapri)",
+        "id": "PF_STN_NAG_ORANGE_SITABULDI_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.001737,
+          21.110721
+        ]
+      },
+      "properties": {
+        "name": "Lokmanya Nagar",
+        "id": "STN_NAG_AQUA_001",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.001737,
+          21.110821
+        ]
+      },
+      "properties": {
+        "name": "Lokmanya Nagar Gate 1",
+        "id": "ENT_STN_NAG_AQUA_001_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.001737,
+          21.110621
+        ]
+      },
+      "properties": {
+        "name": "Lokmanya Nagar Gate 2",
+        "id": "ENT_STN_NAG_AQUA_001_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.001737,
+          21.110721
+        ]
+      },
+      "properties": {
+        "name": "Lokmanya Nagar Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_AQUA_001_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.001737,
+          21.110721
+        ]
+      },
+      "properties": {
+        "name": "Lokmanya Nagar Concourse (Paid)",
+        "id": "NODE_STN_NAG_AQUA_001_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.001817,
+          21.110801
+        ]
+      },
+      "properties": {
+        "name": "Lokmanya Nagar Platform 1",
+        "id": "PF_STN_NAG_AQUA_001_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.001657,
+          21.110641
+        ]
+      },
+      "properties": {
+        "name": "Lokmanya Nagar Platform 2",
+        "id": "PF_STN_NAG_AQUA_001_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.012586,
+          21.116089
+        ]
+      },
+      "properties": {
+        "name": "Bansi Nagar",
+        "id": "STN_NAG_AQUA_002",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.012586,
+          21.116189
+        ]
+      },
+      "properties": {
+        "name": "Bansi Nagar Gate 1",
+        "id": "ENT_STN_NAG_AQUA_002_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.012586,
+          21.115989
+        ]
+      },
+      "properties": {
+        "name": "Bansi Nagar Gate 2",
+        "id": "ENT_STN_NAG_AQUA_002_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.012586,
+          21.116089
+        ]
+      },
+      "properties": {
+        "name": "Bansi Nagar Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_AQUA_002_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.012586,
+          21.116089
+        ]
+      },
+      "properties": {
+        "name": "Bansi Nagar Concourse (Paid)",
+        "id": "NODE_STN_NAG_AQUA_002_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.012666,
+          21.116169
+        ]
+      },
+      "properties": {
+        "name": "Bansi Nagar Platform 1",
+        "id": "PF_STN_NAG_AQUA_002_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.012506,
+          21.116009
+        ]
+      },
+      "properties": {
+        "name": "Bansi Nagar Platform 2",
+        "id": "PF_STN_NAG_AQUA_002_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.01968,
+          21.118798
+        ]
+      },
+      "properties": {
+        "name": "Vasudev Nagar",
+        "id": "STN_NAG_AQUA_003",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.01968,
+          21.118898
+        ]
+      },
+      "properties": {
+        "name": "Vasudev Nagar Gate 1",
+        "id": "ENT_STN_NAG_AQUA_003_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.01968,
+          21.118698
+        ]
+      },
+      "properties": {
+        "name": "Vasudev Nagar Gate 2",
+        "id": "ENT_STN_NAG_AQUA_003_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.01968,
+          21.118798
+        ]
+      },
+      "properties": {
+        "name": "Vasudev Nagar Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_AQUA_003_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.01968,
+          21.118798
+        ]
+      },
+      "properties": {
+        "name": "Vasudev Nagar Concourse (Paid)",
+        "id": "NODE_STN_NAG_AQUA_003_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.01976,
+          21.118878
+        ]
+      },
+      "properties": {
+        "name": "Vasudev Nagar Platform 1",
+        "id": "PF_STN_NAG_AQUA_003_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.0196,
+          21.118718
+        ]
+      },
+      "properties": {
+        "name": "Vasudev Nagar Platform 2",
+        "id": "PF_STN_NAG_AQUA_003_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.029381,
+          21.121526
+        ]
+      },
+      "properties": {
+        "name": "Rachana Ring Road Junction",
+        "id": "STN_NAG_AQUA_004",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.029381,
+          21.121626
+        ]
+      },
+      "properties": {
+        "name": "Rachana Ring Road Junction Gate 1",
+        "id": "ENT_STN_NAG_AQUA_004_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.029381,
+          21.121426
+        ]
+      },
+      "properties": {
+        "name": "Rachana Ring Road Junction Gate 2",
+        "id": "ENT_STN_NAG_AQUA_004_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.029381,
+          21.121526
+        ]
+      },
+      "properties": {
+        "name": "Rachana Ring Road Junction Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_AQUA_004_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.029381,
+          21.121526
+        ]
+      },
+      "properties": {
+        "name": "Rachana Ring Road Junction Concourse (Paid)",
+        "id": "NODE_STN_NAG_AQUA_004_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.029461,
+          21.121606
+        ]
+      },
+      "properties": {
+        "name": "Rachana Ring Road Junction Platform 1",
+        "id": "PF_STN_NAG_AQUA_004_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.029301,
+          21.121446
+        ]
+      },
+      "properties": {
+        "name": "Rachana Ring Road Junction Platform 2",
+        "id": "PF_STN_NAG_AQUA_004_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.042101,
+          21.123325
+        ]
+      },
+      "properties": {
+        "name": "Subhash Nagar",
+        "id": "STN_NAG_AQUA_005",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.042101,
+          21.123425
+        ]
+      },
+      "properties": {
+        "name": "Subhash Nagar Gate 1",
+        "id": "ENT_STN_NAG_AQUA_005_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.042101,
+          21.123225
+        ]
+      },
+      "properties": {
+        "name": "Subhash Nagar Gate 2",
+        "id": "ENT_STN_NAG_AQUA_005_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.042101,
+          21.123325
+        ]
+      },
+      "properties": {
+        "name": "Subhash Nagar Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_AQUA_005_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.042101,
+          21.123325
+        ]
+      },
+      "properties": {
+        "name": "Subhash Nagar Concourse (Paid)",
+        "id": "NODE_STN_NAG_AQUA_005_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.042181,
+          21.123405
+        ]
+      },
+      "properties": {
+        "name": "Subhash Nagar Platform 1",
+        "id": "PF_STN_NAG_AQUA_005_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.042021,
+          21.123245
+        ]
+      },
+      "properties": {
+        "name": "Subhash Nagar Platform 2",
+        "id": "PF_STN_NAG_AQUA_005_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.045828,
+          21.1288
+        ]
+      },
+      "properties": {
+        "name": "Ambazari Lake View Station",
+        "id": "STN_NAG_AQUA_006",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.045828,
+          21.1289
+        ]
+      },
+      "properties": {
+        "name": "Ambazari Lake View Station Gate 1",
+        "id": "ENT_STN_NAG_AQUA_006_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.045828,
+          21.1287
+        ]
+      },
+      "properties": {
+        "name": "Ambazari Lake View Station Gate 2",
+        "id": "ENT_STN_NAG_AQUA_006_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.045828,
+          21.1288
+        ]
+      },
+      "properties": {
+        "name": "Ambazari Lake View Station Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_AQUA_006_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.045828,
+          21.1288
+        ]
+      },
+      "properties": {
+        "name": "Ambazari Lake View Station Concourse (Paid)",
+        "id": "NODE_STN_NAG_AQUA_006_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.045908,
+          21.12888
+        ]
+      },
+      "properties": {
+        "name": "Ambazari Lake View Station Platform 1",
+        "id": "PF_STN_NAG_AQUA_006_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.045748,
+          21.12872
+        ]
+      },
+      "properties": {
+        "name": "Ambazari Lake View Station Platform 2",
+        "id": "PF_STN_NAG_AQUA_006_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.054849,
+          21.132953
+        ]
+      },
+      "properties": {
+        "name": "LAD Square",
+        "id": "STN_NAG_AQUA_007",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.054849,
+          21.133053
+        ]
+      },
+      "properties": {
+        "name": "LAD Square Gate 1",
+        "id": "ENT_STN_NAG_AQUA_007_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.054849,
+          21.132853
+        ]
+      },
+      "properties": {
+        "name": "LAD Square Gate 2",
+        "id": "ENT_STN_NAG_AQUA_007_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.054849,
+          21.132953
+        ]
+      },
+      "properties": {
+        "name": "LAD Square Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_AQUA_007_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.054849,
+          21.132953
+        ]
+      },
+      "properties": {
+        "name": "LAD Square Concourse (Paid)",
+        "id": "NODE_STN_NAG_AQUA_007_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.054929,
+          21.133033
+        ]
+      },
+      "properties": {
+        "name": "LAD Square Platform 1",
+        "id": "PF_STN_NAG_AQUA_007_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.054769,
+          21.132873
+        ]
+      },
+      "properties": {
+        "name": "LAD Square Platform 2",
+        "id": "PF_STN_NAG_AQUA_007_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.061659,
+          21.136197
+        ]
+      },
+      "properties": {
+        "name": "Shankar Nagar Square",
+        "id": "STN_NAG_AQUA_008",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.061659,
+          21.136297
+        ]
+      },
+      "properties": {
+        "name": "Shankar Nagar Square Gate 1",
+        "id": "ENT_STN_NAG_AQUA_008_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.061659,
+          21.136097
+        ]
+      },
+      "properties": {
+        "name": "Shankar Nagar Square Gate 2",
+        "id": "ENT_STN_NAG_AQUA_008_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.061659,
+          21.136197
+        ]
+      },
+      "properties": {
+        "name": "Shankar Nagar Square Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_AQUA_008_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.061659,
+          21.136197
+        ]
+      },
+      "properties": {
+        "name": "Shankar Nagar Square Concourse (Paid)",
+        "id": "NODE_STN_NAG_AQUA_008_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.061739,
+          21.136277
+        ]
+      },
+      "properties": {
+        "name": "Shankar Nagar Square Platform 1",
+        "id": "PF_STN_NAG_AQUA_008_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.061579,
+          21.136117
+        ]
+      },
+      "properties": {
+        "name": "Shankar Nagar Square Platform 2",
+        "id": "PF_STN_NAG_AQUA_008_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.070229,
+          21.138349
+        ]
+      },
+      "properties": {
+        "name": "Institution of Engineers",
+        "id": "STN_NAG_AQUA_009",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.070229,
+          21.138449
+        ]
+      },
+      "properties": {
+        "name": "Institution of Engineers Gate 1",
+        "id": "ENT_STN_NAG_AQUA_009_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.070229,
+          21.138249
+        ]
+      },
+      "properties": {
+        "name": "Institution of Engineers Gate 2",
+        "id": "ENT_STN_NAG_AQUA_009_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.070229,
+          21.138349
+        ]
+      },
+      "properties": {
+        "name": "Institution of Engineers Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_AQUA_009_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.070229,
+          21.138349
+        ]
+      },
+      "properties": {
+        "name": "Institution of Engineers Concourse (Paid)",
+        "id": "NODE_STN_NAG_AQUA_009_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.070309,
+          21.138429
+        ]
+      },
+      "properties": {
+        "name": "Institution of Engineers Platform 1",
+        "id": "PF_STN_NAG_AQUA_009_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.070149,
+          21.138269
+        ]
+      },
+      "properties": {
+        "name": "Institution of Engineers Platform 2",
+        "id": "PF_STN_NAG_AQUA_009_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.077889,
+          21.140734
+        ]
+      },
+      "properties": {
+        "name": "Jhansi Rani Square",
+        "id": "STN_NAG_AQUA_010",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.077889,
+          21.140834
+        ]
+      },
+      "properties": {
+        "name": "Jhansi Rani Square Gate 1",
+        "id": "ENT_STN_NAG_AQUA_010_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.077889,
+          21.140634
+        ]
+      },
+      "properties": {
+        "name": "Jhansi Rani Square Gate 2",
+        "id": "ENT_STN_NAG_AQUA_010_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.077889,
+          21.140734
+        ]
+      },
+      "properties": {
+        "name": "Jhansi Rani Square Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_AQUA_010_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.077889,
+          21.140734
+        ]
+      },
+      "properties": {
+        "name": "Jhansi Rani Square Concourse (Paid)",
+        "id": "NODE_STN_NAG_AQUA_010_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.077969,
+          21.140814
+        ]
+      },
+      "properties": {
+        "name": "Jhansi Rani Square Platform 1",
+        "id": "PF_STN_NAG_AQUA_010_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.077809,
+          21.140654
+        ]
+      },
+      "properties": {
+        "name": "Jhansi Rani Square Platform 2",
+        "id": "PF_STN_NAG_AQUA_010_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.090489,
+          21.151486
+        ]
+      },
+      "properties": {
+        "name": "Nagpur Railway Station",
+        "id": "STN_NAG_AQUA_011",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.090489,
+          21.151586
+        ]
+      },
+      "properties": {
+        "name": "Nagpur Railway Station Gate 1",
+        "id": "ENT_STN_NAG_AQUA_011_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.090489,
+          21.151386
+        ]
+      },
+      "properties": {
+        "name": "Nagpur Railway Station Gate 2",
+        "id": "ENT_STN_NAG_AQUA_011_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.090489,
+          21.151486
+        ]
+      },
+      "properties": {
+        "name": "Nagpur Railway Station Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_AQUA_011_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.090489,
+          21.151486
+        ]
+      },
+      "properties": {
+        "name": "Nagpur Railway Station Concourse (Paid)",
+        "id": "NODE_STN_NAG_AQUA_011_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.090569,
+          21.151566
+        ]
+      },
+      "properties": {
+        "name": "Nagpur Railway Station Platform 1",
+        "id": "PF_STN_NAG_AQUA_011_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.090409,
+          21.151406
+        ]
+      },
+      "properties": {
+        "name": "Nagpur Railway Station Platform 2",
+        "id": "PF_STN_NAG_AQUA_011_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.095029,
+          21.152975
+        ]
+      },
+      "properties": {
+        "name": "Dosar Vaishya Square",
+        "id": "STN_NAG_AQUA_012",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.095029,
+          21.153075
+        ]
+      },
+      "properties": {
+        "name": "Dosar Vaishya Square Gate 1",
+        "id": "ENT_STN_NAG_AQUA_012_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.095029,
+          21.152875
+        ]
+      },
+      "properties": {
+        "name": "Dosar Vaishya Square Gate 2",
+        "id": "ENT_STN_NAG_AQUA_012_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.095029,
+          21.152975
+        ]
+      },
+      "properties": {
+        "name": "Dosar Vaishya Square Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_AQUA_012_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.095029,
+          21.152975
+        ]
+      },
+      "properties": {
+        "name": "Dosar Vaishya Square Concourse (Paid)",
+        "id": "NODE_STN_NAG_AQUA_012_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.095109,
+          21.153055
+        ]
+      },
+      "properties": {
+        "name": "Dosar Vaishya Square Platform 1",
+        "id": "PF_STN_NAG_AQUA_012_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.094949,
+          21.152895
+        ]
+      },
+      "properties": {
+        "name": "Dosar Vaishya Square Platform 2",
+        "id": "PF_STN_NAG_AQUA_012_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.10293,
+          21.151082
+        ]
+      },
+      "properties": {
+        "name": "Agrasen Square",
+        "id": "STN_NAG_AQUA_013",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.10293,
+          21.151182
+        ]
+      },
+      "properties": {
+        "name": "Agrasen Square Gate 1",
+        "id": "ENT_STN_NAG_AQUA_013_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.10293,
+          21.150982
+        ]
+      },
+      "properties": {
+        "name": "Agrasen Square Gate 2",
+        "id": "ENT_STN_NAG_AQUA_013_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.10293,
+          21.151082
+        ]
+      },
+      "properties": {
+        "name": "Agrasen Square Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_AQUA_013_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.10293,
+          21.151082
+        ]
+      },
+      "properties": {
+        "name": "Agrasen Square Concourse (Paid)",
+        "id": "NODE_STN_NAG_AQUA_013_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.10301,
+          21.151162
+        ]
+      },
+      "properties": {
+        "name": "Agrasen Square Platform 1",
+        "id": "PF_STN_NAG_AQUA_013_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.10285,
+          21.151002
+        ]
+      },
+      "properties": {
+        "name": "Agrasen Square Platform 2",
+        "id": "PF_STN_NAG_AQUA_013_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.11045,
+          21.149669
+        ]
+      },
+      "properties": {
+        "name": "Chitroli Square",
+        "id": "STN_NAG_AQUA_014",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.11045,
+          21.149769
+        ]
+      },
+      "properties": {
+        "name": "Chitroli Square Gate 1",
+        "id": "ENT_STN_NAG_AQUA_014_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.11045,
+          21.149569
+        ]
+      },
+      "properties": {
+        "name": "Chitroli Square Gate 2",
+        "id": "ENT_STN_NAG_AQUA_014_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.11045,
+          21.149669
+        ]
+      },
+      "properties": {
+        "name": "Chitroli Square Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_AQUA_014_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.11045,
+          21.149669
+        ]
+      },
+      "properties": {
+        "name": "Chitroli Square Concourse (Paid)",
+        "id": "NODE_STN_NAG_AQUA_014_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.11053,
+          21.149749
+        ]
+      },
+      "properties": {
+        "name": "Chitroli Square Platform 1",
+        "id": "PF_STN_NAG_AQUA_014_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.11037,
+          21.149589
+        ]
+      },
+      "properties": {
+        "name": "Chitroli Square Platform 2",
+        "id": "PF_STN_NAG_AQUA_014_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.118316,
+          21.148839
+        ]
+      },
+      "properties": {
+        "name": "Telephone Exchange",
+        "id": "STN_NAG_AQUA_015",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.118316,
+          21.148939
+        ]
+      },
+      "properties": {
+        "name": "Telephone Exchange Gate 1",
+        "id": "ENT_STN_NAG_AQUA_015_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.118316,
+          21.148739
+        ]
+      },
+      "properties": {
+        "name": "Telephone Exchange Gate 2",
+        "id": "ENT_STN_NAG_AQUA_015_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.118316,
+          21.148839
+        ]
+      },
+      "properties": {
+        "name": "Telephone Exchange Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_AQUA_015_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.118316,
+          21.148839
+        ]
+      },
+      "properties": {
+        "name": "Telephone Exchange Concourse (Paid)",
+        "id": "NODE_STN_NAG_AQUA_015_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.118396,
+          21.148919
+        ]
+      },
+      "properties": {
+        "name": "Telephone Exchange Platform 1",
+        "id": "PF_STN_NAG_AQUA_015_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.118236,
+          21.148759
+        ]
+      },
+      "properties": {
+        "name": "Telephone Exchange Platform 2",
+        "id": "PF_STN_NAG_AQUA_015_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.129634,
+          21.148331
+        ]
+      },
+      "properties": {
+        "name": "Ambedkar Square",
+        "id": "STN_NAG_AQUA_016",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.129634,
+          21.148431
+        ]
+      },
+      "properties": {
+        "name": "Ambedkar Square Gate 1",
+        "id": "ENT_STN_NAG_AQUA_016_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.129634,
+          21.148231
+        ]
+      },
+      "properties": {
+        "name": "Ambedkar Square Gate 2",
+        "id": "ENT_STN_NAG_AQUA_016_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.129634,
+          21.148331
+        ]
+      },
+      "properties": {
+        "name": "Ambedkar Square Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_AQUA_016_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.129634,
+          21.148331
+        ]
+      },
+      "properties": {
+        "name": "Ambedkar Square Concourse (Paid)",
+        "id": "NODE_STN_NAG_AQUA_016_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.129714,
+          21.148411
+        ]
+      },
+      "properties": {
+        "name": "Ambedkar Square Platform 1",
+        "id": "PF_STN_NAG_AQUA_016_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.129554,
+          21.148251
+        ]
+      },
+      "properties": {
+        "name": "Ambedkar Square Platform 2",
+        "id": "PF_STN_NAG_AQUA_016_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.136291,
+          21.148039
+        ]
+      },
+      "properties": {
+        "name": "Vaishnodevi Square",
+        "id": "STN_NAG_AQUA_017",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.136291,
+          21.148139
+        ]
+      },
+      "properties": {
+        "name": "Vaishnodevi Square Gate 1",
+        "id": "ENT_STN_NAG_AQUA_017_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.136291,
+          21.147939
+        ]
+      },
+      "properties": {
+        "name": "Vaishnodevi Square Gate 2",
+        "id": "ENT_STN_NAG_AQUA_017_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.136291,
+          21.148039
+        ]
+      },
+      "properties": {
+        "name": "Vaishnodevi Square Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_AQUA_017_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.136291,
+          21.148039
+        ]
+      },
+      "properties": {
+        "name": "Vaishnodevi Square Concourse (Paid)",
+        "id": "NODE_STN_NAG_AQUA_017_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.136371,
+          21.148119
+        ]
+      },
+      "properties": {
+        "name": "Vaishnodevi Square Platform 1",
+        "id": "PF_STN_NAG_AQUA_017_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.136211,
+          21.147959
+        ]
+      },
+      "properties": {
+        "name": "Vaishnodevi Square Platform 2",
+        "id": "PF_STN_NAG_AQUA_017_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.14895,
+          21.150309
+        ]
+      },
+      "properties": {
+        "name": "Prajapati Nagar",
+        "id": "STN_NAG_AQUA_018",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.14895,
+          21.150409
+        ]
+      },
+      "properties": {
+        "name": "Prajapati Nagar Gate 1",
+        "id": "ENT_STN_NAG_AQUA_018_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.14895,
+          21.150209
+        ]
+      },
+      "properties": {
+        "name": "Prajapati Nagar Gate 2",
+        "id": "ENT_STN_NAG_AQUA_018_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.14895,
+          21.150309
+        ]
+      },
+      "properties": {
+        "name": "Prajapati Nagar Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_AQUA_018_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.14895,
+          21.150309
+        ]
+      },
+      "properties": {
+        "name": "Prajapati Nagar Concourse (Paid)",
+        "id": "NODE_STN_NAG_AQUA_018_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.14903,
+          21.150389
+        ]
+      },
+      "properties": {
+        "name": "Prajapati Nagar Platform 1",
+        "id": "PF_STN_NAG_AQUA_018_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.14887,
+          21.150229
+        ]
+      },
+      "properties": {
+        "name": "Prajapati Nagar Platform 2",
+        "id": "PF_STN_NAG_AQUA_018_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.047828,
+          21.049334
+        ]
+      },
+      "properties": {
+        "name": "Khapri",
+        "id": "STN_NAG_ORANGE_001",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.047828,
+          21.049434
+        ]
+      },
+      "properties": {
+        "name": "Khapri Gate 1",
+        "id": "ENT_STN_NAG_ORANGE_001_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.047828,
+          21.049234
+        ]
+      },
+      "properties": {
+        "name": "Khapri Gate 2",
+        "id": "ENT_STN_NAG_ORANGE_001_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.047828,
+          21.049334
+        ]
+      },
+      "properties": {
+        "name": "Khapri Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_ORANGE_001_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.047828,
+          21.049334
+        ]
+      },
+      "properties": {
+        "name": "Khapri Concourse (Paid)",
+        "id": "NODE_STN_NAG_ORANGE_001_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.047908,
+          21.049414
+        ]
+      },
+      "properties": {
+        "name": "Khapri Platform 1",
+        "id": "PF_STN_NAG_ORANGE_001_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.047748,
+          21.049254
+        ]
+      },
+      "properties": {
+        "name": "Khapri Platform 2",
+        "id": "PF_STN_NAG_ORANGE_001_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.05587,
+          21.066144
+        ]
+      },
+      "properties": {
+        "name": "New Airport",
+        "id": "STN_NAG_ORANGE_002",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.05587,
+          21.066244
+        ]
+      },
+      "properties": {
+        "name": "New Airport Gate 1",
+        "id": "ENT_STN_NAG_ORANGE_002_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.05587,
+          21.066044
+        ]
+      },
+      "properties": {
+        "name": "New Airport Gate 2",
+        "id": "ENT_STN_NAG_ORANGE_002_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.05587,
+          21.066144
+        ]
+      },
+      "properties": {
+        "name": "New Airport Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_ORANGE_002_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.05587,
+          21.066144
+        ]
+      },
+      "properties": {
+        "name": "New Airport Concourse (Paid)",
+        "id": "NODE_STN_NAG_ORANGE_002_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.05595,
+          21.066224
+        ]
+      },
+      "properties": {
+        "name": "New Airport Platform 1",
+        "id": "PF_STN_NAG_ORANGE_002_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.05579,
+          21.066064
+        ]
+      },
+      "properties": {
+        "name": "New Airport Platform 2",
+        "id": "PF_STN_NAG_ORANGE_002_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.060544,
+          21.079127
+        ]
+      },
+      "properties": {
+        "name": "Airport South",
+        "id": "STN_NAG_ORANGE_003",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.060544,
+          21.079227
+        ]
+      },
+      "properties": {
+        "name": "Airport South Gate 1",
+        "id": "ENT_STN_NAG_ORANGE_003_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.060544,
+          21.079027
+        ]
+      },
+      "properties": {
+        "name": "Airport South Gate 2",
+        "id": "ENT_STN_NAG_ORANGE_003_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.060544,
+          21.079127
+        ]
+      },
+      "properties": {
+        "name": "Airport South Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_ORANGE_003_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.060544,
+          21.079127
+        ]
+      },
+      "properties": {
+        "name": "Airport South Concourse (Paid)",
+        "id": "NODE_STN_NAG_ORANGE_003_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.060624,
+          21.079207
+        ]
+      },
+      "properties": {
+        "name": "Airport South Platform 1",
+        "id": "PF_STN_NAG_ORANGE_003_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.060464,
+          21.079047
+        ]
+      },
+      "properties": {
+        "name": "Airport South Platform 2",
+        "id": "PF_STN_NAG_ORANGE_003_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.063881,
+          21.086369
+        ]
+      },
+      "properties": {
+        "name": "Airport Metro Station",
+        "id": "STN_NAG_ORANGE_004",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.063881,
+          21.086469
+        ]
+      },
+      "properties": {
+        "name": "Airport Metro Station Gate 1",
+        "id": "ENT_STN_NAG_ORANGE_004_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.063881,
+          21.086269
+        ]
+      },
+      "properties": {
+        "name": "Airport Metro Station Gate 2",
+        "id": "ENT_STN_NAG_ORANGE_004_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.063881,
+          21.086369
+        ]
+      },
+      "properties": {
+        "name": "Airport Metro Station Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_ORANGE_004_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.063881,
+          21.086369
+        ]
+      },
+      "properties": {
+        "name": "Airport Metro Station Concourse (Paid)",
+        "id": "NODE_STN_NAG_ORANGE_004_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.063961,
+          21.086449
+        ]
+      },
+      "properties": {
+        "name": "Airport Metro Station Platform 1",
+        "id": "PF_STN_NAG_ORANGE_004_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.063801,
+          21.086289
+        ]
+      },
+      "properties": {
+        "name": "Airport Metro Station Platform 2",
+        "id": "PF_STN_NAG_ORANGE_004_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.066509,
+          21.096727
+        ]
+      },
+      "properties": {
+        "name": "Ujjwal Nagar",
+        "id": "STN_NAG_ORANGE_005",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.066509,
+          21.096827
+        ]
+      },
+      "properties": {
+        "name": "Ujjwal Nagar Gate 1",
+        "id": "ENT_STN_NAG_ORANGE_005_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.066509,
+          21.096627
+        ]
+      },
+      "properties": {
+        "name": "Ujjwal Nagar Gate 2",
+        "id": "ENT_STN_NAG_ORANGE_005_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.066509,
+          21.096727
+        ]
+      },
+      "properties": {
+        "name": "Ujjwal Nagar Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_ORANGE_005_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.066509,
+          21.096727
+        ]
+      },
+      "properties": {
+        "name": "Ujjwal Nagar Concourse (Paid)",
+        "id": "NODE_STN_NAG_ORANGE_005_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.066589,
+          21.096807
+        ]
+      },
+      "properties": {
+        "name": "Ujjwal Nagar Platform 1",
+        "id": "PF_STN_NAG_ORANGE_005_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.066429,
+          21.096647
+        ]
+      },
+      "properties": {
+        "name": "Ujjwal Nagar Platform 2",
+        "id": "PF_STN_NAG_ORANGE_005_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.06826,
+          21.103731
+        ]
+      },
+      "properties": {
+        "name": "Jaiprakash Nagar",
+        "id": "STN_NAG_ORANGE_006",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.06826,
+          21.103831
+        ]
+      },
+      "properties": {
+        "name": "Jaiprakash Nagar Gate 1",
+        "id": "ENT_STN_NAG_ORANGE_006_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.06826,
+          21.103631
+        ]
+      },
+      "properties": {
+        "name": "Jaiprakash Nagar Gate 2",
+        "id": "ENT_STN_NAG_ORANGE_006_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.06826,
+          21.103731
+        ]
+      },
+      "properties": {
+        "name": "Jaiprakash Nagar Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_ORANGE_006_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.06826,
+          21.103731
+        ]
+      },
+      "properties": {
+        "name": "Jaiprakash Nagar Concourse (Paid)",
+        "id": "NODE_STN_NAG_ORANGE_006_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.06834,
+          21.103811
+        ]
+      },
+      "properties": {
+        "name": "Jaiprakash Nagar Platform 1",
+        "id": "PF_STN_NAG_ORANGE_006_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.06818,
+          21.103651
+        ]
+      },
+      "properties": {
+        "name": "Jaiprakash Nagar Platform 2",
+        "id": "PF_STN_NAG_ORANGE_006_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.069763,
+          21.109301
+        ]
+      },
+      "properties": {
+        "name": "Chhatrapati Square",
+        "id": "STN_NAG_ORANGE_007",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.069763,
+          21.109401
+        ]
+      },
+      "properties": {
+        "name": "Chhatrapati Square Gate 1",
+        "id": "ENT_STN_NAG_ORANGE_007_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.069763,
+          21.109201
+        ]
+      },
+      "properties": {
+        "name": "Chhatrapati Square Gate 2",
+        "id": "ENT_STN_NAG_ORANGE_007_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.069763,
+          21.109301
+        ]
+      },
+      "properties": {
+        "name": "Chhatrapati Square Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_ORANGE_007_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.069763,
+          21.109301
+        ]
+      },
+      "properties": {
+        "name": "Chhatrapati Square Concourse (Paid)",
+        "id": "NODE_STN_NAG_ORANGE_007_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.069843,
+          21.109381
+        ]
+      },
+      "properties": {
+        "name": "Chhatrapati Square Platform 1",
+        "id": "PF_STN_NAG_ORANGE_007_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.069683,
+          21.109221
+        ]
+      },
+      "properties": {
+        "name": "Chhatrapati Square Platform 2",
+        "id": "PF_STN_NAG_ORANGE_007_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.072223,
+          21.118399
+        ]
+      },
+      "properties": {
+        "name": "Ajni Square",
+        "id": "STN_NAG_ORANGE_008",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.072223,
+          21.118499
+        ]
+      },
+      "properties": {
+        "name": "Ajni Square Gate 1",
+        "id": "ENT_STN_NAG_ORANGE_008_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.072223,
+          21.118299
+        ]
+      },
+      "properties": {
+        "name": "Ajni Square Gate 2",
+        "id": "ENT_STN_NAG_ORANGE_008_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.072223,
+          21.118399
+        ]
+      },
+      "properties": {
+        "name": "Ajni Square Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_ORANGE_008_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.072223,
+          21.118399
+        ]
+      },
+      "properties": {
+        "name": "Ajni Square Concourse (Paid)",
+        "id": "NODE_STN_NAG_ORANGE_008_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.072303,
+          21.118479
+        ]
+      },
+      "properties": {
+        "name": "Ajni Square Platform 1",
+        "id": "PF_STN_NAG_ORANGE_008_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.072143,
+          21.118319
+        ]
+      },
+      "properties": {
+        "name": "Ajni Square Platform 2",
+        "id": "PF_STN_NAG_ORANGE_008_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.075753,
+          21.127681
+        ]
+      },
+      "properties": {
+        "name": "Rahate Colony",
+        "id": "STN_NAG_ORANGE_009",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.075753,
+          21.127781
+        ]
+      },
+      "properties": {
+        "name": "Rahate Colony Gate 1",
+        "id": "ENT_STN_NAG_ORANGE_009_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.075753,
+          21.127581
+        ]
+      },
+      "properties": {
+        "name": "Rahate Colony Gate 2",
+        "id": "ENT_STN_NAG_ORANGE_009_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.075753,
+          21.127681
+        ]
+      },
+      "properties": {
+        "name": "Rahate Colony Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_ORANGE_009_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.075753,
+          21.127681
+        ]
+      },
+      "properties": {
+        "name": "Rahate Colony Concourse (Paid)",
+        "id": "NODE_STN_NAG_ORANGE_009_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.075833,
+          21.127761
+        ]
+      },
+      "properties": {
+        "name": "Rahate Colony Platform 1",
+        "id": "PF_STN_NAG_ORANGE_009_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.075673,
+          21.127601
+        ]
+      },
+      "properties": {
+        "name": "Rahate Colony Platform 2",
+        "id": "PF_STN_NAG_ORANGE_009_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.082613,
+          21.128196
+        ]
+      },
+      "properties": {
+        "name": "Congress Nagar",
+        "id": "STN_NAG_ORANGE_010",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.082613,
+          21.128296
+        ]
+      },
+      "properties": {
+        "name": "Congress Nagar Gate 1",
+        "id": "ENT_STN_NAG_ORANGE_010_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.082613,
+          21.128096
+        ]
+      },
+      "properties": {
+        "name": "Congress Nagar Gate 2",
+        "id": "ENT_STN_NAG_ORANGE_010_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.082613,
+          21.128196
+        ]
+      },
+      "properties": {
+        "name": "Congress Nagar Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_ORANGE_010_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.082613,
+          21.128196
+        ]
+      },
+      "properties": {
+        "name": "Congress Nagar Concourse (Paid)",
+        "id": "NODE_STN_NAG_ORANGE_010_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.082693,
+          21.128276
+        ]
+      },
+      "properties": {
+        "name": "Congress Nagar Platform 1",
+        "id": "PF_STN_NAG_ORANGE_010_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.082533,
+          21.128116
+        ]
+      },
+      "properties": {
+        "name": "Congress Nagar Platform 2",
+        "id": "PF_STN_NAG_ORANGE_010_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.080684,
+          21.146791
+        ]
+      },
+      "properties": {
+        "name": "Zero Mile Freedom Park",
+        "id": "STN_NAG_ORANGE_011",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.080684,
+          21.146891
+        ]
+      },
+      "properties": {
+        "name": "Zero Mile Freedom Park Gate 1",
+        "id": "ENT_STN_NAG_ORANGE_011_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.080684,
+          21.146691
+        ]
+      },
+      "properties": {
+        "name": "Zero Mile Freedom Park Gate 2",
+        "id": "ENT_STN_NAG_ORANGE_011_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.080684,
+          21.146791
+        ]
+      },
+      "properties": {
+        "name": "Zero Mile Freedom Park Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_ORANGE_011_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.080684,
+          21.146791
+        ]
+      },
+      "properties": {
+        "name": "Zero Mile Freedom Park Concourse (Paid)",
+        "id": "NODE_STN_NAG_ORANGE_011_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.080764,
+          21.146871
+        ]
+      },
+      "properties": {
+        "name": "Zero Mile Freedom Park Platform 1",
+        "id": "PF_STN_NAG_ORANGE_011_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.080604,
+          21.146711
+        ]
+      },
+      "properties": {
+        "name": "Zero Mile Freedom Park Platform 2",
+        "id": "PF_STN_NAG_ORANGE_011_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.081537,
+          21.154346
+        ]
+      },
+      "properties": {
+        "name": "Kasturchand Park",
+        "id": "STN_NAG_ORANGE_012",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.081537,
+          21.154446
+        ]
+      },
+      "properties": {
+        "name": "Kasturchand Park Gate 1",
+        "id": "ENT_STN_NAG_ORANGE_012_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.081537,
+          21.154246
+        ]
+      },
+      "properties": {
+        "name": "Kasturchand Park Gate 2",
+        "id": "ENT_STN_NAG_ORANGE_012_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.081537,
+          21.154346
+        ]
+      },
+      "properties": {
+        "name": "Kasturchand Park Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_ORANGE_012_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.081537,
+          21.154346
+        ]
+      },
+      "properties": {
+        "name": "Kasturchand Park Concourse (Paid)",
+        "id": "NODE_STN_NAG_ORANGE_012_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.081617,
+          21.154426
+        ]
+      },
+      "properties": {
+        "name": "Kasturchand Park Platform 1",
+        "id": "PF_STN_NAG_ORANGE_012_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.081457,
+          21.154266
+        ]
+      },
+      "properties": {
+        "name": "Kasturchand Park Platform 2",
+        "id": "PF_STN_NAG_ORANGE_012_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.08378,
+          21.161694
+        ]
+      },
+      "properties": {
+        "name": "Gaddigodam Square",
+        "id": "STN_NAG_ORANGE_013",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.08378,
+          21.161794
+        ]
+      },
+      "properties": {
+        "name": "Gaddigodam Square Gate 1",
+        "id": "ENT_STN_NAG_ORANGE_013_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.08378,
+          21.161594
+        ]
+      },
+      "properties": {
+        "name": "Gaddigodam Square Gate 2",
+        "id": "ENT_STN_NAG_ORANGE_013_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.08378,
+          21.161694
+        ]
+      },
+      "properties": {
+        "name": "Gaddigodam Square Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_ORANGE_013_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.08378,
+          21.161694
+        ]
+      },
+      "properties": {
+        "name": "Gaddigodam Square Concourse (Paid)",
+        "id": "NODE_STN_NAG_ORANGE_013_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.08386,
+          21.161774
+        ]
+      },
+      "properties": {
+        "name": "Gaddigodam Square Platform 1",
+        "id": "PF_STN_NAG_ORANGE_013_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.0837,
+          21.161614
+        ]
+      },
+      "properties": {
+        "name": "Gaddigodam Square Platform 2",
+        "id": "PF_STN_NAG_ORANGE_013_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.092509,
+          21.168782
+        ]
+      },
+      "properties": {
+        "name": "Kadbi Square",
+        "id": "STN_NAG_ORANGE_014",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.092509,
+          21.168882
+        ]
+      },
+      "properties": {
+        "name": "Kadbi Square Gate 1",
+        "id": "ENT_STN_NAG_ORANGE_014_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.092509,
+          21.168682
+        ]
+      },
+      "properties": {
+        "name": "Kadbi Square Gate 2",
+        "id": "ENT_STN_NAG_ORANGE_014_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.092509,
+          21.168782
+        ]
+      },
+      "properties": {
+        "name": "Kadbi Square Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_ORANGE_014_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.092509,
+          21.168782
+        ]
+      },
+      "properties": {
+        "name": "Kadbi Square Concourse (Paid)",
+        "id": "NODE_STN_NAG_ORANGE_014_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.092589,
+          21.168862
+        ]
+      },
+      "properties": {
+        "name": "Kadbi Square Platform 1",
+        "id": "PF_STN_NAG_ORANGE_014_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.092429,
+          21.168702
+        ]
+      },
+      "properties": {
+        "name": "Kadbi Square Platform 2",
+        "id": "PF_STN_NAG_ORANGE_014_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.100419,
+          21.173519
+        ]
+      },
+      "properties": {
+        "name": "Indora Square",
+        "id": "STN_NAG_ORANGE_015",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.100419,
+          21.173619
+        ]
+      },
+      "properties": {
+        "name": "Indora Square Gate 1",
+        "id": "ENT_STN_NAG_ORANGE_015_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.100419,
+          21.173419
+        ]
+      },
+      "properties": {
+        "name": "Indora Square Gate 2",
+        "id": "ENT_STN_NAG_ORANGE_015_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.100419,
+          21.173519
+        ]
+      },
+      "properties": {
+        "name": "Indora Square Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_ORANGE_015_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.100419,
+          21.173519
+        ]
+      },
+      "properties": {
+        "name": "Indora Square Concourse (Paid)",
+        "id": "NODE_STN_NAG_ORANGE_015_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.100499,
+          21.173599
+        ]
+      },
+      "properties": {
+        "name": "Indora Square Platform 1",
+        "id": "PF_STN_NAG_ORANGE_015_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.100339,
+          21.173439
+        ]
+      },
+      "properties": {
+        "name": "Indora Square Platform 2",
+        "id": "PF_STN_NAG_ORANGE_015_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.110048,
+          21.179636
+        ]
+      },
+      "properties": {
+        "name": "Nari Road",
+        "id": "STN_NAG_ORANGE_016",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.110048,
+          21.179736
+        ]
+      },
+      "properties": {
+        "name": "Nari Road Gate 1",
+        "id": "ENT_STN_NAG_ORANGE_016_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.110048,
+          21.179536
+        ]
+      },
+      "properties": {
+        "name": "Nari Road Gate 2",
+        "id": "ENT_STN_NAG_ORANGE_016_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.110048,
+          21.179636
+        ]
+      },
+      "properties": {
+        "name": "Nari Road Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_ORANGE_016_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.110048,
+          21.179636
+        ]
+      },
+      "properties": {
+        "name": "Nari Road Concourse (Paid)",
+        "id": "NODE_STN_NAG_ORANGE_016_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.110128,
+          21.179716
+        ]
+      },
+      "properties": {
+        "name": "Nari Road Platform 1",
+        "id": "PF_STN_NAG_ORANGE_016_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.109968,
+          21.179556
+        ]
+      },
+      "properties": {
+        "name": "Nari Road Platform 2",
+        "id": "PF_STN_NAG_ORANGE_016_2",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.119763,
+          21.185885
+        ]
+      },
+      "properties": {
+        "name": "Automotive Square",
+        "id": "STN_NAG_ORANGE_017",
+        "location_type": "1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.119763,
+          21.185985
+        ]
+      },
+      "properties": {
+        "name": "Automotive Square Gate 1",
+        "id": "ENT_STN_NAG_ORANGE_017_1",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.119763,
+          21.185785
+        ]
+      },
+      "properties": {
+        "name": "Automotive Square Gate 2",
+        "id": "ENT_STN_NAG_ORANGE_017_2",
+        "location_type": "2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.119763,
+          21.185885
+        ]
+      },
+      "properties": {
+        "name": "Automotive Square Concourse (Unpaid)",
+        "id": "NODE_STN_NAG_ORANGE_017_UNPAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.119763,
+          21.185885
+        ]
+      },
+      "properties": {
+        "name": "Automotive Square Concourse (Paid)",
+        "id": "NODE_STN_NAG_ORANGE_017_PAID",
+        "location_type": "3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.119843,
+          21.185965
+        ]
+      },
+      "properties": {
+        "name": "Automotive Square Platform 1",
+        "id": "PF_STN_NAG_ORANGE_017_1",
+        "location_type": "0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.119683,
+          21.185805
+        ]
+      },
+      "properties": {
+        "name": "Automotive Square Platform 2",
+        "id": "PF_STN_NAG_ORANGE_017_2",
+        "location_type": "0"
+      }
+    }
+  ]
+}

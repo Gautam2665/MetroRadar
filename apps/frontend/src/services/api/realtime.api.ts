@@ -9,10 +9,15 @@ export class RealtimeApi {
     }
     const rawList = Array.isArray(res.data)
       ? res.data
-      : (res.data && typeof res.data === "object" && "vehicles" in res.data && Array.isArray((res.data as Record<string, unknown>).vehicles))
+      : res.data &&
+        typeof res.data === "object" &&
+        "vehicles" in res.data &&
+        Array.isArray((res.data as Record<string, unknown>).vehicles)
       ? ((res.data as Record<string, unknown>).vehicles as Record<string, unknown>[])
       : [];
-    const vehicles = rawList.map((v: Record<string, unknown>, idx: number) => toVehicleModel(v, idx));
+    const vehicles = rawList
+      .map((v: Record<string, unknown>, idx: number) => toVehicleModel(v, idx))
+      .filter((v): v is RealtimeVehicle => v !== null);
     return { success: true, data: vehicles };
   }
 }
