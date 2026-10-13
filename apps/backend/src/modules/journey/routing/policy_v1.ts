@@ -2,7 +2,8 @@ import { EdgeType } from '../graph/edge.types';
 import { GraphEdge, TransitGraph } from '../graph/graph.types';
 
 /** Supported semantic policy profiles */
-export type PolicyProfileType = 'FASTEST' | 'HEAVY_LUGGAGE' | 'STEP_FREE_MANDATORY';
+export type PolicyProfileType =
+  'FASTEST' | 'HEAVY_LUGGAGE' | 'STEP_FREE_MANDATORY';
 
 /** Mathematical weights configuration for multi-criteria graph routing */
 export interface JourneyPolicy {
@@ -143,7 +144,7 @@ export function calculateEdgeCost(
     return Infinity; // Prune stairs
   }
 
-  let duration = edge.duration;
+  const duration = edge.duration;
   let multiplier = policy.wWalk;
 
   if (edge.pathwayMode === 2) {

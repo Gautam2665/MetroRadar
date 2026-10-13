@@ -35,9 +35,14 @@ export class AssistantToolsService {
     preference?: string,
     cityHint?: string,
   ): Promise<ToolExecutionResult> {
-    this.logger.log(`Executing plan_journey: from="${originStation}" to="${destinationStation}" pref="${preference || 'default'}"`);
+    this.logger.log(
+      `Executing plan_journey: from="${originStation}" to="${destinationStation}" pref="${preference || 'default'}"`,
+    );
 
-    const origin = await this.stationResolver.resolveStation(originStation, cityHint);
+    const origin = await this.stationResolver.resolveStation(
+      originStation,
+      cityHint,
+    );
     if (!origin) {
       return {
         toolName: 'plan_journey',
@@ -46,7 +51,10 @@ export class AssistantToolsService {
       };
     }
 
-    const destination = await this.stationResolver.resolveStation(destinationStation, cityHint);
+    const destination = await this.stationResolver.resolveStation(
+      destinationStation,
+      cityHint,
+    );
     if (!destination) {
       return {
         toolName: 'plan_journey',
@@ -98,12 +106,28 @@ export class AssistantToolsService {
       const summary = {
         origin: origin.name,
         destination: destination.name,
-        originPoi: origin.isPoi ? { name: origin.poiName, snappedTo: origin.name, walkDistanceMeters: origin.walkDistanceMeters } : null,
-        destinationPoi: destination.isPoi ? { name: destination.poiName, snappedTo: destination.name, walkDistanceMeters: destination.walkDistanceMeters } : null,
+        originPoi: origin.isPoi
+          ? {
+              name: origin.poiName,
+              snappedTo: origin.name,
+              walkDistanceMeters: origin.walkDistanceMeters,
+            }
+          : null,
+        destinationPoi: destination.isPoi
+          ? {
+              name: destination.poiName,
+              snappedTo: destination.name,
+              walkDistanceMeters: destination.walkDistanceMeters,
+            }
+          : null,
         totalDurationMinutes: Math.round(topCandidate.durationSeconds / 60),
         inVehicleMinutes: Math.round(topCandidate.inVehicleSeconds / 60),
         walkingMinutes: Math.round(topCandidate.walkingSeconds / 60),
-        waitingMinutes: Math.round(topCandidate.waiting?.total?.seconds ? topCandidate.waiting.total.seconds / 60 : 0),
+        waitingMinutes: Math.round(
+          topCandidate.waiting?.total?.seconds
+            ? topCandidate.waiting.total.seconds / 60
+            : 0,
+        ),
         transfersCount: topCandidate.transfers,
         fareRupees: topCandidate.fare ?? 20,
         lines: topCandidate.lines,
@@ -142,9 +166,14 @@ export class AssistantToolsService {
     lineCode?: string,
     cityHint?: string,
   ): Promise<ToolExecutionResult> {
-    this.logger.log(`Executing get_live_platform_eta for station="${stationName}" line="${lineCode || 'all'}"`);
+    this.logger.log(
+      `Executing get_live_platform_eta for station="${stationName}" line="${lineCode || 'all'}"`,
+    );
 
-    const station = await this.stationResolver.resolveStation(stationName, cityHint);
+    const station = await this.stationResolver.resolveStation(
+      stationName,
+      cityHint,
+    );
     if (!station) {
       return {
         toolName: 'get_live_platform_eta',
@@ -154,7 +183,9 @@ export class AssistantToolsService {
     }
 
     try {
-      const boarding = await this.realtimeNetworkService.getLiveStationBoarding(station.id);
+      const boarding = await this.realtimeNetworkService.getLiveStationBoarding(
+        station.id,
+      );
 
       const platformsSummary = boarding.platforms.map((p) => ({
         platformNumber: p.platformNumber,
@@ -204,9 +235,14 @@ export class AssistantToolsService {
     stationName: string,
     cityHint?: string,
   ): Promise<ToolExecutionResult> {
-    this.logger.log(`Executing get_station_facilities for station="${stationName}"`);
+    this.logger.log(
+      `Executing get_station_facilities for station="${stationName}"`,
+    );
 
-    const station = await this.stationResolver.resolveStation(stationName, cityHint);
+    const station = await this.stationResolver.resolveStation(
+      stationName,
+      cityHint,
+    );
     if (!station) {
       return {
         toolName: 'get_station_facilities',
@@ -216,12 +252,22 @@ export class AssistantToolsService {
     }
 
     try {
-      const digitalTwin = (await this.digitalTwinService.getStationDigitalTwin(station.id)) as Record<string, unknown>;
+      const digitalTwin = await this.digitalTwinService.getStationDigitalTwin(
+        station.id,
+      );
 
-      const levels = Array.isArray(digitalTwin.levels) ? digitalTwin.levels : [];
-      const entrances = Array.isArray(digitalTwin.entrances) ? digitalTwin.entrances : [];
-      const amenities = Array.isArray(digitalTwin.amenities) ? digitalTwin.amenities : [];
-      const commercial = Array.isArray(digitalTwin.commercialSpaces) ? digitalTwin.commercialSpaces : [];
+      const levels = Array.isArray(digitalTwin.levels)
+        ? digitalTwin.levels
+        : [];
+      const entrances = Array.isArray(digitalTwin.entrances)
+        ? digitalTwin.entrances
+        : [];
+      const amenities = Array.isArray(digitalTwin.amenities)
+        ? digitalTwin.amenities
+        : [];
+      const commercial = Array.isArray(digitalTwin.commercialSpaces)
+        ? digitalTwin.commercialSpaces
+        : [];
 
       const summary = {
         stationName: station.name,

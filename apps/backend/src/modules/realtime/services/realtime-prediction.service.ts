@@ -66,14 +66,19 @@ export class RealtimePredictionService {
    * Cumulative progress formula:
    * Expected Arrival at Interchange = Trip Departure + In-Vehicle Time + Transfer Walk Time
    */
-  public async predictLegsRealtime(legs: RealtimePredictableLeg[]): Promise<void> {
+  public async predictLegsRealtime(
+    legs: RealtimePredictableLeg[],
+  ): Promise<void> {
     const nowSecs = this.getNowSecondsOfDay();
     let cumulativeSecs = nowSecs;
 
     for (let i = 0; i < legs.length; i++) {
       const leg = legs[i];
 
-      if (leg.type === 'TRANSIT' && !leg.throughServiceContinuationFromPrevious) {
+      if (
+        leg.type === 'TRANSIT' &&
+        !leg.throughServiceContinuationFromPrevious
+      ) {
         // 1. Calculate cumulative arrival time at the platform (in seconds from midnight)
         const arrivalAtPlatformSecs = cumulativeSecs; // Includes travel + walk time
 
@@ -88,25 +93,34 @@ export class RealtimePredictionService {
 
         // 3. Compute wait time AT THE INTERCHANGE PLATFORM
         const actualDepartureSecs = prediction.actualDepartureSecs;
-        const connectionWaitMins = Math.max(0, Math.round((actualDepartureSecs - arrivalAtPlatformSecs) / 60));
+        const connectionWaitMins = Math.max(
+          0,
+          Math.round((actualDepartureSecs - arrivalAtPlatformSecs) / 60),
+        );
 
         // 4. Compute overall elapsed time from CURRENT CLOCK NOW
-        const totalEtaFromNowMins = Math.max(0, Math.round((actualDepartureSecs - nowSecs) / 60));
+        const totalEtaFromNowMins = Math.max(
+          0,
+          Math.round((actualDepartureSecs - nowSecs) / 60),
+        );
 
         leg.connectionWaitMins = connectionWaitMins; // e.g. 4 mins wait at WEH
-        leg.realtimeEtaMins = totalEtaFromNowMins;    // e.g. 35 mins from journey start
+        leg.realtimeEtaMins = totalEtaFromNowMins; // e.g. 35 mins from journey start
         leg.realtimeTimeStr = prediction.realtimeTimeStr; // "12:57 PM"
         leg.delaySeconds = prediction.delaySeconds;
 
         // Cumulative progress: actual departure + in-vehicle duration
         const inVehicleDuration = leg.durationSeconds || leg.duration || 180;
         cumulativeSecs = prediction.actualDepartureSecs + inVehicleDuration;
-      } else if (leg.type === 'TRANSIT' && leg.throughServiceContinuationFromPrevious) {
+      } else if (
+        leg.type === 'TRANSIT' &&
+        leg.throughServiceContinuationFromPrevious
+      ) {
         // Continuous service on the same train: passenger remains onboard
-        cumulativeSecs += (leg.durationSeconds || leg.duration || 180);
+        cumulativeSecs += leg.durationSeconds || leg.duration || 180;
       } else {
         // WALK / TRANSFER leg: transfer walking time
-        cumulativeSecs += (leg.durationSeconds || leg.duration || 120);
+        cumulativeSecs += leg.durationSeconds || leg.duration || 120;
       }
     }
   }
@@ -130,7 +144,10 @@ export class RealtimePredictionService {
     const followingActualSecs = primary.actualDepartureSecs + 480; // ~8 mins headway
     let followingDiff = followingActualSecs - nowSecs;
     if (followingDiff < -30) followingDiff += 86400;
-    const followingMins = Math.max(primary.realtimeEtaMins + 4, Math.round(followingDiff / 60));
+    const followingMins = Math.max(
+      primary.realtimeEtaMins + 4,
+      Math.round(followingDiff / 60),
+    );
 
     const statusStr =
       primary.delaySeconds > 0
@@ -175,7 +192,10 @@ export class RealtimePredictionService {
     actualDepartureSecs: number;
   }> {
     try {
-      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(stationId);
+      const isUuid =
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+          stationId,
+        );
       const targetStation = await this.prisma.station.findFirst({
         where: isUuid
           ? { id: stationId, isActive: true }
@@ -196,16 +216,25 @@ export class RealtimePredictionService {
         select: { id: true },
       });
       const stationIds = matchingStations.map((s) => s.id);
-      if (!stationIds.includes(targetStation.id)) stationIds.push(targetStation.id);
+      if (!stationIds.includes(targetStation.id))
+        stationIds.push(targetStation.id);
 
       // Resolve line UUID if lineId is code or name
       let resolvedLineId = lineId;
-      if (lineId && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(lineId)) {
+      if (
+        lineId &&
+        !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+          lineId,
+        )
+      ) {
         const lineRecord = await this.prisma.line.findFirst({
           where: {
             OR: [
               { code: lineId, isActive: true },
-              { name: { contains: lineId, mode: 'insensitive' }, isActive: true },
+              {
+                name: { contains: lineId, mode: 'insensitive' },
+                isActive: true,
+              },
             ],
           },
           select: { id: true },
@@ -230,9 +259,17 @@ export class RealtimePredictionService {
         where: {
           stationId: { in: stationIds },
           isActive: true,
-          ...(resolvedLineId ? { trip: { lineId: resolvedLineId, isActive: true } } : {}),
+          ...(resolvedLineId
+            ? { trip: { lineId: resolvedLineId, isActive: true } }
+            : {}),
           ...(activeServiceIds.length > 0
-            ? { trip: { serviceId: { in: activeServiceIds }, ...(resolvedLineId ? { lineId: resolvedLineId } : {}), isActive: true } }
+            ? {
+                trip: {
+                  serviceId: { in: activeServiceIds },
+                  ...(resolvedLineId ? { lineId: resolvedLineId } : {}),
+                  isActive: true,
+                },
+              }
             : {}),
         },
         include: {
@@ -242,7 +279,9 @@ export class RealtimePredictionService {
               directionId: true,
               tripHeadsign: true,
               serviceId: true,
-              line: { select: { id: true, code: true, name: true, color: true } },
+              line: {
+                select: { id: true, code: true, name: true, color: true },
+              },
             },
           },
         },
@@ -258,7 +297,11 @@ export class RealtimePredictionService {
       if (towardsHeadsign) {
         const targetHeadsign = towardsHeadsign.toUpperCase().trim();
         const matched = stopTimes.filter((st) => {
-          const h = (st.stopHeadsign || st.trip.tripHeadsign || '').toUpperCase();
+          const h = (
+            st.stopHeadsign ||
+            st.trip.tripHeadsign ||
+            ''
+          ).toUpperCase();
           return h.includes(targetHeadsign) || targetHeadsign.includes(h);
         });
         if (matched.length > 0) {
@@ -274,8 +317,12 @@ export class RealtimePredictionService {
         const actualDepartureSecs = scheduledDepSecs + delaySeconds;
 
         if (actualDepartureSecs >= earliestDepartureSecs) {
-          const minsFromNow = Math.max(1, Math.round((actualDepartureSecs - nowSecs) / 60));
-          const realtimeTimeStr = this.formatSecondsToTimeString(actualDepartureSecs);
+          const minsFromNow = Math.max(
+            1,
+            Math.round((actualDepartureSecs - nowSecs) / 60),
+          );
+          const realtimeTimeStr =
+            this.formatSecondsToTimeString(actualDepartureSecs);
 
           return {
             realtimeEtaMins: minsFromNow,
@@ -288,12 +335,17 @@ export class RealtimePredictionService {
 
       // 2. If no departure remaining today (e.g. late night), take next morning's first train
       const firstSt = filteredTimes[0];
-      const scheduledDepSecs = this.parseTimeToSeconds(firstSt.departureTime) + 86400;
+      const scheduledDepSecs =
+        this.parseTimeToSeconds(firstSt.departureTime) + 86400;
       const delayState = this.gtfsRtSync.getDelayForTrip(firstSt.trip.tripId);
       const delaySeconds = delayState?.delaySeconds ?? 0;
       const actualDepartureSecs = scheduledDepSecs + delaySeconds;
-      const minsFromNow = Math.max(1, Math.round((actualDepartureSecs - nowSecs) / 60));
-      const realtimeTimeStr = this.formatSecondsToTimeString(actualDepartureSecs);
+      const minsFromNow = Math.max(
+        1,
+        Math.round((actualDepartureSecs - nowSecs) / 60),
+      );
+      const realtimeTimeStr =
+        this.formatSecondsToTimeString(actualDepartureSecs);
 
       return {
         realtimeEtaMins: minsFromNow,
@@ -302,12 +354,17 @@ export class RealtimePredictionService {
         actualDepartureSecs,
       };
     } catch (err) {
-      this.logger.warn(`Failed to predict transit departure for station ${stationId}: ${err}`);
+      this.logger.warn(
+        `Failed to predict transit departure for station ${stationId}: ${err}`,
+      );
       return this.createFallbackDeparture(earliestDepartureSecs, nowSecs);
     }
   }
 
-  private createFallbackDeparture(earliestDepartureSecs: number, nowSecs: number) {
+  private createFallbackDeparture(
+    earliestDepartureSecs: number,
+    nowSecs: number,
+  ) {
     const headwaySecs = 240; // 4 mins default headway
     const actualDepartureSecs = earliestDepartureSecs + headwaySecs;
     let minsFromNow = Math.round((actualDepartureSecs - nowSecs) / 60);
@@ -335,14 +392,31 @@ export class RealtimePredictionService {
     if (!tStr) return 0;
     const parts = tStr.split(':').map(Number);
     let hrs = parts[0] || 0;
-    let mins = parts[1] || 0;
-    let secs = parts[2] || 0;
+    const mins = parts[1] || 0;
+    const secs = parts[2] || 0;
     if (hrs >= 24) hrs = hrs % 24;
     return hrs * 3600 + mins * 60 + secs;
   }
 
-  private getDayField(date: Date): 'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' {
-    const days: Array<'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday'> = [
+  private getDayField(
+    date: Date,
+  ):
+    | 'sunday'
+    | 'monday'
+    | 'tuesday'
+    | 'wednesday'
+    | 'thursday'
+    | 'friday'
+    | 'saturday' {
+    const days: Array<
+      | 'sunday'
+      | 'monday'
+      | 'tuesday'
+      | 'wednesday'
+      | 'thursday'
+      | 'friday'
+      | 'saturday'
+    > = [
       'sunday',
       'monday',
       'tuesday',

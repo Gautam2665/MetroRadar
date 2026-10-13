@@ -82,9 +82,17 @@ export class MapController {
   }
 
   @Get('stations/:id/indoor')
-  @ApiOperation({ summary: 'Get station indoor features (levels, platforms, entrances) GeoJSON' })
+  @ApiOperation({
+    summary:
+      'Get station indoor features (levels, platforms, entrances) GeoJSON',
+  })
   @ApiParam({ name: 'id', type: String, description: 'Station UUID or Code' })
-  @ApiQuery({ name: 'level', type: String, required: false, description: 'Floor level (G, L1, L2)' })
+  @ApiQuery({
+    name: 'level',
+    type: String,
+    required: false,
+    description: 'Floor level (G, L1, L2)',
+  })
   async getStationIndoor(
     @Param('id') id: string,
     @Query('level') level?: string,

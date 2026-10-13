@@ -29,10 +29,10 @@ export const LANDMARK_REGISTRY: LandmarkRecord[] = [
       'sky city',
       'skycity',
       'oberoi skycity',
-      'sky city mall'
+      'sky city mall',
     ],
     category: 'TOWNSHIP',
-    coordinates: [72.86375, 19.22460],
+    coordinates: [72.86375, 19.2246],
     connectedStationCode: 'STN_L7_004',
     connectedStationName: 'Devipada',
     connectedLineCode: 'L7',
@@ -56,7 +56,7 @@ export const LANDMARK_REGISTRY: LandmarkRecord[] = [
       'infiniti mall malad',
       'infinity mall malad',
       'infiniti malad',
-      'infinity malad'
+      'infinity malad',
     ],
     category: 'MALL',
     coordinates: [72.83389, 19.18432],
@@ -82,7 +82,7 @@ export const LANDMARK_REGISTRY: LandmarkRecord[] = [
       'ghatkopar station',
       'ghatkopar railway',
       'ghatkopar local',
-      'ghatkopar suburban'
+      'ghatkopar suburban',
     ],
     category: 'TRANSIT_HUB',
     coordinates: [72.9079, 19.0862],
@@ -107,7 +107,7 @@ export const LANDMARK_REGISTRY: LandmarkRecord[] = [
       'andheri railway station',
       'andheri station',
       'andheri railway',
-      'andheri local'
+      'andheri local',
     ],
     category: 'TRANSIT_HUB',
     coordinates: [72.8488, 19.1198],
@@ -134,7 +134,7 @@ export const LANDMARK_REGISTRY: LandmarkRecord[] = [
       'airport t2',
       'terminal 2',
       't2 airport',
-      'mumbai international airport'
+      'mumbai international airport',
     ],
     category: 'AIRPORT',
     coordinates: [72.8744, 19.0974],
@@ -160,7 +160,7 @@ export const LANDMARK_REGISTRY: LandmarkRecord[] = [
       'csmi airport t1',
       'airport t1',
       'terminal 1',
-      'domestic airport'
+      'domestic airport',
     ],
     category: 'AIRPORT',
     coordinates: [72.8533, 19.0886],
@@ -186,7 +186,7 @@ export const LANDMARK_REGISTRY: LandmarkRecord[] = [
       'bandra kurla complex',
       'diamond bourse',
       'jio world convention centre',
-      'bkc complex'
+      'bkc complex',
     ],
     category: 'COMMERCIAL',
     coordinates: [72.8643, 19.0625],
@@ -211,10 +211,10 @@ export const LANDMARK_REGISTRY: LandmarkRecord[] = [
       'nesco',
       'nesco goregaon',
       'bombay exhibition centre',
-      'nesco center'
+      'nesco center',
     ],
     category: 'COMMERCIAL',
-    coordinates: [72.8582, 19.1550],
+    coordinates: [72.8582, 19.155],
     connectedStationCode: 'STN_L7_009',
     connectedStationName: 'Goregaon (East)',
     connectedLineCode: 'L7',
@@ -264,7 +264,7 @@ export const LANDMARK_REGISTRY: LandmarkRecord[] = [
     walkTimeSeconds: 350,
     corridorNote: 'Exit via Gate 2 to LBS Marg.',
     indoorLevel: 'Level 0 Street',
-  }
+  },
 ];
 
 export class LandmarkRegistry {
@@ -273,16 +273,18 @@ export class LandmarkRegistry {
   }
 
   static findById(id: string): LandmarkRecord | undefined {
-    return LANDMARK_REGISTRY.find(l => l.id.toLowerCase() === id.toLowerCase());
+    return LANDMARK_REGISTRY.find(
+      (l) => l.id.toLowerCase() === id.toLowerCase(),
+    );
   }
 
   static findByNameOrAlias(query: string): LandmarkRecord | undefined {
     const q = query.trim().toLowerCase();
     return LANDMARK_REGISTRY.find(
-      l =>
+      (l) =>
         l.id.toLowerCase() === q ||
         l.name.toLowerCase() === q ||
-        l.aliases.some(a => a === q || q.includes(a) || a.includes(q))
+        l.aliases.some((a) => a === q || q.includes(a) || a.includes(q)),
     );
   }
 
@@ -290,10 +292,10 @@ export class LandmarkRegistry {
     const q = query.trim().toLowerCase();
     if (!q || q.length < 2) return [];
 
-    return LANDMARK_REGISTRY.filter(l => {
+    return LANDMARK_REGISTRY.filter((l) => {
       if (l.name.toLowerCase().includes(q)) return true;
       if (l.connectedStationName.toLowerCase().includes(q)) return true;
-      return l.aliases.some(alias => alias.includes(q) || q.includes(alias));
+      return l.aliases.some((alias) => alias.includes(q) || q.includes(alias));
     });
   }
 
@@ -303,7 +305,7 @@ export class LandmarkRegistry {
   static snapCoordinateToLandmark(
     lon: number,
     lat: number,
-    maxDistanceMeters = 350
+    maxDistanceMeters = 350,
   ): LandmarkRecord | null {
     let closest: LandmarkRecord | null = null;
     let minDistance = Infinity;
@@ -313,7 +315,7 @@ export class LandmarkRegistry {
         lat,
         lon,
         lm.coordinates[1],
-        lm.coordinates[0]
+        lm.coordinates[0],
       );
       if (d <= maxDistanceMeters && d < minDistance) {
         minDistance = d;
@@ -327,7 +329,12 @@ export class LandmarkRegistry {
   /**
    * Haversine distance formula in meters
    */
-  static distanceMeters(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  static distanceMeters(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number,
+  ): number {
     const R = 6371e3;
     const p1 = (lat1 * Math.PI) / 180;
     const p2 = (lat2 * Math.PI) / 180;

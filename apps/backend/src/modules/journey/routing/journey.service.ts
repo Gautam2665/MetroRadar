@@ -13,7 +13,10 @@ import { DEFAULT_WEIGHTS, DEFAULT_K } from '../graph/graph.types';
 import { RoutingService } from './routing.service';
 import { ScoringService } from './scoring.service';
 import { CandidateFilterService } from './candidate-filter.service';
-import { InterchangeEvaluatorService, GenericConstraints } from './interchange-evaluator.service';
+import {
+  InterchangeEvaluatorService,
+  GenericConstraints,
+} from './interchange-evaluator.service';
 import { RealtimePredictionService } from '../../realtime/services/realtime-prediction.service';
 import { JourneyQueryDto } from '../dto/journey-query.dto';
 import { calculateMumbaiFare } from './policy_v1';
@@ -32,13 +35,20 @@ import {
 } from './candidate.types';
 import { GraphEdge } from '../graph/graph.types';
 
-function getDistanceMeters(lat1: number, lon1: number, lat2: number, lon2: number): number {
+function getDistanceMeters(
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number,
+): number {
   const R = 6371e3;
   const p1 = (lat1 * Math.PI) / 180;
   const p2 = (lat2 * Math.PI) / 180;
   const dp = ((lat2 - lat1) * Math.PI) / 180;
   const dl = ((lon2 - lon1) * Math.PI) / 180;
-  const a = Math.sin(dp / 2) * Math.sin(dp / 2) + Math.cos(p1) * Math.cos(p2) * Math.sin(dl / 2) * Math.sin(dl / 2);
+  const a =
+    Math.sin(dp / 2) * Math.sin(dp / 2) +
+    Math.cos(p1) * Math.cos(p2) * Math.sin(dl / 2) * Math.sin(dl / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return Math.round(R * c);
 }
@@ -350,13 +360,18 @@ export class JourneyService {
           return sum + (leg.transferDetails?.pathwayDistanceMeters ?? 0);
         }
         const next = legs[index + 1];
-        const hasSeparateWalkLeg = next?.type === EdgeType.WALK || next?.type === EdgeType.TRANSFER;
-        const isLineChange = next?.type === EdgeType.TRANSIT &&
+        const hasSeparateWalkLeg =
+          next?.type === EdgeType.WALK || next?.type === EdgeType.TRANSFER;
+        const isLineChange =
+          next?.type === EdgeType.TRANSIT &&
           next.lineId !== leg.lineId &&
           !next.throughServiceContinuationFromPrevious;
-        return sum + (!hasSeparateWalkLeg && isLineChange
-          ? (leg.transferDetails?.pathwayDistanceMeters ?? 0)
-          : 0);
+        return (
+          sum +
+          (!hasSeparateWalkLeg && isLineChange
+            ? (leg.transferDetails?.pathwayDistanceMeters ?? 0)
+            : 0)
+        );
       }, 0);
 
       const totalDurationSeconds =
@@ -394,15 +409,20 @@ export class JourneyService {
       for (let i = 0; i < orderedStations.length - 1; i++) {
         const s1 = orderedStations[i];
         const s2 = orderedStations[i + 1];
-        totalDistanceMeters += getDistanceMeters(s1.lat, s1.lng, s2.lat, s2.lng);
+        totalDistanceMeters += getDistanceMeters(
+          s1.lat,
+          s1.lng,
+          s2.lat,
+          s2.lng,
+        );
       }
-      
+
       const fareDetails = calculateMumbaiFare(totalDistanceMeters);
 
       const firstTransitLeg = legs.find((l) => l.type === EdgeType.TRANSIT);
       const originStationId = firstStation?.id || fromStation.id;
       const originLineId = firstTransitLeg?.lineId || '';
-      
+
       // Predict real-time departures and ETAs for each BOARD leg in the journey
       await this.realtimePrediction.predictLegsRealtime(legs);
 
@@ -1026,7 +1046,11 @@ export class JourneyService {
           str,
         );
 
-      let line: { id: string; code: string | null; name: string | null } | null = null;
+      let line: {
+        id: string;
+        code: string | null;
+        name: string | null;
+      } | null = null;
       if (lineId) {
         line = isUuid(lineId)
           ? await this.db.line.findUnique({
@@ -1039,7 +1063,11 @@ export class JourneyService {
             });
       }
 
-      let fromSt: { id: string; code: string | null; name: string | null } | null = null;
+      let fromSt: {
+        id: string;
+        code: string | null;
+        name: string | null;
+      } | null = null;
       if (fromStationId) {
         fromSt = isUuid(fromStationId)
           ? await this.db.station.findUnique({
@@ -1052,7 +1080,11 @@ export class JourneyService {
             });
       }
 
-      let toSt: { id: string; code: string | null; name: string | null } | null = null;
+      let toSt: {
+        id: string;
+        code: string | null;
+        name: string | null;
+      } | null = null;
       if (toStationId) {
         toSt = isUuid(toStationId)
           ? await this.db.station.findUnique({
@@ -1073,7 +1105,8 @@ export class JourneyService {
         `${toStationId || ''} ${toSt?.code || ''} ${toSt?.name || ''}`.toUpperCase();
 
       const actualLineId = line?.id || (isUuid(lineId) ? lineId : null);
-      const actualFromId = fromSt?.id || (isUuid(fromStationId) ? fromStationId : null);
+      const actualFromId =
+        fromSt?.id || (isUuid(fromStationId) ? fromStationId : null);
       const actualToId = toSt?.id || (isUuid(toStationId) ? toStationId : null);
 
       // 1. Authoritative Database Shapes Check (Full GTFS Shapes)
@@ -1129,12 +1162,19 @@ export class JourneyService {
         if (!shapeId && line?.code) {
           const aliasCode = line.code.replace('MUMBAI_', '');
           const altLine = await this.db.line.findFirst({
-            where: { OR: [{ code: aliasCode }, { code: `MUMBAI_${aliasCode}` }], id: { not: actualLineId } },
+            where: {
+              OR: [{ code: aliasCode }, { code: `MUMBAI_${aliasCode}` }],
+              id: { not: actualLineId },
+            },
             select: { id: true },
           });
           if (altLine) {
             const fallbackTrip = await this.db.trip.findFirst({
-              where: { lineId: altLine.id, shapeId: { not: null }, isActive: true },
+              where: {
+                lineId: altLine.id,
+                shapeId: { not: null },
+                isActive: true,
+              },
               select: { shapeId: true },
             });
             shapeId = fallbackTrip?.shapeId ?? null;
@@ -1168,8 +1208,14 @@ export class JourneyService {
             shapeId: { not: null },
             isActive: true,
             AND: [
-              { stopTimes: { some: { stationId: actualFromId, isActive: true } } },
-              { stopTimes: { some: { stationId: actualToId, isActive: true } } },
+              {
+                stopTimes: {
+                  some: { stationId: actualFromId, isActive: true },
+                },
+              },
+              {
+                stopTimes: { some: { stationId: actualToId, isActive: true } },
+              },
             ],
           },
           select: {
@@ -1184,19 +1230,20 @@ export class JourneyService {
           },
           take: 100,
         });
-        const selectedTrip = matchingTrips.find((trip) => {
-          const fromStop = trip.stopTimes.find(
-            (stopTime) => stopTime.stationId === actualFromId,
-          );
-          const toStop = trip.stopTimes.find(
-            (stopTime) => stopTime.stationId === actualToId,
-          );
-          return (
-            fromStop !== undefined &&
-            toStop !== undefined &&
-            fromStop.stopSequence < toStop.stopSequence
-          );
-        }) ?? matchingTrips[0];
+        const selectedTrip =
+          matchingTrips.find((trip) => {
+            const fromStop = trip.stopTimes.find(
+              (stopTime) => stopTime.stationId === actualFromId,
+            );
+            const toStop = trip.stopTimes.find(
+              (stopTime) => stopTime.stationId === actualToId,
+            );
+            return (
+              fromStop !== undefined &&
+              toStop !== undefined &&
+              fromStop.stopSequence < toStop.stopSequence
+            );
+          }) ?? matchingTrips[0];
 
         if (selectedTrip?.shapeId) {
           const shapes = await this.db.shape.findMany({
@@ -1343,9 +1390,10 @@ export class JourneyService {
           leg.transferTitle = transfer.name;
           leg.transferDurationText = transfer.durationDisplay;
           leg.transferInstructions = transfer.instructions;
-          leg.transferSummary = transfer.pathwayDistanceMeters !== null
-            ? `${transfer.pathwayDistanceMeters} m · ${transfer.durationDisplay}`
-            : transfer.durationDisplay;
+          leg.transferSummary =
+            transfer.pathwayDistanceMeters !== null
+              ? `${transfer.pathwayDistanceMeters} m · ${transfer.durationDisplay}`
+              : transfer.durationDisplay;
         }
       }
     } else if (leg.type === EdgeType.WALK || leg.type === EdgeType.TRANSFER) {
@@ -1376,9 +1424,10 @@ export class JourneyService {
           leg.durationSeconds = fallbackDuration;
           leg.durationMinutes = Math.max(1, Math.round(fallbackDuration / 60));
         }
-        leg.transferSummary = transfer.pathwayDistanceMeters !== null
-          ? `${transfer.pathwayDistanceMeters} m · ${transfer.durationDisplay}`
-          : transfer.durationDisplay;
+        leg.transferSummary =
+          transfer.pathwayDistanceMeters !== null
+            ? `${transfer.pathwayDistanceMeters} m · ${transfer.durationDisplay}`
+            : transfer.durationDisplay;
       } else {
         const durMins = Math.max(1, Math.round(leg.duration / 60));
         const nextLineLabel = nextLeg?.lineName
@@ -1506,7 +1555,8 @@ export class JourneyService {
         select: {
           id: true,
           lineId: true,
-          tripHeadsign: true, directionId: true,
+          tripHeadsign: true,
+          directionId: true,
           stopTimes: {
             where: { isActive: true },
             orderBy: { stopSequence: 'asc' },
@@ -1517,11 +1567,19 @@ export class JourneyService {
       });
 
       const forwardTrips = matchingTrips.filter((trip) => {
-        const fromStop = trip.stopTimes.find((stop) => stop.stationId === fromSt.id);
-        const toStop = trip.stopTimes.find((stop) => stop.stationId === toSt.id);
-        return fromStop && toStop && fromStop.stopSequence < toStop.stopSequence;
+        const fromStop = trip.stopTimes.find(
+          (stop) => stop.stationId === fromSt.id,
+        );
+        const toStop = trip.stopTimes.find(
+          (stop) => stop.stationId === toSt.id,
+        );
+        return (
+          fromStop && toStop && fromStop.stopSequence < toStop.stopSequence
+        );
       });
-      const selectedTrip = forwardTrips.find((trip) => trip.lineId === line?.id) ?? forwardTrips[0];
+      const selectedTrip =
+        forwardTrips.find((trip) => trip.lineId === line?.id) ??
+        forwardTrips[0];
       const selectedFromStop = selectedTrip?.stopTimes.find(
         (stop) => stop.stationId === fromSt.id,
       );
@@ -1532,18 +1590,19 @@ export class JourneyService {
             select: { id: true, name: true },
           })
         : null;
-      const platform = selectedTrip && selectedFromStop && terminalStation
-        ? await this.db.platform.findFirst({
-            where: {
-              isActive: true,
-              lineId: selectedTrip.lineId,
-              towardsStationId: terminalStation.id,
-              level: { stationId: fromSt.id },
-            },
-            orderBy: { platformNumber: 'asc' },
-            select: { platformNumber: true },
-          })
-        : null;
+      const platform =
+        selectedTrip && selectedFromStop && terminalStation
+          ? await this.db.platform.findFirst({
+              where: {
+                isActive: true,
+                lineId: selectedTrip.lineId,
+                towardsStationId: terminalStation.id,
+                level: { stationId: fromSt.id },
+              },
+              orderBy: { platformNumber: 'asc' },
+              select: { platformNumber: true },
+            })
+          : null;
 
       let platformNumber: string | null = platform?.platformNumber ?? null;
 
@@ -1568,14 +1627,20 @@ export class JourneyService {
 
       if (selectedTrip || platformNumber) {
         return {
-          towards: terminalStation?.name ?? tripHeadsign ?? selectedTrip?.tripHeadsign ?? null,
-          boardingPlatform: platformNumber && platformNumber !== 'UNKNOWN'
-            ? `Platform ${platformNumber}`
-            : null,
+          towards:
+            terminalStation?.name ??
+            tripHeadsign ??
+            selectedTrip?.tripHeadsign ??
+            null,
+          boardingPlatform:
+            platformNumber && platformNumber !== 'UNKNOWN'
+              ? `Platform ${platformNumber}`
+              : null,
           alightingPlatform: null,
-          platformStatus: platformNumber && platformNumber !== 'UNKNOWN'
-            ? 'KNOWN'
-            : 'UNKNOWN',
+          platformStatus:
+            platformNumber && platformNumber !== 'UNKNOWN'
+              ? 'KNOWN'
+              : 'UNKNOWN',
         };
       }
 

@@ -24,6 +24,8 @@ jest.mock('../parsers/shapes.parser');
 jest.mock('../parsers/trips.parser');
 jest.mock('../parsers/stop-times.parser');
 jest.mock('../parsers/frequencies.parser');
+jest.mock('../parsers/levels.parser');
+jest.mock('../parsers/transfers.parser');
 
 jest.mock('../normalizers/agency.normalizer');
 jest.mock('../normalizers/station.normalizer');
@@ -55,6 +57,8 @@ import { ShapesParser } from '../parsers/shapes.parser';
 import { TripsParser } from '../parsers/trips.parser';
 import { StopTimesParser } from '../parsers/stop-times.parser';
 import { FrequenciesParser } from '../parsers/frequencies.parser';
+import { LevelsParser } from '../parsers/levels.parser';
+import { TransfersParser } from '../parsers/transfers.parser';
 
 import { AgencyNormalizer } from '../normalizers/agency.normalizer';
 import { StationNormalizer } from '../normalizers/station.normalizer';
@@ -99,6 +103,8 @@ describe('IngestionService', () => {
         TripsParser,
         StopTimesParser,
         FrequenciesParser,
+        LevelsParser,
+        TransfersParser,
 
         AgencyNormalizer,
         StationNormalizer,

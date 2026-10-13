@@ -15,7 +15,11 @@ export class LevelsParser implements TransitParser<GtfsLevelRow> {
     await this.csvReader.readCsv(
       filePath,
       async (row, lineNum) => {
-        if (!row.level_id || !row.level_index || Number.isNaN(Number(row.level_index))) {
+        if (
+          !row.level_id ||
+          !row.level_index ||
+          Number.isNaN(Number(row.level_index))
+        ) {
           context.errors.push({
             file: 'levels.txt',
             line: lineNum,
@@ -41,7 +45,9 @@ export class LevelsParser implements TransitParser<GtfsLevelRow> {
         });
       },
     );
-    context.logger.log(`Parsing levels.txt complete. Found ${rows.length} rows.`);
+    context.logger.log(
+      `Parsing levels.txt complete. Found ${rows.length} rows.`,
+    );
     return rows;
   }
 }

@@ -34,7 +34,8 @@ const COMMUTER_ALIASES: Record<string, string> = {
   t2: 'Chhatrapati Shivaji Maharaj International Airport (T2)',
   t1: 'Chhatrapati Shivaji Maharaj International Airport (T1)',
   'domestic airport': 'Chhatrapati Shivaji Maharaj International Airport (T1)',
-  'international airport': 'Chhatrapati Shivaji Maharaj International Airport (T2)',
+  'international airport':
+    'Chhatrapati Shivaji Maharaj International Airport (T2)',
   borivali: 'Borivali',
   'borivali west': 'Borivali',
   'andheri west': 'Andheri West',
@@ -54,7 +55,7 @@ const COMMUTER_ALIASES: Record<string, string> = {
   'huda city centre': 'Millennium City Centre Gurugram',
   kashmere: 'Kashmere Gate',
   'kashmere gate': 'Kashmere Gate',
-  'aiims': 'AIIMS',
+  aiims: 'AIIMS',
   hauz: 'Hauz Khas',
   'hauz khas': 'Hauz Khas',
 };
@@ -72,7 +73,9 @@ function normalizeName(str: string): string {
 function levenshteinDistance(s1: string, s2: string): number {
   const m = s1.length;
   const n = s2.length;
-  const dp: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+  const dp: number[][] = Array.from({ length: m + 1 }, () =>
+    Array(n + 1).fill(0),
+  );
 
   for (let i = 0; i <= m; i++) dp[i][0] = i;
   for (let j = 0; j <= n; j++) dp[0][j] = j;
@@ -106,19 +109,36 @@ export class StationResolverService {
     rawQuery: string,
     cityHint?: string,
   ): Promise<ResolvedStation | null> {
-    if (!rawQuery || typeof rawQuery !== 'string' || rawQuery.trim().length === 0) {
+    if (
+      !rawQuery ||
+      typeof rawQuery !== 'string' ||
+      rawQuery.trim().length === 0
+    ) {
       return null;
     }
 
     const trimmed = rawQuery.trim();
-    const cleanLower = trimmed.toLowerCase().replace(/metro\s+station/gi, '').trim();
+    const cleanLower = trimmed
+      .toLowerCase()
+      .replace(/metro\s+station/gi, '')
+      .trim();
 
     // 1. Direct UUID match check
-    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(trimmed);
+    const isUuid =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+        trimmed,
+      );
     if (isUuid) {
       const direct = await this.prisma.station.findUnique({
         where: { id: trimmed },
-        select: { id: true, code: true, name: true, city: true, latitude: true, longitude: true },
+        select: {
+          id: true,
+          code: true,
+          name: true,
+          city: true,
+          latitude: true,
+          longitude: true,
+        },
       });
       if (direct) {
         return { ...direct, confidence: 1.0 };
@@ -135,7 +155,9 @@ export class StationResolverService {
     const exactMatch = await this.prisma.station.findFirst({
       where: {
         isActive: true,
-        ...(cityHint ? { city: { equals: cityHint, mode: 'insensitive' } } : {}),
+        ...(cityHint
+          ? { city: { equals: cityHint, mode: 'insensitive' } }
+          : {}),
         OR: [
           { name: { equals: searchQuery, mode: 'insensitive' } },
           { code: { equals: searchQuery, mode: 'insensitive' } },
@@ -143,7 +165,14 @@ export class StationResolverService {
           { code: { equals: trimmed, mode: 'insensitive' } },
         ],
       },
-      select: { id: true, code: true, name: true, city: true, latitude: true, longitude: true },
+      select: {
+        id: true,
+        code: true,
+        name: true,
+        city: true,
+        latitude: true,
+        longitude: true,
+      },
     });
 
     if (exactMatch) {
@@ -153,8 +182,15 @@ export class StationResolverService {
     // 4. Try SearchService (Google Places API + Landmark snapping)
     // Checks if the user mentioned a locality, colony, cafe, college, hospital, or landmark
     try {
-      const searchRes = (await this.searchService.search(trimmed, ['station', 'landmark'])) as any;
-      if (searchRes && Array.isArray(searchRes.features) && searchRes.features.length > 0) {
+      const searchRes = (await this.searchService.search(trimmed, [
+        'station',
+        'landmark',
+      ])) as any;
+      if (
+        searchRes &&
+        Array.isArray(searchRes.features) &&
+        searchRes.features.length > 0
+      ) {
         // Look for POIs or exact station results
         const poiOrStation = searchRes.features.find((f: any) => {
           const p = f.properties || {};
@@ -166,22 +202,34 @@ export class StationResolverService {
           const stnId = props.id;
           const stn = await this.prisma.station.findUnique({
             where: { id: stnId },
-            select: { id: true, code: true, name: true, city: true, latitude: true, longitude: true },
+            select: {
+              id: true,
+              code: true,
+              name: true,
+              city: true,
+              latitude: true,
+              longitude: true,
+            },
           });
           if (stn) {
-            this.logger.log(`Snapped locality/POI "${trimmed}" to nearest station "${stn.name}" via Places API (${props.displayName || props.name})`);
+            this.logger.log(
+              `Snapped locality/POI "${trimmed}" to nearest station "${stn.name}" via Places API (${props.displayName || props.name})`,
+            );
             return {
               ...stn,
               confidence: 0.95,
               isPoi: true,
               poiName: props.name || trimmed,
-              walkDistanceMeters: props.landmarkDetails?.walkDistanceMeters || 250,
+              walkDistanceMeters:
+                props.landmarkDetails?.walkDistanceMeters || 250,
             };
           }
         }
       }
     } catch (searchErr) {
-      this.logger.warn(`SearchService lookup error for "${trimmed}": ${searchErr}`);
+      this.logger.warn(
+        `SearchService lookup error for "${trimmed}": ${searchErr}`,
+      );
     }
 
     // 5. Substring ILIKE search with ranking
@@ -189,20 +237,31 @@ export class StationResolverService {
     const candidates = await this.prisma.station.findMany({
       where: {
         isActive: true,
-        ...(cityHint ? { city: { equals: cityHint, mode: 'insensitive' } } : {}),
+        ...(cityHint
+          ? { city: { equals: cityHint, mode: 'insensitive' } }
+          : {}),
         OR: [
           { name: { contains: searchQuery, mode: 'insensitive' } },
           { code: { contains: searchQuery, mode: 'insensitive' } },
         ],
       },
-      select: { id: true, code: true, name: true, city: true, latitude: true, longitude: true },
+      select: {
+        id: true,
+        code: true,
+        name: true,
+        city: true,
+        latitude: true,
+        longitude: true,
+      },
       take: 10,
     });
 
     if (candidates.length > 0) {
       // Sort candidates by length closeness to searchQuery
       const bestSubstring = candidates.sort(
-        (a, b) => Math.abs(a.name.length - searchQuery.length) - Math.abs(b.name.length - searchQuery.length),
+        (a, b) =>
+          Math.abs(a.name.length - searchQuery.length) -
+          Math.abs(b.name.length - searchQuery.length),
       )[0];
       return { ...bestSubstring, confidence: 0.85 };
     }
@@ -211,9 +270,18 @@ export class StationResolverService {
     const allStations = await this.prisma.station.findMany({
       where: {
         isActive: true,
-        ...(cityHint ? { city: { equals: cityHint, mode: 'insensitive' } } : {}),
+        ...(cityHint
+          ? { city: { equals: cityHint, mode: 'insensitive' } }
+          : {}),
       },
-      select: { id: true, code: true, name: true, city: true, latitude: true, longitude: true },
+      select: {
+        id: true,
+        code: true,
+        name: true,
+        city: true,
+        latitude: true,
+        longitude: true,
+      },
     });
 
     const targetNorm = normalizeName(searchQuery);
@@ -222,7 +290,10 @@ export class StationResolverService {
 
     for (const station of allStations) {
       const stationNorm = normalizeName(station.name);
-      if (stationNorm.includes(targetNorm) || targetNorm.includes(stationNorm)) {
+      if (
+        stationNorm.includes(targetNorm) ||
+        targetNorm.includes(stationNorm)
+      ) {
         return { ...station, confidence: 0.8 };
       }
       const dist = levenshteinDistance(targetNorm, stationNorm);
@@ -233,12 +304,20 @@ export class StationResolverService {
     }
 
     // Allow threshold if edit distance is small relative to string length
-    if (bestFuzzy && minDistance <= Math.max(3, Math.floor(targetNorm.length * 0.35))) {
-      const confidence = Math.max(0.4, 1 - minDistance / Math.max(targetNorm.length, 1));
+    if (
+      bestFuzzy &&
+      minDistance <= Math.max(3, Math.floor(targetNorm.length * 0.35))
+    ) {
+      const confidence = Math.max(
+        0.4,
+        1 - minDistance / Math.max(targetNorm.length, 1),
+      );
       return { ...bestFuzzy, confidence };
     }
 
-    this.logger.warn(`Could not resolve station for query "${rawQuery}" (cityHint: ${cityHint || 'none'})`);
+    this.logger.warn(
+      `Could not resolve station for query "${rawQuery}" (cityHint: ${cityHint || 'none'})`,
+    );
     return null;
   }
 }

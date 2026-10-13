@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from '../../../database/database.service';
 import { PipelineContext } from '../interfaces/pipeline-context.interface';
@@ -17,7 +12,12 @@ import {
   CanonicalStopTime,
   CanonicalFrequency,
 } from '../types/domain.types';
-import { LevelType, LineStatus, TractionType, SignallingType } from '@prisma/client';
+import {
+  LevelType,
+  LineStatus,
+  TractionType,
+  SignallingType,
+} from '@prisma/client';
 import {
   GtfsLevelRow,
   GtfsStopRow,
@@ -581,10 +581,7 @@ export class TransitImporter {
       stations.map((station) => [station.code, station.id]),
     );
     const stationCodeForStop = new Map(
-      stops.map((stop) => [
-        stop.stop_id,
-        stop.parent_station || stop.stop_id,
-      ]),
+      stops.map((stop) => [stop.stop_id, stop.parent_station || stop.stop_id]),
     );
 
     // Replace the active physical records for this system with the current
@@ -602,7 +599,9 @@ export class TransitImporter {
       data: { isActive: false },
     });
 
-    const levelById = new Map(feedLevels.map((level) => [level.level_id, level]));
+    const levelById = new Map(
+      feedLevels.map((level) => [level.level_id, level]),
+    );
     const levelStationCode = new Map<string, string>();
     for (const stop of stops) {
       if (stop.level_id && levelById.has(stop.level_id)) {
@@ -662,17 +661,22 @@ export class TransitImporter {
       levelDbId.set(`${stationCode}\u0000${levelCode}`, saved.id);
     }
 
-    const routeByTrip = new Map(trips.map((trip) => [trip.trip_id, trip.route_id]));
+    const routeByTrip = new Map(
+      trips.map((trip) => [trip.trip_id, trip.route_id]),
+    );
     const routeCodesByStop = new Map<string, Set<string>>();
     for (const stopTime of stopTimes) {
       const routeCode = routeByTrip.get(stopTime.trip_id);
       if (!routeCode) continue;
-      const routeCodes = routeCodesByStop.get(stopTime.stop_id) ?? new Set<string>();
+      const routeCodes =
+        routeCodesByStop.get(stopTime.stop_id) ?? new Set<string>();
       routeCodes.add(routeCode);
       routeCodesByStop.set(stopTime.stop_id, routeCodes);
     }
     const routeCodes = Array.from(
-      new Set(Array.from(routeCodesByStop.values()).flatMap((codes) => [...codes])),
+      new Set(
+        Array.from(routeCodesByStop.values()).flatMap((codes) => [...codes]),
+      ),
     );
     const lines = await this.prisma.line.findMany({
       where: { systemId: context.systemId, code: { in: routeCodes } },
@@ -692,7 +696,9 @@ export class TransitImporter {
       const lineId = lineIdByCode.get(trip.route_id);
       const tripTimes = timesByTrip.get(trip.trip_id);
       if (!lineId || !tripTimes?.length) continue;
-      tripTimes.sort((a, b) => Number(a.stop_sequence) - Number(b.stop_sequence));
+      tripTimes.sort(
+        (a, b) => Number(a.stop_sequence) - Number(b.stop_sequence),
+      );
       const terminalStopId = tripTimes[tripTimes.length - 1].stop_id;
       const terminalStationCode = stationCodeForStop.get(terminalStopId);
       const terminalStationId = terminalStationCode
@@ -704,7 +710,8 @@ export class TransitImporter {
         const stop = stopById.get(stopTime.stop_id);
         if (!stop?.platform_code) continue;
         const key = `${stop.stop_id}\u0000${lineId}`;
-        const destinations = towardsByPlatformLine.get(key) ?? new Set<string>();
+        const destinations =
+          towardsByPlatformLine.get(key) ?? new Set<string>();
         destinations.add(terminalStationId);
         towardsByPlatformLine.set(key, destinations);
       }
@@ -887,11 +894,16 @@ export class TransitImporter {
 
     for (const transfer of transfers) {
       if (Number(transfer.transfer_type) === 3) continue;
-      const fromCode = stationCodeForStop.get(transfer.from_stop_id) ?? transfer.from_stop_id;
-      const toCode = stationCodeForStop.get(transfer.to_stop_id) ?? transfer.to_stop_id;
-      const fromStationId = fromCode ? stationIdByCode.get(fromCode) : undefined;
+      const fromCode =
+        stationCodeForStop.get(transfer.from_stop_id) ?? transfer.from_stop_id;
+      const toCode =
+        stationCodeForStop.get(transfer.to_stop_id) ?? transfer.to_stop_id;
+      const fromStationId = fromCode
+        ? stationIdByCode.get(fromCode)
+        : undefined;
       const toStationId = toCode ? stationIdByCode.get(toCode) : undefined;
-      if (!fromStationId || !toStationId || fromStationId === toStationId) continue;
+      if (!fromStationId || !toStationId || fromStationId === toStationId)
+        continue;
 
       const fromPlatforms = platformForTransferStop(
         transfer.from_stop_id,
@@ -906,15 +918,21 @@ export class TransitImporter {
       if (!fromCoordinate || !toCoordinate) continue;
 
       const radians = (degrees: number) => (degrees * Math.PI) / 180;
-      const latitudeDelta = radians(toCoordinate.latitude - fromCoordinate.latitude);
-      const longitudeDelta = radians(toCoordinate.longitude - fromCoordinate.longitude);
+      const latitudeDelta = radians(
+        toCoordinate.latitude - fromCoordinate.latitude,
+      );
+      const longitudeDelta = radians(
+        toCoordinate.longitude - fromCoordinate.longitude,
+      );
       const haversine =
         Math.sin(latitudeDelta / 2) ** 2 +
         Math.cos(radians(fromCoordinate.latitude)) *
           Math.cos(radians(toCoordinate.latitude)) *
           Math.sin(longitudeDelta / 2) ** 2;
       const walkingDistance =
-        6371000 * 2 * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine));
+        6371000 *
+        2 *
+        Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine));
       const walkingTime = Math.max(
         0,
         Number.parseInt(transfer.min_transfer_time ?? '0', 10) || 0,

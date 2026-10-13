@@ -182,14 +182,16 @@ export class IngestionService {
       // 4. PIPELINE STAGE: STOPS (STATIONS)
       if (fs.existsSync(path.join(extractedDir, 'stops.txt'))) {
         const rawStops = await this.stopsParser.parse(context);
-        normalizedStops = this.stationNormalizer.normalize(context, rawStops);
+        normalizedStops = this.stationNormalizer.normalize(context, rawStops) || [];
         // Keep GTFS child platform stop_ids resolvable by stop_times after
         // StationTransformer folds them into their parent station record.
         for (const stop of normalizedStops) {
           stopToStationCode.set(
             stop.stop_id,
             stop.parent_station ||
-              (stop.location_type === '1' ? stop.stop_id : `ST_${stop.stop_id}`),
+              (stop.location_type === '1'
+                ? stop.stop_id
+                : `ST_${stop.stop_id}`),
           );
         }
         const domain = await this.stationTransformer.transform(
@@ -270,11 +272,9 @@ export class IngestionService {
       // 10. PIPELINE STAGE: STOP TIMES
       if (fs.existsSync(path.join(extractedDir, 'stop_times.txt'))) {
         const rawStopTimes = await this.stopTimesParser.parse(context);
-        normalizedStopTimes = this.stopTimesNormalizer.normalize(
-          context,
-          rawStopTimes,
-        );
-        const stationNormalized = normalizedStopTimes.map((row) => ({
+        normalizedStopTimes =
+          this.stopTimesNormalizer.normalize(context, rawStopTimes) || [];
+        const stationNormalized = (normalizedStopTimes || []).map((row) => ({
           ...row,
           stop_id: stopToStationCode.get(row.stop_id) ?? row.stop_id,
         }));

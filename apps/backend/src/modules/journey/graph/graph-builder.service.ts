@@ -402,24 +402,34 @@ export class GraphBuilderService {
         const to = nodeList[j];
 
         if (from.id === to.id) continue;
-        const sharesLine = from.lineIds.some((lineId) => to.lineIds.includes(lineId));
+        const sharesLine = from.lineIds.some((lineId) =>
+          to.lineIds.includes(lineId),
+        );
         if (sharesLine) continue;
 
         const pairKey = [from.id, to.id].sort().join(':');
         if (addedWalkPairs.has(pairKey)) continue;
 
-        const dist = this.getDistanceMeters(
-          from.lat,
-          from.lng,
-          to.lat,
-          to.lng,
-        );
+        const dist = this.getDistanceMeters(from.lat, from.lng, to.lat, to.lng);
 
         if (dist <= MAX_WALK_DISTANCE_METERS) {
           addedWalkPairs.add(pairKey);
-          const walkSeconds = Math.max(60, Math.round(dist / WALKING_SPEED_MPS));
-          addEdge({ from: from.id, to: to.id, type: EdgeType.WALK, duration: walkSeconds });
-          addEdge({ from: to.id, to: from.id, type: EdgeType.WALK, duration: walkSeconds });
+          const walkSeconds = Math.max(
+            60,
+            Math.round(dist / WALKING_SPEED_MPS),
+          );
+          addEdge({
+            from: from.id,
+            to: to.id,
+            type: EdgeType.WALK,
+            duration: walkSeconds,
+          });
+          addEdge({
+            from: to.id,
+            to: from.id,
+            type: EdgeType.WALK,
+            duration: walkSeconds,
+          });
           walkEdgeCount += 2;
         }
       }

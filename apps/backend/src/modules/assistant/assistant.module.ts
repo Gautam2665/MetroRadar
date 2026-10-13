@@ -9,22 +9,13 @@ import { AiAssistantService } from './services/ai-assistant.service';
 import { AssistantController } from './controllers/assistant.controller';
 
 @Module({
-  imports: [
-    DatabaseModule,
-    JourneyModule,
-    RealtimeModule,
-    GisModule,
-  ],
+  imports: [DatabaseModule, JourneyModule, RealtimeModule, GisModule],
   controllers: [AssistantController],
   providers: [
     StationResolverService,
     AssistantToolsService,
     AiAssistantService,
   ],
-  exports: [
-    StationResolverService,
-    AssistantToolsService,
-    AiAssistantService,
-  ],
+  exports: [StationResolverService, AssistantToolsService, AiAssistantService],
 })
 export class AssistantModule {}

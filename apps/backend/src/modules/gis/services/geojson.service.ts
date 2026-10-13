@@ -502,10 +502,18 @@ export class GeojsonService {
   /**
    * Serves indoor features (levels, platforms, entrances) for indoor mall-style zooming and level filtering.
    */
-  async getStationIndoorGeoJson(stationId: string, levelFilter?: string): Promise<Record<string, unknown>> {
-    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(stationId);
+  async getStationIndoorGeoJson(
+    stationId: string,
+    levelFilter?: string,
+  ): Promise<Record<string, unknown>> {
+    const isUuid =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+        stationId,
+      );
     const station = await this.prisma.station.findFirst({
-      where: isUuid ? { id: stationId, isActive: true } : { code: stationId, isActive: true },
+      where: isUuid
+        ? { id: stationId, isActive: true }
+        : { code: stationId, isActive: true },
       include: {
         levels: { where: { isActive: true } },
         entrances: { where: { isActive: true } },
@@ -551,7 +559,8 @@ export class GeojsonService {
       const lvlNum = pf.level?.levelNumber ?? 2;
       const lvlTag = lvlNum <= 0 ? 'LVL_G' : lvlNum === 1 ? 'LVL_L1' : 'LVL_L2';
       // Offset slightly for indoor visual differentiation if identical coords
-      const offsetLat = (parseInt(pf.platformNumber, 10) === 2 ? 0.00015 : -0.00015);
+      const offsetLat =
+        parseInt(pf.platformNumber, 10) === 2 ? 0.00015 : -0.00015;
 
       features.push({
         type: 'Feature',
@@ -583,7 +592,8 @@ export class GeojsonService {
         const lNum = f.properties?.levelNumber;
         if (normalizedFilter === 'G') return lid === 'LVL_G' || lNum === 0;
         if (normalizedFilter === 'L1') return lid === 'LVL_L1' || lNum === 1;
-        if (normalizedFilter === 'L2') return lid === 'LVL_L2' || lNum >= 2 || lNum === -1;
+        if (normalizedFilter === 'L2')
+          return lid === 'LVL_L2' || lNum >= 2 || lNum === -1;
         return lid === normalizedFilter;
       });
     }

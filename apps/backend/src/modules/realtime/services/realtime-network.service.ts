@@ -66,7 +66,10 @@ export class RealtimeNetworkService {
     stationId: string,
   ): Promise<StationLiveBoardingResponse> {
     // 1. Fetch station details from DB
-    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(stationId);
+    const isUuid =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+        stationId,
+      );
     let targetStation = await this.prisma.station.findFirst({
       where: isUuid
         ? { id: stationId, isActive: true }
@@ -200,7 +203,9 @@ export class RealtimeNetworkService {
               directionId: true,
               tripHeadsign: true,
               serviceId: true,
-              line: { select: { id: true, code: true, name: true, color: true } },
+              line: {
+                select: { id: true, code: true, name: true, color: true },
+              },
               stopTimes: {
                 orderBy: { stopSequence: 'desc' },
                 take: 1,
@@ -248,7 +253,8 @@ export class RealtimeNetworkService {
       let etaMinutes = 0;
       if (!isBoarding) {
         let diffArrSecs = predArrSecs - nowSecs;
-        if (diffArrSecs < 0 && nowSecs > 80000 && predArrSecs < 7200) diffArrSecs += 86400;
+        if (diffArrSecs < 0 && nowSecs > 80000 && predArrSecs < 7200)
+          diffArrSecs += 86400;
         etaMinutes = Math.max(1, Math.round(diffArrSecs / 60));
       }
 
@@ -322,29 +328,41 @@ export class RealtimeNetworkService {
           const upcoming = directionStopTimesMap.get(groupKey) || [];
 
           // Filter out entries with diffSecs > 7200 (2h) — these are likely midnight-wrap artefacts
-          const validUpcoming = upcoming.filter((item) => item.diffSecs <= 7200);
+          const validUpcoming = upcoming.filter(
+            (item) => item.diffSecs <= 7200,
+          );
 
-          const incomingTrains: IncomingTrain[] = validUpcoming.slice(0, 2).map((item, vIdx) => {
-            const liveVehicle = activeVehicles.find((v) => v.tripId === item.tripId);
-            const vehicleId = liveVehicle?.vehicleId || `VEH_${item.lineCode}_${dir + 1}_${vIdx + 1}`;
-            const label = liveVehicle?.vehicleId ? `Train ${liveVehicle.vehicleId}` : `Train ${item.lineCode}-${dir + 1}`;
-            const status = item.isBoarding ? 'STOPPED_AT' : (liveVehicle?.currentStatus || 'SCHEDULED');
-            const latitude = liveVehicle?.latitude || 0;
-            const longitude = liveVehicle?.longitude || 0;
-            const coaches = liveVehicle?.multiCarriageDetails || [];
+          const incomingTrains: IncomingTrain[] = validUpcoming
+            .slice(0, 2)
+            .map((item, vIdx) => {
+              const liveVehicle = activeVehicles.find(
+                (v) => v.tripId === item.tripId,
+              );
+              const vehicleId =
+                liveVehicle?.vehicleId ||
+                `VEH_${item.lineCode}_${dir + 1}_${vIdx + 1}`;
+              const label = liveVehicle?.vehicleId
+                ? `Train ${liveVehicle.vehicleId}`
+                : `Train ${item.lineCode}-${dir + 1}`;
+              const status = item.isBoarding
+                ? 'STOPPED_AT'
+                : liveVehicle?.currentStatus || 'SCHEDULED';
+              const latitude = liveVehicle?.latitude || 0;
+              const longitude = liveVehicle?.longitude || 0;
+              const coaches = liveVehicle?.multiCarriageDetails || [];
 
-            return {
-              vehicleId,
-              tripId: item.tripId,
-              label,
-              status,
-              latitude,
-              longitude,
-              delaySeconds: item.delaySeconds,
-              etaMinutes: item.etaMinutes,
-              coaches,
-            };
-          });
+              return {
+                vehicleId,
+                tripId: item.tripId,
+                label,
+                status,
+                latitude,
+                longitude,
+                delaySeconds: item.delaySeconds,
+                etaMinutes: item.etaMinutes,
+                coaches,
+              };
+            });
 
           if (incomingTrains.length === 0) {
             const baseEta = dir === 0 ? 3 : 5;
@@ -362,7 +380,8 @@ export class RealtimeNetworkService {
           }
 
           const topUpcoming = upcoming[0];
-          const towardsStationName = topUpcoming?.headsign || `Terminal (${line.name})`;
+          const towardsStationName =
+            topUpcoming?.headsign || `Terminal (${line.name})`;
 
           syntheticPlatforms.push({
             platformId: `synth-pf-${line.id}-${dir + 1}`,
@@ -388,97 +407,108 @@ export class RealtimeNetworkService {
     // 9. Format actual DB platforms mapping platform_code / platformNumber to exact direction:
     // Platform 1 -> direction_id 0 (e.g. Gundavali Southbound, Andheri West, Ghatkopar)
     // Platform 2 -> direction_id 1 (e.g. Kashigaon Northbound, Dahisar East, Versova)
-    const livePlatforms: PlatformLiveBoarding[] = platforms.map((platform, pfIdx) => {
-      const line = platform.line;
-      const lineKey = line.id;
-      const pNum = parseInt(platform.platformNumber, 10);
-      let targetDir = isNaN(pNum) ? (pfIdx % 2) : (pNum - 1) % 2;
+    const livePlatforms: PlatformLiveBoarding[] = platforms.map(
+      (platform, pfIdx) => {
+        const line = platform.line;
+        const lineKey = line.id;
+        const pNum = parseInt(platform.platformNumber, 10);
+        let targetDir = isNaN(pNum) ? pfIdx % 2 : (pNum - 1) % 2;
 
-      // If platform has explicit towardsStation, match with direction 0 or 1 headsigns
-      if (platform.towardsStation?.name) {
-        const tName = platform.towardsStation.name.toLowerCase();
-        const dir0Items = directionStopTimesMap.get(`${lineKey}_0`) || [];
-        const dir1Items = directionStopTimesMap.get(`${lineKey}_1`) || [];
-        if (dir0Items.some((i) => i.headsign.toLowerCase().includes(tName))) {
-          targetDir = 0;
-        } else if (dir1Items.some((i) => i.headsign.toLowerCase().includes(tName))) {
-          targetDir = 1;
+        // If platform has explicit towardsStation, match with direction 0 or 1 headsigns
+        if (platform.towardsStation?.name) {
+          const tName = platform.towardsStation.name.toLowerCase();
+          const dir0Items = directionStopTimesMap.get(`${lineKey}_0`) || [];
+          const dir1Items = directionStopTimesMap.get(`${lineKey}_1`) || [];
+          if (dir0Items.some((i) => i.headsign.toLowerCase().includes(tName))) {
+            targetDir = 0;
+          } else if (
+            dir1Items.some((i) => i.headsign.toLowerCase().includes(tName))
+          ) {
+            targetDir = 1;
+          }
         }
-      }
 
-      const groupKey = `${lineKey}_${targetDir}`;
-      let targetUpcoming = directionStopTimesMap.get(groupKey) || [];
+        const groupKey = `${lineKey}_${targetDir}`;
+        let targetUpcoming = directionStopTimesMap.get(groupKey) || [];
 
-      // Check if this platform represents the terminating arrival side of a terminus
-      const terminatingArrivals = terminalArrivalsMap.get(groupKey) || [];
-      const isTerminusArrivalPlatform = targetUpcoming.length === 0 && terminatingArrivals.length > 0;
+        // Check if this platform represents the terminating arrival side of a terminus
+        const terminatingArrivals = terminalArrivalsMap.get(groupKey) || [];
+        const isTerminusArrivalPlatform =
+          targetUpcoming.length === 0 && terminatingArrivals.length > 0;
 
-      if (isTerminusArrivalPlatform) {
-        targetUpcoming = terminatingArrivals;
-      }
+        if (isTerminusArrivalPlatform) {
+          targetUpcoming = terminatingArrivals;
+        }
 
-      // Filter out departures further than 2 hours ahead
-      targetUpcoming = targetUpcoming.filter((item) => item.diffSecs <= 7200);
+        // Filter out departures further than 2 hours ahead
+        targetUpcoming = targetUpcoming.filter((item) => item.diffSecs <= 7200);
 
-      const incomingTrains: IncomingTrain[] = targetUpcoming.slice(0, 2).map((item, vIdx) => {
-        const liveVehicle = activeVehicles.find((v) => v.tripId === item.tripId);
-        const vehicleId = liveVehicle?.vehicleId || `VEH_${item.lineCode}_${targetDir + 1}_${vIdx + 1}`;
-        const label = liveVehicle?.vehicleId
-          ? `Train ${liveVehicle.vehicleId}`
-          : `Train ${item.lineCode}-${targetDir + 1}`;
-        const status = item.isBoarding
-          ? 'STOPPED_AT'
-          : (liveVehicle?.currentStatus || 'SCHEDULED');
-        const latitude = liveVehicle?.latitude || 0;
-        const longitude = liveVehicle?.longitude || 0;
-        const coaches = liveVehicle?.multiCarriageDetails || [];
+        const incomingTrains: IncomingTrain[] = targetUpcoming
+          .slice(0, 2)
+          .map((item, vIdx) => {
+            const liveVehicle = activeVehicles.find(
+              (v) => v.tripId === item.tripId,
+            );
+            const vehicleId =
+              liveVehicle?.vehicleId ||
+              `VEH_${item.lineCode}_${targetDir + 1}_${vIdx + 1}`;
+            const label = liveVehicle?.vehicleId
+              ? `Train ${liveVehicle.vehicleId}`
+              : `Train ${item.lineCode}-${targetDir + 1}`;
+            const status = item.isBoarding
+              ? 'STOPPED_AT'
+              : liveVehicle?.currentStatus || 'SCHEDULED';
+            const latitude = liveVehicle?.latitude || 0;
+            const longitude = liveVehicle?.longitude || 0;
+            const coaches = liveVehicle?.multiCarriageDetails || [];
+
+            return {
+              vehicleId,
+              tripId: item.tripId,
+              label,
+              status,
+              latitude,
+              longitude,
+              delaySeconds: item.delaySeconds,
+              etaMinutes: item.etaMinutes,
+              coaches,
+            };
+          });
+
+        if (incomingTrains.length === 0) {
+          const baseEta = targetDir === 0 ? 3 : 5;
+          incomingTrains.push({
+            vehicleId: `TRAIN_${line.code}_${platform.platformNumber}`,
+            tripId: `TRIP_${line.code}_${platform.platformNumber}`,
+            label: `Scheduled Train`,
+            status: 'SCHEDULED',
+            latitude: 0,
+            longitude: 0,
+            delaySeconds: 0,
+            etaMinutes: baseEta,
+            coaches: [],
+          });
+        }
+
+        const topUpcoming = targetUpcoming[0];
+        const towardsStationName = isTerminusArrivalPlatform
+          ? 'Terminating / Drop-off Only'
+          : topUpcoming?.headsign ||
+            platform.towardsStation?.name ||
+            `Terminal (${line.name})`;
 
         return {
-          vehicleId,
-          tripId: item.tripId,
-          label,
-          status,
-          latitude,
-          longitude,
-          delaySeconds: item.delaySeconds,
-          etaMinutes: item.etaMinutes,
-          coaches,
+          platformId: platform.id,
+          platformNumber: `Platform ${platform.platformNumber}`,
+          lineId: line.id,
+          lineCode: line.code,
+          lineName: line.name,
+          lineColor: line.color || '#00e5ff',
+          towardsStationName,
+          trains: incomingTrains,
         };
-      });
-
-      if (incomingTrains.length === 0) {
-        const baseEta = targetDir === 0 ? 3 : 5;
-        incomingTrains.push({
-          vehicleId: `TRAIN_${line.code}_${platform.platformNumber}`,
-          tripId: `TRIP_${line.code}_${platform.platformNumber}`,
-          label: `Scheduled Train`,
-          status: 'SCHEDULED',
-          latitude: 0,
-          longitude: 0,
-          delaySeconds: 0,
-          etaMinutes: baseEta,
-          coaches: [],
-        });
-      }
-
-      const topUpcoming = targetUpcoming[0];
-      const towardsStationName = isTerminusArrivalPlatform
-        ? 'Terminating / Drop-off Only'
-        : topUpcoming?.headsign ||
-          platform.towardsStation?.name ||
-          `Terminal (${line.name})`;
-
-      return {
-        platformId: platform.id,
-        platformNumber: `Platform ${platform.platformNumber}`,
-        lineId: line.id,
-        lineCode: line.code,
-        lineName: line.name,
-        lineColor: line.color || '#00e5ff',
-        towardsStationName,
-        trains: incomingTrains,
-      };
-    });
+      },
+    );
 
     return {
       stationId: targetStation.id,
@@ -488,8 +518,25 @@ export class RealtimeNetworkService {
     };
   }
 
-  private getDayField(date: Date): 'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' {
-    const days: Array<'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday'> = [
+  private getDayField(
+    date: Date,
+  ):
+    | 'sunday'
+    | 'monday'
+    | 'tuesday'
+    | 'wednesday'
+    | 'thursday'
+    | 'friday'
+    | 'saturday' {
+    const days: Array<
+      | 'sunday'
+      | 'monday'
+      | 'tuesday'
+      | 'wednesday'
+      | 'thursday'
+      | 'friday'
+      | 'saturday'
+    > = [
       'sunday',
       'monday',
       'tuesday',
@@ -505,8 +552,8 @@ export class RealtimeNetworkService {
     if (!tStr) return 0;
     const parts = tStr.split(':').map(Number);
     let hrs = parts[0] || 0;
-    let mins = parts[1] || 0;
-    let secs = parts[2] || 0;
+    const mins = parts[1] || 0;
+    const secs = parts[2] || 0;
     if (hrs >= 24) hrs = hrs % 24;
     return hrs * 3600 + mins * 60 + secs;
   }

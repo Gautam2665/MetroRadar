@@ -1,7 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { GoogleGenAI, Type, FunctionDeclaration } from '@google/genai';
-import { AssistantToolsService, ToolExecutionResult } from './assistant-tools.service';
+import {
+  AssistantToolsService,
+  ToolExecutionResult,
+} from './assistant-tools.service';
 
 export interface ChatMessage {
   role: 'user' | 'assistant' | 'system';
@@ -39,17 +42,20 @@ ABSOLUTE GROUNDING & SAFETY DIRECTIVES:
 
 const PLAN_JOURNEY_DECLARATION: FunctionDeclaration = {
   name: 'plan_journey',
-  description: 'Calculates the fastest or fewest-transfer transit route between two metro stations, colonies, localities, or landmarks. Automatically snaps localities to nearest metro stations.',
+  description:
+    'Calculates the fastest or fewest-transfer transit route between two metro stations, colonies, localities, or landmarks. Automatically snaps localities to nearest metro stations.',
   parameters: {
     type: Type.OBJECT,
     properties: {
       originStation: {
         type: Type.STRING,
-        description: 'Name of origin station, locality, colony, or landmark (e.g. MHB Colony, Borivali, Ghatkopar, Gundavali, WEH, BKC)',
+        description:
+          'Name of origin station, locality, colony, or landmark (e.g. MHB Colony, Borivali, Ghatkopar, Gundavali, WEH, BKC)',
       },
       destinationStation: {
         type: Type.STRING,
-        description: 'Name of destination station, locality, or landmark (e.g. Rameshwaram Cafe Churchgate, BKC, Airport T2, Andheri West, CSMT)',
+        description:
+          'Name of destination station, locality, or landmark (e.g. Rameshwaram Cafe Churchgate, BKC, Airport T2, Andheri West, CSMT)',
       },
       preference: {
         type: Type.STRING,
@@ -63,13 +69,15 @@ const PLAN_JOURNEY_DECLARATION: FunctionDeclaration = {
 
 const GET_LIVE_ETA_DECLARATION: FunctionDeclaration = {
   name: 'get_live_platform_eta',
-  description: 'Fetches real-time live incoming trains, platform countdowns, delays, and line status for a specific station.',
+  description:
+    'Fetches real-time live incoming trains, platform countdowns, delays, and line status for a specific station.',
   parameters: {
     type: Type.OBJECT,
     properties: {
       stationName: {
         type: Type.STRING,
-        description: 'Name of the station (e.g. Gundavali, Andheri West, Ghatkopar)',
+        description:
+          'Name of the station (e.g. Gundavali, Andheri West, Ghatkopar)',
       },
       lineCode: {
         type: Type.STRING,
@@ -82,7 +90,8 @@ const GET_LIVE_ETA_DECLARATION: FunctionDeclaration = {
 
 const GET_STATION_FACILITIES_DECLARATION: FunctionDeclaration = {
   name: 'get_station_facilities',
-  description: 'Provides physical digital twin details for a station: accessibility (lifts/escalators), exit gates, and amenities.',
+  description:
+    'Provides physical digital twin details for a station: accessibility (lifts/escalators), exit gates, and amenities.',
   parameters: {
     type: Type.OBJECT,
     properties: {
@@ -105,11 +114,16 @@ export class AiAssistantService {
     private readonly config: ConfigService,
     private readonly toolsService: AssistantToolsService,
   ) {
-    this.apiKey = this.config.get<string>('GEMINI_API_KEY') || process.env.GEMINI_API_KEY || null;
+    this.apiKey =
+      this.config.get<string>('GEMINI_API_KEY') ||
+      process.env.GEMINI_API_KEY ||
+      null;
     if (this.apiKey) {
       try {
         this.aiClient = new GoogleGenAI({ apiKey: this.apiKey });
-        this.logger.log('Gemini AI Client initialized successfully for AI Assistant Gateway.');
+        this.logger.log(
+          'Gemini AI Client initialized successfully for AI Assistant Gateway.',
+        );
       } catch (err) {
         this.logger.warn(`Failed to initialize GoogleGenAI: ${err}`);
       }
@@ -139,7 +153,9 @@ export class AiAssistantService {
         return await this.processWithGemini(trimmed, cityHint, history);
       } catch (err: unknown) {
         const msg = err instanceof Error ? err.message : String(err);
-        this.logger.error(`Gemini generation failed: ${msg}. Falling back to deterministic rule engine.`);
+        this.logger.error(
+          `Gemini generation failed: ${msg}. Falling back to deterministic rule engine.`,
+        );
       }
     }
 
@@ -158,7 +174,8 @@ export class AiAssistantService {
     const model = 'gemini-2.0-flash';
 
     // Format chat contents
-    const contents: Array<{ role: string; parts: Array<{ text?: string }> }> = [];
+    const contents: Array<{ role: string; parts: Array<{ text?: string }> }> =
+      [];
 
     for (const msg of history.slice(-6)) {
       contents.push({
@@ -168,7 +185,9 @@ export class AiAssistantService {
     }
 
     // Current turn
-    const contextPrefix = cityHint ? `[Commuter City Context: ${cityHint}] ` : '';
+    const contextPrefix = cityHint
+      ? `[Commuter City Context: ${cityHint}] `
+      : '';
     contents.push({
       role: 'user',
       parts: [{ text: `${contextPrefix}${userMessage}` }],
@@ -254,14 +273,17 @@ export class AiAssistantService {
       });
 
       return {
-        reply: followUp.text || 'Here is the transit information for your trip.',
+        reply:
+          followUp.text || 'Here is the transit information for your trip.',
         toolUsed: toolName,
         uiPayload: toolResult.uiPayload,
       };
     }
 
     return {
-      reply: response.text || 'I could not find that transit information. Could you specify origin and destination?',
+      reply:
+        response.text ||
+        'I could not find that transit information. Could you specify origin and destination?',
     };
   }
 
@@ -277,9 +299,15 @@ export class AiAssistantService {
     // 1. Check for "to / from" journey pattern
     // e.g. "How to reach BKC from Borivali", "i want to go from mhb colony to rameshwaram cafe in churchgate", "Borivali to Gundavali"
     const fromToMatch =
-      message.match(/(?:from|starting\s+at)\s+([a-zA-Z0-9\s.,'-]+?)\s+(?:to|towards)\s+([a-zA-Z0-9\s.,'-]+)/i) ||
-      message.match(/(?:reach|go\s+to|visit)\s+([a-zA-Z0-9\s.,'-]+?)\s+from\s+([a-zA-Z0-9\s.,'-]+)/i) ||
-      message.match(/([a-zA-Z0-9\s.,'-]+?)\s+(?:to|->)\s+([a-zA-Z0-9\s.,'-]+)/i);
+      message.match(
+        /(?:from|starting\s+at)\s+([a-zA-Z0-9\s.,'-]+?)\s+(?:to|towards)\s+([a-zA-Z0-9\s.,'-]+)/i,
+      ) ||
+      message.match(
+        /(?:reach|go\s+to|visit)\s+([a-zA-Z0-9\s.,'-]+?)\s+from\s+([a-zA-Z0-9\s.,'-]+)/i,
+      ) ||
+      message.match(
+        /([a-zA-Z0-9\s.,'-]+?)\s+(?:to|->)\s+([a-zA-Z0-9\s.,'-]+)/i,
+      );
 
     if (fromToMatch) {
       let origin: string;
@@ -293,7 +321,12 @@ export class AiAssistantService {
         destination = fromToMatch[2].trim();
       }
 
-      const res = await this.toolsService.planJourney(origin, destination, 'fastest', cityHint);
+      const res = await this.toolsService.planJourney(
+        origin,
+        destination,
+        'fastest',
+        cityHint,
+      );
       if (res.success && res.data) {
         const d = res.data as any;
         let poiNote = '';
@@ -313,24 +346,36 @@ export class AiAssistantService {
         };
       }
       return {
-        reply: res.error || `I couldn't calculate a route between ${origin} and ${destination}.`,
+        reply:
+          res.error ||
+          `I couldn't calculate a route between ${origin} and ${destination}.`,
       };
     }
 
     // 2. Check for live platform / train status pattern
     // e.g. "Next train at Gundavali", "Live train at Andheri"
     const liveMatch =
-      message.match(/(?:next train|when is next train|live train|trains at|status at|platform at)\s+(?:at\s+)?([a-zA-Z0-9\s.]+)/i) ||
-      message.match(/([a-zA-Z0-9\s.]+?)\s+(?:next train|live platform|train times)/i);
+      message.match(
+        /(?:next train|when is next train|live train|trains at|status at|platform at)\s+(?:at\s+)?([a-zA-Z0-9\s.]+)/i,
+      ) ||
+      message.match(
+        /([a-zA-Z0-9\s.]+?)\s+(?:next train|live platform|train times)/i,
+      );
 
     if (liveMatch) {
       const station = liveMatch[1].trim();
-      const res = await this.toolsService.getLivePlatformEta(station, undefined, cityHint);
+      const res = await this.toolsService.getLivePlatformEta(
+        station,
+        undefined,
+        cityHint,
+      );
       if (res.success && res.data) {
         const d = res.data as any;
         const p0 = d.platforms && d.platforms[0];
         const nextT = p0?.nextTrains && p0.nextTrains[0];
-        const etaText = nextT ? `in ~${nextT.etaMinutes} min` : 'scheduled soon';
+        const etaText = nextT
+          ? `in ~${nextT.etaMinutes} min`
+          : 'scheduled soon';
         const reply = `Live at ${d.stationName}: Platform ${p0?.platformNumber || '1'} (${p0?.towards || 'Terminal'}) train arrives ${etaText}.`;
         return {
           reply,
@@ -346,12 +391,19 @@ export class AiAssistantService {
     // 3. Check for facility / accessibility query
     // e.g. "Is Gundavali wheelchair accessible?", "Lifts at Andheri"
     const facilityMatch =
-      message.match(/(?:wheelchair|lift|escalator|gate|amenities|facility)\s+(?:at|in)\s+([a-zA-Z0-9\s.]+)/i) ||
-      message.match(/is\s+([a-zA-Z0-9\s.]+?)\s+(?:wheelchair accessible|accessible)/i);
+      message.match(
+        /(?:wheelchair|lift|escalator|gate|amenities|facility)\s+(?:at|in)\s+([a-zA-Z0-9\s.]+)/i,
+      ) ||
+      message.match(
+        /is\s+([a-zA-Z0-9\s.]+?)\s+(?:wheelchair accessible|accessible)/i,
+      );
 
     if (facilityMatch) {
       const station = facilityMatch[1].trim();
-      const res = await this.toolsService.getStationFacilities(station, cityHint);
+      const res = await this.toolsService.getStationFacilities(
+        station,
+        cityHint,
+      );
       if (res.success && res.data) {
         const d = res.data as any;
         const reply = `${d.stationName} has ${d.entrances.length} gates, accessibility amenities, and ${d.levelCount} levels.`;

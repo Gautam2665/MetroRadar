@@ -54,8 +54,17 @@ interface InterchangeRegistry {
 }
 
 interface GtfsTransferFacts {
-  transfers: Array<{ fromStopId: string; toStopId: string; minTransferTime: number | null }>;
-  pathways: Array<{ fromStopId: string; toStopId: string; length: number | null; traversalTime: number | null }>;
+  transfers: Array<{
+    fromStopId: string;
+    toStopId: string;
+    minTransferTime: number | null;
+  }>;
+  pathways: Array<{
+    fromStopId: string;
+    toStopId: string;
+    length: number | null;
+    traversalTime: number | null;
+  }>;
   stationByStopId: Map<string, string>;
 }
 
@@ -142,13 +151,15 @@ export class InterchangeEvaluatorService {
     const lines = content.split(/\r?\n/).filter(Boolean);
     if (lines.length < 2) return [];
     const parseLine = (line: string) =>
-      line.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/).map((value) =>
-        value.replace(/^"|"$/g, '').replace(/""/g, '"'),
-      );
+      line
+        .split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/)
+        .map((value) => value.replace(/^"|"$/g, '').replace(/""/g, '"'));
     const headers = parseLine(lines[0]);
     return lines.slice(1).map((line) => {
       const values = parseLine(line);
-      return Object.fromEntries(headers.map((header, index) => [header, values[index] ?? '']));
+      return Object.fromEntries(
+        headers.map((header, index) => [header, values[index] ?? '']),
+      );
     });
   }
 
@@ -160,21 +171,36 @@ export class InterchangeEvaluatorService {
     ];
     for (const directory of directories) {
       try {
-        const stops = this.parseGtfsCsv(fs.readFileSync(path.join(directory, 'stops.txt'), 'utf8'));
-        const transfers = this.parseGtfsCsv(fs.readFileSync(path.join(directory, 'transfers.txt'), 'utf8'));
-        const pathways = this.parseGtfsCsv(fs.readFileSync(path.join(directory, 'pathways.txt'), 'utf8'));
+        const stops = this.parseGtfsCsv(
+          fs.readFileSync(path.join(directory, 'stops.txt'), 'utf8'),
+        );
+        const transfers = this.parseGtfsCsv(
+          fs.readFileSync(path.join(directory, 'transfers.txt'), 'utf8'),
+        );
+        const pathways = this.parseGtfsCsv(
+          fs.readFileSync(path.join(directory, 'pathways.txt'), 'utf8'),
+        );
         this.gtfsTransferFacts = {
-          stationByStopId: new Map(stops.map((stop) => [stop.stop_id, stop.parent_station || stop.stop_id])),
+          stationByStopId: new Map(
+            stops.map((stop) => [
+              stop.stop_id,
+              stop.parent_station || stop.stop_id,
+            ]),
+          ),
           transfers: transfers.map((row) => ({
             fromStopId: row.from_stop_id,
             toStopId: row.to_stop_id,
-            minTransferTime: row.min_transfer_time === '' ? null : Number(row.min_transfer_time),
+            minTransferTime:
+              row.min_transfer_time === ''
+                ? null
+                : Number(row.min_transfer_time),
           })),
           pathways: pathways.map((row) => ({
             fromStopId: row.from_stop_id,
             toStopId: row.to_stop_id,
             length: row.length === '' ? null : Number(row.length),
-            traversalTime: row.traversal_time === '' ? null : Number(row.traversal_time),
+            traversalTime:
+              row.traversal_time === '' ? null : Number(row.traversal_time),
           })),
         };
         return this.gtfsTransferFacts;
@@ -404,9 +430,13 @@ export class InterchangeEvaluatorService {
     // Humanize technical node codes like "L7_CONCOURSE" -> "Concourse", "FOB" -> "Foot Overbridge (FOB)", "L1_PLATFORM" -> "Platform"
     if (!signpostedAs && toNodeName) {
       if (toNodeName.toUpperCase().includes('CONCOURSE')) {
-        dest = toNodeName.includes('_') ? `${toNodeName.split('_')[0]} Concourse` : 'Concourse';
+        dest = toNodeName.includes('_')
+          ? `${toNodeName.split('_')[0]} Concourse`
+          : 'Concourse';
       } else if (toNodeName.toUpperCase().includes('PLATFORM')) {
-        dest = toNodeName.includes('_') ? `${toNodeName.split('_')[0]} Platform` : 'Platform';
+        dest = toNodeName.includes('_')
+          ? `${toNodeName.split('_')[0]} Platform`
+          : 'Platform';
       } else if (toNodeName.toUpperCase() === 'FOB') {
         dest = 'Foot Overbridge (FOB)';
       }
@@ -419,9 +449,7 @@ export class InterchangeEvaluatorService {
 
     switch (pathwayMode) {
       case 1: // Walkway
-        return distText
-          ? `Walk ${distText} via ${dest}`
-          : `Walk to ${dest}`;
+        return distText ? `Walk ${distText} via ${dest}` : `Walk to ${dest}`;
       case 2: // Stairs
         return `Take stairs to ${dest}`;
       case 3: // Moving walkway / Travelator
@@ -467,18 +495,19 @@ export class InterchangeEvaluatorService {
         // Match by station code first (precise), then by name substring
         if (fromCode && toCode) {
           return (
-            participants.includes(fromCode) &&
-            participants.includes(toCode)
+            participants.includes(fromCode) && participants.includes(toCode)
           );
         }
         return participants.some(
-          (p) => fromU.includes(p.toUpperCase()) || toU.includes(p.toUpperCase()),
+          (p) =>
+            fromU.includes(p.toUpperCase()) || toU.includes(p.toUpperCase()),
         );
       }) ?? null;
 
-    const gtfsTransfer = gtfs?.transfers.find((transfer) =>
-      (transfer.fromStopId === fromCode && transfer.toStopId === toCode) ||
-      (transfer.fromStopId === toCode && transfer.toStopId === fromCode),
+    const gtfsTransfer = gtfs?.transfers.find(
+      (transfer) =>
+        (transfer.fromStopId === fromCode && transfer.toStopId === toCode) ||
+        (transfer.fromStopId === toCode && transfer.toStopId === fromCode),
     );
     if (!registeredComplex && !gtfsTransfer) return null;
 
@@ -493,7 +522,8 @@ export class InterchangeEvaluatorService {
         // Infer pathway_mode from segment type string
         let pathwayMode = 1; // default: walkway
         const segType = (seg.type || '').toUpperCase();
-        if (segType === 'VERTICAL') pathwayMode = 2;       // stairs/lift — generic vertical
+        if (segType === 'VERTICAL')
+          pathwayMode = 2; // stairs/lift — generic vertical
         else if (segType === 'ESCALATOR') pathwayMode = 4;
         else if (segType === 'LIFT' || segType === 'ELEVATOR') pathwayMode = 5;
         else if (segType === 'AFC' || segType === 'FARE_GATE') pathwayMode = 6;
@@ -502,8 +532,10 @@ export class InterchangeEvaluatorService {
 
         const lengthM = seg.structureLengthMeters ?? seg.distanceMeters ?? null;
         if (typeof lengthM === 'number') totalDistanceMeters += lengthM;
-        const traversalTime = (seg as { traversalTime?: number | null }).traversalTime;
-        if (typeof traversalTime === 'number') totalTraversalTime += traversalTime;
+        const traversalTime = (seg as { traversalTime?: number | null })
+          .traversalTime;
+        if (typeof traversalTime === 'number')
+          totalTraversalTime += traversalTime;
 
         const step = this.formatPathwayStep(
           pathwayMode,
@@ -537,8 +569,10 @@ export class InterchangeEvaluatorService {
     });
     let gtfsPathwayMeters = 0;
     for (const pathway of matchingGtfsPathways) {
-      if (typeof pathway.length === 'number') gtfsPathwayMeters += pathway.length;
-      if (typeof pathway.traversalTime === 'number') totalTraversalTime += pathway.traversalTime;
+      if (typeof pathway.length === 'number')
+        gtfsPathwayMeters += pathway.length;
+      if (typeof pathway.traversalTime === 'number')
+        totalTraversalTime += pathway.traversalTime;
     }
     if (gtfsPathwayMeters > 0) totalDistanceMeters = gtfsPathwayMeters;
 

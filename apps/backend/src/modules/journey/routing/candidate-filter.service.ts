@@ -82,13 +82,22 @@ export class CandidateFilterService {
       // so Candidate 2 selects metro interchanges (e.g. via Andheri West) rather than walking between stations
       const candAny = c as any;
       if (Array.isArray(candAny.legs)) {
-        const hasLongStreetWalkBetweenStations = candAny.legs.some((leg: any) => {
-          if (leg.type === 'WALK' && leg.fromStationName && leg.toStationName && leg.fromStationName !== leg.toStationName) {
-            const dist = leg.transferDetails?.pathwayDistanceMeters || Math.round((leg.durationSeconds || leg.duration || 60) * 1.2);
-            return dist > 300;
-          }
-          return false;
-        });
+        const hasLongStreetWalkBetweenStations = candAny.legs.some(
+          (leg: any) => {
+            if (
+              leg.type === 'WALK' &&
+              leg.fromStationName &&
+              leg.toStationName &&
+              leg.fromStationName !== leg.toStationName
+            ) {
+              const dist =
+                leg.transferDetails?.pathwayDistanceMeters ||
+                Math.round((leg.durationSeconds || leg.duration || 60) * 1.2);
+              return dist > 300;
+            }
+            return false;
+          },
+        );
         if (hasLongStreetWalkBetweenStations) return false;
       }
 

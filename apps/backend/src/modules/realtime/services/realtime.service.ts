@@ -102,7 +102,10 @@ export class RealtimeService {
       vehicles = gpsVehicles;
     } else {
       const estimatedVehicles =
-        await this.estimateVehiclesFromTripUpdatesAndSchedule(system, lineFilter);
+        await this.estimateVehiclesFromTripUpdatesAndSchedule(
+          system,
+          lineFilter,
+        );
 
       const gpsTripIds = new Set(
         gpsVehicles.map((v) => v.tripId).filter(Boolean),
@@ -123,9 +126,7 @@ export class RealtimeService {
     return {
       system,
       provider:
-        gpsVehicles.length > 0
-          ? PROVIDER
-          : 'GTFS_RT_TRIP_UPDATES_ESTIMATOR',
+        gpsVehicles.length > 0 ? PROVIDER : 'GTFS_RT_TRIP_UPDATES_ESTIMATOR',
       generatedAt: new Date().toISOString(),
       cachedAt: cached?.cachedAt ?? new Date().toISOString(),
       isStale: staleAgeSeconds > 120,
@@ -327,7 +328,10 @@ export class RealtimeService {
                 (u.stopId === st.station.code || u.stopId === st.stationId)),
           );
 
-          if (matchedStu?.arrivalDelay !== null && matchedStu?.arrivalDelay !== undefined) {
+          if (
+            matchedStu?.arrivalDelay !== null &&
+            matchedStu?.arrivalDelay !== undefined
+          ) {
             runningDelaySecs = matchedStu.arrivalDelay;
           } else if (
             matchedStu?.departureDelay !== null &&
@@ -403,8 +407,14 @@ export class RealtimeService {
             if (nowSecs >= curr.predDepSecs && nowSecs <= next.predArrSecs) {
               activePrev = curr;
               activeNext = next;
-              const segDuration = Math.max(1, next.predArrSecs - curr.predDepSecs);
-              progress = Math.max(0, Math.min(1, (nowSecs - curr.predDepSecs) / segDuration));
+              const segDuration = Math.max(
+                1,
+                next.predArrSecs - curr.predDepSecs,
+              );
+              progress = Math.max(
+                0,
+                Math.min(1, (nowSecs - curr.predDepSecs) / segDuration),
+              );
               currentStatus =
                 progress < 0.08 || progress > 0.92
                   ? 'STOPPED_AT'
@@ -726,9 +736,7 @@ export class RealtimeService {
           }
 
           const headsign =
-            v.headsign ||
-            (v.tripId ? tripMap.get(v.tripId) : null) ||
-            null;
+            v.headsign || (v.tripId ? tripMap.get(v.tripId) : null) || null;
 
           return {
             ...v,

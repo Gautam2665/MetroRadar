@@ -92,7 +92,11 @@ export class SearchService {
     const features: Record<string, unknown>[] = [];
 
     // 0. Search landmarks with direct FOB & concourse connections
-    if (!filterTypes || filterTypes.includes('station') || filterTypes.includes('landmark')) {
+    if (
+      !filterTypes ||
+      filterTypes.includes('station') ||
+      filterTypes.includes('landmark')
+    ) {
       const matchingLandmarks = LandmarkRegistry.search(query);
       for (const lm of matchingLandmarks) {
         const stationRecord = await this.prisma.station.findFirst({
@@ -112,7 +116,8 @@ export class SearchService {
             code: lm.connectedStationCode,
             name: lm.name,
             displayName: `${lm.name} (${lm.hasDirectFob ? 'Direct FOB to ' : ''}${lm.connectedStationName})`,
-            address: lm.corridorNote || `${lm.connectedStationName} precinct, Mumbai`,
+            address:
+              lm.corridorNote || `${lm.connectedStationName} precinct, Mumbai`,
             type: 'poi',
             isLandmark: true,
             city: stationRecord?.city || 'mumbai',
@@ -130,7 +135,11 @@ export class SearchService {
               name: lm.connectedStationName,
               lineName: lm.connectedLineName,
               lineColor: lm.connectedLineColor,
-              walkDistance: lm.hasDirectFob ? 'Direct FOB' : lm.walkDistanceMeters ? `${lm.walkDistanceMeters}m` : undefined,
+              walkDistance: lm.hasDirectFob
+                ? 'Direct FOB'
+                : lm.walkDistanceMeters
+                  ? `${lm.walkDistanceMeters}m`
+                  : undefined,
             },
             landmarkDetails: {
               landmarkId: lm.id,
@@ -322,10 +331,20 @@ export class SearchService {
     // 4. Dynamic Geocoding & Closest Station Snapping (Google Maps Platform + Photon Fallback)
     // If user typed a locality/landmark (e.g. "Evershine Nagar", "Irla", "Hanuman Mandir Vile Parle", "Mithibai College")
     const cleanQ = query.trim();
-    if (cleanQ.length >= 3 && (!filterTypes || filterTypes.includes('station') || filterTypes.includes('landmark'))) {
+    if (
+      cleanQ.length >= 3 &&
+      (!filterTypes ||
+        filterTypes.includes('station') ||
+        filterTypes.includes('landmark'))
+    ) {
       try {
         const apiKey = process.env.GOOGLE_MAPS_API_KEY;
-        const candidatePlaces: Array<{ name: string; lat: number; lon: number; address?: string }> = [];
+        const candidatePlaces: Array<{
+          name: string;
+          lat: number;
+          lon: number;
+          address?: string;
+        }> = [];
 
         // 1. Try Official Google Places API (New) if key configured
         if (apiKey) {
@@ -346,7 +365,8 @@ export class SearchService {
                 headers: {
                   'Content-Type': 'application/json',
                   'X-Goog-Api-Key': apiKey,
-                  'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.location',
+                  'X-Goog-FieldMask':
+                    'places.displayName,places.formattedAddress,places.location',
                 },
                 timeout: 3000,
               },
@@ -379,10 +399,17 @@ export class SearchService {
                 const coords = item.geometry?.coordinates as [number, number];
                 if (coords && coords.length >= 2) {
                   const props = item.properties || {};
-                  const addrParts = [props.street, props.district, props.city || 'Mumbai'].filter(Boolean);
+                  const addrParts = [
+                    props.street,
+                    props.district,
+                    props.city || 'Mumbai',
+                  ].filter(Boolean);
                   candidatePlaces.push({
                     name: props.name || cleanQ,
-                    address: addrParts.length > 0 ? addrParts.join(', ') : 'Mumbai, Maharashtra',
+                    address:
+                      addrParts.length > 0
+                        ? addrParts.join(', ')
+                        : 'Mumbai, Maharashtra',
                     lon: coords[0],
                     lat: coords[1],
                   });
@@ -419,64 +446,76 @@ export class SearchService {
             lon,
           );
 
-            if (nearestStn && nearestStn.length > 0) {
-              const stn = nearestStn[0];
-              const distM = Math.round(stn.distance);
-              const lines = Array.isArray(stn.lines) ? stn.lines : [];
-              const primaryLine = lines[0] || { code: 'MM', name: 'Mumbai Metro', color: '#06b6d4' };
+          if (nearestStn && nearestStn.length > 0) {
+            const stn = nearestStn[0];
+            const distM = Math.round(stn.distance);
+            const lines = Array.isArray(stn.lines) ? stn.lines : [];
+            const primaryLine = lines[0] || {
+              code: 'MM',
+              name: 'Mumbai Metro',
+              color: '#06b6d4',
+            };
 
-              // Avoid duplicate if feature with same id/name already present
-              const alreadyExists = features.some(
-                (f: any) => f.properties?.name?.toLowerCase().includes(placeName.toLowerCase())
-              );
+            // Avoid duplicate if feature with same id/name already present
+            const alreadyExists = features.some((f: any) =>
+              f.properties?.name
+                ?.toLowerCase()
+                .includes(placeName.toLowerCase()),
+            );
 
-              if (!alreadyExists) {
-                features.push({
-                  type: 'Feature',
-                  id: `place-${placeName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
-                  geometry: {
-                    type: 'Point',
-                    coordinates: [lon, lat],
+            if (!alreadyExists) {
+              features.push({
+                type: 'Feature',
+                id: `place-${placeName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+                geometry: {
+                  type: 'Point',
+                  coordinates: [lon, lat],
+                },
+                properties: {
+                  id: stn.id, // Snaps directly to closest station ID for 1-click route planning!
+                  code: stn.code,
+                  name: placeName,
+                  displayName: `${placeName} (Nearest Metro: ${stn.name} · ~${distM}m)`,
+                  address: item.address || `${stn.name} vicinity, Mumbai`,
+                  type: 'poi',
+                  isLandmark: true,
+                  city: 'mumbai',
+                  systemId: stn.systemId,
+                  lines: lines.map((l: any) => ({
+                    code: l.code,
+                    name: l.name,
+                    color: resolveLineColor(l.color ?? '', l.name ?? ''),
+                  })),
+                  lineColor: resolveLineColor(
+                    primaryLine.color ?? '',
+                    primaryLine.name ?? '',
+                  ),
+                  nearestStation: {
+                    id: stn.id,
+                    name: stn.name,
+                    lineName: primaryLine.name,
+                    lineColor: resolveLineColor(
+                      primaryLine.color ?? '',
+                      primaryLine.name ?? '',
+                    ),
+                    walkDistance: `${distM}m`,
                   },
-                  properties: {
-                    id: stn.id, // Snaps directly to closest station ID for 1-click route planning!
-                    code: stn.code,
+                  landmarkDetails: {
                     name: placeName,
-                    displayName: `${placeName} (Nearest Metro: ${stn.name} · ~${distM}m)`,
-                    address: item.address || `${stn.name} vicinity, Mumbai`,
-                    type: 'poi',
-                    isLandmark: true,
-                    city: 'mumbai',
-                    systemId: stn.systemId,
-                    lines: lines.map((l: any) => ({
-                      code: l.code,
-                      name: l.name,
-                      color: resolveLineColor(l.color ?? '', l.name ?? ''),
-                    })),
-                    lineColor: resolveLineColor(primaryLine.color ?? '', primaryLine.name ?? ''),
-                    nearestStation: {
-                      id: stn.id,
-                      name: stn.name,
-                      lineName: primaryLine.name,
-                      lineColor: resolveLineColor(primaryLine.color ?? '', primaryLine.name ?? ''),
-                      walkDistance: `${distM}m`,
-                    },
-                    landmarkDetails: {
-                      name: placeName,
-                      address: item.address || 'Mumbai, Maharashtra',
-                      connectedStationCode: stn.code,
-                      connectedStationName: stn.name,
-                      hasDirectFob: distM <= 50,
-                      hasDirectAccess: distM <= 50,
-                      walkDistanceMeters: distM,
-                      walkTimeSeconds: Math.round(distM * 1.2),
-                      corridorNote: `Board/Deboard at ${stn.name}. Distance to ${placeName}: approx ${distM}m.`,
-                      indoorLevel: 'Street / Concourse Level',
-                    },
+                    address: item.address || 'Mumbai, Maharashtra',
+                    connectedStationCode: stn.code,
+                    connectedStationName: stn.name,
+                    hasDirectFob: distM <= 50,
+                    hasDirectAccess: distM <= 50,
+                    walkDistanceMeters: distM,
+                    walkTimeSeconds: Math.round(distM * 1.2),
+                    corridorNote: `Board/Deboard at ${stn.name}. Distance to ${placeName}: approx ${distM}m.`,
+                    indoorLevel: 'Street / Concourse Level',
                   },
-                });
-              }
+                },
+              });
             }
+          }
         }
       } catch (err: any) {
         // Silently continue if external geocoder times out

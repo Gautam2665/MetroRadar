@@ -38,7 +38,10 @@ export class DigitalTwinService {
   ) {}
 
   async getStationDigitalTwin(id: string): Promise<Record<string, unknown>> {
-    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+    const isUuid =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+        id,
+      );
     const station = await this.prisma.station.findFirst({
       where: isUuid ? { id, isActive: true } : { code: id, isActive: true },
       include: {
@@ -47,7 +50,10 @@ export class DigitalTwinService {
           orderBy: { levelNumber: 'asc' },
           include: {
             line: { select: { id: true, code: true, name: true, color: true } },
-            amenities: { where: { isActive: true }, select: { id: true, name: true, type: true } },
+            amenities: {
+              where: { isActive: true },
+              select: { id: true, name: true, type: true },
+            },
           },
         },
         entrances: {
@@ -90,7 +96,9 @@ export class DigitalTwinService {
           return this.getStationDigitalTwin(derivedStation.id);
         }
       }
-      throw new NotFoundException(`Station or Platform with ID ${id} not found`);
+      throw new NotFoundException(
+        `Station or Platform with ID ${id} not found`,
+      );
     }
 
     // Include lines served at this station and lines connected by imported GTFS transfers.
@@ -123,7 +131,7 @@ export class DigitalTwinService {
          )
        )
        ORDER BY l.name`,
-       station.id,
+      station.id,
     );
 
     const uniqueServingLines = rawServingLines.map((line) => ({
@@ -152,16 +160,35 @@ export class DigitalTwinService {
 
     // Structure child entities under physical and services namespaces
     const levelsMapped = station.levels.map((lvl) => {
-      const amenitiesList = (lvl as any).amenities?.map((a: any) => a.name) || [];
+      const amenitiesList =
+        (lvl as any).amenities?.map((a: any) => a.name) || [];
       const defaultFacilities: string[] = [];
       if (lvl.type === 'PLATFORM') {
-        defaultFacilities.push('Platform Screen Doors', 'Accessible Boarding', 'RO Drinking Water', 'Emergency Help Point');
+        defaultFacilities.push(
+          'Platform Screen Doors',
+          'Accessible Boarding',
+          'RO Drinking Water',
+          'Emergency Help Point',
+        );
       } else if (lvl.type === 'CONCOURSE') {
-        defaultFacilities.push('Ticket Office & Customer Care', 'Automated Fare Gates', 'Accessible Restrooms', 'ATM Kiosk', 'Escalators & Elevators');
+        defaultFacilities.push(
+          'Ticket Office & Customer Care',
+          'Automated Fare Gates',
+          'Accessible Restrooms',
+          'ATM Kiosk',
+          'Escalators & Elevators',
+        );
       } else if (lvl.type === 'STREET') {
-        defaultFacilities.push('Station Entry Gates', 'Security Screening', 'Tactile Paving', 'Pedestrian Walkway');
+        defaultFacilities.push(
+          'Station Entry Gates',
+          'Security Screening',
+          'Tactile Paving',
+          'Pedestrian Walkway',
+        );
       }
-      const facilities = Array.from(new Set([...amenitiesList, ...defaultFacilities]));
+      const facilities = Array.from(
+        new Set([...amenitiesList, ...defaultFacilities]),
+      );
 
       return {
         id: lvl.id,
@@ -272,7 +299,9 @@ export class DigitalTwinService {
       if (parenMatch && parenMatch[1]) {
         roadOrDesc = parenMatch[1].trim();
       } else if (ent.name) {
-        roadOrDesc = ent.name.replace(new RegExp(`^${station.name}\\s*`, 'i'), '').trim();
+        roadOrDesc = ent.name
+          .replace(new RegExp(`^${station.name}\\s*`, 'i'), '')
+          .trim();
       }
 
       exitsMapped.push({
@@ -296,8 +325,14 @@ export class DigitalTwinService {
         include: {
           toPlatform: {
             include: {
-              line: { select: { id: true, code: true, name: true, color: true } },
-              level: { include: { station: { select: { id: true, name: true, code: true } } } },
+              line: {
+                select: { id: true, code: true, name: true, color: true },
+              },
+              level: {
+                include: {
+                  station: { select: { id: true, name: true, code: true } },
+                },
+              },
             },
           },
         },
@@ -307,7 +342,11 @@ export class DigitalTwinService {
       for (const ic of interchanges) {
         const toStn = ic.toPlatform?.level?.station;
         const line = ic.toPlatform?.line;
-        if (toStn && toStn.id !== station.id && !seenInterchangeStations.has(toStn.id)) {
+        if (
+          toStn &&
+          toStn.id !== station.id &&
+          !seenInterchangeStations.has(toStn.id)
+        ) {
           seenInterchangeStations.add(toStn.id);
           const lineName = line?.name || line?.code || 'Connecting Line';
           exitsMapped.push({
@@ -332,19 +371,39 @@ export class DigitalTwinService {
     }> = [];
 
     try {
-      const liveBoarding = await this.realtimeNetworkService.getLiveStationBoarding(station.id);
-      if (liveBoarding && Array.isArray(liveBoarding.platforms) && liveBoarding.platforms.length > 0) {
+      const liveBoarding =
+        await this.realtimeNetworkService.getLiveStationBoarding(station.id);
+      if (
+        liveBoarding &&
+        Array.isArray(liveBoarding.platforms) &&
+        liveBoarding.platforms.length > 0
+      ) {
         platformEtas = liveBoarding.platforms.map((p, pIdx) => {
           const topTrain = p.trains?.[0];
-          const etaMins = topTrain?.etaMinutes ?? (pIdx * 3 + 2);
+          const etaMins = topTrain?.etaMinutes ?? pIdx * 3 + 2;
 
           // Calibrated crowd status: only report if GTFS-RT provides live carriage occupancy
           let crowdLevel: 'Low' | 'Medium' | 'High' | null = null;
-          if (topTrain?.coaches && Array.isArray(topTrain.coaches) && topTrain.coaches.length > 0) {
-            const validCoaches = topTrain.coaches.filter((c: any) => typeof c.occupancyPercent === 'number');
+          if (
+            topTrain?.coaches &&
+            Array.isArray(topTrain.coaches) &&
+            topTrain.coaches.length > 0
+          ) {
+            const validCoaches = topTrain.coaches.filter(
+              (c: any) => typeof c.occupancyPercent === 'number',
+            );
             if (validCoaches.length > 0) {
-              const avgOccupancy = validCoaches.reduce((acc: number, c: any) => acc + c.occupancyPercent, 0) / validCoaches.length;
-              crowdLevel = avgOccupancy > 75 ? 'High' : avgOccupancy > 40 ? 'Medium' : 'Low';
+              const avgOccupancy =
+                validCoaches.reduce(
+                  (acc: number, c: any) => acc + c.occupancyPercent,
+                  0,
+                ) / validCoaches.length;
+              crowdLevel =
+                avgOccupancy > 75
+                  ? 'High'
+                  : avgOccupancy > 40
+                    ? 'Medium'
+                    : 'Low';
             }
           }
 

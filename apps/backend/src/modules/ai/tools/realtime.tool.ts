@@ -15,7 +15,9 @@ export class RealtimeTool {
         isRealtimeAvailable: Boolean(delay || vehicle),
         delaySeconds: delay ? delay.delaySeconds : 0,
         delayMinutes: delay ? Math.round(delay.delaySeconds / 60) : 0,
-        position: vehicle ? { lat: vehicle.latitude, lon: vehicle.longitude } : null,
+        position: vehicle
+          ? { lat: vehicle.latitude, lon: vehicle.longitude }
+          : null,
         coachOccupancy: vehicle?.multiCarriageDetails || [],
       };
     }
