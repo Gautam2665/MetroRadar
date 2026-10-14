@@ -330,45 +330,82 @@ function NetworkContent() {
                 </div>
               ) : (
                 /* Default state — no station selected */
-                <div className="flex flex-col h-full p-5 space-y-4">
+                <div className="flex flex-col h-full p-5 space-y-4 overflow-y-auto scrollbar-hide">
                   <div>
-                    <h2 className="text-sm font-bold text-[#dfe2ee] uppercase tracking-wider">Network Explorer</h2>
+                    <h2 className="text-sm font-bold text-[#dfe2ee] uppercase tracking-wider flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-[#00e5ff] animate-pulse"></span>
+                      Network Explorer
+                    </h2>
                     <p className="text-xs text-[#bac9cc] mt-1">
-                      Click any station on the map to open its Digital Twin inspector.
+                      Real-time telemetry and Digital Twins across Mumbai rapid transit.
                     </p>
                   </div>
 
-                  <div className="glass-card rounded-xl p-5 border border-white/10 flex flex-col gap-4">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="text-sm font-semibold text-[#dfe2ee] flex items-center gap-2">
-                          <span className="material-symbols-outlined text-[#bac9cc] text-lg">subway</span>
-                          Next Train
-                        </h3>
-                        <p className="text-xs text-[#bac9cc] mt-1">
-                          {twin?.platformEtas?.[0]?.platform ? `${twin.platformEtas[0].platform} · ` : ""}{twin?.platformEtas?.[0]?.recommendedCoach || "Metro Line"}
-                        </p>
+                  {/* Live Fleet Telemetry Card */}
+                  <div className="glass-card rounded-xl p-4 border border-white/10 flex flex-col gap-3">
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[#00e5ff] text-base">sensors</span>
+                        <span className="text-xs font-bold text-[#dfe2ee] uppercase tracking-wider">Fleet Status</span>
                       </div>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                        Operational
+                      </span>
                     </div>
-                    <div>
-                      <p className="text-xs text-[#bac9cc]">ETA</p>
-                      <p className="text-3xl font-bold text-[#00e5ff] leading-none mt-0.5">
-                        {twin?.platformEtas?.[0]?.etaMins ?? 5}{" "}
-                        <span className="text-lg font-normal">min</span>
-                      </p>
-                      <p className="text-xs text-[#bac9cc] mt-1">
-                        Towards {twin?.platformEtas?.[0]?.towards || currentMeta.quickPills[1] || "Central Station"}
-                      </p>
+
+                    <div className="flex items-baseline justify-between pt-1">
+                      <div>
+                        <span className="text-2xl font-black text-white">{vehicles.length || 52}</span>
+                        <span className="text-xs text-[#bac9cc] ml-1.5 font-medium">Trains on Track</span>
+                      </div>
+                      <span className="text-[11px] text-[#00e5ff] font-medium">Headway: 3-5 min</span>
                     </div>
+
+                    <p className="text-[11px] text-slate-400 border-t border-white/5 pt-2 leading-relaxed">
+                      Tap any station circle on the map to inspect live platform ETAs, crowd levels, concourse layout, and exit gates.
+                    </p>
                   </div>
 
-                  <div className="glass-card rounded-xl p-4 border border-white/10 space-y-3">
+                  {/* Active Lines Overview */}
+                  <div className="glass-card rounded-xl p-4 border border-white/10 space-y-2.5">
+                    <h3 className="text-xs font-bold text-[#dfe2ee] uppercase tracking-wider mb-1">
+                      Operational Corridors
+                    </h3>
+                    {[
+                      { name: "Line 1 (Blue)", route: "Versova ↔ Ghatkopar", color: "#00A3E0", count: "12 Stations" },
+                      { name: "Line 2A (Yellow)", route: "Dahisar (E) ↔ Andheri (W)", color: "#F59E0B", count: "17 Stations" },
+                      { name: "Line 3 (Aqua)", route: "Aarey JVLR ↔ BKC", color: "#00C49F", count: "10 Stations" },
+                      { name: "Line 7 (Red)", route: "Dahisar (E) ↔ Gundavali", color: "#EF4444", count: "14 Stations" },
+                      { name: "Monorail", route: "Chembur ↔ Sant Gadge Maharaj Chowk", color: "#14B8A6", count: "17 Stations" },
+                    ].map((line) => (
+                      <div
+                        key={line.name}
+                        className="flex items-center justify-between p-2 rounded-lg bg-white/[0.03] border border-white/5"
+                      >
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span
+                            className="w-2.5 h-2.5 rounded-full shrink-0"
+                            style={{ backgroundColor: line.color, boxShadow: `0 0 8px ${line.color}80` }}
+                          />
+                          <div className="min-w-0">
+                            <p className="text-xs font-semibold text-slate-200 truncate">{line.name}</p>
+                            <p className="text-[10px] text-slate-400 truncate">{line.route}</p>
+                          </div>
+                        </div>
+                        <span className="text-[10px] font-mono text-slate-400 shrink-0 ml-2">{line.count}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Map Legend */}
+                  <div className="glass-card rounded-xl p-4 border border-white/10 space-y-2.5">
                     <h3 className="text-xs font-bold text-[#dfe2ee] uppercase tracking-wider">Map Legend</h3>
                     {[
-                      { icon: "location_on", color: "#00e5ff", label: "Station" },
-                      { icon: "circle", color: "#ffffff", label: "Live Train" },
-                      { icon: "lens", color: "#22c55e", label: "Journey Origin" },
-                      { icon: "lens", color: "#ef4444", label: "Destination" },
+                      { icon: "location_on", color: "#00e5ff", label: "Station Pin (Click to Inspect)" },
+                      { icon: "circle", color: "#ffffff", label: "Live Moving Train" },
+                      { icon: "linear_scale", color: "#F59E0B", label: "Active Track Geometry" },
+                      { icon: "transfer_within_a_station", color: "#a855f7", label: "Interchange Hub" },
                     ].map((item) => (
                       <div key={item.label} className="flex items-center gap-2">
                         <span className="material-symbols-outlined text-sm" style={{ color: item.color }}>{item.icon}</span>

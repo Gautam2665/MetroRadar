@@ -792,7 +792,7 @@ export class RealtimeService {
   }
 
   private getDayField(
-    date: Date,
+    date: Date = new Date(),
   ):
     | 'monday'
     | 'tuesday'
@@ -801,6 +801,8 @@ export class RealtimeService {
     | 'friday'
     | 'saturday'
     | 'sunday' {
+    const istOffsetMs = 5.5 * 60 * 60 * 1000;
+    const istDate = new Date(date.getTime() + istOffsetMs);
     const days = [
       'sunday',
       'monday',
@@ -810,7 +812,7 @@ export class RealtimeService {
       'friday',
       'saturday',
     ] as const;
-    return days[date.getDay()];
+    return days[istDate.getUTCDay()];
   }
 
   private haversineKm(

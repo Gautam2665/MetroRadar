@@ -398,8 +398,13 @@ export class RealtimePredictionService {
     return hrs * 3600 + mins * 60 + secs;
   }
 
+  private getIstDate(date: Date = new Date()): Date {
+    const istOffsetMs = 5.5 * 60 * 60 * 1000;
+    return new Date(date.getTime() + istOffsetMs);
+  }
+
   private getDayField(
-    date: Date,
+    date: Date = new Date(),
   ):
     | 'sunday'
     | 'monday'
@@ -408,6 +413,7 @@ export class RealtimePredictionService {
     | 'thursday'
     | 'friday'
     | 'saturday' {
+    const istDate = this.getIstDate(date);
     const days: Array<
       | 'sunday'
       | 'monday'
@@ -425,11 +431,15 @@ export class RealtimePredictionService {
       'friday',
       'saturday',
     ];
-    return days[date.getDay()];
+    return days[istDate.getUTCDay()];
   }
 
   private getNowSecondsOfDay(): number {
-    const now = new Date();
-    return now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+    const istDate = this.getIstDate();
+    return (
+      istDate.getUTCHours() * 3600 +
+      istDate.getUTCMinutes() * 60 +
+      istDate.getUTCSeconds()
+    );
   }
 }
