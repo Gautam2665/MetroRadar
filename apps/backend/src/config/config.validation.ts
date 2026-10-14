@@ -9,10 +9,9 @@ export function validateEnv(config: Record<string, unknown>) {
     errors.push('Either REDIS_URL or REDIS_HOST must be provided');
   }
 
-  const rawPort = config.PORT !== undefined && config.PORT !== '' ? config.PORT : 3001;
-  const port = Number(rawPort);
+  let port = Number(config.PORT);
   if (isNaN(port) || port <= 0) {
-    errors.push('PORT must be a valid port number');
+    port = 3001;
   }
 
   const redisPort = Number(config.REDIS_PORT ?? 6379);
