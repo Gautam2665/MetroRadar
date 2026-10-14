@@ -464,14 +464,7 @@ export default function ExploreMetroLinesPage() {
               <span>EN</span>
             </div>
 
-            <Link href="/alerts" className="relative p-2 rounded-lg bg-[#0E1726]/60 border border-[#1A283B] text-slate-400 hover:text-white">
-              <span className="material-symbols-outlined text-base">notifications</span>
-              <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-red-500"></span>
-            </Link>
 
-            <div className="w-8 h-8 rounded-full border border-slate-700 bg-slate-800 flex items-center justify-center overflow-hidden">
-              <span className="text-xs font-semibold text-slate-300">GM</span>
-            </div>
           </div>
         </header>
 

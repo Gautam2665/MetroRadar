@@ -392,19 +392,7 @@ export default function StationExplorerPage() {
               <span>EN</span>
             </div>
 
-            <Link
-              href="/alerts"
-              className="relative w-8 h-8 rounded-lg bg-[#101A27] border border-[#1F2E43] flex items-center justify-center text-slate-300 hover:text-white"
-            >
-              <span className="material-symbols-outlined text-sm">notifications</span>
-              <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-red-500 rounded-full"></span>
-            </Link>
 
-            <div className="w-8 h-8 rounded-full bg-slate-700 overflow-hidden ring-1 ring-cyan-500/50 flex items-center justify-center">
-              <div className="w-full h-full bg-gradient-to-tr from-cyan-600 to-indigo-600 flex items-center justify-center text-xs font-semibold text-white">
-                GM
-              </div>
-            </div>
           </div>
         </header>
 
