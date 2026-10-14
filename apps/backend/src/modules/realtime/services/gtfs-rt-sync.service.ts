@@ -159,9 +159,12 @@ export class GtfsRtSyncService implements OnModuleInit {
       this.activeDelays = newDelays;
       this.logger.log(`Synced ${this.activeDelays.size} active trip updates.`);
     } catch (error: any) {
-      this.logger.error(
-        `Failed to fetch GTFS-RT TripUpdates: ${error.message}`,
-      );
+      if (process.env.GTFS_RT_UPDATES_URL) {
+        this.logger.warn(`Failed to fetch GTFS-RT TripUpdates: ${error.message}`);
+      } else {
+        // Local generator not running in cloud; fallback to dynamic schedule simulation
+        this.logger.debug(`Local GTFS-RT not active; using database schedule simulation.`);
+      }
     }
   }
 
@@ -234,9 +237,12 @@ export class GtfsRtSyncService implements OnModuleInit {
       });
       this.activeVehicles = newVehicles;
     } catch (error: any) {
-      this.logger.error(
-        `Failed to fetch GTFS-RT VehiclePositions: ${error.message}`,
-      );
+      if (process.env.GTFS_RT_VEHICLES_URL) {
+        this.logger.warn(`Failed to fetch GTFS-RT VehiclePositions: ${error.message}`);
+      } else {
+        // Local generator not running in cloud; fallback to dynamic schedule simulation
+        this.logger.debug(`Local GTFS-RT not active; using database schedule simulation.`);
+      }
     }
   }
 
