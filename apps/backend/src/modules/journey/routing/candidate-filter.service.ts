@@ -210,17 +210,23 @@ export class CandidateFilterService {
     }
 
     // Trade-off / Subsumption Dominance:
-    // If b is strictly faster AND has fewer-or-equal transfers than a:
-    // A passenger would never accept a route that has more or equal transfers,
-    // is much slower, and saves only trivial walking.
+    // A route `a` is only trade-off dominated by `b` if the trade-off is clearly unreasonable:
+    // 1. If `b` has fewer transfers AND is at least 10 minutes faster (600s).
+    // 2. If `b` has equal transfers AND is at least 10 minutes faster (600s), while `a` saves negligible walking.
     if (b.durationSeconds < a.durationSeconds && b.transfers <= a.transfers) {
       const durationDelta = a.durationSeconds - b.durationSeconds;
       const walkingSavedByA = b.walkingSeconds - a.walkingSeconds;
-      // If a does not save walking, or the extra duration is > 2.5x the walking saved (and >= 10 min slower):
-      if (
-        walkingSavedByA <= 0 ||
-        durationDelta > Math.max(600, 2.5 * walkingSavedByA)
-      ) {
+
+      // Keep alternative corridors if duration difference is under 10 minutes (600s)
+      if (durationDelta < 600) {
+        return false;
+      }
+
+      if (b.transfers < a.transfers) {
+        return true;
+      }
+
+      if (durationDelta > Math.max(600, 2.5 * walkingSavedByA)) {
         return true;
       }
     }

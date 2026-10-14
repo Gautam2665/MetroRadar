@@ -108,6 +108,7 @@ function parsePhase1Ctm(value: unknown): Phase1CtmData | null {
 export class JourneyService {
   private readonly logger = new Logger(JourneyService.name);
   private readonly GRAPH_VERSION = 'v2';
+  private readonly lineShapeCache = new Map<string, [number, number][]>();
 
   constructor(
     private readonly db: DatabaseService,
@@ -942,6 +943,7 @@ export class JourneyService {
           run.to,
           fromCoord,
           toCoord,
+          lineMap,
         );
         if (shapeCoords && shapeCoords.length > 1) {
           segmentCoords = shapeCoords;
@@ -1045,125 +1047,52 @@ export class JourneyService {
     toStationId: string,
     fromCoord: [number, number],
     toCoord: [number, number],
+    lineMap?: Map<
+      string,
+      { id: string; name: string | null; color: string; code: string | null }
+    >,
   ): Promise<[number, number][] | null> {
     try {
+      if (this.lineShapeCache.has(lineId)) {
+        const cached = this.lineShapeCache.get(lineId)!;
+        if (cached && cached.length >= 2) {
+          return this.sliceCoordinateArray(cached, fromCoord, toCoord);
+        }
+        return null;
+      }
+
       const isUuid = (str: string) =>
         /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
           str,
         );
 
-      let line: {
-        id: string;
-        code: string | null;
-        name: string | null;
-      } | null = null;
-      if (lineId) {
+      let line = lineMap?.get(lineId) || null;
+      if (!line && lineId) {
         line = isUuid(lineId)
           ? await this.db.line.findUnique({
               where: { id: lineId },
-              select: { id: true, code: true, name: true },
+              select: { id: true, code: true, name: true, color: true },
             })
           : await this.db.line.findFirst({
               where: { code: lineId },
-              select: { id: true, code: true, name: true },
+              select: { id: true, code: true, name: true, color: true },
             });
       }
-
-      let fromSt: {
-        id: string;
-        code: string | null;
-        name: string | null;
-      } | null = null;
-      if (fromStationId) {
-        fromSt = isUuid(fromStationId)
-          ? await this.db.station.findUnique({
-              where: { id: fromStationId },
-              select: { id: true, code: true, name: true },
-            })
-          : await this.db.station.findFirst({
-              where: { code: fromStationId },
-              select: { id: true, code: true, name: true },
-            });
-      }
-
-      let toSt: {
-        id: string;
-        code: string | null;
-        name: string | null;
-      } | null = null;
-      if (toStationId) {
-        toSt = isUuid(toStationId)
-          ? await this.db.station.findUnique({
-              where: { id: toStationId },
-              select: { id: true, code: true, name: true },
-            })
-          : await this.db.station.findFirst({
-              where: { code: toStationId },
-              select: { id: true, code: true, name: true },
-            });
-      }
-
-      const lineStr =
-        `${lineId || ''} ${line?.code || ''} ${line?.name || ''}`.toUpperCase();
-      const fromStr =
-        `${fromStationId || ''} ${fromSt?.code || ''} ${fromSt?.name || ''}`.toUpperCase();
-      const toStr =
-        `${toStationId || ''} ${toSt?.code || ''} ${toSt?.name || ''}`.toUpperCase();
 
       const actualLineId = line?.id || (isUuid(lineId) ? lineId : null);
-      const actualFromId =
-        fromSt?.id || (isUuid(fromStationId) ? fromStationId : null);
-      const actualToId = toSt?.id || (isUuid(toStationId) ? toStationId : null);
+      let lineCoords: [number, number][] = [];
 
-      // 1. Authoritative Database Shapes Check (Full GTFS Shapes)
       if (actualLineId) {
-        let shapeId: string | null = null;
-        if (actualFromId && actualToId) {
-          const trips = await this.db.trip.findMany({
-            where: {
-              lineId: actualLineId,
-              shapeId: { not: null },
-              isActive: true,
-              AND: [
-                {
-                  stopTimes: {
-                    some: { stationId: actualFromId, isActive: true },
-                  },
-                },
-                {
-                  stopTimes: {
-                    some: { stationId: actualToId, isActive: true },
-                  },
-                },
-              ],
-            },
-            select: {
-              shapeId: true,
-              stopTimes: {
-                where: {
-                  stationId: { in: [actualFromId, actualToId] },
-                  isActive: true,
-                },
-                select: { stationId: true, stopSequence: true },
-              },
-            },
-            take: 20,
-          });
-          const directionMatchedTrip = trips.find((trip) => {
-            const fromStop = trip.stopTimes.find(
-              (stopTime) => stopTime.stationId === actualFromId,
-            );
-            const toStop = trip.stopTimes.find(
-              (stopTime) => stopTime.stationId === actualToId,
-            );
-            return (
-              fromStop !== undefined &&
-              toStop !== undefined &&
-              fromStop.stopSequence < toStop.stopSequence
-            );
-          });
-          shapeId = directionMatchedTrip?.shapeId ?? null;
-        }
+        const trip = await this.db.trip.findFirst({
+          where: {
+            lineId: actualLineId,
+            shapeId: { not: null },
+            isActive: true,
+          },
+          select: { shapeId: true },
+        });
+
+        let shapeId = trip?.shapeId ?? null;
 
         if (!shapeId && line?.code) {
           const aliasCode = line.code.replace('MUMBAI_', '');
@@ -1190,100 +1119,41 @@ export class JourneyService {
         if (shapeId) {
           const shapes = await this.db.shape.findMany({
             where: { shapeId, isActive: true },
-            select: { latitude: true, longitude: true, sequence: true },
+            select: { latitude: true, longitude: true },
             orderBy: { sequence: 'asc' },
           });
 
           if (shapes.length >= 2) {
-            const dbCoords: [number, number][] = shapes.map((s) => [
-              s.longitude,
-              s.latitude,
-            ]);
-            return this.sliceCoordinateArray(dbCoords, fromCoord, toCoord);
+            lineCoords = shapes.map((s) => [s.longitude, s.latitude]);
           }
         }
       }
 
-      // The selected graph edge can reference a stale line record while the
-      // GTFS feed represents the same through-service corridor on another
-      // route (Mumbai Line 9 is through-running as Line 7). Resolve geometry
-      // from the GTFS trip that actually serves both endpoint stations.
-      if (actualFromId && actualToId) {
-        const matchingTrips = await this.db.trip.findMany({
-          where: {
-            shapeId: { not: null },
-            isActive: true,
-            AND: [
-              {
-                stopTimes: {
-                  some: { stationId: actualFromId, isActive: true },
-                },
-              },
-              {
-                stopTimes: { some: { stationId: actualToId, isActive: true } },
-              },
-            ],
-          },
-          select: {
-            shapeId: true,
-            stopTimes: {
-              where: {
-                stationId: { in: [actualFromId, actualToId] },
-                isActive: true,
-              },
-              select: { stationId: true, stopSequence: true },
-            },
-          },
-          take: 100,
-        });
-        const selectedTrip =
-          matchingTrips.find((trip) => {
-            const fromStop = trip.stopTimes.find(
-              (stopTime) => stopTime.stationId === actualFromId,
-            );
-            const toStop = trip.stopTimes.find(
-              (stopTime) => stopTime.stationId === actualToId,
-            );
-            return (
-              fromStop !== undefined &&
-              toStop !== undefined &&
-              fromStop.stopSequence < toStop.stopSequence
-            );
-          }) ?? matchingTrips[0];
-
-        if (selectedTrip?.shapeId) {
-          const shapes = await this.db.shape.findMany({
-            where: { shapeId: selectedTrip.shapeId, isActive: true },
-            select: { latitude: true, longitude: true, sequence: true },
-            orderBy: { sequence: 'asc' },
-          });
-          if (shapes.length >= 2) {
-            const coords: [number, number][] = shapes.map((shape) => [
-              shape.longitude,
-              shape.latitude,
-            ]);
-            return this.sliceCoordinateArray(coords, fromCoord, toCoord);
+      // Check CTM Line 2B Fallback
+      if (lineCoords.length === 0) {
+        const lineStr =
+          `${lineId || ''} ${line?.code || ''} ${line?.name || ''}`.toUpperCase();
+        if (
+          lineStr.includes('LINE2B') ||
+          lineStr.includes('LINE 2B') ||
+          lineStr.includes('MANDALE')
+        ) {
+          const ctm2b = this.loadCtmLine2b();
+          const ctmCoords: [number, number][] =
+            ctm2b?.alignmentGeometry?.coordinates || [];
+          if (ctmCoords && ctmCoords.length >= 2) {
+            lineCoords = ctmCoords;
           }
         }
       }
 
-      // 2. Fallback: CTM Line 2B Overlay Check
-      if (
-        lineStr.includes('LINE2B') ||
-        lineStr.includes('LINE 2B') ||
-        fromStr.includes('L2B') ||
-        toStr.includes('L2B') ||
-        fromStr.includes('MANDALE') ||
-        toStr.includes('MANDALE') ||
-        fromStr.includes('DIAMOND GARDEN') ||
-        toStr.includes('DIAMOND GARDEN')
-      ) {
-        const ctm2b = this.loadCtmLine2b();
-        const coords: [number, number][] =
-          ctm2b?.alignmentGeometry?.coordinates || [];
-        if (coords && coords.length >= 2) {
-          return this.sliceCoordinateArray(coords, fromCoord, toCoord);
-        }
+      this.lineShapeCache.set(lineId, lineCoords);
+      if (actualLineId && actualLineId !== lineId) {
+        this.lineShapeCache.set(actualLineId, lineCoords);
+      }
+
+      if (lineCoords.length >= 2) {
+        return this.sliceCoordinateArray(lineCoords, fromCoord, toCoord);
       }
 
       return null;
