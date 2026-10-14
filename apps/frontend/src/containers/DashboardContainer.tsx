@@ -159,14 +159,14 @@ export function DashboardContainer() {
   const [selectedMapStationId, setSelectedMapStationId] = useState<string | null>(null);
   const [showStatusDrawer, setShowStatusDrawer] = useState(false);
 
-  // Map activeLayers derived from selected filter (View Live Trains toggles vehicles layer on/off)
+  // Map activeLayers derived from selected filter (defaults to lines, stations, vehicles for live trains)
   const mapActiveLayers = useMemo(() => {
     if (activeFilterMode === "lines") return ["lines"];
     if (activeFilterMode === "interchanges") return ["lines", "interchanges"];
     if (activeFilterMode === "accessible") return ["lines", "accessible"];
     if (activeFilterMode === "stations") return ["lines", "stations"];
     if (activeFilterMode === "live_trains") return ["lines", "stations", "vehicles"];
-    return ["lines", "stations"];
+    return ["lines", "stations", "vehicles"];
   }, [activeFilterMode]);
 
   // Combined Place + Station Autocomplete Suggestions
