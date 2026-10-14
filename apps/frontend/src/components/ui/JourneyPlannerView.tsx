@@ -147,6 +147,18 @@ function CoachTip({
   );
 }
 
+function formatDepartureClock(minsFromNow?: number, fallbackStr?: string): string {
+  if (typeof minsFromNow === "number" && !isNaN(minsFromNow)) {
+    const target = new Date(Date.now() + minsFromNow * 60000);
+    return target.toLocaleTimeString([], {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+  }
+  return fallbackStr || "";
+}
+
 // ── Stitch Vertical Timeline: Journey Details ────────────────────────────────
 
 export function JourneyDetailsTimeline({
@@ -223,7 +235,7 @@ export function JourneyDetailsTimeline({
                 <div className="flex items-center gap-2 mt-1">
                   <span className="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center gap-1 font-mono">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    Departs in {transitLegs[0].realtimeEtaMins} mins ({transitLegs[0].realtimeTimeStr})
+                    Departs in {transitLegs[0].realtimeEtaMins} mins ({formatDepartureClock(transitLegs[0].realtimeEtaMins, transitLegs[0].realtimeTimeStr)})
                   </span>
                   {transitLegs[0].delaySeconds && transitLegs[0].delaySeconds > 0 ? (
                     <span className="text-xs text-amber-400 font-mono">
@@ -389,7 +401,7 @@ export function JourneyDetailsTimeline({
                     <div className="flex items-center gap-2 mt-1 flex-wrap">
                       <span className="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center gap-1 font-mono">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                        Connecting Train: Departs in {nextLeg.connectionWaitMins} mins ({nextLeg.realtimeTimeStr})
+                        Connecting Train: Departs in {nextLeg.connectionWaitMins} mins ({formatDepartureClock(nextLeg.realtimeEtaMins ?? nextLeg.connectionWaitMins, nextLeg.realtimeTimeStr)})
                       </span>
                       <span className="text-xs text-slate-400 font-mono">
                         (~{nextLeg.connectionWaitMins}m wait after interchange walk)
@@ -404,7 +416,7 @@ export function JourneyDetailsTimeline({
                     <div className="flex items-center gap-2 mt-1">
                       <span className="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center gap-1 font-mono">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                        Departs in {nextLeg.realtimeEtaMins} mins ({nextLeg.realtimeTimeStr})
+                        Departs in {nextLeg.realtimeEtaMins} mins ({formatDepartureClock(nextLeg.realtimeEtaMins, nextLeg.realtimeTimeStr)})
                       </span>
                       {nextLeg.delaySeconds && nextLeg.delaySeconds > 0 ? (
                         <span className="text-xs text-amber-400 font-mono">
