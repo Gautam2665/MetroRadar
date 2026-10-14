@@ -391,46 +391,60 @@ export class GraphBuilderService {
       }
     }
 
-    // 2. Spatial walking transfers for nearby stations (< 1000m) on different lines
-    const nodeList = [...nodes.values()];
-    const MAX_WALK_DISTANCE_METERS = 1000;
-    const WALKING_SPEED_MPS = 1.2; // 1.2 m/s standard transit walking speed
+    // 2. Spatial walking transfers:
+    // When interchange complexes registry is present, only authoritative registered complexes are used.
+    // For systems without an interchange registry, only connect co-located stations (< 150m or matching names within 300m).
+    if (this.interchangeComplexes.length === 0) {
+      const nodeList = [...nodes.values()];
+      const MAX_CO_LOCATED_DISTANCE_METERS = 150;
+      const WALKING_SPEED_MPS = 1.2; // 1.2 m/s standard transit walking speed
 
-    for (let i = 0; i < nodeList.length; i++) {
-      for (let j = i + 1; j < nodeList.length; j++) {
-        const from = nodeList[i];
-        const to = nodeList[j];
+      for (let i = 0; i < nodeList.length; i++) {
+        for (let j = i + 1; j < nodeList.length; j++) {
+          const from = nodeList[i];
+          const to = nodeList[j];
 
-        if (from.id === to.id) continue;
-        const sharesLine = from.lineIds.some((lineId) =>
-          to.lineIds.includes(lineId),
-        );
-        if (sharesLine) continue;
-
-        const pairKey = [from.id, to.id].sort().join(':');
-        if (addedWalkPairs.has(pairKey)) continue;
-
-        const dist = this.getDistanceMeters(from.lat, from.lng, to.lat, to.lng);
-
-        if (dist <= MAX_WALK_DISTANCE_METERS) {
-          addedWalkPairs.add(pairKey);
-          const walkSeconds = Math.max(
-            60,
-            Math.round(dist / WALKING_SPEED_MPS),
+          if (from.id === to.id) continue;
+          const sharesLine = from.lineIds.some((lineId) =>
+            to.lineIds.includes(lineId),
           );
-          addEdge({
-            from: from.id,
-            to: to.id,
-            type: EdgeType.WALK,
-            duration: walkSeconds,
-          });
-          addEdge({
-            from: to.id,
-            to: from.id,
-            type: EdgeType.WALK,
-            duration: walkSeconds,
-          });
-          walkEdgeCount += 2;
+          if (sharesLine) continue;
+
+          const pairKey = [from.id, to.id].sort().join(':');
+          if (addedWalkPairs.has(pairKey)) continue;
+
+          const dist = this.getDistanceMeters(
+            from.lat,
+            from.lng,
+            to.lat,
+            to.lng,
+          );
+          const isSameName =
+            from.name.trim().toLowerCase() === to.name.trim().toLowerCase();
+
+          if (
+            dist <= MAX_CO_LOCATED_DISTANCE_METERS ||
+            (isSameName && dist <= 300)
+          ) {
+            addedWalkPairs.add(pairKey);
+            const walkSeconds = Math.max(
+              60,
+              Math.round(dist / WALKING_SPEED_MPS),
+            );
+            addEdge({
+              from: from.id,
+              to: to.id,
+              type: EdgeType.WALK,
+              duration: walkSeconds,
+            });
+            addEdge({
+              from: to.id,
+              to: from.id,
+              type: EdgeType.WALK,
+              duration: walkSeconds,
+            });
+            walkEdgeCount += 2;
+          }
         }
       }
     }
