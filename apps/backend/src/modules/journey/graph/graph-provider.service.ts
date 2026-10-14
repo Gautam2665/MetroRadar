@@ -21,6 +21,11 @@ export class GraphProviderService {
   private readonly GRAPH_VERSION = 'v15';
   private readonly GRAPH_TTL_SECONDS = 4 * 60 * 60; // 4 hours
 
+  private readonly memoryCache = new Map<
+    string,
+    { graph: TransitGraph; cachedAt: number }
+  >();
+
   constructor(
     private readonly redis: RedisService,
     private readonly graphBuilder: GraphBuilderService,
@@ -28,37 +33,68 @@ export class GraphProviderService {
 
   /**
    * Get the transit graph for a system.
-   * Checks Redis first; builds from DB on cache miss and stores result.
+   * Checks local memory cache first (<1ms), then Redis, then builds from DB on cache miss.
    */
   async get(systemId: string, systemCode: string): Promise<TransitGraph> {
     const cacheKey = this.buildCacheKey(systemCode);
 
-    const cached = await this.redis.get<SerializableGraph>(cacheKey);
-    if (cached) {
-      this.logger.debug(`Cache HIT for graph:${cacheKey}`);
-      return this.deserialize(cached);
+    // 1. Check in-memory process cache first (<1ms)
+    const memCached = this.memoryCache.get(cacheKey);
+    if (
+      memCached &&
+      Date.now() - memCached.cachedAt < this.GRAPH_TTL_SECONDS * 1000
+    ) {
+      this.logger.debug(`Memory cache HIT for graph:${cacheKey}`);
+      return memCached.graph;
     }
 
+    // 2. Check Redis cache
+    try {
+      const cached = await this.redis.get<SerializableGraph>(cacheKey);
+      if (cached) {
+        this.logger.debug(`Redis cache HIT for graph:${cacheKey}`);
+        const graph = this.deserialize(cached);
+        this.memoryCache.set(cacheKey, { graph, cachedAt: Date.now() });
+        return graph;
+      }
+    } catch (err) {
+      this.logger.warn(`Redis get failed for ${cacheKey}: ${err}`);
+    }
+
+    // 3. Build from DB on cache miss
     this.logger.log(`Cache MISS for graph:${cacheKey} — building from DB`);
     const graph = await this.graphBuilder.build(systemId);
-    await this.redis.set(
-      cacheKey,
-      this.serialize(graph),
-      this.GRAPH_TTL_SECONDS,
-    );
+    this.memoryCache.set(cacheKey, { graph, cachedAt: Date.now() });
+
+    try {
+      await this.redis.set(
+        cacheKey,
+        this.serialize(graph),
+        this.GRAPH_TTL_SECONDS,
+      );
+    } catch (err) {
+      this.logger.warn(`Redis set failed for ${cacheKey}: ${err}`);
+    }
+
     return graph;
   }
 
   /** Invalidate a specific system's graph (e.g., after GTFS import) */
   async invalidate(systemCode: string): Promise<void> {
     const cacheKey = this.buildCacheKey(systemCode);
-    await this.redis.del(cacheKey);
+    this.memoryCache.delete(cacheKey);
+    try {
+      await this.redis.del(cacheKey);
+    } catch {}
     this.logger.log(`Invalidated graph cache: ${cacheKey}`);
   }
 
   /** Invalidate ALL versioned graph caches (e.g., schema migration) */
   async invalidateAll(): Promise<void> {
-    await this.redis.delByPattern(`graph:${this.GRAPH_VERSION}:system:*`);
+    this.memoryCache.clear();
+    try {
+      await this.redis.delByPattern(`graph:${this.GRAPH_VERSION}:system:*`);
+    } catch {}
     this.logger.log(`Invalidated all graph:${this.GRAPH_VERSION} caches`);
   }
 

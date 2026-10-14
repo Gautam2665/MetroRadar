@@ -25,6 +25,8 @@ export class HealthController {
       database: dbHealthy ? 'connected' : 'disconnected',
       redis: redisHealthy ? 'connected' : 'disconnected',
       version: '0.1.0',
+      commit: process.env.RENDER_GIT_COMMIT || 'local',
+      istTime: new Date(Date.now() + 5.5 * 3600000).toISOString(),
     };
 
     if (!dbHealthy || !redisHealthy) {

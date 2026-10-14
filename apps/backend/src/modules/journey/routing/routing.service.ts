@@ -116,7 +116,22 @@ export class RoutingService {
       for (const base of seedPaths) {
         if (candidates.length >= k) break;
 
-        for (let i = 0; i < Math.min(base.length - 1, 8); i++) {
+        // Collect spur indices prioritizing transfer/walk edges and corridor intervals
+        const spurIndices = new Set<number>();
+        for (let i = 0; i < base.length - 1; i++) {
+          const edge = base[i];
+          if (edge.type === EdgeType.TRANSFER || edge.type === EdgeType.WALK) {
+            if (i > 0) spurIndices.add(i - 1);
+            spurIndices.add(i);
+            if (i + 1 < base.length - 1) spurIndices.add(i + 1);
+          } else if (i % 2 === 0) {
+            spurIndices.add(i);
+          }
+        }
+        for (let i = 0; i < Math.min(base.length - 1, 6); i++) spurIndices.add(i);
+        const sortedIndices = Array.from(spurIndices).sort((a, b) => a - b);
+
+        for (const i of sortedIndices) {
           const spurNodeId = base[i].from;
           const rootPath = base.slice(0, i);
 
