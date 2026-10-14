@@ -2,14 +2,20 @@
 ### The Urban Intelligence & Mobility Platform
 *(Formerly MetroRadar)*
 
+[![Web App](https://img.shields.io/badge/Web_App-metro--radar.vercel.app-000000.svg?style=flat-square&logo=vercel)](https://metro-radar-blush.vercel.app)
+[![API Engine](https://img.shields.io/badge/API_Engine-transitos--33xk.onrender.com-46E3B7.svg?style=flat-square&logo=render)](https://transitos-33xk.onrender.com/health)
 [![Backend](https://img.shields.io/badge/Backend-NestJS-red.svg?style=flat-square&logo=nestjs)](https://nestjs.com/)
-[![Frontend](https://img.shields.io/badge/Frontend-Next.js-black.svg?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![Frontend](https://img.shields.io/badge/Frontend-Next.js_15-black.svg?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![Database](https://img.shields.io/badge/Database-PostgreSQL_/_PostGIS-blue.svg?style=flat-square&logo=postgresql)](https://www.postgresql.org/)
 [![ORM](https://img.shields.io/badge/ORM-Prisma-2D3748.svg?style=flat-square&logo=prisma)](https://www.prisma.io/)
 [![Realtime](https://img.shields.io/badge/Realtime-Redis-DC382D.svg?style=flat-square&logo=redis)](https://redis.io/)
 [![TypeScript](https://img.shields.io/badge/Language-TypeScript-blue.svg?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![Docker](https://img.shields.io/badge/Container-Docker-2496ED.svg?style=flat-square&logo=docker)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
+
+> ### 🌐 Live Deployments
+> * **Production Web Application:** [https://metro-radar-blush.vercel.app](https://metro-radar-blush.vercel.app)
+> * **Transit Intelligence API Gateway:** [https://transitos-33xk.onrender.com](https://transitos-33xk.onrender.com)
+> * **Live Engine Telemetry & Health Probe:** [https://transitos-33xk.onrender.com/health](https://transitos-33xk.onrender.com/health)
 
 TransitOS is an **Urban Intelligence Platform** and **India's GTFS Infrastructure Platform** designed to build a complete digital twin of every Indian city transit network. Instead of depending on operators to publish GTFS, TransitOS synthesizes, calibrates, and models transit data into a unified Canonical Transit Model (CTM).
 
@@ -133,12 +139,31 @@ v1.1+ (Wear OS / Ambient) <── v1.0 (Booking & ONDC) <── v0.9 (Voice & AI
 | **v0.6** | Passenger Experience & Benchmark UI (MapLibre, Digital Twin, Step-by-Step Directions) | ✅ Complete |
 | **v0.6.2** | Journey Intelligence: Candidate Generation (Yen's K-Shortest) & Deterministic Evaluation | ✅ Complete |
 | **v0.6.3** | Stitch Journey Planner Redesign, Route-Focused Simulation & Smart Station Cards | ✅ Complete |
-| **v0.6.5** | **National Transit Expansion & Calibration Baseline (Mumbai CTM, Pi Pipeline)** | 🚧 **Active / Next** |
-| **v0.7** | Prediction Engine & Operational Intelligence (Delays, Headways, Fleet-State Digital Twin) | ⏳ Planned |
+| **v0.6.5** | **Mumbai CTM Materialization (Lines 1, 2A, 3 Aqua, 7) & Authoritative Interchange Modeling** | ✅ Complete |
+| **v0.7** | Prediction Engine & Operational Intelligence (Delays, Headways, Fleet-State Digital Twin) | 🚧 **Active / Next** |
 | **v0.8** | Analytics & Operator Intelligence (Line efficiency, congestion modeling, bottlenecks) | ⏳ Planned |
 | **v0.9** | Intelligence Gateway & Voice Laboratory (Sarvam AI STT/TTS + Telegram Voice Bot) | ⏳ Planned |
 | **v1.0** | Commerce & Booking Platform (ONDC Buyer Application Adapter, Payment Abstraction) | ⏳ Planned |
 | **v1.1+** | Ambient Computing & Advanced Interfaces (WhatsApp Business, Wear OS Smartwatch) | ⏳ Planned |
+
+---
+
+### 🗺️ Live Network Coverage: Mumbai CTM v1.0
+
+TransitOS models the Mumbai Metropolitan transit corridors with complete topological fidelity and ground-truth interchange physics:
+
+* **Line 1 (Blue Line)**: Versova ↔ Andheri ↔ Marol Naka ↔ Ghatkopar (11.4 km)
+* **Line 2A (Yellow Line)**: Dahisar East ↔ Kandarpada ↔ Borivali West ↔ D.N. Nagar (18.6 km)
+* **Line 3 (Aqua Line)**: Aarey JVLR ↔ Marol Naka ↔ BKC ↔ Dadar ↔ Worli ↔ CSMT Metro (33.5 km underground)
+* **Line 7 (Red Line)**: Dahisar East ↔ Ovaripada ↔ Goregaon East ↔ Gundavali (16.5 km)
+
+#### 🏛️ Authoritative Interchange Complexes (No Artificial Shortcuts)
+Line transfers are strictly bounded by official operator engineering designs, factoring in real physical geometry, vertical elevation changes, and security perimeter re-screening:
+* **`ICX-MAROL-NAKA`**: Line 1 (Elevated) ↔ Line 3 (Underground) via street-level transfer along Andheri-Kurla Road.
+* **`ICX-WEH-GUNDAVALI`**: Line 1 (WEH) ↔ Line 7 (Gundavali) via dedicated 58-meter covered Foot Overbridge (FOB).
+* **`ICX-DN-NAGAR`**: Line 1 (D.N. Nagar) ↔ Line 2A (Andheri West) via multi-level elevated interchange concourse.
+* **`ICX-DAHISAR-EAST`**: Line 2A (Yellow) ↔ Line 7 (Red) continuous concourse interchange.
+* **`ICX-BKC`**: Line 3 (Underground) ↔ Line 2B (Elevated) ↔ MAHSR Bullet Train subterranean spine with horizontal travelators.
 
 ---
 
