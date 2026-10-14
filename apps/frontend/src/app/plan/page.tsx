@@ -86,13 +86,13 @@ function JourneyPlannerContent() {
   // Clean place selection handlers matching Google Maps behavior
   const handleSelectOrigin = (place: PlaceSuggestion) => {
     setOriginInput(cleanPlaceName(place.name));
-    setOriginStationId(place.nearestStation?.id ?? place.rawStationId ?? place.id);
+    setOriginStationId(place.type === "station" ? (place.rawStationId ?? place.id) : (place.nearestStation?.id ?? place.rawStationId ?? place.id));
     setShowOriginSuggestions(false);
   };
 
   const handleSelectDest = (place: PlaceSuggestion) => {
     setDestInput(cleanPlaceName(place.name));
-    setDestStationId(place.nearestStation?.id ?? place.rawStationId ?? place.id);
+    setDestStationId(place.type === "station" ? (place.rawStationId ?? place.id) : (place.nearestStation?.id ?? place.rawStationId ?? place.id));
     setShowDestSuggestions(false);
   };
 
@@ -144,6 +144,12 @@ function JourneyPlannerContent() {
 
     if (!finalOrigId || !finalDestId) {
       setErrorMsg("Please select valid origin and destination stations or landmarks");
+      setLoading(false);
+      return;
+    }
+
+    if (finalOrigId === finalDestId) {
+      setErrorMsg("Origin and destination must be different stations.");
       setLoading(false);
       return;
     }

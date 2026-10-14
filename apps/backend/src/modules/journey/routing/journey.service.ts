@@ -533,10 +533,16 @@ export class JourneyService {
     const filtered = this.filter.filter(enriched);
 
     if (filtered.length === 0) {
-      // This shouldn't happen if rawPaths was non-empty, but be defensive
-      throw new NotFoundException(
-        `All candidate routes were filtered out between ${fromStation.name} and ${toStation.name}.`,
-      );
+      if (enriched.length > 0) {
+        this.logger.warn(
+          `All candidate routes were pruned by filter; falling back to best enriched candidate between ${fromStation.name} and ${toStation.name}.`,
+        );
+        filtered.push(enriched[0]);
+      } else {
+        throw new NotFoundException(
+          `No route found between ${fromStation.name} and ${toStation.name}.`,
+        );
+      }
     }
 
     // ── 6. Deterministic Rank: sort by effectiveCost if friction/luggage requested, else rankScore ──

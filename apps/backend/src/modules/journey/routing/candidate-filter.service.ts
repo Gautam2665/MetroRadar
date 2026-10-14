@@ -93,7 +93,7 @@ export class CandidateFilterService {
               const dist =
                 leg.transferDetails?.pathwayDistanceMeters ||
                 Math.round((leg.durationSeconds || leg.duration || 60) * 1.2);
-              return dist > 300;
+              return dist > 1200;
             }
             return false;
           },

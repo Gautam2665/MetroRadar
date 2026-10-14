@@ -430,7 +430,7 @@ export class SearchService {
             `
             SELECT 
               st.id, st.code, st.name, st.latitude, st.longitude, st.city, st."systemId",
-              ST_Distance(st.geom::geography, ST_SetSRID(ST_MakePoint($2, $1), 4326)::geography) as distance,
+              ST_Distance(COALESCE(st.geom, ST_SetSRID(ST_MakePoint(st.longitude, st.latitude), 4326))::geography, ST_SetSRID(ST_MakePoint($2, $1), 4326)::geography) as distance,
               COALESCE((
                 SELECT json_agg(json_build_object('code', l.code, 'name', l.name, 'color', COALESCE(l.color, '#00e5ff')))
                 FROM lines l
@@ -439,6 +439,7 @@ export class SearchService {
               ), '[]'::json) as lines
             FROM stations st
             WHERE st."isActive" = true AND LOWER(st.city) IN ('mumbai', 'mm')
+              AND (st.geom IS NOT NULL OR (st.latitude IS NOT NULL AND st.longitude IS NOT NULL))
             ORDER BY distance ASC
             LIMIT 1;
             `,
