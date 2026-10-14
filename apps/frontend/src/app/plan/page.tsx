@@ -247,7 +247,11 @@ function JourneyPlannerContent() {
         setExpandedCandidateId(mappedList[0].id);
         setIsCandidatePanelCollapsed(false);
       } else {
-        setErrorMsg("No feasible transit route found between these locations.");
+        setErrorMsg(
+          res.error === "Request timed out"
+            ? "Route calculation timed out. Please retry."
+            : res.error || "No feasible transit route found between these locations."
+        );
       }
     } catch {
       setErrorMsg("Failed to connect to journey engine");
