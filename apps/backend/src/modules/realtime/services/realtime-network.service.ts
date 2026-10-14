@@ -237,19 +237,22 @@ export class RealtimeNetworkService {
       const predArrSecs = arrSecs + delaySeconds;
       const predDepSecs = depSecs + delaySeconds;
 
-      // Strict departure cutoff: if train has already departed, discard immediately!
+      // Departure cutoff: allow a 45s grace period so a dwelling or just-departing train
+      // still displays "Arriving/Boarding" instead of abruptly jumping to the next train 10 minutes away.
       let diffDepSecs = predDepSecs - nowSecs;
       if (diffDepSecs <= 0) {
         if (nowSecs > 80000 && predDepSecs < 7200) {
           diffDepSecs += 86400; // Genuine midnight wrap
+        } else if (diffDepSecs >= -45) {
+          diffDepSecs = 0; // Currently dwelling at the platform
         } else {
           // Departed from platform -> discard
           continue;
         }
       }
 
-      // Check dwell status
-      const isBoarding = nowSecs >= predArrSecs && nowSecs < predDepSecs;
+      // Check dwell status (including the 45-second boarding window)
+      const isBoarding = nowSecs >= predArrSecs && nowSecs <= predDepSecs + 45;
       let etaMinutes = 0;
       if (!isBoarding) {
         let diffArrSecs = predArrSecs - nowSecs;

@@ -4,16 +4,32 @@ import { useState, useEffect } from "react";
 import { StationApi } from "../services/api/station.api";
 import { DigitalTwin } from "../models/digitalTwin";
 
-const digitalTwinCache = new Map<string, DigitalTwin>();
+interface CacheEntry {
+  data: DigitalTwin;
+  cachedAt: number;
+}
+
+const digitalTwinCache = new Map<string, CacheEntry>();
+const CACHE_TTL_MS = 5000; // 5 seconds freshness
+
+function getValidCache(stationId: string): DigitalTwin | null {
+  const entry = digitalTwinCache.get(stationId);
+  if (!entry) return null;
+  if (Date.now() - entry.cachedAt > CACHE_TTL_MS) {
+    digitalTwinCache.delete(stationId);
+    return null;
+  }
+  return entry.data;
+}
 
 export function useDigitalTwin(stationId: string | null, defaultName: string = "Station") {
   const [data, setData] = useState<DigitalTwin | null>(() => {
-    if (stationId && digitalTwinCache.has(stationId)) {
-      return digitalTwinCache.get(stationId)!;
+    if (stationId) {
+      return getValidCache(stationId);
     }
     return null;
   });
-  const [loading, setLoading] = useState<boolean>(!stationId || !digitalTwinCache.has(stationId));
+  const [loading, setLoading] = useState<boolean>(!stationId || !getValidCache(stationId));
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -24,9 +40,10 @@ export function useDigitalTwin(stationId: string | null, defaultName: string = "
 
     let isSubscribed = true;
 
-    // If cache exists, hydrate immediately so UI is instant
-    if (digitalTwinCache.has(stationId)) {
-      setData(digitalTwinCache.get(stationId)!);
+    // If cache exists and is fresh, hydrate immediately so UI is instant
+    const cached = getValidCache(stationId);
+    if (cached) {
+      setData(cached);
       setLoading(false);
     } else {
       setLoading(true);
@@ -36,10 +53,10 @@ export function useDigitalTwin(stationId: string | null, defaultName: string = "
       StationApi.getDigitalTwin(stationId, defaultName).then((res) => {
         if (!isSubscribed) return;
         if (res.success) {
-          digitalTwinCache.set(stationId, res.data);
+          digitalTwinCache.set(stationId, { data: res.data, cachedAt: Date.now() });
           setData(res.data);
           setError(null);
-        } else if (!digitalTwinCache.has(stationId)) {
+        } else if (!getValidCache(stationId)) {
           setError(res.error);
         }
         setLoading(false);

@@ -213,9 +213,16 @@ function NetworkContent() {
                                   <p className="text-[11px] text-[#bac9cc]">→ {eta.towards}</p>
                                 </div>
                                 <div className="text-right">
-                                  <p className="text-lg font-bold text-[#00e5ff] leading-none">
-                                    {eta.etaMins}<span className="text-xs font-normal ml-0.5">min</span>
-                                  </p>
+                                  {eta.etaMins <= 0 ? (
+                                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 font-bold text-xs border border-emerald-500/30">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                                      Arriving
+                                    </span>
+                                  ) : (
+                                    <p className="text-lg font-bold text-[#00e5ff] leading-none">
+                                      {eta.etaMins}<span className="text-xs font-normal ml-0.5">min</span>
+                                    </p>
+                                  )}
                                   {eta.crowdLevel ? (
                                     <p className="text-[10px] font-bold" style={{ color: eta.crowdLevel === "Low" ? "#4ade80" : eta.crowdLevel === "Medium" ? "#fec931" : "#ef4444" }}>
                                       {eta.crowdLevel} Crowd
