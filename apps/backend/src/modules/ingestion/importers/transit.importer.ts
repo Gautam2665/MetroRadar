@@ -720,7 +720,9 @@ export class TransitImporter {
     for (const stop of stops) {
       if (stop.location_type === '2') {
         const stationCode = stationCodeForStop.get(stop.stop_id);
-        const candidateStationId = stationCode ? stationIdByCode.get(stationCode) : null;
+        const candidateStationId = stationCode
+          ? stationIdByCode.get(stationCode)
+          : null;
         if (!candidateStationId) continue;
 
         // Double check station actually exists in database to satisfy foreign key

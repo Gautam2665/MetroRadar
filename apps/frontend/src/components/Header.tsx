@@ -1,8 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { StationSearchInput, StationItem } from "./StationSearchInput";
 import { useAssistantUi } from "../contexts/AssistantUiContext";
 import { useInfoModal } from "../contexts/InfoModalContext";
@@ -54,10 +52,9 @@ function resolveWeatherIcon(code: number): string {
   return "thunderstorm";
 }
 
-export function Header({ activeCity = "mumbai", onCityChange, onSelectStation }: HeaderProps) {
+export function Header({ activeCity = "mumbai", onCityChange: _onCityChange, onSelectStation }: HeaderProps) {
   const { toggleAssistant, isOpen: isAssistantOpen } = useAssistantUi();
   const { openInfoModal } = useInfoModal();
-  const [openCityMenu, setOpenCityMenu] = useState(false);
   const [searchVal, setSearchVal] = useState("");
   const [weather, setWeather] = useState<{ temp: string; icon: string }>({ temp: "--°C", icon: "wb_sunny" });
 

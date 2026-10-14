@@ -118,7 +118,7 @@ const CURATED_MUMBAI_LANDMARKS: QuickPlaceSuggestion[] = [
 export function DashboardContainer() {
   const router = useRouter();
   const mapRef = useRef<maplibregl.Map | null>(null);
-  const { activeCity, setActiveCity } = useCityContext();
+  const { activeCity } = useCityContext();
   const { setSelectedStation } = useStationContext();
   const { toggleAssistant, openAssistant } = useAssistantUi();
   const { data: vehicles } = useRealtime(activeCity, 10000);

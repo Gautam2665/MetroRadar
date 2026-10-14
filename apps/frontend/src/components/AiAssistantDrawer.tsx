@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Mic, MicOff, Send, Sparkles, X, Volume2, VolumeX, Train, MapPin, Compass, ArrowRight, ExternalLink } from "lucide-react";
+import { Mic, MicOff, Send, Sparkles, X, Volume2, VolumeX, Train, Compass, ArrowRight } from "lucide-react";
 import { useCityContext } from "../contexts/CityContext";
 import { useJourneyContext } from "../contexts/JourneyContext";
 import { useStationContext } from "../contexts/StationContext";
@@ -183,7 +183,7 @@ export function AiAssistantDrawer() {
           setSelectedStation(s.stationId, s.stationName);
         }
       }
-    } catch (err: any) {
+    } catch {
       setMessages((prev) => [
         ...prev,
         {

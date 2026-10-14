@@ -128,7 +128,8 @@ export class RoutingService {
             spurIndices.add(i);
           }
         }
-        for (let i = 0; i < Math.min(base.length - 1, 6); i++) spurIndices.add(i);
+        for (let i = 0; i < Math.min(base.length - 1, 6); i++)
+          spurIndices.add(i);
         const sortedIndices = Array.from(spurIndices).sort((a, b) => a - b);
 
         for (const i of sortedIndices) {

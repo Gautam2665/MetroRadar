@@ -6,16 +6,11 @@ import {
   X, 
   Terminal, 
   Cpu, 
-  Database, 
-  MapPin, 
-  Code2, 
   Mail, 
   ExternalLink, 
   Bug, 
   ShieldCheck, 
-  Layers,
-  Sparkles,
-  Radio
+  Layers
 } from "lucide-react";
 
 export function SystemSpecsModal() {

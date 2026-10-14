@@ -85,7 +85,9 @@ export class GraphProviderService {
     this.memoryCache.delete(cacheKey);
     try {
       await this.redis.del(cacheKey);
-    } catch {}
+    } catch (err) {
+      this.logger.debug(`Redis del skipped: ${err}`);
+    }
     this.logger.log(`Invalidated graph cache: ${cacheKey}`);
   }
 
@@ -94,7 +96,9 @@ export class GraphProviderService {
     this.memoryCache.clear();
     try {
       await this.redis.delByPattern(`graph:${this.GRAPH_VERSION}:system:*`);
-    } catch {}
+    } catch (err) {
+      this.logger.debug(`Redis delByPattern skipped: ${err}`);
+    }
     this.logger.log(`Invalidated all graph:${this.GRAPH_VERSION} caches`);
   }
 

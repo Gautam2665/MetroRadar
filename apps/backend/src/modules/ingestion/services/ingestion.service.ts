@@ -182,7 +182,8 @@ export class IngestionService {
       // 4. PIPELINE STAGE: STOPS (STATIONS)
       if (fs.existsSync(path.join(extractedDir, 'stops.txt'))) {
         const rawStops = await this.stopsParser.parse(context);
-        normalizedStops = this.stationNormalizer.normalize(context, rawStops) || [];
+        normalizedStops =
+          this.stationNormalizer.normalize(context, rawStops) || [];
         // Keep GTFS child platform stop_ids resolvable by stop_times after
         // StationTransformer folds them into their parent station record.
         for (const stop of normalizedStops) {

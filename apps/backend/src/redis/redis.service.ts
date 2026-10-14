@@ -19,7 +19,9 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
         lazyConnect: true,
         enableOfflineQueue: false,
         retryStrategy: () => null,
-        tls: redisUrl.startsWith('rediss://') ? { rejectUnauthorized: false } : undefined,
+        tls: redisUrl.startsWith('rediss://')
+          ? { rejectUnauthorized: false }
+          : undefined,
       });
     } else {
       this.client = new Redis({

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useCallback, useEffect, useRef, Suspense } from "react";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Sidebar } from "../../components/Sidebar";
 import MapContainer from "../../components/map/MapContainer";

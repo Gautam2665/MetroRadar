@@ -6,7 +6,6 @@ import { StationSearchResult, toPlaceSuggestion } from "../services/api/station.
 import { PlaceSuggestion } from "../models/search";
 import { PlaceSuggestionItem } from "./PlaceSuggestionItem";
 import { formatShortLineName } from "../utils/transitFormatter";
-import { ScrollingText } from "./ui/ScrollingText";
 
 /** Public type that consumers receive when a station is selected */
 export type StationItem = {
@@ -22,7 +21,7 @@ export type StationItem = {
   landmarkDetails?: Record<string, unknown>;
 };
 
-function toStationItem(s: StationSearchResult): StationItem {
+export function toStationItem(s: StationSearchResult): StationItem {
   const primary = s.lines[0];
   const uniqueLineNames = Array.from(
     new Set(s.lines.map((l) => formatShortLineName(l.name)).filter(Boolean))
