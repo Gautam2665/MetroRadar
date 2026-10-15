@@ -298,7 +298,12 @@ export default function StationExplorerPage() {
       return twinData.platformEtas.map((pe) => ({
         line: pe.platform,
         towards: `Towards ${pe.towards}`,
-        mins: pe.etaMins === 0 ? "Arriving" : `${pe.etaMins} min`,
+        mins:
+          pe.etaMins === null || pe.etaMins === undefined
+            ? "Service Closed"
+            : pe.etaMins === 0
+            ? "Arriving"
+            : `${pe.etaMins} min`,
       }));
     }
     return activeStation?.departures || [];

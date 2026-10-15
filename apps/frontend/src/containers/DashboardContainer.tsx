@@ -1431,7 +1431,7 @@ export function DashboardContainer() {
                   <p className="text-[10px] font-medium text-slate-400 leading-tight">Live Trains</p>
                   <div className="flex items-baseline gap-1 mt-0.5">
                     <span className="text-[11px] font-bold text-slate-100 truncate max-w-[110px]">
-                      {vehicles && vehicles.length > 0 ? `${vehicles.length} Active` : "ETAs Every 3.5m"}
+                      {vehicles && vehicles.length > 0 ? `${vehicles.length} Active` : "Service Closed"}
                     </span>
                   </div>
                 </div>

@@ -365,7 +365,7 @@ export class DigitalTwinService {
     let platformEtas: Array<{
       platform: string;
       towards: string;
-      etaMins: number;
+      etaMins: number | null;
       crowdLevel?: 'Low' | 'Medium' | 'High' | null;
       recommendedCoach: string;
     }> = [];
@@ -380,7 +380,10 @@ export class DigitalTwinService {
       ) {
         platformEtas = liveBoarding.platforms.map((p, pIdx) => {
           const topTrain = p.trains?.[0];
-          const etaMins = topTrain?.etaMinutes ?? pIdx * 3 + 2;
+          const etaMins =
+            typeof topTrain?.etaMinutes === 'number'
+              ? topTrain.etaMinutes
+              : null;
 
           // Calibrated crowd status: only report if GTFS-RT provides live carriage occupancy
           let crowdLevel: 'Low' | 'Medium' | 'High' | null = null;

@@ -104,7 +104,9 @@ export function DigitalTwinInspectorView({
                   <span className="text-[10px] text-[#00e5ff] font-bold">Recommended: {eta.recommendedCoach}</span>
                 </div>
                 <div className="text-right">
-                  {eta.etaMins <= 0 ? (
+                  {eta.etaMins === null || eta.etaMins === undefined ? (
+                    <span className="text-xs text-[#bac9cc] block font-semibold">Service Closed</span>
+                  ) : eta.etaMins <= 0 ? (
                     <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 font-bold text-xs border border-emerald-500/30">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
                       Arriving

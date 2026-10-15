@@ -367,21 +367,6 @@ export class RealtimeNetworkService {
               };
             });
 
-          if (incomingTrains.length === 0) {
-            const baseEta = dir === 0 ? 3 : 5;
-            incomingTrains.push({
-              vehicleId: `TRAIN_${line.code}_0${dir + 1}`,
-              tripId: `TRIP_${line.code}_0${dir + 1}`,
-              label: `Scheduled Train`,
-              status: 'SCHEDULED',
-              latitude: 0,
-              longitude: 0,
-              delaySeconds: 0,
-              etaMinutes: baseEta,
-              coaches: [],
-            });
-          }
-
           const topUpcoming = upcoming[0];
           const towardsStationName =
             topUpcoming?.headsign || `Terminal (${line.name})`;
@@ -477,21 +462,6 @@ export class RealtimeNetworkService {
               coaches,
             };
           });
-
-        if (incomingTrains.length === 0) {
-          const baseEta = targetDir === 0 ? 3 : 5;
-          incomingTrains.push({
-            vehicleId: `TRAIN_${line.code}_${platform.platformNumber}`,
-            tripId: `TRIP_${line.code}_${platform.platformNumber}`,
-            label: `Scheduled Train`,
-            status: 'SCHEDULED',
-            latitude: 0,
-            longitude: 0,
-            delaySeconds: 0,
-            etaMinutes: baseEta,
-            coaches: [],
-          });
-        }
 
         const topUpcoming = targetUpcoming[0];
         const towardsStationName = isTerminusArrivalPlatform

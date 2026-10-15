@@ -13,7 +13,7 @@ export interface DigitalTwinLevel {
 export interface PlatformEta {
   platform: string;
   towards: string;
-  etaMins: number;
+  etaMins: number | null;
   crowdLevel?: "Low" | "Medium" | "High" | null;
   recommendedCoach: string;
 }

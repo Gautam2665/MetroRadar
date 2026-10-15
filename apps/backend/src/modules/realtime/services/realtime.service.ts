@@ -243,35 +243,9 @@ export class RealtimeService {
         take: 300,
       });
 
-      // Late-night / off-peak fallback: if no trips in current window, sample representative trips per line/direction
-      // and project them onto the current clock cycle so the live estimator remains functional 24/7
-      let useClockCycleProjection = false;
+      // If no trips are running in current window (e.g. late-night after closing), return empty array
       if (activeTrips.length === 0) {
-        useClockCycleProjection = true;
-        activeTrips = await this.db.trip.findMany({
-          where: {
-            lineId: { in: lineIds },
-            isActive: true,
-          },
-          include: {
-            stopTimes: {
-              where: { isActive: true },
-              orderBy: { stopSequence: 'asc' },
-              include: {
-                station: {
-                  select: {
-                    id: true,
-                    code: true,
-                    name: true,
-                    latitude: true,
-                    longitude: true,
-                  },
-                },
-              },
-            },
-          },
-          take: 100,
-        });
+        return [];
       }
 
       const estimatedVehicles: NormalizedVehicle[] = [];
@@ -305,20 +279,6 @@ export class RealtimeService {
         const stopUpdates = tripDelayState?.stopTimeUpdates || [];
         let runningDelaySecs = tripDelayState?.delaySeconds ?? 0;
 
-        // Compute predicted arrival & departure seconds for each stop in strict static stopSequence order
-        const firstDepRaw = this.parseTimeToSeconds(stops[0].departureTime);
-        const lastArrRaw = this.parseTimeToSeconds(
-          stops[stops.length - 1].arrivalTime,
-        );
-        const tripSpanSecs = Math.max(120, lastArrRaw - firstDepRaw);
-
-        // If off-peak cycle projection is needed, align the trip's start so it spans across nowSecs
-        const cycleOffsetSecs = useClockCycleProjection
-          ? nowSecs -
-            firstDepRaw -
-            ((nowSecs + trip.id.charCodeAt(0) * 137) % tripSpanSecs)
-          : 0;
-
         const resolvedStops = stops.map((st) => {
           // Match StopTimeUpdate explicitly by stopSequence or station code/id (never by array index)
           const matchedStu: TripStopTimeUpdate | undefined = stopUpdates.find(
@@ -340,10 +300,8 @@ export class RealtimeService {
             runningDelaySecs = matchedStu.departureDelay;
           }
 
-          const staticArrSecs =
-            this.parseTimeToSeconds(st.arrivalTime) + cycleOffsetSecs;
-          const staticDepSecs =
-            this.parseTimeToSeconds(st.departureTime) + cycleOffsetSecs;
+          const staticArrSecs = this.parseTimeToSeconds(st.arrivalTime);
+          const staticDepSecs = this.parseTimeToSeconds(st.departureTime);
 
           const predArrSecs =
             matchedStu?.arrivalTimeEpoch != null
