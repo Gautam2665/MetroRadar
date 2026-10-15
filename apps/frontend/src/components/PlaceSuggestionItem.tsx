@@ -48,6 +48,15 @@ export const PlaceSuggestionItem: React.FC<Props> = ({ suggestion, onSelect }) =
               </span>
             </>
           )}
+
+          {suggestion.isOutOfCoverage && (
+            <>
+              <span className="text-slate-600 flex-shrink-0">•</span>
+              <span className="text-amber-400 text-[11px] font-semibold flex-shrink-0">
+                Outside Metro Network
+              </span>
+            </>
+          )}
         </div>
       </div>
     </div>

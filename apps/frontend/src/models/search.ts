@@ -15,4 +15,6 @@ export interface PlaceSuggestion {
   lng?: number;
   code?: string;
   lines?: Array<{ code: string; name: string; color: string }>;
+  isOutOfCoverage?: boolean;
+  coverageNotice?: string;
 }

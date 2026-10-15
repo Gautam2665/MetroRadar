@@ -16,6 +16,8 @@ export interface StationSearchResult {
   lat: number;
   lng: number;
   isLandmark?: boolean;
+  isOutOfCoverage?: boolean;
+  coverageNotice?: string;
   type?: "station" | "poi" | "address";
   nearestStation?: {
     id?: string;
@@ -66,11 +68,13 @@ export function toPlaceSuggestion(s: StationSearchResult): PlaceSuggestion {
     address,
     nearestStation,
     type: s.isLandmark ? "poi" : "station",
-    rawStationId: s.stationId || s.id,
+    rawStationId: s.isOutOfCoverage ? undefined : (s.stationId || s.id),
     code: s.code,
     lines: s.lines,
     lat: s.lat,
     lng: s.lng,
+    isOutOfCoverage: s.isOutOfCoverage,
+    coverageNotice: s.coverageNotice,
   };
 }
 
@@ -125,9 +129,12 @@ function parseSearchFeatures(data: Record<string, unknown> | null | undefined): 
     }
 
     const uniqueId = (f.id as string) || `${props.id as string}-${normKey}`;
+    const isOutOfCoverage = Boolean(props.isOutOfCoverage);
+    const coverageNotice = (props.coverageNotice as string) || undefined;
+
     results.push({
       id: uniqueId,
-      stationId: props.id as string,
+      stationId: isOutOfCoverage ? undefined : (props.id as string),
       name: name || "Station",
       address,
       code,
@@ -137,6 +144,8 @@ function parseSearchFeatures(data: Record<string, unknown> | null | undefined): 
       lat: geom.coordinates?.[1] ?? 0,
       lng: geom.coordinates?.[0] ?? 0,
       isLandmark: Boolean(props.isLandmark),
+      isOutOfCoverage,
+      coverageNotice,
       type: (props.type as "station" | "poi" | "address") || (props.isLandmark ? "poi" : "station"),
       nearestStation,
       landmarkDetails: props.landmarkDetails as Record<string, unknown> | undefined,

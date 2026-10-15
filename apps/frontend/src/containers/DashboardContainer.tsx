@@ -199,7 +199,7 @@ export function DashboardContainer() {
       list.push({
         id: r.id,
         stationId: r.stationId || r.id,
-        label: r.isLandmark ? `${r.name} (Landmark)` : r.name,
+        label: r.name,
         stationName: r.name,
         code: r.code || "STN",
         lineBadge: r.lines?.[0]?.name || "Metro Line",
@@ -1148,13 +1148,13 @@ export function DashboardContainer() {
                   </button>
                   <button
                     type="button"
-                    onClick={() =>
+                    onClick={() => {
+                      const cleanFrom = (fromInput || "Malad West").replace(/\s*\(Landmark\)/gi, "").trim();
+                      const cleanTo = (toInput || "Devipada").replace(/\s*\(Landmark\)/gi, "").trim();
                       router.push(
-                        `/plan?from=${encodeURIComponent(fromInput || "Malad West")}&to=${encodeURIComponent(
-                          toInput || "Devipada"
-                        )}`
-                      )
-                    }
+                        `/plan?from=${encodeURIComponent(cleanFrom)}&to=${encodeURIComponent(cleanTo)}`
+                      );
+                    }}
                     className="px-3.5 py-1.5 rounded-xl bg-[#00D5E8] hover:bg-cyan-300 text-slate-950 text-xs font-extrabold cursor-pointer flex items-center gap-1"
                   >
                     <span>Open Full Planner</span>

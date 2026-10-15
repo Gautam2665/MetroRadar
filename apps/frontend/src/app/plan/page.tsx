@@ -27,6 +27,8 @@ function JourneyPlannerContent() {
   const [destInput, setDestInput] = useState("");
   const [originStationId, setOriginStationId] = useState<string | null>(null);
   const [destStationId, setDestStationId] = useState<string | null>(null);
+  const [originOutOfCoverage, setOriginOutOfCoverage] = useState(false);
+  const [destOutOfCoverage, setDestOutOfCoverage] = useState(false);
 
   const [headerSearch, setHeaderSearch] = useState("");
   const [selectedStationId, setSelectedStationId] = useState<string | null>(null);
@@ -79,19 +81,34 @@ function JourneyPlannerContent() {
 
   const cleanPlaceName = (name: string) =>
     name
-      .replace(/\s*\((?:Nearest Metro:\s*[^·)]+(?:·\s*~?\d+m?)?|Direct FOB to [^)]+|Direct FOB[^)]*)\)/gi, "")
+      .replace(/\s*\(Landmark\)/gi, "")
+      .replace(/\s*\((?:Nearest Metro:\s*[^·)]+(?:·\s*~?\d+m?)?|Direct FOB to [^)]+|Direct FOB[^)]*|Outside Mumbai Metro Coverage[^)]*)\)/gi, "")
       .trim();
 
   // Clean place selection handlers matching Google Maps behavior
   const handleSelectOrigin = (place: PlaceSuggestion) => {
     setOriginInput(cleanPlaceName(place.name));
-    setOriginStationId(place.type === "station" ? (place.rawStationId ?? place.id) : (place.nearestStation?.id ?? place.rawStationId ?? place.id));
+    setOriginOutOfCoverage(Boolean(place.isOutOfCoverage));
+    setOriginStationId(
+      place.isOutOfCoverage
+        ? null
+        : place.type === "station"
+        ? (place.rawStationId ?? place.id)
+        : (place.nearestStation?.id ?? place.rawStationId ?? place.id)
+    );
     setShowOriginSuggestions(false);
   };
 
   const handleSelectDest = (place: PlaceSuggestion) => {
     setDestInput(cleanPlaceName(place.name));
-    setDestStationId(place.type === "station" ? (place.rawStationId ?? place.id) : (place.nearestStation?.id ?? place.rawStationId ?? place.id));
+    setDestOutOfCoverage(Boolean(place.isOutOfCoverage));
+    setDestStationId(
+      place.isOutOfCoverage
+        ? null
+        : place.type === "station"
+        ? (place.rawStationId ?? place.id)
+        : (place.nearestStation?.id ?? place.rawStationId ?? place.id)
+    );
     setShowDestSuggestions(false);
   };
 
@@ -102,6 +119,9 @@ function JourneyPlannerContent() {
     const tempId = originStationId;
     setOriginStationId(destStationId);
     setDestStationId(tempId);
+    const tempOut = originOutOfCoverage;
+    setOriginOutOfCoverage(destOutOfCoverage);
+    setDestOutOfCoverage(tempOut);
   };
 
   // Plan Journey Engine
@@ -113,36 +133,63 @@ function JourneyPlannerContent() {
     setLoading(true);
     setErrorMsg(null);
 
+    let isOrigOut = originOutOfCoverage;
+    let isDestOut = destOutOfCoverage;
+
     // Resolve Origin Station ID
     let finalOrigId = originStationId;
-    if (!finalOrigId && stations) {
+    if (!finalOrigId && stations && !isOrigOut) {
       const match = stations.find((s) => s.name.toLowerCase() === originInput.trim().toLowerCase());
       if (match) {
         finalOrigId = match.id;
       } else {
         const searchRes = await StationApi.searchStations(originInput.trim(), "mumbai");
         if (searchRes.success && searchRes.data.length > 0) {
-          finalOrigId = searchRes.data[0].stationId || searchRes.data[0].id;
+          const first = searchRes.data[0];
+          if (first.isOutOfCoverage) {
+            isOrigOut = true;
+          } else {
+            finalOrigId = first.stationId || first.id;
+          }
         }
       }
     }
 
     // Resolve Destination Station ID
     let finalDestId = destStationId;
-    if (!finalDestId && stations) {
+    if (!finalDestId && stations && !isDestOut) {
       const match = stations.find((s) => s.name.toLowerCase() === destInput.trim().toLowerCase());
       if (match) {
         finalDestId = match.id;
       } else {
         const searchRes = await StationApi.searchStations(destInput.trim(), "mumbai");
         if (searchRes.success && searchRes.data.length > 0) {
-          finalDestId = searchRes.data[0].stationId || searchRes.data[0].id;
+          const first = searchRes.data[0];
+          if (first.isOutOfCoverage) {
+            isDestOut = true;
+          } else {
+            finalDestId = first.stationId || first.id;
+          }
         }
       }
     }
 
+    if (isOrigOut || isDestOut) {
+      const outLoc =
+        isOrigOut && isDestOut
+          ? `Both "${originInput}" and "${destInput}" are`
+          : isOrigOut
+          ? `"${originInput}" is`
+          : `"${destInput}" is`;
+      setErrorMsg(
+        `${outLoc} currently outside active Mumbai Metro coverage. Transit routing will become available once regional networks (such as Navi Mumbai Metro Line 1) are integrated.`
+      );
+      setLoading(false);
+      return;
+    }
+
     if (!finalOrigId || !finalDestId) {
-      setErrorMsg("Please select valid origin and destination stations or landmarks");
+      setErrorMsg("Please select valid origin and destination stations or landmarks within metro coverage.");
       setLoading(false);
       return;
     }
@@ -259,7 +306,7 @@ function JourneyPlannerContent() {
     } finally {
       setLoading(false);
     }
-  }, [originInput, destInput, originStationId, destStationId, stations]);
+  }, [originInput, destInput, originStationId, destStationId, stations, originOutOfCoverage, destOutOfCoverage]);
 
   // Read URL parameters when provided (e.g. ?from=...&to=... or ?originId=...&destId=...)
   useEffect(() => {
@@ -272,6 +319,7 @@ function JourneyPlannerContent() {
 
     if (fromParam) {
       setOriginInput(cleanPlaceName(fromParam));
+      setOriginOutOfCoverage(false);
       shouldPlan = true;
       if (originIdParam) {
         setOriginStationId(originIdParam);
@@ -283,6 +331,7 @@ function JourneyPlannerContent() {
 
     if (toParam) {
       setDestInput(cleanPlaceName(toParam));
+      setDestOutOfCoverage(false);
       shouldPlan = true;
       if (destIdParam) {
         setDestStationId(destIdParam);

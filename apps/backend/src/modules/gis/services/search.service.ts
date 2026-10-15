@@ -465,56 +465,96 @@ export class SearchService {
             );
 
             if (!alreadyExists) {
-              features.push({
-                type: 'Feature',
-                id: `place-${placeName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
-                geometry: {
-                  type: 'Point',
-                  coordinates: [lon, lat],
-                },
-                properties: {
-                  id: stn.id, // Snaps directly to closest station ID for 1-click route planning!
-                  code: stn.code,
-                  name: placeName,
-                  displayName: `${placeName} (Nearest Metro: ${stn.name} · ~${distM}m)`,
-                  address: item.address || `${stn.name} vicinity, Mumbai`,
-                  type: 'poi',
-                  isLandmark: true,
-                  city: 'mumbai',
-                  systemId: stn.systemId,
-                  lines: lines.map((l: any) => ({
-                    code: l.code,
-                    name: l.name,
-                    color: resolveLineColor(l.color ?? '', l.name ?? ''),
-                  })),
-                  lineColor: resolveLineColor(
-                    primaryLine.color ?? '',
-                    primaryLine.name ?? '',
-                  ),
-                  nearestStation: {
-                    id: stn.id,
-                    name: stn.name,
-                    lineName: primaryLine.name,
+              const placeId = `place-${placeName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+              const MAX_METRO_CATCHMENT_METERS = 2000;
+              const isWithinCatchment = distM <= MAX_METRO_CATCHMENT_METERS;
+
+              if (isWithinCatchment) {
+                features.push({
+                  type: 'Feature',
+                  id: placeId,
+                  geometry: {
+                    type: 'Point',
+                    coordinates: [lon, lat],
+                  },
+                  properties: {
+                    id: stn.id, // Snaps directly to closest station ID within reasonable last-mile walking/feeder distance
+                    stationId: stn.id,
+                    code: stn.code,
+                    name: placeName,
+                    displayName: `${placeName} (Nearest Metro: ${stn.name} · ~${distM}m)`,
+                    address: item.address || `${stn.name} vicinity, Mumbai`,
+                    type: 'poi',
+                    isLandmark: true,
+                    isOutOfCoverage: false,
+                    city: 'mumbai',
+                    systemId: stn.systemId,
+                    lines: lines.map((l: any) => ({
+                      code: l.code,
+                      name: l.name,
+                      color: resolveLineColor(l.color ?? '', l.name ?? ''),
+                    })),
                     lineColor: resolveLineColor(
                       primaryLine.color ?? '',
                       primaryLine.name ?? '',
                     ),
-                    walkDistance: `${distM}m`,
+                    nearestStation: {
+                      id: stn.id,
+                      name: stn.name,
+                      lineName: primaryLine.name,
+                      lineColor: resolveLineColor(
+                        primaryLine.color ?? '',
+                        primaryLine.name ?? '',
+                      ),
+                      walkDistance: `${distM}m`,
+                    },
+                    landmarkDetails: {
+                      name: placeName,
+                      address: item.address || 'Mumbai, Maharashtra',
+                      connectedStationCode: stn.code,
+                      connectedStationName: stn.name,
+                      hasDirectFob: distM <= 50,
+                      hasDirectAccess: distM <= 50,
+                      walkDistanceMeters: distM,
+                      walkTimeSeconds: Math.round(distM * 1.2),
+                      corridorNote: `Board/Deboard at ${stn.name}. Distance to ${placeName}: approx ${distM}m.`,
+                      indoorLevel: 'Street / Concourse Level',
+                    },
                   },
-                  landmarkDetails: {
+                });
+              } else {
+                // Out of metro network coverage: do not hijack a distant station across water bodies or >2km away!
+                features.push({
+                  type: 'Feature',
+                  id: placeId,
+                  geometry: {
+                    type: 'Point',
+                    coordinates: [lon, lat],
+                  },
+                  properties: {
+                    id: placeId, // Retains its own unique ID, not a distant station ID
+                    code: 'OUT',
                     name: placeName,
-                    address: item.address || 'Mumbai, Maharashtra',
-                    connectedStationCode: stn.code,
-                    connectedStationName: stn.name,
-                    hasDirectFob: distM <= 50,
-                    hasDirectAccess: distM <= 50,
-                    walkDistanceMeters: distM,
-                    walkTimeSeconds: Math.round(distM * 1.2),
-                    corridorNote: `Board/Deboard at ${stn.name}. Distance to ${placeName}: approx ${distM}m.`,
-                    indoorLevel: 'Street / Concourse Level',
+                    displayName: `${placeName} (Outside Mumbai Metro Coverage)`,
+                    address: item.address || 'Outside active metro corridor',
+                    type: 'poi',
+                    isLandmark: true,
+                    isOutOfCoverage: true,
+                    coverageNotice: 'Outside active Mumbai Metro network (Navi Mumbai / MMR)',
+                    city: 'mumbai',
+                    systemId: '',
+                    lines: [],
+                    lineColor: '#64748b',
+                    nearestStation: undefined,
+                    landmarkDetails: {
+                      name: placeName,
+                      address: item.address || 'MMR / Navi Mumbai',
+                      walkDistanceMeters: distM,
+                      corridorNote: `Nearest active metro station (${stn.name}) is ~${Math.round(distM / 1000)} km away, outside walking catchment.`,
+                    },
                   },
-                },
-              });
+                });
+              }
             }
           }
         }
