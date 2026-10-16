@@ -1,18 +1,73 @@
 "use client";
 
-import { useState, useCallback, useEffect, Suspense } from "react";
+import { useState, useCallback, useEffect, useMemo, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
 import MapContainer from "../../components/map/MapContainer";
 import { useDigitalTwin } from "../../hooks/useDigitalTwin";
 import { useRealtime } from "../../hooks/useRealtime";
+import { useStations } from "../../hooks/useStations";
+import { Station } from "../../models/station";
+import { RealtimeVehicle } from "../../models/vehicle";
 import { CITY_METADATA } from "../../config/cityMetadata";
 import { useCityContext } from "../../contexts/CityContext";
 
+interface CorridorDef {
+  code: string;
+  searchKey: string;
+  name: string;
+  route: string;
+  color: string;
+  defaultStns: number;
+}
+
+const MUMBAI_CORRIDORS: CorridorDef[] = [
+  { code: "LINE1", searchKey: "Line 1", name: "Line 1 (Blue)", route: "Versova ↔ Ghatkopar", color: "#00A3E0", defaultStns: 12 },
+  { code: "LINE2A", searchKey: "Line 2A", name: "Line 2A (Yellow)", route: "Dahisar (E) ↔ Andheri (W)", color: "#F59E0B", defaultStns: 17 },
+  { code: "LINE3", searchKey: "Line 3", name: "Line 3 (Aqua)", route: "Aarey JVLR ↔ BKC", color: "#00C49F", defaultStns: 10 },
+  { code: "LINE7", searchKey: "Line 7", name: "Line 7 (Red)", route: "Dahisar (E) ↔ Gundavali", color: "#EF4444", defaultStns: 14 },
+  { code: "LINE2B", searchKey: "Line 2B", name: "Line 2B (Yellow Phase 2)", route: "Mandale Depot ↔ Chembur", color: "#F0C800", defaultStns: 5 },
+  { code: "MONORAIL", searchKey: "Monorail", name: "Monorail", route: "Chembur ↔ Sant Gadge Maharaj Chowk", color: "#14B8A6", defaultStns: 17 },
+];
+
+function countVehiclesForCorridor(
+  vehicles: RealtimeVehicle[],
+  lineCode: string,
+  lineName: string
+): number {
+  if (!vehicles || vehicles.length === 0) return 0;
+  const cNorm = lineCode.toLowerCase().replace(/[^a-z0-9]/g, "");
+  const nNorm = lineName.toLowerCase().replace(/[^a-z0-9]/g, "");
+  return vehicles.filter((v) => {
+    const vId = (v.lineId || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const vName = (v.lineName || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    return (
+      (vId && (vId.includes(cNorm) || cNorm.includes(vId))) ||
+      (vName && (vName.includes(nNorm) || nNorm.includes(vName)))
+    );
+  }).length;
+}
+
+function getStationCountForLine(stns: Station[], lineCode: string, fallbackCount: number): number {
+  if (!stns || stns.length === 0) return fallbackCount;
+  const count = stns.filter((s) => {
+    const lines = s.lines || [];
+    const infra = s.lineInfrastructure || [];
+    const all = [...lines, ...infra];
+    return all.some((l: any) => {
+      const code = (l.code || l.id || l.lineCode || "").toUpperCase();
+      const name = (l.name || l.lineName || "").toUpperCase();
+      return code.includes(lineCode) || name.includes(lineCode);
+    });
+  }).length;
+  return count > 0 ? count : fallbackCount;
+}
+
 function NetworkContent() {
   const { activeCity, setActiveCity } = useCityContext();
-  const { data: vehicles } = useRealtime(activeCity, 10000);
+  const { data: vehicles, loading: realtimeLoading } = useRealtime(activeCity, 10000);
+  const { data: stations } = useStations(activeCity);
   const [selectedStationId, setSelectedStationId] = useState<string | null>(null);
   const [selectedStationName, setSelectedStationName] = useState<string>("");
   const [inspectorOpen, setInspectorOpen] = useState(false);
@@ -59,6 +114,75 @@ function NetworkContent() {
   const activeCode = twin?.code;
   const activeCityName = twin?.city || activeCity;
   const activeLines = twin?.lines || [];
+
+  // Dynamic Headway calculation based on IST and active fleet size
+  const headwayInfo = useMemo(() => {
+    if (realtimeLoading && vehicles.length === 0) {
+      return { text: "Estimating Headway...", isClosed: false };
+    }
+    if (vehicles.length === 0) {
+      return { text: "Service Resumes ~05:30", isClosed: true };
+    }
+    const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    const ist = new Date(utc + 5.5 * 3600000);
+    const hour = ist.getHours();
+    const isPeak = (hour >= 8 && hour < 12) || (hour >= 17 && hour < 21);
+
+    if (vehicles.length >= 40) {
+      return { text: isPeak ? "Peak Headway: ~3-5 min" : "Headway: ~5-7 min", isClosed: false };
+    } else if (vehicles.length >= 20) {
+      return { text: isPeak ? "Headway: ~4-6 min" : "Headway: ~6-8 min", isClosed: false };
+    } else {
+      return { text: "Headway: ~8-12 min", isClosed: false };
+    }
+  }, [realtimeLoading, vehicles.length]);
+
+  // Dynamic corridor list with live train count and station count
+  const corridors = useMemo(() => {
+    if (activeCity === "mumbai") {
+      return MUMBAI_CORRIDORS.map((c) => ({
+        ...c,
+        stationCount: getStationCountForLine(stations, c.code, c.defaultStns),
+        liveTrains: countVehiclesForCorridor(vehicles, c.code, c.searchKey),
+      }));
+    }
+
+    const lineMap = new Map<string, { code: string; name: string; color: string; count: number }>();
+    for (const s of stations) {
+      const sLines = s.lines || [];
+      for (const l of sLines) {
+        const key = (l.name || l.code || "Metro").trim();
+        if (!lineMap.has(key)) {
+          lineMap.set(key, {
+            code: l.code || key,
+            name: key,
+            color: l.color || "#00e5ff",
+            count: 0,
+          });
+        }
+        lineMap.get(key)!.count += 1;
+      }
+    }
+
+    if (lineMap.size > 0) {
+      return Array.from(lineMap.values()).map((l) => ({
+        code: l.code,
+        searchKey: l.name,
+        name: l.name,
+        route: `${l.name} Corridor`,
+        color: l.color,
+        stationCount: l.count,
+        liveTrains: countVehiclesForCorridor(vehicles, l.code, l.name),
+      }));
+    }
+
+    return MUMBAI_CORRIDORS.map((c) => ({
+      ...c,
+      stationCount: c.defaultStns,
+      liveTrains: countVehiclesForCorridor(vehicles, c.code, c.searchKey),
+    }));
+  }, [activeCity, stations, vehicles]);
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#080C14] text-[#dfe2ee]">
@@ -357,52 +481,105 @@ function NetworkContent() {
                         <span className="material-symbols-outlined text-[#00e5ff] text-base">sensors</span>
                         <span className="text-xs font-bold text-[#dfe2ee] uppercase tracking-wider">Fleet Status</span>
                       </div>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-                        Operational
-                      </span>
+
+                      {/* Dynamic Badge */}
+                      {realtimeLoading && vehicles.length === 0 ? (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-[#00e5ff] border border-cyan-500/30 flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#00e5ff] animate-ping" />
+                          Syncing Telemetry...
+                        </span>
+                      ) : vehicles.length === 0 ? (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                          Service Closed (Night)
+                        </span>
+                      ) : (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                          Operational
+                        </span>
+                      )}
                     </div>
 
                     <div className="flex items-baseline justify-between pt-1">
                       <div>
-                        <span className="text-2xl font-black text-white">{vehicles.length || 52}</span>
-                        <span className="text-xs text-[#bac9cc] ml-1.5 font-medium">Trains on Track</span>
+                        {realtimeLoading && vehicles.length === 0 ? (
+                          <div className="flex items-center gap-2">
+                            <span className="inline-block w-8 h-7 bg-white/10 rounded animate-pulse" />
+                            <span className="text-xs text-[#bac9cc] font-medium">Connecting...</span>
+                          </div>
+                        ) : (
+                          <>
+                            <span className={`text-2xl font-black ${vehicles.length === 0 ? "text-slate-400" : "text-white"}`}>
+                              {vehicles.length}
+                            </span>
+                            <span className="text-xs text-[#bac9cc] ml-1.5 font-medium">Trains on Track</span>
+                          </>
+                        )}
                       </div>
-                      <span className="text-[11px] text-[#00e5ff] font-medium">Headway: 3-5 min</span>
+                      <span className={`text-[11px] font-medium ${headwayInfo.isClosed ? "text-amber-400" : "text-[#00e5ff]"}`}>
+                        {headwayInfo.text}
+                      </span>
                     </div>
 
                     <p className="text-[11px] text-slate-400 border-t border-white/5 pt-2 leading-relaxed">
-                      Tap any station circle on the map to inspect live platform ETAs, crowd levels, concourse layout, and exit gates.
+                      {realtimeLoading && vehicles.length === 0
+                        ? "Contacting transit telemetry ingest service to stream real-time train positions and delays..."
+                        : vehicles.length === 0
+                        ? "Revenue passenger service has concluded for the night. Real-time train telemetry and live platform ETAs will resume during morning operating hours (~05:30 IST)."
+                        : "Tap any station circle on the map to inspect live platform ETAs, crowd levels, concourse layout, and exit gates."}
                     </p>
                   </div>
 
                   {/* Active Lines Overview */}
                   <div className="glass-card rounded-xl p-4 border border-white/10 space-y-2.5">
-                    <h3 className="text-xs font-bold text-[#dfe2ee] uppercase tracking-wider mb-1">
-                      Operational Corridors
-                    </h3>
-                    {[
-                      { name: "Line 1 (Blue)", route: "Versova ↔ Ghatkopar", color: "#00A3E0", count: "12 Stations" },
-                      { name: "Line 2A (Yellow)", route: "Dahisar (E) ↔ Andheri (W)", color: "#F59E0B", count: "17 Stations" },
-                      { name: "Line 3 (Aqua)", route: "Aarey JVLR ↔ BKC", color: "#00C49F", count: "10 Stations" },
-                      { name: "Line 7 (Red)", route: "Dahisar (E) ↔ Gundavali", color: "#EF4444", count: "14 Stations" },
-                      { name: "Monorail", route: "Chembur ↔ Sant Gadge Maharaj Chowk", color: "#14B8A6", count: "17 Stations" },
-                    ].map((line) => (
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="text-xs font-bold text-[#dfe2ee] uppercase tracking-wider">
+                        {vehicles.length > 0 ? "Operational Corridors" : "Rapid Transit Corridors"}
+                      </h3>
+                      {vehicles.length === 0 && !realtimeLoading && (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400/80 border border-amber-500/20">
+                          Night Curfew
+                        </span>
+                      )}
+                    </div>
+
+                    {corridors.map((line) => (
                       <div
-                        key={line.name}
+                        key={line.code}
                         className="flex items-center justify-between p-2 rounded-lg bg-white/[0.03] border border-white/5"
                       >
                         <div className="flex items-center gap-2 min-w-0">
                           <span
                             className="w-2.5 h-2.5 rounded-full shrink-0"
-                            style={{ backgroundColor: line.color, boxShadow: `0 0 8px ${line.color}80` }}
+                            style={{
+                              backgroundColor: line.color,
+                              boxShadow: vehicles.length > 0 ? `0 0 8px ${line.color}80` : "none",
+                              opacity: vehicles.length === 0 && !realtimeLoading ? 0.6 : 1,
+                            }}
                           />
                           <div className="min-w-0">
                             <p className="text-xs font-semibold text-slate-200 truncate">{line.name}</p>
                             <p className="text-[10px] text-slate-400 truncate">{line.route}</p>
                           </div>
                         </div>
-                        <span className="text-[10px] font-mono text-slate-400 shrink-0 ml-2">{line.count}</span>
+
+                        {/* Status / Count pill */}
+                        {realtimeLoading && vehicles.length === 0 ? (
+                          <span className="inline-block w-14 h-4 bg-white/5 rounded animate-pulse" />
+                        ) : vehicles.length === 0 ? (
+                          <span className="text-[10px] font-mono text-amber-400/80 px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 shrink-0 ml-2">
+                            Closed · {line.stationCount} Stns
+                          </span>
+                        ) : line.liveTrains > 0 ? (
+                          <span className="text-[10px] font-mono text-emerald-400 font-semibold shrink-0 ml-2">
+                            {line.liveTrains} Live · {line.stationCount} Stns
+                          </span>
+                        ) : (
+                          <span className="text-[10px] font-mono text-slate-400 shrink-0 ml-2">
+                            {line.stationCount} Stns
+                          </span>
+                        )}
                       </div>
                     ))}
                   </div>
