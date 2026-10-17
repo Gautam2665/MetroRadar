@@ -304,6 +304,12 @@ export interface RouteCandidate {
     corridorNote: string;
     indoorLevel: string;
   };
+
+  /** Transfer safety buffer applied to interchange connections (seconds) */
+  transferSafetyBufferSeconds?: number;
+
+  /** Risk level of missed connections across all transfers */
+  transferRiskLevel?: 'SAFE' | 'BUFFERED' | 'TIGHT';
 }
 
 // ── Journey Response ─────────────────────────────────────────────────────────

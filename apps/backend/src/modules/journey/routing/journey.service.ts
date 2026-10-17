@@ -20,7 +20,11 @@ import {
 import { RealtimePredictionService } from '../../realtime/services/realtime-prediction.service';
 import { JourneyQueryDto } from '../dto/journey-query.dto';
 import { calculateMumbaiFare } from './policy_v1';
-import { LandmarkRegistry } from '../../gis/services/landmark-registry';
+import {
+  LandmarkRegistry,
+  LandmarkRecord,
+  LandmarkAccessGate,
+} from '../../gis/services/landmark-registry';
 import {
   RouteCandidate,
   JourneyLeg,
@@ -32,6 +36,7 @@ import {
   LegMode,
   DoorSide,
   DoorSideStatus,
+  WaitingBreakdown,
 } from './candidate.types';
 import { GraphEdge } from '../graph/graph.types';
 
@@ -57,6 +62,40 @@ function getDistanceMeters(
 
 interface EnrichedCandidate extends RouteCandidate {
   _rankScore: number; // internal sorting key, not exposed
+}
+
+interface ResolvedGateAttachment {
+  gate: LandmarkAccessGate;
+  station: {
+    id: string;
+    code: string;
+    name: string;
+    systemId: string;
+    latitude: number;
+    longitude: number;
+    system: { id: string; code: string };
+  };
+}
+
+interface ResolvedEndpoint {
+  id: string;
+  name: string;
+  code: string;
+  latitude: number;
+  longitude: number;
+  systemId: string;
+  systemCode: string;
+  landmark?: LandmarkRecord;
+  attachments: ResolvedGateAttachment[];
+  primaryStation: {
+    id: string;
+    code: string;
+    name: string;
+    systemId: string;
+    latitude: number;
+    longitude: number;
+    system: { id: string; code: string };
+  };
 }
 
 interface Phase1CtmData {
@@ -120,37 +159,138 @@ export class JourneyService {
     private readonly realtimePrediction: RealtimePredictionService,
   ) {}
 
-  private async resolveStation(identifier: string) {
-    // 0. Check if identifier is a registered landmark (e.g. LM_OBEROI_SKY_CITY or "Infiniti Mall")
-    const landmark = LandmarkRegistry.findByNameOrAlias(identifier);
+  private async resolveEndpoint(
+    identifier: string,
+  ): Promise<ResolvedEndpoint | null> {
+    // 0. Check if identifier is a registered landmark (e.g. LM_BKC_BULLET_TRAIN, LM_OBEROI_SKY_CITY)
+    const landmark =
+      LandmarkRegistry.findById(identifier) ||
+      LandmarkRegistry.findByNameOrAlias(identifier);
+
     if (landmark) {
-      const station = await this.db.station.findFirst({
-        where: { code: landmark.connectedStationCode, isActive: true },
-        select: {
-          id: true,
-          code: true,
-          name: true,
-          systemId: true,
-          latitude: true,
-          longitude: true,
-          system: { select: { id: true, code: true } },
-        },
-      });
-      if (station) {
+      const gates = LandmarkRegistry.getAccessGates(landmark);
+      const attachments: ResolvedGateAttachment[] = [];
+
+      for (const gate of gates) {
+        let stn = await this.db.station.findFirst({
+          where: { code: gate.stationCode, isActive: true },
+          select: {
+            id: true,
+            code: true,
+            name: true,
+            systemId: true,
+            latitude: true,
+            longitude: true,
+            system: { select: { id: true, code: true } },
+          },
+        });
+        if (!stn && gate.stationName) {
+          const cleanName = gate.stationName.split('(')[0].trim();
+          stn = await this.db.station.findFirst({
+            where: {
+              name: { contains: cleanName, mode: 'insensitive' },
+              isActive: true,
+            },
+            select: {
+              id: true,
+              code: true,
+              name: true,
+              systemId: true,
+              latitude: true,
+              longitude: true,
+              system: { select: { id: true, code: true } },
+            },
+          });
+        }
+        if (stn) {
+          attachments.push({ gate, station: stn });
+        }
+      }
+
+      // If specific gate station wasn't found in DB (e.g. Line 2B pending import), fallback to primary connectedStationCode
+      if (attachments.length === 0) {
+        const fallbackStation = await this.db.station.findFirst({
+          where: {
+            OR: [
+              { code: landmark.connectedStationCode },
+              {
+                name: {
+                  contains: landmark.connectedStationName,
+                  mode: 'insensitive',
+                },
+              },
+            ],
+            isActive: true,
+          },
+          select: {
+            id: true,
+            code: true,
+            name: true,
+            systemId: true,
+            latitude: true,
+            longitude: true,
+            system: { select: { id: true, code: true } },
+          },
+        });
+        if (fallbackStation) {
+          const primaryGate: LandmarkAccessGate = gates[0] || {
+            gateId: 'MAIN_GATE',
+            gateName: landmark.directFobName || `${landmark.name} Direct Access`,
+            stationCode: fallbackStation.code,
+            stationName: fallbackStation.name,
+            lineCode: landmark.connectedLineCode,
+            lineName: landmark.connectedLineName,
+            lineColor: landmark.connectedLineColor,
+            walkDistanceMeters: landmark.walkDistanceMeters,
+            walkTimeSeconds: landmark.walkTimeSeconds,
+            corridorType: landmark.hasDirectFob ? 'FOB' : 'WALK',
+            corridorNote: landmark.corridorNote,
+            indoorLevel: landmark.indoorLevel,
+          };
+          attachments.push({ gate: primaryGate, station: fallbackStation });
+        }
+      }
+
+      if (attachments.length > 0) {
+        const primary = attachments[0].station;
         return {
-          ...station,
-          resolvedFromLandmark: landmark,
+          id: landmark.id,
+          name: landmark.name,
+          code: landmark.connectedStationCode,
+          latitude: landmark.coordinates[1],
+          longitude: landmark.coordinates[0],
+          systemId: primary.systemId,
+          systemCode: primary.system.code,
+          landmark,
+          attachments,
+          primaryStation: primary,
         };
       }
     }
 
+    // 1. Resolve standard Station by UUID, code, or name
     const isUuid =
       /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
         identifier,
       );
-    if (isUuid) {
-      const stn = await this.db.station.findUnique({
-        where: { id: identifier },
+    let stn = isUuid
+      ? await this.db.station.findUnique({
+          where: { id: identifier },
+          select: {
+            id: true,
+            code: true,
+            name: true,
+            systemId: true,
+            latitude: true,
+            longitude: true,
+            system: { select: { id: true, code: true } },
+          },
+        })
+      : null;
+
+    if (!stn) {
+      stn = await this.db.station.findFirst({
+        where: { code: identifier, isActive: true },
         select: {
           id: true,
           code: true,
@@ -161,30 +301,12 @@ export class JourneyService {
           system: { select: { id: true, code: true } },
         },
       });
-      if (stn) return stn;
     }
-
-    // Try finding by station code first
-    let stn = await this.db.station.findFirst({
-      where: { code: identifier, isActive: true },
-      select: {
-        id: true,
-        code: true,
-        name: true,
-        systemId: true,
-        latitude: true,
-        longitude: true,
-        system: { select: { id: true, code: true } },
-      },
-    });
 
     if (!stn) {
       stn = await this.db.station.findFirst({
         where: {
-          name: {
-            contains: identifier,
-            mode: 'insensitive',
-          },
+          name: { contains: identifier, mode: 'insensitive' },
           isActive: true,
         },
         select: {
@@ -199,7 +321,70 @@ export class JourneyService {
       });
     }
 
-    return stn;
+    if (!stn) return null;
+
+    const directGate: LandmarkAccessGate = {
+      gateId: 'DIRECT',
+      gateName: `${stn.name} Platform Concourse`,
+      stationCode: stn.code,
+      stationName: stn.name,
+      lineCode: '',
+      lineName: '',
+      lineColor: '',
+      walkDistanceMeters: 0,
+      walkTimeSeconds: 0,
+      corridorType: 'WALK',
+      corridorNote: '',
+      indoorLevel: 'Concourse',
+    };
+
+    return {
+      id: stn.id,
+      name: stn.name,
+      code: stn.code,
+      latitude: stn.latitude,
+      longitude: stn.longitude,
+      systemId: stn.systemId,
+      systemCode: stn.system.code,
+      attachments: [{ gate: directGate, station: stn }],
+      primaryStation: stn,
+    };
+  }
+
+  private parseDepartureTimeToSeconds(departureTime?: string): number {
+    if (!departureTime) return this.getNowSecondsOfDay();
+    try {
+      if (departureTime.includes('T')) {
+        const d = new Date(departureTime);
+        const istOffsetMs = 5.5 * 60 * 60 * 1000;
+        const istDate = new Date(d.getTime() + istOffsetMs);
+        return (
+          istDate.getUTCHours() * 3600 +
+          istDate.getUTCMinutes() * 60 +
+          istDate.getUTCSeconds()
+        );
+      }
+      if (departureTime.includes(':')) {
+        const parts = departureTime.split(':').map(Number);
+        const hrs = (parts[0] || 0) % 24;
+        const mins = (parts[1] || 0) % 60;
+        const secs = (parts[2] || 0) % 60;
+        return hrs * 3600 + mins * 60 + secs;
+      }
+      return this.getNowSecondsOfDay();
+    } catch {
+      return this.getNowSecondsOfDay();
+    }
+  }
+
+  private getNowSecondsOfDay(): number {
+    const istOffsetMs = 5.5 * 60 * 60 * 1000;
+    const istDate = new Date(Date.now() + istOffsetMs);
+    return (
+      istDate.getUTCHours() * 3600 +
+      istDate.getUTCMinutes() * 60 +
+      istDate.getUTCSeconds()
+    );
   }
 
   async planJourney(query: JourneyQueryDto): Promise<JourneyResponse> {
@@ -224,52 +409,79 @@ export class JourneyService {
 
     if (fromId === toId) {
       throw new BadRequestException(
-        'Origin and destination must be different stations.',
+        'Origin and destination must be different locations.',
       );
     }
 
-    // ── 1. Load station + system data ────────────────────────────────────────
-    const [fromStation, toStation] = await Promise.all([
-      this.resolveStation(fromId),
-      this.resolveStation(toId),
+    // ── 1. Load endpoint resolution (Stations or Multimodal Landmarks) ───────
+    const [fromEndpoint, toEndpoint] = await Promise.all([
+      this.resolveEndpoint(fromId),
+      this.resolveEndpoint(toId),
     ]);
 
-    if (!fromStation)
-      throw new NotFoundException(`Station not found: ${fromId}`);
-    if (!toStation) throw new NotFoundException(`Station not found: ${toId}`);
+    if (!fromEndpoint)
+      throw new NotFoundException(`Origin location not found: ${fromId}`);
+    if (!toEndpoint)
+      throw new NotFoundException(`Destination location not found: ${toId}`);
 
-    if (fromStation.systemId !== toStation.systemId) {
+    if (fromEndpoint.systemId !== toEndpoint.systemId) {
       throw new BadRequestException(
-        'Cross-system routing is not supported. Both stations must belong to the same metro system.',
+        'Cross-system routing is not supported. Both locations must belong to the same metro system.',
       );
     }
 
-    const systemId = fromStation.systemId;
-    const systemCode = fromStation.system.code;
+    const systemId = fromEndpoint.systemId;
+    const systemCode = fromEndpoint.systemCode;
 
     // ── 2. Get transit graph (cache-first) ───────────────────────────────────
     const graph = await this.graphProvider.get(systemId, systemCode);
 
-    // ── 3. Generate K candidate paths ────────────────────────────────────────
+    // ── 3. Multi-Leg Origin/Destination Graph Attachment ─────────────────────
+    // Decouples greedy pre-snapping: evaluates all candidate feeder stations
+    // across origin and destination attachments rather than prematurely locking to one gate.
     const weights = DEFAULT_WEIGHTS;
-    const rawPaths = this.router.solveKShortest(
-      graph,
-      fromStation.id,
-      toStation.id,
-      weights,
-      k,
-    );
+    const candidatePathsWithEndpoints: Array<{
+      path: GraphEdge[];
+      originAttachment: ResolvedGateAttachment;
+      destAttachment: ResolvedGateAttachment;
+    }> = [];
 
-    if (rawPaths.length === 0) {
+    for (const origAtt of fromEndpoint.attachments) {
+      for (const destAtt of toEndpoint.attachments) {
+        if (origAtt.station.id === destAtt.station.id) {
+          continue;
+        }
+
+        const rawPaths = this.router.solveKShortest(
+          graph,
+          origAtt.station.id,
+          destAtt.station.id,
+          weights,
+          k,
+        );
+
+        for (const p of rawPaths) {
+          candidatePathsWithEndpoints.push({
+            path: p,
+            originAttachment: origAtt,
+            destAttachment: destAtt,
+          });
+        }
+      }
+    }
+
+    if (candidatePathsWithEndpoints.length === 0) {
       throw new NotFoundException(
-        `No route found between ${fromStation.name} and ${toStation.name}.`,
+        `No route found between ${fromEndpoint.name} and ${toEndpoint.name}.`,
       );
     }
 
-    // ── 4. Enrich each path ──────────────────────────────────────────────────
+    // ── 4. Batch query lines & stations across all paths ─────────────────────
     const allLineIds = [
       ...new Set(
-        rawPaths.flatMap((p) => p.map((e) => e.lineId).filter(Boolean)),
+        candidatePathsWithEndpoints.flatMap((item) =>
+          item.path.map((e) => e.lineId).filter(Boolean),
+        ),
       ),
     ] as string[];
 
@@ -286,10 +498,11 @@ export class JourneyService {
     }));
     const lineMap = new Map(normalizedLines.map((l) => [l.id, l]));
 
-    // Collect all station IDs across all paths for a single DB batch
     const allStationIds = [
       ...new Set(
-        rawPaths.flatMap((p) => this.extractStationIds(p, fromStation.id)),
+        candidatePathsWithEndpoints.flatMap((item) =>
+          this.extractStationIds(item.path, item.originAttachment.station.id),
+        ),
       ),
     ];
     const stationDetails = await this.db.station.findMany({
@@ -304,9 +517,25 @@ export class JourneyService {
     });
     const stationMap = new Map(stationDetails.map((s) => [s.id, s]));
 
+    // ── 5. Priority 1 (Item 3): Time-Dependent Routing & Connection Risk Buffers ──
+    // Formula: Interchange Cost = T_walk + (T_next_dep - T_platform_arrival)
+    // Safety Buffer: Earliest feasible departure = T_platform_arrival + T_walk + B_safety
+    const safetyBufferSeconds = query.safetyBufferMins
+      ? query.safetyBufferMins * 60
+      : constraints.mobility === 'REDUCED' || constraints.luggage === 'HEAVY'
+        ? 300
+        : 180;
+
+    const baseDepartureSecs = this.parseDepartureTimeToSeconds(
+      query.departureTime,
+    );
     const enriched: EnrichedCandidate[] = [];
 
-    for (const path of rawPaths) {
+    for (const {
+      path,
+      originAttachment,
+      destAttachment,
+    } of candidatePathsWithEndpoints) {
       const journeyScore = this.scorer.score(
         path,
         weights,
@@ -328,9 +557,11 @@ export class JourneyService {
           );
         },
       );
-      const waiting = estimateWaiting(journeyScore.transfers);
 
-      const stationIds = this.extractStationIds(path, fromStation.id);
+      const stationIds = this.extractStationIds(
+        path,
+        originAttachment.station.id,
+      );
       const orderedStations: StationRef[] = stationIds.map((id) => {
         const node = graph.nodes.get(id);
         const detail = stationMap.get(id);
@@ -344,17 +575,228 @@ export class JourneyService {
       });
 
       const legs = await this.buildLegs(path, lineMap, stationMap);
-      const geojson = await this.buildGeoJson(
-        orderedStations,
-        legs,
-        path,
-        stationMap,
-        lineMap,
-      );
+
+      // ── Attach First-Mile Leg if origin is a landmark ─────────────────
+      if (
+        fromEndpoint.landmark &&
+        (originAttachment.gate.walkTimeSeconds > 0 ||
+          originAttachment.gate.walkDistanceMeters > 0 ||
+          originAttachment.gate.corridorNote)
+      ) {
+        const accessWalkMins = Math.max(
+          1,
+          Math.round(originAttachment.gate.walkTimeSeconds / 60),
+        );
+        const accessLeg: JourneyLeg = {
+          mode: 'TRANSFER',
+          type: EdgeType.WALK,
+          from: fromEndpoint.landmark.id,
+          fromStationName: fromEndpoint.landmark.name,
+          to: originAttachment.station.id,
+          toStationName: originAttachment.station.name,
+          duration: originAttachment.gate.walkTimeSeconds,
+          durationSeconds: originAttachment.gate.walkTimeSeconds,
+          durationMinutes: accessWalkMins,
+          lineId: null,
+          lineName: null,
+          lineColor: null,
+          lineCode: null,
+          hopCount: 1,
+          visitedStationCount: 2,
+          stationsCount: 1,
+          stopsCount: 1,
+          stopsText:
+            originAttachment.gate.corridorType === 'TRAVELATOR'
+              ? 'Travelator Walkway'
+              : 'Access Walkway',
+          transferTitle: originAttachment.gate.gateName,
+          transferSummary: `${originAttachment.gate.walkDistanceMeters} m · ${
+            originAttachment.gate.corridorType === 'TRAVELATOR'
+              ? 'Travelator Walkway'
+              : 'Pedestrian Walkway'
+          }`,
+          transferDurationText: `~${accessWalkMins} min`,
+          transferInstructions: [
+            `Depart ${fromEndpoint.landmark.name} via ${originAttachment.gate.gateName}`,
+            originAttachment.gate.corridorNote ||
+              `Proceed to ${originAttachment.station.name} station concourse`,
+          ],
+          platformStatus: 'UNKNOWN',
+          doorSideStatus: 'UNKNOWN_SOURCE_REQUIRED',
+        };
+        legs.unshift(accessLeg);
+      }
+
+      // ── Attach Last-Mile Leg if destination is a landmark ─────────────
+      if (
+        toEndpoint.landmark &&
+        (destAttachment.gate.walkTimeSeconds > 0 ||
+          destAttachment.gate.walkDistanceMeters > 0 ||
+          destAttachment.gate.corridorNote)
+      ) {
+        const egressWalkMins = Math.max(
+          1,
+          Math.round(destAttachment.gate.walkTimeSeconds / 60),
+        );
+        const egressLeg: JourneyLeg = {
+          mode: 'TRANSFER',
+          type: EdgeType.WALK,
+          from: destAttachment.station.id,
+          fromStationName: destAttachment.station.name,
+          to: toEndpoint.landmark.id,
+          toStationName: toEndpoint.landmark.name,
+          duration: destAttachment.gate.walkTimeSeconds,
+          durationSeconds: destAttachment.gate.walkTimeSeconds,
+          durationMinutes: egressWalkMins,
+          lineId: null,
+          lineName: null,
+          lineColor: null,
+          lineCode: null,
+          hopCount: 1,
+          visitedStationCount: 2,
+          stationsCount: 1,
+          stopsCount: 1,
+          stopsText:
+            destAttachment.gate.corridorType === 'TRAVELATOR'
+              ? 'Travelator Walkway'
+              : 'Concourse Egress',
+          transferTitle: destAttachment.gate.gateName,
+          transferSummary: `${destAttachment.gate.walkDistanceMeters} m · ${
+            destAttachment.gate.corridorType === 'TRAVELATOR'
+              ? 'Travelator Walkway'
+              : 'Pedestrian Walkway'
+          }`,
+          transferDurationText: `~${egressWalkMins} min`,
+          transferInstructions: [
+            `Exit ${destAttachment.station.name} via ${destAttachment.gate.gateName}`,
+            destAttachment.gate.corridorNote ||
+              `Direct connection into ${toEndpoint.landmark.name}`,
+          ],
+          platformStatus: 'UNKNOWN',
+          doorSideStatus: 'UNKNOWN_SOURCE_REQUIRED',
+        };
+        legs.push(egressLeg);
+      }
+
+      // ── Time-Dependent Interchange & Safety Buffer Simulation ─────────
+      let currentClockSecs = baseDepartureSecs;
+      let initialWaitSeconds = 120;
+      let totalTransferWaitSeconds = 0;
+      let hasFirstTransitBoarded = false;
+      let platformArrivalSecs = currentClockSecs;
+
+      for (let i = 0; i < legs.length; i++) {
+        const leg = legs[i];
+        if (leg.type === EdgeType.TRANSIT) {
+          if (!hasFirstTransitBoarded) {
+            hasFirstTransitBoarded = true;
+            const originDep =
+              await this.realtimePrediction.predictTransitDeparture(
+                leg.from,
+                leg.lineId,
+                leg.towards,
+                currentClockSecs,
+                currentClockSecs,
+              );
+            initialWaitSeconds = Math.max(
+              60,
+              originDep.actualDepartureSecs - currentClockSecs,
+            );
+            currentClockSecs =
+              originDep.actualDepartureSecs + leg.durationSeconds;
+            platformArrivalSecs = currentClockSecs;
+            leg.connectionWaitMins = 0;
+            leg.realtimeEtaMins = originDep.realtimeEtaMins;
+            leg.realtimeTimeStr = originDep.realtimeTimeStr;
+          } else if (leg.throughServiceContinuationFromPrevious) {
+            currentClockSecs += leg.durationSeconds;
+            platformArrivalSecs = currentClockSecs;
+          } else {
+            currentClockSecs += leg.durationSeconds;
+            platformArrivalSecs = currentClockSecs;
+          }
+        } else if (
+          leg.type === EdgeType.WALK ||
+          leg.type === EdgeType.TRANSFER
+        ) {
+          if (!hasFirstTransitBoarded) {
+            currentClockSecs += leg.durationSeconds;
+          } else {
+            const walkSecs = leg.durationSeconds;
+            const connectingPlatformArrival = platformArrivalSecs + walkSecs;
+            const earliestFeasibleDep =
+              connectingPlatformArrival + safetyBufferSeconds;
+
+            const nextTransitLeg = legs[i + 1];
+            const connectingPrediction =
+              await this.realtimePrediction.predictTransitDeparture(
+                leg.to,
+                nextTransitLeg?.lineId ?? null,
+                nextTransitLeg?.towards ?? null,
+                earliestFeasibleDep,
+                this.getNowSecondsOfDay(),
+              );
+
+            const actualConnectingDep = Math.max(
+              earliestFeasibleDep,
+              connectingPrediction.actualDepartureSecs,
+            );
+            const waitSecs = actualConnectingDep - connectingPlatformArrival;
+            totalTransferWaitSeconds += waitSecs;
+
+            const waitMins = Math.max(1, Math.round(waitSecs / 60));
+            const walkMins = Math.max(1, Math.round(walkSecs / 60));
+
+            leg.connectionWaitMins = waitMins;
+            leg.transferDurationText = `${walkMins} min walk + ${waitMins} min wait`;
+            leg.transferSummary = `${
+              leg.transferDetails?.pathwayDistanceMeters ?? 120
+            } m · ${walkMins} min walk + ${waitMins} min connection wait`;
+
+            const bufferNotice = `Transfer safety buffer: ${Math.round(
+              safetyBufferSeconds / 60,
+            )} min buffer enforced to protect connection.`;
+            if (
+              !leg.transferInstructions?.some((inst) =>
+                inst.includes('safety buffer'),
+              )
+            ) {
+              leg.transferInstructions = [
+                ...(leg.transferInstructions || []),
+                bufferNotice,
+              ];
+            }
+
+            currentClockSecs = actualConnectingDep;
+          }
+        }
+      }
 
       const walkingSeconds = legs
         .filter((l) => l.type === EdgeType.WALK || l.type === EdgeType.TRANSFER)
-        .reduce((sum, l) => sum + l.duration, 0);
+        .reduce((sum, l) => sum + l.durationSeconds, 0);
+
+      const inVehicleSeconds = legs
+        .filter((l) => l.type === EdgeType.TRANSIT)
+        .reduce((sum, l) => sum + l.durationSeconds, 0);
+
+      const waiting: WaitingBreakdown = {
+        total: {
+          seconds: initialWaitSeconds + totalTransferWaitSeconds,
+          source: 'schedule',
+          confidence: 0.85,
+        },
+        initialWait: {
+          seconds: initialWaitSeconds,
+          source: 'schedule',
+          confidence: 0.85,
+        },
+        transferWait: {
+          seconds: totalTransferWaitSeconds,
+          source: 'schedule',
+          confidence: 0.85,
+        },
+      };
 
       const totalPathwayMeters = legs.reduce((sum, leg, index) => {
         if (leg.type === EdgeType.WALK || leg.type === EdgeType.TRANSFER) {
@@ -376,7 +818,7 @@ export class JourneyService {
       }, 0);
 
       const totalDurationSeconds =
-        journeyScore.inVehicleSeconds + walkingSeconds + waiting.total.seconds;
+        inVehicleSeconds + walkingSeconds + waiting.total.seconds;
 
       const isDirect = journeyScore.transfers === 0;
       const lineNames = [
@@ -387,16 +829,29 @@ export class JourneyService {
         ),
       ];
 
-      const id = candidateId(path);
+      const id = `${originAttachment.gate.gateId}>${candidateId(path)}>${destAttachment.gate.gateId}`;
       const rankScore = this.scorer.rankScore(
         totalDurationSeconds,
         journeyScore.transfers,
         walkingSeconds,
       );
 
-      const firstStation = orderedStations[0];
-      const lastStation = orderedStations[orderedStations.length - 1];
-      const destNameUpper = (lastStation?.name || '').toUpperCase();
+      const firstStation = orderedStations[0] || {
+        id: originAttachment.station.id,
+        name: originAttachment.station.name,
+        code: originAttachment.station.code,
+        lat: originAttachment.station.latitude,
+        lng: originAttachment.station.longitude,
+      };
+      const lastStation = orderedStations[orderedStations.length - 1] || {
+        id: destAttachment.station.id,
+        name: destAttachment.station.name,
+        code: destAttachment.station.code,
+        lat: destAttachment.station.latitude,
+        lng: destAttachment.station.longitude,
+      };
+
+      const destNameUpper = (lastStation.name || '').toUpperCase();
       let destinationGuidance: string | null = null;
       if (
         destNameUpper.includes('MUMBAI CENTRAL') ||
@@ -421,27 +876,52 @@ export class JourneyService {
       const fareDetails = calculateMumbaiFare(totalDistanceMeters);
 
       const firstTransitLeg = legs.find((l) => l.type === EdgeType.TRANSIT);
-      const originStationId = firstStation?.id || fromStation.id;
+      const originStationId = firstTransitLeg?.from || firstStation.id;
       const originLineId = firstTransitLeg?.lineId || '';
-
-      // Predict real-time departures and ETAs for each BOARD leg in the journey
-      await this.realtimePrediction.predictLegsRealtime(legs);
 
       const realtimeData = await this.realtimePrediction.predictJourneyTrains(
         originStationId,
         originLineId,
       );
 
+      const geojson = await this.buildGeoJson(
+        orderedStations,
+        legs,
+        path,
+        stationMap,
+        lineMap,
+      );
+
+      const originRef: StationRef = fromEndpoint.landmark
+        ? {
+            id: fromEndpoint.landmark.id,
+            name: fromEndpoint.landmark.name,
+            code: fromEndpoint.code,
+            lat: fromEndpoint.latitude,
+            lng: fromEndpoint.longitude,
+          }
+        : firstStation;
+
+      const destRef: StationRef = toEndpoint.landmark
+        ? {
+            id: toEndpoint.landmark.id,
+            name: toEndpoint.landmark.name,
+            code: toEndpoint.code,
+            lat: toEndpoint.latitude,
+            lng: toEndpoint.longitude,
+          }
+        : lastStation;
+
       const candidateObj: EnrichedCandidate = {
         id,
-        rank: 0, // assigned after filtering + sorting
+        rank: 0,
         score: journeyScore.score,
-        origin: firstStation,
-        destination: lastStation,
+        origin: originRef,
+        destination: destRef,
         durationSeconds: totalDurationSeconds,
         durationMinutes: Math.round(totalDurationSeconds / 60),
         duration: Math.round(totalDurationSeconds / 60),
-        inVehicleSeconds: journeyScore.inVehicleSeconds,
+        inVehicleSeconds,
         walkingSeconds,
         waiting,
         transfers: journeyScore.transfers,
@@ -454,7 +934,9 @@ export class JourneyService {
         fare: fareDetails.paperFare,
         smartCardFare: fareDetails.smartCardFare,
         realtime: realtimeData,
-        confidence: 0.8,
+        confidence: 0.85,
+        transferSafetyBufferSeconds: safetyBufferSeconds,
+        transferRiskLevel: safetyBufferSeconds >= 300 ? 'BUFFERED' : 'SAFE',
         tradeoffs: {
           durationDeltaSeconds: 0,
           transferDelta: 0,
@@ -484,42 +966,40 @@ export class JourneyService {
       candidateObj.reasonCodes = evalResult.reasonCodes;
       candidateObj.humanSummary = evalResult.humanSummary;
 
-      // ── Landmark Infrastructure Intelligence ─────────────────────────────
-      if ((toStation as any).resolvedFromLandmark) {
-        const destLm = (toStation as any).resolvedFromLandmark;
+      // ── Landmark Intelligence ─────────────────────────────────────────────
+      if (toEndpoint.landmark) {
         candidateObj.destinationLandmark = {
-          id: destLm.id,
-          name: destLm.name,
-          category: destLm.category,
-          hasDirectFob: destLm.hasDirectFob,
-          hasDirectAccess: destLm.hasDirectAccess,
-          directFobName: destLm.directFobName,
-          walkDistanceMeters: destLm.walkDistanceMeters,
-          walkTimeSeconds: destLm.walkTimeSeconds,
-          corridorNote: destLm.corridorNote,
-          indoorLevel: destLm.indoorLevel,
+          id: toEndpoint.landmark.id,
+          name: toEndpoint.landmark.name,
+          category: toEndpoint.landmark.category,
+          hasDirectFob: toEndpoint.landmark.hasDirectFob,
+          hasDirectAccess: toEndpoint.landmark.hasDirectAccess,
+          directFobName: toEndpoint.landmark.directFobName,
+          walkDistanceMeters: destAttachment.gate.walkDistanceMeters,
+          walkTimeSeconds: destAttachment.gate.walkTimeSeconds,
+          corridorNote: destAttachment.gate.corridorNote,
+          indoorLevel: destAttachment.gate.indoorLevel,
         };
-        candidateObj.destinationGuidance = destLm.corridorNote;
+        candidateObj.destinationGuidance = destAttachment.gate.corridorNote;
       }
 
-      if ((fromStation as any).resolvedFromLandmark) {
-        const origLm = (fromStation as any).resolvedFromLandmark;
+      if (fromEndpoint.landmark) {
         candidateObj.originLandmark = {
-          id: origLm.id,
-          name: origLm.name,
-          category: origLm.category,
-          hasDirectFob: origLm.hasDirectFob,
-          hasDirectAccess: origLm.hasDirectAccess,
-          directFobName: origLm.directFobName,
-          walkDistanceMeters: origLm.walkDistanceMeters,
-          walkTimeSeconds: origLm.walkTimeSeconds,
-          corridorNote: origLm.corridorNote,
-          indoorLevel: origLm.indoorLevel,
+          id: fromEndpoint.landmark.id,
+          name: fromEndpoint.landmark.name,
+          category: fromEndpoint.landmark.category,
+          hasDirectFob: fromEndpoint.landmark.hasDirectFob,
+          hasDirectAccess: fromEndpoint.landmark.hasDirectAccess,
+          directFobName: fromEndpoint.landmark.directFobName,
+          walkDistanceMeters: originAttachment.gate.walkDistanceMeters,
+          walkTimeSeconds: originAttachment.gate.walkTimeSeconds,
+          corridorNote: originAttachment.gate.corridorNote,
+          indoorLevel: originAttachment.gate.indoorLevel,
         };
       }
 
       if (candidateObj.destinationLandmark?.hasDirectFob) {
-        const fobNotice = `${candidateObj.destinationLandmark.name} is directly connected via FOB to ${toStation.name}. Zero street walking required.`;
+        const fobNotice = `${candidateObj.destinationLandmark.name} is directly connected via FOB to ${destAttachment.station.name}. Zero street walking required.`;
         candidateObj.humanSummary = candidateObj.humanSummary
           ? `${candidateObj.humanSummary} • ${fobNotice}`
           : fobNotice;
@@ -530,23 +1010,23 @@ export class JourneyService {
       }
     }
 
-    // ── 5. Feasibility + dominance filter ────────────────────────────────────
+    // ── 6. Feasibility + dominance filter ────────────────────────────────────
     const filtered = this.filter.filter(enriched);
 
     if (filtered.length === 0) {
       if (enriched.length > 0) {
         this.logger.warn(
-          `All candidate routes were pruned by filter; falling back to best enriched candidate between ${fromStation.name} and ${toStation.name}.`,
+          `All candidate routes were pruned by filter; falling back to best enriched candidate between ${fromEndpoint.name} and ${toEndpoint.name}.`,
         );
         filtered.push(enriched[0]);
       } else {
         throw new NotFoundException(
-          `No route found between ${fromStation.name} and ${toStation.name}.`,
+          `No route found between ${fromEndpoint.name} and ${toEndpoint.name}.`,
         );
       }
     }
 
-    // ── 6. Deterministic Rank: sort by effectiveCost if friction/luggage requested, else rankScore ──
+    // ── 7. Deterministic Rank: sort by effectiveCost if friction/luggage requested, else rankScore ──
     const sortByFriction =
       constraints.objective === 'MIN_FRICTION' ||
       constraints.luggage === 'HEAVY';
@@ -564,29 +1044,29 @@ export class JourneyService {
       c.rank = i + 1;
     });
 
-    // ── 7. Attribute flags + tradeoffs ────────────────────────────────────────
+    // ── 8. Attribute flags + tradeoffs ────────────────────────────────────────
     this.scorer.computeAttributes(filtered);
     this.scorer.computeTradeoffs(filtered);
 
     this.logger.log(
-      `Journey planned: ${fromStation.name} → ${toStation.name}, ` +
-        `${filtered.length} candidates (from ${rawPaths.length} raw paths)`,
+      `Journey planned: ${fromEndpoint.name} → ${toEndpoint.name}, ` +
+        `${filtered.length} candidates (from ${candidatePathsWithEndpoints.length} raw paths)`,
     );
 
-    // ── 8. Build response ─────────────────────────────────────────────────────
+    // ── 9. Build response ─────────────────────────────────────────────────────
     const fromRef: StationRef = {
-      id: fromStation.id,
-      name: fromStation.name,
-      code: fromStation.code,
-      lat: fromStation.latitude,
-      lng: fromStation.longitude,
+      id: fromEndpoint.id,
+      name: fromEndpoint.name,
+      code: fromEndpoint.code,
+      lat: fromEndpoint.latitude,
+      lng: fromEndpoint.longitude,
     };
     const toRef: StationRef = {
-      id: toStation.id,
-      name: toStation.name,
-      code: toStation.code,
-      lat: toStation.latitude,
-      lng: toStation.longitude,
+      id: toEndpoint.id,
+      name: toEndpoint.name,
+      code: toEndpoint.code,
+      lat: toEndpoint.latitude,
+      lng: toEndpoint.longitude,
     };
 
     // Strip internal fields before returning

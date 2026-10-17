@@ -1,3 +1,18 @@
+export interface LandmarkAccessGate {
+  gateId: string;
+  gateName: string;
+  stationCode: string;
+  stationName: string;
+  lineCode: string;
+  lineName: string;
+  lineColor: string;
+  walkDistanceMeters: number;
+  walkTimeSeconds: number;
+  corridorType: 'WALK' | 'TRAVELATOR' | 'FOB' | 'SUBWAY';
+  corridorNote: string;
+  indoorLevel: string;
+}
+
 export interface LandmarkRecord {
   id: string;
   name: string;
@@ -16,6 +31,7 @@ export interface LandmarkRecord {
   walkTimeSeconds: number;
   corridorNote: string;
   indoorLevel: string;
+  accessGates?: LandmarkAccessGate[];
 }
 
 export const LANDMARK_REGISTRY: LandmarkRecord[] = [
@@ -265,11 +281,94 @@ export const LANDMARK_REGISTRY: LandmarkRecord[] = [
     corridorNote: 'Exit via Gate 2 to LBS Marg.',
     indoorLevel: 'Level 0 Street',
   },
+  {
+    id: 'LM_BKC_BULLET_TRAIN',
+    name: 'BKC Bullet Train Terminal (MAHSR)',
+    aliases: [
+      'bkc bullet train',
+      'bullet train terminal',
+      'mahsr bkc',
+      'bullet train',
+      'bkc mahsr',
+      'mumbai ahmedabad bullet train',
+      'mahsr terminal',
+      'bkc high speed rail',
+    ],
+    category: 'TRANSIT_HUB',
+    coordinates: [72.8643, 19.0625],
+    connectedStationCode: 'STN_L3_010',
+    connectedStationName: 'Bandra Kurla Complex',
+    connectedLineCode: 'L3',
+    connectedLineName: 'Line 3 (Aqua Line)',
+    connectedLineColor: '#06b6d4',
+    hasDirectFob: true,
+    hasDirectAccess: true,
+    directFobName: 'Subterranean Travelator & Concourse Connector',
+    walkDistanceMeters: 50,
+    walkTimeSeconds: 60,
+    corridorNote:
+      'Direct dual-gate attachment: Gate A connects to Line 2B (50m elevated walk); Gate B connects to Line 3 (700m underground travelator subway).',
+    indoorLevel: 'Concourse Level -1',
+    accessGates: [
+      {
+        gateId: 'GATE_A',
+        gateName: 'Entrance Gate A (North Concourse)',
+        stationCode: 'STN_L2B_BKC',
+        stationName: 'BKC (Line 2B)',
+        lineCode: 'L2B',
+        lineName: 'Line 2B (Yellow Line)',
+        lineColor: '#facc15',
+        walkDistanceMeters: 50,
+        walkTimeSeconds: 60,
+        corridorType: 'WALK',
+        corridorNote:
+          'Entrance Gate A — direct 50m elevated concourse walk to Line 2B elevated station.',
+        indoorLevel: 'Level 1 Concourse',
+      },
+      {
+        gateId: 'GATE_B',
+        gateName: 'Entrance Gate B (South Underpass)',
+        stationCode: 'STN_L3_010',
+        stationName: 'Bandra Kurla Complex (Line 3)',
+        lineCode: 'L3',
+        lineName: 'Line 3 (Aqua Line)',
+        lineColor: '#06b6d4',
+        walkDistanceMeters: 700,
+        walkTimeSeconds: 420,
+        corridorType: 'TRAVELATOR',
+        corridorNote:
+          'Entrance Gate B — 700m climate-controlled underground subway with moving walkway (travelator) directly to Line 3 Aqua Line concourse.',
+        indoorLevel: 'Concourse Level -1',
+      },
+    ],
+  },
 ];
 
 export class LandmarkRegistry {
   static getAll(): LandmarkRecord[] {
     return LANDMARK_REGISTRY;
+  }
+
+  static getAccessGates(lm: LandmarkRecord): LandmarkAccessGate[] {
+    if (lm.accessGates && lm.accessGates.length > 0) {
+      return lm.accessGates;
+    }
+    return [
+      {
+        gateId: 'MAIN_GATE',
+        gateName: lm.directFobName || `${lm.name} Access`,
+        stationCode: lm.connectedStationCode,
+        stationName: lm.connectedStationName,
+        lineCode: lm.connectedLineCode,
+        lineName: lm.connectedLineName,
+        lineColor: lm.connectedLineColor,
+        walkDistanceMeters: lm.walkDistanceMeters,
+        walkTimeSeconds: lm.walkTimeSeconds,
+        corridorType: lm.hasDirectFob ? 'FOB' : 'WALK',
+        corridorNote: lm.corridorNote,
+        indoorLevel: lm.indoorLevel,
+      },
+    ];
   }
 
   static findById(id: string): LandmarkRecord | undefined {

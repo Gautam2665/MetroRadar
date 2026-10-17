@@ -112,7 +112,9 @@ export class SearchService {
             coordinates: lm.coordinates,
           },
           properties: {
-            id: stationRecord?.id || lm.id,
+            id: lm.id,
+            stationId: stationRecord?.id,
+            landmarkId: lm.id,
             code: lm.connectedStationCode,
             name: lm.name,
             displayName: `${lm.name} (${lm.hasDirectFob ? 'Direct FOB to ' : ''}${lm.connectedStationName})`,

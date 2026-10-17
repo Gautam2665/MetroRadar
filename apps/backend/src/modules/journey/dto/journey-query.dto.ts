@@ -114,4 +114,23 @@ export class JourneyQueryDto {
   })
   @IsOptional()
   prefer?: string | string[];
+
+  @ApiPropertyOptional({
+    description:
+      'Configurable transfer safety buffer in minutes (default: 3 mins; 5 mins for relaxed/accessible)',
+    default: 3,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(15)
+  safetyBufferMins?: number;
+
+  @ApiPropertyOptional({
+    description: 'Target departure time in ISO string or HH:mm (default: now)',
+  })
+  @IsOptional()
+  @IsString()
+  departureTime?: string;
 }
