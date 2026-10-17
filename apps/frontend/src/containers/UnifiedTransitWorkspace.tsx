@@ -167,7 +167,7 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
       if (ctxOriginId) setOriginStationId(ctxOriginId);
       if (ctxDestId) setDestStationId(ctxDestId);
       if (ctxJourneyGeojson) {
-        setRouteGeojson(ctxJourneyGeojson as GeoJSON.FeatureCollection);
+        setRouteGeojson(ctxJourneyGeojson as unknown as GeoJSON.FeatureCollection);
       }
       setIsPlanOpen(true);
     }
