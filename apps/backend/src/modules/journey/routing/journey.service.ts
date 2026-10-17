@@ -159,116 +159,285 @@ export class JourneyService {
     private readonly realtimePrediction: RealtimePredictionService,
   ) {}
 
+  /**
+   * Dynamic Spatial Snapper with Per-Line Dominance Filter.
+   *
+   * 1. Finds all active stations within walk catchment radius R (default: 800m).
+   * 2. De-dupes redundant stations on the exact same line (Per-Line Dominance Filter):
+   *    If an origin is within radius of two stations on the exact same line,
+   *    only keep the closer one on that specific line.
+   *    Example: Airport Road (Line 1, 350m) vs Marol Naka (Line 1, 550m) -> Keep Airport Road for L1.
+   *             Marol Naka (Line 3, 550m) -> Kept because it provides direct access to Line 3.
+   * 3. Attaches candidate entry edges with walking penalties (T_walk = D_walk / 1.2 m/s).
+   */
+  private async findSpatialCandidateAttachments(
+    lat: number,
+    lng: number,
+    systemId: string,
+    maxRadiusMeters = 800,
+  ): Promise<ResolvedGateAttachment[]> {
+    const stations = await this.db.station.findMany({
+      where: { systemId, isActive: true },
+      select: {
+        id: true,
+        code: true,
+        name: true,
+        systemId: true,
+        latitude: true,
+        longitude: true,
+        system: { select: { id: true, code: true } },
+        sequences: {
+          where: { isActive: true },
+          select: {
+            lineId: true,
+            line: { select: { id: true, code: true, name: true, color: true } },
+          },
+        },
+      },
+    });
+
+    // 1. Calculate walking distance to all stations in catchment
+    const nearbyStations: Array<{
+      station: (typeof stations)[0];
+      distanceMeters: number;
+    }> = [];
+
+    for (const stn of stations) {
+      const d = getDistanceMeters(lat, lng, stn.latitude, stn.longitude);
+      if (d <= maxRadiusMeters) {
+        nearbyStations.push({ station: stn, distanceMeters: d });
+      }
+    }
+
+    // Fallback if none found within catchment: pick closest station
+    if (nearbyStations.length === 0 && stations.length > 0) {
+      let closestStn = stations[0];
+      let minD = Infinity;
+      for (const stn of stations) {
+        const d = getDistanceMeters(lat, lng, stn.latitude, stn.longitude);
+        if (d < minD) {
+          minD = d;
+          closestStn = stn;
+        }
+      }
+      nearbyStations.push({ station: closestStn, distanceMeters: minD });
+    }
+
+    // 2. Per-Line Dominance Filter:
+    // Group candidate stations by line ID and select minimum distance per line.
+    const closestPerLine = new Map<
+      string,
+      {
+        station: (typeof stations)[0];
+        distanceMeters: number;
+        lineInfo?: { id: string; code: string; name: string; color: string };
+      }
+    >();
+
+    for (const item of nearbyStations) {
+      const seqs = item.station.sequences || [];
+      if (seqs.length === 0) {
+        const key = `STN_${item.station.id}`;
+        const existing = closestPerLine.get(key);
+        if (!existing || item.distanceMeters < existing.distanceMeters) {
+          closestPerLine.set(key, {
+            station: item.station,
+            distanceMeters: item.distanceMeters,
+          });
+        }
+      } else {
+        for (const seq of seqs) {
+          const lineKey = seq.lineId || seq.line?.code || 'UNKNOWN';
+          const existing = closestPerLine.get(lineKey);
+          if (!existing || item.distanceMeters < existing.distanceMeters) {
+            closestPerLine.set(lineKey, {
+              station: item.station,
+              distanceMeters: item.distanceMeters,
+              lineInfo: seq.line,
+            });
+          }
+        }
+      }
+    }
+
+    // 3. Convert surviving non-dominated candidates to ResolvedGateAttachments
+    const attachments: ResolvedGateAttachment[] = [];
+    const seenStations = new Set<string>();
+
+    for (const entry of closestPerLine.values()) {
+      const { station, distanceMeters, lineInfo } = entry;
+      const dedupKey = `${station.id}`;
+      if (seenStations.has(dedupKey)) continue;
+      seenStations.add(dedupKey);
+
+      const walkSecs = Math.max(60, Math.round(distanceMeters / 1.2)); // 1.2 m/s standard transit walking speed
+      const walkMins = Math.max(1, Math.round(walkSecs / 60));
+      const lineLabel = lineInfo?.name || 'Metro';
+
+      const gate: LandmarkAccessGate = {
+        gateId: `SPATIAL_GATE_${station.code}`,
+        gateName: `Walk to ${station.name} (${lineLabel})`,
+        stationCode: station.code,
+        stationName: station.name,
+        lineCode: lineInfo?.code || '',
+        lineName: lineLabel,
+        lineColor: lineInfo?.color || '#3b82f6',
+        walkDistanceMeters: distanceMeters,
+        walkTimeSeconds: walkSecs,
+        corridorType: 'WALK',
+        corridorNote: `Walk ${distanceMeters}m (~${walkMins} min) to ${station.name} for ${lineLabel}`,
+        indoorLevel: 'Street Level',
+      };
+
+      attachments.push({ gate, station });
+    }
+
+    return attachments;
+  }
+
   private async resolveEndpoint(
     identifier: string,
   ): Promise<ResolvedEndpoint | null> {
-    // 0. Check if identifier is a registered landmark (e.g. LM_BKC_BULLET_TRAIN, LM_OBEROI_SKY_CITY)
-    const landmark =
-      LandmarkRegistry.findById(identifier) ||
-      LandmarkRegistry.findByNameOrAlias(identifier);
+    // 0. Coordinate string format: "lat,lng" or "lat, lng"
+    const coordMatch = identifier.match(
+      /^(-?\d+(\.\d+)?)\s*,\s*(-?\d+(\.\d+)?)$/,
+    );
+    if (coordMatch) {
+      const p1 = parseFloat(coordMatch[1]);
+      const p2 = parseFloat(coordMatch[3]);
+      const lat = p1 < 40 ? p1 : p2;
+      const lng = p1 > 40 ? p1 : p2;
 
-    if (landmark) {
-      const gates = LandmarkRegistry.getAccessGates(landmark);
-      const attachments: ResolvedGateAttachment[] = [];
+      const system = await this.db.system.findFirst({
+        where: { isActive: true },
+        select: { id: true, code: true },
+      });
+      if (!system) return null;
 
-      for (const gate of gates) {
-        let stn = await this.db.station.findFirst({
-          where: { code: gate.stationCode, isActive: true },
-          select: {
-            id: true,
-            code: true,
-            name: true,
-            systemId: true,
-            latitude: true,
-            longitude: true,
-            system: { select: { id: true, code: true } },
-          },
-        });
-        if (!stn && gate.stationName) {
-          const cleanName = gate.stationName.split('(')[0].trim();
-          stn = await this.db.station.findFirst({
-            where: {
-              name: { contains: cleanName, mode: 'insensitive' },
-              isActive: true,
-            },
-            select: {
-              id: true,
-              code: true,
-              name: true,
-              systemId: true,
-              latitude: true,
-              longitude: true,
-              system: { select: { id: true, code: true } },
-            },
-          });
-        }
-        if (stn) {
-          attachments.push({ gate, station: stn });
-        }
-      }
-
-      // If specific gate station wasn't found in DB (e.g. Line 2B pending import), fallback to primary connectedStationCode
-      if (attachments.length === 0) {
-        const fallbackStation = await this.db.station.findFirst({
-          where: {
-            OR: [
-              { code: landmark.connectedStationCode },
-              {
-                name: {
-                  contains: landmark.connectedStationName,
-                  mode: 'insensitive',
-                },
-              },
-            ],
-            isActive: true,
-          },
-          select: {
-            id: true,
-            code: true,
-            name: true,
-            systemId: true,
-            latitude: true,
-            longitude: true,
-            system: { select: { id: true, code: true } },
-          },
-        });
-        if (fallbackStation) {
-          const primaryGate: LandmarkAccessGate = gates[0] || {
-            gateId: 'MAIN_GATE',
-            gateName: landmark.directFobName || `${landmark.name} Direct Access`,
-            stationCode: fallbackStation.code,
-            stationName: fallbackStation.name,
-            lineCode: landmark.connectedLineCode,
-            lineName: landmark.connectedLineName,
-            lineColor: landmark.connectedLineColor,
-            walkDistanceMeters: landmark.walkDistanceMeters,
-            walkTimeSeconds: landmark.walkTimeSeconds,
-            corridorType: landmark.hasDirectFob ? 'FOB' : 'WALK',
-            corridorNote: landmark.corridorNote,
-            indoorLevel: landmark.indoorLevel,
-          };
-          attachments.push({ gate: primaryGate, station: fallbackStation });
-        }
-      }
-
+      const attachments = await this.findSpatialCandidateAttachments(
+        lat,
+        lng,
+        system.id,
+      );
       if (attachments.length > 0) {
         const primary = attachments[0].station;
         return {
-          id: landmark.id,
-          name: landmark.name,
-          code: landmark.connectedStationCode,
-          latitude: landmark.coordinates[1],
-          longitude: landmark.coordinates[0],
-          systemId: primary.systemId,
-          systemCode: primary.system.code,
-          landmark,
+          id: `${lat.toFixed(5)},${lng.toFixed(5)}`,
+          name: `Location (${lat.toFixed(4)}, ${lng.toFixed(4)})`,
+          code: primary.code,
+          latitude: lat,
+          longitude: lng,
+          systemId: system.id,
+          systemCode: system.code,
           attachments,
           primaryStation: primary,
         };
       }
     }
 
-    // 1. Resolve standard Station by UUID, code, or name
+    // 1. Check if identifier is a registered curated landmark (e.g. LM_OBEROI_SKY_CITY)
+    const landmark =
+      LandmarkRegistry.findById(identifier) ||
+      LandmarkRegistry.findByNameOrAlias(identifier);
+
+    if (landmark) {
+      const primaryStation = await this.db.station.findFirst({
+        where: {
+          OR: [
+            { code: landmark.connectedStationCode },
+            {
+              name: {
+                contains: landmark.connectedStationName,
+                mode: 'insensitive',
+              },
+            },
+          ],
+          isActive: true,
+        },
+        select: {
+          id: true,
+          code: true,
+          name: true,
+          systemId: true,
+          latitude: true,
+          longitude: true,
+          system: { select: { id: true, code: true } },
+        },
+      });
+
+      if (primaryStation) {
+        // Run spatial candidate attachments with Per-Line Dominance Filter
+        const spatialAttachments = await this.findSpatialCandidateAttachments(
+          landmark.coordinates[1],
+          landmark.coordinates[0],
+          primaryStation.systemId,
+          800,
+        );
+
+        const attachments: ResolvedGateAttachment[] = [];
+        // If landmark has dedicated FOB (e.g. Oberoi Sky City), prioritize its dedicated concourse FOB
+        if (landmark.hasDirectFob) {
+          const directFobGate: LandmarkAccessGate = {
+            gateId: 'DIRECT_FOB',
+            gateName:
+              landmark.directFobName || `${landmark.name} Direct Skywalk`,
+            stationCode: primaryStation.code,
+            stationName: primaryStation.name,
+            lineCode: landmark.connectedLineCode,
+            lineName: landmark.connectedLineName,
+            lineColor: landmark.connectedLineColor,
+            walkDistanceMeters: landmark.walkDistanceMeters,
+            walkTimeSeconds: landmark.walkTimeSeconds,
+            corridorType: 'FOB',
+            corridorNote: landmark.corridorNote,
+            indoorLevel: landmark.indoorLevel,
+          };
+          attachments.push({ gate: directFobGate, station: primaryStation });
+        }
+
+        // Add any distinct spatial line attachments
+        for (const sa of spatialAttachments) {
+          if (!attachments.some((a) => a.station.id === sa.station.id)) {
+            attachments.push(sa);
+          }
+        }
+
+        if (attachments.length === 0) {
+          attachments.push({
+            gate: {
+              gateId: 'MAIN_GATE',
+              gateName: `${landmark.name} Access`,
+              stationCode: primaryStation.code,
+              stationName: primaryStation.name,
+              lineCode: landmark.connectedLineCode,
+              lineName: landmark.connectedLineName,
+              lineColor: landmark.connectedLineColor,
+              walkDistanceMeters: landmark.walkDistanceMeters,
+              walkTimeSeconds: landmark.walkTimeSeconds,
+              corridorType: landmark.hasDirectFob ? 'FOB' : 'WALK',
+              corridorNote: landmark.corridorNote,
+              indoorLevel: landmark.indoorLevel,
+            },
+            station: primaryStation,
+          });
+        }
+
+        return {
+          id: landmark.id,
+          name: landmark.name,
+          code: landmark.connectedStationCode,
+          latitude: landmark.coordinates[1],
+          longitude: landmark.coordinates[0],
+          systemId: primaryStation.systemId,
+          systemCode: primaryStation.system.code,
+          landmark,
+          attachments,
+          primaryStation,
+        };
+      }
+    }
+
+    // 2. Resolve standard Station by UUID, code, or name
     const isUuid =
       /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
         identifier,
