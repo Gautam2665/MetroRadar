@@ -173,8 +173,9 @@ export function AiAssistantDrawer() {
               coordinates: [72.85, 19.11],
             });
           }
-          if (topCandidate.geojson) {
-            setJourneyGeojson(topCandidate.geojson);
+          const routeGeo = topCandidate.geojson || d.geojson;
+          if (routeGeo) {
+            setJourneyGeojson(routeGeo);
           }
         }
       } else if (res.uiPayload?.cardType === "live_station" && res.uiPayload.data) {
@@ -298,10 +299,18 @@ export function AiAssistantDrawer() {
                       {/* Redirect to Plan Journey with full turn-by-turn details */}
                       <button
                         onClick={() => {
-                          const origName = m.uiPayload.data?.selectedCandidate?.origin?.name || "";
-                          const destName = m.uiPayload.data?.selectedCandidate?.destination?.name || "";
-                          const origId = m.uiPayload.data?.selectedCandidate?.origin?.id || "";
-                          const destId = m.uiPayload.data?.selectedCandidate?.destination?.id || "";
+                          const origName =
+                            m.uiPayload.data?.origin ||
+                            m.uiPayload.data?.selectedCandidate?.origin?.name ||
+                            "";
+                          const destName =
+                            m.uiPayload.data?.destination ||
+                            m.uiPayload.data?.selectedCandidate?.destination?.name ||
+                            "";
+                          const origId =
+                            m.uiPayload.data?.selectedCandidate?.origin?.id || "";
+                          const destId =
+                            m.uiPayload.data?.selectedCandidate?.destination?.id || "";
                           closeAssistant();
                           router.push(
                             `/plan?from=${encodeURIComponent(origName)}&to=${encodeURIComponent(destName)}&originId=${encodeURIComponent(origId)}&destId=${encodeURIComponent(destId)}`

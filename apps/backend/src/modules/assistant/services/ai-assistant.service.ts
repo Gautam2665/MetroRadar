@@ -193,6 +193,10 @@ export class AiAssistantService {
       parts: [{ text: `${contextPrefix}${userMessage}` }],
     });
 
+    const transitRegex =
+      /(?:reach|route|from|to|metro|train|travel|go to|fare|ticket|interchange|transfer|gate|lift|escalator|station)/i;
+    const isTransitIntent = transitRegex.test(userMessage);
+
     const response = await this.aiClient!.models.generateContent({
       model,
       contents,
@@ -207,7 +211,7 @@ export class AiAssistantService {
             ],
           },
         ],
-        temperature: 0.2, // Low temperature for high transit precision
+        temperature: 0.1, // Near zero temperature for strict transit precision
       },
     });
 
@@ -267,8 +271,10 @@ export class AiAssistantService {
           },
         ],
         config: {
-          systemInstruction: SYSTEM_INSTRUCTION,
-          temperature: 0.2,
+          systemInstruction:
+            SYSTEM_INSTRUCTION +
+            '\nCRITICAL: Quote the EXACT duration (minutes), fare (₹), lines, and transfers returned by the tool. Never invent or estimate different numbers.',
+          temperature: 0.1,
         },
       });
 
@@ -280,6 +286,14 @@ export class AiAssistantService {
       };
     }
 
+    // If Gemini did not invoke a tool for a transit query, fall back to deterministic engine
+    if (isTransitIntent) {
+      this.logger.warn(
+        `Gemini returned text without function call for transit query "${userMessage}". Routing via deterministic engine.`,
+      );
+      return await this.processWithRuleFallback(userMessage, cityHint);
+    }
+
     return {
       reply:
         response.text ||
@@ -288,39 +302,38 @@ export class AiAssistantService {
   }
 
   /**
-   * Deterministic fallback when Gemini API key is missing or offline
+   * Deterministic fallback when Gemini API key is missing, offline, or returns free text
    */
   private async processWithRuleFallback(
     message: string,
     cityHint?: string,
   ): Promise<AssistantChatResponse> {
-    const lower = message.toLowerCase();
+    // 1. Check for journey patterns with explicit origin/destination extraction
+    const reachFromMatch = message.match(
+      /(?:reach|go\s+to|visit|travel\s+to)\s+([a-zA-Z0-9\s.,'-]+?)\s+from\s+([a-zA-Z0-9\s.,'-]+)/i,
+    );
+    const fromToMatch = message.match(
+      /(?:from|starting\s+at)\s+([a-zA-Z0-9\s.,'-]+?)\s+(?:to|towards)\s+([a-zA-Z0-9\s.,'-]+)/i,
+    );
+    const arrowMatch = message.match(
+      /([a-zA-Z0-9\s.,'-]+?)\s+(?:->|to)\s+([a-zA-Z0-9\s.,'-]+)/i,
+    );
 
-    // 1. Check for "to / from" journey pattern
-    // e.g. "How to reach BKC from Borivali", "i want to go from mhb colony to rameshwaram cafe in churchgate", "Borivali to Gundavali"
-    const fromToMatch =
-      message.match(
-        /(?:from|starting\s+at)\s+([a-zA-Z0-9\s.,'-]+?)\s+(?:to|towards)\s+([a-zA-Z0-9\s.,'-]+)/i,
-      ) ||
-      message.match(
-        /(?:reach|go\s+to|visit)\s+([a-zA-Z0-9\s.,'-]+?)\s+from\s+([a-zA-Z0-9\s.,'-]+)/i,
-      ) ||
-      message.match(
-        /([a-zA-Z0-9\s.,'-]+?)\s+(?:to|->)\s+([a-zA-Z0-9\s.,'-]+)/i,
-      );
+    let origin = '';
+    let destination = '';
 
-    if (fromToMatch) {
-      let origin: string;
-      let destination: string;
+    if (reachFromMatch) {
+      destination = reachFromMatch[1].replace(/[?!.,;:"'()]+/g, ' ').trim();
+      origin = reachFromMatch[2].replace(/[?!.,;:"'()]+/g, ' ').trim();
+    } else if (fromToMatch) {
+      origin = fromToMatch[1].replace(/[?!.,;:"'()]+/g, ' ').trim();
+      destination = fromToMatch[2].replace(/[?!.,;:"'()]+/g, ' ').trim();
+    } else if (arrowMatch) {
+      origin = arrowMatch[1].replace(/[?!.,;:"'()]+/g, ' ').trim();
+      destination = arrowMatch[2].replace(/[?!.,;:"'()]+/g, ' ').trim();
+    }
 
-      if (lower.includes('reach') || lower.includes('go to')) {
-        destination = fromToMatch[1].trim();
-        origin = fromToMatch[2].trim();
-      } else {
-        origin = fromToMatch[1].trim();
-        destination = fromToMatch[2].trim();
-      }
-
+    if (origin && destination) {
       const res = await this.toolsService.planJourney(
         origin,
         destination,
@@ -338,7 +351,29 @@ export class AiAssistantService {
           poiNote = ` Deboard at ${d.destinationPoi.snappedTo} (~${d.destinationPoi.walkDistanceMeters}m from ${d.destinationPoi.name}).`;
         }
 
-        const reply = `Take the metro from ${d.origin} to ${d.destination}.${poiNote} Total travel time is ~${d.totalDurationMinutes} minutes with ${d.transfersCount} interchange(s). Standard fare is ₹${d.fareRupees}.`;
+        let legDescription = '';
+        if (Array.isArray(d.legs) && d.legs.length > 0) {
+          const transitLegs = d.legs.filter(
+            (l: any) =>
+              l.mode === 'METRO' ||
+              l.mode === 'TRANSIT' ||
+              l.lineName ||
+              l.lineCode,
+          );
+          if (transitLegs.length === 1) {
+            legDescription = ` Take direct ${transitLegs[0].lineName || transitLegs[0].lineCode || 'Metro'} from ${transitLegs[0].fromStation} to ${transitLegs[0].toStation}.`;
+          } else if (transitLegs.length > 1) {
+            const steps = transitLegs
+              .map(
+                (l: any) =>
+                  `${l.lineName || l.lineCode} (${l.fromStation} → ${l.toStation})`,
+              )
+              .join(', then transfer to ');
+            legDescription = ` Take ${steps}.`;
+          }
+        }
+
+        const reply = `Take the metro from ${d.origin} to ${d.destination}.${poiNote}${legDescription} Total travel time is ~${d.totalDurationMinutes} mins with ${d.transfersCount} interchange(s). Standard fare is ₹${d.fareRupees}.`;
         return {
           reply,
           toolUsed: 'plan_journey',

@@ -10,6 +10,7 @@ import { useStations } from "../hooks/useStations";
 import { useRealtime } from "../hooks/useRealtime";
 import { useDigitalTwin } from "../hooks/useDigitalTwin";
 import { useAssistantUi } from "../contexts/AssistantUiContext";
+import { useJourneyContext } from "../contexts/JourneyContext";
 import { ApiClient } from "../services/api/client";
 import { StationApi, StationSearchResult, toPlaceSuggestion } from "../services/api/station.api";
 import { useStationsSearch } from "../hooks/useStationsSearch";
@@ -149,6 +150,28 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const {
+    originName: ctxOriginName,
+    destinationName: ctxDestName,
+    originId: ctxOriginId,
+    destinationId: ctxDestId,
+    journeyGeojson: ctxJourneyGeojson,
+  } = useJourneyContext();
+
+  // Sync when route or landmark is resolved via AI Assistant
+  useEffect(() => {
+    if (ctxOriginName && ctxDestName) {
+      setOriginInput(cleanPlaceName(ctxOriginName));
+      setDestInput(cleanPlaceName(ctxDestName));
+      if (ctxOriginId) setOriginStationId(ctxOriginId);
+      if (ctxDestId) setDestStationId(ctxDestId);
+      if (ctxJourneyGeojson) {
+        setRouteGeojson(ctxJourneyGeojson as GeoJSON.FeatureCollection);
+      }
+      setIsPlanOpen(true);
+    }
+  }, [ctxOriginName, ctxDestName, ctxOriginId, ctxDestId, ctxJourneyGeojson]);
 
   const cleanPlaceName = (name: string) =>
     name

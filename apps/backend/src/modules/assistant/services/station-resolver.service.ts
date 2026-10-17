@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { DatabaseService } from '../../../database/database.service';
 import { SearchService } from '../../gis/services/search.service';
+import { LandmarkRegistry } from '../../gis/services/landmark-registry';
 
 export interface ResolvedStation {
   id: string;
@@ -117,7 +118,7 @@ export class StationResolverService {
       return null;
     }
 
-    const trimmed = rawQuery.trim();
+    const trimmed = rawQuery.replace(/[?!.,;:"'()]+/g, ' ').replace(/\s+/g, ' ').trim();
     const cleanLower = trimmed
       .toLowerCase()
       .replace(/metro\s+station/gi, '')
@@ -145,13 +146,44 @@ export class StationResolverService {
       }
     }
 
-    // 2. Check Commuter Alias lookup table
+    // 2. Direct Landmark Registry Check (e.g. Oberoi Sky City, Infiniti Mall, BKC)
+    const registeredLm = LandmarkRegistry.findByNameOrAlias(trimmed);
+    if (registeredLm) {
+      const stn = await this.prisma.station.findFirst({
+        where: {
+          code: registeredLm.connectedStationCode,
+          isActive: true,
+        },
+        select: {
+          id: true,
+          code: true,
+          name: true,
+          city: true,
+          latitude: true,
+          longitude: true,
+        },
+      });
+      if (stn) {
+        this.logger.log(
+          `Resolved landmark "${trimmed}" to connected station "${stn.name}" (${stn.code}) via LandmarkRegistry`,
+        );
+        return {
+          ...stn,
+          confidence: 0.98,
+          isPoi: true,
+          poiName: registeredLm.name,
+          walkDistanceMeters: registeredLm.walkDistanceMeters || 180,
+        };
+      }
+    }
+
+    // 3. Check Commuter Alias lookup table
     let searchQuery = cleanLower;
     if (COMMUTER_ALIASES[cleanLower]) {
       searchQuery = COMMUTER_ALIASES[cleanLower].toLowerCase();
     }
 
-    // 3. Exact Code or Name Match in Database
+    // 4. Exact Code or Name Match in Database
     const exactMatch = await this.prisma.station.findFirst({
       where: {
         isActive: true,
@@ -179,7 +211,7 @@ export class StationResolverService {
       return { ...exactMatch, confidence: 1.0 };
     }
 
-    // 4. Try SearchService (Google Places API + Landmark snapping)
+    // 5. Try SearchService (Google Places API + Landmark snapping)
     // Checks if the user mentioned a locality, colony, cafe, college, hospital, or landmark
     try {
       const searchRes = (await this.searchService.search(trimmed, [
@@ -194,23 +226,63 @@ export class StationResolverService {
         // Look for POIs or exact station results
         const poiOrStation = searchRes.features.find((f: any) => {
           const p = f.properties || {};
-          return (p.type === 'poi' || p.isLandmark) && p.id;
+          return (p.type === 'poi' || p.isLandmark) && (p.stationId || p.nearestStation?.id || p.id);
         });
 
         if (poiOrStation && poiOrStation.properties) {
           const props = poiOrStation.properties;
-          const stnId = props.id;
-          const stn = await this.prisma.station.findUnique({
-            where: { id: stnId },
-            select: {
-              id: true,
-              code: true,
-              name: true,
-              city: true,
-              latitude: true,
-              longitude: true,
-            },
-          });
+          const targetStnId = props.stationId || props.nearestStation?.id;
+          let stn: {
+            id: string;
+            code: string;
+            name: string;
+            city: string;
+            latitude: number;
+            longitude: number;
+          } | null = null;
+
+          if (targetStnId) {
+            stn = await this.prisma.station.findUnique({
+              where: { id: targetStnId },
+              select: {
+                id: true,
+                code: true,
+                name: true,
+                city: true,
+                latitude: true,
+                longitude: true,
+              },
+            });
+          }
+
+          if (!stn && props.code) {
+            stn = await this.prisma.station.findFirst({
+              where: { code: props.code, isActive: true },
+              select: {
+                id: true,
+                code: true,
+                name: true,
+                city: true,
+                latitude: true,
+                longitude: true,
+              },
+            });
+          }
+
+          if (!stn && typeof props.id === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(props.id)) {
+            stn = await this.prisma.station.findUnique({
+              where: { id: props.id },
+              select: {
+                id: true,
+                code: true,
+                name: true,
+                city: true,
+                latitude: true,
+                longitude: true,
+              },
+            });
+          }
+
           if (stn) {
             this.logger.log(
               `Snapped locality/POI "${trimmed}" to nearest station "${stn.name}" via Places API (${props.displayName || props.name})`,
