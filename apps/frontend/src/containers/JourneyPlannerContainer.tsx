@@ -377,12 +377,6 @@ export function combineCandidateGeojsons(
   };
 }
 
-// ── Fallback data for when no backend is available ────────────────────────────
-
-function makeFallback(): RouteOption[] {
-  return [];
-}
-
 // ── Container ─────────────────────────────────────────────────────────────────
 
 interface Props {
@@ -574,22 +568,20 @@ export function JourneyPlannerContainer({
           onGeojsonUpdate(combined);
         }
       } else {
-        const fallback = makeFallback();
         setError("No route found.");
-        setRoutes(fallback);
+        setRoutes([]);
         setGeojsons([]);
         setActiveRouteIndex(null);
         onActiveRouteChange?.(null);
-        onCandidatesChange?.(fallback);
+        onCandidatesChange?.([]);
       }
     } else {
-      const fallback = makeFallback();
       setError(res.success ? "No route found." : res.error);
-      setRoutes(fallback);
+      setRoutes([]);
       setGeojsons([]);
       setActiveRouteIndex(null);
       onActiveRouteChange?.(null);
-      onCandidatesChange?.(fallback);
+      onCandidatesChange?.([]);
     }
 
     setLoading(false);

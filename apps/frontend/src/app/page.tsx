@@ -1,9 +1,12 @@
 "use client";
 
-// Page.tsx: DashboardContainer already gets CityProvider + StationProvider from root layout.
-// DO NOT wrap with local providers here — that causes a duplicate context reset on every mount.
+import { Suspense } from "react";
 import { DashboardContainer } from "../containers/DashboardContainer";
 
 export default function HomePage() {
-  return <DashboardContainer />;
+  return (
+    <Suspense fallback={<div className="h-screen w-screen bg-[#070B12]" />}>
+      <DashboardContainer />
+    </Suspense>
+  );
 }

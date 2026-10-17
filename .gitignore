@@ -35,3 +35,7 @@ scratch/
 datasets/**/*.pdf
 datasets/mumbai/manual-gtfsrt/manual-gtfsrt.exe
 datasets/mumbai/manual-gtfsrt/
+# Agent and test tool artifacts
+.agents/
+skills-lock.json
+.playwright-mcp/

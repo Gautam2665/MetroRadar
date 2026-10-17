@@ -1,5 +1,6 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
 import { RedisService } from '../../../redis/redis.service';
+import { DatabaseService } from '../../../database/database.service';
 import { GraphBuilderService } from './graph-builder.service';
 import { GraphEdge, StationNode, TransitGraph } from './graph.types';
 
@@ -16,7 +17,7 @@ import { GraphEdge, StationNode, TransitGraph } from './graph.types';
  * TTL: 4 hours (metro schedules are static data, not realtime)
  */
 @Injectable()
-export class GraphProviderService {
+export class GraphProviderService implements OnApplicationBootstrap {
   private readonly logger = new Logger(GraphProviderService.name);
   private readonly GRAPH_VERSION = 'v16';
   private readonly GRAPH_TTL_SECONDS = 4 * 60 * 60; // 4 hours
@@ -29,7 +30,41 @@ export class GraphProviderService {
   constructor(
     private readonly redis: RedisService,
     private readonly graphBuilder: GraphBuilderService,
+    private readonly db: DatabaseService,
   ) {}
+
+  /**
+   * Pre-warm static transit network graph into in-memory process cache on startup
+   * to eliminate cold-start routing latencies for first-load queries.
+   */
+  async onApplicationBootstrap(): Promise<void> {
+    this.logger.log('Pre-warming static network graph in-memory cache on startup...');
+    try {
+      const systems = await this.db.system.findMany({
+        where: { isActive: true },
+        select: { id: true, code: true },
+      });
+
+      if (!systems || systems.length === 0) {
+        this.logger.debug('No active systems found to pre-warm in database.');
+        return;
+      }
+
+      for (const sys of systems) {
+        const start = Date.now();
+        const graph = await this.get(sys.id, sys.code);
+        const elapsed = Date.now() - start;
+        const totalEdges = [...graph.edges.values()].reduce((acc, edges) => acc + edges.length, 0);
+        this.logger.log(
+          `Pre-warmed transit graph for [${sys.code}] in ${elapsed}ms (${graph.nodes.size} nodes, ${totalEdges} edges).`,
+        );
+      }
+    } catch (err: any) {
+      this.logger.warn(
+        `Pre-warm graph notice (deferred until database is active): ${err?.message || err}`,
+      );
+    }
+  }
 
   /**
    * Get the transit graph for a system.
