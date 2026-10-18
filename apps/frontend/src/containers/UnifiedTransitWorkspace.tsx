@@ -27,9 +27,8 @@ interface CorridorDef {
   name: string;
   route: string;
   color: string;
-  operationalStns: number;
-  totalNetworkStns?: number;
-  phaseNote?: string;
+  stationCount: number;
+  isUnderConstruction?: boolean;
 }
 
 const MUMBAI_CORRIDORS: CorridorDef[] = [
@@ -39,7 +38,7 @@ const MUMBAI_CORRIDORS: CorridorDef[] = [
     name: "Line 1 (Blue)",
     route: "Versova ↔ Ghatkopar",
     color: "#007DC5",
-    operationalStns: 12,
+    stationCount: 12,
   },
   {
     code: "LINE2A",
@@ -47,27 +46,23 @@ const MUMBAI_CORRIDORS: CorridorDef[] = [
     name: "Line 2A (Yellow)",
     route: "Dahisar E ↔ Andheri W",
     color: "#FACC15",
-    operationalStns: 17,
+    stationCount: 17,
   },
   {
     code: "LINE3",
     searchKey: "Line 3",
     name: "Line 3 (Aqua)",
-    route: "Aarey JVLR ↔ BKC (Phase 1)",
+    route: "Aarey JVLR ↔ Cuffe Parade",
     color: "#059DB2",
-    operationalStns: 10,
-    totalNetworkStns: 27,
-    phaseNote: "Phase 1 Active (10 Stns) · Phase 2 to Cuffe Parade (27 Stns)",
+    stationCount: 27,
   },
   {
     code: "LINE7",
     searchKey: "Line 7",
     name: "Line 7 (Red)",
-    route: "Dahisar E ↔ Gundavali",
+    route: "Kashigaon ↔ Gundavali",
     color: "#E31E24",
-    operationalStns: 14,
-    totalNetworkStns: 19,
-    phaseNote: "14 Operational Stns · 5 Line 9 Spur",
+    stationCount: 17,
   },
   {
     code: "LINE2B",
@@ -75,7 +70,8 @@ const MUMBAI_CORRIDORS: CorridorDef[] = [
     name: "Line 2B (Yellow Phase 2)",
     route: "Mandale Depot ↔ Chembur",
     color: "#F0C800",
-    operationalStns: 5,
+    stationCount: 5,
+    isUnderConstruction: true,
   },
   {
     code: "MONORAIL",
@@ -83,7 +79,7 @@ const MUMBAI_CORRIDORS: CorridorDef[] = [
     name: "Monorail",
     route: "Sant Gadge Maharaj Chowk ↔ Chembur",
     color: "#7C3AED",
-    operationalStns: 17,
+    stationCount: 17,
   },
 ];
 
@@ -513,7 +509,7 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
     }
   }, [searchParams, planJourney]);
 
-  // Dynamic Headway calculation based on live telemetry fleet
+  // Dynamic Headway calculation based on IST time-of-day and live telemetry fleet
   const headwayInfo = useMemo(() => {
     if (realtimeLoading && (!vehicles || vehicles.length === 0)) {
       return { text: "Estimating Headway...", isClosed: false };
@@ -521,19 +517,45 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
     if (!vehicles || vehicles.length === 0) {
       return { text: "Service Resumes ~05:30 IST", isClosed: true };
     }
-    const count = vehicles.length;
-    if (count >= 12) return { text: "Headway: ~3.5 - 5 min", isClosed: false };
-    if (count >= 6) return { text: "Headway: ~5 - 8 min", isClosed: false };
-    return { text: "Headway: ~8 - 12 min", isClosed: false };
+
+    // Determine current IST time
+    const now = new Date();
+    const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+    const istDate = new Date(utcMs + 5.5 * 3600000);
+    const totalMins = istDate.getHours() * 60 + istDate.getMinutes();
+
+    // Night Curfew (23:30 - 05:30 IST)
+    if (totalMins >= 23 * 60 + 30 || totalMins < 5 * 60 + 30) {
+      return { text: "Service Resumes ~05:30 IST", isClosed: true };
+    }
+
+    // Morning Peak: 08:30 - 11:30 | Evening Peak: 17:30 - 20:30
+    const isPeak =
+      (totalMins >= 8 * 60 + 30 && totalMins <= 11 * 60 + 30) ||
+      (totalMins >= 17 * 60 + 30 && totalMins <= 20 * 60 + 30);
+
+    if (isPeak) {
+      return { text: "Headway: ~3.5 - 5 min (Peak)", isClosed: false };
+    }
+
+    // Late Evening (20:30 - 23:30) or Early Morning (05:30 - 08:30)
+    if (totalMins > 20 * 60 + 30 || totalMins < 8 * 60 + 30) {
+      return { text: "Headway: ~6 - 10 min", isClosed: false };
+    }
+
+    // Standard Non-Peak Daytime (11:30 - 17:30)
+    return { text: "Headway: ~6 - 8 min", isClosed: false };
   }, [realtimeLoading, vehicles]);
 
   // Dynamic Corridors with real fleet telemetry
   const corridors = useMemo(() => {
     return MUMBAI_CORRIDORS.map((c) => {
+      const liveTrains = c.isUnderConstruction
+        ? 0
+        : countVehiclesForCorridor(vehicles || [], c.code, c.searchKey);
       return {
         ...c,
-        stationCount: c.operationalStns,
-        liveTrains: countVehiclesForCorridor(vehicles || [], c.code, c.searchKey),
+        liveTrains,
       };
     });
   }, [vehicles]);
@@ -557,23 +579,12 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
         );
       });
 
-      let corridorStations = matched;
-      if (corridor.code === "LINE3") {
-        // Operational Phase 1 is Aarey JVLR down to BKC (~19.05)
-        const phase1Stns = matched.filter((s) => s.lat >= 19.05);
-        if (phase1Stns.length > 0) corridorStations = phase1Stns;
-      } else if (corridor.code === "LINE7") {
-        // Operational Line 7 is Dahisar East down to Gundavali (<= 19.27)
-        const line7Stns = matched.filter((s) => s.lat <= 19.27 && s.lat >= 19.11);
-        if (line7Stns.length > 0) corridorStations = line7Stns;
-      }
-
-      if (corridorStations.length > 0) {
-        let minLng = corridorStations[0].lng;
-        let maxLng = corridorStations[0].lng;
-        let minLat = corridorStations[0].lat;
-        let maxLat = corridorStations[0].lat;
-        for (const st of corridorStations) {
+      if (matched.length > 0) {
+        let minLng = matched[0].lng;
+        let maxLng = matched[0].lng;
+        let minLat = matched[0].lat;
+        let maxLat = matched[0].lat;
+        for (const st of matched) {
           if (st.lng < minLng) minLng = st.lng;
           if (st.lng > maxLng) maxLng = st.lng;
           if (st.lat < minLat) minLat = st.lat;
@@ -1024,12 +1035,18 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
                   <p className="text-[10px] text-slate-400 truncate">{c.route}</p>
                 </div>
               </div>
-              <span className="text-[10px] font-mono text-slate-300 bg-slate-800/70 border border-white/10 px-2.5 py-1 rounded-lg shrink-0 ml-2 shadow-sm">
-                {c.liveTrains > 0 ? (
-                  <span className="text-emerald-400 font-bold">{c.liveTrains} Live · </span>
-                ) : null}
-                <span>{c.stationCount} Stns</span>
-              </span>
+              {c.isUnderConstruction ? (
+                <span className="text-[10px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2.5 py-1 rounded-lg shrink-0 ml-2 shadow-sm font-semibold">
+                  Under Construction
+                </span>
+              ) : (
+                <span className="text-[10px] font-mono text-slate-300 bg-slate-800/70 border border-white/10 px-2.5 py-1 rounded-lg shrink-0 ml-2 shadow-sm">
+                  {c.liveTrains > 0 ? (
+                    <span className="text-emerald-400 font-bold">{c.liveTrains} Live · </span>
+                  ) : null}
+                  <span>{c.stationCount} Stns</span>
+                </span>
+              )}
             </div>
           ))}
         </div>
