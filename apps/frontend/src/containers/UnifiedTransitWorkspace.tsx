@@ -27,16 +27,64 @@ interface CorridorDef {
   name: string;
   route: string;
   color: string;
-  defaultStns: number;
+  operationalStns: number;
+  totalNetworkStns?: number;
+  phaseNote?: string;
 }
 
 const MUMBAI_CORRIDORS: CorridorDef[] = [
-  { code: "LINE1", searchKey: "Line 1", name: "Line 1 (Blue)", route: "Versova ↔ Ghatkopar", color: "#007DC5", defaultStns: 12 },
-  { code: "LINE2A", searchKey: "Line 2A", name: "Line 2A (Yellow)", route: "Dahisar E ↔ Andheri W", color: "#FACC15", defaultStns: 17 },
-  { code: "LINE3", searchKey: "Line 3", name: "Line 3 (Aqua)", route: "Aarey JVLR ↔ BKC", color: "#059DB2", defaultStns: 10 },
-  { code: "LINE7", searchKey: "Line 7", name: "Line 7 (Red)", route: "Dahisar E ↔ Gundavali", color: "#E31E24", defaultStns: 14 },
-  { code: "LINE2B", searchKey: "Line 2B", name: "Line 2B (Yellow Phase 2)", route: "Mandale Depot ↔ Chembur", color: "#F0C800", defaultStns: 5 },
-  { code: "MONORAIL", searchKey: "Monorail", name: "Monorail", route: "Sant Gadge Maharaj Chowk ↔ Chembur", color: "#7C3AED", defaultStns: 17 },
+  {
+    code: "LINE1",
+    searchKey: "Line 1",
+    name: "Line 1 (Blue)",
+    route: "Versova ↔ Ghatkopar",
+    color: "#007DC5",
+    operationalStns: 12,
+  },
+  {
+    code: "LINE2A",
+    searchKey: "Line 2A",
+    name: "Line 2A (Yellow)",
+    route: "Dahisar E ↔ Andheri W",
+    color: "#FACC15",
+    operationalStns: 17,
+  },
+  {
+    code: "LINE3",
+    searchKey: "Line 3",
+    name: "Line 3 (Aqua)",
+    route: "Aarey JVLR ↔ BKC (Phase 1)",
+    color: "#059DB2",
+    operationalStns: 10,
+    totalNetworkStns: 27,
+    phaseNote: "Phase 1 Active (10 Stns) · Phase 2 to Cuffe Parade (27 Stns)",
+  },
+  {
+    code: "LINE7",
+    searchKey: "Line 7",
+    name: "Line 7 (Red)",
+    route: "Dahisar E ↔ Gundavali",
+    color: "#E31E24",
+    operationalStns: 14,
+    totalNetworkStns: 19,
+    phaseNote: "14 Operational Stns · 5 Line 9 Spur",
+  },
+  {
+    code: "LINE2B",
+    searchKey: "Line 2B",
+    name: "Line 2B (Yellow Phase 2)",
+    route: "Mandale Depot ↔ Chembur",
+    color: "#F0C800",
+    operationalStns: 5,
+  },
+  {
+    code: "MONORAIL",
+    searchKey: "Monorail",
+    name: "Monorail",
+    route: "Sant Gadge Maharaj Chowk ↔ Chembur",
+    color: "#7C3AED",
+    operationalStns: 17,
+  },
 ];
 
 function countVehiclesForCorridor(
@@ -482,23 +530,13 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
   // Dynamic Corridors with real fleet telemetry
   const corridors = useMemo(() => {
     return MUMBAI_CORRIDORS.map((c) => {
-      const stnCount = (stations || []).filter((s) => {
-        const lines = s.lines || [];
-        const infra = s.lineInfrastructure || [];
-        return [...lines, ...infra].some((l: any) => {
-          const code = (l.code || l.id || l.lineCode || "").toUpperCase();
-          const name = (l.name || l.lineName || "").toUpperCase();
-          return code.includes(c.code) || name.includes(c.code);
-        });
-      }).length;
-
       return {
         ...c,
-        stationCount: stnCount > 0 ? stnCount : c.defaultStns,
+        stationCount: c.operationalStns,
         liveTrains: countVehiclesForCorridor(vehicles || [], c.code, c.searchKey),
       };
     });
-  }, [stations, vehicles]);
+  }, [vehicles]);
 
   // Interactive Corridor Cards: Pan/Zoom directly to line bounding box
   const handleCorridorClick = useCallback(
@@ -519,12 +557,23 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
         );
       });
 
-      if (matched.length > 0) {
-        let minLng = matched[0].lng;
-        let maxLng = matched[0].lng;
-        let minLat = matched[0].lat;
-        let maxLat = matched[0].lat;
-        for (const st of matched) {
+      let corridorStations = matched;
+      if (corridor.code === "LINE3") {
+        // Operational Phase 1 is Aarey JVLR down to BKC (~19.05)
+        const phase1Stns = matched.filter((s) => s.lat >= 19.05);
+        if (phase1Stns.length > 0) corridorStations = phase1Stns;
+      } else if (corridor.code === "LINE7") {
+        // Operational Line 7 is Dahisar East down to Gundavali (<= 19.27)
+        const line7Stns = matched.filter((s) => s.lat <= 19.27 && s.lat >= 19.11);
+        if (line7Stns.length > 0) corridorStations = line7Stns;
+      }
+
+      if (corridorStations.length > 0) {
+        let minLng = corridorStations[0].lng;
+        let maxLng = corridorStations[0].lng;
+        let minLat = corridorStations[0].lat;
+        let maxLat = corridorStations[0].lat;
+        for (const st of corridorStations) {
           if (st.lng < minLng) minLng = st.lng;
           if (st.lng > maxLng) maxLng = st.lng;
           if (st.lat < minLat) minLat = st.lat;
@@ -910,19 +959,11 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-1.5">
               <span className="material-symbols-outlined text-[#00E5FF] text-base">sensors</span>
-              <span className="text-xs font-bold text-white uppercase tracking-wider">Fleet Status</span>
+              <span className="text-xs font-bold text-white uppercase tracking-wider">Fleet Telemetry</span>
             </div>
-            {vehicles && vehicles.length > 0 ? (
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                Operational
-              </span>
-            ) : (
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                Night Curfew
-              </span>
-            )}
+            <span className="text-[10px] font-mono text-slate-400 bg-white/5 px-2 py-0.5 rounded border border-white/10">
+              Live MMR Feed
+            </span>
           </div>
 
           <div className="flex items-baseline justify-between pt-0.5">
