@@ -62,6 +62,7 @@ type MapContainerProps = {
   candidates?: RouteOption[];
   activeLevel?: "G" | "L1" | "L2" | string;
   vehicles?: RealtimeVehicle[];
+  rightPanelOpen?: boolean;
 };
 
 export default function MapContainer({
@@ -82,13 +83,14 @@ export default function MapContainer({
   journeyGeojson,
   selectedCandidate = null,
   vehicles = [],
+  rightPanelOpen = false,
 }: MapContainerProps) {
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const internalMapRef = useRef<maplibregl.Map | null>(null);
   const effectiveMapRef = mapRef || internalMapRef;
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [mapStyle, setMapStyle] = useState<"3D" | "Satellite" | "Dark">("Dark");
+  const [is3D, setIs3D] = useState(false);
 
   // Explicit interaction states
   const pinnedStationIdRef = useRef<string | null>(selectedStationId);
@@ -132,7 +134,33 @@ export default function MapContainer({
 
   const handleZoomIn = () => effectiveMapRef.current?.zoomIn();
   const handleZoomOut = () => effectiveMapRef.current?.zoomOut();
-  const handleResetNorth = () => effectiveMapRef.current?.resetNorthPitch();
+  const handleResetNorth = () => {
+    effectiveMapRef.current?.resetNorthPitch({ duration: 600 });
+    setIs3D(false);
+  };
+  const handleToggle3D = () => {
+    const map = effectiveMapRef.current;
+    if (!map) return;
+    const next = !is3D;
+    setIs3D(next);
+    map.easeTo({
+      pitch: next ? 50 : 0,
+      bearing: next ? -15 : 0,
+      duration: 800,
+    });
+  };
+  const handleRecenter = () => {
+    const map = effectiveMapRef.current;
+    if (!map) return;
+    const def = CITY_CENTERS[activeCity?.toLowerCase() || "mumbai"] || CITY_CENTERS.mumbai;
+    map.easeTo({
+      center: def.center,
+      zoom: def.zoom,
+      pitch: is3D ? 50 : 0,
+      bearing: 0,
+      duration: 800,
+    });
+  };
 
   const defaultCityKey = activeCity?.toLowerCase() || "mumbai";
   const defaultCityConfig = CITY_CENTERS[defaultCityKey] || CITY_CENTERS.mumbai;
@@ -503,28 +531,6 @@ export default function MapContainer({
     });
   }, [activeCity, mapLoaded, effectiveMapRef]);
 
-  // Handle Map Styles
-  useEffect(() => {
-    const map = effectiveMapRef.current;
-    if (!map || !mapLoaded) return;
-
-    const styles: Record<string, string> = {
-      Dark: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
-      Satellite: "https://api.maptiler.com/maps/hybrid/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL",
-      "3D": "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
-    };
-
-    if (styles[mapStyle]) {
-      map.setStyle(styles[mapStyle]);
-      map.once("style.load", () => {
-        if (mapStyle === "3D") {
-          map.easeTo({ pitch: 45, bearing: -15, duration: 1000 });
-        } else {
-          map.easeTo({ pitch: 0, bearing: 0, duration: 800 });
-        }
-      });
-    }
-  }, [mapStyle, mapLoaded, effectiveMapRef]);
 
   // ── Network Base Layers (Lines & Stations) ────────────────────────────────
   useEffect(() => {
@@ -1303,49 +1309,64 @@ export default function MapContainer({
     <div className="flex-1 h-full relative bg-[#080c14] select-none">
       <div ref={containerRef} className="absolute inset-0 w-full h-full" />
 
-      {/* Right-Side Map Controls */}
-      <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
-        <div className="flex flex-col rounded-xl bg-[#0f141f]/90 backdrop-blur-xl border border-white/[0.08] shadow-xl overflow-hidden">
+      {/* Consolidated Vertical Map Controls Dock (Bottom Right) */}
+      <div
+        className={`absolute bottom-20 md:bottom-6 transition-all duration-300 z-20 flex flex-col items-center gap-2 ${
+          rightPanelOpen ? "right-4 md:right-[420px]" : "right-4"
+        }`}
+      >
+        <div className="flex flex-col rounded-2xl bg-[#0B121E]/95 backdrop-blur-xl border border-white/10 shadow-2xl overflow-hidden">
+          {/* Zoom In */}
           <button
             onClick={handleZoomIn}
-            className="w-9 h-9 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition text-sm font-bold active:scale-95 cursor-pointer"
-            title="Zoom In" suppressHydrationWarning
+            className="w-10 h-10 flex items-center justify-center text-slate-300 hover:text-[#00D5E8] hover:bg-white/10 transition text-base font-bold active:scale-95 cursor-pointer"
+            title="Zoom In"
+            suppressHydrationWarning
           >
             +
           </button>
-          <div className="h-px bg-white/[0.08]" />
+          <div className="h-px bg-white/10" />
+          {/* Zoom Out */}
           <button
             onClick={handleZoomOut}
-            className="w-9 h-9 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition text-sm font-bold active:scale-95 cursor-pointer"
-            title="Zoom Out" suppressHydrationWarning
+            className="w-10 h-10 flex items-center justify-center text-slate-300 hover:text-[#00D5E8] hover:bg-white/10 transition text-base font-bold active:scale-95 cursor-pointer"
+            title="Zoom Out"
+            suppressHydrationWarning
           >
             -
           </button>
-          <div className="h-px bg-white/[0.08]" />
+          <div className="h-px bg-white/10" />
+          {/* Recenter GPS */}
+          <button
+            onClick={handleRecenter}
+            className="w-10 h-10 flex items-center justify-center text-slate-300 hover:text-[#00D5E8] hover:bg-white/10 transition active:scale-95 cursor-pointer"
+            title="Recenter City View"
+            suppressHydrationWarning
+          >
+            <span className="material-symbols-outlined text-[19px]">my_location</span>
+          </button>
+          <div className="h-px bg-white/10" />
+          {/* Reset North / Compass */}
           <button
             onClick={handleResetNorth}
-            className="w-9 h-9 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition active:scale-95 cursor-pointer"
-            title="Reset North" suppressHydrationWarning
+            className="w-10 h-10 flex items-center justify-center text-slate-300 hover:text-[#00D5E8] hover:bg-white/10 transition active:scale-95 cursor-pointer"
+            title="Reset North & Pitch"
+            suppressHydrationWarning
           >
             <Compass className="w-4 h-4 text-cyan-400" />
           </button>
-        </div>
-
-        {/* 3D / Satellite / Dark View Switcher */}
-        <div className="flex items-center p-1 rounded-xl bg-[#0f141f]/90 backdrop-blur-xl border border-white/[0.08] shadow-xl">
-          {(["3D", "Satellite", "Dark"] as const).map((style) => (
-            <button
-              key={style}
-              onClick={() => setMapStyle(style)} suppressHydrationWarning
-              className={`px-2.5 py-1 rounded-lg text-[10.5px] font-mono font-medium transition cursor-pointer ${
-                mapStyle === style
-                  ? "bg-cyan-500/20 text-cyan-300 border border-cyan-400/40"
-                  : "text-slate-400 hover:text-white hover:bg-white/5"
-              }`}
-            >
-              {style === "Dark" ? "Vector Dark" : style}
-            </button>
-          ))}
+          <div className="h-px bg-white/10" />
+          {/* 2D / 3D Tilt Toggle */}
+          <button
+            onClick={handleToggle3D}
+            className={`w-10 h-10 flex items-center justify-center transition active:scale-95 cursor-pointer font-bold text-xs ${
+              is3D ? "text-[#00D5E8] bg-cyan-500/20" : "text-slate-400 hover:text-white hover:bg-white/10"
+            }`}
+            title="Toggle 2D / 3D Perspective"
+            suppressHydrationWarning
+          >
+            {is3D ? "3D" : "2D"}
+          </button>
         </div>
       </div>
     </div>

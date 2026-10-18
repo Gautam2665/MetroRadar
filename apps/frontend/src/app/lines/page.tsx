@@ -416,7 +416,7 @@ export default function ExploreMetroLinesPage() {
       <Sidebar />
 
       {/* Main Layout Container */}
-      <div className="flex-1 flex flex-col md:ml-[260px] h-full overflow-hidden">
+      <div className="flex-1 flex flex-col md:ml-16 h-full overflow-hidden">
         {/* Top Header */}
         <header
           className="h-16 border-b border-[#141F30] bg-[#080E18] px-5 flex items-center justify-between shrink-0 z-30"

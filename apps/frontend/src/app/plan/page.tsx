@@ -352,7 +352,7 @@ function JourneyPlannerContent() {
       <Sidebar />
 
       {/* Main Layout Container */}
-      <div className="flex-1 flex flex-col md:ml-[260px] h-full overflow-hidden relative">
+      <div className="flex-1 flex flex-col md:ml-16 h-full overflow-hidden relative">
         {/* Top Header — Aligned exactly with /stations and /lines */}
         <header
           className="h-16 border-b border-[#1F2E43] bg-[#090F19] px-6 flex items-center justify-between shrink-0 gap-6 z-30"

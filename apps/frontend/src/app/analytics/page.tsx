@@ -23,7 +23,7 @@ export default function AnalyticsPage() {
     <div className="flex h-screen overflow-hidden bg-[#080C14] text-[#dfe2ee]">
       <Sidebar />
 
-      <div className="flex-1 flex flex-col md:ml-[260px] relative h-full">
+      <div className="flex-1 flex flex-col md:ml-16 relative h-full">
         <Header activeCity={activeCity} onCityChange={(city) => setActiveCity(city)} />
 
         {/* Dashboard Content */}
