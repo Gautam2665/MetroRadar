@@ -17,10 +17,10 @@ export function Sidebar() {
   ];
 
   const mobileNavItems = [
-    { label: "Map", href: "/", icon: "map" },
-    { label: "Plan", href: "/plan", icon: "directions" },
+    { label: "Explore", href: "/", icon: "explore" },
+    { label: "Plan", href: "/plan", icon: "route" },
     { label: "Lines", href: "/lines", icon: "alt_route" },
-    { label: "Telemetry", href: "/network", icon: "sensors" },
+    { label: "Live", href: "/network", icon: "sensors" },
   ];
 
   return (

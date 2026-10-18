@@ -1311,7 +1311,7 @@ export default function MapContainer({
 
       {/* Consolidated Vertical Map Controls Dock (Bottom Right) */}
       <div
-        className={`absolute bottom-20 md:bottom-6 transition-all duration-300 z-20 flex flex-col items-center gap-2 ${
+        className={`absolute bottom-[180px] md:bottom-6 transition-all duration-300 z-20 flex flex-col items-center gap-2 ${
           rightPanelOpen ? "right-4 md:right-[420px]" : "right-4"
         }`}
       >
