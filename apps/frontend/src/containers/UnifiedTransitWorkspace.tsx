@@ -67,11 +67,10 @@ const MUMBAI_CORRIDORS: CorridorDef[] = [
   {
     code: "LINE2B",
     searchKey: "Line 2B",
-    name: "Line 2B (Yellow Phase 2)",
+    name: "Line 2B (Yellow)",
     route: "Mandale Depot ↔ Chembur",
     color: "#F0C800",
-    stationCount: 5,
-    isUnderConstruction: true,
+    stationCount: 6,
   },
   {
     code: "MONORAIL",
@@ -1035,18 +1034,12 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
                   <p className="text-[10px] text-slate-400 truncate">{c.route}</p>
                 </div>
               </div>
-              {c.isUnderConstruction ? (
-                <span className="text-[10px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2.5 py-1 rounded-lg shrink-0 ml-2 shadow-sm font-semibold">
-                  Under Construction
-                </span>
-              ) : (
-                <span className="text-[10px] font-mono text-slate-300 bg-slate-800/70 border border-white/10 px-2.5 py-1 rounded-lg shrink-0 ml-2 shadow-sm">
-                  {c.liveTrains > 0 ? (
-                    <span className="text-emerald-400 font-bold">{c.liveTrains} Live · </span>
-                  ) : null}
-                  <span>{c.stationCount} Stns</span>
-                </span>
-              )}
+              <span className="text-[10px] font-mono text-slate-300 bg-slate-800/70 border border-white/10 px-2.5 py-1 rounded-lg shrink-0 ml-2 shadow-sm">
+                {c.liveTrains > 0 ? (
+                  <span className="text-emerald-400 font-bold">{c.liveTrains} Live · </span>
+                ) : null}
+                <span>{c.stationCount} Stns</span>
+              </span>
             </div>
           ))}
         </div>
