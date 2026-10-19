@@ -1,918 +1,918 @@
 stop_id,stop_name,stop_lat,stop_lon,location_type,parent_station,platform_code,level_id,wheelchair_boarding
-ENT_STN_L1_001_1,"Versova Gate 1 (J.P. Road - North-West Side)",19.130528,72.821137,2,STN_L1_001,,LVL_STN_L1_001_G,1
-ENT_STN_L1_001_2,"Versova Gate 2 (J.P. Road - North-East Side)",19.130528,72.821637,2,STN_L1_001,,LVL_STN_L1_001_G,0
-ENT_STN_L1_001_3,"Versova Gate 3 (J.P. Road - South-West Side)",19.130028,72.821137,2,STN_L1_001,,LVL_STN_L1_001_G,1
-ENT_STN_L1_001_4,"Versova Gate 4 (J.P. Road - South-East Side)",19.130028,72.821637,2,STN_L1_001,,LVL_STN_L1_001_G,0
-ENT_STN_L1_002_1,"D. N. Nagar Gate 1 (J.P. Road - North-West Side)",19.128428,72.830562,2,STN_L1_002,,LVL_STN_L1_002_G,1
-ENT_STN_L1_002_2,"D. N. Nagar Gate 2 (J.P. Road - North-East Side)",19.128428,72.831062,2,STN_L1_002,,LVL_STN_L1_002_G,0
-ENT_STN_L1_002_3,"D. N. Nagar Gate 3 (J.P. Road - South-West Side)",19.127928,72.830562,2,STN_L1_002,,LVL_STN_L1_002_G,1
-ENT_STN_L1_002_4,"D. N. Nagar Gate 4 (J.P. Road - South-East Side)",19.127928,72.831062,2,STN_L1_002,,LVL_STN_L1_002_G,0
-ENT_STN_L1_002_FOB,"D. N. Nagar Interchange Concourse Link (Line 2A)",19.128328,72.831112,2,STN_L1_002,,LVL_STN_L1_002_C,1
-ENT_STN_L1_003_1,"Azad Nagar Gate 1 (J.P. Road - North-West Side)",19.127055,72.838017,2,STN_L1_003,,LVL_STN_L1_003_G,1
-ENT_STN_L1_003_2,"Azad Nagar Gate 2 (J.P. Road - North-East Side)",19.127055,72.838517,2,STN_L1_003,,LVL_STN_L1_003_G,0
-ENT_STN_L1_003_3,"Azad Nagar Gate 3 (J.P. Road - South-West Side)",19.126555,72.838017,2,STN_L1_003,,LVL_STN_L1_003_G,1
-ENT_STN_L1_003_4,"Azad Nagar Gate 4 (J.P. Road - South-East Side)",19.126555,72.838517,2,STN_L1_003,,LVL_STN_L1_003_G,0
-ENT_STN_L1_004_1,"Andheri Gate 1 (Andheri-Kurla Road - North-West Side)",19.120291,72.849232,2,STN_L1_004,,LVL_STN_L1_004_G,1
-ENT_STN_L1_004_2,"Andheri Gate 2 (Andheri-Kurla Road - North-East Side)",19.120291,72.849732,2,STN_L1_004,,LVL_STN_L1_004_G,0
-ENT_STN_L1_004_3,"Andheri Gate 3 (Andheri-Kurla Road - South-West Side)",19.119791,72.849232,2,STN_L1_004,,LVL_STN_L1_004_G,1
-ENT_STN_L1_004_4,"Andheri Gate 4 (Andheri-Kurla Road - South-East Side)",19.119791,72.849732,2,STN_L1_004,,LVL_STN_L1_004_G,0
-ENT_STN_L1_004_FOB,"Andheri Western Railway Interchange FOB",19.120191,72.849782,2,STN_L1_004,,LVL_STN_L1_004_C,1
-ENT_STN_L1_005_1,"Western Express Highway Gate 1 (Andheri-Kurla Road - North-West Side)",19.115814,72.856733,2,STN_L1_005,,LVL_STN_L1_005_G,1
-ENT_STN_L1_005_2,"Western Express Highway Gate 2 (Andheri-Kurla Road - North-East Side)",19.115814,72.857233,2,STN_L1_005,,LVL_STN_L1_005_G,0
-ENT_STN_L1_005_3,"Western Express Highway Gate 3 (Andheri-Kurla Road - South-West Side)",19.115314,72.856733,2,STN_L1_005,,LVL_STN_L1_005_G,1
-ENT_STN_L1_005_4,"Western Express Highway Gate 4 (Andheri-Kurla Road - South-East Side)",19.115314,72.857233,2,STN_L1_005,,LVL_STN_L1_005_G,0
-ENT_STN_L1_005_FOB,"Western Express Highway Interchange FOB (Line 7 Gundavali Link)",19.115714,72.857283,2,STN_L1_005,,LVL_STN_L1_005_C,1
-ENT_STN_L1_006_1,"Chakala (J.B. Nagar) Gate 1 (Andheri-Kurla Road - North-West Side)",19.112157,72.867992,2,STN_L1_006,,LVL_STN_L1_006_G,1
-ENT_STN_L1_006_2,"Chakala (J.B. Nagar) Gate 2 (Andheri-Kurla Road - North-East Side)",19.112157,72.868492,2,STN_L1_006,,LVL_STN_L1_006_G,0
-ENT_STN_L1_006_3,"Chakala (J.B. Nagar) Gate 3 (Andheri-Kurla Road - South-West Side)",19.111657,72.867992,2,STN_L1_006,,LVL_STN_L1_006_G,1
-ENT_STN_L1_006_4,"Chakala (J.B. Nagar) Gate 4 (Andheri-Kurla Road - South-East Side)",19.111657,72.868492,2,STN_L1_006,,LVL_STN_L1_006_G,0
-ENT_STN_L1_007_1,"Airport Road Gate 1 (Andheri-Kurla Road - North-West Side)",19.110165,72.874547,2,STN_L1_007,,LVL_STN_L1_007_G,1
-ENT_STN_L1_007_2,"Airport Road Gate 2 (Andheri-Kurla Road - North-East Side)",19.110165,72.875047,2,STN_L1_007,,LVL_STN_L1_007_G,0
-ENT_STN_L1_007_3,"Airport Road Gate 3 (Andheri-Kurla Road - South-West Side)",19.109665,72.874547,2,STN_L1_007,,LVL_STN_L1_007_G,1
-ENT_STN_L1_007_4,"Airport Road Gate 4 (Andheri-Kurla Road - South-East Side)",19.109665,72.875047,2,STN_L1_007,,LVL_STN_L1_007_G,0
-ENT_STN_L1_008_1,"Marol Naka Gate 1 (Andheri-Kurla Road - North-West Side)",19.108196,72.879859,2,STN_L1_008,,LVL_STN_L1_008_G,1
-ENT_STN_L1_008_2,"Marol Naka Gate 2 (Andheri-Kurla Road - North-East Side)",19.108196,72.880359,2,STN_L1_008,,LVL_STN_L1_008_G,0
-ENT_STN_L1_008_3,"Marol Naka Gate 3 (Andheri-Kurla Road - South-West Side)",19.107696,72.879859,2,STN_L1_008,,LVL_STN_L1_008_G,1
-ENT_STN_L1_008_4,"Marol Naka Gate 4 (Andheri-Kurla Road - South-East Side)",19.107696,72.880359,2,STN_L1_008,,LVL_STN_L1_008_G,0
-ENT_STN_L1_009_1,"Saki Naka Gate 1 (Andheri-Kurla Road - North-West Side)",19.103467,72.888259,2,STN_L1_009,,LVL_STN_L1_009_G,1
-ENT_STN_L1_009_2,"Saki Naka Gate 2 (Andheri-Kurla Road - North-East Side)",19.103467,72.888759,2,STN_L1_009,,LVL_STN_L1_009_G,0
-ENT_STN_L1_009_3,"Saki Naka Gate 3 (Andheri-Kurla Road - South-West Side)",19.102967,72.888259,2,STN_L1_009,,LVL_STN_L1_009_G,1
-ENT_STN_L1_009_4,"Saki Naka Gate 4 (Andheri-Kurla Road - South-East Side)",19.102967,72.888759,2,STN_L1_009,,LVL_STN_L1_009_G,0
-ENT_STN_L1_010_1,"Asalpha Gate 1 (Andheri-Kurla Road - North-West Side)",19.096347,72.895163,2,STN_L1_010,,LVL_STN_L1_010_G,1
-ENT_STN_L1_010_2,"Asalpha Gate 2 (Andheri-Kurla Road - North-East Side)",19.096347,72.895663,2,STN_L1_010,,LVL_STN_L1_010_G,0
-ENT_STN_L1_010_3,"Asalpha Gate 3 (Andheri-Kurla Road - South-West Side)",19.095847,72.895163,2,STN_L1_010,,LVL_STN_L1_010_G,1
-ENT_STN_L1_010_4,"Asalpha Gate 4 (Andheri-Kurla Road - South-East Side)",19.095847,72.895663,2,STN_L1_010,,LVL_STN_L1_010_G,0
-ENT_STN_L1_011_1,"Jagruti Nagar Gate 1 (Andheri-Kurla Road - North-West Side)",19.092421,72.902350,2,STN_L1_011,,LVL_STN_L1_011_G,1
-ENT_STN_L1_011_2,"Jagruti Nagar Gate 2 (Andheri-Kurla Road - North-East Side)",19.092421,72.902850,2,STN_L1_011,,LVL_STN_L1_011_G,0
-ENT_STN_L1_011_3,"Jagruti Nagar Gate 3 (Andheri-Kurla Road - South-West Side)",19.091921,72.902350,2,STN_L1_011,,LVL_STN_L1_011_G,1
-ENT_STN_L1_011_4,"Jagruti Nagar Gate 4 (Andheri-Kurla Road - South-East Side)",19.091921,72.902850,2,STN_L1_011,,LVL_STN_L1_011_G,0
-ENT_STN_L1_012_1,"Ghatkopar Gate 1 (Andheri-Kurla Road - North-West Side)",19.086536,72.907873,2,STN_L1_012,,LVL_STN_L1_012_G,1
-ENT_STN_L1_012_2,"Ghatkopar Gate 2 (Andheri-Kurla Road - North-East Side)",19.086536,72.908373,2,STN_L1_012,,LVL_STN_L1_012_G,0
-ENT_STN_L1_012_3,"Ghatkopar Gate 3 (Andheri-Kurla Road - South-West Side)",19.086036,72.907873,2,STN_L1_012,,LVL_STN_L1_012_G,1
-ENT_STN_L1_012_4,"Ghatkopar Gate 4 (Andheri-Kurla Road - South-East Side)",19.086036,72.908373,2,STN_L1_012,,LVL_STN_L1_012_G,0
-ENT_STN_L1_012_FOB,"Ghatkopar Central Railway Interchange FOB",19.086436,72.908423,2,STN_L1_012,,LVL_STN_L1_012_C,1
-ENT_STN_L2A_001_1,"Dahisar (East) Gate 1 (New Link Road - West Side North)",19.251513,72.866769,2,STN_L2A_001,,LVL_STN_L2A_001_G,1
-ENT_STN_L2A_001_2,"Dahisar (East) Gate 2 (New Link Road - West Side South)",19.251013,72.866769,2,STN_L2A_001,,LVL_STN_L2A_001_G,0
-ENT_STN_L2A_001_3,"Dahisar (East) Gate 3 (New Link Road - East Side North)",19.251513,72.867469,2,STN_L2A_001,,LVL_STN_L2A_001_G,1
-ENT_STN_L2A_001_4,"Dahisar (East) Gate 4 (New Link Road - East Side South)",19.251013,72.867469,2,STN_L2A_001,,LVL_STN_L2A_001_G,0
-ENT_STN_L2A_002_1,"Anand Nagar Gate 1 (New Link Road - West Side North)",19.257469,72.865784,2,STN_L2A_002,,LVL_STN_L2A_002_G,1
-ENT_STN_L2A_002_2,"Anand Nagar Gate 2 (New Link Road - West Side South)",19.256969,72.865784,2,STN_L2A_002,,LVL_STN_L2A_002_G,0
-ENT_STN_L2A_002_3,"Anand Nagar Gate 3 (New Link Road - East Side North)",19.257469,72.866484,2,STN_L2A_002,,LVL_STN_L2A_002_G,1
-ENT_STN_L2A_002_4,"Anand Nagar Gate 4 (New Link Road - East Side South)",19.256969,72.866484,2,STN_L2A_002,,LVL_STN_L2A_002_G,0
-ENT_STN_L2A_003_1,"Kandarpada Gate 1 (New Link Road - West Side North)",19.256896,72.850328,2,STN_L2A_003,,LVL_STN_L2A_003_G,1
-ENT_STN_L2A_003_2,"Kandarpada Gate 2 (New Link Road - West Side South)",19.256396,72.850328,2,STN_L2A_003,,LVL_STN_L2A_003_G,0
-ENT_STN_L2A_003_3,"Kandarpada Gate 3 (New Link Road - East Side North)",19.256896,72.851028,2,STN_L2A_003,,LVL_STN_L2A_003_G,1
-ENT_STN_L2A_003_4,"Kandarpada Gate 4 (New Link Road - East Side South)",19.256396,72.851028,2,STN_L2A_003,,LVL_STN_L2A_003_G,0
-ENT_STN_L2A_004_1,"Mandapeshwar Gate 1 (New Link Road - West Side North)",19.249511,72.845327,2,STN_L2A_004,,LVL_STN_L2A_004_G,1
-ENT_STN_L2A_004_2,"Mandapeshwar Gate 2 (New Link Road - West Side South)",19.249011,72.845327,2,STN_L2A_004,,LVL_STN_L2A_004_G,0
-ENT_STN_L2A_004_3,"Mandapeshwar Gate 3 (New Link Road - East Side North)",19.249511,72.846027,2,STN_L2A_004,,LVL_STN_L2A_004_G,1
-ENT_STN_L2A_004_4,"Mandapeshwar Gate 4 (New Link Road - East Side South)",19.249011,72.846027,2,STN_L2A_004,,LVL_STN_L2A_004_G,0
-ENT_STN_L2A_005_1,"Eksar Gate 1 (New Link Road - West Side North)",19.240573,72.843088,2,STN_L2A_005,,LVL_STN_L2A_005_G,1
-ENT_STN_L2A_005_2,"Eksar Gate 2 (New Link Road - West Side South)",19.240073,72.843088,2,STN_L2A_005,,LVL_STN_L2A_005_G,0
-ENT_STN_L2A_005_3,"Eksar Gate 3 (New Link Road - East Side North)",19.240573,72.843788,2,STN_L2A_005,,LVL_STN_L2A_005_G,1
-ENT_STN_L2A_005_4,"Eksar Gate 4 (New Link Road - East Side South)",19.240073,72.843788,2,STN_L2A_005,,LVL_STN_L2A_005_G,0
-ENT_STN_L2A_006_1,"Borivali (West) Gate 1 (New Link Road - West Side North)",19.231444,72.840515,2,STN_L2A_006,,LVL_STN_L2A_006_G,1
-ENT_STN_L2A_006_2,"Borivali (West) Gate 2 (New Link Road - West Side South)",19.230944,72.840515,2,STN_L2A_006,,LVL_STN_L2A_006_G,0
-ENT_STN_L2A_006_3,"Borivali (West) Gate 3 (New Link Road - East Side North)",19.231444,72.841215,2,STN_L2A_006,,LVL_STN_L2A_006_G,1
-ENT_STN_L2A_006_4,"Borivali (West) Gate 4 (New Link Road - East Side South)",19.230944,72.841215,2,STN_L2A_006,,LVL_STN_L2A_006_G,0
-ENT_STN_L2A_007_1,"Shimpoli Gate 1 (New Link Road - West Side North)",19.223019,72.840568,2,STN_L2A_007,,LVL_STN_L2A_007_G,1
-ENT_STN_L2A_007_2,"Shimpoli Gate 2 (New Link Road - West Side South)",19.222519,72.840568,2,STN_L2A_007,,LVL_STN_L2A_007_G,0
-ENT_STN_L2A_007_3,"Shimpoli Gate 3 (New Link Road - East Side North)",19.223019,72.841268,2,STN_L2A_007,,LVL_STN_L2A_007_G,1
-ENT_STN_L2A_007_4,"Shimpoli Gate 4 (New Link Road - East Side South)",19.222519,72.841268,2,STN_L2A_007,,LVL_STN_L2A_007_G,0
-ENT_STN_L2A_008_1,"Kandivali (West) Gate 1 (New Link Road - West Side North)",19.214255,72.837005,2,STN_L2A_008,,LVL_STN_L2A_008_G,1
-ENT_STN_L2A_008_2,"Kandivali (West) Gate 2 (New Link Road - West Side South)",19.213755,72.837005,2,STN_L2A_008,,LVL_STN_L2A_008_G,0
-ENT_STN_L2A_008_3,"Kandivali (West) Gate 3 (New Link Road - East Side North)",19.214255,72.837705,2,STN_L2A_008,,LVL_STN_L2A_008_G,1
-ENT_STN_L2A_008_4,"Kandivali (West) Gate 4 (New Link Road - East Side South)",19.213755,72.837705,2,STN_L2A_008,,LVL_STN_L2A_008_G,0
-ENT_STN_L2A_009_1,"Dahanukarwadi Gate 1 (New Link Road - West Side North)",19.206022,72.834367,2,STN_L2A_009,,LVL_STN_L2A_009_G,1
-ENT_STN_L2A_009_2,"Dahanukarwadi Gate 2 (New Link Road - West Side South)",19.205522,72.834367,2,STN_L2A_009,,LVL_STN_L2A_009_G,0
-ENT_STN_L2A_009_3,"Dahanukarwadi Gate 3 (New Link Road - East Side North)",19.206022,72.835067,2,STN_L2A_009,,LVL_STN_L2A_009_G,1
-ENT_STN_L2A_009_4,"Dahanukarwadi Gate 4 (New Link Road - East Side South)",19.205522,72.835067,2,STN_L2A_009,,LVL_STN_L2A_009_G,0
-ENT_STN_L2A_010_1,"Valnai - Meeth Chowky Gate 1 (New Link Road - West Side North)",19.196871,72.833436,2,STN_L2A_010,,LVL_STN_L2A_010_G,1
-ENT_STN_L2A_010_2,"Valnai - Meeth Chowky Gate 2 (New Link Road - West Side South)",19.196371,72.833436,2,STN_L2A_010,,LVL_STN_L2A_010_G,0
-ENT_STN_L2A_010_3,"Valnai - Meeth Chowky Gate 3 (New Link Road - East Side North)",19.196871,72.834136,2,STN_L2A_010,,LVL_STN_L2A_010_G,1
-ENT_STN_L2A_010_4,"Valnai - Meeth Chowky Gate 4 (New Link Road - East Side South)",19.196371,72.834136,2,STN_L2A_010,,LVL_STN_L2A_010_G,0
-ENT_STN_L2A_011_1,"Malad (West) Gate 1 (New Link Road - West Side North)",19.185450,72.835500,2,STN_L2A_011,,LVL_STN_L2A_011_G,1
-ENT_STN_L2A_011_2,"Malad (West) Gate 2 (New Link Road - West Side South)",19.184950,72.835500,2,STN_L2A_011,,LVL_STN_L2A_011_G,0
-ENT_STN_L2A_011_3,"Malad (West) Gate 3 (New Link Road - East Side North)",19.185450,72.836200,2,STN_L2A_011,,LVL_STN_L2A_011_G,1
-ENT_STN_L2A_011_4,"Malad (West) Gate 4 (New Link Road - East Side South)",19.184950,72.836200,2,STN_L2A_011,,LVL_STN_L2A_011_G,0
-ENT_STN_L2A_012_1,"Lower Malad Gate 1 (New Link Road - West Side North)",19.173203,72.836073,2,STN_L2A_012,,LVL_STN_L2A_012_G,1
-ENT_STN_L2A_012_2,"Lower Malad Gate 2 (New Link Road - West Side South)",19.172703,72.836073,2,STN_L2A_012,,LVL_STN_L2A_012_G,0
-ENT_STN_L2A_012_3,"Lower Malad Gate 3 (New Link Road - East Side North)",19.173203,72.836773,2,STN_L2A_012,,LVL_STN_L2A_012_G,1
-ENT_STN_L2A_012_4,"Lower Malad Gate 4 (New Link Road - East Side South)",19.172703,72.836773,2,STN_L2A_012,,LVL_STN_L2A_012_G,0
-ENT_STN_L2A_013_1,"Bangur Nagar Gate 1 (New Link Road - West Side North)",19.162509,72.834494,2,STN_L2A_013,,LVL_STN_L2A_013_G,1
-ENT_STN_L2A_013_2,"Bangur Nagar Gate 2 (New Link Road - West Side South)",19.162009,72.834494,2,STN_L2A_013,,LVL_STN_L2A_013_G,0
-ENT_STN_L2A_013_3,"Bangur Nagar Gate 3 (New Link Road - East Side North)",19.162509,72.835194,2,STN_L2A_013,,LVL_STN_L2A_013_G,1
-ENT_STN_L2A_013_4,"Bangur Nagar Gate 4 (New Link Road - East Side South)",19.162009,72.835194,2,STN_L2A_013,,LVL_STN_L2A_013_G,0
-ENT_STN_L2A_014_1,"Goregaon (West) Gate 1 (New Link Road - West Side North)",19.153388,72.835335,2,STN_L2A_014,,LVL_STN_L2A_014_G,1
-ENT_STN_L2A_014_2,"Goregaon (West) Gate 2 (New Link Road - West Side South)",19.152888,72.835335,2,STN_L2A_014,,LVL_STN_L2A_014_G,0
-ENT_STN_L2A_014_3,"Goregaon (West) Gate 3 (New Link Road - East Side North)",19.153388,72.836035,2,STN_L2A_014,,LVL_STN_L2A_014_G,1
-ENT_STN_L2A_014_4,"Goregaon (West) Gate 4 (New Link Road - East Side South)",19.152888,72.836035,2,STN_L2A_014,,LVL_STN_L2A_014_G,0
-ENT_STN_L2A_015_1,"Oshiwara Gate 1 (New Link Road - West Side North)",19.146229,72.833402,2,STN_L2A_015,,LVL_STN_L2A_015_G,1
-ENT_STN_L2A_015_2,"Oshiwara Gate 2 (New Link Road - West Side South)",19.145729,72.833402,2,STN_L2A_015,,LVL_STN_L2A_015_G,0
-ENT_STN_L2A_015_3,"Oshiwara Gate 3 (New Link Road - East Side North)",19.146229,72.834102,2,STN_L2A_015,,LVL_STN_L2A_015_G,1
-ENT_STN_L2A_015_4,"Oshiwara Gate 4 (New Link Road - East Side South)",19.145729,72.834102,2,STN_L2A_015,,LVL_STN_L2A_015_G,0
-ENT_STN_L2A_016_1,"Lower Oshiwara Gate 1 (New Link Road - West Side North)",19.140705,72.831367,2,STN_L2A_016,,LVL_STN_L2A_016_G,1
-ENT_STN_L2A_016_2,"Lower Oshiwara Gate 2 (New Link Road - West Side South)",19.140205,72.831367,2,STN_L2A_016,,LVL_STN_L2A_016_G,0
-ENT_STN_L2A_016_3,"Lower Oshiwara Gate 3 (New Link Road - East Side North)",19.140705,72.832067,2,STN_L2A_016,,LVL_STN_L2A_016_G,1
-ENT_STN_L2A_016_4,"Lower Oshiwara Gate 4 (New Link Road - East Side South)",19.140205,72.832067,2,STN_L2A_016,,LVL_STN_L2A_016_G,0
-ENT_STN_L2A_017_1,"Andheri (West) Gate 1 (New Link Road - West Side North)",19.129339,72.831065,2,STN_L2A_017,,LVL_STN_L2A_017_G,1
-ENT_STN_L2A_017_2,"Andheri (West) Gate 2 (New Link Road - West Side South)",19.128839,72.831065,2,STN_L2A_017,,LVL_STN_L2A_017_G,0
-ENT_STN_L2A_017_3,"Andheri (West) Gate 3 (New Link Road - East Side North)",19.129339,72.831765,2,STN_L2A_017,,LVL_STN_L2A_017_G,1
-ENT_STN_L2A_017_4,"Andheri (West) Gate 4 (New Link Road - East Side South)",19.128839,72.831765,2,STN_L2A_017,,LVL_STN_L2A_017_G,0
-ENT_STN_L2A_017_FOB,"Andheri (West) Interchange Concourse Link (Line 1)",19.129239,72.831715,2,STN_L2A_017,,LVL_STN_L2A_017_C,1
-ENT_STN_L2B_015_1,"Chembur Gate 1 (West Side - North)",19.054184,72.892294,2,STN_L2B_015,,LVL_STN_L2B_015_G,1
-ENT_STN_L2B_015_2,"Chembur Gate 2 (West Side - South)",19.053684,72.892294,2,STN_L2B_015,,LVL_STN_L2B_015_G,0
-ENT_STN_L2B_015_3,"Chembur Gate 3 (East Side - North)",19.054184,72.892994,2,STN_L2B_015,,LVL_STN_L2B_015_G,1
-ENT_STN_L2B_015_4,"Chembur Gate 4 (East Side - South)",19.053684,72.892994,2,STN_L2B_015,,LVL_STN_L2B_015_G,0
-ENT_STN_L2B_016_1,"Diamond Garden Gate 1 (West Side - North)",19.052108,72.901136,2,STN_L2B_016,,LVL_STN_L2B_016_G,1
-ENT_STN_L2B_016_2,"Diamond Garden Gate 2 (West Side - South)",19.051608,72.901136,2,STN_L2B_016,,LVL_STN_L2B_016_G,0
-ENT_STN_L2B_016_3,"Diamond Garden Gate 3 (East Side - North)",19.052108,72.901836,2,STN_L2B_016,,LVL_STN_L2B_016_G,1
-ENT_STN_L2B_016_4,"Diamond Garden Gate 4 (East Side - South)",19.051608,72.901836,2,STN_L2B_016,,LVL_STN_L2B_016_G,0
-ENT_STN_L2B_017_1,"Shivaji Chowk Gate 1 (West Side - North)",19.048195,72.906514,2,STN_L2B_017,,LVL_STN_L2B_017_G,1
-ENT_STN_L2B_017_2,"Shivaji Chowk Gate 2 (West Side - South)",19.047695,72.906514,2,STN_L2B_017,,LVL_STN_L2B_017_G,0
-ENT_STN_L2B_017_3,"Shivaji Chowk Gate 3 (East Side - North)",19.048195,72.907214,2,STN_L2B_017,,LVL_STN_L2B_017_G,1
-ENT_STN_L2B_017_4,"Shivaji Chowk Gate 4 (East Side - South)",19.047695,72.907214,2,STN_L2B_017,,LVL_STN_L2B_017_G,0
-ENT_STN_L2B_018_1,"BSNL Metro Gate 1 (West Side - North)",19.045070,72.916926,2,STN_L2B_018,,LVL_STN_L2B_018_G,1
-ENT_STN_L2B_018_2,"BSNL Metro Gate 2 (West Side - South)",19.044570,72.916926,2,STN_L2B_018,,LVL_STN_L2B_018_G,0
-ENT_STN_L2B_018_3,"BSNL Metro Gate 3 (East Side - North)",19.045070,72.917626,2,STN_L2B_018,,LVL_STN_L2B_018_G,1
-ENT_STN_L2B_018_4,"BSNL Metro Gate 4 (East Side - South)",19.044570,72.917626,2,STN_L2B_018,,LVL_STN_L2B_018_G,0
-ENT_STN_L2B_019_1,"Mankhurd Gate 1 (West Side - North)",19.049003,72.929675,2,STN_L2B_019,,LVL_STN_L2B_019_G,1
-ENT_STN_L2B_019_2,"Mankhurd Gate 2 (West Side - South)",19.048503,72.929675,2,STN_L2B_019,,LVL_STN_L2B_019_G,0
-ENT_STN_L2B_019_3,"Mankhurd Gate 3 (East Side - North)",19.049003,72.930375,2,STN_L2B_019,,LVL_STN_L2B_019_G,1
-ENT_STN_L2B_019_4,"Mankhurd Gate 4 (East Side - South)",19.048503,72.930375,2,STN_L2B_019,,LVL_STN_L2B_019_G,0
-ENT_STN_L2B_020_1,"Mandale Gate 1 (West Side - North)",19.049340,72.938445,2,STN_L2B_020,,LVL_STN_L2B_020_G,1
-ENT_STN_L2B_020_2,"Mandale Gate 2 (West Side - South)",19.048840,72.938445,2,STN_L2B_020,,LVL_STN_L2B_020_G,0
-ENT_STN_L2B_020_3,"Mandale Gate 3 (East Side - North)",19.049340,72.939145,2,STN_L2B_020,,LVL_STN_L2B_020_G,1
-ENT_STN_L2B_020_4,"Mandale Gate 4 (East Side - South)",19.048840,72.939145,2,STN_L2B_020,,LVL_STN_L2B_020_G,0
-ENT_STN_L3_001_A1,"Aarey JVLR Gate A1 (Jogeshwari-Vikhroli Link Road (JVLR))",19.131210,72.884005,2,STN_L3_001,,LVL_STN_L3_001_G,1
-ENT_STN_L3_001_B1,"Aarey JVLR Gate B1 (JVLR (East) / Powai & Milind Nagar)",19.131210,72.884505,2,STN_L3_001,,LVL_STN_L3_001_G,1
-ENT_STN_L3_002_A1,"SEEPZ Gate A1 (Holy Spirit Hospital)",19.125980,72.873197,2,STN_L3_002,,LVL_STN_L3_002_G,1
-ENT_STN_L3_002_A2,"SEEPZ Gate A2 (C Cross Road Junction - Bus Stop)",19.125580,72.873197,2,STN_L3_002,,LVL_STN_L3_002_G,0
-ENT_STN_L3_002_B1,"SEEPZ Gate B1 (Directi Seepz Office)",19.125980,72.873697,2,STN_L3_002,,LVL_STN_L3_002_G,1
-ENT_STN_L3_002_B2,"SEEPZ Gate B2 (Electronic Regional Test Laboratory)",19.125580,72.873697,2,STN_L3_002,,LVL_STN_L3_002_G,0
-ENT_STN_L3_003_A1,"MIDC Gate A1 (Hotel Suncity Residency)",19.117503,72.873570,2,STN_L3_003,,LVL_STN_L3_003_G,1
-ENT_STN_L3_003_A2,"MIDC Gate A2 (Passport Seva Kendra)",19.117103,72.873570,2,STN_L3_003,,LVL_STN_L3_003_G,0
-ENT_STN_L3_003_B1,"MIDC Gate B1 (Ackruti Trade Centre)",19.117503,72.874070,2,STN_L3_003,,LVL_STN_L3_003_G,1
-ENT_STN_L3_003_B2,"MIDC Gate B2 (East Pavilion Surface Access)",19.117103,72.874070,2,STN_L3_003,,LVL_STN_L3_003_G,0
-ENT_STN_L3_004_A1,"Marol Naka Gate A1 (Pearl Academy)",19.108636,72.878329,2,STN_L3_004,,LVL_STN_L3_004_G,1
-ENT_STN_L3_004_A2,"Marol Naka Gate A2 (Waterstones Hotel)",19.108236,72.878329,2,STN_L3_004,,LVL_STN_L3_004_G,0
-ENT_STN_L3_004_B1,"Marol Naka Gate B1 (Hotel Sahar Garden)",19.108636,72.878829,2,STN_L3_004,,LVL_STN_L3_004_G,1
-ENT_STN_L3_004_B2,"Marol Naka Gate B2 (Marol Naka/Mata Ramabai Ambedkar Chowk (Towards CSMIA/JB Nagar))",19.108236,72.878829,2,STN_L3_004,,LVL_STN_L3_004_G,0
-ENT_STN_L3_005_A1,"CSMIA Terminal 2 Gate A1 (West Pavilion Surface Access)",19.102474,72.874163,2,STN_L3_005,,LVL_STN_L3_005_G,1
-ENT_STN_L3_005_A2,"CSMIA Terminal 2 Gate A2 (Air India Air Transport Services Ltd)",19.102074,72.874163,2,STN_L3_005,,LVL_STN_L3_005_G,0
-ENT_STN_L3_005_B1,"CSMIA Terminal 2 Gate B1 (Airport Health Organization)",19.102474,72.874663,2,STN_L3_005,,LVL_STN_L3_005_G,1
-ENT_STN_L3_006_A1,"Sahar Road Gate A1 (Air India Hanger Narrow Body)",19.102396,72.865049,2,STN_L3_006,,LVL_STN_L3_006_G,1
-ENT_STN_L3_006_A2,"Sahar Road Gate A2 (West Pavilion Surface Access)",19.101996,72.865049,2,STN_L3_006,,LVL_STN_L3_006_G,0
-ENT_STN_L3_006_A3,"Sahar Road Gate A3 (West Pavilion Surface Access)",19.102396,72.865049,2,STN_L3_006,,LVL_STN_L3_006_G,0
-ENT_STN_L3_006_A4,"Sahar Road Gate A4 (Jet Airways)",19.101996,72.865049,2,STN_L3_006,,LVL_STN_L3_006_G,0
-ENT_STN_L3_006_A5,"Sahar Road Gate A5 (Hotel Le Grande)",19.102396,72.865049,2,STN_L3_006,,LVL_STN_L3_006_G,0
-ENT_STN_L3_006_B1,"Sahar Road Gate B1 (Cargo Complex)",19.102396,72.865549,2,STN_L3_006,,LVL_STN_L3_006_G,1
-ENT_STN_L3_006_FOB,"Sahar Road Terminal 2 Pedestrian Link FOB",19.102346,72.865599,2,STN_L3_006,,LVL_STN_L3_006_C,1
-ENT_STN_L3_007_A1,"CSMIA Terminal 1 Gate A1 (Domestic Airport Taxi Pickup Point)",19.094126,72.853197,2,STN_L3_007,,LVL_STN_L3_007_G,1
-ENT_STN_L3_007_B1,"CSMIA Terminal 1 Gate B1 (Gujarat Society / Dayaldas Road (Towards Vakola))",19.094126,72.853697,2,STN_L3_007,,LVL_STN_L3_007_G,1
-ENT_STN_L3_008_A1,"Santacruz Gate A1 (Grand Hyatt Mumbai)",19.078728,72.846931,2,STN_L3_008,,LVL_STN_L3_008_G,1
-ENT_STN_L3_008_A2,"Santacruz Gate A2 (West Pavilion Surface Access)",19.078328,72.846931,2,STN_L3_008,,LVL_STN_L3_008_G,0
-ENT_STN_L3_008_B1,"Santacruz Gate B1 (Vakola Police Station)",19.078728,72.847431,2,STN_L3_008,,LVL_STN_L3_008_G,1
-ENT_STN_L3_008_B2,"Santacruz Gate B2 (Santacruz Station (East) Bus Station)",19.078328,72.847431,2,STN_L3_008,,LVL_STN_L3_008_G,0
-ENT_STN_L3_009_A1,"Bandra Colony Gate A1 (Cardinal Gracias High School)",19.070303,72.849016,2,STN_L3_009,,LVL_STN_L3_009_G,1
-ENT_STN_L3_009_A2,"Bandra Colony Gate A2 (Hallamrk Business Plazza)",19.069903,72.849016,2,STN_L3_009,,LVL_STN_L3_009_G,0
-ENT_STN_L3_009_B1,"Bandra Colony Gate B1 (Khar Road Suburban Railway Station (Western))",19.070303,72.849516,2,STN_L3_009,,LVL_STN_L3_009_G,1
-ENT_STN_L3_009_B2,"Bandra Colony Gate B2 (Directorate Of Maharashtra Fire Service)",19.069903,72.849516,2,STN_L3_009,,LVL_STN_L3_009_G,0
-ENT_STN_L3_010_A1,"BKC Gate A1 (Securities and Exchange Board of India (SEBI))",19.060416,72.854706,2,STN_L3_010,,LVL_STN_L3_010_G,1
-ENT_STN_L3_010_A2,"BKC Gate A2 (NABARD Head Office)",19.060016,72.854706,2,STN_L3_010,,LVL_STN_L3_010_G,0
-ENT_STN_L3_010_A3,"BKC Gate A3 (Maharashtra Housing And Area Development Authority)",19.060416,72.854706,2,STN_L3_010,,LVL_STN_L3_010_G,0
-ENT_STN_L3_010_A4,"BKC Gate A4 (Income Tax Office(Towards Kala Nagar))",19.060016,72.854706,2,STN_L3_010,,LVL_STN_L3_010_G,0
-ENT_STN_L3_010_A5,"BKC Gate A5 (Jio Mall)",19.060416,72.854706,2,STN_L3_010,,LVL_STN_L3_010_G,0
-ENT_STN_L3_010_B1,"BKC Gate B1 (RNA Corporate Park)",19.060416,72.855206,2,STN_L3_010,,LVL_STN_L3_010_G,1
-ENT_STN_L3_011_A1,"Dharavi Gate A1 (Canossa High School)",19.046477,72.849702,2,STN_L3_011,,LVL_STN_L3_011_G,1
-ENT_STN_L3_011_A2,"Dharavi Gate A2 (Ongc (Oil & Natural Gas Company))",19.046077,72.849702,2,STN_L3_011,,LVL_STN_L3_011_G,0
-ENT_STN_L3_011_B1,"Dharavi Gate B1 (Bharat Ratna Dr.Babasaheb Ambedkar School & Junior College)",19.046477,72.850202,2,STN_L3_011,,LVL_STN_L3_011_G,1
-ENT_STN_L3_011_B2,"Dharavi Gate B2 (Dharavi T Junction/Ganpatrao Tapase Chowk - Bus Stop)",19.046077,72.850202,2,STN_L3_011,,LVL_STN_L3_011_G,0
-ENT_STN_L3_012_A1,"Sitladevi Gate A1 (P. D.  Hinduja Hospital & Medical Research Centre)",19.038592,72.841883,2,STN_L3_012,,LVL_STN_L3_012_G,1
-ENT_STN_L3_012_A2,"Sitladevi Gate A2 (Cannossa Special School)",19.038192,72.841883,2,STN_L3_012,,LVL_STN_L3_012_G,0
-ENT_STN_L3_012_B1,"Sitladevi Gate B1 (East Pavilion Surface Access)",19.038592,72.842383,2,STN_L3_012,,LVL_STN_L3_012_G,1
-ENT_STN_L3_012_B2,"Sitladevi Gate B2 (Mahim Fort)",19.038192,72.842383,2,STN_L3_012,,LVL_STN_L3_012_G,0
-ENT_STN_L3_012_B3,"Sitladevi Gate B3 (Raheja Hospital)",19.038592,72.842383,2,STN_L3_012,,LVL_STN_L3_012_G,0
-ENT_STN_L3_013_A1,"Dadar Metro Gate A1 (West Pavilion Surface Access)",19.023867,72.839050,2,STN_L3_013,,LVL_STN_L3_013_G,1
-ENT_STN_L3_013_A2,"Dadar Metro Gate A2 (Ranade Road Junction - Bus Stop)",19.023467,72.839050,2,STN_L3_013,,LVL_STN_L3_013_G,0
+ENT_STN_L1_001_1,Versova Gate 1 (J.P. Road - North-West Side),19.1305046,72.8206611,2,STN_L1_001,,LVL_STN_L1_001_G,1
+ENT_STN_L1_001_2,Versova Gate 2 (J.P. Road - North-East Side),19.1303522,72.8215985,2,STN_L1_001,,LVL_STN_L1_001_G,0
+ENT_STN_L1_001_3,Versova Gate 3 (J.P. Road - South-West Side),19.130028,72.821137,2,STN_L1_001,,LVL_STN_L1_001_G,1
+ENT_STN_L1_001_4,Versova Gate 4 (J.P. Road - South-East Side),19.1303522,72.8215985,2,STN_L1_001,,LVL_STN_L1_001_G,0
+ENT_STN_L1_002_1,D. N. Nagar Gate 1 (J.P. Road - North-West Side),19.1282721,72.8307440,2,STN_L1_002,,LVL_STN_L1_002_G,1
+ENT_STN_L1_002_2,D. N. Nagar Gate 2 (J.P. Road - North-East Side),19.1282811,72.8309311,2,STN_L1_002,,LVL_STN_L1_002_G,0
+ENT_STN_L1_002_3,D. N. Nagar Gate 3 (J.P. Road - South-West Side),19.1278285,72.8308602,2,STN_L1_002,,LVL_STN_L1_002_G,1
+ENT_STN_L1_002_4,D. N. Nagar Gate 4 (J.P. Road - South-East Side),19.1278285,72.8308602,2,STN_L1_002,,LVL_STN_L1_002_G,0
+ENT_STN_L1_002_FOB,D. N. Nagar Interchange Concourse Link (Line 2A),19.1282811,72.8309311,2,STN_L1_002,,LVL_STN_L1_002_C,1
+ENT_STN_L1_003_1,Azad Nagar Gate 1 (J.P. Road - North-West Side),19.127055,72.838017,2,STN_L1_003,,LVL_STN_L1_003_G,1
+ENT_STN_L1_003_2,Azad Nagar Gate 2 (J.P. Road - North-East Side),19.127055,72.838517,2,STN_L1_003,,LVL_STN_L1_003_G,0
+ENT_STN_L1_003_3,Azad Nagar Gate 3 (J.P. Road - South-West Side),19.126555,72.838017,2,STN_L1_003,,LVL_STN_L1_003_G,1
+ENT_STN_L1_003_4,Azad Nagar Gate 4 (J.P. Road - South-East Side),19.126555,72.838517,2,STN_L1_003,,LVL_STN_L1_003_G,0
+ENT_STN_L1_004_1,Andheri Gate 1 (Andheri-Kurla Road - North-West Side),19.120291,72.849232,2,STN_L1_004,,LVL_STN_L1_004_G,1
+ENT_STN_L1_004_2,Andheri Gate 2 (Andheri-Kurla Road - North-East Side),19.120291,72.849732,2,STN_L1_004,,LVL_STN_L1_004_G,0
+ENT_STN_L1_004_3,Andheri Gate 3 (Andheri-Kurla Road - South-West Side),19.119791,72.849232,2,STN_L1_004,,LVL_STN_L1_004_G,1
+ENT_STN_L1_004_4,Andheri Gate 4 (Andheri-Kurla Road - South-East Side),19.119791,72.849732,2,STN_L1_004,,LVL_STN_L1_004_G,0
+ENT_STN_L1_004_FOB,Andheri Western Railway Interchange FOB,19.120191,72.849782,2,STN_L1_004,,LVL_STN_L1_004_C,1
+ENT_STN_L1_005_1,Western Express Highway Gate 1 (Andheri-Kurla Road - North-West Side),19.1155617,72.8571653,2,STN_L1_005,,LVL_STN_L1_005_G,1
+ENT_STN_L1_005_2,Western Express Highway Gate 2 (Andheri-Kurla Road - North-East Side),19.1155617,72.8571653,2,STN_L1_005,,LVL_STN_L1_005_G,0
+ENT_STN_L1_005_3,Western Express Highway Gate 3 (Andheri-Kurla Road - South-West Side),19.1152936,72.8570927,2,STN_L1_005,,LVL_STN_L1_005_G,1
+ENT_STN_L1_005_4,Western Express Highway Gate 4 (Andheri-Kurla Road - South-East Side),19.1152936,72.8570927,2,STN_L1_005,,LVL_STN_L1_005_G,0
+ENT_STN_L1_005_FOB,Western Express Highway Interchange FOB (Line 7 Gundavali Link),19.1155617,72.8571653,2,STN_L1_005,,LVL_STN_L1_005_C,1
+ENT_STN_L1_006_1,Chakala (J.B. Nagar) Gate 1 (Andheri-Kurla Road - North-West Side),19.112157,72.867992,2,STN_L1_006,,LVL_STN_L1_006_G,1
+ENT_STN_L1_006_2,Chakala (J.B. Nagar) Gate 2 (Andheri-Kurla Road - North-East Side),19.112157,72.868492,2,STN_L1_006,,LVL_STN_L1_006_G,0
+ENT_STN_L1_006_3,Chakala (J.B. Nagar) Gate 3 (Andheri-Kurla Road - South-West Side),19.111657,72.867992,2,STN_L1_006,,LVL_STN_L1_006_G,1
+ENT_STN_L1_006_4,Chakala (J.B. Nagar) Gate 4 (Andheri-Kurla Road - South-East Side),19.111657,72.868492,2,STN_L1_006,,LVL_STN_L1_006_G,0
+ENT_STN_L1_007_1,Airport Road Gate 1 (Andheri-Kurla Road - North-West Side),19.110165,72.874547,2,STN_L1_007,,LVL_STN_L1_007_G,1
+ENT_STN_L1_007_2,Airport Road Gate 2 (Andheri-Kurla Road - North-East Side),19.110165,72.875047,2,STN_L1_007,,LVL_STN_L1_007_G,0
+ENT_STN_L1_007_3,Airport Road Gate 3 (Andheri-Kurla Road - South-West Side),19.109665,72.874547,2,STN_L1_007,,LVL_STN_L1_007_G,1
+ENT_STN_L1_007_4,Airport Road Gate 4 (Andheri-Kurla Road - South-East Side),19.109665,72.875047,2,STN_L1_007,,LVL_STN_L1_007_G,0
+ENT_STN_L1_008_1,Marol Naka Gate 1 (Andheri-Kurla Road - North-West Side),19.1080911,72.8801896,2,STN_L1_008,,LVL_STN_L1_008_G,1
+ENT_STN_L1_008_2,Marol Naka Gate 2 (Andheri-Kurla Road - North-East Side),19.1080911,72.8801896,2,STN_L1_008,,LVL_STN_L1_008_G,0
+ENT_STN_L1_008_3,Marol Naka Gate 3 (Andheri-Kurla Road - South-West Side),19.1080911,72.8801896,2,STN_L1_008,,LVL_STN_L1_008_G,1
+ENT_STN_L1_008_4,Marol Naka Gate 4 (Andheri-Kurla Road - South-East Side),19.1080911,72.8801896,2,STN_L1_008,,LVL_STN_L1_008_G,0
+ENT_STN_L1_009_1,Saki Naka Gate 1 (Andheri-Kurla Road - North-West Side),19.103467,72.888259,2,STN_L1_009,,LVL_STN_L1_009_G,1
+ENT_STN_L1_009_2,Saki Naka Gate 2 (Andheri-Kurla Road - North-East Side),19.103467,72.888759,2,STN_L1_009,,LVL_STN_L1_009_G,0
+ENT_STN_L1_009_3,Saki Naka Gate 3 (Andheri-Kurla Road - South-West Side),19.102967,72.888259,2,STN_L1_009,,LVL_STN_L1_009_G,1
+ENT_STN_L1_009_4,Saki Naka Gate 4 (Andheri-Kurla Road - South-East Side),19.102967,72.888759,2,STN_L1_009,,LVL_STN_L1_009_G,0
+ENT_STN_L1_010_1,Asalpha Gate 1 (Andheri-Kurla Road - North-West Side),19.096347,72.895163,2,STN_L1_010,,LVL_STN_L1_010_G,1
+ENT_STN_L1_010_2,Asalpha Gate 2 (Andheri-Kurla Road - North-East Side),19.096347,72.895663,2,STN_L1_010,,LVL_STN_L1_010_G,0
+ENT_STN_L1_010_3,Asalpha Gate 3 (Andheri-Kurla Road - South-West Side),19.095847,72.895163,2,STN_L1_010,,LVL_STN_L1_010_G,1
+ENT_STN_L1_010_4,Asalpha Gate 4 (Andheri-Kurla Road - South-East Side),19.095847,72.895663,2,STN_L1_010,,LVL_STN_L1_010_G,0
+ENT_STN_L1_011_1,Jagruti Nagar Gate 1 (Andheri-Kurla Road - North-West Side),19.092421,72.902350,2,STN_L1_011,,LVL_STN_L1_011_G,1
+ENT_STN_L1_011_2,Jagruti Nagar Gate 2 (Andheri-Kurla Road - North-East Side),19.092421,72.902850,2,STN_L1_011,,LVL_STN_L1_011_G,0
+ENT_STN_L1_011_3,Jagruti Nagar Gate 3 (Andheri-Kurla Road - South-West Side),19.091921,72.902350,2,STN_L1_011,,LVL_STN_L1_011_G,1
+ENT_STN_L1_011_4,Jagruti Nagar Gate 4 (Andheri-Kurla Road - South-East Side),19.091921,72.902850,2,STN_L1_011,,LVL_STN_L1_011_G,0
+ENT_STN_L1_012_1,Ghatkopar Gate 1 (Andheri-Kurla Road - North-West Side),19.0869299,72.9079302,2,STN_L1_012,,LVL_STN_L1_012_G,1
+ENT_STN_L1_012_2,Ghatkopar Gate 2 (Andheri-Kurla Road - North-East Side),19.0863177,72.9085310,2,STN_L1_012,,LVL_STN_L1_012_G,0
+ENT_STN_L1_012_3,Ghatkopar Gate 3 (Andheri-Kurla Road - South-West Side),19.0857522,72.9078051,2,STN_L1_012,,LVL_STN_L1_012_G,1
+ENT_STN_L1_012_4,Ghatkopar Gate 4 (Andheri-Kurla Road - South-East Side),19.0860146,72.9083147,2,STN_L1_012,,LVL_STN_L1_012_G,0
+ENT_STN_L1_012_FOB,Ghatkopar Central Railway Interchange FOB,19.0863177,72.9085310,2,STN_L1_012,,LVL_STN_L1_012_C,1
+ENT_STN_L2A_001_1,Dahisar (East) Gate 1 (New Link Road - West Side North),19.251513,72.866769,2,STN_L2A_001,,LVL_STN_L2A_001_G,1
+ENT_STN_L2A_001_2,Dahisar (East) Gate 2 (New Link Road - West Side South),19.251013,72.866769,2,STN_L2A_001,,LVL_STN_L2A_001_G,0
+ENT_STN_L2A_001_3,Dahisar (East) Gate 3 (New Link Road - East Side North),19.251513,72.867469,2,STN_L2A_001,,LVL_STN_L2A_001_G,1
+ENT_STN_L2A_001_4,Dahisar (East) Gate 4 (New Link Road - East Side South),19.251013,72.867469,2,STN_L2A_001,,LVL_STN_L2A_001_G,0
+ENT_STN_L2A_002_1,Anand Nagar Gate 1 (New Link Road - West Side North),19.257469,72.865784,2,STN_L2A_002,,LVL_STN_L2A_002_G,1
+ENT_STN_L2A_002_2,Anand Nagar Gate 2 (New Link Road - West Side South),19.256969,72.865784,2,STN_L2A_002,,LVL_STN_L2A_002_G,0
+ENT_STN_L2A_002_3,Anand Nagar Gate 3 (New Link Road - East Side North),19.257469,72.866484,2,STN_L2A_002,,LVL_STN_L2A_002_G,1
+ENT_STN_L2A_002_4,Anand Nagar Gate 4 (New Link Road - East Side South),19.256969,72.866484,2,STN_L2A_002,,LVL_STN_L2A_002_G,0
+ENT_STN_L2A_003_1,Kandarpada Gate 1 (New Link Road - West Side North),19.256896,72.850328,2,STN_L2A_003,,LVL_STN_L2A_003_G,1
+ENT_STN_L2A_003_2,Kandarpada Gate 2 (New Link Road - West Side South),19.256396,72.850328,2,STN_L2A_003,,LVL_STN_L2A_003_G,0
+ENT_STN_L2A_003_3,Kandarpada Gate 3 (New Link Road - East Side North),19.256896,72.851028,2,STN_L2A_003,,LVL_STN_L2A_003_G,1
+ENT_STN_L2A_003_4,Kandarpada Gate 4 (New Link Road - East Side South),19.256396,72.851028,2,STN_L2A_003,,LVL_STN_L2A_003_G,0
+ENT_STN_L2A_004_1,Mandapeshwar Gate 1 (New Link Road - West Side North),19.249511,72.845327,2,STN_L2A_004,,LVL_STN_L2A_004_G,1
+ENT_STN_L2A_004_2,Mandapeshwar Gate 2 (New Link Road - West Side South),19.249011,72.845327,2,STN_L2A_004,,LVL_STN_L2A_004_G,0
+ENT_STN_L2A_004_3,Mandapeshwar Gate 3 (New Link Road - East Side North),19.249511,72.846027,2,STN_L2A_004,,LVL_STN_L2A_004_G,1
+ENT_STN_L2A_004_4,Mandapeshwar Gate 4 (New Link Road - East Side South),19.249011,72.846027,2,STN_L2A_004,,LVL_STN_L2A_004_G,0
+ENT_STN_L2A_005_1,Eksar Gate 1 (New Link Road - West Side North),19.240573,72.843088,2,STN_L2A_005,,LVL_STN_L2A_005_G,1
+ENT_STN_L2A_005_2,Eksar Gate 2 (New Link Road - West Side South),19.240073,72.843088,2,STN_L2A_005,,LVL_STN_L2A_005_G,0
+ENT_STN_L2A_005_3,Eksar Gate 3 (New Link Road - East Side North),19.240573,72.843788,2,STN_L2A_005,,LVL_STN_L2A_005_G,1
+ENT_STN_L2A_005_4,Eksar Gate 4 (New Link Road - East Side South),19.240073,72.843788,2,STN_L2A_005,,LVL_STN_L2A_005_G,0
+ENT_STN_L2A_006_1,Borivali (West) Gate 1 (New Link Road - West Side North),19.231444,72.840515,2,STN_L2A_006,,LVL_STN_L2A_006_G,1
+ENT_STN_L2A_006_2,Borivali (West) Gate 2 (New Link Road - West Side South),19.230944,72.840515,2,STN_L2A_006,,LVL_STN_L2A_006_G,0
+ENT_STN_L2A_006_3,Borivali (West) Gate 3 (New Link Road - East Side North),19.231444,72.841215,2,STN_L2A_006,,LVL_STN_L2A_006_G,1
+ENT_STN_L2A_006_4,Borivali (West) Gate 4 (New Link Road - East Side South),19.230944,72.841215,2,STN_L2A_006,,LVL_STN_L2A_006_G,0
+ENT_STN_L2A_007_1,Shimpoli Gate 1 (New Link Road - West Side North),19.223019,72.840568,2,STN_L2A_007,,LVL_STN_L2A_007_G,1
+ENT_STN_L2A_007_2,Shimpoli Gate 2 (New Link Road - West Side South),19.222519,72.840568,2,STN_L2A_007,,LVL_STN_L2A_007_G,0
+ENT_STN_L2A_007_3,Shimpoli Gate 3 (New Link Road - East Side North),19.223019,72.841268,2,STN_L2A_007,,LVL_STN_L2A_007_G,1
+ENT_STN_L2A_007_4,Shimpoli Gate 4 (New Link Road - East Side South),19.222519,72.841268,2,STN_L2A_007,,LVL_STN_L2A_007_G,0
+ENT_STN_L2A_008_1,Kandivali (West) Gate 1 (New Link Road - West Side North),19.214255,72.837005,2,STN_L2A_008,,LVL_STN_L2A_008_G,1
+ENT_STN_L2A_008_2,Kandivali (West) Gate 2 (New Link Road - West Side South),19.213755,72.837005,2,STN_L2A_008,,LVL_STN_L2A_008_G,0
+ENT_STN_L2A_008_3,Kandivali (West) Gate 3 (New Link Road - East Side North),19.214255,72.837705,2,STN_L2A_008,,LVL_STN_L2A_008_G,1
+ENT_STN_L2A_008_4,Kandivali (West) Gate 4 (New Link Road - East Side South),19.213755,72.837705,2,STN_L2A_008,,LVL_STN_L2A_008_G,0
+ENT_STN_L2A_009_1,Dahanukarwadi Gate 1 (New Link Road - West Side North),19.206022,72.834367,2,STN_L2A_009,,LVL_STN_L2A_009_G,1
+ENT_STN_L2A_009_2,Dahanukarwadi Gate 2 (New Link Road - West Side South),19.205522,72.834367,2,STN_L2A_009,,LVL_STN_L2A_009_G,0
+ENT_STN_L2A_009_3,Dahanukarwadi Gate 3 (New Link Road - East Side North),19.206022,72.835067,2,STN_L2A_009,,LVL_STN_L2A_009_G,1
+ENT_STN_L2A_009_4,Dahanukarwadi Gate 4 (New Link Road - East Side South),19.205522,72.835067,2,STN_L2A_009,,LVL_STN_L2A_009_G,0
+ENT_STN_L2A_010_1,Valnai - Meeth Chowky Gate 1 (New Link Road - West Side North),19.196871,72.833436,2,STN_L2A_010,,LVL_STN_L2A_010_G,1
+ENT_STN_L2A_010_2,Valnai - Meeth Chowky Gate 2 (New Link Road - West Side South),19.196371,72.833436,2,STN_L2A_010,,LVL_STN_L2A_010_G,0
+ENT_STN_L2A_010_3,Valnai - Meeth Chowky Gate 3 (New Link Road - East Side North),19.196871,72.834136,2,STN_L2A_010,,LVL_STN_L2A_010_G,1
+ENT_STN_L2A_010_4,Valnai - Meeth Chowky Gate 4 (New Link Road - East Side South),19.196371,72.834136,2,STN_L2A_010,,LVL_STN_L2A_010_G,0
+ENT_STN_L2A_011_1,Malad (West) Gate 1 (New Link Road - West Side North),19.185450,72.835500,2,STN_L2A_011,,LVL_STN_L2A_011_G,1
+ENT_STN_L2A_011_2,Malad (West) Gate 2 (New Link Road - West Side South),19.184950,72.835500,2,STN_L2A_011,,LVL_STN_L2A_011_G,0
+ENT_STN_L2A_011_3,Malad (West) Gate 3 (New Link Road - East Side North),19.185450,72.836200,2,STN_L2A_011,,LVL_STN_L2A_011_G,1
+ENT_STN_L2A_011_4,Malad (West) Gate 4 (New Link Road - East Side South),19.184950,72.836200,2,STN_L2A_011,,LVL_STN_L2A_011_G,0
+ENT_STN_L2A_012_1,Lower Malad Gate 1 (New Link Road - West Side North),19.173203,72.836073,2,STN_L2A_012,,LVL_STN_L2A_012_G,1
+ENT_STN_L2A_012_2,Lower Malad Gate 2 (New Link Road - West Side South),19.172703,72.836073,2,STN_L2A_012,,LVL_STN_L2A_012_G,0
+ENT_STN_L2A_012_3,Lower Malad Gate 3 (New Link Road - East Side North),19.173203,72.836773,2,STN_L2A_012,,LVL_STN_L2A_012_G,1
+ENT_STN_L2A_012_4,Lower Malad Gate 4 (New Link Road - East Side South),19.172703,72.836773,2,STN_L2A_012,,LVL_STN_L2A_012_G,0
+ENT_STN_L2A_013_1,Bangur Nagar Gate 1 (New Link Road - West Side North),19.162509,72.834494,2,STN_L2A_013,,LVL_STN_L2A_013_G,1
+ENT_STN_L2A_013_2,Bangur Nagar Gate 2 (New Link Road - West Side South),19.162009,72.834494,2,STN_L2A_013,,LVL_STN_L2A_013_G,0
+ENT_STN_L2A_013_3,Bangur Nagar Gate 3 (New Link Road - East Side North),19.162509,72.835194,2,STN_L2A_013,,LVL_STN_L2A_013_G,1
+ENT_STN_L2A_013_4,Bangur Nagar Gate 4 (New Link Road - East Side South),19.162009,72.835194,2,STN_L2A_013,,LVL_STN_L2A_013_G,0
+ENT_STN_L2A_014_1,Goregaon (West) Gate 1 (New Link Road - West Side North),19.153388,72.835335,2,STN_L2A_014,,LVL_STN_L2A_014_G,1
+ENT_STN_L2A_014_2,Goregaon (West) Gate 2 (New Link Road - West Side South),19.152888,72.835335,2,STN_L2A_014,,LVL_STN_L2A_014_G,0
+ENT_STN_L2A_014_3,Goregaon (West) Gate 3 (New Link Road - East Side North),19.153388,72.836035,2,STN_L2A_014,,LVL_STN_L2A_014_G,1
+ENT_STN_L2A_014_4,Goregaon (West) Gate 4 (New Link Road - East Side South),19.152888,72.836035,2,STN_L2A_014,,LVL_STN_L2A_014_G,0
+ENT_STN_L2A_015_1,Oshiwara Gate 1 (New Link Road - West Side North),19.1461921,72.8334943,2,STN_L2A_015,,LVL_STN_L2A_015_G,1
+ENT_STN_L2A_015_2,Oshiwara Gate 2 (New Link Road - West Side South),19.1458546,72.8333322,2,STN_L2A_015,,LVL_STN_L2A_015_G,1
+ENT_STN_L2A_015_3,Oshiwara Gate 3 (New Link Road - East Side North),19.146229,72.834102,2,STN_L2A_015,,LVL_STN_L2A_015_G,1
+ENT_STN_L2A_015_4,Oshiwara Gate 4 (New Link Road - East Side South),19.145729,72.834102,2,STN_L2A_015,,LVL_STN_L2A_015_G,0
+ENT_STN_L2A_016_1,Lower Oshiwara Gate 1 (New Link Road - West Side North),19.140705,72.831367,2,STN_L2A_016,,LVL_STN_L2A_016_G,1
+ENT_STN_L2A_016_2,Lower Oshiwara Gate 2 (New Link Road - West Side South),19.1397952,72.8315679,2,STN_L2A_016,,LVL_STN_L2A_016_G,0
+ENT_STN_L2A_016_3,Lower Oshiwara Gate 3 (New Link Road - East Side North),19.140705,72.832067,2,STN_L2A_016,,LVL_STN_L2A_016_G,1
+ENT_STN_L2A_016_4,Lower Oshiwara Gate 4 (New Link Road - East Side South),19.1401805,72.8318459,2,STN_L2A_016,,LVL_STN_L2A_016_G,1
+ENT_STN_L2A_017_1,Andheri (West) Gate 1 (New Link Road - West Side North),19.129339,72.831065,2,STN_L2A_017,,LVL_STN_L2A_017_G,1
+ENT_STN_L2A_017_2,Andheri (West) Gate 2 (New Link Road - West Side South),19.128839,72.831065,2,STN_L2A_017,,LVL_STN_L2A_017_G,0
+ENT_STN_L2A_017_3,Andheri (West) Gate 3 (New Link Road - East Side North),19.1297505,72.8316696,2,STN_L2A_017,,LVL_STN_L2A_017_G,1
+ENT_STN_L2A_017_4,Andheri (West) Gate 4 (New Link Road - East Side South),19.128839,72.831765,2,STN_L2A_017,,LVL_STN_L2A_017_G,0
+ENT_STN_L2A_017_FOB,Andheri (West) Interchange Concourse Link (Line 1),19.1297505,72.8316696,2,STN_L2A_017,,LVL_STN_L2A_017_C,1
+ENT_STN_L2B_015_1,Chembur Gate 1 (West Side - North),19.054184,72.892294,2,STN_L2B_015,,LVL_STN_L2B_015_G,1
+ENT_STN_L2B_015_2,Chembur Gate 2 (West Side - South),19.053684,72.892294,2,STN_L2B_015,,LVL_STN_L2B_015_G,0
+ENT_STN_L2B_015_3,Chembur Gate 3 (East Side - North),19.054184,72.892994,2,STN_L2B_015,,LVL_STN_L2B_015_G,1
+ENT_STN_L2B_015_4,Chembur Gate 4 (East Side - South),19.053684,72.892994,2,STN_L2B_015,,LVL_STN_L2B_015_G,0
+ENT_STN_L2B_016_1,Diamond Garden Gate 1 (West Side - North),19.052108,72.901136,2,STN_L2B_016,,LVL_STN_L2B_016_G,1
+ENT_STN_L2B_016_2,Diamond Garden Gate 2 (West Side - South),19.051608,72.901136,2,STN_L2B_016,,LVL_STN_L2B_016_G,0
+ENT_STN_L2B_016_3,Diamond Garden Gate 3 (East Side - North),19.052108,72.901836,2,STN_L2B_016,,LVL_STN_L2B_016_G,1
+ENT_STN_L2B_016_4,Diamond Garden Gate 4 (East Side - South),19.051608,72.901836,2,STN_L2B_016,,LVL_STN_L2B_016_G,0
+ENT_STN_L2B_017_1,Shivaji Chowk Gate 1 (West Side - North),19.048195,72.906514,2,STN_L2B_017,,LVL_STN_L2B_017_G,1
+ENT_STN_L2B_017_2,Shivaji Chowk Gate 2 (West Side - South),19.047695,72.906514,2,STN_L2B_017,,LVL_STN_L2B_017_G,0
+ENT_STN_L2B_017_3,Shivaji Chowk Gate 3 (East Side - North),19.048195,72.907214,2,STN_L2B_017,,LVL_STN_L2B_017_G,1
+ENT_STN_L2B_017_4,Shivaji Chowk Gate 4 (East Side - South),19.047695,72.907214,2,STN_L2B_017,,LVL_STN_L2B_017_G,0
+ENT_STN_L2B_018_1,BSNL Metro Gate 1 (West Side - North),19.045070,72.916926,2,STN_L2B_018,,LVL_STN_L2B_018_G,1
+ENT_STN_L2B_018_2,BSNL Metro Gate 2 (West Side - South),19.044570,72.916926,2,STN_L2B_018,,LVL_STN_L2B_018_G,0
+ENT_STN_L2B_018_3,BSNL Metro Gate 3 (East Side - North),19.045070,72.917626,2,STN_L2B_018,,LVL_STN_L2B_018_G,1
+ENT_STN_L2B_018_4,BSNL Metro Gate 4 (East Side - South),19.044570,72.917626,2,STN_L2B_018,,LVL_STN_L2B_018_G,0
+ENT_STN_L2B_019_1,Mankhurd Gate 1 (West Side - North),19.049003,72.929675,2,STN_L2B_019,,LVL_STN_L2B_019_G,1
+ENT_STN_L2B_019_2,Mankhurd Gate 2 (West Side - South),19.048503,72.929675,2,STN_L2B_019,,LVL_STN_L2B_019_G,0
+ENT_STN_L2B_019_3,Mankhurd Gate 3 (East Side - North),19.049003,72.930375,2,STN_L2B_019,,LVL_STN_L2B_019_G,1
+ENT_STN_L2B_019_4,Mankhurd Gate 4 (East Side - South),19.048503,72.930375,2,STN_L2B_019,,LVL_STN_L2B_019_G,0
+ENT_STN_L2B_020_1,Mandale Gate 1 (West Side - North),19.049340,72.938445,2,STN_L2B_020,,LVL_STN_L2B_020_G,1
+ENT_STN_L2B_020_2,Mandale Gate 2 (West Side - South),19.048840,72.938445,2,STN_L2B_020,,LVL_STN_L2B_020_G,0
+ENT_STN_L2B_020_3,Mandale Gate 3 (East Side - North),19.049340,72.939145,2,STN_L2B_020,,LVL_STN_L2B_020_G,1
+ENT_STN_L2B_020_4,Mandale Gate 4 (East Side - South),19.048840,72.939145,2,STN_L2B_020,,LVL_STN_L2B_020_G,0
+ENT_STN_L3_001_A1,Aarey JVLR Gate A1 (Jogeshwari-Vikhroli Link Road (JVLR)),19.131210,72.884005,2,STN_L3_001,,LVL_STN_L3_001_G,1
+ENT_STN_L3_001_B1,Aarey JVLR Gate B1 (JVLR (East) / Powai & Milind Nagar),19.131210,72.884505,2,STN_L3_001,,LVL_STN_L3_001_G,1
+ENT_STN_L3_002_A1,SEEPZ Gate A1 (Holy Spirit Hospital),19.125980,72.873197,2,STN_L3_002,,LVL_STN_L3_002_G,1
+ENT_STN_L3_002_A2,SEEPZ Gate A2 (C Cross Road Junction - Bus Stop),19.125580,72.873197,2,STN_L3_002,,LVL_STN_L3_002_G,0
+ENT_STN_L3_002_B1,SEEPZ Gate B1 (Directi Seepz Office),19.125980,72.873697,2,STN_L3_002,,LVL_STN_L3_002_G,1
+ENT_STN_L3_002_B2,SEEPZ Gate B2 (Electronic Regional Test Laboratory),19.125580,72.873697,2,STN_L3_002,,LVL_STN_L3_002_G,0
+ENT_STN_L3_003_A1,MIDC Gate A1 (Hotel Suncity Residency),19.117503,72.873570,2,STN_L3_003,,LVL_STN_L3_003_G,1
+ENT_STN_L3_003_A2,MIDC Gate A2 (Passport Seva Kendra),19.117103,72.873570,2,STN_L3_003,,LVL_STN_L3_003_G,0
+ENT_STN_L3_003_B1,MIDC Gate B1 (Ackruti Trade Centre),19.117503,72.874070,2,STN_L3_003,,LVL_STN_L3_003_G,1
+ENT_STN_L3_003_B2,MIDC Gate B2 (East Pavilion Surface Access),19.117103,72.874070,2,STN_L3_003,,LVL_STN_L3_003_G,0
+ENT_STN_L3_004_A1,Marol Naka Gate A1 (Pearl Academy),19.1084064,72.8783538,2,STN_L3_004,,LVL_STN_L3_004_G,1
+ENT_STN_L3_004_A2,Marol Naka Gate A2 (Waterstones Hotel),19.1083961,72.8782965,2,STN_L3_004,,LVL_STN_L3_004_G,0
+ENT_STN_L3_004_B1,Marol Naka Gate B1 (Hotel Sahar Garden),19.1082341,72.8787803,2,STN_L3_004,,LVL_STN_L3_004_G,1
+ENT_STN_L3_004_B2,Marol Naka Gate B2 (Marol Naka/Mata Ramabai Ambedkar Chowk (Towards CSMIA/JB Nagar)),19.1082341,72.8787803,2,STN_L3_004,,LVL_STN_L3_004_G,0
+ENT_STN_L3_005_A1,CSMIA Terminal 2 Gate A1 (West Pavilion Surface Access),19.102474,72.874163,2,STN_L3_005,,LVL_STN_L3_005_G,1
+ENT_STN_L3_005_A2,CSMIA Terminal 2 Gate A2 (Air India Air Transport Services Ltd),19.102074,72.874163,2,STN_L3_005,,LVL_STN_L3_005_G,0
+ENT_STN_L3_005_B1,CSMIA Terminal 2 Gate B1 (Airport Health Organization),19.102474,72.874663,2,STN_L3_005,,LVL_STN_L3_005_G,1
+ENT_STN_L3_006_A1,Sahar Road Gate A1 (Air India Hanger Narrow Body),19.102396,72.865049,2,STN_L3_006,,LVL_STN_L3_006_G,1
+ENT_STN_L3_006_A2,Sahar Road Gate A2 (West Pavilion Surface Access),19.101996,72.865049,2,STN_L3_006,,LVL_STN_L3_006_G,0
+ENT_STN_L3_006_A3,Sahar Road Gate A3 (West Pavilion Surface Access),19.102396,72.865049,2,STN_L3_006,,LVL_STN_L3_006_G,0
+ENT_STN_L3_006_A4,Sahar Road Gate A4 (Jet Airways),19.101996,72.865049,2,STN_L3_006,,LVL_STN_L3_006_G,0
+ENT_STN_L3_006_A5,Sahar Road Gate A5 (Hotel Le Grande),19.102396,72.865049,2,STN_L3_006,,LVL_STN_L3_006_G,0
+ENT_STN_L3_006_B1,Sahar Road Gate B1 (Cargo Complex),19.102396,72.865549,2,STN_L3_006,,LVL_STN_L3_006_G,1
+ENT_STN_L3_006_FOB,Sahar Road Terminal 2 Pedestrian Link FOB,19.102346,72.865599,2,STN_L3_006,,LVL_STN_L3_006_C,1
+ENT_STN_L3_007_A1,CSMIA Terminal 1 Gate A1 (Domestic Airport Taxi Pickup Point),19.094126,72.853197,2,STN_L3_007,,LVL_STN_L3_007_G,1
+ENT_STN_L3_007_B1,CSMIA Terminal 1 Gate B1 (Gujarat Society / Dayaldas Road (Towards Vakola)),19.094126,72.853697,2,STN_L3_007,,LVL_STN_L3_007_G,1
+ENT_STN_L3_008_A1,Santacruz Gate A1 (Grand Hyatt Mumbai),19.0790430,72.8466068,2,STN_L3_008,,LVL_STN_L3_008_G,1
+ENT_STN_L3_008_A2,Santacruz Gate A2 (West Pavilion Surface Access),19.078328,72.846931,2,STN_L3_008,,LVL_STN_L3_008_G,0
+ENT_STN_L3_008_B1,Santacruz Gate B1 (Vakola Police Station),19.078728,72.847431,2,STN_L3_008,,LVL_STN_L3_008_G,1
+ENT_STN_L3_008_B2,Santacruz Gate B2 (Santacruz Station (East) Bus Station),19.078328,72.847431,2,STN_L3_008,,LVL_STN_L3_008_G,0
+ENT_STN_L3_009_A1,Bandra Colony Gate A1 (Cardinal Gracias High School),19.070303,72.849016,2,STN_L3_009,,LVL_STN_L3_009_G,1
+ENT_STN_L3_009_A2,Bandra Colony Gate A2 (Hallamrk Business Plazza),19.069903,72.849016,2,STN_L3_009,,LVL_STN_L3_009_G,0
+ENT_STN_L3_009_B1,Bandra Colony Gate B1 (Khar Road Suburban Railway Station (Western)),19.070303,72.849516,2,STN_L3_009,,LVL_STN_L3_009_G,1
+ENT_STN_L3_009_B2,Bandra Colony Gate B2 (Directorate Of Maharashtra Fire Service),19.069903,72.849516,2,STN_L3_009,,LVL_STN_L3_009_G,0
+ENT_STN_L3_010_A1,BKC Gate A1 (Securities and Exchange Board of India (SEBI)),19.060416,72.854706,2,STN_L3_010,,LVL_STN_L3_010_G,1
+ENT_STN_L3_010_A2,BKC Gate A2 (NABARD Head Office),19.060016,72.854706,2,STN_L3_010,,LVL_STN_L3_010_G,0
+ENT_STN_L3_010_A3,BKC Gate A3 (Maharashtra Housing And Area Development Authority),19.060416,72.854706,2,STN_L3_010,,LVL_STN_L3_010_G,0
+ENT_STN_L3_010_A4,BKC Gate A4 (Income Tax Office(Towards Kala Nagar)),19.060016,72.854706,2,STN_L3_010,,LVL_STN_L3_010_G,0
+ENT_STN_L3_010_A5,BKC Gate A5 (Jio Mall),19.060416,72.854706,2,STN_L3_010,,LVL_STN_L3_010_G,0
+ENT_STN_L3_010_B1,BKC Gate B1 (RNA Corporate Park),19.060416,72.855206,2,STN_L3_010,,LVL_STN_L3_010_G,1
+ENT_STN_L3_011_A1,Dharavi Gate A1 (Canossa High School),19.046477,72.849702,2,STN_L3_011,,LVL_STN_L3_011_G,1
+ENT_STN_L3_011_A2,Dharavi Gate A2 (Ongc (Oil & Natural Gas Company)),19.046077,72.849702,2,STN_L3_011,,LVL_STN_L3_011_G,0
+ENT_STN_L3_011_B1,Dharavi Gate B1 (Bharat Ratna Dr.Babasaheb Ambedkar School & Junior College),19.046477,72.850202,2,STN_L3_011,,LVL_STN_L3_011_G,1
+ENT_STN_L3_011_B2,Dharavi Gate B2 (Dharavi T Junction/Ganpatrao Tapase Chowk - Bus Stop),19.046077,72.850202,2,STN_L3_011,,LVL_STN_L3_011_G,0
+ENT_STN_L3_012_A1,Sitladevi Gate A1 (P. D.  Hinduja Hospital & Medical Research Centre),19.0385802,72.8420954,2,STN_L3_012,,LVL_STN_L3_012_G,1
+ENT_STN_L3_012_A2,Sitladevi Gate A2 (Cannossa Special School),19.0378742,72.8420336,2,STN_L3_012,,LVL_STN_L3_012_G,0
+ENT_STN_L3_012_B1,Sitladevi Gate B1 (East Pavilion Surface Access),19.0385802,72.8420954,2,STN_L3_012,,LVL_STN_L3_012_G,1
+ENT_STN_L3_012_B2,Sitladevi Gate B2 (Mahim Fort),19.0378742,72.8420336,2,STN_L3_012,,LVL_STN_L3_012_G,0
+ENT_STN_L3_012_B3,Sitladevi Gate B3 (Raheja Hospital),19.0385802,72.8420954,2,STN_L3_012,,LVL_STN_L3_012_G,0
+ENT_STN_L3_013_A1,Dadar Metro Gate A1 (West Pavilion Surface Access),19.023867,72.839050,2,STN_L3_013,,LVL_STN_L3_013_G,1
+ENT_STN_L3_013_A2,Dadar Metro Gate A2 (Ranade Road Junction - Bus Stop),19.023467,72.839050,2,STN_L3_013,,LVL_STN_L3_013_G,0
 ENT_STN_L3_013_A3,"Dadar Metro Gate A3 (Institute Of Hotel Management, Catering Technology And Applied Nutrition)",19.023867,72.839050,2,STN_L3_013,,LVL_STN_L3_013_G,0
-ENT_STN_L3_013_A4,"Dadar Metro Gate A4 (Shushrusha Hospital)",19.023467,72.839050,2,STN_L3_013,,LVL_STN_L3_013_G,0
-ENT_STN_L3_013_B1,"Dadar Metro Gate B1 (Shivaji Park/Ram Ganesh Gadkari Chowk - Bus Stop)",19.023867,72.839550,2,STN_L3_013,,LVL_STN_L3_013_G,1
-ENT_STN_L3_013_B2,"Dadar Metro Gate B2 (East Pavilion Surface Access)",19.023467,72.839550,2,STN_L3_013,,LVL_STN_L3_013_G,0
-ENT_STN_L3_013_B3,"Dadar Metro Gate B3 (Matunga Road Railway Station)",19.023867,72.839550,2,STN_L3_013,,LVL_STN_L3_013_G,0
-ENT_STN_L3_014_A1,"Siddhivinayak Gate A1 (Textile Committee Of India)",19.016076,72.830485,2,STN_L3_014,,LVL_STN_L3_014_G,1
-ENT_STN_L3_014_A2,"Siddhivinayak Gate A2 (West Pavilion Surface Access)",19.015676,72.830485,2,STN_L3_014,,LVL_STN_L3_014_G,0
+ENT_STN_L3_013_A4,Dadar Metro Gate A4 (Shushrusha Hospital),19.023467,72.839050,2,STN_L3_013,,LVL_STN_L3_013_G,0
+ENT_STN_L3_013_B1,Dadar Metro Gate B1 (Shivaji Park/Ram Ganesh Gadkari Chowk - Bus Stop),19.023867,72.839550,2,STN_L3_013,,LVL_STN_L3_013_G,1
+ENT_STN_L3_013_B2,Dadar Metro Gate B2 (East Pavilion Surface Access),19.023467,72.839550,2,STN_L3_013,,LVL_STN_L3_013_G,0
+ENT_STN_L3_013_B3,Dadar Metro Gate B3 (Matunga Road Railway Station),19.023867,72.839550,2,STN_L3_013,,LVL_STN_L3_013_G,0
+ENT_STN_L3_014_A1,Siddhivinayak Gate A1 (Textile Committee Of India),19.016076,72.830485,2,STN_L3_014,,LVL_STN_L3_014_G,1
+ENT_STN_L3_014_A2,Siddhivinayak Gate A2 (West Pavilion Surface Access),19.015676,72.830485,2,STN_L3_014,,LVL_STN_L3_014_G,0
 ENT_STN_L3_014_A3,"Siddhivinayak Gate A3 (Kirti M.  Doongursee College Of Arts,Science & Commerce)",19.016076,72.830485,2,STN_L3_014,,LVL_STN_L3_014_G,0
-ENT_STN_L3_014_A4,"Siddhivinayak Gate A4 (ITI Dadar)",19.015676,72.830485,2,STN_L3_014,,LVL_STN_L3_014_G,0
-ENT_STN_L3_014_A5,"Siddhivinayak Gate A5 (Ravindra Natya Mandir)",19.016076,72.830485,2,STN_L3_014,,LVL_STN_L3_014_G,0
-ENT_STN_L3_014_B1,"Siddhivinayak Gate B1 (Adv. Balasaheb Apte College Of Law)",19.016076,72.830985,2,STN_L3_014,,LVL_STN_L3_014_G,1
-ENT_STN_L3_014_B2,"Siddhivinayak Gate B2 (PL. Deshpande Maharashtra Kala Academy)",19.015676,72.830985,2,STN_L3_014,,LVL_STN_L3_014_G,0
-ENT_STN_L3_015_A1,"Worli Gate A1 (Anti-Corruption Bureau)",19.008980,72.819151,2,STN_L3_015,,LVL_STN_L3_015_G,1
-ENT_STN_L3_015_A2,"Worli Gate A2 (Kamala Mills Compound)",19.008580,72.819151,2,STN_L3_015,,LVL_STN_L3_015_G,0
-ENT_STN_L3_015_B1,"Worli Gate B1 (East Pavilion Surface Access)",19.008980,72.819651,2,STN_L3_015,,LVL_STN_L3_015_G,1
-ENT_STN_L3_015_B2,"Worli Gate B2 (Mumbai Traffic Police H)",19.008580,72.819651,2,STN_L3_015,,LVL_STN_L3_015_G,0
-ENT_STN_L3_015_B3,"Worli Gate B3 (Dr. Ravindra Kulkarni Chowk)",19.008980,72.819651,2,STN_L3_015,,LVL_STN_L3_015_G,0
-ENT_STN_L3_015_B4,"Worli Gate B4 (One Worldcentre)",19.008580,72.819651,2,STN_L3_015,,LVL_STN_L3_015_G,0
-ENT_STN_L3_016_A1,"Acharya Atre Chowk Gate A1 (Atria Mall)",18.998700,72.817950,2,STN_L3_016,,LVL_STN_L3_016_G,1
-ENT_STN_L3_016_A2,"Acharya Atre Chowk Gate A2 (West Pavilion Surface Access)",18.998300,72.817950,2,STN_L3_016,,LVL_STN_L3_016_G,0
-ENT_STN_L3_016_A3,"Acharya Atre Chowk Gate A3 (West Pavilion Surface Access)",18.998700,72.817950,2,STN_L3_016,,LVL_STN_L3_016_G,0
-ENT_STN_L3_016_A4,"Acharya Atre Chowk Gate A4 (Mahanagar Palika Yangraha - Bus stop)",18.998300,72.817950,2,STN_L3_016,,LVL_STN_L3_016_G,0
-ENT_STN_L3_016_B1,"Acharya Atre Chowk Gate B1 (East Pavilion Surface Access)",18.998700,72.818450,2,STN_L3_016,,LVL_STN_L3_016_G,1
-ENT_STN_L3_016_B2,"Acharya Atre Chowk Gate B2 (Acharya Atre Chowk)",18.998300,72.818450,2,STN_L3_016,,LVL_STN_L3_016_G,0
-ENT_STN_L3_016_B3,"Acharya Atre Chowk Gate B3 (Shri Chandra Baba Mandir)",18.998700,72.818450,2,STN_L3_016,,LVL_STN_L3_016_G,0
-ENT_STN_L3_016_B4,"Acharya Atre Chowk Gate B4 (Dairy Development Department)",18.998300,72.818450,2,STN_L3_016,,LVL_STN_L3_016_G,0
-ENT_STN_L3_016_B5,"Acharya Atre Chowk Gate B5 (East Pavilion Surface Access)",18.998700,72.818450,2,STN_L3_016,,LVL_STN_L3_016_G,0
-ENT_STN_L3_017_A1,"Science Centre Gate A1 (West Pavilion Surface Access)",18.990518,72.821520,2,STN_L3_017,,LVL_STN_L3_017_G,1
-ENT_STN_L3_017_A2,"Science Centre Gate A2 (West Pavilion Surface Access)",18.990118,72.821520,2,STN_L3_017,,LVL_STN_L3_017_G,0
-ENT_STN_L3_017_A3,"Science Centre Gate A3 (Ambika Mill - H.U.Rakhangi Chowk (towards Mahalaxmi Station))",18.990518,72.821520,2,STN_L3_017,,LVL_STN_L3_017_G,0
-ENT_STN_L3_017_A4,"Science Centre Gate A4 (West Pavilion Surface Access)",18.990118,72.821520,2,STN_L3_017,,LVL_STN_L3_017_G,0
-ENT_STN_L3_017_B1,"Science Centre Gate B1 (East Pavilion Surface Access)",18.990518,72.822020,2,STN_L3_017,,LVL_STN_L3_017_G,1
-ENT_STN_L3_017_B2,"Science Centre Gate B2 (East Pavilion Surface Access)",18.990118,72.822020,2,STN_L3_017,,LVL_STN_L3_017_G,0
-ENT_STN_L3_017_B3,"Science Centre Gate B3 (Municipal Industrial Estate)",18.990518,72.822020,2,STN_L3_017,,LVL_STN_L3_017_G,0
-ENT_STN_L3_017_B4,"Science Centre Gate B4 (East Pavilion Surface Access)",18.990118,72.822020,2,STN_L3_017,,LVL_STN_L3_017_G,0
-ENT_STN_L3_017_B5,"Science Centre Gate B5 (East Pavilion Surface Access)",18.990518,72.822020,2,STN_L3_017,,LVL_STN_L3_017_G,0
-ENT_STN_L3_018_A1,"Mahalaxmi Gate A1 (Essar House)",18.979685,72.825045,2,STN_L3_018,,LVL_STN_L3_018_G,1
-ENT_STN_L3_018_A2,"Mahalaxmi Gate A2 (West Pavilion Surface Access)",18.979285,72.825045,2,STN_L3_018,,LVL_STN_L3_018_G,0
-ENT_STN_L3_018_A3,"Mahalaxmi Gate A3 (West Pavilion Surface Access)",18.979685,72.825045,2,STN_L3_018,,LVL_STN_L3_018_G,0
-ENT_STN_L3_018_A4,"Mahalaxmi Gate A4 (Agripada Police Station (Towards Nair Hospital/Opera House))",18.979285,72.825045,2,STN_L3_018,,LVL_STN_L3_018_G,0
-ENT_STN_L3_018_B1,"Mahalaxmi Gate B1 (East Pavilion Surface Access)",18.979685,72.825545,2,STN_L3_018,,LVL_STN_L3_018_G,1
-ENT_STN_L3_018_B2,"Mahalaxmi Gate B2 (East Pavilion Surface Access)",18.979285,72.825545,2,STN_L3_018,,LVL_STN_L3_018_G,0
-ENT_STN_L3_018_B3,"Mahalaxmi Gate B3 (East Pavilion Surface Access)",18.979685,72.825545,2,STN_L3_018,,LVL_STN_L3_018_G,0
-ENT_STN_L3_018_B4,"Mahalaxmi Gate B4 (East Pavilion Surface Access)",18.979285,72.825545,2,STN_L3_018,,LVL_STN_L3_018_G,0
-ENT_STN_L3_018_B5,"Mahalaxmi Gate B5 (East Pavilion Surface Access)",18.979685,72.825545,2,STN_L3_018,,LVL_STN_L3_018_G,0
-ENT_STN_L3_019_A1,"Mumbai Central Gate A1 (Mumbai Central Station (towards Saatrasta))",18.970803,72.821132,2,STN_L3_019,,LVL_STN_L3_019_G,1
-ENT_STN_L3_019_A2,"Mumbai Central Gate A2 (West Pavilion Surface Access)",18.970403,72.821132,2,STN_L3_019,,LVL_STN_L3_019_G,0
-ENT_STN_L3_019_A3,"Mumbai Central Gate A3 (West Pavilion Surface Access)",18.970803,72.821132,2,STN_L3_019,,LVL_STN_L3_019_G,0
-ENT_STN_L3_019_A4,"Mumbai Central Gate A4 (West Pavilion Surface Access)",18.970403,72.821132,2,STN_L3_019,,LVL_STN_L3_019_G,0
-ENT_STN_L3_019_A5,"Mumbai Central Gate A5 (Apollo Spectra Hospital)",18.970803,72.821132,2,STN_L3_019,,LVL_STN_L3_019_G,0
-ENT_STN_L3_019_B1,"Mumbai Central Gate B1 (East Pavilion Surface Access)",18.970803,72.821632,2,STN_L3_019,,LVL_STN_L3_019_G,1
-ENT_STN_L3_019_B2,"Mumbai Central Gate B2 (East Pavilion Surface Access)",18.970403,72.821632,2,STN_L3_019,,LVL_STN_L3_019_G,0
-ENT_STN_L3_019_B3,"Mumbai Central Gate B3 (Maharashtra College)",18.970803,72.821632,2,STN_L3_019,,LVL_STN_L3_019_G,0
-ENT_STN_L3_019_B4,"Mumbai Central Gate B4 (East Pavilion Surface Access)",18.970403,72.821632,2,STN_L3_019,,LVL_STN_L3_019_G,0
-ENT_STN_L3_019_B5,"Mumbai Central Gate B5 (Maratha Mandir Theatre)",18.970803,72.821632,2,STN_L3_019,,LVL_STN_L3_019_G,0
-ENT_STN_L3_020_A1,"Grant Road Gate A1 (Novelty Cinema - Dr.Bhadkamkar Road Junction (towards Play House/Tardeo Bus Station/Girgaon))",18.963124,72.817747,2,STN_L3_020,,LVL_STN_L3_020_G,1
-ENT_STN_L3_020_A2,"Grant Road Gate A2 (Sonawala Buildings)",18.962724,72.817747,2,STN_L3_020,,LVL_STN_L3_020_G,0
-ENT_STN_L3_020_B1,"Grant Road Gate B1 (East Pavilion Surface Access)",18.963124,72.818247,2,STN_L3_020,,LVL_STN_L3_020_G,1
-ENT_STN_L3_021_A1,"Girgaon Gate A1 (Shri Chandraprabh Digambar Jain Temple, Bhuleshwar)",18.952129,72.822356,2,STN_L3_021,,LVL_STN_L3_021_G,1
-ENT_STN_L3_021_A2,"Girgaon Gate A2 (S.K. Patil Garden)",18.951729,72.822356,2,STN_L3_021,,LVL_STN_L3_021_G,0
-ENT_STN_L3_021_B1,"Girgaon Gate B1 (Gaiwadi (towards Hutatma Chowk))",18.952129,72.822856,2,STN_L3_021,,LVL_STN_L3_021_G,1
-ENT_STN_L3_022_A1,"Kalbadevi Gate A1 (Directorate of Technical Education)",18.947099,72.826693,2,STN_L3_022,,LVL_STN_L3_022_G,1
-ENT_STN_L3_022_B1,"Kalbadevi Gate B1 (Mulji Jetha Market)",18.947099,72.827193,2,STN_L3_022,,LVL_STN_L3_022_G,1
-ENT_STN_L3_022_B2,"Kalbadevi Gate B2 (S.K. Patil Garden)",18.946699,72.827193,2,STN_L3_022,,LVL_STN_L3_022_G,0
-ENT_STN_L3_023_A1,"CSMT Metro Gate A1 (Anjuman Islam School)",18.940864,72.831920,2,STN_L3_023,,LVL_STN_L3_023_G,1
-ENT_STN_L3_023_A2,"CSMT Metro Gate A2 (General Post Office)",18.940464,72.831920,2,STN_L3_023,,LVL_STN_L3_023_G,0
-ENT_STN_L3_023_A3,"CSMT Metro Gate A3 (West Pavilion Surface Access)",18.940864,72.831920,2,STN_L3_023,,LVL_STN_L3_023_G,0
-ENT_STN_L3_023_A4,"CSMT Metro Gate A4 (West Pavilion Surface Access)",18.940464,72.831920,2,STN_L3_023,,LVL_STN_L3_023_G,0
-ENT_STN_L3_023_B1,"CSMT Metro Gate B1 (Crawford Market)",18.940864,72.832420,2,STN_L3_023,,LVL_STN_L3_023_G,1
-ENT_STN_L3_023_B2,"CSMT Metro Gate B2 (East Pavilion Surface Access)",18.940464,72.832420,2,STN_L3_023,,LVL_STN_L3_023_G,0
-ENT_STN_L3_024_A1,"Hutatma Chowk Gate A1 (Central Bank of India)",18.934779,72.832576,2,STN_L3_024,,LVL_STN_L3_024_G,1
-ENT_STN_L3_024_A2,"Hutatma Chowk Gate A2 (Western Railway Headquarters)",18.934379,72.832576,2,STN_L3_024,,LVL_STN_L3_024_G,0
-ENT_STN_L3_024_A3,"Hutatma Chowk Gate A3 (West Pavilion Surface Access)",18.934779,72.832576,2,STN_L3_024,,LVL_STN_L3_024_G,0
-ENT_STN_L3_024_A4,"Hutatma Chowk Gate A4 (Reserve Bank Of India)",18.934379,72.832576,2,STN_L3_024,,LVL_STN_L3_024_G,0
-ENT_STN_L3_024_B1,"Hutatma Chowk Gate B1 (East Pavilion Surface Access)",18.934779,72.833076,2,STN_L3_024,,LVL_STN_L3_024_G,1
-ENT_STN_L3_024_B2,"Hutatma Chowk Gate B2 (East Pavilion Surface Access)",18.934379,72.833076,2,STN_L3_024,,LVL_STN_L3_024_G,0
-ENT_STN_L3_024_B3,"Hutatma Chowk Gate B3 (East Pavilion Surface Access)",18.934779,72.833076,2,STN_L3_024,,LVL_STN_L3_024_G,0
-ENT_STN_L3_024_B4,"Hutatma Chowk Gate B4 (Brihanmumbai Municipal Corporation (BMC))",18.934379,72.833076,2,STN_L3_024,,LVL_STN_L3_024_G,0
-ENT_STN_L3_025_A1,"Churchgate Gate A1 (Industrial Assurance Building)",18.930854,72.825922,2,STN_L3_025,,LVL_STN_L3_025_G,1
-ENT_STN_L3_025_A2,"Churchgate Gate A2 (Vidhan Bhavan)",18.930454,72.825922,2,STN_L3_025,,LVL_STN_L3_025_G,0
-ENT_STN_L3_025_A3,"Churchgate Gate A3 (West Pavilion Surface Access)",18.930854,72.825922,2,STN_L3_025,,LVL_STN_L3_025_G,0
-ENT_STN_L3_025_A4,"Churchgate Gate A4 (West Pavilion Surface Access)",18.930454,72.825922,2,STN_L3_025,,LVL_STN_L3_025_G,0
-ENT_STN_L3_025_A5,"Churchgate Gate A5 (HR College of Economics & Commerce)",18.930854,72.825922,2,STN_L3_025,,LVL_STN_L3_025_G,0
-ENT_STN_L3_025_B1,"Churchgate Gate B1 (Hutatma Chowk (Flora Fountain))",18.930854,72.826422,2,STN_L3_025,,LVL_STN_L3_025_G,1
-ENT_STN_L3_025_B2,"Churchgate Gate B2 (Jai Hind College)",18.930454,72.826422,2,STN_L3_025,,LVL_STN_L3_025_G,0
-ENT_STN_L3_026_A1,"Vidhan Bhawan Gate A1 (West Pavilion Surface Access)",18.924896,72.825366,2,STN_L3_026,,LVL_STN_L3_026_G,1
-ENT_STN_L3_026_A2,"Vidhan Bhawan Gate A2 (West Pavilion Surface Access)",18.924496,72.825366,2,STN_L3_026,,LVL_STN_L3_026_G,0
-ENT_STN_L3_026_A3,"Vidhan Bhawan Gate A3 (National Gallery of Modern Art)",18.924896,72.825366,2,STN_L3_026,,LVL_STN_L3_026_G,0
-ENT_STN_L3_026_B1,"Vidhan Bhawan Gate B1 (Mantralaya)",18.924896,72.825866,2,STN_L3_026,,LVL_STN_L3_026_G,1
-ENT_STN_L3_026_B2,"Vidhan Bhawan Gate B2 (East Pavilion Surface Access)",18.924496,72.825866,2,STN_L3_026,,LVL_STN_L3_026_G,0
-ENT_STN_L3_026_B3,"Vidhan Bhawan Gate B3 (East Pavilion Surface Access)",18.924896,72.825866,2,STN_L3_026,,LVL_STN_L3_026_G,0
-ENT_STN_L3_026_B4,"Vidhan Bhawan Gate B4 (Mittal Towers)",18.924496,72.825866,2,STN_L3_026,,LVL_STN_L3_026_G,0
-ENT_STN_L3_026_B5,"Vidhan Bhawan Gate B5 (East Pavilion Surface Access)",18.924896,72.825866,2,STN_L3_026,,LVL_STN_L3_026_G,0
-ENT_STN_L3_027_A1,"Cuffe Parade Gate A1 (West Pavilion Surface Access)",18.913155,72.819946,2,STN_L3_027,,LVL_STN_L3_027_G,1
-ENT_STN_L3_027_A2,"Cuffe Parade Gate A2 (Backbay Bus Depot)",18.912755,72.819946,2,STN_L3_027,,LVL_STN_L3_027_G,0
-ENT_STN_L3_027_B1,"Cuffe Parade Gate B1 (Colaba Bus Station)",18.913155,72.820446,2,STN_L3_027,,LVL_STN_L3_027_G,1
-ENT_STN_L3_027_B2,"Cuffe Parade Gate B2 (East Pavilion Surface Access)",18.912755,72.820446,2,STN_L3_027,,LVL_STN_L3_027_G,0
-ENT_STN_L7_001_1,"Dahisar (East) Gate 1 (Western Express Highway - West Side North)",19.251513,72.866769,2,STN_L7_001,,LVL_STN_L7_001_G,1
-ENT_STN_L7_001_2,"Dahisar (East) Gate 2 (Western Express Highway - West Side South)",19.251013,72.866769,2,STN_L7_001,,LVL_STN_L7_001_G,0
-ENT_STN_L7_001_3,"Dahisar (East) Gate 3 (Western Express Highway - East Side North)",19.251513,72.867469,2,STN_L7_001,,LVL_STN_L7_001_G,1
-ENT_STN_L7_001_4,"Dahisar (East) Gate 4 (Western Express Highway - East Side South)",19.251013,72.867469,2,STN_L7_001,,LVL_STN_L7_001_G,0
-ENT_STN_L7_002_1,"Ovaripada Gate 1 (Western Express Highway - West Side North)",19.243661,72.863898,2,STN_L7_002,,LVL_STN_L7_002_G,1
-ENT_STN_L7_002_2,"Ovaripada Gate 2 (Western Express Highway - West Side South)",19.243161,72.863898,2,STN_L7_002,,LVL_STN_L7_002_G,0
-ENT_STN_L7_002_3,"Ovaripada Gate 3 (Western Express Highway - East Side North)",19.243661,72.864598,2,STN_L7_002,,LVL_STN_L7_002_G,1
-ENT_STN_L7_002_4,"Ovaripada Gate 4 (Western Express Highway - East Side South)",19.243161,72.864598,2,STN_L7_002,,LVL_STN_L7_002_G,0
-ENT_STN_L7_003_1,"Rashtriya Udyan Gate 1 (Western Express Highway - West Side North)",19.234921,72.862811,2,STN_L7_003,,LVL_STN_L7_003_G,1
-ENT_STN_L7_003_2,"Rashtriya Udyan Gate 2 (Western Express Highway - West Side South)",19.234421,72.862811,2,STN_L7_003,,LVL_STN_L7_003_G,0
-ENT_STN_L7_003_3,"Rashtriya Udyan Gate 3 (Western Express Highway - East Side North)",19.234921,72.863511,2,STN_L7_003,,LVL_STN_L7_003_G,1
-ENT_STN_L7_003_4,"Rashtriya Udyan Gate 4 (Western Express Highway - East Side South)",19.234421,72.863511,2,STN_L7_003,,LVL_STN_L7_003_G,0
-ENT_STN_L7_004_1,"Devipada Gate 1 (Western Express Highway - West Side North)",19.224582,72.863870,2,STN_L7_004,,LVL_STN_L7_004_G,1
-ENT_STN_L7_004_2,"Devipada Gate 2 (Western Express Highway - West Side South)",19.224082,72.863870,2,STN_L7_004,,LVL_STN_L7_004_G,0
-ENT_STN_L7_004_3,"Devipada Gate 3 (Western Express Highway - East Side North)",19.224582,72.864570,2,STN_L7_004,,LVL_STN_L7_004_G,1
-ENT_STN_L7_004_4,"Devipada Gate 4 (Western Express Highway - East Side South)",19.224082,72.864570,2,STN_L7_004,,LVL_STN_L7_004_G,0
-ENT_STN_L7_005_1,"Magathane Gate 1 (Western Express Highway - West Side North)",19.217453,72.866378,2,STN_L7_005,,LVL_STN_L7_005_G,1
-ENT_STN_L7_005_2,"Magathane Gate 2 (Western Express Highway - West Side South)",19.216953,72.866378,2,STN_L7_005,,LVL_STN_L7_005_G,0
-ENT_STN_L7_005_3,"Magathane Gate 3 (Western Express Highway - East Side North)",19.217453,72.867078,2,STN_L7_005,,LVL_STN_L7_005_G,1
-ENT_STN_L7_005_4,"Magathane Gate 4 (Western Express Highway - East Side South)",19.216953,72.867078,2,STN_L7_005,,LVL_STN_L7_005_G,0
-ENT_STN_L7_006_1,"Poisar Gate 1 (Western Express Highway - West Side North)",19.204188,72.863149,2,STN_L7_006,,LVL_STN_L7_006_G,1
-ENT_STN_L7_006_2,"Poisar Gate 2 (Western Express Highway - West Side South)",19.203688,72.863149,2,STN_L7_006,,LVL_STN_L7_006_G,0
-ENT_STN_L7_006_3,"Poisar Gate 3 (Western Express Highway - East Side North)",19.204188,72.863849,2,STN_L7_006,,LVL_STN_L7_006_G,1
-ENT_STN_L7_006_4,"Poisar Gate 4 (Western Express Highway - East Side South)",19.203688,72.863849,2,STN_L7_006,,LVL_STN_L7_006_G,0
-ENT_STN_L7_007_1,"Akurli Gate 1 (Western Express Highway - West Side North)",19.198365,72.860296,2,STN_L7_007,,LVL_STN_L7_007_G,1
-ENT_STN_L7_007_2,"Akurli Gate 2 (Western Express Highway - West Side South)",19.197865,72.860296,2,STN_L7_007,,LVL_STN_L7_007_G,0
-ENT_STN_L7_007_3,"Akurli Gate 3 (Western Express Highway - East Side North)",19.198365,72.860996,2,STN_L7_007,,LVL_STN_L7_007_G,1
-ENT_STN_L7_007_4,"Akurli Gate 4 (Western Express Highway - East Side South)",19.197865,72.860996,2,STN_L7_007,,LVL_STN_L7_007_G,0
-ENT_STN_L7_008_1,"Kurar Gate 1 (Western Express Highway - West Side North)",19.187514,72.858162,2,STN_L7_008,,LVL_STN_L7_008_G,1
-ENT_STN_L7_008_2,"Kurar Gate 2 (Western Express Highway - West Side South)",19.187014,72.858162,2,STN_L7_008,,LVL_STN_L7_008_G,0
-ENT_STN_L7_008_3,"Kurar Gate 3 (Western Express Highway - East Side North)",19.187514,72.858862,2,STN_L7_008,,LVL_STN_L7_008_G,1
-ENT_STN_L7_008_4,"Kurar Gate 4 (Western Express Highway - East Side South)",19.187014,72.858862,2,STN_L7_008,,LVL_STN_L7_008_G,0
-ENT_STN_L7_009_1,"Dindoshi Gate 1 (Western Express Highway - West Side North)",19.179970,72.857950,2,STN_L7_009,,LVL_STN_L7_009_G,1
-ENT_STN_L7_009_2,"Dindoshi Gate 2 (Western Express Highway - West Side South)",19.179470,72.857950,2,STN_L7_009,,LVL_STN_L7_009_G,0
-ENT_STN_L7_009_3,"Dindoshi Gate 3 (Western Express Highway - East Side North)",19.179970,72.858650,2,STN_L7_009,,LVL_STN_L7_009_G,1
-ENT_STN_L7_009_4,"Dindoshi Gate 4 (Western Express Highway - East Side South)",19.179470,72.858650,2,STN_L7_009,,LVL_STN_L7_009_G,0
-ENT_STN_L7_010_1,"Aarey Gate 1 (Western Express Highway - West Side North)",19.169756,72.858451,2,STN_L7_010,,LVL_STN_L7_010_G,1
-ENT_STN_L7_010_2,"Aarey Gate 2 (Western Express Highway - West Side South)",19.169256,72.858451,2,STN_L7_010,,LVL_STN_L7_010_G,0
-ENT_STN_L7_010_3,"Aarey Gate 3 (Western Express Highway - East Side North)",19.169756,72.859151,2,STN_L7_010,,LVL_STN_L7_010_G,1
-ENT_STN_L7_010_4,"Aarey Gate 4 (Western Express Highway - East Side South)",19.169256,72.859151,2,STN_L7_010,,LVL_STN_L7_010_G,0
-ENT_STN_L7_011_1,"Goregaon (East) Gate 1 (Western Express Highway - West Side North)",19.152692,72.856223,2,STN_L7_011,,LVL_STN_L7_011_G,1
-ENT_STN_L7_011_2,"Goregaon (East) Gate 2 (Western Express Highway - West Side South)",19.152192,72.856223,2,STN_L7_011,,LVL_STN_L7_011_G,0
-ENT_STN_L7_011_3,"Goregaon (East) Gate 3 (Western Express Highway - East Side North)",19.152692,72.856923,2,STN_L7_011,,LVL_STN_L7_011_G,1
-ENT_STN_L7_011_4,"Goregaon (East) Gate 4 (Western Express Highway - East Side South)",19.152192,72.856923,2,STN_L7_011,,LVL_STN_L7_011_G,0
-ENT_STN_L7_012_1,"Jogeshwari (East) Gate 1 (Western Express Highway - West Side North)",19.143178,72.854816,2,STN_L7_012,,LVL_STN_L7_012_G,1
-ENT_STN_L7_012_2,"Jogeshwari (East) Gate 2 (Western Express Highway - West Side South)",19.142678,72.854816,2,STN_L7_012,,LVL_STN_L7_012_G,0
-ENT_STN_L7_012_3,"Jogeshwari (East) Gate 3 (Western Express Highway - East Side North)",19.143178,72.855516,2,STN_L7_012,,LVL_STN_L7_012_G,1
-ENT_STN_L7_012_4,"Jogeshwari (East) Gate 4 (Western Express Highway - East Side South)",19.142678,72.855516,2,STN_L7_012,,LVL_STN_L7_012_G,0
-ENT_STN_L7_013_1,"Mogra Gate 1 (Western Express Highway - West Side North)",19.128927,72.855102,2,STN_L7_013,,LVL_STN_L7_013_G,1
-ENT_STN_L7_013_2,"Mogra Gate 2 (Western Express Highway - West Side South)",19.128427,72.855102,2,STN_L7_013,,LVL_STN_L7_013_G,0
-ENT_STN_L7_013_3,"Mogra Gate 3 (Western Express Highway - East Side North)",19.128927,72.855802,2,STN_L7_013,,LVL_STN_L7_013_G,1
-ENT_STN_L7_013_4,"Mogra Gate 4 (Western Express Highway - East Side South)",19.128427,72.855802,2,STN_L7_013,,LVL_STN_L7_013_G,0
-ENT_STN_L7_014_1,"Gundavali Gate 1 (Western Express Highway - West Side North)",19.114689,72.854822,2,STN_L7_014,,LVL_STN_L7_014_G,1
-ENT_STN_L7_014_2,"Gundavali Gate 2 (Western Express Highway - West Side South)",19.114189,72.854822,2,STN_L7_014,,LVL_STN_L7_014_G,0
-ENT_STN_L7_014_3,"Gundavali Gate 3 (Western Express Highway - East Side North)",19.114689,72.855522,2,STN_L7_014,,LVL_STN_L7_014_G,1
-ENT_STN_L7_014_4,"Gundavali Gate 4 (Western Express Highway - East Side South)",19.114189,72.855522,2,STN_L7_014,,LVL_STN_L7_014_G,0
-ENT_STN_L7_014_FOB,"Gundavali Interchange FOB (Line 1 WEH Link)",19.114589,72.855472,2,STN_L7_014,,LVL_STN_L7_014_C,1
-ENT_STN_L9_001_1,"Pandhurang Wadi Gate 1 (West Side - North)",19.265297,72.874809,2,STN_L9_001,,LVL_STN_L9_001_G,1
-ENT_STN_L9_001_2,"Pandhurang Wadi Gate 2 (West Side - South)",19.264797,72.874809,2,STN_L9_001,,LVL_STN_L9_001_G,0
-ENT_STN_L9_001_3,"Pandhurang Wadi Gate 3 (East Side - North)",19.265297,72.875509,2,STN_L9_001,,LVL_STN_L9_001_G,1
-ENT_STN_L9_001_4,"Pandhurang Wadi Gate 4 (East Side - South)",19.264797,72.875509,2,STN_L9_001,,LVL_STN_L9_001_G,0
-ENT_STN_L9_002_1,"Miragaon Gate 1 (West Side - North)",19.271381,72.880515,2,STN_L9_002,,LVL_STN_L9_002_G,1
-ENT_STN_L9_002_2,"Miragaon Gate 2 (West Side - South)",19.270881,72.880515,2,STN_L9_002,,LVL_STN_L9_002_G,0
-ENT_STN_L9_002_3,"Miragaon Gate 3 (East Side - North)",19.271381,72.881215,2,STN_L9_002,,LVL_STN_L9_002_G,1
-ENT_STN_L9_002_4,"Miragaon Gate 4 (East Side - South)",19.270881,72.881215,2,STN_L9_002,,LVL_STN_L9_002_G,0
-ENT_STN_L9_003_1,"Kashigaon Gate 1 (West Side - North)",19.277943,72.879810,2,STN_L9_003,,LVL_STN_L9_003_G,1
-ENT_STN_L9_003_2,"Kashigaon Gate 2 (West Side - South)",19.277443,72.879810,2,STN_L9_003,,LVL_STN_L9_003_G,0
-ENT_STN_L9_003_3,"Kashigaon Gate 3 (East Side - North)",19.277943,72.880510,2,STN_L9_003,,LVL_STN_L9_003_G,1
-ENT_STN_L9_003_4,"Kashigaon Gate 4 (East Side - South)",19.277443,72.880510,2,STN_L9_003,,LVL_STN_L9_003_G,0
-ENT_STN_MONO_001_1,"Chembur Gate 1 (West Side - North)",19.054295,72.894290,2,STN_MONO_001,,LVL_STN_MONO_001_G,1
-ENT_STN_MONO_001_2,"Chembur Gate 2 (West Side - South)",19.053795,72.894290,2,STN_MONO_001,,LVL_STN_MONO_001_G,0
-ENT_STN_MONO_001_3,"Chembur Gate 3 (East Side - North)",19.054295,72.894990,2,STN_MONO_001,,LVL_STN_MONO_001_G,1
-ENT_STN_MONO_001_4,"Chembur Gate 4 (East Side - South)",19.053795,72.894990,2,STN_MONO_001,,LVL_STN_MONO_001_G,0
-ENT_STN_MONO_002_1,"VNP & RC Marg Junction Gate 1 (West Side - North)",19.052916,72.893994,2,STN_MONO_002,,LVL_STN_MONO_002_G,1
-ENT_STN_MONO_002_2,"VNP & RC Marg Junction Gate 2 (West Side - South)",19.052416,72.893994,2,STN_MONO_002,,LVL_STN_MONO_002_G,0
-ENT_STN_MONO_002_3,"VNP & RC Marg Junction Gate 3 (East Side - North)",19.052916,72.894694,2,STN_MONO_002,,LVL_STN_MONO_002_G,1
-ENT_STN_MONO_002_4,"VNP & RC Marg Junction Gate 4 (East Side - South)",19.052416,72.894694,2,STN_MONO_002,,LVL_STN_MONO_002_G,0
-ENT_STN_MONO_003_1,"Fertiliser Township Gate 1 (West Side - North)",19.044165,72.893123,2,STN_MONO_003,,LVL_STN_MONO_003_G,1
-ENT_STN_MONO_003_2,"Fertiliser Township Gate 2 (West Side - South)",19.043665,72.893123,2,STN_MONO_003,,LVL_STN_MONO_003_G,0
-ENT_STN_MONO_003_3,"Fertiliser Township Gate 3 (East Side - North)",19.044165,72.893823,2,STN_MONO_003,,LVL_STN_MONO_003_G,1
-ENT_STN_MONO_003_4,"Fertiliser Township Gate 4 (East Side - South)",19.043665,72.893823,2,STN_MONO_003,,LVL_STN_MONO_003_G,0
-ENT_STN_MONO_004_1,"Bharat Petroleum Gate 1 (West Side - North)",19.035500,72.895207,2,STN_MONO_004,,LVL_STN_MONO_004_G,1
-ENT_STN_MONO_004_2,"Bharat Petroleum Gate 2 (West Side - South)",19.035000,72.895207,2,STN_MONO_004,,LVL_STN_MONO_004_G,0
-ENT_STN_MONO_004_3,"Bharat Petroleum Gate 3 (East Side - North)",19.035500,72.895907,2,STN_MONO_004,,LVL_STN_MONO_004_G,1
-ENT_STN_MONO_004_4,"Bharat Petroleum Gate 4 (East Side - South)",19.035000,72.895907,2,STN_MONO_004,,LVL_STN_MONO_004_G,0
-ENT_STN_MONO_005_1,"Mysore Colony Gate 1 (West Side - North)",19.027966,72.891099,2,STN_MONO_005,,LVL_STN_MONO_005_G,1
-ENT_STN_MONO_005_2,"Mysore Colony Gate 2 (West Side - South)",19.027466,72.891099,2,STN_MONO_005,,LVL_STN_MONO_005_G,0
-ENT_STN_MONO_005_3,"Mysore Colony Gate 3 (East Side - North)",19.027966,72.891799,2,STN_MONO_005,,LVL_STN_MONO_005_G,1
-ENT_STN_MONO_005_4,"Mysore Colony Gate 4 (East Side - South)",19.027466,72.891799,2,STN_MONO_005,,LVL_STN_MONO_005_G,0
-ENT_STN_MONO_006_1,"Bhakti Park Gate 1 (West Side - North)",19.026323,72.876995,2,STN_MONO_006,,LVL_STN_MONO_006_G,1
-ENT_STN_MONO_006_2,"Bhakti Park Gate 2 (West Side - South)",19.025823,72.876995,2,STN_MONO_006,,LVL_STN_MONO_006_G,0
-ENT_STN_MONO_006_3,"Bhakti Park Gate 3 (East Side - North)",19.026323,72.877695,2,STN_MONO_006,,LVL_STN_MONO_006_G,1
-ENT_STN_MONO_006_4,"Bhakti Park Gate 4 (East Side - South)",19.025823,72.877695,2,STN_MONO_006,,LVL_STN_MONO_006_G,0
-ENT_STN_MONO_007_1,"Wadala Depot Gate 1 (West Side - North)",19.039126,72.873654,2,STN_MONO_007,,LVL_STN_MONO_007_G,1
-ENT_STN_MONO_007_2,"Wadala Depot Gate 2 (West Side - South)",19.038626,72.873654,2,STN_MONO_007,,LVL_STN_MONO_007_G,0
-ENT_STN_MONO_007_3,"Wadala Depot Gate 3 (East Side - North)",19.039126,72.874354,2,STN_MONO_007,,LVL_STN_MONO_007_G,1
-ENT_STN_MONO_007_4,"Wadala Depot Gate 4 (East Side - South)",19.038626,72.874354,2,STN_MONO_007,,LVL_STN_MONO_007_G,0
-ENT_STN_MONO_008_1,"GTB Nagar Gate 1 (West Side - North)",19.036971,72.870500,2,STN_MONO_008,,LVL_STN_MONO_008_G,1
-ENT_STN_MONO_008_2,"GTB Nagar Gate 2 (West Side - South)",19.036471,72.870500,2,STN_MONO_008,,LVL_STN_MONO_008_G,0
-ENT_STN_MONO_008_3,"GTB Nagar Gate 3 (East Side - North)",19.036971,72.871200,2,STN_MONO_008,,LVL_STN_MONO_008_G,1
-ENT_STN_MONO_008_4,"GTB Nagar Gate 4 (East Side - South)",19.036471,72.871200,2,STN_MONO_008,,LVL_STN_MONO_008_G,0
-ENT_STN_MONO_009_1,"Antop Hill Gate 1 (West Side - North)",19.030420,72.866668,2,STN_MONO_009,,LVL_STN_MONO_009_G,1
-ENT_STN_MONO_009_2,"Antop Hill Gate 2 (West Side - South)",19.029920,72.866668,2,STN_MONO_009,,LVL_STN_MONO_009_G,0
-ENT_STN_MONO_009_3,"Antop Hill Gate 3 (East Side - North)",19.030420,72.867368,2,STN_MONO_009,,LVL_STN_MONO_009_G,1
-ENT_STN_MONO_009_4,"Antop Hill Gate 4 (East Side - South)",19.029920,72.867368,2,STN_MONO_009,,LVL_STN_MONO_009_G,0
-ENT_STN_MONO_010_1,"Acharya Atre Nagar Gate 1 (West Side - North)",19.024089,72.863532,2,STN_MONO_010,,LVL_STN_MONO_010_G,1
-ENT_STN_MONO_010_2,"Acharya Atre Nagar Gate 2 (West Side - South)",19.023589,72.863532,2,STN_MONO_010,,LVL_STN_MONO_010_G,0
-ENT_STN_MONO_010_3,"Acharya Atre Nagar Gate 3 (East Side - North)",19.024089,72.864232,2,STN_MONO_010,,LVL_STN_MONO_010_G,1
-ENT_STN_MONO_010_4,"Acharya Atre Nagar Gate 4 (East Side - South)",19.023589,72.864232,2,STN_MONO_010,,LVL_STN_MONO_010_G,0
-ENT_STN_MONO_011_1,"Wadala Bridge Gate 1 (West Side - North)",19.017710,72.859031,2,STN_MONO_011,,LVL_STN_MONO_011_G,1
-ENT_STN_MONO_011_2,"Wadala Bridge Gate 2 (West Side - South)",19.017210,72.859031,2,STN_MONO_011,,LVL_STN_MONO_011_G,0
-ENT_STN_MONO_011_3,"Wadala Bridge Gate 3 (East Side - North)",19.017710,72.859731,2,STN_MONO_011,,LVL_STN_MONO_011_G,1
-ENT_STN_MONO_011_4,"Wadala Bridge Gate 4 (East Side - South)",19.017210,72.859731,2,STN_MONO_011,,LVL_STN_MONO_011_G,0
-ENT_STN_MONO_012_1,"Dadar East Gate 1 (West Side - North)",19.016494,72.851916,2,STN_MONO_012,,LVL_STN_MONO_012_G,1
-ENT_STN_MONO_012_2,"Dadar East Gate 2 (West Side - South)",19.015994,72.851916,2,STN_MONO_012,,LVL_STN_MONO_012_G,0
-ENT_STN_MONO_012_3,"Dadar East Gate 3 (East Side - North)",19.016494,72.852616,2,STN_MONO_012,,LVL_STN_MONO_012_G,1
-ENT_STN_MONO_012_4,"Dadar East Gate 4 (East Side - South)",19.015994,72.852616,2,STN_MONO_012,,LVL_STN_MONO_012_G,0
-ENT_STN_MONO_013_1,"Naigaon Gate 1 (West Side - North)",19.009732,72.847577,2,STN_MONO_013,,LVL_STN_MONO_013_G,1
-ENT_STN_MONO_013_2,"Naigaon Gate 2 (West Side - South)",19.009232,72.847577,2,STN_MONO_013,,LVL_STN_MONO_013_G,0
-ENT_STN_MONO_013_3,"Naigaon Gate 3 (East Side - North)",19.009732,72.848277,2,STN_MONO_013,,LVL_STN_MONO_013_G,1
-ENT_STN_MONO_013_4,"Naigaon Gate 4 (East Side - South)",19.009232,72.848277,2,STN_MONO_013,,LVL_STN_MONO_013_G,0
-ENT_STN_MONO_014_1,"Ambedkar Nagar Gate 1 (West Side - North)",19.001938,72.843816,2,STN_MONO_014,,LVL_STN_MONO_014_G,1
-ENT_STN_MONO_014_2,"Ambedkar Nagar Gate 2 (West Side - South)",19.001438,72.843816,2,STN_MONO_014,,LVL_STN_MONO_014_G,0
-ENT_STN_MONO_014_3,"Ambedkar Nagar Gate 3 (East Side - North)",19.001938,72.844516,2,STN_MONO_014,,LVL_STN_MONO_014_G,1
-ENT_STN_MONO_014_4,"Ambedkar Nagar Gate 4 (East Side - South)",19.001438,72.844516,2,STN_MONO_014,,LVL_STN_MONO_014_G,0
-ENT_STN_MONO_015_1,"Mint Colony Gate 1 (West Side - North)",18.994740,72.843134,2,STN_MONO_015,,LVL_STN_MONO_015_G,1
-ENT_STN_MONO_015_2,"Mint Colony Gate 2 (West Side - South)",18.994240,72.843134,2,STN_MONO_015,,LVL_STN_MONO_015_G,0
-ENT_STN_MONO_015_3,"Mint Colony Gate 3 (East Side - North)",18.994740,72.843834,2,STN_MONO_015,,LVL_STN_MONO_015_G,1
-ENT_STN_MONO_015_4,"Mint Colony Gate 4 (East Side - South)",18.994240,72.843834,2,STN_MONO_015,,LVL_STN_MONO_015_G,0
-ENT_STN_MONO_016_1,"Lower Parel Gate 1 (West Side - North)",18.993435,72.831210,2,STN_MONO_016,,LVL_STN_MONO_016_G,1
-ENT_STN_MONO_016_2,"Lower Parel Gate 2 (West Side - South)",18.992935,72.831210,2,STN_MONO_016,,LVL_STN_MONO_016_G,0
-ENT_STN_MONO_016_3,"Lower Parel Gate 3 (East Side - North)",18.993435,72.831910,2,STN_MONO_016,,LVL_STN_MONO_016_G,1
-ENT_STN_MONO_016_4,"Lower Parel Gate 4 (East Side - South)",18.992935,72.831910,2,STN_MONO_016,,LVL_STN_MONO_016_G,0
-ENT_STN_MONO_017_1,"Sant Gadge Maharaj Chowk (Jacob Circle) Gate 1 (West Side - North)",18.983385,72.828304,2,STN_MONO_017,,LVL_STN_MONO_017_G,1
-ENT_STN_MONO_017_2,"Sant Gadge Maharaj Chowk (Jacob Circle) Gate 2 (West Side - South)",18.982885,72.828304,2,STN_MONO_017,,LVL_STN_MONO_017_G,0
-ENT_STN_MONO_017_3,"Sant Gadge Maharaj Chowk (Jacob Circle) Gate 3 (East Side - North)",18.983385,72.829004,2,STN_MONO_017,,LVL_STN_MONO_017_G,1
-ENT_STN_MONO_017_4,"Sant Gadge Maharaj Chowk (Jacob Circle) Gate 4 (East Side - South)",18.982885,72.829004,2,STN_MONO_017,,LVL_STN_MONO_017_G,0
-NODE_STN_L1_001_PAID,"Versova Concourse (Paid)",19.130278,72.821387,3,STN_L1_001,,LVL_STN_L1_001_C,1
-NODE_STN_L1_001_UNPAID,"Versova Concourse (Unpaid)",19.130278,72.821387,3,STN_L1_001,,LVL_STN_L1_001_C,1
-NODE_STN_L1_002_PAID,"D. N. Nagar Concourse (Paid)",19.128178,72.830812,3,STN_L1_002,,LVL_STN_L1_002_C,1
-NODE_STN_L1_002_UNPAID,"D. N. Nagar Concourse (Unpaid)",19.128178,72.830812,3,STN_L1_002,,LVL_STN_L1_002_C,1
-NODE_STN_L1_003_PAID,"Azad Nagar Concourse (Paid)",19.126805,72.838267,3,STN_L1_003,,LVL_STN_L1_003_C,1
-NODE_STN_L1_003_UNPAID,"Azad Nagar Concourse (Unpaid)",19.126805,72.838267,3,STN_L1_003,,LVL_STN_L1_003_C,1
-NODE_STN_L1_004_PAID,"Andheri Concourse (Paid)",19.120041,72.849482,3,STN_L1_004,,LVL_STN_L1_004_C,1
-NODE_STN_L1_004_UNPAID,"Andheri Concourse (Unpaid)",19.120041,72.849482,3,STN_L1_004,,LVL_STN_L1_004_C,1
-NODE_STN_L1_005_PAID,"Western Express Highway Concourse (Paid)",19.115564,72.856983,3,STN_L1_005,,LVL_STN_L1_005_C,1
-NODE_STN_L1_005_UNPAID,"Western Express Highway Concourse (Unpaid)",19.115564,72.856983,3,STN_L1_005,,LVL_STN_L1_005_C,1
-NODE_STN_L1_006_PAID,"Chakala (J.B. Nagar) Concourse (Paid)",19.111907,72.868242,3,STN_L1_006,,LVL_STN_L1_006_C,1
-NODE_STN_L1_006_UNPAID,"Chakala (J.B. Nagar) Concourse (Unpaid)",19.111907,72.868242,3,STN_L1_006,,LVL_STN_L1_006_C,1
-NODE_STN_L1_007_PAID,"Airport Road Concourse (Paid)",19.109915,72.874797,3,STN_L1_007,,LVL_STN_L1_007_C,1
-NODE_STN_L1_007_UNPAID,"Airport Road Concourse (Unpaid)",19.109915,72.874797,3,STN_L1_007,,LVL_STN_L1_007_C,1
-NODE_STN_L1_008_PAID,"Marol Naka Concourse (Paid)",19.107946,72.880109,3,STN_L1_008,,LVL_STN_L1_008_C,1
-NODE_STN_L1_008_UNPAID,"Marol Naka Concourse (Unpaid)",19.107946,72.880109,3,STN_L1_008,,LVL_STN_L1_008_C,1
-NODE_STN_L1_009_PAID,"Saki Naka Concourse (Paid)",19.103217,72.888509,3,STN_L1_009,,LVL_STN_L1_009_C,1
-NODE_STN_L1_009_UNPAID,"Saki Naka Concourse (Unpaid)",19.103217,72.888509,3,STN_L1_009,,LVL_STN_L1_009_C,1
-NODE_STN_L1_010_PAID,"Asalpha Concourse (Paid)",19.096097,72.895413,3,STN_L1_010,,LVL_STN_L1_010_C,1
-NODE_STN_L1_010_UNPAID,"Asalpha Concourse (Unpaid)",19.096097,72.895413,3,STN_L1_010,,LVL_STN_L1_010_C,1
-NODE_STN_L1_011_PAID,"Jagruti Nagar Concourse (Paid)",19.092171,72.9026,3,STN_L1_011,,LVL_STN_L1_011_C,1
-NODE_STN_L1_011_UNPAID,"Jagruti Nagar Concourse (Unpaid)",19.092171,72.9026,3,STN_L1_011,,LVL_STN_L1_011_C,1
-NODE_STN_L1_012_PAID,"Ghatkopar Concourse (Paid)",19.086286,72.908123,3,STN_L1_012,,LVL_STN_L1_012_C,1
-NODE_STN_L1_012_UNPAID,"Ghatkopar Concourse (Unpaid)",19.086286,72.908123,3,STN_L1_012,,LVL_STN_L1_012_C,1
-NODE_STN_L2A_001_PAID,"Dahisar (East) Concourse (Paid)",19.251263,72.867119,3,STN_L2A_001,,LVL_STN_L2A_001_C,1
-NODE_STN_L2A_001_UNPAID,"Dahisar (East) Concourse (Unpaid)",19.251263,72.867119,3,STN_L2A_001,,LVL_STN_L2A_001_C,1
-NODE_STN_L2A_002_PAID,"Anand Nagar Concourse (Paid)",19.257219,72.866134,3,STN_L2A_002,,LVL_STN_L2A_002_C,1
-NODE_STN_L2A_002_UNPAID,"Anand Nagar Concourse (Unpaid)",19.257219,72.866134,3,STN_L2A_002,,LVL_STN_L2A_002_C,1
-NODE_STN_L2A_003_PAID,"Kandarpada Concourse (Paid)",19.256646,72.850678,3,STN_L2A_003,,LVL_STN_L2A_003_C,1
-NODE_STN_L2A_003_UNPAID,"Kandarpada Concourse (Unpaid)",19.256646,72.850678,3,STN_L2A_003,,LVL_STN_L2A_003_C,1
-NODE_STN_L2A_004_PAID,"Mandapeshwar Concourse (Paid)",19.249261,72.845677,3,STN_L2A_004,,LVL_STN_L2A_004_C,1
-NODE_STN_L2A_004_UNPAID,"Mandapeshwar Concourse (Unpaid)",19.249261,72.845677,3,STN_L2A_004,,LVL_STN_L2A_004_C,1
-NODE_STN_L2A_005_PAID,"Eksar Concourse (Paid)",19.240323,72.843438,3,STN_L2A_005,,LVL_STN_L2A_005_C,1
-NODE_STN_L2A_005_UNPAID,"Eksar Concourse (Unpaid)",19.240323,72.843438,3,STN_L2A_005,,LVL_STN_L2A_005_C,1
-NODE_STN_L2A_006_PAID,"Borivali (West) Concourse (Paid)",19.231194,72.840865,3,STN_L2A_006,,LVL_STN_L2A_006_C,1
-NODE_STN_L2A_006_UNPAID,"Borivali (West) Concourse (Unpaid)",19.231194,72.840865,3,STN_L2A_006,,LVL_STN_L2A_006_C,1
-NODE_STN_L2A_007_PAID,"Shimpoli Concourse (Paid)",19.222769,72.840918,3,STN_L2A_007,,LVL_STN_L2A_007_C,1
-NODE_STN_L2A_007_UNPAID,"Shimpoli Concourse (Unpaid)",19.222769,72.840918,3,STN_L2A_007,,LVL_STN_L2A_007_C,1
-NODE_STN_L2A_008_PAID,"Kandivali (West) Concourse (Paid)",19.214005,72.837355,3,STN_L2A_008,,LVL_STN_L2A_008_C,1
-NODE_STN_L2A_008_UNPAID,"Kandivali (West) Concourse (Unpaid)",19.214005,72.837355,3,STN_L2A_008,,LVL_STN_L2A_008_C,1
-NODE_STN_L2A_009_PAID,"Dahanukarwadi Concourse (Paid)",19.205772,72.834717,3,STN_L2A_009,,LVL_STN_L2A_009_C,1
-NODE_STN_L2A_009_UNPAID,"Dahanukarwadi Concourse (Unpaid)",19.205772,72.834717,3,STN_L2A_009,,LVL_STN_L2A_009_C,1
-NODE_STN_L2A_010_PAID,"Valnai - Meeth Chowky Concourse (Paid)",19.196621,72.833786,3,STN_L2A_010,,LVL_STN_L2A_010_C,1
-NODE_STN_L2A_010_UNPAID,"Valnai - Meeth Chowky Concourse (Unpaid)",19.196621,72.833786,3,STN_L2A_010,,LVL_STN_L2A_010_C,1
-NODE_STN_L2A_011_PAID,"Malad (West) Concourse (Paid)",19.1852,72.83585,3,STN_L2A_011,,LVL_STN_L2A_011_C,1
-NODE_STN_L2A_011_UNPAID,"Malad (West) Concourse (Unpaid)",19.1852,72.83585,3,STN_L2A_011,,LVL_STN_L2A_011_C,1
-NODE_STN_L2A_012_PAID,"Lower Malad Concourse (Paid)",19.172953,72.836423,3,STN_L2A_012,,LVL_STN_L2A_012_C,1
-NODE_STN_L2A_012_UNPAID,"Lower Malad Concourse (Unpaid)",19.172953,72.836423,3,STN_L2A_012,,LVL_STN_L2A_012_C,1
-NODE_STN_L2A_013_PAID,"Bangur Nagar Concourse (Paid)",19.162259,72.834844,3,STN_L2A_013,,LVL_STN_L2A_013_C,1
-NODE_STN_L2A_013_UNPAID,"Bangur Nagar Concourse (Unpaid)",19.162259,72.834844,3,STN_L2A_013,,LVL_STN_L2A_013_C,1
-NODE_STN_L2A_014_PAID,"Goregaon (West) Concourse (Paid)",19.153138,72.835685,3,STN_L2A_014,,LVL_STN_L2A_014_C,1
-NODE_STN_L2A_014_UNPAID,"Goregaon (West) Concourse (Unpaid)",19.153138,72.835685,3,STN_L2A_014,,LVL_STN_L2A_014_C,1
-NODE_STN_L2A_015_PAID,"Oshiwara Concourse (Paid)",19.145979,72.833752,3,STN_L2A_015,,LVL_STN_L2A_015_C,1
-NODE_STN_L2A_015_UNPAID,"Oshiwara Concourse (Unpaid)",19.145979,72.833752,3,STN_L2A_015,,LVL_STN_L2A_015_C,1
-NODE_STN_L2A_016_PAID,"Lower Oshiwara Concourse (Paid)",19.140455,72.831717,3,STN_L2A_016,,LVL_STN_L2A_016_C,1
-NODE_STN_L2A_016_UNPAID,"Lower Oshiwara Concourse (Unpaid)",19.140455,72.831717,3,STN_L2A_016,,LVL_STN_L2A_016_C,1
-NODE_STN_L2A_017_MEZZ,"Andheri (West) Intermediate Mezzanine",19.129089,72.831415,3,STN_L2A_017,,LVL_STN_L2A_017_M,1
-NODE_STN_L2A_017_PAID,"Andheri (West) Concourse (Paid)",19.129089,72.831415,3,STN_L2A_017,,LVL_STN_L2A_017_C,1
-NODE_STN_L2A_017_UNPAID,"Andheri (West) Concourse (Unpaid)",19.129089,72.831415,3,STN_L2A_017,,LVL_STN_L2A_017_C,1
-NODE_STN_L2B_015_PAID,"Chembur Concourse (Paid)",19.053934,72.892644,3,STN_L2B_015,,LVL_STN_L2B_015_C,1
-NODE_STN_L2B_015_UNPAID,"Chembur Concourse (Unpaid)",19.053934,72.892644,3,STN_L2B_015,,LVL_STN_L2B_015_C,1
-NODE_STN_L2B_016_PAID,"Diamond Garden Concourse (Paid)",19.051858,72.901486,3,STN_L2B_016,,LVL_STN_L2B_016_C,1
-NODE_STN_L2B_016_UNPAID,"Diamond Garden Concourse (Unpaid)",19.051858,72.901486,3,STN_L2B_016,,LVL_STN_L2B_016_C,1
-NODE_STN_L2B_017_PAID,"Shivaji Chowk Concourse (Paid)",19.047945,72.906864,3,STN_L2B_017,,LVL_STN_L2B_017_C,1
-NODE_STN_L2B_017_UNPAID,"Shivaji Chowk Concourse (Unpaid)",19.047945,72.906864,3,STN_L2B_017,,LVL_STN_L2B_017_C,1
-NODE_STN_L2B_018_PAID,"BSNL Metro Concourse (Paid)",19.04482,72.917276,3,STN_L2B_018,,LVL_STN_L2B_018_C,1
-NODE_STN_L2B_018_UNPAID,"BSNL Metro Concourse (Unpaid)",19.04482,72.917276,3,STN_L2B_018,,LVL_STN_L2B_018_C,1
-NODE_STN_L2B_019_PAID,"Mankhurd Concourse (Paid)",19.048753,72.930025,3,STN_L2B_019,,LVL_STN_L2B_019_C,1
-NODE_STN_L2B_019_UNPAID,"Mankhurd Concourse (Unpaid)",19.048753,72.930025,3,STN_L2B_019,,LVL_STN_L2B_019_C,1
-NODE_STN_L2B_020_PAID,"Mandale Concourse (Paid)",19.04909,72.938795,3,STN_L2B_020,,LVL_STN_L2B_020_C,1
-NODE_STN_L2B_020_UNPAID,"Mandale Concourse (Unpaid)",19.04909,72.938795,3,STN_L2B_020,,LVL_STN_L2B_020_C,1
-NODE_STN_L3_001_PAID,"Aarey JVLR Concourse (Paid)",19.13101,72.884255,3,STN_L3_001,,LVL_STN_L3_001_C,1
-NODE_STN_L3_001_UNPAID,"Aarey JVLR Concourse (Unpaid)",19.13101,72.884255,3,STN_L3_001,,LVL_STN_L3_001_C,1
-NODE_STN_L3_002_PAID,"SEEPZ Concourse (Paid)",19.12578,72.873447,3,STN_L3_002,,LVL_STN_L3_002_C,1
-NODE_STN_L3_002_UNPAID,"SEEPZ Concourse (Unpaid)",19.12578,72.873447,3,STN_L3_002,,LVL_STN_L3_002_C,1
-NODE_STN_L3_003_PAID,"MIDC Concourse (Paid)",19.117303,72.87382,3,STN_L3_003,,LVL_STN_L3_003_C,1
-NODE_STN_L3_003_UNPAID,"MIDC Concourse (Unpaid)",19.117303,72.87382,3,STN_L3_003,,LVL_STN_L3_003_C,1
-NODE_STN_L3_004_PAID,"Marol Naka Concourse (Paid)",19.108436,72.878579,3,STN_L3_004,,LVL_STN_L3_004_C,1
-NODE_STN_L3_004_UNPAID,"Marol Naka Concourse (Unpaid)",19.108436,72.878579,3,STN_L3_004,,LVL_STN_L3_004_C,1
-NODE_STN_L3_005_PAID,"CSMIA Terminal 2 Concourse (Paid)",19.102274,72.874413,3,STN_L3_005,,LVL_STN_L3_005_C,1
-NODE_STN_L3_005_UNPAID,"CSMIA Terminal 2 Concourse (Unpaid)",19.102274,72.874413,3,STN_L3_005,,LVL_STN_L3_005_C,1
-NODE_STN_L3_006_PAID,"Sahar Road Concourse (Paid)",19.102196,72.865299,3,STN_L3_006,,LVL_STN_L3_006_C,1
-NODE_STN_L3_006_UNPAID,"Sahar Road Concourse (Unpaid)",19.102196,72.865299,3,STN_L3_006,,LVL_STN_L3_006_C,1
-NODE_STN_L3_007_PAID,"CSMIA Terminal 1 Concourse (Paid)",19.093926,72.853447,3,STN_L3_007,,LVL_STN_L3_007_C,1
-NODE_STN_L3_007_UNPAID,"CSMIA Terminal 1 Concourse (Unpaid)",19.093926,72.853447,3,STN_L3_007,,LVL_STN_L3_007_C,1
-NODE_STN_L3_008_PAID,"Santacruz Concourse (Paid)",19.078528,72.847181,3,STN_L3_008,,LVL_STN_L3_008_C,1
-NODE_STN_L3_008_UNPAID,"Santacruz Concourse (Unpaid)",19.078528,72.847181,3,STN_L3_008,,LVL_STN_L3_008_C,1
-NODE_STN_L3_009_PAID,"Bandra Colony Concourse (Paid)",19.070103,72.849266,3,STN_L3_009,,LVL_STN_L3_009_C,1
-NODE_STN_L3_009_UNPAID,"Bandra Colony Concourse (Unpaid)",19.070103,72.849266,3,STN_L3_009,,LVL_STN_L3_009_C,1
-NODE_STN_L3_010_PAID,"BKC Concourse (Paid)",19.060216,72.854956,3,STN_L3_010,,LVL_STN_L3_010_C,1
-NODE_STN_L3_010_UNPAID,"BKC Concourse (Unpaid)",19.060216,72.854956,3,STN_L3_010,,LVL_STN_L3_010_C,1
-NODE_STN_L3_011_PAID,"Dharavi Concourse (Paid)",19.046277,72.849952,3,STN_L3_011,,LVL_STN_L3_011_C,1
-NODE_STN_L3_011_UNPAID,"Dharavi Concourse (Unpaid)",19.046277,72.849952,3,STN_L3_011,,LVL_STN_L3_011_C,1
-NODE_STN_L3_012_PAID,"Sitladevi Concourse (Paid)",19.038392,72.842133,3,STN_L3_012,,LVL_STN_L3_012_C,1
-NODE_STN_L3_012_UNPAID,"Sitladevi Concourse (Unpaid)",19.038392,72.842133,3,STN_L3_012,,LVL_STN_L3_012_C,1
-NODE_STN_L3_013_PAID,"Dadar Metro Concourse (Paid)",19.023667,72.8393,3,STN_L3_013,,LVL_STN_L3_013_C,1
-NODE_STN_L3_013_UNPAID,"Dadar Metro Concourse (Unpaid)",19.023667,72.8393,3,STN_L3_013,,LVL_STN_L3_013_C,1
-NODE_STN_L3_014_PAID,"Siddhivinayak Concourse (Paid)",19.015876,72.830735,3,STN_L3_014,,LVL_STN_L3_014_C,1
-NODE_STN_L3_014_UNPAID,"Siddhivinayak Concourse (Unpaid)",19.015876,72.830735,3,STN_L3_014,,LVL_STN_L3_014_C,1
-NODE_STN_L3_015_PAID,"Worli Concourse (Paid)",19.00878,72.819401,3,STN_L3_015,,LVL_STN_L3_015_C,1
-NODE_STN_L3_015_UNPAID,"Worli Concourse (Unpaid)",19.00878,72.819401,3,STN_L3_015,,LVL_STN_L3_015_C,1
-NODE_STN_L3_016_PAID,"Acharya Atre Chowk Concourse (Paid)",18.9985,72.8182,3,STN_L3_016,,LVL_STN_L3_016_C,1
-NODE_STN_L3_016_UNPAID,"Acharya Atre Chowk Concourse (Unpaid)",18.9985,72.8182,3,STN_L3_016,,LVL_STN_L3_016_C,1
-NODE_STN_L3_017_PAID,"Science Centre Concourse (Paid)",18.990318,72.82177,3,STN_L3_017,,LVL_STN_L3_017_C,1
-NODE_STN_L3_017_UNPAID,"Science Centre Concourse (Unpaid)",18.990318,72.82177,3,STN_L3_017,,LVL_STN_L3_017_C,1
-NODE_STN_L3_018_PAID,"Mahalaxmi Concourse (Paid)",18.979485,72.825295,3,STN_L3_018,,LVL_STN_L3_018_C,1
-NODE_STN_L3_018_UNPAID,"Mahalaxmi Concourse (Unpaid)",18.979485,72.825295,3,STN_L3_018,,LVL_STN_L3_018_C,1
-NODE_STN_L3_019_PAID,"Mumbai Central Concourse (Paid)",18.970603,72.821382,3,STN_L3_019,,LVL_STN_L3_019_C,1
-NODE_STN_L3_019_UNPAID,"Mumbai Central Concourse (Unpaid)",18.970603,72.821382,3,STN_L3_019,,LVL_STN_L3_019_C,1
-NODE_STN_L3_020_PAID,"Grant Road Concourse (Paid)",18.962924,72.817997,3,STN_L3_020,,LVL_STN_L3_020_C,1
-NODE_STN_L3_020_UNPAID,"Grant Road Concourse (Unpaid)",18.962924,72.817997,3,STN_L3_020,,LVL_STN_L3_020_C,1
-NODE_STN_L3_021_PAID,"Girgaon Concourse (Paid)",18.951929,72.822606,3,STN_L3_021,,LVL_STN_L3_021_C,1
-NODE_STN_L3_021_UNPAID,"Girgaon Concourse (Unpaid)",18.951929,72.822606,3,STN_L3_021,,LVL_STN_L3_021_C,1
-NODE_STN_L3_022_PAID,"Kalbadevi Concourse (Paid)",18.946899,72.826943,3,STN_L3_022,,LVL_STN_L3_022_C,1
-NODE_STN_L3_022_UNPAID,"Kalbadevi Concourse (Unpaid)",18.946899,72.826943,3,STN_L3_022,,LVL_STN_L3_022_C,1
-NODE_STN_L3_023_PAID,"CSMT Metro Concourse (Paid)",18.940664,72.83217,3,STN_L3_023,,LVL_STN_L3_023_C,1
-NODE_STN_L3_023_UNPAID,"CSMT Metro Concourse (Unpaid)",18.940664,72.83217,3,STN_L3_023,,LVL_STN_L3_023_C,1
-NODE_STN_L3_024_PAID,"Hutatma Chowk Concourse (Paid)",18.934579,72.832826,3,STN_L3_024,,LVL_STN_L3_024_C,1
-NODE_STN_L3_024_UNPAID,"Hutatma Chowk Concourse (Unpaid)",18.934579,72.832826,3,STN_L3_024,,LVL_STN_L3_024_C,1
-NODE_STN_L3_025_PAID,"Churchgate Concourse (Paid)",18.930654,72.826172,3,STN_L3_025,,LVL_STN_L3_025_C,1
-NODE_STN_L3_025_UNPAID,"Churchgate Concourse (Unpaid)",18.930654,72.826172,3,STN_L3_025,,LVL_STN_L3_025_C,1
-NODE_STN_L3_026_PAID,"Vidhan Bhawan Concourse (Paid)",18.924696,72.825616,3,STN_L3_026,,LVL_STN_L3_026_C,1
-NODE_STN_L3_026_UNPAID,"Vidhan Bhawan Concourse (Unpaid)",18.924696,72.825616,3,STN_L3_026,,LVL_STN_L3_026_C,1
-NODE_STN_L3_027_PAID,"Cuffe Parade Concourse (Paid)",18.912955,72.820196,3,STN_L3_027,,LVL_STN_L3_027_C,1
-NODE_STN_L3_027_UNPAID,"Cuffe Parade Concourse (Unpaid)",18.912955,72.820196,3,STN_L3_027,,LVL_STN_L3_027_C,1
-NODE_STN_L7_001_PAID,"Dahisar (East) Concourse (Paid)",19.251263,72.867119,3,STN_L7_001,,LVL_STN_L7_001_C,1
-NODE_STN_L7_001_UNPAID,"Dahisar (East) Concourse (Unpaid)",19.251263,72.867119,3,STN_L7_001,,LVL_STN_L7_001_C,1
-NODE_STN_L7_002_PAID,"Ovaripada Concourse (Paid)",19.243411,72.864248,3,STN_L7_002,,LVL_STN_L7_002_C,1
-NODE_STN_L7_002_UNPAID,"Ovaripada Concourse (Unpaid)",19.243411,72.864248,3,STN_L7_002,,LVL_STN_L7_002_C,1
-NODE_STN_L7_003_PAID,"Rashtriya Udyan Concourse (Paid)",19.234671,72.863161,3,STN_L7_003,,LVL_STN_L7_003_C,1
-NODE_STN_L7_003_UNPAID,"Rashtriya Udyan Concourse (Unpaid)",19.234671,72.863161,3,STN_L7_003,,LVL_STN_L7_003_C,1
-NODE_STN_L7_004_PAID,"Devipada Concourse (Paid)",19.224332,72.86422,3,STN_L7_004,,LVL_STN_L7_004_C,1
-NODE_STN_L7_004_UNPAID,"Devipada Concourse (Unpaid)",19.224332,72.86422,3,STN_L7_004,,LVL_STN_L7_004_C,1
-NODE_STN_L7_005_PAID,"Magathane Concourse (Paid)",19.217203,72.866728,3,STN_L7_005,,LVL_STN_L7_005_C,1
-NODE_STN_L7_005_UNPAID,"Magathane Concourse (Unpaid)",19.217203,72.866728,3,STN_L7_005,,LVL_STN_L7_005_C,1
-NODE_STN_L7_006_PAID,"Poisar Concourse (Paid)",19.203938,72.863499,3,STN_L7_006,,LVL_STN_L7_006_C,1
-NODE_STN_L7_006_UNPAID,"Poisar Concourse (Unpaid)",19.203938,72.863499,3,STN_L7_006,,LVL_STN_L7_006_C,1
-NODE_STN_L7_007_PAID,"Akurli Concourse (Paid)",19.198115,72.860646,3,STN_L7_007,,LVL_STN_L7_007_C,1
-NODE_STN_L7_007_UNPAID,"Akurli Concourse (Unpaid)",19.198115,72.860646,3,STN_L7_007,,LVL_STN_L7_007_C,1
-NODE_STN_L7_008_PAID,"Kurar Concourse (Paid)",19.187264,72.858512,3,STN_L7_008,,LVL_STN_L7_008_C,1
-NODE_STN_L7_008_UNPAID,"Kurar Concourse (Unpaid)",19.187264,72.858512,3,STN_L7_008,,LVL_STN_L7_008_C,1
-NODE_STN_L7_009_PAID,"Dindoshi Concourse (Paid)",19.17972,72.8583,3,STN_L7_009,,LVL_STN_L7_009_C,1
-NODE_STN_L7_009_UNPAID,"Dindoshi Concourse (Unpaid)",19.17972,72.8583,3,STN_L7_009,,LVL_STN_L7_009_C,1
-NODE_STN_L7_010_PAID,"Aarey Concourse (Paid)",19.169506,72.858801,3,STN_L7_010,,LVL_STN_L7_010_C,1
-NODE_STN_L7_010_UNPAID,"Aarey Concourse (Unpaid)",19.169506,72.858801,3,STN_L7_010,,LVL_STN_L7_010_C,1
-NODE_STN_L7_011_PAID,"Goregaon (East) Concourse (Paid)",19.152442,72.856573,3,STN_L7_011,,LVL_STN_L7_011_C,1
-NODE_STN_L7_011_UNPAID,"Goregaon (East) Concourse (Unpaid)",19.152442,72.856573,3,STN_L7_011,,LVL_STN_L7_011_C,1
-NODE_STN_L7_012_PAID,"Jogeshwari (East) Concourse (Paid)",19.142928,72.855166,3,STN_L7_012,,LVL_STN_L7_012_C,1
-NODE_STN_L7_012_UNPAID,"Jogeshwari (East) Concourse (Unpaid)",19.142928,72.855166,3,STN_L7_012,,LVL_STN_L7_012_C,1
-NODE_STN_L7_013_PAID,"Mogra Concourse (Paid)",19.128677,72.855452,3,STN_L7_013,,LVL_STN_L7_013_C,1
-NODE_STN_L7_013_UNPAID,"Mogra Concourse (Unpaid)",19.128677,72.855452,3,STN_L7_013,,LVL_STN_L7_013_C,1
-NODE_STN_L7_014_PAID,"Gundavali Concourse (Paid)",19.114439,72.855172,3,STN_L7_014,,LVL_STN_L7_014_C,1
-NODE_STN_L7_014_UNPAID,"Gundavali Concourse (Unpaid)",19.114439,72.855172,3,STN_L7_014,,LVL_STN_L7_014_C,1
-NODE_STN_L9_001_PAID,"Pandhurang Wadi Concourse (Paid)",19.265047,72.875159,3,STN_L9_001,,LVL_STN_L9_001_C,1
-NODE_STN_L9_001_UNPAID,"Pandhurang Wadi Concourse (Unpaid)",19.265047,72.875159,3,STN_L9_001,,LVL_STN_L9_001_C,1
-NODE_STN_L9_002_PAID,"Miragaon Concourse (Paid)",19.271131,72.880865,3,STN_L9_002,,LVL_STN_L9_002_C,1
-NODE_STN_L9_002_UNPAID,"Miragaon Concourse (Unpaid)",19.271131,72.880865,3,STN_L9_002,,LVL_STN_L9_002_C,1
-NODE_STN_L9_003_PAID,"Kashigaon Concourse (Paid)",19.277693,72.88016,3,STN_L9_003,,LVL_STN_L9_003_C,1
-NODE_STN_L9_003_UNPAID,"Kashigaon Concourse (Unpaid)",19.277693,72.88016,3,STN_L9_003,,LVL_STN_L9_003_C,1
-NODE_STN_MONO_001_PAID,"Chembur Concourse (Paid)",19.054045,72.89464,3,STN_MONO_001,,LVL_STN_MONO_001_C,1
-NODE_STN_MONO_001_UNPAID,"Chembur Concourse (Unpaid)",19.054045,72.89464,3,STN_MONO_001,,LVL_STN_MONO_001_C,1
-NODE_STN_MONO_002_PAID,"VNP & RC Marg Junction Concourse (Paid)",19.052666,72.894344,3,STN_MONO_002,,LVL_STN_MONO_002_C,1
-NODE_STN_MONO_002_UNPAID,"VNP & RC Marg Junction Concourse (Unpaid)",19.052666,72.894344,3,STN_MONO_002,,LVL_STN_MONO_002_C,1
-NODE_STN_MONO_003_PAID,"Fertiliser Township Concourse (Paid)",19.043915,72.893473,3,STN_MONO_003,,LVL_STN_MONO_003_C,1
-NODE_STN_MONO_003_UNPAID,"Fertiliser Township Concourse (Unpaid)",19.043915,72.893473,3,STN_MONO_003,,LVL_STN_MONO_003_C,1
-NODE_STN_MONO_004_PAID,"Bharat Petroleum Concourse (Paid)",19.03525,72.895557,3,STN_MONO_004,,LVL_STN_MONO_004_C,1
-NODE_STN_MONO_004_UNPAID,"Bharat Petroleum Concourse (Unpaid)",19.03525,72.895557,3,STN_MONO_004,,LVL_STN_MONO_004_C,1
-NODE_STN_MONO_005_PAID,"Mysore Colony Concourse (Paid)",19.027716,72.891449,3,STN_MONO_005,,LVL_STN_MONO_005_C,1
-NODE_STN_MONO_005_UNPAID,"Mysore Colony Concourse (Unpaid)",19.027716,72.891449,3,STN_MONO_005,,LVL_STN_MONO_005_C,1
-NODE_STN_MONO_006_PAID,"Bhakti Park Concourse (Paid)",19.026073,72.877345,3,STN_MONO_006,,LVL_STN_MONO_006_C,1
-NODE_STN_MONO_006_UNPAID,"Bhakti Park Concourse (Unpaid)",19.026073,72.877345,3,STN_MONO_006,,LVL_STN_MONO_006_C,1
-NODE_STN_MONO_007_PAID,"Wadala Depot Concourse (Paid)",19.038876,72.874004,3,STN_MONO_007,,LVL_STN_MONO_007_C,1
-NODE_STN_MONO_007_UNPAID,"Wadala Depot Concourse (Unpaid)",19.038876,72.874004,3,STN_MONO_007,,LVL_STN_MONO_007_C,1
-NODE_STN_MONO_008_PAID,"GTB Nagar Concourse (Paid)",19.036721,72.87085,3,STN_MONO_008,,LVL_STN_MONO_008_C,1
-NODE_STN_MONO_008_UNPAID,"GTB Nagar Concourse (Unpaid)",19.036721,72.87085,3,STN_MONO_008,,LVL_STN_MONO_008_C,1
-NODE_STN_MONO_009_PAID,"Antop Hill Concourse (Paid)",19.03017,72.867018,3,STN_MONO_009,,LVL_STN_MONO_009_C,1
-NODE_STN_MONO_009_UNPAID,"Antop Hill Concourse (Unpaid)",19.03017,72.867018,3,STN_MONO_009,,LVL_STN_MONO_009_C,1
-NODE_STN_MONO_010_PAID,"Acharya Atre Nagar Concourse (Paid)",19.023839,72.863882,3,STN_MONO_010,,LVL_STN_MONO_010_C,1
-NODE_STN_MONO_010_UNPAID,"Acharya Atre Nagar Concourse (Unpaid)",19.023839,72.863882,3,STN_MONO_010,,LVL_STN_MONO_010_C,1
-NODE_STN_MONO_011_PAID,"Wadala Bridge Concourse (Paid)",19.01746,72.859381,3,STN_MONO_011,,LVL_STN_MONO_011_C,1
-NODE_STN_MONO_011_UNPAID,"Wadala Bridge Concourse (Unpaid)",19.01746,72.859381,3,STN_MONO_011,,LVL_STN_MONO_011_C,1
-NODE_STN_MONO_012_PAID,"Dadar East Concourse (Paid)",19.016244,72.852266,3,STN_MONO_012,,LVL_STN_MONO_012_C,1
-NODE_STN_MONO_012_UNPAID,"Dadar East Concourse (Unpaid)",19.016244,72.852266,3,STN_MONO_012,,LVL_STN_MONO_012_C,1
-NODE_STN_MONO_013_PAID,"Naigaon Concourse (Paid)",19.009482,72.847927,3,STN_MONO_013,,LVL_STN_MONO_013_C,1
-NODE_STN_MONO_013_UNPAID,"Naigaon Concourse (Unpaid)",19.009482,72.847927,3,STN_MONO_013,,LVL_STN_MONO_013_C,1
-NODE_STN_MONO_014_PAID,"Ambedkar Nagar Concourse (Paid)",19.001688,72.844166,3,STN_MONO_014,,LVL_STN_MONO_014_C,1
-NODE_STN_MONO_014_UNPAID,"Ambedkar Nagar Concourse (Unpaid)",19.001688,72.844166,3,STN_MONO_014,,LVL_STN_MONO_014_C,1
-NODE_STN_MONO_015_PAID,"Mint Colony Concourse (Paid)",18.99449,72.843484,3,STN_MONO_015,,LVL_STN_MONO_015_C,1
-NODE_STN_MONO_015_UNPAID,"Mint Colony Concourse (Unpaid)",18.99449,72.843484,3,STN_MONO_015,,LVL_STN_MONO_015_C,1
-NODE_STN_MONO_016_PAID,"Lower Parel Concourse (Paid)",18.993185,72.83156,3,STN_MONO_016,,LVL_STN_MONO_016_C,1
-NODE_STN_MONO_016_UNPAID,"Lower Parel Concourse (Unpaid)",18.993185,72.83156,3,STN_MONO_016,,LVL_STN_MONO_016_C,1
-NODE_STN_MONO_017_PAID,"Sant Gadge Maharaj Chowk (Jacob Circle) Concourse (Paid)",18.983135,72.828654,3,STN_MONO_017,,LVL_STN_MONO_017_C,1
-NODE_STN_MONO_017_UNPAID,"Sant Gadge Maharaj Chowk (Jacob Circle) Concourse (Unpaid)",18.983135,72.828654,3,STN_MONO_017,,LVL_STN_MONO_017_C,1
-PF_CR_CSMT,"CSMT Railway Station (Central Railway)",18.9412,72.8341,0,,,,1
-PF_CR_DADAR,"Dadar Railway Station (Central/Western Railway)",19.0183,72.8431,0,,,,1
-PF_CR_GHATKOPAR,"Ghatkopar Railway Station (Central Railway)",19.0863,72.9081,0,,,,1
-PF_STN_L1_001_1,"Versova Platform 1",19.130278,72.821387,0,STN_L1_001,1,LVL_STN_L1_001_P,1
-PF_STN_L1_001_2,"Versova Platform 2",19.130278,72.821387,0,STN_L1_001,2,LVL_STN_L1_001_P,1
-PF_STN_L1_002_1,"D. N. Nagar Platform 1",19.128178,72.830812,0,STN_L1_002,1,LVL_STN_L1_002_P,1
-PF_STN_L1_002_2,"D. N. Nagar Platform 2",19.128178,72.830812,0,STN_L1_002,2,LVL_STN_L1_002_P,1
-PF_STN_L1_003_1,"Azad Nagar Platform 1",19.126805,72.838267,0,STN_L1_003,1,LVL_STN_L1_003_P,1
-PF_STN_L1_003_2,"Azad Nagar Platform 2",19.126805,72.838267,0,STN_L1_003,2,LVL_STN_L1_003_P,1
-PF_STN_L1_004_1,"Andheri Platform 1",19.120041,72.849482,0,STN_L1_004,1,LVL_STN_L1_004_P,1
-PF_STN_L1_004_2,"Andheri Platform 2",19.120041,72.849482,0,STN_L1_004,2,LVL_STN_L1_004_P,1
-PF_STN_L1_005_1,"Western Express Highway Platform 1",19.115564,72.856983,0,STN_L1_005,1,LVL_STN_L1_005_P,1
-PF_STN_L1_005_2,"Western Express Highway Platform 2",19.115564,72.856983,0,STN_L1_005,2,LVL_STN_L1_005_P,1
-PF_STN_L1_006_1,"Chakala (J.B. Nagar) Platform 1",19.111907,72.868242,0,STN_L1_006,1,LVL_STN_L1_006_P,1
-PF_STN_L1_006_2,"Chakala (J.B. Nagar) Platform 2",19.111907,72.868242,0,STN_L1_006,2,LVL_STN_L1_006_P,1
-PF_STN_L1_007_1,"Airport Road Platform 1",19.109915,72.874797,0,STN_L1_007,1,LVL_STN_L1_007_P,1
-PF_STN_L1_007_2,"Airport Road Platform 2",19.109915,72.874797,0,STN_L1_007,2,LVL_STN_L1_007_P,1
-PF_STN_L1_008_1,"Marol Naka Platform 1",19.107946,72.880109,0,STN_L1_008,1,LVL_STN_L1_008_P,1
-PF_STN_L1_008_2,"Marol Naka Platform 2",19.107946,72.880109,0,STN_L1_008,2,LVL_STN_L1_008_P,1
-PF_STN_L1_009_1,"Saki Naka Platform 1",19.103217,72.888509,0,STN_L1_009,1,LVL_STN_L1_009_P,1
-PF_STN_L1_009_2,"Saki Naka Platform 2",19.103217,72.888509,0,STN_L1_009,2,LVL_STN_L1_009_P,1
-PF_STN_L1_010_1,"Asalpha Platform 1",19.096097,72.895413,0,STN_L1_010,1,LVL_STN_L1_010_P,1
-PF_STN_L1_010_2,"Asalpha Platform 2",19.096097,72.895413,0,STN_L1_010,2,LVL_STN_L1_010_P,1
-PF_STN_L1_011_1,"Jagruti Nagar Platform 1",19.092171,72.9026,0,STN_L1_011,1,LVL_STN_L1_011_P,1
-PF_STN_L1_011_2,"Jagruti Nagar Platform 2",19.092171,72.9026,0,STN_L1_011,2,LVL_STN_L1_011_P,1
-PF_STN_L1_012_1,"Ghatkopar Platform 1",19.086286,72.908123,0,STN_L1_012,1,LVL_STN_L1_012_P,1
-PF_STN_L1_012_2,"Ghatkopar Platform 2",19.086286,72.908123,0,STN_L1_012,2,LVL_STN_L1_012_P,1
-PF_STN_L2A_001_1,"Dahisar (East) Platform 1",19.251263,72.867119,0,STN_L2A_001,1,LVL_STN_L2A_001_P,1
-PF_STN_L2A_001_2,"Dahisar (East) Platform 2",19.251263,72.867119,0,STN_L2A_001,2,LVL_STN_L2A_001_P,1
-PF_STN_L2A_002_1,"Anand Nagar Platform 1",19.257219,72.866134,0,STN_L2A_002,1,LVL_STN_L2A_002_P,1
-PF_STN_L2A_002_2,"Anand Nagar Platform 2",19.257219,72.866134,0,STN_L2A_002,2,LVL_STN_L2A_002_P,1
-PF_STN_L2A_003_1,"Kandarpada Platform 1",19.256646,72.850678,0,STN_L2A_003,1,LVL_STN_L2A_003_P,1
-PF_STN_L2A_003_2,"Kandarpada Platform 2",19.256646,72.850678,0,STN_L2A_003,2,LVL_STN_L2A_003_P,1
-PF_STN_L2A_004_1,"Mandapeshwar Platform 1",19.249261,72.845677,0,STN_L2A_004,1,LVL_STN_L2A_004_P,1
-PF_STN_L2A_004_2,"Mandapeshwar Platform 2",19.249261,72.845677,0,STN_L2A_004,2,LVL_STN_L2A_004_P,1
-PF_STN_L2A_005_1,"Eksar Platform 1",19.240323,72.843438,0,STN_L2A_005,1,LVL_STN_L2A_005_P,1
-PF_STN_L2A_005_2,"Eksar Platform 2",19.240323,72.843438,0,STN_L2A_005,2,LVL_STN_L2A_005_P,1
-PF_STN_L2A_006_1,"Borivali (West) Platform 1",19.231194,72.840865,0,STN_L2A_006,1,LVL_STN_L2A_006_P,1
-PF_STN_L2A_006_2,"Borivali (West) Platform 2",19.231194,72.840865,0,STN_L2A_006,2,LVL_STN_L2A_006_P,1
-PF_STN_L2A_007_1,"Shimpoli Platform 1",19.222769,72.840918,0,STN_L2A_007,1,LVL_STN_L2A_007_P,1
-PF_STN_L2A_007_2,"Shimpoli Platform 2",19.222769,72.840918,0,STN_L2A_007,2,LVL_STN_L2A_007_P,1
-PF_STN_L2A_008_1,"Kandivali (West) Platform 1",19.214005,72.837355,0,STN_L2A_008,1,LVL_STN_L2A_008_P,1
-PF_STN_L2A_008_2,"Kandivali (West) Platform 2",19.214005,72.837355,0,STN_L2A_008,2,LVL_STN_L2A_008_P,1
-PF_STN_L2A_009_1,"Dahanukarwadi Platform 1",19.205772,72.834717,0,STN_L2A_009,1,LVL_STN_L2A_009_P,1
-PF_STN_L2A_009_2,"Dahanukarwadi Platform 2",19.205772,72.834717,0,STN_L2A_009,2,LVL_STN_L2A_009_P,1
-PF_STN_L2A_010_1,"Valnai - Meeth Chowky Platform 1",19.196621,72.833786,0,STN_L2A_010,1,LVL_STN_L2A_010_P,1
-PF_STN_L2A_010_2,"Valnai - Meeth Chowky Platform 2",19.196621,72.833786,0,STN_L2A_010,2,LVL_STN_L2A_010_P,1
-PF_STN_L2A_011_1,"Malad (West) Platform 1",19.1852,72.83585,0,STN_L2A_011,1,LVL_STN_L2A_011_P,1
-PF_STN_L2A_011_2,"Malad (West) Platform 2",19.1852,72.83585,0,STN_L2A_011,2,LVL_STN_L2A_011_P,1
-PF_STN_L2A_012_1,"Lower Malad Platform 1",19.172953,72.836423,0,STN_L2A_012,1,LVL_STN_L2A_012_P,1
-PF_STN_L2A_012_2,"Lower Malad Platform 2",19.172953,72.836423,0,STN_L2A_012,2,LVL_STN_L2A_012_P,1
-PF_STN_L2A_013_1,"Bangur Nagar Platform 1",19.162259,72.834844,0,STN_L2A_013,1,LVL_STN_L2A_013_P,1
-PF_STN_L2A_013_2,"Bangur Nagar Platform 2",19.162259,72.834844,0,STN_L2A_013,2,LVL_STN_L2A_013_P,1
-PF_STN_L2A_014_1,"Goregaon (West) Platform 1",19.153138,72.835685,0,STN_L2A_014,1,LVL_STN_L2A_014_P,1
-PF_STN_L2A_014_2,"Goregaon (West) Platform 2",19.153138,72.835685,0,STN_L2A_014,2,LVL_STN_L2A_014_P,1
-PF_STN_L2A_015_1,"Oshiwara Platform 1",19.145979,72.833752,0,STN_L2A_015,1,LVL_STN_L2A_015_P,1
-PF_STN_L2A_015_2,"Oshiwara Platform 2",19.145979,72.833752,0,STN_L2A_015,2,LVL_STN_L2A_015_P,1
-PF_STN_L2A_016_1,"Lower Oshiwara Platform 1",19.140455,72.831717,0,STN_L2A_016,1,LVL_STN_L2A_016_P,1
-PF_STN_L2A_016_2,"Lower Oshiwara Platform 2",19.140455,72.831717,0,STN_L2A_016,2,LVL_STN_L2A_016_P,1
-PF_STN_L2A_017_1,"Andheri (West) Platform 1",19.129089,72.831415,0,STN_L2A_017,1,LVL_STN_L2A_017_P,1
-PF_STN_L2A_017_2,"Andheri (West) Platform 2",19.129089,72.831415,0,STN_L2A_017,2,LVL_STN_L2A_017_P,1
-PF_STN_L2B_015_1,"Chembur Platform 1",19.053934,72.892644,0,STN_L2B_015,1,LVL_STN_L2B_015_P,1
-PF_STN_L2B_015_2,"Chembur Platform 2",19.053934,72.892644,0,STN_L2B_015,2,LVL_STN_L2B_015_P,1
-PF_STN_L2B_016_1,"Diamond Garden Platform 1",19.051858,72.901486,0,STN_L2B_016,1,LVL_STN_L2B_016_P,1
-PF_STN_L2B_016_2,"Diamond Garden Platform 2",19.051858,72.901486,0,STN_L2B_016,2,LVL_STN_L2B_016_P,1
-PF_STN_L2B_017_1,"Shivaji Chowk Platform 1",19.047945,72.906864,0,STN_L2B_017,1,LVL_STN_L2B_017_P,1
-PF_STN_L2B_017_2,"Shivaji Chowk Platform 2",19.047945,72.906864,0,STN_L2B_017,2,LVL_STN_L2B_017_P,1
-PF_STN_L2B_018_1,"BSNL Metro Platform 1",19.04482,72.917276,0,STN_L2B_018,1,LVL_STN_L2B_018_P,1
-PF_STN_L2B_018_2,"BSNL Metro Platform 2",19.04482,72.917276,0,STN_L2B_018,2,LVL_STN_L2B_018_P,1
-PF_STN_L2B_019_1,"Mankhurd Platform 1",19.048753,72.930025,0,STN_L2B_019,1,LVL_STN_L2B_019_P,1
-PF_STN_L2B_019_2,"Mankhurd Platform 2",19.048753,72.930025,0,STN_L2B_019,2,LVL_STN_L2B_019_P,1
-PF_STN_L2B_020_1,"Mandale Platform 1",19.04909,72.938795,0,STN_L2B_020,1,LVL_STN_L2B_020_P,1
-PF_STN_L2B_020_2,"Mandale Platform 2",19.04909,72.938795,0,STN_L2B_020,2,LVL_STN_L2B_020_P,1
-PF_STN_L3_001_1,"Aarey JVLR Platform 1",19.13101,72.884255,0,STN_L3_001,1,LVL_STN_L3_001_P,1
-PF_STN_L3_001_2,"Aarey JVLR Platform 2",19.13101,72.884255,0,STN_L3_001,2,LVL_STN_L3_001_P,1
-PF_STN_L3_002_1,"SEEPZ Platform 1",19.12578,72.873447,0,STN_L3_002,1,LVL_STN_L3_002_P,1
-PF_STN_L3_002_2,"SEEPZ Platform 2",19.12578,72.873447,0,STN_L3_002,2,LVL_STN_L3_002_P,1
-PF_STN_L3_003_1,"MIDC Platform 1",19.117303,72.87382,0,STN_L3_003,1,LVL_STN_L3_003_P,1
-PF_STN_L3_003_2,"MIDC Platform 2",19.117303,72.87382,0,STN_L3_003,2,LVL_STN_L3_003_P,1
-PF_STN_L3_004_1,"Marol Naka Platform 1",19.108436,72.878579,0,STN_L3_004,1,LVL_STN_L3_004_P,1
-PF_STN_L3_004_2,"Marol Naka Platform 2",19.108436,72.878579,0,STN_L3_004,2,LVL_STN_L3_004_P,1
-PF_STN_L3_005_1,"CSMIA Terminal 2 Platform 1",19.102274,72.874413,0,STN_L3_005,1,LVL_STN_L3_005_P,1
-PF_STN_L3_005_2,"CSMIA Terminal 2 Platform 2",19.102274,72.874413,0,STN_L3_005,2,LVL_STN_L3_005_P,1
-PF_STN_L3_006_1,"Sahar Road Platform 1",19.102196,72.865299,0,STN_L3_006,1,LVL_STN_L3_006_P,1
-PF_STN_L3_006_2,"Sahar Road Platform 2",19.102196,72.865299,0,STN_L3_006,2,LVL_STN_L3_006_P,1
-PF_STN_L3_007_1,"CSMIA Terminal 1 Platform 1",19.093926,72.853447,0,STN_L3_007,1,LVL_STN_L3_007_P,1
-PF_STN_L3_007_2,"CSMIA Terminal 1 Platform 2",19.093926,72.853447,0,STN_L3_007,2,LVL_STN_L3_007_P,1
-PF_STN_L3_008_1,"Santacruz Platform 1",19.078528,72.847181,0,STN_L3_008,1,LVL_STN_L3_008_P,1
-PF_STN_L3_008_2,"Santacruz Platform 2",19.078528,72.847181,0,STN_L3_008,2,LVL_STN_L3_008_P,1
-PF_STN_L3_009_1,"Bandra Colony Platform 1",19.070103,72.849266,0,STN_L3_009,1,LVL_STN_L3_009_P,1
-PF_STN_L3_009_2,"Bandra Colony Platform 2",19.070103,72.849266,0,STN_L3_009,2,LVL_STN_L3_009_P,1
-PF_STN_L3_010_1,"BKC Platform 1",19.060216,72.854956,0,STN_L3_010,1,LVL_STN_L3_010_P,1
-PF_STN_L3_010_2,"BKC Platform 2",19.060216,72.854956,0,STN_L3_010,2,LVL_STN_L3_010_P,1
-PF_STN_L3_011_1,"Dharavi Platform 1",19.046277,72.849952,0,STN_L3_011,1,LVL_STN_L3_011_P,1
-PF_STN_L3_011_2,"Dharavi Platform 2",19.046277,72.849952,0,STN_L3_011,2,LVL_STN_L3_011_P,1
-PF_STN_L3_012_1,"Sitladevi Platform 1",19.038392,72.842133,0,STN_L3_012,1,LVL_STN_L3_012_P,1
-PF_STN_L3_012_2,"Sitladevi Platform 2",19.038392,72.842133,0,STN_L3_012,2,LVL_STN_L3_012_P,1
-PF_STN_L3_013_1,"Dadar Metro Platform 1",19.023667,72.8393,0,STN_L3_013,1,LVL_STN_L3_013_P,1
-PF_STN_L3_013_2,"Dadar Metro Platform 2",19.023667,72.8393,0,STN_L3_013,2,LVL_STN_L3_013_P,1
-PF_STN_L3_014_1,"Siddhivinayak Platform 1",19.015876,72.830735,0,STN_L3_014,1,LVL_STN_L3_014_P,1
-PF_STN_L3_014_2,"Siddhivinayak Platform 2",19.015876,72.830735,0,STN_L3_014,2,LVL_STN_L3_014_P,1
-PF_STN_L3_015_1,"Worli Platform 1",19.00878,72.819401,0,STN_L3_015,1,LVL_STN_L3_015_P,1
-PF_STN_L3_015_2,"Worli Platform 2",19.00878,72.819401,0,STN_L3_015,2,LVL_STN_L3_015_P,1
-PF_STN_L3_016_1,"Acharya Atre Chowk Platform 1",18.9985,72.8182,0,STN_L3_016,1,LVL_STN_L3_016_P,1
-PF_STN_L3_016_2,"Acharya Atre Chowk Platform 2",18.9985,72.8182,0,STN_L3_016,2,LVL_STN_L3_016_P,1
-PF_STN_L3_017_1,"Science Centre Platform 1",18.990318,72.82177,0,STN_L3_017,1,LVL_STN_L3_017_P,1
-PF_STN_L3_017_2,"Science Centre Platform 2",18.990318,72.82177,0,STN_L3_017,2,LVL_STN_L3_017_P,1
-PF_STN_L3_018_1,"Mahalaxmi Platform 1",18.979485,72.825295,0,STN_L3_018,1,LVL_STN_L3_018_P,1
-PF_STN_L3_018_2,"Mahalaxmi Platform 2",18.979485,72.825295,0,STN_L3_018,2,LVL_STN_L3_018_P,1
-PF_STN_L3_019_1,"Mumbai Central Platform 1",18.970603,72.821382,0,STN_L3_019,1,LVL_STN_L3_019_P,1
-PF_STN_L3_019_2,"Mumbai Central Platform 2",18.970603,72.821382,0,STN_L3_019,2,LVL_STN_L3_019_P,1
-PF_STN_L3_020_1,"Grant Road Platform 1",18.962924,72.817997,0,STN_L3_020,1,LVL_STN_L3_020_P,1
-PF_STN_L3_020_2,"Grant Road Platform 2",18.962924,72.817997,0,STN_L3_020,2,LVL_STN_L3_020_P,1
-PF_STN_L3_021_1,"Girgaon Platform 1",18.951929,72.822606,0,STN_L3_021,1,LVL_STN_L3_021_P,1
-PF_STN_L3_021_2,"Girgaon Platform 2",18.951929,72.822606,0,STN_L3_021,2,LVL_STN_L3_021_P,1
-PF_STN_L3_022_1,"Kalbadevi Platform 1",18.946899,72.826943,0,STN_L3_022,1,LVL_STN_L3_022_P,1
-PF_STN_L3_022_2,"Kalbadevi Platform 2",18.946899,72.826943,0,STN_L3_022,2,LVL_STN_L3_022_P,1
-PF_STN_L3_023_1,"CSMT Metro Platform 1",18.940664,72.83217,0,STN_L3_023,1,LVL_STN_L3_023_P,1
-PF_STN_L3_023_2,"CSMT Metro Platform 2",18.940664,72.83217,0,STN_L3_023,2,LVL_STN_L3_023_P,1
-PF_STN_L3_024_1,"Hutatma Chowk Platform 1",18.934579,72.832826,0,STN_L3_024,1,LVL_STN_L3_024_P,1
-PF_STN_L3_024_2,"Hutatma Chowk Platform 2",18.934579,72.832826,0,STN_L3_024,2,LVL_STN_L3_024_P,1
-PF_STN_L3_025_1,"Churchgate Platform 1",18.930654,72.826172,0,STN_L3_025,1,LVL_STN_L3_025_P,1
-PF_STN_L3_025_2,"Churchgate Platform 2",18.930654,72.826172,0,STN_L3_025,2,LVL_STN_L3_025_P,1
-PF_STN_L3_026_1,"Vidhan Bhawan Platform 1",18.924696,72.825616,0,STN_L3_026,1,LVL_STN_L3_026_P,1
-PF_STN_L3_026_2,"Vidhan Bhawan Platform 2",18.924696,72.825616,0,STN_L3_026,2,LVL_STN_L3_026_P,1
-PF_STN_L3_027_1,"Cuffe Parade Platform 1",18.912955,72.820196,0,STN_L3_027,1,LVL_STN_L3_027_P,1
-PF_STN_L3_027_2,"Cuffe Parade Platform 2",18.912955,72.820196,0,STN_L3_027,2,LVL_STN_L3_027_P,1
-PF_STN_L7_001_1,"Dahisar (East) Platform 1",19.251263,72.867119,0,STN_L7_001,1,LVL_STN_L7_001_P,1
-PF_STN_L7_001_2,"Dahisar (East) Platform 2",19.251263,72.867119,0,STN_L7_001,2,LVL_STN_L7_001_P,1
-PF_STN_L7_002_1,"Ovaripada Platform 1",19.243411,72.864248,0,STN_L7_002,1,LVL_STN_L7_002_P,1
-PF_STN_L7_002_2,"Ovaripada Platform 2",19.243411,72.864248,0,STN_L7_002,2,LVL_STN_L7_002_P,1
-PF_STN_L7_003_1,"Rashtriya Udyan Platform 1",19.234671,72.863161,0,STN_L7_003,1,LVL_STN_L7_003_P,1
-PF_STN_L7_003_2,"Rashtriya Udyan Platform 2",19.234671,72.863161,0,STN_L7_003,2,LVL_STN_L7_003_P,1
-PF_STN_L7_004_1,"Devipada Platform 1",19.224332,72.86422,0,STN_L7_004,1,LVL_STN_L7_004_P,1
-PF_STN_L7_004_2,"Devipada Platform 2",19.224332,72.86422,0,STN_L7_004,2,LVL_STN_L7_004_P,1
-PF_STN_L7_005_1,"Magathane Platform 1",19.217203,72.866728,0,STN_L7_005,1,LVL_STN_L7_005_P,1
-PF_STN_L7_005_2,"Magathane Platform 2",19.217203,72.866728,0,STN_L7_005,2,LVL_STN_L7_005_P,1
-PF_STN_L7_006_1,"Poisar Platform 1",19.203938,72.863499,0,STN_L7_006,1,LVL_STN_L7_006_P,1
-PF_STN_L7_006_2,"Poisar Platform 2",19.203938,72.863499,0,STN_L7_006,2,LVL_STN_L7_006_P,1
-PF_STN_L7_007_1,"Akurli Platform 1",19.198115,72.860646,0,STN_L7_007,1,LVL_STN_L7_007_P,1
-PF_STN_L7_007_2,"Akurli Platform 2",19.198115,72.860646,0,STN_L7_007,2,LVL_STN_L7_007_P,1
-PF_STN_L7_008_1,"Kurar Platform 1",19.187264,72.858512,0,STN_L7_008,1,LVL_STN_L7_008_P,1
-PF_STN_L7_008_2,"Kurar Platform 2",19.187264,72.858512,0,STN_L7_008,2,LVL_STN_L7_008_P,1
-PF_STN_L7_009_1,"Dindoshi Platform 1",19.17972,72.8583,0,STN_L7_009,1,LVL_STN_L7_009_P,1
-PF_STN_L7_009_2,"Dindoshi Platform 2",19.17972,72.8583,0,STN_L7_009,2,LVL_STN_L7_009_P,1
-PF_STN_L7_010_1,"Aarey Platform 1",19.169506,72.858801,0,STN_L7_010,1,LVL_STN_L7_010_P,1
-PF_STN_L7_010_2,"Aarey Platform 2",19.169506,72.858801,0,STN_L7_010,2,LVL_STN_L7_010_P,1
-PF_STN_L7_011_1,"Goregaon (East) Platform 1",19.152442,72.856573,0,STN_L7_011,1,LVL_STN_L7_011_P,1
-PF_STN_L7_011_2,"Goregaon (East) Platform 2",19.152442,72.856573,0,STN_L7_011,2,LVL_STN_L7_011_P,1
-PF_STN_L7_012_1,"Jogeshwari (East) Platform 1",19.142928,72.855166,0,STN_L7_012,1,LVL_STN_L7_012_P,1
-PF_STN_L7_012_2,"Jogeshwari (East) Platform 2",19.142928,72.855166,0,STN_L7_012,2,LVL_STN_L7_012_P,1
-PF_STN_L7_013_1,"Mogra Platform 1",19.128677,72.855452,0,STN_L7_013,1,LVL_STN_L7_013_P,1
-PF_STN_L7_013_2,"Mogra Platform 2",19.128677,72.855452,0,STN_L7_013,2,LVL_STN_L7_013_P,1
-PF_STN_L7_014_1,"Gundavali Platform 1",19.114439,72.855172,0,STN_L7_014,1,LVL_STN_L7_014_P,1
-PF_STN_L7_014_2,"Gundavali Platform 2",19.114439,72.855172,0,STN_L7_014,2,LVL_STN_L7_014_P,1
-PF_STN_L9_001_1,"Pandhurang Wadi Platform 1",19.265047,72.875159,0,STN_L9_001,1,LVL_STN_L9_001_P,1
-PF_STN_L9_001_2,"Pandhurang Wadi Platform 2",19.265047,72.875159,0,STN_L9_001,2,LVL_STN_L9_001_P,1
-PF_STN_L9_002_1,"Miragaon Platform 1",19.271131,72.880865,0,STN_L9_002,1,LVL_STN_L9_002_P,1
-PF_STN_L9_002_2,"Miragaon Platform 2",19.271131,72.880865,0,STN_L9_002,2,LVL_STN_L9_002_P,1
-PF_STN_L9_003_1,"Kashigaon Platform 1",19.277693,72.88016,0,STN_L9_003,1,LVL_STN_L9_003_P,1
-PF_STN_L9_003_2,"Kashigaon Platform 2",19.277693,72.88016,0,STN_L9_003,2,LVL_STN_L9_003_P,1
-PF_STN_MONO_001_1,"Chembur Platform 1",19.054045,72.89464,0,STN_MONO_001,1,LVL_STN_MONO_001_P,1
-PF_STN_MONO_001_2,"Chembur Platform 2",19.054045,72.89464,0,STN_MONO_001,2,LVL_STN_MONO_001_P,1
-PF_STN_MONO_002_1,"VNP & RC Marg Junction Platform 1",19.052666,72.894344,0,STN_MONO_002,1,LVL_STN_MONO_002_P,1
-PF_STN_MONO_002_2,"VNP & RC Marg Junction Platform 2",19.052666,72.894344,0,STN_MONO_002,2,LVL_STN_MONO_002_P,1
-PF_STN_MONO_003_1,"Fertiliser Township Platform 1",19.043915,72.893473,0,STN_MONO_003,1,LVL_STN_MONO_003_P,1
-PF_STN_MONO_003_2,"Fertiliser Township Platform 2",19.043915,72.893473,0,STN_MONO_003,2,LVL_STN_MONO_003_P,1
-PF_STN_MONO_004_1,"Bharat Petroleum Platform 1",19.03525,72.895557,0,STN_MONO_004,1,LVL_STN_MONO_004_P,1
-PF_STN_MONO_004_2,"Bharat Petroleum Platform 2",19.03525,72.895557,0,STN_MONO_004,2,LVL_STN_MONO_004_P,1
-PF_STN_MONO_005_1,"Mysore Colony Platform 1",19.027716,72.891449,0,STN_MONO_005,1,LVL_STN_MONO_005_P,1
-PF_STN_MONO_005_2,"Mysore Colony Platform 2",19.027716,72.891449,0,STN_MONO_005,2,LVL_STN_MONO_005_P,1
-PF_STN_MONO_006_1,"Bhakti Park Platform 1",19.026073,72.877345,0,STN_MONO_006,1,LVL_STN_MONO_006_P,1
-PF_STN_MONO_006_2,"Bhakti Park Platform 2",19.026073,72.877345,0,STN_MONO_006,2,LVL_STN_MONO_006_P,1
-PF_STN_MONO_007_1,"Wadala Depot Platform 1",19.038876,72.874004,0,STN_MONO_007,1,LVL_STN_MONO_007_P,1
-PF_STN_MONO_007_2,"Wadala Depot Platform 2",19.038876,72.874004,0,STN_MONO_007,2,LVL_STN_MONO_007_P,1
-PF_STN_MONO_008_1,"GTB Nagar Platform 1",19.036721,72.87085,0,STN_MONO_008,1,LVL_STN_MONO_008_P,1
-PF_STN_MONO_008_2,"GTB Nagar Platform 2",19.036721,72.87085,0,STN_MONO_008,2,LVL_STN_MONO_008_P,1
-PF_STN_MONO_009_1,"Antop Hill Platform 1",19.03017,72.867018,0,STN_MONO_009,1,LVL_STN_MONO_009_P,1
-PF_STN_MONO_009_2,"Antop Hill Platform 2",19.03017,72.867018,0,STN_MONO_009,2,LVL_STN_MONO_009_P,1
-PF_STN_MONO_010_1,"Acharya Atre Nagar Platform 1",19.023839,72.863882,0,STN_MONO_010,1,LVL_STN_MONO_010_P,1
-PF_STN_MONO_010_2,"Acharya Atre Nagar Platform 2",19.023839,72.863882,0,STN_MONO_010,2,LVL_STN_MONO_010_P,1
-PF_STN_MONO_011_1,"Wadala Bridge Platform 1",19.01746,72.859381,0,STN_MONO_011,1,LVL_STN_MONO_011_P,1
-PF_STN_MONO_011_2,"Wadala Bridge Platform 2",19.01746,72.859381,0,STN_MONO_011,2,LVL_STN_MONO_011_P,1
-PF_STN_MONO_012_1,"Dadar East Platform 1",19.016244,72.852266,0,STN_MONO_012,1,LVL_STN_MONO_012_P,1
-PF_STN_MONO_012_2,"Dadar East Platform 2",19.016244,72.852266,0,STN_MONO_012,2,LVL_STN_MONO_012_P,1
-PF_STN_MONO_013_1,"Naigaon Platform 1",19.009482,72.847927,0,STN_MONO_013,1,LVL_STN_MONO_013_P,1
-PF_STN_MONO_013_2,"Naigaon Platform 2",19.009482,72.847927,0,STN_MONO_013,2,LVL_STN_MONO_013_P,1
-PF_STN_MONO_014_1,"Ambedkar Nagar Platform 1",19.001688,72.844166,0,STN_MONO_014,1,LVL_STN_MONO_014_P,1
-PF_STN_MONO_014_2,"Ambedkar Nagar Platform 2",19.001688,72.844166,0,STN_MONO_014,2,LVL_STN_MONO_014_P,1
-PF_STN_MONO_015_1,"Mint Colony Platform 1",18.99449,72.843484,0,STN_MONO_015,1,LVL_STN_MONO_015_P,1
-PF_STN_MONO_015_2,"Mint Colony Platform 2",18.99449,72.843484,0,STN_MONO_015,2,LVL_STN_MONO_015_P,1
-PF_STN_MONO_016_1,"Lower Parel Platform 1",18.993185,72.83156,0,STN_MONO_016,1,LVL_STN_MONO_016_P,1
-PF_STN_MONO_016_2,"Lower Parel Platform 2",18.993185,72.83156,0,STN_MONO_016,2,LVL_STN_MONO_016_P,1
-PF_STN_MONO_017_1,"Sant Gadge Maharaj Chowk (Jacob Circle) Platform 1",18.983135,72.828654,0,STN_MONO_017,1,LVL_STN_MONO_017_P,1
-PF_STN_MONO_017_2,"Sant Gadge Maharaj Chowk (Jacob Circle) Platform 2",18.983135,72.828654,0,STN_MONO_017,2,LVL_STN_MONO_017_P,1
-PF_WR_ANDHERI,"Andheri Railway Station (Western Railway)",19.1197,72.8464,0,,,,1
-PF_WR_CHURCHGATE,"Churchgate Railway Station (Western Railway)",18.934886,72.827164,0,,,,1
-PF_WR_MUMBAI_CENTRAL,"Mumbai Central Railway Station (Western Railway)",18.9698,72.8194,0,,,,1
-STN_L1_001,"Versova",19.130278,72.821387,1,,,,1
-STN_L1_002,"D. N. Nagar",19.128178,72.830812,1,,,,1
-STN_L1_003,"Azad Nagar",19.126805,72.838267,1,,,,1
-STN_L1_004,"Andheri",19.120041,72.849482,1,,,,1
-STN_L1_005,"Western Express Highway",19.115564,72.856983,1,,,,1
-STN_L1_006,"Chakala (J.B. Nagar)",19.111907,72.868242,1,,,,1
-STN_L1_007,"Airport Road",19.109915,72.874797,1,,,,1
-STN_L1_008,"Marol Naka",19.107946,72.880109,1,,,,1
-STN_L1_009,"Saki Naka",19.103217,72.888509,1,,,,1
-STN_L1_010,"Asalpha",19.096097,72.895413,1,,,,1
-STN_L1_011,"Jagruti Nagar",19.092171,72.9026,1,,,,1
-STN_L1_012,"Ghatkopar",19.086286,72.908123,1,,,,1
-STN_L2A_001,"Dahisar (East)",19.251263,72.867119,1,,,,1
-STN_L2A_002,"Anand Nagar",19.257219,72.866134,1,,,,1
-STN_L2A_003,"Kandarpada",19.256646,72.850678,1,,,,1
-STN_L2A_004,"Mandapeshwar",19.249261,72.845677,1,,,,1
-STN_L2A_005,"Eksar",19.240323,72.843438,1,,,,1
-STN_L2A_006,"Borivali (West)",19.231194,72.840865,1,,,,1
-STN_L2A_007,"Shimpoli",19.222769,72.840918,1,,,,1
-STN_L2A_008,"Kandivali (West)",19.214005,72.837355,1,,,,1
-STN_L2A_009,"Dahanukarwadi",19.205772,72.834717,1,,,,1
-STN_L2A_010,"Valnai - Meeth Chowky",19.196621,72.833786,1,,,,1
-STN_L2A_011,"Malad (West)",19.1852,72.83585,1,,,,1
-STN_L2A_012,"Lower Malad",19.172953,72.836423,1,,,,1
-STN_L2A_013,"Bangur Nagar",19.162259,72.834844,1,,,,1
-STN_L2A_014,"Goregaon (West)",19.153138,72.835685,1,,,,1
-STN_L2A_015,"Oshiwara",19.145979,72.833752,1,,,,1
-STN_L2A_016,"Lower Oshiwara",19.140455,72.831717,1,,,,1
-STN_L2A_017,"Andheri (West)",19.129089,72.831415,1,,,,1
-STN_L2B_015,"Chembur",19.053934,72.892644,1,,,,1
-STN_L2B_016,"Diamond Garden",19.051858,72.901486,1,,,,1
-STN_L2B_017,"Shivaji Chowk",19.047945,72.906864,1,,,,1
-STN_L2B_018,"BSNL Metro",19.04482,72.917276,1,,,,1
-STN_L2B_019,"Mankhurd",19.048753,72.930025,1,,,,1
-STN_L2B_020,"Mandale",19.04909,72.938795,1,,,,1
-STN_L3_001,"Aarey JVLR",19.13101,72.884255,1,,,,1
-STN_L3_002,"SEEPZ",19.12578,72.873447,1,,,,1
-STN_L3_003,"MIDC",19.117303,72.87382,1,,,,1
-STN_L3_004,"Marol Naka",19.108436,72.878579,1,,,,1
-STN_L3_005,"CSMIA Terminal 2",19.102274,72.874413,1,,,,1
-STN_L3_006,"Sahar Road",19.102196,72.865299,1,,,,1
-STN_L3_007,"CSMIA Terminal 1",19.093926,72.853447,1,,,,1
-STN_L3_008,"Santacruz",19.078528,72.847181,1,,,,1
-STN_L3_009,"Bandra Colony",19.070103,72.849266,1,,,,1
-STN_L3_010,"BKC",19.060216,72.854956,1,,,,1
-STN_L3_011,"Dharavi",19.046277,72.849952,1,,,,1
-STN_L3_012,"Sitladevi",19.038392,72.842133,1,,,,1
-STN_L3_013,"Dadar Metro",19.023667,72.8393,1,,,,1
-STN_L3_014,"Siddhivinayak",19.015876,72.830735,1,,,,1
-STN_L3_015,"Worli",19.00878,72.819401,1,,,,1
-STN_L3_016,"Acharya Atre Chowk",18.9985,72.8182,1,,,,1
-STN_L3_017,"Science Centre",18.990318,72.82177,1,,,,1
-STN_L3_018,"Mahalaxmi",18.979485,72.825295,1,,,,1
-STN_L3_019,"Mumbai Central",18.970603,72.821382,1,,,,1
-STN_L3_020,"Grant Road",18.962924,72.817997,1,,,,1
-STN_L3_021,"Girgaon",18.951929,72.822606,1,,,,1
-STN_L3_022,"Kalbadevi",18.946899,72.826943,1,,,,1
-STN_L3_023,"CSMT Metro",18.940664,72.83217,1,,,,1
-STN_L3_024,"Hutatma Chowk",18.934579,72.832826,1,,,,1
-STN_L3_025,"Churchgate",18.930654,72.826172,1,,,,1
-STN_L3_026,"Vidhan Bhawan",18.924696,72.825616,1,,,,1
-STN_L3_027,"Cuffe Parade",18.912955,72.820196,1,,,,1
-STN_L7_001,"Dahisar (East)",19.251263,72.867119,1,,,,1
-STN_L7_002,"Ovaripada",19.243411,72.864248,1,,,,1
-STN_L7_003,"Rashtriya Udyan",19.234671,72.863161,1,,,,1
-STN_L7_004,"Devipada",19.224332,72.86422,1,,,,1
-STN_L7_005,"Magathane",19.217203,72.866728,1,,,,1
-STN_L7_006,"Poisar",19.203938,72.863499,1,,,,1
-STN_L7_007,"Akurli",19.198115,72.860646,1,,,,1
-STN_L7_008,"Kurar",19.187264,72.858512,1,,,,1
-STN_L7_009,"Dindoshi",19.17972,72.8583,1,,,,1
-STN_L7_010,"Aarey",19.169506,72.858801,1,,,,1
-STN_L7_011,"Goregaon (East)",19.152442,72.856573,1,,,,1
-STN_L7_012,"Jogeshwari (East)",19.142928,72.855166,1,,,,1
-STN_L7_013,"Mogra",19.128677,72.855452,1,,,,1
-STN_L7_014,"Gundavali",19.114439,72.855172,1,,,,1
-STN_L9_001,"Pandhurang Wadi",19.265047,72.875159,1,,,,1
-STN_L9_002,"Miragaon",19.271131,72.880865,1,,,,1
-STN_L9_003,"Kashigaon",19.277693,72.88016,1,,,,1
-STN_MONO_001,"Chembur",19.054045,72.89464,1,,,,1
-STN_MONO_002,"VNP & RC Marg Junction",19.052666,72.894344,1,,,,1
-STN_MONO_003,"Fertiliser Township",19.043915,72.893473,1,,,,1
-STN_MONO_004,"Bharat Petroleum",19.03525,72.895557,1,,,,1
-STN_MONO_005,"Mysore Colony",19.027716,72.891449,1,,,,1
-STN_MONO_006,"Bhakti Park",19.026073,72.877345,1,,,,1
-STN_MONO_007,"Wadala Depot",19.038876,72.874004,1,,,,1
-STN_MONO_008,"GTB Nagar",19.036721,72.87085,1,,,,1
-STN_MONO_009,"Antop Hill",19.03017,72.867018,1,,,,1
-STN_MONO_010,"Acharya Atre Nagar",19.023839,72.863882,1,,,,1
-STN_MONO_011,"Wadala Bridge",19.01746,72.859381,1,,,,1
-STN_MONO_012,"Dadar East",19.016244,72.852266,1,,,,1
-STN_MONO_013,"Naigaon",19.009482,72.847927,1,,,,1
-STN_MONO_014,"Ambedkar Nagar",19.001688,72.844166,1,,,,1
-STN_MONO_015,"Mint Colony",18.99449,72.843484,1,,,,1
-STN_MONO_016,"Lower Parel",18.993185,72.83156,1,,,,1
-STN_MONO_017,"Sant Gadge Maharaj Chowk (Jacob Circle)",18.983135,72.828654,1,,,,1
+ENT_STN_L3_014_A4,Siddhivinayak Gate A4 (ITI Dadar),19.015676,72.830485,2,STN_L3_014,,LVL_STN_L3_014_G,0
+ENT_STN_L3_014_A5,Siddhivinayak Gate A5 (Ravindra Natya Mandir),19.016076,72.830485,2,STN_L3_014,,LVL_STN_L3_014_G,0
+ENT_STN_L3_014_B1,Siddhivinayak Gate B1 (Adv. Balasaheb Apte College Of Law),19.016076,72.830985,2,STN_L3_014,,LVL_STN_L3_014_G,1
+ENT_STN_L3_014_B2,Siddhivinayak Gate B2 (PL. Deshpande Maharashtra Kala Academy),19.015676,72.830985,2,STN_L3_014,,LVL_STN_L3_014_G,0
+ENT_STN_L3_015_A1,Worli Gate A1 (Anti-Corruption Bureau),19.008980,72.819151,2,STN_L3_015,,LVL_STN_L3_015_G,1
+ENT_STN_L3_015_A2,Worli Gate A2 (Kamala Mills Compound),19.008580,72.819151,2,STN_L3_015,,LVL_STN_L3_015_G,0
+ENT_STN_L3_015_B1,Worli Gate B1 (East Pavilion Surface Access),19.008980,72.819651,2,STN_L3_015,,LVL_STN_L3_015_G,1
+ENT_STN_L3_015_B2,Worli Gate B2 (Mumbai Traffic Police H),19.008580,72.819651,2,STN_L3_015,,LVL_STN_L3_015_G,0
+ENT_STN_L3_015_B3,Worli Gate B3 (Dr. Ravindra Kulkarni Chowk),19.008980,72.819651,2,STN_L3_015,,LVL_STN_L3_015_G,0
+ENT_STN_L3_015_B4,Worli Gate B4 (One Worldcentre),19.008580,72.819651,2,STN_L3_015,,LVL_STN_L3_015_G,0
+ENT_STN_L3_016_A1,Acharya Atre Chowk Gate A1 (Atria Mall),18.998700,72.817950,2,STN_L3_016,,LVL_STN_L3_016_G,1
+ENT_STN_L3_016_A2,Acharya Atre Chowk Gate A2 (West Pavilion Surface Access),18.998300,72.817950,2,STN_L3_016,,LVL_STN_L3_016_G,0
+ENT_STN_L3_016_A3,Acharya Atre Chowk Gate A3 (West Pavilion Surface Access),18.998700,72.817950,2,STN_L3_016,,LVL_STN_L3_016_G,0
+ENT_STN_L3_016_A4,Acharya Atre Chowk Gate A4 (Mahanagar Palika Yangraha - Bus stop),18.998300,72.817950,2,STN_L3_016,,LVL_STN_L3_016_G,0
+ENT_STN_L3_016_B1,Acharya Atre Chowk Gate B1 (East Pavilion Surface Access),18.998700,72.818450,2,STN_L3_016,,LVL_STN_L3_016_G,1
+ENT_STN_L3_016_B2,Acharya Atre Chowk Gate B2 (Acharya Atre Chowk),18.998300,72.818450,2,STN_L3_016,,LVL_STN_L3_016_G,0
+ENT_STN_L3_016_B3,Acharya Atre Chowk Gate B3 (Shri Chandra Baba Mandir),18.998700,72.818450,2,STN_L3_016,,LVL_STN_L3_016_G,0
+ENT_STN_L3_016_B4,Acharya Atre Chowk Gate B4 (Dairy Development Department),18.998300,72.818450,2,STN_L3_016,,LVL_STN_L3_016_G,0
+ENT_STN_L3_016_B5,Acharya Atre Chowk Gate B5 (East Pavilion Surface Access),18.998700,72.818450,2,STN_L3_016,,LVL_STN_L3_016_G,0
+ENT_STN_L3_017_A1,Science Centre Gate A1 (West Pavilion Surface Access),18.990518,72.821520,2,STN_L3_017,,LVL_STN_L3_017_G,1
+ENT_STN_L3_017_A2,Science Centre Gate A2 (West Pavilion Surface Access),18.990118,72.821520,2,STN_L3_017,,LVL_STN_L3_017_G,0
+ENT_STN_L3_017_A3,Science Centre Gate A3 (Ambika Mill - H.U.Rakhangi Chowk (towards Mahalaxmi Station)),18.990518,72.821520,2,STN_L3_017,,LVL_STN_L3_017_G,0
+ENT_STN_L3_017_A4,Science Centre Gate A4 (West Pavilion Surface Access),18.990118,72.821520,2,STN_L3_017,,LVL_STN_L3_017_G,0
+ENT_STN_L3_017_B1,Science Centre Gate B1 (East Pavilion Surface Access),18.990518,72.822020,2,STN_L3_017,,LVL_STN_L3_017_G,1
+ENT_STN_L3_017_B2,Science Centre Gate B2 (East Pavilion Surface Access),18.990118,72.822020,2,STN_L3_017,,LVL_STN_L3_017_G,0
+ENT_STN_L3_017_B3,Science Centre Gate B3 (Municipal Industrial Estate),18.990518,72.822020,2,STN_L3_017,,LVL_STN_L3_017_G,0
+ENT_STN_L3_017_B4,Science Centre Gate B4 (East Pavilion Surface Access),18.990118,72.822020,2,STN_L3_017,,LVL_STN_L3_017_G,0
+ENT_STN_L3_017_B5,Science Centre Gate B5 (East Pavilion Surface Access),18.990518,72.822020,2,STN_L3_017,,LVL_STN_L3_017_G,0
+ENT_STN_L3_018_A1,Mahalaxmi Gate A1 (Essar House),18.979685,72.825045,2,STN_L3_018,,LVL_STN_L3_018_G,1
+ENT_STN_L3_018_A2,Mahalaxmi Gate A2 (West Pavilion Surface Access),18.979285,72.825045,2,STN_L3_018,,LVL_STN_L3_018_G,0
+ENT_STN_L3_018_A3,Mahalaxmi Gate A3 (West Pavilion Surface Access),18.979685,72.825045,2,STN_L3_018,,LVL_STN_L3_018_G,0
+ENT_STN_L3_018_A4,Mahalaxmi Gate A4 (Agripada Police Station (Towards Nair Hospital/Opera House)),18.979285,72.825045,2,STN_L3_018,,LVL_STN_L3_018_G,0
+ENT_STN_L3_018_B1,Mahalaxmi Gate B1 (East Pavilion Surface Access),18.979685,72.825545,2,STN_L3_018,,LVL_STN_L3_018_G,1
+ENT_STN_L3_018_B2,Mahalaxmi Gate B2 (East Pavilion Surface Access),18.979285,72.825545,2,STN_L3_018,,LVL_STN_L3_018_G,0
+ENT_STN_L3_018_B3,Mahalaxmi Gate B3 (East Pavilion Surface Access),18.979685,72.825545,2,STN_L3_018,,LVL_STN_L3_018_G,0
+ENT_STN_L3_018_B4,Mahalaxmi Gate B4 (East Pavilion Surface Access),18.979285,72.825545,2,STN_L3_018,,LVL_STN_L3_018_G,0
+ENT_STN_L3_018_B5,Mahalaxmi Gate B5 (East Pavilion Surface Access),18.979685,72.825545,2,STN_L3_018,,LVL_STN_L3_018_G,0
+ENT_STN_L3_019_A1,Mumbai Central Gate A1 (Mumbai Central Station (towards Saatrasta)),18.970803,72.821132,2,STN_L3_019,,LVL_STN_L3_019_G,1
+ENT_STN_L3_019_A2,Mumbai Central Gate A2 (West Pavilion Surface Access),18.970403,72.821132,2,STN_L3_019,,LVL_STN_L3_019_G,0
+ENT_STN_L3_019_A3,Mumbai Central Gate A3 (West Pavilion Surface Access),18.970803,72.821132,2,STN_L3_019,,LVL_STN_L3_019_G,0
+ENT_STN_L3_019_A4,Mumbai Central Gate A4 (West Pavilion Surface Access),18.970403,72.821132,2,STN_L3_019,,LVL_STN_L3_019_G,0
+ENT_STN_L3_019_A5,Mumbai Central Gate A5 (Apollo Spectra Hospital),18.970803,72.821132,2,STN_L3_019,,LVL_STN_L3_019_G,0
+ENT_STN_L3_019_B1,Mumbai Central Gate B1 (East Pavilion Surface Access),18.970803,72.821632,2,STN_L3_019,,LVL_STN_L3_019_G,1
+ENT_STN_L3_019_B2,Mumbai Central Gate B2 (East Pavilion Surface Access),18.970403,72.821632,2,STN_L3_019,,LVL_STN_L3_019_G,0
+ENT_STN_L3_019_B3,Mumbai Central Gate B3 (Maharashtra College),18.970803,72.821632,2,STN_L3_019,,LVL_STN_L3_019_G,0
+ENT_STN_L3_019_B4,Mumbai Central Gate B4 (East Pavilion Surface Access),18.970403,72.821632,2,STN_L3_019,,LVL_STN_L3_019_G,0
+ENT_STN_L3_019_B5,Mumbai Central Gate B5 (Maratha Mandir Theatre),18.970803,72.821632,2,STN_L3_019,,LVL_STN_L3_019_G,0
+ENT_STN_L3_020_A1,Grant Road Gate A1 (Novelty Cinema - Dr.Bhadkamkar Road Junction (towards Play House/Tardeo Bus Station/Girgaon)),18.963124,72.817747,2,STN_L3_020,,LVL_STN_L3_020_G,1
+ENT_STN_L3_020_A2,Grant Road Gate A2 (Sonawala Buildings),18.962724,72.817747,2,STN_L3_020,,LVL_STN_L3_020_G,0
+ENT_STN_L3_020_B1,Grant Road Gate B1 (East Pavilion Surface Access),18.963124,72.818247,2,STN_L3_020,,LVL_STN_L3_020_G,1
+ENT_STN_L3_021_A1,"Girgaon Gate A1 (Shri Chandraprabh Digambar Jain Temple, Bhuleshwar)",18.9523652,72.8219144,2,STN_L3_021,,LVL_STN_L3_021_G,1
+ENT_STN_L3_021_A2,Girgaon Gate A2 (S.K. Patil Garden),18.951729,72.822356,2,STN_L3_021,,LVL_STN_L3_021_G,0
+ENT_STN_L3_021_B1,Girgaon Gate B1 (Gaiwadi (towards Hutatma Chowk)),18.952129,72.822856,2,STN_L3_021,,LVL_STN_L3_021_G,1
+ENT_STN_L3_022_A1,Kalbadevi Gate A1 (Directorate of Technical Education),18.9474110,72.8266171,2,STN_L3_022,,LVL_STN_L3_022_G,1
+ENT_STN_L3_022_B1,Kalbadevi Gate B1 (Mulji Jetha Market),18.947099,72.827193,2,STN_L3_022,,LVL_STN_L3_022_G,1
+ENT_STN_L3_022_B2,Kalbadevi Gate B2 (S.K. Patil Garden),18.9463324,72.8272498,2,STN_L3_022,,LVL_STN_L3_022_G,0
+ENT_STN_L3_023_A1,CSMT Metro Gate A1 (Anjuman Islam School),18.940864,72.831920,2,STN_L3_023,,LVL_STN_L3_023_G,1
+ENT_STN_L3_023_A2,CSMT Metro Gate A2 (General Post Office),18.940464,72.831920,2,STN_L3_023,,LVL_STN_L3_023_G,0
+ENT_STN_L3_023_A3,CSMT Metro Gate A3 (West Pavilion Surface Access),18.940864,72.831920,2,STN_L3_023,,LVL_STN_L3_023_G,0
+ENT_STN_L3_023_A4,CSMT Metro Gate A4 (West Pavilion Surface Access),18.940464,72.831920,2,STN_L3_023,,LVL_STN_L3_023_G,0
+ENT_STN_L3_023_B1,CSMT Metro Gate B1 (Crawford Market),18.940864,72.832420,2,STN_L3_023,,LVL_STN_L3_023_G,1
+ENT_STN_L3_023_B2,CSMT Metro Gate B2 (East Pavilion Surface Access),18.940464,72.832420,2,STN_L3_023,,LVL_STN_L3_023_G,0
+ENT_STN_L3_024_A1,Hutatma Chowk Gate A1 (Central Bank of India),18.9346714,72.8327460,2,STN_L3_024,,LVL_STN_L3_024_G,1
+ENT_STN_L3_024_A2,Hutatma Chowk Gate A2 (Western Railway Headquarters),18.9346714,72.8327460,2,STN_L3_024,,LVL_STN_L3_024_G,0
+ENT_STN_L3_024_A3,Hutatma Chowk Gate A3 (West Pavilion Surface Access),18.9346714,72.8327460,2,STN_L3_024,,LVL_STN_L3_024_G,0
+ENT_STN_L3_024_A4,Hutatma Chowk Gate A4 (Reserve Bank Of India),18.9346714,72.8327460,2,STN_L3_024,,LVL_STN_L3_024_G,0
+ENT_STN_L3_024_B1,Hutatma Chowk Gate B1 (East Pavilion Surface Access),18.9346714,72.8327460,2,STN_L3_024,,LVL_STN_L3_024_G,1
+ENT_STN_L3_024_B2,Hutatma Chowk Gate B2 (East Pavilion Surface Access),18.9346714,72.8327460,2,STN_L3_024,,LVL_STN_L3_024_G,0
+ENT_STN_L3_024_B3,Hutatma Chowk Gate B3 (East Pavilion Surface Access),18.9346714,72.8327460,2,STN_L3_024,,LVL_STN_L3_024_G,0
+ENT_STN_L3_024_B4,Hutatma Chowk Gate B4 (Brihanmumbai Municipal Corporation (BMC)),18.9346714,72.8327460,2,STN_L3_024,,LVL_STN_L3_024_G,0
+ENT_STN_L3_025_A1,Churchgate Gate A1 (Industrial Assurance Building),18.9306625,72.8256525,2,STN_L3_025,,LVL_STN_L3_025_G,1
+ENT_STN_L3_025_A2,Churchgate Gate A2 (Vidhan Bhavan),18.9306625,72.8256525,2,STN_L3_025,,LVL_STN_L3_025_G,0
+ENT_STN_L3_025_A3,Churchgate Gate A3 (West Pavilion Surface Access),18.9306625,72.8256525,2,STN_L3_025,,LVL_STN_L3_025_G,0
+ENT_STN_L3_025_A4,Churchgate Gate A4 (West Pavilion Surface Access),18.9306625,72.8256525,2,STN_L3_025,,LVL_STN_L3_025_G,0
+ENT_STN_L3_025_A5,Churchgate Gate A5 (HR College of Economics & Commerce),18.9306625,72.8256525,2,STN_L3_025,,LVL_STN_L3_025_G,0
+ENT_STN_L3_025_B1,Churchgate Gate B1 (Hutatma Chowk (Flora Fountain)),18.930854,72.826422,2,STN_L3_025,,LVL_STN_L3_025_G,1
+ENT_STN_L3_025_B2,Churchgate Gate B2 (Jai Hind College),18.930454,72.826422,2,STN_L3_025,,LVL_STN_L3_025_G,0
+ENT_STN_L3_026_A1,Vidhan Bhawan Gate A1 (West Pavilion Surface Access),18.924896,72.825366,2,STN_L3_026,,LVL_STN_L3_026_G,1
+ENT_STN_L3_026_A2,Vidhan Bhawan Gate A2 (West Pavilion Surface Access),18.924496,72.825366,2,STN_L3_026,,LVL_STN_L3_026_G,0
+ENT_STN_L3_026_A3,Vidhan Bhawan Gate A3 (National Gallery of Modern Art),18.924896,72.825366,2,STN_L3_026,,LVL_STN_L3_026_G,0
+ENT_STN_L3_026_B1,Vidhan Bhawan Gate B1 (Mantralaya),18.924896,72.825866,2,STN_L3_026,,LVL_STN_L3_026_G,1
+ENT_STN_L3_026_B2,Vidhan Bhawan Gate B2 (East Pavilion Surface Access),18.924496,72.825866,2,STN_L3_026,,LVL_STN_L3_026_G,0
+ENT_STN_L3_026_B3,Vidhan Bhawan Gate B3 (East Pavilion Surface Access),18.924896,72.825866,2,STN_L3_026,,LVL_STN_L3_026_G,0
+ENT_STN_L3_026_B4,Vidhan Bhawan Gate B4 (Mittal Towers),18.924496,72.825866,2,STN_L3_026,,LVL_STN_L3_026_G,0
+ENT_STN_L3_026_B5,Vidhan Bhawan Gate B5 (East Pavilion Surface Access),18.924896,72.825866,2,STN_L3_026,,LVL_STN_L3_026_G,0
+ENT_STN_L3_027_A1,Cuffe Parade Gate A1 (West Pavilion Surface Access),18.913155,72.819946,2,STN_L3_027,,LVL_STN_L3_027_G,1
+ENT_STN_L3_027_A2,Cuffe Parade Gate A2 (Backbay Bus Depot),18.912755,72.819946,2,STN_L3_027,,LVL_STN_L3_027_G,0
+ENT_STN_L3_027_B1,Cuffe Parade Gate B1 (Colaba Bus Station),18.913155,72.820446,2,STN_L3_027,,LVL_STN_L3_027_G,1
+ENT_STN_L3_027_B2,Cuffe Parade Gate B2 (East Pavilion Surface Access),18.912755,72.820446,2,STN_L3_027,,LVL_STN_L3_027_G,0
+ENT_STN_L7_001_1,Dahisar (East) Gate 1 (Western Express Highway - West Side North),19.251513,72.866769,2,STN_L7_001,,LVL_STN_L7_001_G,1
+ENT_STN_L7_001_2,Dahisar (East) Gate 2 (Western Express Highway - West Side South),19.251013,72.866769,2,STN_L7_001,,LVL_STN_L7_001_G,0
+ENT_STN_L7_001_3,Dahisar (East) Gate 3 (Western Express Highway - East Side North),19.251513,72.867469,2,STN_L7_001,,LVL_STN_L7_001_G,1
+ENT_STN_L7_001_4,Dahisar (East) Gate 4 (Western Express Highway - East Side South),19.251013,72.867469,2,STN_L7_001,,LVL_STN_L7_001_G,0
+ENT_STN_L7_002_1,Ovaripada Gate 1 (Western Express Highway - West Side North),19.243661,72.863898,2,STN_L7_002,,LVL_STN_L7_002_G,1
+ENT_STN_L7_002_2,Ovaripada Gate 2 (Western Express Highway - West Side South),19.243161,72.863898,2,STN_L7_002,,LVL_STN_L7_002_G,0
+ENT_STN_L7_002_3,Ovaripada Gate 3 (Western Express Highway - East Side North),19.243661,72.864598,2,STN_L7_002,,LVL_STN_L7_002_G,1
+ENT_STN_L7_002_4,Ovaripada Gate 4 (Western Express Highway - East Side South),19.243161,72.864598,2,STN_L7_002,,LVL_STN_L7_002_G,0
+ENT_STN_L7_003_1,Rashtriya Udyan Gate 1 (Western Express Highway - West Side North),19.234921,72.862811,2,STN_L7_003,,LVL_STN_L7_003_G,1
+ENT_STN_L7_003_2,Rashtriya Udyan Gate 2 (Western Express Highway - West Side South),19.2343487,72.8629565,2,STN_L7_003,,LVL_STN_L7_003_G,0
+ENT_STN_L7_003_3,Rashtriya Udyan Gate 3 (Western Express Highway - East Side North),19.234921,72.863511,2,STN_L7_003,,LVL_STN_L7_003_G,1
+ENT_STN_L7_003_4,Rashtriya Udyan Gate 4 (Western Express Highway - East Side South),19.2343487,72.8629565,2,STN_L7_003,,LVL_STN_L7_003_G,0
+ENT_STN_L7_004_1,Devipada Gate 1 (Western Express Highway - West Side North),19.224582,72.863870,2,STN_L7_004,,LVL_STN_L7_004_G,1
+ENT_STN_L7_004_2,Devipada Gate 2 (Western Express Highway - West Side South),19.224082,72.863870,2,STN_L7_004,,LVL_STN_L7_004_G,0
+ENT_STN_L7_004_3,Devipada Gate 3 (Western Express Highway - East Side North),19.224582,72.864570,2,STN_L7_004,,LVL_STN_L7_004_G,1
+ENT_STN_L7_004_4,Devipada Gate 4 (Western Express Highway - East Side South),19.224082,72.864570,2,STN_L7_004,,LVL_STN_L7_004_G,0
+ENT_STN_L7_005_1,Magathane Gate 1 (Western Express Highway - West Side North),19.217453,72.866378,2,STN_L7_005,,LVL_STN_L7_005_G,1
+ENT_STN_L7_005_2,Magathane Gate 2 (Western Express Highway - West Side South),19.216953,72.866378,2,STN_L7_005,,LVL_STN_L7_005_G,0
+ENT_STN_L7_005_3,Magathane Gate 3 (Western Express Highway - East Side North),19.217453,72.867078,2,STN_L7_005,,LVL_STN_L7_005_G,1
+ENT_STN_L7_005_4,Magathane Gate 4 (Western Express Highway - East Side South),19.216953,72.867078,2,STN_L7_005,,LVL_STN_L7_005_G,0
+ENT_STN_L7_006_1,Poisar Gate 1 (Western Express Highway - West Side North),19.204188,72.863149,2,STN_L7_006,,LVL_STN_L7_006_G,1
+ENT_STN_L7_006_2,Poisar Gate 2 (Western Express Highway - West Side South),19.203688,72.863149,2,STN_L7_006,,LVL_STN_L7_006_G,0
+ENT_STN_L7_006_3,Poisar Gate 3 (Western Express Highway - East Side North),19.204188,72.863849,2,STN_L7_006,,LVL_STN_L7_006_G,1
+ENT_STN_L7_006_4,Poisar Gate 4 (Western Express Highway - East Side South),19.203688,72.863849,2,STN_L7_006,,LVL_STN_L7_006_G,0
+ENT_STN_L7_007_1,Akurli Gate 1 (Western Express Highway - West Side North),19.198365,72.860296,2,STN_L7_007,,LVL_STN_L7_007_G,1
+ENT_STN_L7_007_2,Akurli Gate 2 (Western Express Highway - West Side South),19.197865,72.860296,2,STN_L7_007,,LVL_STN_L7_007_G,0
+ENT_STN_L7_007_3,Akurli Gate 3 (Western Express Highway - East Side North),19.198365,72.860996,2,STN_L7_007,,LVL_STN_L7_007_G,1
+ENT_STN_L7_007_4,Akurli Gate 4 (Western Express Highway - East Side South),19.197865,72.860996,2,STN_L7_007,,LVL_STN_L7_007_G,0
+ENT_STN_L7_008_1,Kurar Gate 1 (Western Express Highway - West Side North),19.187514,72.858162,2,STN_L7_008,,LVL_STN_L7_008_G,1
+ENT_STN_L7_008_2,Kurar Gate 2 (Western Express Highway - West Side South),19.187014,72.858162,2,STN_L7_008,,LVL_STN_L7_008_G,0
+ENT_STN_L7_008_3,Kurar Gate 3 (Western Express Highway - East Side North),19.187514,72.858862,2,STN_L7_008,,LVL_STN_L7_008_G,1
+ENT_STN_L7_008_4,Kurar Gate 4 (Western Express Highway - East Side South),19.187014,72.858862,2,STN_L7_008,,LVL_STN_L7_008_G,0
+ENT_STN_L7_009_1,Dindoshi Gate 1 (Western Express Highway - West Side North),19.179970,72.857950,2,STN_L7_009,,LVL_STN_L7_009_G,1
+ENT_STN_L7_009_2,Dindoshi Gate 2 (Western Express Highway - West Side South),19.179470,72.857950,2,STN_L7_009,,LVL_STN_L7_009_G,0
+ENT_STN_L7_009_3,Dindoshi Gate 3 (Western Express Highway - East Side North),19.179970,72.858650,2,STN_L7_009,,LVL_STN_L7_009_G,1
+ENT_STN_L7_009_4,Dindoshi Gate 4 (Western Express Highway - East Side South),19.179470,72.858650,2,STN_L7_009,,LVL_STN_L7_009_G,0
+ENT_STN_L7_010_1,Aarey Gate 1 (Western Express Highway - West Side North),19.169756,72.858451,2,STN_L7_010,,LVL_STN_L7_010_G,1
+ENT_STN_L7_010_2,Aarey Gate 2 (Western Express Highway - West Side South),19.1691327,72.8586571,2,STN_L7_010,,LVL_STN_L7_010_G,0
+ENT_STN_L7_010_3,Aarey Gate 3 (Western Express Highway - East Side North),19.169756,72.859151,2,STN_L7_010,,LVL_STN_L7_010_G,1
+ENT_STN_L7_010_4,Aarey Gate 4 (Western Express Highway - East Side South),19.1691327,72.8586571,2,STN_L7_010,,LVL_STN_L7_010_G,0
+ENT_STN_L7_011_1,Goregaon (East) Gate 1 (Western Express Highway - West Side North),19.152692,72.856223,2,STN_L7_011,,LVL_STN_L7_011_G,1
+ENT_STN_L7_011_2,Goregaon (East) Gate 2 (Western Express Highway - West Side South),19.152192,72.856223,2,STN_L7_011,,LVL_STN_L7_011_G,0
+ENT_STN_L7_011_3,Goregaon (East) Gate 3 (Western Express Highway - East Side North),19.152692,72.856923,2,STN_L7_011,,LVL_STN_L7_011_G,1
+ENT_STN_L7_011_4,Goregaon (East) Gate 4 (Western Express Highway - East Side South),19.152192,72.856923,2,STN_L7_011,,LVL_STN_L7_011_G,0
+ENT_STN_L7_012_1,Jogeshwari (East) Gate 1 (Western Express Highway - West Side North),19.143178,72.854816,2,STN_L7_012,,LVL_STN_L7_012_G,1
+ENT_STN_L7_012_2,Jogeshwari (East) Gate 2 (Western Express Highway - West Side South),19.142678,72.854816,2,STN_L7_012,,LVL_STN_L7_012_G,0
+ENT_STN_L7_012_3,Jogeshwari (East) Gate 3 (Western Express Highway - East Side North),19.143178,72.855516,2,STN_L7_012,,LVL_STN_L7_012_G,1
+ENT_STN_L7_012_4,Jogeshwari (East) Gate 4 (Western Express Highway - East Side South),19.142678,72.855516,2,STN_L7_012,,LVL_STN_L7_012_G,0
+ENT_STN_L7_013_1,Mogra Gate 1 (Western Express Highway - West Side North),19.128927,72.855102,2,STN_L7_013,,LVL_STN_L7_013_G,1
+ENT_STN_L7_013_2,Mogra Gate 2 (Western Express Highway - West Side South),19.128427,72.855102,2,STN_L7_013,,LVL_STN_L7_013_G,0
+ENT_STN_L7_013_3,Mogra Gate 3 (Western Express Highway - East Side North),19.128927,72.855802,2,STN_L7_013,,LVL_STN_L7_013_G,1
+ENT_STN_L7_013_4,Mogra Gate 4 (Western Express Highway - East Side South),19.128427,72.855802,2,STN_L7_013,,LVL_STN_L7_013_G,0
+ENT_STN_L7_014_1,Gundavali Gate 1 (Western Express Highway - West Side North),19.114689,72.854822,2,STN_L7_014,,LVL_STN_L7_014_G,1
+ENT_STN_L7_014_2,Gundavali Gate 2 (Western Express Highway - West Side South),19.114189,72.854822,2,STN_L7_014,,LVL_STN_L7_014_G,0
+ENT_STN_L7_014_3,Gundavali Gate 3 (Western Express Highway - East Side North),19.114689,72.855522,2,STN_L7_014,,LVL_STN_L7_014_G,1
+ENT_STN_L7_014_4,Gundavali Gate 4 (Western Express Highway - East Side South),19.114189,72.855522,2,STN_L7_014,,LVL_STN_L7_014_G,0
+ENT_STN_L7_014_FOB,Gundavali Interchange FOB (Line 1 WEH Link),19.114589,72.855472,2,STN_L7_014,,LVL_STN_L7_014_C,1
+ENT_STN_L9_001_1,Pandhurang Wadi Gate 1 (West Side - North),19.265297,72.874809,2,STN_L9_001,,LVL_STN_L9_001_G,1
+ENT_STN_L9_001_2,Pandhurang Wadi Gate 2 (West Side - South),19.264797,72.874809,2,STN_L9_001,,LVL_STN_L9_001_G,0
+ENT_STN_L9_001_3,Pandhurang Wadi Gate 3 (East Side - North),19.265297,72.875509,2,STN_L9_001,,LVL_STN_L9_001_G,1
+ENT_STN_L9_001_4,Pandhurang Wadi Gate 4 (East Side - South),19.264797,72.875509,2,STN_L9_001,,LVL_STN_L9_001_G,0
+ENT_STN_L9_002_1,Miragaon Gate 1 (West Side - North),19.271381,72.880515,2,STN_L9_002,,LVL_STN_L9_002_G,1
+ENT_STN_L9_002_2,Miragaon Gate 2 (West Side - South),19.270881,72.880515,2,STN_L9_002,,LVL_STN_L9_002_G,0
+ENT_STN_L9_002_3,Miragaon Gate 3 (East Side - North),19.271381,72.881215,2,STN_L9_002,,LVL_STN_L9_002_G,1
+ENT_STN_L9_002_4,Miragaon Gate 4 (East Side - South),19.270881,72.881215,2,STN_L9_002,,LVL_STN_L9_002_G,0
+ENT_STN_L9_003_1,Kashigaon Gate 1 (West Side - North),19.277943,72.879810,2,STN_L9_003,,LVL_STN_L9_003_G,1
+ENT_STN_L9_003_2,Kashigaon Gate 2 (West Side - South),19.277443,72.879810,2,STN_L9_003,,LVL_STN_L9_003_G,0
+ENT_STN_L9_003_3,Kashigaon Gate 3 (East Side - North),19.277943,72.880510,2,STN_L9_003,,LVL_STN_L9_003_G,1
+ENT_STN_L9_003_4,Kashigaon Gate 4 (East Side - South),19.277443,72.880510,2,STN_L9_003,,LVL_STN_L9_003_G,0
+ENT_STN_MONO_001_1,Chembur Gate 1 (West Side - North),19.054295,72.894290,2,STN_MONO_001,,LVL_STN_MONO_001_G,1
+ENT_STN_MONO_001_2,Chembur Gate 2 (West Side - South),19.053795,72.894290,2,STN_MONO_001,,LVL_STN_MONO_001_G,0
+ENT_STN_MONO_001_3,Chembur Gate 3 (East Side - North),19.054295,72.894990,2,STN_MONO_001,,LVL_STN_MONO_001_G,1
+ENT_STN_MONO_001_4,Chembur Gate 4 (East Side - South),19.053795,72.894990,2,STN_MONO_001,,LVL_STN_MONO_001_G,0
+ENT_STN_MONO_002_1,VNP & RC Marg Junction Gate 1 (West Side - North),19.052916,72.893994,2,STN_MONO_002,,LVL_STN_MONO_002_G,1
+ENT_STN_MONO_002_2,VNP & RC Marg Junction Gate 2 (West Side - South),19.052416,72.893994,2,STN_MONO_002,,LVL_STN_MONO_002_G,0
+ENT_STN_MONO_002_3,VNP & RC Marg Junction Gate 3 (East Side - North),19.052916,72.894694,2,STN_MONO_002,,LVL_STN_MONO_002_G,1
+ENT_STN_MONO_002_4,VNP & RC Marg Junction Gate 4 (East Side - South),19.052416,72.894694,2,STN_MONO_002,,LVL_STN_MONO_002_G,0
+ENT_STN_MONO_003_1,Fertiliser Township Gate 1 (West Side - North),19.044165,72.893123,2,STN_MONO_003,,LVL_STN_MONO_003_G,1
+ENT_STN_MONO_003_2,Fertiliser Township Gate 2 (West Side - South),19.043665,72.893123,2,STN_MONO_003,,LVL_STN_MONO_003_G,0
+ENT_STN_MONO_003_3,Fertiliser Township Gate 3 (East Side - North),19.044165,72.893823,2,STN_MONO_003,,LVL_STN_MONO_003_G,1
+ENT_STN_MONO_003_4,Fertiliser Township Gate 4 (East Side - South),19.043665,72.893823,2,STN_MONO_003,,LVL_STN_MONO_003_G,0
+ENT_STN_MONO_004_1,Bharat Petroleum Gate 1 (West Side - North),19.035500,72.895207,2,STN_MONO_004,,LVL_STN_MONO_004_G,1
+ENT_STN_MONO_004_2,Bharat Petroleum Gate 2 (West Side - South),19.035000,72.895207,2,STN_MONO_004,,LVL_STN_MONO_004_G,0
+ENT_STN_MONO_004_3,Bharat Petroleum Gate 3 (East Side - North),19.035500,72.895907,2,STN_MONO_004,,LVL_STN_MONO_004_G,1
+ENT_STN_MONO_004_4,Bharat Petroleum Gate 4 (East Side - South),19.035000,72.895907,2,STN_MONO_004,,LVL_STN_MONO_004_G,0
+ENT_STN_MONO_005_1,Mysore Colony Gate 1 (West Side - North),19.027966,72.891099,2,STN_MONO_005,,LVL_STN_MONO_005_G,1
+ENT_STN_MONO_005_2,Mysore Colony Gate 2 (West Side - South),19.027466,72.891099,2,STN_MONO_005,,LVL_STN_MONO_005_G,0
+ENT_STN_MONO_005_3,Mysore Colony Gate 3 (East Side - North),19.027966,72.891799,2,STN_MONO_005,,LVL_STN_MONO_005_G,1
+ENT_STN_MONO_005_4,Mysore Colony Gate 4 (East Side - South),19.027466,72.891799,2,STN_MONO_005,,LVL_STN_MONO_005_G,0
+ENT_STN_MONO_006_1,Bhakti Park Gate 1 (West Side - North),19.026323,72.876995,2,STN_MONO_006,,LVL_STN_MONO_006_G,1
+ENT_STN_MONO_006_2,Bhakti Park Gate 2 (West Side - South),19.025823,72.876995,2,STN_MONO_006,,LVL_STN_MONO_006_G,0
+ENT_STN_MONO_006_3,Bhakti Park Gate 3 (East Side - North),19.026323,72.877695,2,STN_MONO_006,,LVL_STN_MONO_006_G,1
+ENT_STN_MONO_006_4,Bhakti Park Gate 4 (East Side - South),19.025823,72.877695,2,STN_MONO_006,,LVL_STN_MONO_006_G,0
+ENT_STN_MONO_007_1,Wadala Depot Gate 1 (West Side - North),19.039126,72.873654,2,STN_MONO_007,,LVL_STN_MONO_007_G,1
+ENT_STN_MONO_007_2,Wadala Depot Gate 2 (West Side - South),19.038626,72.873654,2,STN_MONO_007,,LVL_STN_MONO_007_G,0
+ENT_STN_MONO_007_3,Wadala Depot Gate 3 (East Side - North),19.039126,72.874354,2,STN_MONO_007,,LVL_STN_MONO_007_G,1
+ENT_STN_MONO_007_4,Wadala Depot Gate 4 (East Side - South),19.038626,72.874354,2,STN_MONO_007,,LVL_STN_MONO_007_G,0
+ENT_STN_MONO_008_1,GTB Nagar Gate 1 (West Side - North),19.036971,72.870500,2,STN_MONO_008,,LVL_STN_MONO_008_G,1
+ENT_STN_MONO_008_2,GTB Nagar Gate 2 (West Side - South),19.036471,72.870500,2,STN_MONO_008,,LVL_STN_MONO_008_G,0
+ENT_STN_MONO_008_3,GTB Nagar Gate 3 (East Side - North),19.036971,72.871200,2,STN_MONO_008,,LVL_STN_MONO_008_G,1
+ENT_STN_MONO_008_4,GTB Nagar Gate 4 (East Side - South),19.036471,72.871200,2,STN_MONO_008,,LVL_STN_MONO_008_G,0
+ENT_STN_MONO_009_1,Antop Hill Gate 1 (West Side - North),19.030420,72.866668,2,STN_MONO_009,,LVL_STN_MONO_009_G,1
+ENT_STN_MONO_009_2,Antop Hill Gate 2 (West Side - South),19.029920,72.866668,2,STN_MONO_009,,LVL_STN_MONO_009_G,0
+ENT_STN_MONO_009_3,Antop Hill Gate 3 (East Side - North),19.030420,72.867368,2,STN_MONO_009,,LVL_STN_MONO_009_G,1
+ENT_STN_MONO_009_4,Antop Hill Gate 4 (East Side - South),19.029920,72.867368,2,STN_MONO_009,,LVL_STN_MONO_009_G,0
+ENT_STN_MONO_010_1,Acharya Atre Nagar Gate 1 (West Side - North),19.024089,72.863532,2,STN_MONO_010,,LVL_STN_MONO_010_G,1
+ENT_STN_MONO_010_2,Acharya Atre Nagar Gate 2 (West Side - South),19.023589,72.863532,2,STN_MONO_010,,LVL_STN_MONO_010_G,0
+ENT_STN_MONO_010_3,Acharya Atre Nagar Gate 3 (East Side - North),19.024089,72.864232,2,STN_MONO_010,,LVL_STN_MONO_010_G,1
+ENT_STN_MONO_010_4,Acharya Atre Nagar Gate 4 (East Side - South),19.023589,72.864232,2,STN_MONO_010,,LVL_STN_MONO_010_G,0
+ENT_STN_MONO_011_1,Wadala Bridge Gate 1 (West Side - North),19.017710,72.859031,2,STN_MONO_011,,LVL_STN_MONO_011_G,1
+ENT_STN_MONO_011_2,Wadala Bridge Gate 2 (West Side - South),19.017210,72.859031,2,STN_MONO_011,,LVL_STN_MONO_011_G,0
+ENT_STN_MONO_011_3,Wadala Bridge Gate 3 (East Side - North),19.017710,72.859731,2,STN_MONO_011,,LVL_STN_MONO_011_G,1
+ENT_STN_MONO_011_4,Wadala Bridge Gate 4 (East Side - South),19.017210,72.859731,2,STN_MONO_011,,LVL_STN_MONO_011_G,0
+ENT_STN_MONO_012_1,Dadar East Gate 1 (West Side - North),19.016494,72.851916,2,STN_MONO_012,,LVL_STN_MONO_012_G,1
+ENT_STN_MONO_012_2,Dadar East Gate 2 (West Side - South),19.015994,72.851916,2,STN_MONO_012,,LVL_STN_MONO_012_G,0
+ENT_STN_MONO_012_3,Dadar East Gate 3 (East Side - North),19.016494,72.852616,2,STN_MONO_012,,LVL_STN_MONO_012_G,1
+ENT_STN_MONO_012_4,Dadar East Gate 4 (East Side - South),19.015994,72.852616,2,STN_MONO_012,,LVL_STN_MONO_012_G,0
+ENT_STN_MONO_013_1,Naigaon Gate 1 (West Side - North),19.009732,72.847577,2,STN_MONO_013,,LVL_STN_MONO_013_G,1
+ENT_STN_MONO_013_2,Naigaon Gate 2 (West Side - South),19.009232,72.847577,2,STN_MONO_013,,LVL_STN_MONO_013_G,0
+ENT_STN_MONO_013_3,Naigaon Gate 3 (East Side - North),19.009732,72.848277,2,STN_MONO_013,,LVL_STN_MONO_013_G,1
+ENT_STN_MONO_013_4,Naigaon Gate 4 (East Side - South),19.009232,72.848277,2,STN_MONO_013,,LVL_STN_MONO_013_G,0
+ENT_STN_MONO_014_1,Ambedkar Nagar Gate 1 (West Side - North),19.001938,72.843816,2,STN_MONO_014,,LVL_STN_MONO_014_G,1
+ENT_STN_MONO_014_2,Ambedkar Nagar Gate 2 (West Side - South),19.001438,72.843816,2,STN_MONO_014,,LVL_STN_MONO_014_G,0
+ENT_STN_MONO_014_3,Ambedkar Nagar Gate 3 (East Side - North),19.001938,72.844516,2,STN_MONO_014,,LVL_STN_MONO_014_G,1
+ENT_STN_MONO_014_4,Ambedkar Nagar Gate 4 (East Side - South),19.001438,72.844516,2,STN_MONO_014,,LVL_STN_MONO_014_G,0
+ENT_STN_MONO_015_1,Mint Colony Gate 1 (West Side - North),18.994740,72.843134,2,STN_MONO_015,,LVL_STN_MONO_015_G,1
+ENT_STN_MONO_015_2,Mint Colony Gate 2 (West Side - South),18.994240,72.843134,2,STN_MONO_015,,LVL_STN_MONO_015_G,0
+ENT_STN_MONO_015_3,Mint Colony Gate 3 (East Side - North),18.994740,72.843834,2,STN_MONO_015,,LVL_STN_MONO_015_G,1
+ENT_STN_MONO_015_4,Mint Colony Gate 4 (East Side - South),18.994240,72.843834,2,STN_MONO_015,,LVL_STN_MONO_015_G,0
+ENT_STN_MONO_016_1,Lower Parel Gate 1 (West Side - North),18.993435,72.831210,2,STN_MONO_016,,LVL_STN_MONO_016_G,1
+ENT_STN_MONO_016_2,Lower Parel Gate 2 (West Side - South),18.992935,72.831210,2,STN_MONO_016,,LVL_STN_MONO_016_G,0
+ENT_STN_MONO_016_3,Lower Parel Gate 3 (East Side - North),18.993435,72.831910,2,STN_MONO_016,,LVL_STN_MONO_016_G,1
+ENT_STN_MONO_016_4,Lower Parel Gate 4 (East Side - South),18.992935,72.831910,2,STN_MONO_016,,LVL_STN_MONO_016_G,0
+ENT_STN_MONO_017_1,Sant Gadge Maharaj Chowk (Jacob Circle) Gate 1 (West Side - North),18.983385,72.828304,2,STN_MONO_017,,LVL_STN_MONO_017_G,1
+ENT_STN_MONO_017_2,Sant Gadge Maharaj Chowk (Jacob Circle) Gate 2 (West Side - South),18.982885,72.828304,2,STN_MONO_017,,LVL_STN_MONO_017_G,0
+ENT_STN_MONO_017_3,Sant Gadge Maharaj Chowk (Jacob Circle) Gate 3 (East Side - North),18.983385,72.829004,2,STN_MONO_017,,LVL_STN_MONO_017_G,1
+ENT_STN_MONO_017_4,Sant Gadge Maharaj Chowk (Jacob Circle) Gate 4 (East Side - South),18.982885,72.829004,2,STN_MONO_017,,LVL_STN_MONO_017_G,0
+NODE_STN_L1_001_PAID,Versova Concourse (Paid),19.130278,72.821387,3,STN_L1_001,,LVL_STN_L1_001_C,1
+NODE_STN_L1_001_UNPAID,Versova Concourse (Unpaid),19.130278,72.821387,3,STN_L1_001,,LVL_STN_L1_001_C,1
+NODE_STN_L1_002_PAID,D. N. Nagar Concourse (Paid),19.128178,72.830812,3,STN_L1_002,,LVL_STN_L1_002_C,1
+NODE_STN_L1_002_UNPAID,D. N. Nagar Concourse (Unpaid),19.128178,72.830812,3,STN_L1_002,,LVL_STN_L1_002_C,1
+NODE_STN_L1_003_PAID,Azad Nagar Concourse (Paid),19.126805,72.838267,3,STN_L1_003,,LVL_STN_L1_003_C,1
+NODE_STN_L1_003_UNPAID,Azad Nagar Concourse (Unpaid),19.126805,72.838267,3,STN_L1_003,,LVL_STN_L1_003_C,1
+NODE_STN_L1_004_PAID,Andheri Concourse (Paid),19.120041,72.849482,3,STN_L1_004,,LVL_STN_L1_004_C,1
+NODE_STN_L1_004_UNPAID,Andheri Concourse (Unpaid),19.120041,72.849482,3,STN_L1_004,,LVL_STN_L1_004_C,1
+NODE_STN_L1_005_PAID,Western Express Highway Concourse (Paid),19.115564,72.856983,3,STN_L1_005,,LVL_STN_L1_005_C,1
+NODE_STN_L1_005_UNPAID,Western Express Highway Concourse (Unpaid),19.115564,72.856983,3,STN_L1_005,,LVL_STN_L1_005_C,1
+NODE_STN_L1_006_PAID,Chakala (J.B. Nagar) Concourse (Paid),19.111907,72.868242,3,STN_L1_006,,LVL_STN_L1_006_C,1
+NODE_STN_L1_006_UNPAID,Chakala (J.B. Nagar) Concourse (Unpaid),19.111907,72.868242,3,STN_L1_006,,LVL_STN_L1_006_C,1
+NODE_STN_L1_007_PAID,Airport Road Concourse (Paid),19.109915,72.874797,3,STN_L1_007,,LVL_STN_L1_007_C,1
+NODE_STN_L1_007_UNPAID,Airport Road Concourse (Unpaid),19.109915,72.874797,3,STN_L1_007,,LVL_STN_L1_007_C,1
+NODE_STN_L1_008_PAID,Marol Naka Concourse (Paid),19.107946,72.880109,3,STN_L1_008,,LVL_STN_L1_008_C,1
+NODE_STN_L1_008_UNPAID,Marol Naka Concourse (Unpaid),19.107946,72.880109,3,STN_L1_008,,LVL_STN_L1_008_C,1
+NODE_STN_L1_009_PAID,Saki Naka Concourse (Paid),19.103217,72.888509,3,STN_L1_009,,LVL_STN_L1_009_C,1
+NODE_STN_L1_009_UNPAID,Saki Naka Concourse (Unpaid),19.103217,72.888509,3,STN_L1_009,,LVL_STN_L1_009_C,1
+NODE_STN_L1_010_PAID,Asalpha Concourse (Paid),19.096097,72.895413,3,STN_L1_010,,LVL_STN_L1_010_C,1
+NODE_STN_L1_010_UNPAID,Asalpha Concourse (Unpaid),19.096097,72.895413,3,STN_L1_010,,LVL_STN_L1_010_C,1
+NODE_STN_L1_011_PAID,Jagruti Nagar Concourse (Paid),19.092171,72.9026,3,STN_L1_011,,LVL_STN_L1_011_C,1
+NODE_STN_L1_011_UNPAID,Jagruti Nagar Concourse (Unpaid),19.092171,72.9026,3,STN_L1_011,,LVL_STN_L1_011_C,1
+NODE_STN_L1_012_PAID,Ghatkopar Concourse (Paid),19.086286,72.908123,3,STN_L1_012,,LVL_STN_L1_012_C,1
+NODE_STN_L1_012_UNPAID,Ghatkopar Concourse (Unpaid),19.086286,72.908123,3,STN_L1_012,,LVL_STN_L1_012_C,1
+NODE_STN_L2A_001_PAID,Dahisar (East) Concourse (Paid),19.251263,72.867119,3,STN_L2A_001,,LVL_STN_L2A_001_C,1
+NODE_STN_L2A_001_UNPAID,Dahisar (East) Concourse (Unpaid),19.251263,72.867119,3,STN_L2A_001,,LVL_STN_L2A_001_C,1
+NODE_STN_L2A_002_PAID,Anand Nagar Concourse (Paid),19.257219,72.866134,3,STN_L2A_002,,LVL_STN_L2A_002_C,1
+NODE_STN_L2A_002_UNPAID,Anand Nagar Concourse (Unpaid),19.257219,72.866134,3,STN_L2A_002,,LVL_STN_L2A_002_C,1
+NODE_STN_L2A_003_PAID,Kandarpada Concourse (Paid),19.256646,72.850678,3,STN_L2A_003,,LVL_STN_L2A_003_C,1
+NODE_STN_L2A_003_UNPAID,Kandarpada Concourse (Unpaid),19.256646,72.850678,3,STN_L2A_003,,LVL_STN_L2A_003_C,1
+NODE_STN_L2A_004_PAID,Mandapeshwar Concourse (Paid),19.249261,72.845677,3,STN_L2A_004,,LVL_STN_L2A_004_C,1
+NODE_STN_L2A_004_UNPAID,Mandapeshwar Concourse (Unpaid),19.249261,72.845677,3,STN_L2A_004,,LVL_STN_L2A_004_C,1
+NODE_STN_L2A_005_PAID,Eksar Concourse (Paid),19.240323,72.843438,3,STN_L2A_005,,LVL_STN_L2A_005_C,1
+NODE_STN_L2A_005_UNPAID,Eksar Concourse (Unpaid),19.240323,72.843438,3,STN_L2A_005,,LVL_STN_L2A_005_C,1
+NODE_STN_L2A_006_PAID,Borivali (West) Concourse (Paid),19.231194,72.840865,3,STN_L2A_006,,LVL_STN_L2A_006_C,1
+NODE_STN_L2A_006_UNPAID,Borivali (West) Concourse (Unpaid),19.231194,72.840865,3,STN_L2A_006,,LVL_STN_L2A_006_C,1
+NODE_STN_L2A_007_PAID,Shimpoli Concourse (Paid),19.222769,72.840918,3,STN_L2A_007,,LVL_STN_L2A_007_C,1
+NODE_STN_L2A_007_UNPAID,Shimpoli Concourse (Unpaid),19.222769,72.840918,3,STN_L2A_007,,LVL_STN_L2A_007_C,1
+NODE_STN_L2A_008_PAID,Kandivali (West) Concourse (Paid),19.214005,72.837355,3,STN_L2A_008,,LVL_STN_L2A_008_C,1
+NODE_STN_L2A_008_UNPAID,Kandivali (West) Concourse (Unpaid),19.214005,72.837355,3,STN_L2A_008,,LVL_STN_L2A_008_C,1
+NODE_STN_L2A_009_PAID,Dahanukarwadi Concourse (Paid),19.205772,72.834717,3,STN_L2A_009,,LVL_STN_L2A_009_C,1
+NODE_STN_L2A_009_UNPAID,Dahanukarwadi Concourse (Unpaid),19.205772,72.834717,3,STN_L2A_009,,LVL_STN_L2A_009_C,1
+NODE_STN_L2A_010_PAID,Valnai - Meeth Chowky Concourse (Paid),19.196621,72.833786,3,STN_L2A_010,,LVL_STN_L2A_010_C,1
+NODE_STN_L2A_010_UNPAID,Valnai - Meeth Chowky Concourse (Unpaid),19.196621,72.833786,3,STN_L2A_010,,LVL_STN_L2A_010_C,1
+NODE_STN_L2A_011_PAID,Malad (West) Concourse (Paid),19.1852,72.83585,3,STN_L2A_011,,LVL_STN_L2A_011_C,1
+NODE_STN_L2A_011_UNPAID,Malad (West) Concourse (Unpaid),19.1852,72.83585,3,STN_L2A_011,,LVL_STN_L2A_011_C,1
+NODE_STN_L2A_012_PAID,Lower Malad Concourse (Paid),19.172953,72.836423,3,STN_L2A_012,,LVL_STN_L2A_012_C,1
+NODE_STN_L2A_012_UNPAID,Lower Malad Concourse (Unpaid),19.172953,72.836423,3,STN_L2A_012,,LVL_STN_L2A_012_C,1
+NODE_STN_L2A_013_PAID,Bangur Nagar Concourse (Paid),19.162259,72.834844,3,STN_L2A_013,,LVL_STN_L2A_013_C,1
+NODE_STN_L2A_013_UNPAID,Bangur Nagar Concourse (Unpaid),19.162259,72.834844,3,STN_L2A_013,,LVL_STN_L2A_013_C,1
+NODE_STN_L2A_014_PAID,Goregaon (West) Concourse (Paid),19.153138,72.835685,3,STN_L2A_014,,LVL_STN_L2A_014_C,1
+NODE_STN_L2A_014_UNPAID,Goregaon (West) Concourse (Unpaid),19.153138,72.835685,3,STN_L2A_014,,LVL_STN_L2A_014_C,1
+NODE_STN_L2A_015_PAID,Oshiwara Concourse (Paid),19.145979,72.833752,3,STN_L2A_015,,LVL_STN_L2A_015_C,1
+NODE_STN_L2A_015_UNPAID,Oshiwara Concourse (Unpaid),19.145979,72.833752,3,STN_L2A_015,,LVL_STN_L2A_015_C,1
+NODE_STN_L2A_016_PAID,Lower Oshiwara Concourse (Paid),19.140455,72.831717,3,STN_L2A_016,,LVL_STN_L2A_016_C,1
+NODE_STN_L2A_016_UNPAID,Lower Oshiwara Concourse (Unpaid),19.140455,72.831717,3,STN_L2A_016,,LVL_STN_L2A_016_C,1
+NODE_STN_L2A_017_MEZZ,Andheri (West) Intermediate Mezzanine,19.129089,72.831415,3,STN_L2A_017,,LVL_STN_L2A_017_M,1
+NODE_STN_L2A_017_PAID,Andheri (West) Concourse (Paid),19.129089,72.831415,3,STN_L2A_017,,LVL_STN_L2A_017_C,1
+NODE_STN_L2A_017_UNPAID,Andheri (West) Concourse (Unpaid),19.129089,72.831415,3,STN_L2A_017,,LVL_STN_L2A_017_C,1
+NODE_STN_L2B_015_PAID,Chembur Concourse (Paid),19.053934,72.892644,3,STN_L2B_015,,LVL_STN_L2B_015_C,1
+NODE_STN_L2B_015_UNPAID,Chembur Concourse (Unpaid),19.053934,72.892644,3,STN_L2B_015,,LVL_STN_L2B_015_C,1
+NODE_STN_L2B_016_PAID,Diamond Garden Concourse (Paid),19.051858,72.901486,3,STN_L2B_016,,LVL_STN_L2B_016_C,1
+NODE_STN_L2B_016_UNPAID,Diamond Garden Concourse (Unpaid),19.051858,72.901486,3,STN_L2B_016,,LVL_STN_L2B_016_C,1
+NODE_STN_L2B_017_PAID,Shivaji Chowk Concourse (Paid),19.047945,72.906864,3,STN_L2B_017,,LVL_STN_L2B_017_C,1
+NODE_STN_L2B_017_UNPAID,Shivaji Chowk Concourse (Unpaid),19.047945,72.906864,3,STN_L2B_017,,LVL_STN_L2B_017_C,1
+NODE_STN_L2B_018_PAID,BSNL Metro Concourse (Paid),19.04482,72.917276,3,STN_L2B_018,,LVL_STN_L2B_018_C,1
+NODE_STN_L2B_018_UNPAID,BSNL Metro Concourse (Unpaid),19.04482,72.917276,3,STN_L2B_018,,LVL_STN_L2B_018_C,1
+NODE_STN_L2B_019_PAID,Mankhurd Concourse (Paid),19.048753,72.930025,3,STN_L2B_019,,LVL_STN_L2B_019_C,1
+NODE_STN_L2B_019_UNPAID,Mankhurd Concourse (Unpaid),19.048753,72.930025,3,STN_L2B_019,,LVL_STN_L2B_019_C,1
+NODE_STN_L2B_020_PAID,Mandale Concourse (Paid),19.04909,72.938795,3,STN_L2B_020,,LVL_STN_L2B_020_C,1
+NODE_STN_L2B_020_UNPAID,Mandale Concourse (Unpaid),19.04909,72.938795,3,STN_L2B_020,,LVL_STN_L2B_020_C,1
+NODE_STN_L3_001_PAID,Aarey JVLR Concourse (Paid),19.13101,72.884255,3,STN_L3_001,,LVL_STN_L3_001_C,1
+NODE_STN_L3_001_UNPAID,Aarey JVLR Concourse (Unpaid),19.13101,72.884255,3,STN_L3_001,,LVL_STN_L3_001_C,1
+NODE_STN_L3_002_PAID,SEEPZ Concourse (Paid),19.12578,72.873447,3,STN_L3_002,,LVL_STN_L3_002_C,1
+NODE_STN_L3_002_UNPAID,SEEPZ Concourse (Unpaid),19.12578,72.873447,3,STN_L3_002,,LVL_STN_L3_002_C,1
+NODE_STN_L3_003_PAID,MIDC Concourse (Paid),19.117303,72.87382,3,STN_L3_003,,LVL_STN_L3_003_C,1
+NODE_STN_L3_003_UNPAID,MIDC Concourse (Unpaid),19.117303,72.87382,3,STN_L3_003,,LVL_STN_L3_003_C,1
+NODE_STN_L3_004_PAID,Marol Naka Concourse (Paid),19.108436,72.878579,3,STN_L3_004,,LVL_STN_L3_004_C,1
+NODE_STN_L3_004_UNPAID,Marol Naka Concourse (Unpaid),19.108436,72.878579,3,STN_L3_004,,LVL_STN_L3_004_C,1
+NODE_STN_L3_005_PAID,CSMIA Terminal 2 Concourse (Paid),19.102274,72.874413,3,STN_L3_005,,LVL_STN_L3_005_C,1
+NODE_STN_L3_005_UNPAID,CSMIA Terminal 2 Concourse (Unpaid),19.102274,72.874413,3,STN_L3_005,,LVL_STN_L3_005_C,1
+NODE_STN_L3_006_PAID,Sahar Road Concourse (Paid),19.102196,72.865299,3,STN_L3_006,,LVL_STN_L3_006_C,1
+NODE_STN_L3_006_UNPAID,Sahar Road Concourse (Unpaid),19.102196,72.865299,3,STN_L3_006,,LVL_STN_L3_006_C,1
+NODE_STN_L3_007_PAID,CSMIA Terminal 1 Concourse (Paid),19.093926,72.853447,3,STN_L3_007,,LVL_STN_L3_007_C,1
+NODE_STN_L3_007_UNPAID,CSMIA Terminal 1 Concourse (Unpaid),19.093926,72.853447,3,STN_L3_007,,LVL_STN_L3_007_C,1
+NODE_STN_L3_008_PAID,Santacruz Concourse (Paid),19.078528,72.847181,3,STN_L3_008,,LVL_STN_L3_008_C,1
+NODE_STN_L3_008_UNPAID,Santacruz Concourse (Unpaid),19.078528,72.847181,3,STN_L3_008,,LVL_STN_L3_008_C,1
+NODE_STN_L3_009_PAID,Bandra Colony Concourse (Paid),19.070103,72.849266,3,STN_L3_009,,LVL_STN_L3_009_C,1
+NODE_STN_L3_009_UNPAID,Bandra Colony Concourse (Unpaid),19.070103,72.849266,3,STN_L3_009,,LVL_STN_L3_009_C,1
+NODE_STN_L3_010_PAID,BKC Concourse (Paid),19.060216,72.854956,3,STN_L3_010,,LVL_STN_L3_010_C,1
+NODE_STN_L3_010_UNPAID,BKC Concourse (Unpaid),19.060216,72.854956,3,STN_L3_010,,LVL_STN_L3_010_C,1
+NODE_STN_L3_011_PAID,Dharavi Concourse (Paid),19.046277,72.849952,3,STN_L3_011,,LVL_STN_L3_011_C,1
+NODE_STN_L3_011_UNPAID,Dharavi Concourse (Unpaid),19.046277,72.849952,3,STN_L3_011,,LVL_STN_L3_011_C,1
+NODE_STN_L3_012_PAID,Sitladevi Concourse (Paid),19.038392,72.842133,3,STN_L3_012,,LVL_STN_L3_012_C,1
+NODE_STN_L3_012_UNPAID,Sitladevi Concourse (Unpaid),19.038392,72.842133,3,STN_L3_012,,LVL_STN_L3_012_C,1
+NODE_STN_L3_013_PAID,Dadar Metro Concourse (Paid),19.023667,72.8393,3,STN_L3_013,,LVL_STN_L3_013_C,1
+NODE_STN_L3_013_UNPAID,Dadar Metro Concourse (Unpaid),19.023667,72.8393,3,STN_L3_013,,LVL_STN_L3_013_C,1
+NODE_STN_L3_014_PAID,Siddhivinayak Concourse (Paid),19.015876,72.830735,3,STN_L3_014,,LVL_STN_L3_014_C,1
+NODE_STN_L3_014_UNPAID,Siddhivinayak Concourse (Unpaid),19.015876,72.830735,3,STN_L3_014,,LVL_STN_L3_014_C,1
+NODE_STN_L3_015_PAID,Worli Concourse (Paid),19.00878,72.819401,3,STN_L3_015,,LVL_STN_L3_015_C,1
+NODE_STN_L3_015_UNPAID,Worli Concourse (Unpaid),19.00878,72.819401,3,STN_L3_015,,LVL_STN_L3_015_C,1
+NODE_STN_L3_016_PAID,Acharya Atre Chowk Concourse (Paid),18.9985,72.8182,3,STN_L3_016,,LVL_STN_L3_016_C,1
+NODE_STN_L3_016_UNPAID,Acharya Atre Chowk Concourse (Unpaid),18.9985,72.8182,3,STN_L3_016,,LVL_STN_L3_016_C,1
+NODE_STN_L3_017_PAID,Science Centre Concourse (Paid),18.990318,72.82177,3,STN_L3_017,,LVL_STN_L3_017_C,1
+NODE_STN_L3_017_UNPAID,Science Centre Concourse (Unpaid),18.990318,72.82177,3,STN_L3_017,,LVL_STN_L3_017_C,1
+NODE_STN_L3_018_PAID,Mahalaxmi Concourse (Paid),18.979485,72.825295,3,STN_L3_018,,LVL_STN_L3_018_C,1
+NODE_STN_L3_018_UNPAID,Mahalaxmi Concourse (Unpaid),18.979485,72.825295,3,STN_L3_018,,LVL_STN_L3_018_C,1
+NODE_STN_L3_019_PAID,Mumbai Central Concourse (Paid),18.970603,72.821382,3,STN_L3_019,,LVL_STN_L3_019_C,1
+NODE_STN_L3_019_UNPAID,Mumbai Central Concourse (Unpaid),18.970603,72.821382,3,STN_L3_019,,LVL_STN_L3_019_C,1
+NODE_STN_L3_020_PAID,Grant Road Concourse (Paid),18.962924,72.817997,3,STN_L3_020,,LVL_STN_L3_020_C,1
+NODE_STN_L3_020_UNPAID,Grant Road Concourse (Unpaid),18.962924,72.817997,3,STN_L3_020,,LVL_STN_L3_020_C,1
+NODE_STN_L3_021_PAID,Girgaon Concourse (Paid),18.951929,72.822606,3,STN_L3_021,,LVL_STN_L3_021_C,1
+NODE_STN_L3_021_UNPAID,Girgaon Concourse (Unpaid),18.951929,72.822606,3,STN_L3_021,,LVL_STN_L3_021_C,1
+NODE_STN_L3_022_PAID,Kalbadevi Concourse (Paid),18.946899,72.826943,3,STN_L3_022,,LVL_STN_L3_022_C,1
+NODE_STN_L3_022_UNPAID,Kalbadevi Concourse (Unpaid),18.946899,72.826943,3,STN_L3_022,,LVL_STN_L3_022_C,1
+NODE_STN_L3_023_PAID,CSMT Metro Concourse (Paid),18.940664,72.83217,3,STN_L3_023,,LVL_STN_L3_023_C,1
+NODE_STN_L3_023_UNPAID,CSMT Metro Concourse (Unpaid),18.940664,72.83217,3,STN_L3_023,,LVL_STN_L3_023_C,1
+NODE_STN_L3_024_PAID,Hutatma Chowk Concourse (Paid),18.934579,72.832826,3,STN_L3_024,,LVL_STN_L3_024_C,1
+NODE_STN_L3_024_UNPAID,Hutatma Chowk Concourse (Unpaid),18.934579,72.832826,3,STN_L3_024,,LVL_STN_L3_024_C,1
+NODE_STN_L3_025_PAID,Churchgate Concourse (Paid),18.930654,72.826172,3,STN_L3_025,,LVL_STN_L3_025_C,1
+NODE_STN_L3_025_UNPAID,Churchgate Concourse (Unpaid),18.930654,72.826172,3,STN_L3_025,,LVL_STN_L3_025_C,1
+NODE_STN_L3_026_PAID,Vidhan Bhawan Concourse (Paid),18.924696,72.825616,3,STN_L3_026,,LVL_STN_L3_026_C,1
+NODE_STN_L3_026_UNPAID,Vidhan Bhawan Concourse (Unpaid),18.924696,72.825616,3,STN_L3_026,,LVL_STN_L3_026_C,1
+NODE_STN_L3_027_PAID,Cuffe Parade Concourse (Paid),18.912955,72.820196,3,STN_L3_027,,LVL_STN_L3_027_C,1
+NODE_STN_L3_027_UNPAID,Cuffe Parade Concourse (Unpaid),18.912955,72.820196,3,STN_L3_027,,LVL_STN_L3_027_C,1
+NODE_STN_L7_001_PAID,Dahisar (East) Concourse (Paid),19.251263,72.867119,3,STN_L7_001,,LVL_STN_L7_001_C,1
+NODE_STN_L7_001_UNPAID,Dahisar (East) Concourse (Unpaid),19.251263,72.867119,3,STN_L7_001,,LVL_STN_L7_001_C,1
+NODE_STN_L7_002_PAID,Ovaripada Concourse (Paid),19.243411,72.864248,3,STN_L7_002,,LVL_STN_L7_002_C,1
+NODE_STN_L7_002_UNPAID,Ovaripada Concourse (Unpaid),19.243411,72.864248,3,STN_L7_002,,LVL_STN_L7_002_C,1
+NODE_STN_L7_003_PAID,Rashtriya Udyan Concourse (Paid),19.234671,72.863161,3,STN_L7_003,,LVL_STN_L7_003_C,1
+NODE_STN_L7_003_UNPAID,Rashtriya Udyan Concourse (Unpaid),19.234671,72.863161,3,STN_L7_003,,LVL_STN_L7_003_C,1
+NODE_STN_L7_004_PAID,Devipada Concourse (Paid),19.224332,72.86422,3,STN_L7_004,,LVL_STN_L7_004_C,1
+NODE_STN_L7_004_UNPAID,Devipada Concourse (Unpaid),19.224332,72.86422,3,STN_L7_004,,LVL_STN_L7_004_C,1
+NODE_STN_L7_005_PAID,Magathane Concourse (Paid),19.217203,72.866728,3,STN_L7_005,,LVL_STN_L7_005_C,1
+NODE_STN_L7_005_UNPAID,Magathane Concourse (Unpaid),19.217203,72.866728,3,STN_L7_005,,LVL_STN_L7_005_C,1
+NODE_STN_L7_006_PAID,Poisar Concourse (Paid),19.203938,72.863499,3,STN_L7_006,,LVL_STN_L7_006_C,1
+NODE_STN_L7_006_UNPAID,Poisar Concourse (Unpaid),19.203938,72.863499,3,STN_L7_006,,LVL_STN_L7_006_C,1
+NODE_STN_L7_007_PAID,Akurli Concourse (Paid),19.198115,72.860646,3,STN_L7_007,,LVL_STN_L7_007_C,1
+NODE_STN_L7_007_UNPAID,Akurli Concourse (Unpaid),19.198115,72.860646,3,STN_L7_007,,LVL_STN_L7_007_C,1
+NODE_STN_L7_008_PAID,Kurar Concourse (Paid),19.187264,72.858512,3,STN_L7_008,,LVL_STN_L7_008_C,1
+NODE_STN_L7_008_UNPAID,Kurar Concourse (Unpaid),19.187264,72.858512,3,STN_L7_008,,LVL_STN_L7_008_C,1
+NODE_STN_L7_009_PAID,Dindoshi Concourse (Paid),19.17972,72.8583,3,STN_L7_009,,LVL_STN_L7_009_C,1
+NODE_STN_L7_009_UNPAID,Dindoshi Concourse (Unpaid),19.17972,72.8583,3,STN_L7_009,,LVL_STN_L7_009_C,1
+NODE_STN_L7_010_PAID,Aarey Concourse (Paid),19.169506,72.858801,3,STN_L7_010,,LVL_STN_L7_010_C,1
+NODE_STN_L7_010_UNPAID,Aarey Concourse (Unpaid),19.169506,72.858801,3,STN_L7_010,,LVL_STN_L7_010_C,1
+NODE_STN_L7_011_PAID,Goregaon (East) Concourse (Paid),19.152442,72.856573,3,STN_L7_011,,LVL_STN_L7_011_C,1
+NODE_STN_L7_011_UNPAID,Goregaon (East) Concourse (Unpaid),19.152442,72.856573,3,STN_L7_011,,LVL_STN_L7_011_C,1
+NODE_STN_L7_012_PAID,Jogeshwari (East) Concourse (Paid),19.142928,72.855166,3,STN_L7_012,,LVL_STN_L7_012_C,1
+NODE_STN_L7_012_UNPAID,Jogeshwari (East) Concourse (Unpaid),19.142928,72.855166,3,STN_L7_012,,LVL_STN_L7_012_C,1
+NODE_STN_L7_013_PAID,Mogra Concourse (Paid),19.128677,72.855452,3,STN_L7_013,,LVL_STN_L7_013_C,1
+NODE_STN_L7_013_UNPAID,Mogra Concourse (Unpaid),19.128677,72.855452,3,STN_L7_013,,LVL_STN_L7_013_C,1
+NODE_STN_L7_014_PAID,Gundavali Concourse (Paid),19.114439,72.855172,3,STN_L7_014,,LVL_STN_L7_014_C,1
+NODE_STN_L7_014_UNPAID,Gundavali Concourse (Unpaid),19.114439,72.855172,3,STN_L7_014,,LVL_STN_L7_014_C,1
+NODE_STN_L9_001_PAID,Pandhurang Wadi Concourse (Paid),19.265047,72.875159,3,STN_L9_001,,LVL_STN_L9_001_C,1
+NODE_STN_L9_001_UNPAID,Pandhurang Wadi Concourse (Unpaid),19.265047,72.875159,3,STN_L9_001,,LVL_STN_L9_001_C,1
+NODE_STN_L9_002_PAID,Miragaon Concourse (Paid),19.271131,72.880865,3,STN_L9_002,,LVL_STN_L9_002_C,1
+NODE_STN_L9_002_UNPAID,Miragaon Concourse (Unpaid),19.271131,72.880865,3,STN_L9_002,,LVL_STN_L9_002_C,1
+NODE_STN_L9_003_PAID,Kashigaon Concourse (Paid),19.277693,72.88016,3,STN_L9_003,,LVL_STN_L9_003_C,1
+NODE_STN_L9_003_UNPAID,Kashigaon Concourse (Unpaid),19.277693,72.88016,3,STN_L9_003,,LVL_STN_L9_003_C,1
+NODE_STN_MONO_001_PAID,Chembur Concourse (Paid),19.054045,72.89464,3,STN_MONO_001,,LVL_STN_MONO_001_C,1
+NODE_STN_MONO_001_UNPAID,Chembur Concourse (Unpaid),19.054045,72.89464,3,STN_MONO_001,,LVL_STN_MONO_001_C,1
+NODE_STN_MONO_002_PAID,VNP & RC Marg Junction Concourse (Paid),19.052666,72.894344,3,STN_MONO_002,,LVL_STN_MONO_002_C,1
+NODE_STN_MONO_002_UNPAID,VNP & RC Marg Junction Concourse (Unpaid),19.052666,72.894344,3,STN_MONO_002,,LVL_STN_MONO_002_C,1
+NODE_STN_MONO_003_PAID,Fertiliser Township Concourse (Paid),19.043915,72.893473,3,STN_MONO_003,,LVL_STN_MONO_003_C,1
+NODE_STN_MONO_003_UNPAID,Fertiliser Township Concourse (Unpaid),19.043915,72.893473,3,STN_MONO_003,,LVL_STN_MONO_003_C,1
+NODE_STN_MONO_004_PAID,Bharat Petroleum Concourse (Paid),19.03525,72.895557,3,STN_MONO_004,,LVL_STN_MONO_004_C,1
+NODE_STN_MONO_004_UNPAID,Bharat Petroleum Concourse (Unpaid),19.03525,72.895557,3,STN_MONO_004,,LVL_STN_MONO_004_C,1
+NODE_STN_MONO_005_PAID,Mysore Colony Concourse (Paid),19.027716,72.891449,3,STN_MONO_005,,LVL_STN_MONO_005_C,1
+NODE_STN_MONO_005_UNPAID,Mysore Colony Concourse (Unpaid),19.027716,72.891449,3,STN_MONO_005,,LVL_STN_MONO_005_C,1
+NODE_STN_MONO_006_PAID,Bhakti Park Concourse (Paid),19.026073,72.877345,3,STN_MONO_006,,LVL_STN_MONO_006_C,1
+NODE_STN_MONO_006_UNPAID,Bhakti Park Concourse (Unpaid),19.026073,72.877345,3,STN_MONO_006,,LVL_STN_MONO_006_C,1
+NODE_STN_MONO_007_PAID,Wadala Depot Concourse (Paid),19.038876,72.874004,3,STN_MONO_007,,LVL_STN_MONO_007_C,1
+NODE_STN_MONO_007_UNPAID,Wadala Depot Concourse (Unpaid),19.038876,72.874004,3,STN_MONO_007,,LVL_STN_MONO_007_C,1
+NODE_STN_MONO_008_PAID,GTB Nagar Concourse (Paid),19.036721,72.87085,3,STN_MONO_008,,LVL_STN_MONO_008_C,1
+NODE_STN_MONO_008_UNPAID,GTB Nagar Concourse (Unpaid),19.036721,72.87085,3,STN_MONO_008,,LVL_STN_MONO_008_C,1
+NODE_STN_MONO_009_PAID,Antop Hill Concourse (Paid),19.03017,72.867018,3,STN_MONO_009,,LVL_STN_MONO_009_C,1
+NODE_STN_MONO_009_UNPAID,Antop Hill Concourse (Unpaid),19.03017,72.867018,3,STN_MONO_009,,LVL_STN_MONO_009_C,1
+NODE_STN_MONO_010_PAID,Acharya Atre Nagar Concourse (Paid),19.023839,72.863882,3,STN_MONO_010,,LVL_STN_MONO_010_C,1
+NODE_STN_MONO_010_UNPAID,Acharya Atre Nagar Concourse (Unpaid),19.023839,72.863882,3,STN_MONO_010,,LVL_STN_MONO_010_C,1
+NODE_STN_MONO_011_PAID,Wadala Bridge Concourse (Paid),19.01746,72.859381,3,STN_MONO_011,,LVL_STN_MONO_011_C,1
+NODE_STN_MONO_011_UNPAID,Wadala Bridge Concourse (Unpaid),19.01746,72.859381,3,STN_MONO_011,,LVL_STN_MONO_011_C,1
+NODE_STN_MONO_012_PAID,Dadar East Concourse (Paid),19.016244,72.852266,3,STN_MONO_012,,LVL_STN_MONO_012_C,1
+NODE_STN_MONO_012_UNPAID,Dadar East Concourse (Unpaid),19.016244,72.852266,3,STN_MONO_012,,LVL_STN_MONO_012_C,1
+NODE_STN_MONO_013_PAID,Naigaon Concourse (Paid),19.009482,72.847927,3,STN_MONO_013,,LVL_STN_MONO_013_C,1
+NODE_STN_MONO_013_UNPAID,Naigaon Concourse (Unpaid),19.009482,72.847927,3,STN_MONO_013,,LVL_STN_MONO_013_C,1
+NODE_STN_MONO_014_PAID,Ambedkar Nagar Concourse (Paid),19.001688,72.844166,3,STN_MONO_014,,LVL_STN_MONO_014_C,1
+NODE_STN_MONO_014_UNPAID,Ambedkar Nagar Concourse (Unpaid),19.001688,72.844166,3,STN_MONO_014,,LVL_STN_MONO_014_C,1
+NODE_STN_MONO_015_PAID,Mint Colony Concourse (Paid),18.99449,72.843484,3,STN_MONO_015,,LVL_STN_MONO_015_C,1
+NODE_STN_MONO_015_UNPAID,Mint Colony Concourse (Unpaid),18.99449,72.843484,3,STN_MONO_015,,LVL_STN_MONO_015_C,1
+NODE_STN_MONO_016_PAID,Lower Parel Concourse (Paid),18.993185,72.83156,3,STN_MONO_016,,LVL_STN_MONO_016_C,1
+NODE_STN_MONO_016_UNPAID,Lower Parel Concourse (Unpaid),18.993185,72.83156,3,STN_MONO_016,,LVL_STN_MONO_016_C,1
+NODE_STN_MONO_017_PAID,Sant Gadge Maharaj Chowk (Jacob Circle) Concourse (Paid),18.983135,72.828654,3,STN_MONO_017,,LVL_STN_MONO_017_C,1
+NODE_STN_MONO_017_UNPAID,Sant Gadge Maharaj Chowk (Jacob Circle) Concourse (Unpaid),18.983135,72.828654,3,STN_MONO_017,,LVL_STN_MONO_017_C,1
+PF_CR_CSMT,CSMT Railway Station (Central Railway),18.9412,72.8341,0,,,,1
+PF_CR_DADAR,Dadar Railway Station (Central/Western Railway),19.0183,72.8431,0,,,,1
+PF_CR_GHATKOPAR,Ghatkopar Railway Station (Central Railway),19.0863,72.9081,0,,,,1
+PF_STN_L1_001_1,Versova Platform 1,19.130278,72.821387,0,STN_L1_001,1,LVL_STN_L1_001_P,1
+PF_STN_L1_001_2,Versova Platform 2,19.130278,72.821387,0,STN_L1_001,2,LVL_STN_L1_001_P,1
+PF_STN_L1_002_1,D. N. Nagar Platform 1,19.128178,72.830812,0,STN_L1_002,1,LVL_STN_L1_002_P,1
+PF_STN_L1_002_2,D. N. Nagar Platform 2,19.128178,72.830812,0,STN_L1_002,2,LVL_STN_L1_002_P,1
+PF_STN_L1_003_1,Azad Nagar Platform 1,19.126805,72.838267,0,STN_L1_003,1,LVL_STN_L1_003_P,1
+PF_STN_L1_003_2,Azad Nagar Platform 2,19.126805,72.838267,0,STN_L1_003,2,LVL_STN_L1_003_P,1
+PF_STN_L1_004_1,Andheri Platform 1,19.120041,72.849482,0,STN_L1_004,1,LVL_STN_L1_004_P,1
+PF_STN_L1_004_2,Andheri Platform 2,19.120041,72.849482,0,STN_L1_004,2,LVL_STN_L1_004_P,1
+PF_STN_L1_005_1,Western Express Highway Platform 1,19.115564,72.856983,0,STN_L1_005,1,LVL_STN_L1_005_P,1
+PF_STN_L1_005_2,Western Express Highway Platform 2,19.115564,72.856983,0,STN_L1_005,2,LVL_STN_L1_005_P,1
+PF_STN_L1_006_1,Chakala (J.B. Nagar) Platform 1,19.111907,72.868242,0,STN_L1_006,1,LVL_STN_L1_006_P,1
+PF_STN_L1_006_2,Chakala (J.B. Nagar) Platform 2,19.111907,72.868242,0,STN_L1_006,2,LVL_STN_L1_006_P,1
+PF_STN_L1_007_1,Airport Road Platform 1,19.109915,72.874797,0,STN_L1_007,1,LVL_STN_L1_007_P,1
+PF_STN_L1_007_2,Airport Road Platform 2,19.109915,72.874797,0,STN_L1_007,2,LVL_STN_L1_007_P,1
+PF_STN_L1_008_1,Marol Naka Platform 1,19.107946,72.880109,0,STN_L1_008,1,LVL_STN_L1_008_P,1
+PF_STN_L1_008_2,Marol Naka Platform 2,19.107946,72.880109,0,STN_L1_008,2,LVL_STN_L1_008_P,1
+PF_STN_L1_009_1,Saki Naka Platform 1,19.103217,72.888509,0,STN_L1_009,1,LVL_STN_L1_009_P,1
+PF_STN_L1_009_2,Saki Naka Platform 2,19.103217,72.888509,0,STN_L1_009,2,LVL_STN_L1_009_P,1
+PF_STN_L1_010_1,Asalpha Platform 1,19.096097,72.895413,0,STN_L1_010,1,LVL_STN_L1_010_P,1
+PF_STN_L1_010_2,Asalpha Platform 2,19.096097,72.895413,0,STN_L1_010,2,LVL_STN_L1_010_P,1
+PF_STN_L1_011_1,Jagruti Nagar Platform 1,19.092171,72.9026,0,STN_L1_011,1,LVL_STN_L1_011_P,1
+PF_STN_L1_011_2,Jagruti Nagar Platform 2,19.092171,72.9026,0,STN_L1_011,2,LVL_STN_L1_011_P,1
+PF_STN_L1_012_1,Ghatkopar Platform 1,19.086286,72.908123,0,STN_L1_012,1,LVL_STN_L1_012_P,1
+PF_STN_L1_012_2,Ghatkopar Platform 2,19.086286,72.908123,0,STN_L1_012,2,LVL_STN_L1_012_P,1
+PF_STN_L2A_001_1,Dahisar (East) Platform 1,19.251263,72.867119,0,STN_L2A_001,1,LVL_STN_L2A_001_P,1
+PF_STN_L2A_001_2,Dahisar (East) Platform 2,19.251263,72.867119,0,STN_L2A_001,2,LVL_STN_L2A_001_P,1
+PF_STN_L2A_002_1,Anand Nagar Platform 1,19.257219,72.866134,0,STN_L2A_002,1,LVL_STN_L2A_002_P,1
+PF_STN_L2A_002_2,Anand Nagar Platform 2,19.257219,72.866134,0,STN_L2A_002,2,LVL_STN_L2A_002_P,1
+PF_STN_L2A_003_1,Kandarpada Platform 1,19.256646,72.850678,0,STN_L2A_003,1,LVL_STN_L2A_003_P,1
+PF_STN_L2A_003_2,Kandarpada Platform 2,19.256646,72.850678,0,STN_L2A_003,2,LVL_STN_L2A_003_P,1
+PF_STN_L2A_004_1,Mandapeshwar Platform 1,19.249261,72.845677,0,STN_L2A_004,1,LVL_STN_L2A_004_P,1
+PF_STN_L2A_004_2,Mandapeshwar Platform 2,19.249261,72.845677,0,STN_L2A_004,2,LVL_STN_L2A_004_P,1
+PF_STN_L2A_005_1,Eksar Platform 1,19.240323,72.843438,0,STN_L2A_005,1,LVL_STN_L2A_005_P,1
+PF_STN_L2A_005_2,Eksar Platform 2,19.240323,72.843438,0,STN_L2A_005,2,LVL_STN_L2A_005_P,1
+PF_STN_L2A_006_1,Borivali (West) Platform 1,19.231194,72.840865,0,STN_L2A_006,1,LVL_STN_L2A_006_P,1
+PF_STN_L2A_006_2,Borivali (West) Platform 2,19.231194,72.840865,0,STN_L2A_006,2,LVL_STN_L2A_006_P,1
+PF_STN_L2A_007_1,Shimpoli Platform 1,19.222769,72.840918,0,STN_L2A_007,1,LVL_STN_L2A_007_P,1
+PF_STN_L2A_007_2,Shimpoli Platform 2,19.222769,72.840918,0,STN_L2A_007,2,LVL_STN_L2A_007_P,1
+PF_STN_L2A_008_1,Kandivali (West) Platform 1,19.214005,72.837355,0,STN_L2A_008,1,LVL_STN_L2A_008_P,1
+PF_STN_L2A_008_2,Kandivali (West) Platform 2,19.214005,72.837355,0,STN_L2A_008,2,LVL_STN_L2A_008_P,1
+PF_STN_L2A_009_1,Dahanukarwadi Platform 1,19.205772,72.834717,0,STN_L2A_009,1,LVL_STN_L2A_009_P,1
+PF_STN_L2A_009_2,Dahanukarwadi Platform 2,19.205772,72.834717,0,STN_L2A_009,2,LVL_STN_L2A_009_P,1
+PF_STN_L2A_010_1,Valnai - Meeth Chowky Platform 1,19.196621,72.833786,0,STN_L2A_010,1,LVL_STN_L2A_010_P,1
+PF_STN_L2A_010_2,Valnai - Meeth Chowky Platform 2,19.196621,72.833786,0,STN_L2A_010,2,LVL_STN_L2A_010_P,1
+PF_STN_L2A_011_1,Malad (West) Platform 1,19.1852,72.83585,0,STN_L2A_011,1,LVL_STN_L2A_011_P,1
+PF_STN_L2A_011_2,Malad (West) Platform 2,19.1852,72.83585,0,STN_L2A_011,2,LVL_STN_L2A_011_P,1
+PF_STN_L2A_012_1,Lower Malad Platform 1,19.172953,72.836423,0,STN_L2A_012,1,LVL_STN_L2A_012_P,1
+PF_STN_L2A_012_2,Lower Malad Platform 2,19.172953,72.836423,0,STN_L2A_012,2,LVL_STN_L2A_012_P,1
+PF_STN_L2A_013_1,Bangur Nagar Platform 1,19.162259,72.834844,0,STN_L2A_013,1,LVL_STN_L2A_013_P,1
+PF_STN_L2A_013_2,Bangur Nagar Platform 2,19.162259,72.834844,0,STN_L2A_013,2,LVL_STN_L2A_013_P,1
+PF_STN_L2A_014_1,Goregaon (West) Platform 1,19.153138,72.835685,0,STN_L2A_014,1,LVL_STN_L2A_014_P,1
+PF_STN_L2A_014_2,Goregaon (West) Platform 2,19.153138,72.835685,0,STN_L2A_014,2,LVL_STN_L2A_014_P,1
+PF_STN_L2A_015_1,Oshiwara Platform 1,19.145979,72.833752,0,STN_L2A_015,1,LVL_STN_L2A_015_P,1
+PF_STN_L2A_015_2,Oshiwara Platform 2,19.145979,72.833752,0,STN_L2A_015,2,LVL_STN_L2A_015_P,1
+PF_STN_L2A_016_1,Lower Oshiwara Platform 1,19.140455,72.831717,0,STN_L2A_016,1,LVL_STN_L2A_016_P,1
+PF_STN_L2A_016_2,Lower Oshiwara Platform 2,19.140455,72.831717,0,STN_L2A_016,2,LVL_STN_L2A_016_P,1
+PF_STN_L2A_017_1,Andheri (West) Platform 1,19.129089,72.831415,0,STN_L2A_017,1,LVL_STN_L2A_017_P,1
+PF_STN_L2A_017_2,Andheri (West) Platform 2,19.129089,72.831415,0,STN_L2A_017,2,LVL_STN_L2A_017_P,1
+PF_STN_L2B_015_1,Chembur Platform 1,19.053934,72.892644,0,STN_L2B_015,1,LVL_STN_L2B_015_P,1
+PF_STN_L2B_015_2,Chembur Platform 2,19.053934,72.892644,0,STN_L2B_015,2,LVL_STN_L2B_015_P,1
+PF_STN_L2B_016_1,Diamond Garden Platform 1,19.051858,72.901486,0,STN_L2B_016,1,LVL_STN_L2B_016_P,1
+PF_STN_L2B_016_2,Diamond Garden Platform 2,19.051858,72.901486,0,STN_L2B_016,2,LVL_STN_L2B_016_P,1
+PF_STN_L2B_017_1,Shivaji Chowk Platform 1,19.047945,72.906864,0,STN_L2B_017,1,LVL_STN_L2B_017_P,1
+PF_STN_L2B_017_2,Shivaji Chowk Platform 2,19.047945,72.906864,0,STN_L2B_017,2,LVL_STN_L2B_017_P,1
+PF_STN_L2B_018_1,BSNL Metro Platform 1,19.04482,72.917276,0,STN_L2B_018,1,LVL_STN_L2B_018_P,1
+PF_STN_L2B_018_2,BSNL Metro Platform 2,19.04482,72.917276,0,STN_L2B_018,2,LVL_STN_L2B_018_P,1
+PF_STN_L2B_019_1,Mankhurd Platform 1,19.048753,72.930025,0,STN_L2B_019,1,LVL_STN_L2B_019_P,1
+PF_STN_L2B_019_2,Mankhurd Platform 2,19.048753,72.930025,0,STN_L2B_019,2,LVL_STN_L2B_019_P,1
+PF_STN_L2B_020_1,Mandale Platform 1,19.04909,72.938795,0,STN_L2B_020,1,LVL_STN_L2B_020_P,1
+PF_STN_L2B_020_2,Mandale Platform 2,19.04909,72.938795,0,STN_L2B_020,2,LVL_STN_L2B_020_P,1
+PF_STN_L3_001_1,Aarey JVLR Platform 1,19.13101,72.884255,0,STN_L3_001,1,LVL_STN_L3_001_P,1
+PF_STN_L3_001_2,Aarey JVLR Platform 2,19.13101,72.884255,0,STN_L3_001,2,LVL_STN_L3_001_P,1
+PF_STN_L3_002_1,SEEPZ Platform 1,19.12578,72.873447,0,STN_L3_002,1,LVL_STN_L3_002_P,1
+PF_STN_L3_002_2,SEEPZ Platform 2,19.12578,72.873447,0,STN_L3_002,2,LVL_STN_L3_002_P,1
+PF_STN_L3_003_1,MIDC Platform 1,19.117303,72.87382,0,STN_L3_003,1,LVL_STN_L3_003_P,1
+PF_STN_L3_003_2,MIDC Platform 2,19.117303,72.87382,0,STN_L3_003,2,LVL_STN_L3_003_P,1
+PF_STN_L3_004_1,Marol Naka Platform 1,19.108436,72.878579,0,STN_L3_004,1,LVL_STN_L3_004_P,1
+PF_STN_L3_004_2,Marol Naka Platform 2,19.108436,72.878579,0,STN_L3_004,2,LVL_STN_L3_004_P,1
+PF_STN_L3_005_1,CSMIA Terminal 2 Platform 1,19.102274,72.874413,0,STN_L3_005,1,LVL_STN_L3_005_P,1
+PF_STN_L3_005_2,CSMIA Terminal 2 Platform 2,19.102274,72.874413,0,STN_L3_005,2,LVL_STN_L3_005_P,1
+PF_STN_L3_006_1,Sahar Road Platform 1,19.102196,72.865299,0,STN_L3_006,1,LVL_STN_L3_006_P,1
+PF_STN_L3_006_2,Sahar Road Platform 2,19.102196,72.865299,0,STN_L3_006,2,LVL_STN_L3_006_P,1
+PF_STN_L3_007_1,CSMIA Terminal 1 Platform 1,19.093926,72.853447,0,STN_L3_007,1,LVL_STN_L3_007_P,1
+PF_STN_L3_007_2,CSMIA Terminal 1 Platform 2,19.093926,72.853447,0,STN_L3_007,2,LVL_STN_L3_007_P,1
+PF_STN_L3_008_1,Santacruz Platform 1,19.078528,72.847181,0,STN_L3_008,1,LVL_STN_L3_008_P,1
+PF_STN_L3_008_2,Santacruz Platform 2,19.078528,72.847181,0,STN_L3_008,2,LVL_STN_L3_008_P,1
+PF_STN_L3_009_1,Bandra Colony Platform 1,19.070103,72.849266,0,STN_L3_009,1,LVL_STN_L3_009_P,1
+PF_STN_L3_009_2,Bandra Colony Platform 2,19.070103,72.849266,0,STN_L3_009,2,LVL_STN_L3_009_P,1
+PF_STN_L3_010_1,BKC Platform 1,19.060216,72.854956,0,STN_L3_010,1,LVL_STN_L3_010_P,1
+PF_STN_L3_010_2,BKC Platform 2,19.060216,72.854956,0,STN_L3_010,2,LVL_STN_L3_010_P,1
+PF_STN_L3_011_1,Dharavi Platform 1,19.046277,72.849952,0,STN_L3_011,1,LVL_STN_L3_011_P,1
+PF_STN_L3_011_2,Dharavi Platform 2,19.046277,72.849952,0,STN_L3_011,2,LVL_STN_L3_011_P,1
+PF_STN_L3_012_1,Sitladevi Platform 1,19.038392,72.842133,0,STN_L3_012,1,LVL_STN_L3_012_P,1
+PF_STN_L3_012_2,Sitladevi Platform 2,19.038392,72.842133,0,STN_L3_012,2,LVL_STN_L3_012_P,1
+PF_STN_L3_013_1,Dadar Metro Platform 1,19.023667,72.8393,0,STN_L3_013,1,LVL_STN_L3_013_P,1
+PF_STN_L3_013_2,Dadar Metro Platform 2,19.023667,72.8393,0,STN_L3_013,2,LVL_STN_L3_013_P,1
+PF_STN_L3_014_1,Siddhivinayak Platform 1,19.015876,72.830735,0,STN_L3_014,1,LVL_STN_L3_014_P,1
+PF_STN_L3_014_2,Siddhivinayak Platform 2,19.015876,72.830735,0,STN_L3_014,2,LVL_STN_L3_014_P,1
+PF_STN_L3_015_1,Worli Platform 1,19.00878,72.819401,0,STN_L3_015,1,LVL_STN_L3_015_P,1
+PF_STN_L3_015_2,Worli Platform 2,19.00878,72.819401,0,STN_L3_015,2,LVL_STN_L3_015_P,1
+PF_STN_L3_016_1,Acharya Atre Chowk Platform 1,18.9985,72.8182,0,STN_L3_016,1,LVL_STN_L3_016_P,1
+PF_STN_L3_016_2,Acharya Atre Chowk Platform 2,18.9985,72.8182,0,STN_L3_016,2,LVL_STN_L3_016_P,1
+PF_STN_L3_017_1,Science Centre Platform 1,18.990318,72.82177,0,STN_L3_017,1,LVL_STN_L3_017_P,1
+PF_STN_L3_017_2,Science Centre Platform 2,18.990318,72.82177,0,STN_L3_017,2,LVL_STN_L3_017_P,1
+PF_STN_L3_018_1,Mahalaxmi Platform 1,18.979485,72.825295,0,STN_L3_018,1,LVL_STN_L3_018_P,1
+PF_STN_L3_018_2,Mahalaxmi Platform 2,18.979485,72.825295,0,STN_L3_018,2,LVL_STN_L3_018_P,1
+PF_STN_L3_019_1,Mumbai Central Platform 1,18.970603,72.821382,0,STN_L3_019,1,LVL_STN_L3_019_P,1
+PF_STN_L3_019_2,Mumbai Central Platform 2,18.970603,72.821382,0,STN_L3_019,2,LVL_STN_L3_019_P,1
+PF_STN_L3_020_1,Grant Road Platform 1,18.962924,72.817997,0,STN_L3_020,1,LVL_STN_L3_020_P,1
+PF_STN_L3_020_2,Grant Road Platform 2,18.962924,72.817997,0,STN_L3_020,2,LVL_STN_L3_020_P,1
+PF_STN_L3_021_1,Girgaon Platform 1,18.951929,72.822606,0,STN_L3_021,1,LVL_STN_L3_021_P,1
+PF_STN_L3_021_2,Girgaon Platform 2,18.951929,72.822606,0,STN_L3_021,2,LVL_STN_L3_021_P,1
+PF_STN_L3_022_1,Kalbadevi Platform 1,18.946899,72.826943,0,STN_L3_022,1,LVL_STN_L3_022_P,1
+PF_STN_L3_022_2,Kalbadevi Platform 2,18.946899,72.826943,0,STN_L3_022,2,LVL_STN_L3_022_P,1
+PF_STN_L3_023_1,CSMT Metro Platform 1,18.940664,72.83217,0,STN_L3_023,1,LVL_STN_L3_023_P,1
+PF_STN_L3_023_2,CSMT Metro Platform 2,18.940664,72.83217,0,STN_L3_023,2,LVL_STN_L3_023_P,1
+PF_STN_L3_024_1,Hutatma Chowk Platform 1,18.934579,72.832826,0,STN_L3_024,1,LVL_STN_L3_024_P,1
+PF_STN_L3_024_2,Hutatma Chowk Platform 2,18.934579,72.832826,0,STN_L3_024,2,LVL_STN_L3_024_P,1
+PF_STN_L3_025_1,Churchgate Platform 1,18.930654,72.826172,0,STN_L3_025,1,LVL_STN_L3_025_P,1
+PF_STN_L3_025_2,Churchgate Platform 2,18.930654,72.826172,0,STN_L3_025,2,LVL_STN_L3_025_P,1
+PF_STN_L3_026_1,Vidhan Bhawan Platform 1,18.924696,72.825616,0,STN_L3_026,1,LVL_STN_L3_026_P,1
+PF_STN_L3_026_2,Vidhan Bhawan Platform 2,18.924696,72.825616,0,STN_L3_026,2,LVL_STN_L3_026_P,1
+PF_STN_L3_027_1,Cuffe Parade Platform 1,18.912955,72.820196,0,STN_L3_027,1,LVL_STN_L3_027_P,1
+PF_STN_L3_027_2,Cuffe Parade Platform 2,18.912955,72.820196,0,STN_L3_027,2,LVL_STN_L3_027_P,1
+PF_STN_L7_001_1,Dahisar (East) Platform 1,19.251263,72.867119,0,STN_L7_001,1,LVL_STN_L7_001_P,1
+PF_STN_L7_001_2,Dahisar (East) Platform 2,19.251263,72.867119,0,STN_L7_001,2,LVL_STN_L7_001_P,1
+PF_STN_L7_002_1,Ovaripada Platform 1,19.243411,72.864248,0,STN_L7_002,1,LVL_STN_L7_002_P,1
+PF_STN_L7_002_2,Ovaripada Platform 2,19.243411,72.864248,0,STN_L7_002,2,LVL_STN_L7_002_P,1
+PF_STN_L7_003_1,Rashtriya Udyan Platform 1,19.234671,72.863161,0,STN_L7_003,1,LVL_STN_L7_003_P,1
+PF_STN_L7_003_2,Rashtriya Udyan Platform 2,19.234671,72.863161,0,STN_L7_003,2,LVL_STN_L7_003_P,1
+PF_STN_L7_004_1,Devipada Platform 1,19.224332,72.86422,0,STN_L7_004,1,LVL_STN_L7_004_P,1
+PF_STN_L7_004_2,Devipada Platform 2,19.224332,72.86422,0,STN_L7_004,2,LVL_STN_L7_004_P,1
+PF_STN_L7_005_1,Magathane Platform 1,19.217203,72.866728,0,STN_L7_005,1,LVL_STN_L7_005_P,1
+PF_STN_L7_005_2,Magathane Platform 2,19.217203,72.866728,0,STN_L7_005,2,LVL_STN_L7_005_P,1
+PF_STN_L7_006_1,Poisar Platform 1,19.203938,72.863499,0,STN_L7_006,1,LVL_STN_L7_006_P,1
+PF_STN_L7_006_2,Poisar Platform 2,19.203938,72.863499,0,STN_L7_006,2,LVL_STN_L7_006_P,1
+PF_STN_L7_007_1,Akurli Platform 1,19.198115,72.860646,0,STN_L7_007,1,LVL_STN_L7_007_P,1
+PF_STN_L7_007_2,Akurli Platform 2,19.198115,72.860646,0,STN_L7_007,2,LVL_STN_L7_007_P,1
+PF_STN_L7_008_1,Kurar Platform 1,19.187264,72.858512,0,STN_L7_008,1,LVL_STN_L7_008_P,1
+PF_STN_L7_008_2,Kurar Platform 2,19.187264,72.858512,0,STN_L7_008,2,LVL_STN_L7_008_P,1
+PF_STN_L7_009_1,Dindoshi Platform 1,19.17972,72.8583,0,STN_L7_009,1,LVL_STN_L7_009_P,1
+PF_STN_L7_009_2,Dindoshi Platform 2,19.17972,72.8583,0,STN_L7_009,2,LVL_STN_L7_009_P,1
+PF_STN_L7_010_1,Aarey Platform 1,19.169506,72.858801,0,STN_L7_010,1,LVL_STN_L7_010_P,1
+PF_STN_L7_010_2,Aarey Platform 2,19.169506,72.858801,0,STN_L7_010,2,LVL_STN_L7_010_P,1
+PF_STN_L7_011_1,Goregaon (East) Platform 1,19.152442,72.856573,0,STN_L7_011,1,LVL_STN_L7_011_P,1
+PF_STN_L7_011_2,Goregaon (East) Platform 2,19.152442,72.856573,0,STN_L7_011,2,LVL_STN_L7_011_P,1
+PF_STN_L7_012_1,Jogeshwari (East) Platform 1,19.142928,72.855166,0,STN_L7_012,1,LVL_STN_L7_012_P,1
+PF_STN_L7_012_2,Jogeshwari (East) Platform 2,19.142928,72.855166,0,STN_L7_012,2,LVL_STN_L7_012_P,1
+PF_STN_L7_013_1,Mogra Platform 1,19.128677,72.855452,0,STN_L7_013,1,LVL_STN_L7_013_P,1
+PF_STN_L7_013_2,Mogra Platform 2,19.128677,72.855452,0,STN_L7_013,2,LVL_STN_L7_013_P,1
+PF_STN_L7_014_1,Gundavali Platform 1,19.114439,72.855172,0,STN_L7_014,1,LVL_STN_L7_014_P,1
+PF_STN_L7_014_2,Gundavali Platform 2,19.114439,72.855172,0,STN_L7_014,2,LVL_STN_L7_014_P,1
+PF_STN_L9_001_1,Pandhurang Wadi Platform 1,19.265047,72.875159,0,STN_L9_001,1,LVL_STN_L9_001_P,1
+PF_STN_L9_001_2,Pandhurang Wadi Platform 2,19.265047,72.875159,0,STN_L9_001,2,LVL_STN_L9_001_P,1
+PF_STN_L9_002_1,Miragaon Platform 1,19.271131,72.880865,0,STN_L9_002,1,LVL_STN_L9_002_P,1
+PF_STN_L9_002_2,Miragaon Platform 2,19.271131,72.880865,0,STN_L9_002,2,LVL_STN_L9_002_P,1
+PF_STN_L9_003_1,Kashigaon Platform 1,19.277693,72.88016,0,STN_L9_003,1,LVL_STN_L9_003_P,1
+PF_STN_L9_003_2,Kashigaon Platform 2,19.277693,72.88016,0,STN_L9_003,2,LVL_STN_L9_003_P,1
+PF_STN_MONO_001_1,Chembur Platform 1,19.054045,72.89464,0,STN_MONO_001,1,LVL_STN_MONO_001_P,1
+PF_STN_MONO_001_2,Chembur Platform 2,19.054045,72.89464,0,STN_MONO_001,2,LVL_STN_MONO_001_P,1
+PF_STN_MONO_002_1,VNP & RC Marg Junction Platform 1,19.052666,72.894344,0,STN_MONO_002,1,LVL_STN_MONO_002_P,1
+PF_STN_MONO_002_2,VNP & RC Marg Junction Platform 2,19.052666,72.894344,0,STN_MONO_002,2,LVL_STN_MONO_002_P,1
+PF_STN_MONO_003_1,Fertiliser Township Platform 1,19.043915,72.893473,0,STN_MONO_003,1,LVL_STN_MONO_003_P,1
+PF_STN_MONO_003_2,Fertiliser Township Platform 2,19.043915,72.893473,0,STN_MONO_003,2,LVL_STN_MONO_003_P,1
+PF_STN_MONO_004_1,Bharat Petroleum Platform 1,19.03525,72.895557,0,STN_MONO_004,1,LVL_STN_MONO_004_P,1
+PF_STN_MONO_004_2,Bharat Petroleum Platform 2,19.03525,72.895557,0,STN_MONO_004,2,LVL_STN_MONO_004_P,1
+PF_STN_MONO_005_1,Mysore Colony Platform 1,19.027716,72.891449,0,STN_MONO_005,1,LVL_STN_MONO_005_P,1
+PF_STN_MONO_005_2,Mysore Colony Platform 2,19.027716,72.891449,0,STN_MONO_005,2,LVL_STN_MONO_005_P,1
+PF_STN_MONO_006_1,Bhakti Park Platform 1,19.026073,72.877345,0,STN_MONO_006,1,LVL_STN_MONO_006_P,1
+PF_STN_MONO_006_2,Bhakti Park Platform 2,19.026073,72.877345,0,STN_MONO_006,2,LVL_STN_MONO_006_P,1
+PF_STN_MONO_007_1,Wadala Depot Platform 1,19.038876,72.874004,0,STN_MONO_007,1,LVL_STN_MONO_007_P,1
+PF_STN_MONO_007_2,Wadala Depot Platform 2,19.038876,72.874004,0,STN_MONO_007,2,LVL_STN_MONO_007_P,1
+PF_STN_MONO_008_1,GTB Nagar Platform 1,19.036721,72.87085,0,STN_MONO_008,1,LVL_STN_MONO_008_P,1
+PF_STN_MONO_008_2,GTB Nagar Platform 2,19.036721,72.87085,0,STN_MONO_008,2,LVL_STN_MONO_008_P,1
+PF_STN_MONO_009_1,Antop Hill Platform 1,19.03017,72.867018,0,STN_MONO_009,1,LVL_STN_MONO_009_P,1
+PF_STN_MONO_009_2,Antop Hill Platform 2,19.03017,72.867018,0,STN_MONO_009,2,LVL_STN_MONO_009_P,1
+PF_STN_MONO_010_1,Acharya Atre Nagar Platform 1,19.023839,72.863882,0,STN_MONO_010,1,LVL_STN_MONO_010_P,1
+PF_STN_MONO_010_2,Acharya Atre Nagar Platform 2,19.023839,72.863882,0,STN_MONO_010,2,LVL_STN_MONO_010_P,1
+PF_STN_MONO_011_1,Wadala Bridge Platform 1,19.01746,72.859381,0,STN_MONO_011,1,LVL_STN_MONO_011_P,1
+PF_STN_MONO_011_2,Wadala Bridge Platform 2,19.01746,72.859381,0,STN_MONO_011,2,LVL_STN_MONO_011_P,1
+PF_STN_MONO_012_1,Dadar East Platform 1,19.016244,72.852266,0,STN_MONO_012,1,LVL_STN_MONO_012_P,1
+PF_STN_MONO_012_2,Dadar East Platform 2,19.016244,72.852266,0,STN_MONO_012,2,LVL_STN_MONO_012_P,1
+PF_STN_MONO_013_1,Naigaon Platform 1,19.009482,72.847927,0,STN_MONO_013,1,LVL_STN_MONO_013_P,1
+PF_STN_MONO_013_2,Naigaon Platform 2,19.009482,72.847927,0,STN_MONO_013,2,LVL_STN_MONO_013_P,1
+PF_STN_MONO_014_1,Ambedkar Nagar Platform 1,19.001688,72.844166,0,STN_MONO_014,1,LVL_STN_MONO_014_P,1
+PF_STN_MONO_014_2,Ambedkar Nagar Platform 2,19.001688,72.844166,0,STN_MONO_014,2,LVL_STN_MONO_014_P,1
+PF_STN_MONO_015_1,Mint Colony Platform 1,18.99449,72.843484,0,STN_MONO_015,1,LVL_STN_MONO_015_P,1
+PF_STN_MONO_015_2,Mint Colony Platform 2,18.99449,72.843484,0,STN_MONO_015,2,LVL_STN_MONO_015_P,1
+PF_STN_MONO_016_1,Lower Parel Platform 1,18.993185,72.83156,0,STN_MONO_016,1,LVL_STN_MONO_016_P,1
+PF_STN_MONO_016_2,Lower Parel Platform 2,18.993185,72.83156,0,STN_MONO_016,2,LVL_STN_MONO_016_P,1
+PF_STN_MONO_017_1,Sant Gadge Maharaj Chowk (Jacob Circle) Platform 1,18.983135,72.828654,0,STN_MONO_017,1,LVL_STN_MONO_017_P,1
+PF_STN_MONO_017_2,Sant Gadge Maharaj Chowk (Jacob Circle) Platform 2,18.983135,72.828654,0,STN_MONO_017,2,LVL_STN_MONO_017_P,1
+PF_WR_ANDHERI,Andheri Railway Station (Western Railway),19.1197,72.8464,0,,,,1
+PF_WR_CHURCHGATE,Churchgate Railway Station (Western Railway),18.934886,72.827164,0,,,,1
+PF_WR_MUMBAI_CENTRAL,Mumbai Central Railway Station (Western Railway),18.9698,72.8194,0,,,,1
+STN_L1_001,Versova,19.130278,72.821387,1,,,,1
+STN_L1_002,D. N. Nagar,19.128178,72.830812,1,,,,1
+STN_L1_003,Azad Nagar,19.126805,72.838267,1,,,,1
+STN_L1_004,Andheri,19.120041,72.849482,1,,,,1
+STN_L1_005,Western Express Highway,19.115564,72.856983,1,,,,1
+STN_L1_006,Chakala (J.B. Nagar),19.111907,72.868242,1,,,,1
+STN_L1_007,Airport Road,19.109915,72.874797,1,,,,1
+STN_L1_008,Marol Naka,19.107946,72.880109,1,,,,1
+STN_L1_009,Saki Naka,19.103217,72.888509,1,,,,1
+STN_L1_010,Asalpha,19.096097,72.895413,1,,,,1
+STN_L1_011,Jagruti Nagar,19.092171,72.9026,1,,,,1
+STN_L1_012,Ghatkopar,19.086286,72.908123,1,,,,1
+STN_L2A_001,Dahisar (East),19.251263,72.867119,1,,,,1
+STN_L2A_002,Anand Nagar,19.257219,72.866134,1,,,,1
+STN_L2A_003,Kandarpada,19.256646,72.850678,1,,,,1
+STN_L2A_004,Mandapeshwar,19.249261,72.845677,1,,,,1
+STN_L2A_005,Eksar,19.240323,72.843438,1,,,,1
+STN_L2A_006,Borivali (West),19.231194,72.840865,1,,,,1
+STN_L2A_007,Shimpoli,19.222769,72.840918,1,,,,1
+STN_L2A_008,Kandivali (West),19.214005,72.837355,1,,,,1
+STN_L2A_009,Dahanukarwadi,19.205772,72.834717,1,,,,1
+STN_L2A_010,Valnai - Meeth Chowky,19.196621,72.833786,1,,,,1
+STN_L2A_011,Malad (West),19.1852,72.83585,1,,,,1
+STN_L2A_012,Lower Malad,19.172953,72.836423,1,,,,1
+STN_L2A_013,Bangur Nagar,19.162259,72.834844,1,,,,1
+STN_L2A_014,Goregaon (West),19.153138,72.835685,1,,,,1
+STN_L2A_015,Oshiwara,19.145979,72.833752,1,,,,1
+STN_L2A_016,Lower Oshiwara,19.140455,72.831717,1,,,,1
+STN_L2A_017,Andheri (West),19.129089,72.831415,1,,,,1
+STN_L2B_015,Chembur,19.053934,72.892644,1,,,,1
+STN_L2B_016,Diamond Garden,19.051858,72.901486,1,,,,1
+STN_L2B_017,Shivaji Chowk,19.047945,72.906864,1,,,,1
+STN_L2B_018,BSNL Metro,19.04482,72.917276,1,,,,1
+STN_L2B_019,Mankhurd,19.048753,72.930025,1,,,,1
+STN_L2B_020,Mandale,19.04909,72.938795,1,,,,1
+STN_L3_001,Aarey JVLR,19.13101,72.884255,1,,,,1
+STN_L3_002,SEEPZ,19.12578,72.873447,1,,,,1
+STN_L3_003,MIDC,19.117303,72.87382,1,,,,1
+STN_L3_004,Marol Naka,19.108436,72.878579,1,,,,1
+STN_L3_005,CSMIA Terminal 2,19.102274,72.874413,1,,,,1
+STN_L3_006,Sahar Road,19.102196,72.865299,1,,,,1
+STN_L3_007,CSMIA Terminal 1,19.093926,72.853447,1,,,,1
+STN_L3_008,Santacruz,19.078528,72.847181,1,,,,1
+STN_L3_009,Bandra Colony,19.070103,72.849266,1,,,,1
+STN_L3_010,BKC,19.060216,72.854956,1,,,,1
+STN_L3_011,Dharavi,19.046277,72.849952,1,,,,1
+STN_L3_012,Sitladevi,19.038392,72.842133,1,,,,1
+STN_L3_013,Dadar Metro,19.023667,72.8393,1,,,,1
+STN_L3_014,Siddhivinayak,19.015876,72.830735,1,,,,1
+STN_L3_015,Worli,19.00878,72.819401,1,,,,1
+STN_L3_016,Acharya Atre Chowk,18.9985,72.8182,1,,,,1
+STN_L3_017,Science Centre,18.990318,72.82177,1,,,,1
+STN_L3_018,Mahalaxmi,18.979485,72.825295,1,,,,1
+STN_L3_019,Mumbai Central,18.970603,72.821382,1,,,,1
+STN_L3_020,Grant Road,18.962924,72.817997,1,,,,1
+STN_L3_021,Girgaon,18.951929,72.822606,1,,,,1
+STN_L3_022,Kalbadevi,18.946899,72.826943,1,,,,1
+STN_L3_023,CSMT Metro,18.940664,72.83217,1,,,,1
+STN_L3_024,Hutatma Chowk,18.934579,72.832826,1,,,,1
+STN_L3_025,Churchgate,18.930654,72.826172,1,,,,1
+STN_L3_026,Vidhan Bhawan,18.924696,72.825616,1,,,,1
+STN_L3_027,Cuffe Parade,18.912955,72.820196,1,,,,1
+STN_L7_001,Dahisar (East),19.251263,72.867119,1,,,,1
+STN_L7_002,Ovaripada,19.243411,72.864248,1,,,,1
+STN_L7_003,Rashtriya Udyan,19.234671,72.863161,1,,,,1
+STN_L7_004,Devipada,19.224332,72.86422,1,,,,1
+STN_L7_005,Magathane,19.217203,72.866728,1,,,,1
+STN_L7_006,Poisar,19.203938,72.863499,1,,,,1
+STN_L7_007,Akurli,19.198115,72.860646,1,,,,1
+STN_L7_008,Kurar,19.187264,72.858512,1,,,,1
+STN_L7_009,Dindoshi,19.17972,72.8583,1,,,,1
+STN_L7_010,Aarey,19.169506,72.858801,1,,,,1
+STN_L7_011,Goregaon (East),19.152442,72.856573,1,,,,1
+STN_L7_012,Jogeshwari (East),19.142928,72.855166,1,,,,1
+STN_L7_013,Mogra,19.128677,72.855452,1,,,,1
+STN_L7_014,Gundavali,19.114439,72.855172,1,,,,1
+STN_L9_001,Pandhurang Wadi,19.265047,72.875159,1,,,,1
+STN_L9_002,Miragaon,19.271131,72.880865,1,,,,1
+STN_L9_003,Kashigaon,19.277693,72.88016,1,,,,1
+STN_MONO_001,Chembur,19.054045,72.89464,1,,,,1
+STN_MONO_002,VNP & RC Marg Junction,19.052666,72.894344,1,,,,1
+STN_MONO_003,Fertiliser Township,19.043915,72.893473,1,,,,1
+STN_MONO_004,Bharat Petroleum,19.03525,72.895557,1,,,,1
+STN_MONO_005,Mysore Colony,19.027716,72.891449,1,,,,1
+STN_MONO_006,Bhakti Park,19.026073,72.877345,1,,,,1
+STN_MONO_007,Wadala Depot,19.038876,72.874004,1,,,,1
+STN_MONO_008,GTB Nagar,19.036721,72.87085,1,,,,1
+STN_MONO_009,Antop Hill,19.03017,72.867018,1,,,,1
+STN_MONO_010,Acharya Atre Nagar,19.023839,72.863882,1,,,,1
+STN_MONO_011,Wadala Bridge,19.01746,72.859381,1,,,,1
+STN_MONO_012,Dadar East,19.016244,72.852266,1,,,,1
+STN_MONO_013,Naigaon,19.009482,72.847927,1,,,,1
+STN_MONO_014,Ambedkar Nagar,19.001688,72.844166,1,,,,1
+STN_MONO_015,Mint Colony,18.99449,72.843484,1,,,,1
+STN_MONO_016,Lower Parel,18.993185,72.83156,1,,,,1
+STN_MONO_017,Sant Gadge Maharaj Chowk (Jacob Circle),18.983135,72.828654,1,,,,1
