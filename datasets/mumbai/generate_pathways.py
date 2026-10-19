@@ -282,18 +282,6 @@ def build_pathways():
             "signposted_as": "Direct Skywalk to Ghatkopar Central Railway Station (Platforms 1-4)",
             "reversed_signposted_as": "Direct Skywalk to Metro Line 1 (Versova-Ghatkopar)"
         },
-        # Dadar Metro (Line 3) <-> Central & Western Railway (Pedestrian Pathway)
-        {
-            "pathway_id": "PW_DADAR_CR_WALK",
-            "from_stop_id": "NODE_STN_L3_013_UNPAID",
-            "to_stop_id": "PF_CR_DADAR",
-            "pathway_mode": "1",
-            "is_bidirectional": "1",
-            "length": "280",
-            "traversal_time": "210",
-            "signposted_as": "Walkway to Dadar Railway Station (Central & Western Lines) - 280m",
-            "reversed_signposted_as": "Walkway to Metro Line 3 Aqua Line - 280m"
-        },
         # Mumbai Central Metro (Line 3) <-> Western Railway Mainline / Local
         {
             "pathway_id": "PW_MUM_CENTRAL_FORECOURT",
