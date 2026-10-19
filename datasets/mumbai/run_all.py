@@ -117,23 +117,25 @@ CORRIDOR_METADATA = {
     "LINE1": {
         "headsigns": {0: "Ghatkopar", 1: "Versova"},
         # 12 stations, 11 hops: 11 * 85s rolling + 10 intermediate dwells (8*30s + 2*40s = 320s) = 935s + 320s = 1,255s (~21 min)
+        # Weekday: 420 trips -> Peak 4.0 min headway, Off-peak 6.3 min headway
         "default_hop_seconds": 85,
         "default_dwell_seconds": 30,
         "services": {
-            "SVC_WEEKDAY":  {"total": 280, "span": ("05:30:00", "23:45:00"), "peak_ratio": 1.7},
-            "SVC_SATURDAY": {"total": 230, "span": ("05:30:00", "23:45:00"), "peak_ratio": 1.4},
-            "SVC_SUNDAY":   {"total": 190, "span": ("05:30:00", "23:45:00"), "peak_ratio": 1.2}
+            "SVC_WEEKDAY":  {"total": 420, "span": ("05:30:00", "23:45:00"), "peak_ratio": 1.55},
+            "SVC_SATURDAY": {"total": 330, "span": ("05:30:00", "23:45:00"), "peak_ratio": 1.35},
+            "SVC_SUNDAY":   {"total": 270, "span": ("05:30:00", "23:45:00"), "peak_ratio": 1.20}
         }
     },
     "MONORAIL": {
         "headsigns": {0: "Jacob Circle", 1: "Chembur"},
         # 17 stations, 16 hops: 16 * 115s + 15 intermediate dwells (~35-45s) = 1,840s + 535s = 2,375s (~39.5 min)
+        # Clamped to 22:30:00 terminal departure so trips clear by 23:10 PM
         "default_hop_seconds": 115,
         "default_dwell_seconds": 35,
         "services": {
-            "SVC_WEEKDAY":  {"total": 142, "span": ("05:30:00", "23:30:00"), "peak_ratio": 1.4},
-            "SVC_SATURDAY": {"total": 118, "span": ("05:30:00", "23:30:00"), "peak_ratio": 1.2},
-            "SVC_SUNDAY":   {"total": 118, "span": ("05:30:00", "23:30:00"), "peak_ratio": 1.1}
+            "SVC_WEEKDAY":  {"total": 136, "span": ("05:30:00", "22:30:00"), "peak_ratio": 1.4},
+            "SVC_SATURDAY": {"total": 112, "span": ("05:30:00", "22:30:00"), "peak_ratio": 1.2},
+            "SVC_SUNDAY":   {"total": 112, "span": ("05:30:00", "22:30:00"), "peak_ratio": 1.1}
         }
     },
     "LINE7": {
@@ -174,12 +176,13 @@ CORRIDOR_METADATA = {
         "headsigns": {0: "Cuffe Parade", 1: "Aarey JVLR"},
         # 27 stations (Aarey JVLR <-> Cuffe Parade, via Vidhan Bhawan)
         # 26 hops * 96s rolling + 25 intermediate dwells (17*35s + 8*48s = 979s) = 2,496s + 979s = 3,475s (~58 min)
+        # Clamped to 22:30:00 terminal departure so trips clear by 23:28 PM (no post-midnight runs)
         "default_hop_seconds": 96,
         "default_dwell_seconds": 35,
         "services": {
-            "SVC_WEEKDAY":  {"total": 292, "span": ("05:30:00", "23:42:00"), "peak_ratio": 1.5},
-            "SVC_SATURDAY": {"total": 236, "span": ("05:30:00", "23:39:00"), "peak_ratio": 1.3},
-            "SVC_SUNDAY":   {"total": 196, "span": ("05:30:00", "23:40:00"), "peak_ratio": 1.1}
+            "SVC_WEEKDAY":  {"total": 264, "span": ("05:55:00", "22:30:00"), "peak_ratio": 1.55},
+            "SVC_SATURDAY": {"total": 216, "span": ("05:55:00", "22:30:00"), "peak_ratio": 1.35},
+            "SVC_SUNDAY":   {"total": 172, "span": ("06:30:00", "22:30:00"), "peak_ratio": 1.15}
         }
     }
 }
