@@ -18,6 +18,9 @@ import { PlaceSuggestion } from "../../models/search";
 import { PlaceSuggestionItem } from "../../components/PlaceSuggestionItem";
 
 function formatDepartureClock(minsFromNow?: number, fallbackStr?: string): string {
+  if (fallbackStr && fallbackStr.trim()) {
+    return fallbackStr.trim();
+  }
   if (typeof minsFromNow === "number" && !isNaN(minsFromNow)) {
     const target = new Date(Date.now() + minsFromNow * 60000);
     return target.toLocaleTimeString([], {
@@ -26,7 +29,7 @@ function formatDepartureClock(minsFromNow?: number, fallbackStr?: string): strin
       hour12: true,
     });
   }
-  return fallbackStr || "";
+  return "";
 }
 
 function JourneyPlannerContent() {
@@ -449,8 +452,10 @@ function JourneyPlannerContent() {
             <div className="flex items-baseline space-x-2 mt-1.5">
               <span className="text-xl font-black text-white">{cand.duration}</span>
               <span className="text-xs text-gray-400">
-                {cand.interchanges === 0 ? "Direct Route" : `${cand.interchanges} transfer${cand.interchanges > 1 ? "s" : ""}`} •{" "}
-                {cand.walkDistance} walk
+                {cand.interchanges === 0
+                  ? "0 Transfers"
+                  : `${cand.interchanges} Transfer${cand.interchanges > 1 ? "s" : ""}`}{" "}
+                • {cand.walkMins ? `${cand.walkMins}m Walk` : `${cand.walkDistance} Walk`}
               </span>
             </div>
           </div>
@@ -462,21 +467,24 @@ function JourneyPlannerContent() {
           </div>
         </div>
 
-        {/* Real-Time Departure & Journey Legs with Train Countdown & Departure Time */}
+        {/* Real-Time Departure & Journey Legs with Clean Glanceable Transit Pills */}
         <div className="mt-3 pt-2.5 border-t border-[#16273B] space-y-1.5">
           {cand.legs.map((leg, legIdx) => {
             const isWalk = leg.mode === "walk" || leg.type === "WALK" || leg.type === "TRANSFER";
 
             if (isWalk) {
+              const isEgress = legIdx === cand.legs.length - 1;
               return (
                 <div
                   key={legIdx}
-                  className="flex items-center gap-2 text-[11px] text-slate-300 bg-[#0B1422]/60 border border-[#16273B] rounded-lg px-2.5 py-1.5"
+                  className="flex items-center gap-1.5 text-[11px] text-slate-400 pl-3 py-0.5"
                 >
-                  <span className="material-symbols-outlined text-[14px] text-[#00E5FF]">directions_walk</span>
-                  <span>Walk {leg.durationMins} min</span>
-                  <span className="text-slate-500">·</span>
-                  <span className="text-slate-400">{leg.fromStation} → {leg.toStation}</span>
+                  <span className="material-symbols-outlined text-[13px] text-amber-400">directions_walk</span>
+                  <span>
+                    {isEgress
+                      ? `🚶 ${leg.durationMins || 2}m walk to ${leg.toStation}`
+                      : `🚶 ${leg.durationMins || 3}m interchange walk`}
+                  </span>
                 </div>
               );
             }
@@ -495,7 +503,7 @@ function JourneyPlannerContent() {
             return (
               <div
                 key={legIdx}
-                className="flex items-center justify-between bg-[#0B1422]/70 border border-[#16273B] rounded-lg px-2.5 py-1.5 gap-2"
+                className="flex items-center justify-between bg-[#0B1422]/80 border border-[#16273B] rounded-lg px-2.5 py-1.5 gap-2"
               >
                 <div className="flex items-center gap-2 min-w-0">
                   <span
@@ -506,19 +514,20 @@ function JourneyPlannerContent() {
                     <span>{leg.shortLine || leg.line}</span>
                   </span>
                   <span className="text-xs text-slate-200 font-medium truncate">
-                    {leg.fromStation}
-                    {leg.hopCount ? (
-                      <span className="text-slate-400 text-[11px] ml-1 font-normal">
-                        ({leg.hopCount} stop{leg.hopCount !== 1 ? "s" : ""})
-                      </span>
-                    ) : null}
+                    {leg.fromStation} <span className="text-slate-500">➔</span> {leg.toStation}
                   </span>
                 </div>
 
                 <div className="flex items-center gap-1.5 text-emerald-400 font-mono text-[11px] font-semibold shrink-0">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>Train in {etaMins} min</span>
-                  {depClock && <span className="text-slate-400 font-normal">({depClock})</span>}
+                  <span>
+                    {depClock ? `Departs ${depClock}` : `Train in ${etaMins} min`}
+                  </span>
+                  {depClock && (
+                    <span className="text-slate-400 font-normal">
+                      (in {etaMins}m)
+                    </span>
+                  )}
                 </div>
               </div>
             );

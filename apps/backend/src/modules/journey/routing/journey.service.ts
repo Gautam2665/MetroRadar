@@ -984,25 +984,25 @@ export class JourneyService {
 
             const waitMins = Math.max(1, Math.round(waitSecs / 60));
             const walkMins = Math.max(1, Math.round(walkSecs / 60));
+            const pathwayMeters =
+              leg.transferDetails?.pathwayDistanceMeters ??
+              Math.max(60, Math.round(walkSecs * 1.2));
 
             leg.connectionWaitMins = waitMins;
-            leg.transferDurationText = `${walkMins} min walk + ${waitMins} min wait`;
-            leg.transferSummary = `${
-              leg.transferDetails?.pathwayDistanceMeters ?? 120
-            } m · ${walkMins} min walk + ${waitMins} min connection wait`;
+            leg.transferDurationText = `${walkMins} min transfer · Next train ${connectingPrediction.realtimeTimeStr}`;
+            leg.transferSummary = `${pathwayMeters} m · ${walkMins} min transfer · Next train ${connectingPrediction.realtimeTimeStr}`;
 
-            const bufferNotice = `Transfer safety buffer: ${Math.round(
-              safetyBufferSeconds / 60,
-            )} min buffer enforced to protect connection.`;
-            if (
-              !leg.transferInstructions?.some((inst) =>
-                inst.includes('safety buffer'),
-              )
-            ) {
-              leg.transferInstructions = [
-                ...(leg.transferInstructions || []),
-                bufferNotice,
-              ];
+            // Crucial: Update connecting transit leg with the projected departure time & ETA
+            if (nextTransitLeg && nextTransitLeg.type === EdgeType.TRANSIT) {
+              const nowSecs = this.getNowSecondsOfDay();
+              const minsFromNow = Math.max(
+                1,
+                Math.round((actualConnectingDep - nowSecs) / 60),
+              );
+              nextTransitLeg.realtimeTimeStr = connectingPrediction.realtimeTimeStr;
+              nextTransitLeg.realtimeEtaMins = minsFromNow;
+              nextTransitLeg.connectionWaitMins = waitMins;
+              nextTransitLeg.delaySeconds = connectingPrediction.delaySeconds;
             }
 
             currentClockSecs = actualConnectingDep;
@@ -1038,7 +1038,10 @@ export class JourneyService {
 
       const totalPathwayMeters = legs.reduce((sum, leg, index) => {
         if (leg.type === EdgeType.WALK || leg.type === EdgeType.TRANSFER) {
-          return sum + (leg.transferDetails?.pathwayDistanceMeters ?? 0);
+          const meters =
+            leg.transferDetails?.pathwayDistanceMeters ??
+            Math.max(60, Math.round(leg.durationSeconds * 1.2));
+          return sum + meters;
         }
         const next = legs[index + 1];
         const hasSeparateWalkLeg =
@@ -1050,7 +1053,7 @@ export class JourneyService {
         return (
           sum +
           (!hasSeparateWalkLeg && isLineChange
-            ? (leg.transferDetails?.pathwayDistanceMeters ?? 0)
+            ? (leg.transferDetails?.pathwayDistanceMeters ?? 120)
             : 0)
         );
       }, 0);
@@ -1091,7 +1094,11 @@ export class JourneyService {
 
       const destNameUpper = (lastStation.name || '').toUpperCase();
       let destinationGuidance: string | null = null;
-      if (
+      if (toEndpoint.landmark) {
+        destinationGuidance = destAttachment.gate?.gateName
+          ? `Exit ${destAttachment.gate.gateName} for ${toEndpoint.landmark.name}`
+          : `Exit for ${toEndpoint.landmark.name}`;
+      } else if (
         destNameUpper.includes('MUMBAI CENTRAL') ||
         destNameUpper.includes('CSMT') ||
         destNameUpper.includes('CHURCHGATE')

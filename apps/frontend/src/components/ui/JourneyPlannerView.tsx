@@ -148,6 +148,9 @@ function CoachTip({
 }
 
 function formatDepartureClock(minsFromNow?: number, fallbackStr?: string): string {
+  if (fallbackStr && fallbackStr.trim()) {
+    return fallbackStr.trim();
+  }
   if (typeof minsFromNow === "number" && !isNaN(minsFromNow)) {
     const target = new Date(Date.now() + minsFromNow * 60000);
     return target.toLocaleTimeString([], {
@@ -156,7 +159,42 @@ function formatDepartureClock(minsFromNow?: number, fallbackStr?: string): strin
       hour12: true,
     });
   }
-  return fallbackStr || "";
+  return "";
+}
+
+function calculateArrivalTime(depClock?: string, durationMins?: number): string {
+  if (!depClock || !durationMins) return "";
+  const match = depClock.match(/(\d+):(\d+)\s*(AM|PM)?/i);
+  if (!match) return "";
+  let hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+  const ampm = match[3]?.toUpperCase();
+  if (ampm === "PM" && hours < 12) hours += 12;
+  if (ampm === "AM" && hours === 12) hours = 0;
+  const d = new Date();
+  d.setHours(hours, minutes + durationMins, 0, 0);
+  return d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit", hour12: true });
+}
+
+function formatConciseWayfinding(
+  instructions?: string[],
+  nextShortLine?: string,
+  platform?: string | null
+): string {
+  if (!instructions || instructions.length === 0) {
+    return `Follow signs to ${nextShortLine || "connecting line"} (concourse via stairs/lift)`;
+  }
+  const rawJoined = instructions.join(" ").toLowerCase();
+  if (
+    rawJoined.includes("stairs") ||
+    rawJoined.includes("concourse") ||
+    rawJoined.includes("platform") ||
+    rawJoined.includes("walkway")
+  ) {
+    const platText = platform ? ` ${platform}` : "";
+    return `Follow signs to ${nextShortLine || "connecting line"}${platText} (Level 2 concourse via stairs/lift)`;
+  }
+  return instructions[0].replace(/^\d+\.\s*/, "");
 }
 
 // ── Stitch Vertical Timeline: Journey Details ────────────────────────────────
@@ -273,11 +311,10 @@ export function JourneyDetailsTimeline({
           </div>
         )}
 
-        {/* Transfers & Connecting Legs */}
+        {/* Transfers & Connecting Legs: Merged into Single Interchange Hub Block */}
         {transitLegs.slice(0, -1).map((curLeg, idx) => {
           const nextLeg = transitLegs[idx + 1];
-          const deboardStation = curLeg.toStation || "Transfer Station";
-          const boardStation = nextLeg.fromStation || deboardStation;
+          const interchangeStation = curLeg.toStation || nextLeg.fromStation || "Transfer Station";
           const nextShortLine = nextLeg.shortLine || formatShortLineName(nextLeg.line);
 
           if (nextLeg.throughServiceContinuationFromPrevious) {
@@ -286,7 +323,7 @@ export function JourneyDetailsTimeline({
                 <span className="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full border-2 border-cyan-400 bg-[#151b28] shadow-[0_0_8px_#22d3ee]" />
                 <div>
                   <div className="text-xs font-bold text-cyan-200">
-                    CONTINUE · {deboardStation}
+                    CONTINUE · {interchangeStation}
                   </div>
                   <div className="text-[11px] text-slate-300 mt-1">
                     Stay on the {nextShortLine} service; no transfer is required.
@@ -304,141 +341,84 @@ export function JourneyDetailsTimeline({
           const walkLeg = route.legs.find(
             (l) =>
               (l.mode === "walk" || l.type === "WALK" || l.type === "TRANSFER") &&
-              ((l.fromStation === deboardStation && l.toStation === boardStation) ||
-                (l.fromStation === boardStation && l.toStation === deboardStation))
+              (l.fromStation === interchangeStation || l.toStation === interchangeStation)
           );
 
-          // Derive transfer title and duration from authoritative backend DTO
-          const transferTitle =
-            walkLeg?.transferTitle ||
-            walkLeg?.transferDetails?.name ||
-            curLeg.transferTitle ||
-            curLeg.transferDetails?.name ||
-            `Transfer to ${nextShortLine}`;
-
-          const transferDuration =
-            walkLeg?.transferDurationText ||
-            walkLeg?.transferDetails?.durationDisplay ||
-            curLeg.transferDurationText ||
-            curLeg.transferDetails?.durationDisplay ||
-            (walkLeg?.durationMins ? `~${walkLeg.durationMins} min` : "Time unknown");
-
-          const transferSteps: string[] =
-            walkLeg?.transferInstructions && walkLeg.transferInstructions.length > 0
-              ? walkLeg.transferInstructions
-              : walkLeg?.transferDetails?.instructions &&
-                walkLeg.transferDetails.instructions.length > 0
-              ? walkLeg.transferDetails.instructions
-              : curLeg.transferInstructions && curLeg.transferInstructions.length > 0
-                ? curLeg.transferInstructions
-                : curLeg.transferDetails?.instructions && curLeg.transferDetails.instructions.length > 0
-                  ? curLeg.transferDetails.instructions
-                  : [`Follow signs to ${nextShortLine} connecting concourse`];
-
-          const deboardDoors = curLeg.doorsOpen;
+          const walkMins = walkLeg?.durationMins || 3;
+          const connectingDepClock = formatDepartureClock(nextLeg.realtimeEtaMins, nextLeg.realtimeTimeStr);
+          const wayfinding = formatConciseWayfinding(
+            walkLeg?.transferInstructions || curLeg.transferInstructions,
+            nextShortLine,
+            nextLeg.platform
+          );
 
           return (
-            <div key={idx} className="space-y-4">
-              {/* 1. DEBOARD AT INTERCHANGE */}
-              <div className="relative">
-                <span className="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full border-2 border-amber-400 bg-[#151b28] shadow-[0_0_8px_#fbbf24]" />
-                <div>
-                  <div className="text-xs font-bold text-slate-100">
-                    DEBOARD · {deboardStation}
-                  </div>
-                  {deboardDoors && curLeg.doorSideStatus === "KNOWN_FROM_ENGINEERING" && (
-                    <div className="text-[11px] text-amber-300/90 mt-0.5">
-                      Doors open on the {deboardDoors}
-                    </div>
+            <div key={idx} className="relative">
+              {/* Interchange Node Dot */}
+              <span className="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full border-2 border-amber-400 bg-[#151b28] shadow-[0_0_8px_#fbbf24] flex items-center justify-center">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+              </span>
+
+              <div className="space-y-2">
+                {/* Header: Interchange Station & Target Line */}
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-xs font-bold text-white">
+                    INTERCHANGE · {interchangeStation}
+                  </span>
+                  <span
+                    className="px-1.5 py-0.2 rounded text-[9px] font-bold border"
+                    style={{
+                      backgroundColor: `${nextLeg.color}25`,
+                      color: nextLeg.color,
+                      borderColor: `${nextLeg.color}50`,
+                    }}
+                  >
+                    {nextShortLine}
+                  </span>
+                  {curLeg.doorsOpen && curLeg.doorSideStatus === "KNOWN_FROM_ENGINEERING" && (
+                    <span className="text-[10.5px] text-amber-300/90 font-medium">
+                      (Doors open on {curLeg.doorsOpen})
+                    </span>
                   )}
                 </div>
-              </div>
 
-              {/* 2. TRANSFER INSET CARD */}
-              <div className="p-3 rounded-xl bg-[#080c14]/90 border border-white/10 text-xs">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-1.5 font-bold text-slate-200">
-                    <span className="material-symbols-outlined text-[15px] text-amber-400">directions_walk</span>
-                    <span>{walkLeg?.transferTitle || transferTitle}</span>
-                  </div>
-                  <span className="font-mono text-[11px] text-slate-400">
-                    {transferDuration}
-                  </span>
-                </div>
-                <div className="space-y-1.5 text-[11.5px] text-slate-300">
-                  {transferSteps.map((step, sIdx) => (
-                    <div key={sIdx} className="flex items-start gap-1.5">
-                      <span className="text-slate-500 font-bold">•</span>
-                      <span className="leading-snug">{step.replace(/^\d+\.\s*/, "")}</span>
+                {/* Single Compact Interchange Card */}
+                <div className="p-3 rounded-xl bg-[#080c14]/90 border border-white/10 text-xs space-y-2">
+                  {/* Walk info & connecting train departure clock */}
+                  <div className="flex items-center justify-between flex-wrap gap-1 text-[11.5px]">
+                    <div className="flex items-center gap-1.5 text-slate-300 font-medium">
+                      <span className="material-symbols-outlined text-[15px] text-amber-400">directions_walk</span>
+                      <span>
+                        {walkMins} min transfer to {nextShortLine} {nextLeg.platform || "Platform"}
+                      </span>
                     </div>
-                  ))}
-                </div>
-              </div>
+                    {connectingDepClock && (
+                      <span className="text-emerald-400 font-mono text-[11px] font-semibold flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        Next train {connectingDepClock}
+                        {nextLeg.realtimeEtaMins !== undefined && (
+                          <span className="text-slate-400 font-normal">
+                            (in {nextLeg.realtimeEtaMins}m)
+                          </span>
+                        )}
+                      </span>
+                    )}
+                  </div>
 
-              {/* 3. BOARD CONNECTING LINE */}
-              <div className="relative">
-                <span
-                  className="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full border-2 border-[#151b28] shadow-[0_0_8px_currentColor]"
-                  style={{ backgroundColor: nextLeg.color, color: nextLeg.color }}
-                />
-                <div>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-xs font-bold text-white">
-                      BOARD · {boardStation}
-                    </span>
-                    <span
-                      className="px-1.5 py-0.2 rounded text-[9px] font-bold border"
-                      style={{
-                        backgroundColor: `${nextLeg.color}25`,
-                        color: nextLeg.color,
-                        borderColor: `${nextLeg.color}50`,
-                      }}
-                    >
-                      {nextShortLine}
-                    </span>
+                  {/* Concise Wayfinding Direction */}
+                  <div className="flex items-center gap-1.5 text-[11px] text-cyan-300 bg-cyan-950/30 border border-cyan-800/40 rounded-lg px-2.5 py-1.5">
+                    <span className="material-symbols-outlined text-[14px] text-cyan-400 shrink-0">signpost</span>
+                    <span>{wayfinding}</span>
                   </div>
-                  {nextLeg.connectionWaitMins !== undefined ? (
-                    <div className="flex items-center gap-2 mt-1 flex-wrap">
-                      <span className="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center gap-1 font-mono">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                        Connecting Train: Departs in {nextLeg.connectionWaitMins} mins ({formatDepartureClock(nextLeg.realtimeEtaMins ?? nextLeg.connectionWaitMins, nextLeg.realtimeTimeStr)})
-                      </span>
-                      <span className="text-xs text-slate-400 font-mono">
-                        (~{nextLeg.connectionWaitMins}m wait after interchange walk)
-                      </span>
-                      {nextLeg.delaySeconds && nextLeg.delaySeconds > 0 ? (
-                        <span className="text-xs text-amber-400 font-mono">
-                          +{(nextLeg.delaySeconds / 60).toFixed(0)}m delay
-                        </span>
-                      ) : null}
-                    </div>
-                  ) : nextLeg.realtimeEtaMins !== undefined ? (
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center gap-1 font-mono">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                        Departs in {nextLeg.realtimeEtaMins} mins ({formatDepartureClock(nextLeg.realtimeEtaMins, nextLeg.realtimeTimeStr)})
-                      </span>
-                      {nextLeg.delaySeconds && nextLeg.delaySeconds > 0 ? (
-                        <span className="text-xs text-amber-400 font-mono">
-                          +{(nextLeg.delaySeconds / 60).toFixed(0)}m delay
-                        </span>
-                      ) : null}
-                    </div>
-                  ) : null}
-                  <div className="text-[11.5px] text-slate-300 mt-1">
-                    {nextLeg.platform ? `${nextLeg.platform} · ` : ""}
-                    {nextLeg.towards
-                      ? `Towards ${nextLeg.towards}`
-                      : formatLineName(nextLeg.line)}
-                    {nextLeg.platformStatus === "USER_REPORTED" ? " · user-reported" : ""}
-                  </div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">
-                    {nextLeg.stopsText
-                      ? nextLeg.stopsText
-                      : nextLeg.stopsCount
-                      ? `Ride ${nextLeg.stopsCount} stop${nextLeg.stopsCount !== 1 ? "s" : ""}`
-                      : "In-vehicle transit"}
-                    {nextLeg.durationMins ? ` (${nextLeg.durationMins} min)` : ""}
+
+                  {/* Connecting Train Ride Info */}
+                  <div className="text-[11px] text-slate-400 pt-0.5 border-t border-white/5 flex items-center justify-between">
+                    <span>
+                      Towards {nextLeg.towards || formatLineName(nextLeg.line)}
+                    </span>
+                    <span>
+                      {nextLeg.stopsText || `Ride ${nextLeg.stopsCount || 1} stops`} ({nextLeg.durationMins || 5} min)
+                    </span>
                   </div>
                 </div>
               </div>
@@ -446,29 +426,61 @@ export function JourneyDetailsTimeline({
           );
         })}
 
-        {/* Step Final: Destination Deboard */}
-        <div className="relative">
-          <span className="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full bg-rose-500 border-2 border-[#151b28] shadow-[0_0_8px_#f43f5e]" />
-          <div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs font-bold text-white">
-                DEBOARD · {destination || "Destination"}
-              </span>
-              <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 text-[9px] font-bold border border-emerald-500/40">
-                DESTINATION
-              </span>
-            </div>
-            <div className="text-[11.5px] text-slate-300 mt-0.5">
-              Alight platform · {route.destinationGuidance || "Exit station"}
-            </div>
-            {route.destinationGuidance && route.destinationGuidance.includes("FOB") && (
-              <div className="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-[10.5px] font-semibold text-emerald-400">
-                <span className="material-symbols-outlined text-[13px]">check_circle</span>
-                Zero street walking · Direct Skywalk Access
+        {/* Step Final: Destination Arrival */}
+        {(() => {
+          const lastTransitLeg = transitLegs[transitLegs.length - 1];
+          const finalStationName = lastTransitLeg?.toStation || (route as any).destinationStation?.name || destination;
+          const lastDepClock = formatDepartureClock(lastTransitLeg?.realtimeEtaMins, lastTransitLeg?.realtimeTimeStr);
+          const arrivalClock = calculateArrivalTime(lastDepClock, lastTransitLeg?.durationMins);
+          const isLandmark = destination && destination.toLowerCase().trim() !== finalStationName.toLowerCase().trim();
+
+          return (
+            <div className="relative">
+              <span className="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full bg-rose-500 border-2 border-[#151b28] shadow-[0_0_8px_#f43f5e]" />
+              <div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-xs font-bold text-white">
+                    ARRIVE · {finalStationName}
+                  </span>
+                  <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 text-[9px] font-bold border border-emerald-500/40">
+                    DESTINATION
+                  </span>
+                </div>
+
+                <div className="text-[11.5px] text-slate-300 mt-1 flex items-center gap-2 flex-wrap">
+                  {arrivalClock && (
+                    <span className="text-emerald-400 font-mono font-semibold">
+                      Arrives at {arrivalClock}
+                    </span>
+                  )}
+                  {arrivalClock && <span className="text-slate-500">·</span>}
+                  <span>
+                    {lastTransitLeg?.alightingPlatform
+                      ? `Alight ${lastTransitLeg.alightingPlatform}`
+                      : "Alight platform"}
+                  </span>
+                </div>
+
+                {/* Landmark or Exit Guidance */}
+                {(route.destinationGuidance || isLandmark) && (
+                  <div className="text-[11px] text-slate-400 mt-1 flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-[13px] text-amber-400">output</span>
+                    <span>
+                      {route.destinationGuidance || `Exit Gate for ${destination}`}
+                    </span>
+                  </div>
+                )}
+
+                {route.destinationGuidance && route.destinationGuidance.includes("FOB") && (
+                  <div className="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-[10.5px] font-semibold text-emerald-400">
+                    <span className="material-symbols-outlined text-[13px]">check_circle</span>
+                    Zero street walking · Direct Skywalk Access
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        </div>
+            </div>
+          );
+        })()}
       </div>
 
       {/* Embedded Coach Guidance Tip */}
