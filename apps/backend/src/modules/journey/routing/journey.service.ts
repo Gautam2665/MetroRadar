@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import axios from 'axios';
 import {
   BadRequestException,
   Injectable,
@@ -336,9 +337,14 @@ export class JourneyService {
     }
 
     // 1. Check if identifier is a registered curated landmark (e.g. LM_OBEROI_SKY_CITY)
+    const rawPlaceName = identifier.startsWith('place-')
+      ? identifier.replace(/^place-/, '').replace(/-/g, ' ').trim()
+      : identifier.trim();
+
     const landmark =
       LandmarkRegistry.findById(identifier) ||
-      LandmarkRegistry.findByNameOrAlias(identifier);
+      LandmarkRegistry.findByNameOrAlias(identifier) ||
+      LandmarkRegistry.findByNameOrAlias(rawPlaceName);
 
     if (landmark) {
       const primaryStation = await this.db.station.findFirst({
@@ -488,6 +494,69 @@ export class JourneyService {
           system: { select: { id: true, code: true } },
         },
       });
+    }
+
+    if (!stn && rawPlaceName !== identifier) {
+      stn = await this.db.station.findFirst({
+        where: {
+          name: { contains: rawPlaceName, mode: 'insensitive' },
+          isActive: true,
+        },
+        select: {
+          id: true,
+          code: true,
+          name: true,
+          systemId: true,
+          latitude: true,
+          longitude: true,
+          system: { select: { id: true, code: true } },
+        },
+      });
+    }
+
+    // 3. Dynamic geocoding fallback for unindexed landmarks / POIs
+    if (!stn && (identifier.startsWith('place-') || rawPlaceName.length >= 3)) {
+      try {
+        const queryTerm = rawPlaceName;
+        const geoUrl = `https://photon.komoot.io/api/?q=${encodeURIComponent(queryTerm + ', Mumbai')}&limit=1`;
+        const geoRes = await axios.get(geoUrl, { timeout: 3000 });
+        const feat = geoRes.data?.features?.[0];
+        const coords = feat?.geometry?.coordinates;
+        if (coords && coords.length >= 2) {
+          const lon = coords[0];
+          const lat = coords[1];
+          const system = await this.db.system.findFirst({
+            where: { isActive: true },
+            select: { id: true, code: true },
+          });
+          if (system) {
+            const attachments = await this.findSpatialCandidateAttachments(
+              lat,
+              lon,
+              system.id,
+              2500,
+            );
+            if (attachments.length > 0) {
+              const primary = attachments[0].station;
+              return {
+                id: identifier,
+                name: (feat.properties?.name as string) || queryTerm,
+                code: primary.code,
+                latitude: lat,
+                longitude: lon,
+                systemId: system.id,
+                systemCode: system.code,
+                attachments,
+                primaryStation: primary,
+              };
+            }
+          }
+        }
+      } catch (err) {
+        this.logger.warn(
+          `Failed to dynamically geocode place endpoint ${identifier}: ${err}`,
+        );
+      }
     }
 
     if (!stn) return null;

@@ -92,7 +92,7 @@ function JourneyPlannerContent() {
     setOriginStationId(
       place.isOutOfCoverage
         ? null
-        : (place.id || place.rawStationId || place.nearestStation?.id || place.name)
+        : (place.rawStationId || place.nearestStation?.id || place.id || place.name)
     );
     setShowOriginSuggestions(false);
   };
@@ -103,7 +103,7 @@ function JourneyPlannerContent() {
     setDestStationId(
       place.isOutOfCoverage
         ? null
-        : (place.id || place.rawStationId || place.nearestStation?.id || place.name)
+        : (place.rawStationId || place.nearestStation?.id || place.id || place.name)
     );
     setShowDestSuggestions(false);
   };
@@ -145,7 +145,7 @@ function JourneyPlannerContent() {
           if (first.isOutOfCoverage) {
             isOrigOut = true;
           } else {
-            finalOrigId = first.stationId || first.id;
+            finalOrigId = first.stationId || first.nearestStation?.id || first.id;
           }
         }
       }
@@ -164,7 +164,7 @@ function JourneyPlannerContent() {
           if (first.isOutOfCoverage) {
             isDestOut = true;
           } else {
-            finalDestId = first.stationId || first.id;
+            finalDestId = first.stationId || first.nearestStation?.id || first.id;
           }
         }
       }

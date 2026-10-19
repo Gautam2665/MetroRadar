@@ -324,7 +324,7 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
         if (searchRes.success && searchRes.data.length > 0) {
           const first = searchRes.data[0];
           if (first.isOutOfCoverage) isOrigOut = true;
-          else finalOrigId = first.stationId || first.id;
+          else finalOrigId = first.stationId || first.nearestStation?.id || first.id;
         }
       }
     }
@@ -339,7 +339,7 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
         if (searchRes.success && searchRes.data.length > 0) {
           const first = searchRes.data[0];
           if (first.isOutOfCoverage) isDestOut = true;
-          else finalDestId = first.stationId || first.id;
+          else finalDestId = first.stationId || first.nearestStation?.id || first.id;
         }
       }
     }
@@ -1321,7 +1321,7 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
                               setOriginStationId(
                                 place.isOutOfCoverage
                                   ? null
-                                  : (place.id || place.rawStationId || place.nearestStation?.id || place.name)
+                                  : (place.rawStationId || place.nearestStation?.id || place.id || place.name)
                               );
                               setShowOriginSuggestions(false);
                             }}
@@ -1410,7 +1410,7 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
                               setDestStationId(
                                 place.isOutOfCoverage
                                   ? null
-                                  : (place.id || place.rawStationId || place.nearestStation?.id || place.name)
+                                  : (place.rawStationId || place.nearestStation?.id || place.id || place.name)
                               );
                               setShowDestSuggestions(false);
                             }}
