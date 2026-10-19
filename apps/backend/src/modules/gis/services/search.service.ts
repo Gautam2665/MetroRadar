@@ -468,10 +468,21 @@ export class SearchService {
 
             if (!alreadyExists) {
               const placeId = `place-${placeName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
-              const MAX_METRO_CATCHMENT_METERS = 2000;
+              const MAX_METRO_CATCHMENT_METERS = 7000; // 7km urban last-mile feeder catchment
               const isWithinCatchment = distM <= MAX_METRO_CATCHMENT_METERS;
 
               if (isWithinCatchment) {
+                const isWalking = distM <= 1200;
+                const distDisplay = isWalking
+                  ? `~${distM}m walk`
+                  : `~${(distM / 1000).toFixed(1)} km via Auto/Bus`;
+
+                // Urban auto/cab speed in Mumbai ~18-20 km/h (~3.2 min/km + 2 min buffer)
+                const feederMins = isWalking
+                  ? Math.max(1, Math.round(distM / 80))
+                  : Math.max(3, Math.round(2 + (distM / 1000) * 3.2));
+                const travelSeconds = feederMins * 60;
+
                 features.push({
                   type: 'Feature',
                   id: placeId,
@@ -484,7 +495,7 @@ export class SearchService {
                     stationId: stn.id,
                     code: stn.code,
                     name: placeName,
-                    displayName: `${placeName} (Nearest Metro: ${stn.name} · ~${distM}m)`,
+                    displayName: `${placeName} (Nearest Metro: ${stn.name} · ${distDisplay})`,
                     address: item.address || `${stn.name} vicinity, Mumbai`,
                     type: 'poi',
                     isLandmark: true,
@@ -508,7 +519,7 @@ export class SearchService {
                         primaryLine.color ?? '',
                         primaryLine.name ?? '',
                       ),
-                      walkDistance: `${distM}m`,
+                      walkDistance: distDisplay,
                     },
                     landmarkDetails: {
                       name: placeName,
@@ -518,8 +529,8 @@ export class SearchService {
                       hasDirectFob: distM <= 50,
                       hasDirectAccess: distM <= 50,
                       walkDistanceMeters: distM,
-                      walkTimeSeconds: Math.round(distM * 1.2),
-                      corridorNote: `Board/Deboard at ${stn.name}. Distance to ${placeName}: approx ${distM}m.`,
+                      walkTimeSeconds: travelSeconds,
+                      corridorNote: `Board/Deboard at ${stn.name}. ${isWalking ? 'Walk' : 'Last-mile connection'} to ${placeName}: ${distDisplay} (~${feederMins} min).`,
                       indoorLevel: 'Street / Concourse Level',
                     },
                   },

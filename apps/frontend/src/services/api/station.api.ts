@@ -36,7 +36,7 @@ export function toPlaceSuggestion(s: StationSearchResult): PlaceSuggestion {
 
   // Clean any legacy parenthetical string format e.g. "Oberoi Mall (Nearest Metro: Aarey · ~546m)"
   const match = cleanName.match(
-    /^(.*?)\s*\((?:Nearest Metro:\s*([^·)]+)(?:·\s*~?(\d+m?))?|Direct FOB to ([^)]+))\)$/i
+    /^(.*?)\s*\((?:Nearest Metro:\s*([^·)]+)(?:·\s*~?([^)]+))?|Direct FOB to ([^)]+))\)$/i
   );
   if (match) {
     cleanName = match[1].trim();

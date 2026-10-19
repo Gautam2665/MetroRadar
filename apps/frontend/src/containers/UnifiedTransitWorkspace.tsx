@@ -280,7 +280,7 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
   const cleanPlaceName = (name: string) =>
     name
       .replace(/\s*\(Landmark\)/gi, "")
-      .replace(/\s*\((?:Nearest Metro:\s*[^·)]+(?:·\s*~?\d+m?)?|Direct FOB to [^)]+|Direct FOB[^)]*|Outside Mumbai Metro Coverage[^)]*)\)/gi, "")
+      .replace(/\s*\((?:Nearest Metro:[^)]+|Direct FOB[^)]*|Outside Mumbai Metro Coverage[^)]*)\)/gi, "")
       .trim();
 
   // Handle Station Selection (e.g. from Map or Search)
