@@ -615,6 +615,14 @@ export class JourneyService {
     }
   }
 
+  private parseTimeDiff(departure: string, arrival: string): number {
+    const toSeconds = (t: string): number => {
+      const parts = t.split(':').map(Number);
+      return (parts[0] || 0) * 3600 + (parts[1] || 0) * 60 + (parts[2] || 0);
+    };
+    return toSeconds(arrival) - toSeconds(departure);
+  }
+
   private getNowSecondsOfDay(): number {
     const istOffsetMs = 5.5 * 60 * 60 * 1000;
     const istDate = new Date(Date.now() + istOffsetMs);
@@ -1969,6 +1977,15 @@ export class JourneyService {
         leg.platformStatus = 'UNKNOWN';
       }
 
+      if (dbResolved.scheduledDurationSeconds) {
+        leg.duration = dbResolved.scheduledDurationSeconds;
+        leg.durationSeconds = dbResolved.scheduledDurationSeconds;
+        leg.durationMinutes = Math.max(
+          1,
+          Math.round(dbResolved.scheduledDurationSeconds / 60),
+        );
+      }
+
       // 2. Door opening provenance
       const doorResult = this.resolveDoorSide();
       leg.doorsOpen = doorResult.doorsOpen;
@@ -2055,6 +2072,7 @@ export class JourneyService {
     boardingPlatform: string | null;
     alightingPlatform: string | null;
     platformStatus: 'KNOWN' | 'USER_REPORTED' | 'UNKNOWN';
+    scheduledDurationSeconds: number | null;
   }> {
     if (!fromStationId || !toStationId) {
       return {
@@ -2062,6 +2080,7 @@ export class JourneyService {
         boardingPlatform: null,
         alightingPlatform: null,
         platformStatus: 'UNKNOWN',
+        scheduledDurationSeconds: null,
       };
     }
 
@@ -2140,6 +2159,7 @@ export class JourneyService {
           boardingPlatform: null,
           alightingPlatform: null,
           platformStatus: 'UNKNOWN',
+          scheduledDurationSeconds: null,
         };
       }
 
@@ -2161,7 +2181,12 @@ export class JourneyService {
           stopTimes: {
             where: { isActive: true },
             orderBy: { stopSequence: 'asc' },
-            select: { stationId: true, stopSequence: true },
+            select: {
+              stationId: true,
+              stopSequence: true,
+              arrivalTime: true,
+              departureTime: true,
+            },
           },
         },
         take: 100,
@@ -2184,6 +2209,21 @@ export class JourneyService {
       const selectedFromStop = selectedTrip?.stopTimes.find(
         (stop) => stop.stationId === fromSt.id,
       );
+      const selectedToStop = selectedTrip?.stopTimes.find(
+        (stop) => stop.stationId === toSt.id,
+      );
+
+      let scheduledDurationSeconds: number | null = null;
+      if (selectedFromStop?.departureTime && selectedToStop?.arrivalTime) {
+        const diff = this.parseTimeDiff(
+          selectedFromStop.departureTime,
+          selectedToStop.arrivalTime,
+        );
+        if (diff > 0 && diff < 86400) {
+          scheduledDurationSeconds = diff;
+        }
+      }
+
       const terminalStop = selectedTrip?.stopTimes.at(-1);
       const terminalStation = terminalStop
         ? await this.db.station.findUnique({
@@ -2242,6 +2282,7 @@ export class JourneyService {
             platformNumber && platformNumber !== 'UNKNOWN'
               ? 'KNOWN'
               : 'UNKNOWN',
+          scheduledDurationSeconds,
         };
       }
 
@@ -2250,6 +2291,7 @@ export class JourneyService {
         boardingPlatform: null,
         alightingPlatform: null,
         platformStatus: 'UNKNOWN',
+        scheduledDurationSeconds: null,
       };
     } catch (err) {
       this.logger.warn(
@@ -2260,6 +2302,7 @@ export class JourneyService {
         boardingPlatform: null,
         alightingPlatform: null,
         platformStatus: 'UNKNOWN',
+        scheduledDurationSeconds: null,
       };
     }
   }

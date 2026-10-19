@@ -71,8 +71,8 @@ function parseInterchangeRegistry(value: unknown): InterchangeComplexRecord[] {
  * Canonical Transit Model (CTM) stored in PostgreSQL.
  *
  * Edge sources (in priority order):
- *  1. StationSequence.travelTimeFromPrevious — curated CTM data (preferred)
- *  2. StopTime arrival/departure diff — derived from GTFS stop_times (fallback)
+ *  1. StopTime arrival/departure diff — derived directly from GTFS stop_times (SSOT)
+ *  2. StationSequence.travelTimeFromPrevious — topological fallback for un-scheduled corridors
  *
  * The graph is scoped strictly to a single systemId. Dijkstra never crosses
  * system boundaries.
@@ -186,7 +186,34 @@ export class GraphBuilderService {
     }
     this.logger.log(`  Loaded ${nodes.size} station nodes`);
 
-    // ── 2. Build TRANSIT edges from StationSequence (CTM curated data) ──────
+    // ── 2. Build TRANSIT edges from GTFS StopTimes (Single Source of Truth) ──────
+    const edges = new Map<string, GraphEdge[]>();
+
+    // Helper: add an edge to the adjacency list
+    const addEdge = (edge: GraphEdge) => {
+      const existing = edges.get(edge.from) ?? [];
+      existing.push(edge);
+      edges.set(edge.from, existing);
+    };
+
+    let transitEdgeCount = 0;
+    const coveredCorridors = new Set<string>();
+
+    const stopTimeEdges = await this.buildEdgesFromStopTimes(systemId);
+    for (const [from, edgeList] of stopTimeEdges) {
+      for (const edge of edgeList) {
+        addEdge(edge);
+        transitEdgeCount++;
+        if (edge.lineId) {
+          coveredCorridors.add(`${edge.from}:${edge.to}:${edge.lineId}`);
+        }
+      }
+    }
+    this.logger.log(
+      `  Built ${transitEdgeCount} TRANSIT edges from GTFS stop_times (SSOT)`,
+    );
+
+    // ── 3. Topological Fallback: StationSequence for corridors without GTFS stop_times ──
     const sequences = await this.db.stationSequence.findMany({
       where: {
         isActive: true,
@@ -203,76 +230,49 @@ export class GraphBuilderService {
       orderBy: [{ lineId: 'asc' }, { sequence: 'asc' }],
     });
 
-    const edges = new Map<string, GraphEdge[]>();
-
-    // Helper: add an edge to the adjacency list
-    const addEdge = (edge: GraphEdge) => {
-      const existing = edges.get(edge.from) ?? [];
-      existing.push(edge);
-      edges.set(edge.from, existing);
-    };
-
-    let transitEdgeCount = 0;
-    // Group durations by (fromStation, toStation, lineId) for median calculation
-    const durationBuckets = new Map<string, number[]>();
-
+    let fallbackEdgeCount = 0;
     for (const seq of sequences) {
       if (!seq.nextStationId) continue;
-      const bucketKey = `${seq.stationId}:${seq.nextStationId}:${seq.lineId}`;
-      const bucket = durationBuckets.get(bucketKey) ?? [];
-      // travelTimeFromPrevious on nextStation = time from current to next
-      if (seq.travelTimeFromPrevious > 0) {
-        bucket.push(seq.travelTimeFromPrevious);
+      const forwardKey = `${seq.stationId}:${seq.nextStationId}:${seq.lineId}`;
+      const backwardKey = `${seq.nextStationId}:${seq.stationId}:${seq.lineId}`;
+
+      const fallbackDuration =
+        seq.travelTimeFromPrevious > 0 ? seq.travelTimeFromPrevious : 120;
+
+      // Only add if not already populated by GTFS stop_times
+      if (!coveredCorridors.has(forwardKey)) {
+        addEdge({
+          from: seq.stationId,
+          to: seq.nextStationId,
+          type: EdgeType.TRANSIT,
+          duration: fallbackDuration,
+          lineId: seq.lineId,
+        });
+        coveredCorridors.add(forwardKey);
+        transitEdgeCount++;
+        fallbackEdgeCount++;
       }
-      durationBuckets.set(bucketKey, bucket);
+
+      if (!coveredCorridors.has(backwardKey)) {
+        addEdge({
+          from: seq.nextStationId,
+          to: seq.stationId,
+          type: EdgeType.TRANSIT,
+          duration: fallbackDuration,
+          lineId: seq.lineId,
+        });
+        coveredCorridors.add(backwardKey);
+        transitEdgeCount++;
+        fallbackEdgeCount++;
+      }
     }
 
-    // StationSequence approach: each row represents currentStation → nextStation
-    // We need to invert: the row tells us the travel time TO arrive at nextStation,
-    // so the edge is stationId → nextStationId with that duration.
-    const processedPairs = new Set<string>();
-    for (const seq of sequences) {
-      if (!seq.nextStationId) continue;
-      const pairKey = `${seq.stationId}:${seq.nextStationId}:${seq.lineId}`;
-      if (processedPairs.has(pairKey)) continue;
-      processedPairs.add(pairKey);
-
-      const bucket = durationBuckets.get(pairKey) ?? [];
-      const duration = bucket.length > 0 ? this.median(bucket) : 120; // 2 min fallback
-
-      // Forward direction: stationId → nextStationId
-      addEdge({
-        from: seq.stationId,
-        to: seq.nextStationId,
-        type: EdgeType.TRANSIT,
-        duration,
-        lineId: seq.lineId,
-      });
-
-      // Backward direction (metro lines are bidirectional)
-      addEdge({
-        from: seq.nextStationId,
-        to: seq.stationId,
-        type: EdgeType.TRANSIT,
-        duration,
-        lineId: seq.lineId,
-      });
-
-      transitEdgeCount += 2;
-    }
-
-    // ── 3. Fallback: derive TRANSIT edges from StopTimes if sequences are empty
-    if (transitEdgeCount === 0) {
-      this.logger.warn(
-        `  No StationSequence data for system ${system.code}, falling back to stop_times`,
+    if (fallbackEdgeCount > 0) {
+      this.logger.log(
+        `  Added ${fallbackEdgeCount} fallback TRANSIT edges from StationSequence for un-scheduled corridors`,
       );
-      const stopTimeEdges = await this.buildEdgesFromStopTimes(systemId);
-      for (const [from, edgeList] of stopTimeEdges) {
-        edges.set(from, [...(edges.get(from) ?? []), ...edgeList]);
-        transitEdgeCount += edgeList.length;
-      }
     }
-    this.logger.log(`  Built ${transitEdgeCount} TRANSIT edges`);
+    this.logger.log(`  Total TRANSIT edges: ${transitEdgeCount}`);
 
     // ── 4. Build TRANSFER edges for interchange stations ────────────────────
     // Shared station IDs can also join two CTM corridor IDs for a through
@@ -463,8 +463,8 @@ export class GraphBuilderService {
   }
 
   /**
-   * Fallback: parse StopTime arrival/departure strings to compute travel durations.
-   * Used only if StationSequence data is absent.
+   * Primary SSOT: parse StopTime arrival/departure strings to compute travel durations.
+   * Dwell times at intermediate stops are preserved so multi-hop paths sum accurately.
    */
   private async buildEdgesFromStopTimes(
     systemId: string,
@@ -496,10 +496,25 @@ export class GraphBuilderService {
       for (let i = 0; i < stops.length - 1; i++) {
         const curr = stops[i];
         const next = stops[i + 1];
-        const duration = this.parseTimeDiff(
+        const isIntermediate = i + 1 < stops.length - 1;
+        const depDiff = this.parseTimeDiff(
+          curr.departureTime,
+          next.departureTime,
+        );
+        const arrDiff = this.parseTimeDiff(
           curr.departureTime,
           next.arrivalTime,
         );
+
+        // If next is intermediate, passenger experiences dwell before subsequent hop.
+        // If next is terminal, arrival time marks the trip completion.
+        const duration =
+          isIntermediate && depDiff > 0 && depDiff < 3600
+            ? depDiff
+            : arrDiff > 0 && arrDiff < 3600
+              ? arrDiff
+              : Math.max(0, depDiff);
+
         if (duration <= 0 || duration > 3600) continue; // sanity bounds (0-60 min)
 
         const key = `${curr.stationId}:${next.stationId}:${trip.lineId}`;
@@ -516,6 +531,8 @@ export class GraphBuilderService {
       edges.set(edge.from, existing);
     };
 
+    const addedPairs = new Set<string>();
+
     for (const [key, bucket] of durationBuckets) {
       const [fromId, toId, lineId] = key.split(':');
       const duration = this.median(bucket);
@@ -526,6 +543,20 @@ export class GraphBuilderService {
         duration,
         lineId,
       });
+      addedPairs.add(`${fromId}:${toId}:${lineId}`);
+
+      // Ensure reverse connectivity if reverse trip was not explicitly in GTFS
+      const reverseKey = `${toId}:${fromId}:${lineId}`;
+      if (!durationBuckets.has(reverseKey) && !addedPairs.has(reverseKey)) {
+        addEdge({
+          from: toId,
+          to: fromId,
+          type: EdgeType.TRANSIT,
+          duration,
+          lineId,
+        });
+        addedPairs.add(reverseKey);
+      }
     }
 
     return edges;
