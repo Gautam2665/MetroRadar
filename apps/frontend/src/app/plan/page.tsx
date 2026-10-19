@@ -210,7 +210,7 @@ function JourneyPlannerContent() {
 
       if (res.success && res.data?.candidates && res.data.candidates.length > 0) {
         const mappedList: RouteOption[] = res.data.candidates.map((c: any, idx: number) => {
-          const totalDurationMins = c.durationMinutes ?? Math.max(1, Math.round(c.durationSeconds / 60));
+          const rawTotalDurationMins = c.durationMinutes ?? Math.max(1, Math.round(c.durationSeconds / 60));
           const fareDisplay = c.fare ? `₹${c.fare}` : "₹10";
           const smartCardDisplay = c.smartCardFare ? `₹${c.smartCardFare}` : "₹9";
 
@@ -219,6 +219,33 @@ function JourneyPlannerContent() {
             const rawLine = leg.lineName ?? leg.lineCode ?? "";
             const cleanLine = isWalk ? "Walk" : formatLineName(rawLine);
             const hopCount = leg.hopCount ?? leg.stationsCount ?? leg.stopsCount ?? 1;
+
+            let durMins = leg.durationMinutes ?? Math.max(1, Math.round((leg.durationSeconds ?? leg.duration ?? 180) / 60));
+            // Realistic operational pacing calibration:
+            // Raw database running times (e.g. 85s link clearance) omit intermediate station dwell (~30-40s) + deceleration/acceleration.
+            // In real operations: Line 2A & 7 run ~2.3 min per station hop (7 stops Valnai -> Andheri W is 16 mins).
+            // Line 1 runs ~1.9 min per station hop. Line 3 runs ~2.1 min per hop.
+            if (!isWalk && hopCount > 1) {
+              const lineNorm = (rawLine || "").toUpperCase();
+              let ratePerHop = 2.1;
+              if (
+                lineNorm.includes("2A") ||
+                lineNorm.includes("YELLOW") ||
+                lineNorm.includes("LINE 7") ||
+                lineNorm.includes("RED") ||
+                lineNorm.includes("LINE7")
+              ) {
+                ratePerHop = 2.3;
+              } else if (
+                lineNorm.includes("LINE 1") ||
+                lineNorm.includes("LINE1") ||
+                lineNorm.includes("BLUE")
+              ) {
+                ratePerHop = 1.9;
+              }
+              const realisticMins = Math.round(hopCount * ratePerHop);
+              durMins = Math.max(durMins, realisticMins);
+            }
 
             return {
               mode: isWalk ? ("walk" as const) : ("subway" as const),
@@ -240,8 +267,8 @@ function JourneyPlannerContent() {
               stopsCount: hopCount,
               hopCount,
               stopsText: leg.stopsText || (hopCount ? `Ride ${hopCount} stop${hopCount !== 1 ? "s" : ""}` : undefined),
-              durationMins: leg.durationMinutes ?? Math.max(1, Math.round((leg.durationSeconds ?? leg.duration ?? 180) / 60)),
-              durationSeconds: leg.durationSeconds ?? leg.duration ?? 180,
+              durationMins: durMins,
+              durationSeconds: durMins * 60,
               transferDetails: leg.transferDetails,
               transferTitle: leg.transferTitle,
               transferSummary: leg.transferSummary,
@@ -253,6 +280,15 @@ function JourneyPlannerContent() {
               delaySeconds: leg.delaySeconds,
             };
           });
+
+          const computedTotalDurationMins = legs.reduce(
+            (acc: number, l: any) => acc + (l.durationMins || 1),
+            0
+          );
+          const totalDurationMins = Math.max(
+            rawTotalDurationMins,
+            computedTotalDurationMins
+          );
 
           let label = "BEST OVERALL";
           if (c.attributes?.direct && c.attributes?.fastest) label = "⚡ Direct & Fastest";

@@ -250,13 +250,9 @@ function calculateAllLegTimings(
 }
 
 interface InterchangeDetails {
-  title: string;
-  description: string;
-  fareRule: string;
+  instruction: string;
+  chipBadge: string;
   isPaidArea: boolean;
-  requiresRetap: boolean;
-  accessibility: string;
-  corridorType: string;
 }
 
 function getInterchangeDetails(
@@ -277,13 +273,9 @@ function getInterchangeDetails(
   if (norm.includes("andheri") || norm.includes("d.n. nagar") || norm.includes("dn nagar")) {
     if (isL2A || isL1 || norm.includes("west")) {
       return {
-        title: "Elevated Foot Overbridge (FOB) across Link Road",
-        description: "Elevated-to-elevated interchange via dedicated Foot Overbridge across New Link Road (~180m covered walkway). Descend to concourse level and cross the enclosed skywalk into Line 1 concourse.",
-        fareRule: "Unpaid transfer · Tap out at Line 2A AFC gates & re-tap at Line 1 gates",
+        instruction: "Cross covered Link Rd skywalk to Line 1 concourse (~180m)",
+        chipBadge: "🎫 Re-tap required",
         isPaidArea: false,
-        requiresRetap: true,
-        accessibility: "Lifts and escalators available at both concourses",
-        corridorType: "Dedicated FOB Skywalk (~180m)",
       };
     }
   }
@@ -291,64 +283,44 @@ function getInterchangeDetails(
   // 2. Marol Naka (L1 <-> L3)
   if (norm.includes("marol")) {
     return {
-      title: "Elevated Viaduct to Deep Underground Subway (31.5m drop)",
-      description: "Transfer from Line 1 elevated concourse down to street level, enter Line 3 underground portal, and descend 3 consecutive escalator flights to Level -2 platform (~31.5m vertical descent).",
-      fareRule: "Separate concession transfer (MMOPL to MMRCL) · AFC re-tap required",
+      instruction: "Take escalators down to Line 3 underground concourse",
+      chipBadge: "🎫 Re-tap required",
       isPaidArea: false,
-      requiresRetap: true,
-      accessibility: "Multi-flight escalators & station box lifts · High luggage friction",
-      corridorType: "Underground Subway Link & 3x Escalators (31.5m depth)",
     };
   }
 
   // 3. Western Express Highway / Gundavali (L1 <-> L7)
   if (norm.includes("gundavali") || norm.includes("western express highway") || norm.includes("weh")) {
     return {
-      title: "58m Covered Skywalk over Western Express Highway",
-      description: "Direct concourse-level transfer via 58m enclosed pedestrian skywalk spanning the Western Express Highway. Connects Gundavali (Line 7) concourse directly to WEH (Line 1) concourse.",
-      fareRule: "Concourse transfer · AFC re-tap required between systems",
+      instruction: "Cross 58m covered skywalk over Western Express Highway",
+      chipBadge: "🎫 Re-tap required",
       isPaidArea: false,
-      requiresRetap: true,
-      accessibility: "Direct level skywalk · Step-free accessible",
-      corridorType: "58m Covered Highway Skywalk",
     };
   }
 
   // 4. Dahisar East (L2A <-> L7 / L9)
   if (norm.includes("dahisar")) {
     return {
-      title: "Integrated Cross-Platform & Concourse Hub",
-      description: "Seamless transfer within the same integrated station complex. Move between Line 2A upper level and Line 7 concourse via internal escalators and lifts.",
-      fareRule: "Continuous paid area · No AFC re-tap needed",
+      instruction: "Cross central concourse between Line 2A and Line 7 platforms",
+      chipBadge: "✅ Stay inside paid area",
       isPaidArea: true,
-      requiresRetap: false,
-      accessibility: "Internal lifts and escalators between all levels",
-      corridorType: "Same-Station Multi-Tier Concourse",
     };
   }
 
   // 5. Bandra Kurla Complex (L3 <-> L2B)
   if (norm.includes("bkc") || norm.includes("bandra kurla")) {
     return {
-      title: "Underground-to-Elevated Enclosed Skywalk with 4-Bank Escalators",
-      description: "Integrated transit hub connecting Line 3 underground concourse to Line 2B elevated station via dedicated climate-controlled skywalk (+8.4m elevation).",
-      fareRule: "Direct paid concourse-to-skywalk link · Shared paid area",
+      instruction: "Follow skywalk connector with escalators to Line 2B",
+      chipBadge: "✅ Stay inside paid area",
       isPaidArea: true,
-      requiresRetap: false,
-      accessibility: "Dedicated disabled access lifts & 4 escalator banks",
-      corridorType: "Climate-Controlled Skywalk",
     };
   }
 
   // 6. Generic / Fallback
   return {
-    title: "Concourse Interchange Corridor",
-    description: `Transfer from ${fromLineRaw || "current line"} to ${toLineRaw || "connecting line"} via station concourse. Follow directional wayfinding signs to platform via stairs or lift.`,
-    fareRule: "Follow station signage for AFC gates",
+    instruction: `Follow signs to ${toLineRaw || "connecting line"} platform via concourse`,
+    chipBadge: "🎫 Re-tap required",
     isPaidArea: false,
-    requiresRetap: true,
-    accessibility: "Concourse stairs, escalators, and elevator available",
-    corridorType: "Station Concourse Corridor",
   };
 }
 
@@ -685,36 +657,36 @@ export function JourneyDetailsTimeline({
                     )}
                   </div>
 
-                  {/* Differentiated Physical Interchange Card */}
+                  {/* Clean Concise Interchange Card */}
                   <div className="p-3 rounded-xl bg-[#080c14]/90 border border-white/10 text-xs space-y-2">
-                    {/* Title & Detailed Architecture */}
-                    <div className="flex items-start gap-2">
-                      <span className="material-symbols-outlined text-amber-400 text-[16px] shrink-0 mt-0.5">
-                        {icxDetails.title.toLowerCase().includes("underground") || icxDetails.title.toLowerCase().includes("subway")
+                    {/* Clean Commuter Instruction */}
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-amber-400 text-[18px] shrink-0">
+                        {icxDetails.instruction.toLowerCase().includes("escalator") || icxDetails.instruction.toLowerCase().includes("down")
                           ? "south"
-                          : icxDetails.title.toLowerCase().includes("bridge") || icxDetails.title.toLowerCase().includes("fob") || icxDetails.title.toLowerCase().includes("skywalk")
+                          : icxDetails.instruction.toLowerCase().includes("skywalk") || icxDetails.instruction.toLowerCase().includes("covered")
                           ? "alt_route"
-                          : "sync_alt"}
+                          : "directions_walk"}
                       </span>
-                      <div>
-                        <div className="font-semibold text-amber-300 text-[11.5px] leading-tight">
-                          {icxDetails.title}
-                        </div>
-                        <div className="text-[11px] text-slate-300 leading-relaxed mt-1">
-                          {icxDetails.description}
-                        </div>
+                      <div className="text-xs text-slate-200 font-medium leading-snug">
+                        {icxDetails.instruction}
                       </div>
                     </div>
 
                     {/* Micro Details Row */}
-                    <div className="flex items-center gap-2 flex-wrap pt-2 border-t border-white/5 text-[10.5px] font-mono">
+                    <div className="flex items-center gap-2 flex-wrap pt-1.5 border-t border-white/5 text-[10.5px] font-mono">
                       <div className="flex items-center gap-1 text-slate-300 bg-white/5 px-2 py-0.5 rounded border border-white/5">
-                        <span className="material-symbols-outlined text-[13px] text-cyan-400">directions_walk</span>
+                        <span className="material-symbols-outlined text-[13px] text-cyan-400">schedule</span>
                         <span>{walkMins} min transfer</span>
                       </div>
-                      <div className="flex items-center gap-1 text-slate-300 bg-white/5 px-2 py-0.5 rounded border border-white/5">
-                        <span className="material-symbols-outlined text-[13px] text-amber-400">confirmation_number</span>
-                        <span>{icxDetails.fareRule}</span>
+                      <div
+                        className={`flex items-center gap-1 px-2 py-0.5 rounded border font-medium ${
+                          icxDetails.isPaidArea
+                            ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-300"
+                            : "bg-amber-500/10 border-amber-500/30 text-amber-300"
+                        }`}
+                      >
+                        <span>{icxDetails.chipBadge}</span>
                       </div>
                     </div>
                   </div>

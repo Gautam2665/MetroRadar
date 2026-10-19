@@ -239,13 +239,34 @@ function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
     const rawLine = leg.lineName ?? leg.lineCode ?? "";
     const cleanLine = isWalk ? "Transfer" : formatLineName(rawLine);
     const shortLine = isWalk ? "Transfer" : formatShortLineName(rawLine);
-    const durMins = leg.durationMinutes ?? Math.max(1, Math.round((leg.durationSeconds ?? leg.duration) / 60));
+    const hopCount = leg.hopCount ?? leg.stationsCount ?? undefined;
+    let durMins = leg.durationMinutes ?? Math.max(1, Math.round((leg.durationSeconds ?? leg.duration) / 60));
+    if (!isWalk && hopCount && hopCount > 1) {
+      const lineNorm = (rawLine || "").toUpperCase();
+      let ratePerHop = 2.1;
+      if (
+        lineNorm.includes("2A") ||
+        lineNorm.includes("YELLOW") ||
+        lineNorm.includes("LINE 7") ||
+        lineNorm.includes("RED") ||
+        lineNorm.includes("LINE7")
+      ) {
+        ratePerHop = 2.3;
+      } else if (
+        lineNorm.includes("LINE 1") ||
+        lineNorm.includes("LINE1") ||
+        lineNorm.includes("BLUE")
+      ) {
+        ratePerHop = 1.9;
+      }
+      const realisticMins = Math.round(hopCount * ratePerHop);
+      durMins = Math.max(durMins, realisticMins);
+    }
     const towards = isWalk ? undefined : (leg.towards || undefined);
     const boardingPlatform = leg.boardingPlatform || leg.platform || null;
     const alightingPlatform = leg.alightingPlatform || null;
     const platformStatus = leg.platformStatus || (boardingPlatform ? "KNOWN" : "UNKNOWN");
     const doorSideStatus = leg.doorSideStatus || "UNKNOWN_SOURCE_REQUIRED";
-    const hopCount = leg.hopCount ?? leg.stationsCount ?? undefined;
     const visitedStationCount = leg.visitedStationCount ?? (hopCount ? hopCount + 1 : undefined);
     const stopsText = leg.stopsText || (hopCount ? (hopCount === 1 ? "Ride 1 stop" : `Ride ${hopCount} stops`) : undefined);
 
@@ -294,11 +315,14 @@ function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
   const crowdColor: string | null = null;
   const boardCoach: string | null = null;
 
+  const computedTotalDurationMins = legs.reduce((acc, l) => acc + (l.durationMins || 1), 0);
+  const finalTotalDurationMins = Math.max(totalDurationMins, computedTotalDurationMins);
+
   return {
     id: candidate.id,
     label: deriveCandidateLabel(candidate.attributes, candidate.rank),
-    duration: `${totalDurationMins} min`,
-    durationMins: totalDurationMins,
+    duration: `${finalTotalDurationMins} min`,
+    durationMins: finalTotalDurationMins,
     durationSeconds: candidate.durationSeconds,
     fare: fareDisplay,
     smartCardFare: smartCardDisplay,
