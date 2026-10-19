@@ -348,19 +348,36 @@ async function main() {
   console.log(`   ✔ Upserted ${G.calendar.length} calendar records.`);
 
   // ── ⑫ Trips ──────────────────────────────────────────────────────────────
-  console.log('⑪ Ingesting Trips...');
-  const tripIdMap = new Map();
-  let tripsIngested = 0;
+  console.log('⑪ Ingesting Trips in batches...');
+  const tripInserts = [];
   for (const t of G.trips) {
     const lineId = lineMap.get(t.route_id);
     if (!lineId) { console.warn(`   ⚠ Unknown route_id: ${t.route_id}`); continue; }
-    const dbTrip = await prisma.trip.create({
-      data: { lineId, serviceId: t.service_id, tripId: t.trip_id, tripHeadsign: t.trip_headsign || null, directionId: t.direction_id !== undefined ? parseInt(t.direction_id, 10) : 0, shapeId: t.shape_id || null, isActive: true },
+    tripInserts.push({
+      lineId,
+      serviceId: t.service_id,
+      tripId: t.trip_id,
+      tripHeadsign: t.trip_headsign || null,
+      directionId: t.direction_id !== undefined ? parseInt(t.direction_id, 10) : 0,
+      shapeId: t.shape_id || null,
+      isActive: true
     });
-    tripIdMap.set(t.trip_id, dbTrip.id);
-    tripsIngested++;
   }
-  console.log(`   ✔ Ingested ${tripsIngested} trips.`);
+  await batchCreate(prisma.trip, tripInserts);
+  console.log(`   ✔ Batch ingested ${tripInserts.length} trips.`);
+
+  // Load back inserted trips to get their generated DB UUIDs for StopTimes mapping
+  console.log('   Fetching trip UUIDs from database...');
+  const allDbTrips = await prisma.trip.findMany({
+    where: { line: { systemId: system.id } },
+    select: { id: true, tripId: true },
+  });
+  const tripIdMap = new Map();
+  for (const t of allDbTrips) {
+    tripIdMap.set(t.tripId, t.id);
+  }
+  const tripsIngested = allDbTrips.length;
+  console.log(`   ✔ Mapped ${tripIdMap.size} trip DB UUIDs.`);
 
   // ── ⑬ Stop Times ─────────────────────────────────────────────────────────
   console.log('⑫ Ingesting Stop Times...');
@@ -529,8 +546,8 @@ async function main() {
   console.log(`   ✔ Materialised ${totalSeqs} station sequence entries.`);
 
   // ── ⑰ Walking Edges (from pathways.txt) ─────────────────────────────────
-  console.log('⑯ Ingesting Walking Edges from pathways.txt...');
-  let walkEdgeCount = 0;
+  console.log('⑯ Ingesting Walking Edges from pathways.txt in batches...');
+  const walkEdgeInserts = [];
   for (const pw of G.pathways) {
     const stationId = stationMap.get(pw.from_stop_id) || stationMap.get(pw.to_stop_id);
     if (!stationId) continue;
@@ -544,26 +561,29 @@ async function main() {
     const walkingDistance = pw.length ? parseFloat(pw.length) : (pw.traversal_time ? Math.round(parseFloat(pw.traversal_time) * 1.2) : 10);
     const walkingTime = pw.traversal_time ? parseInt(pw.traversal_time, 10) : Math.round(walkingDistance / 1.2);
 
-    await prisma.walkingEdge.create({
-      data: {
+    walkEdgeInserts.push({
+      stationId,
+      walkingDistance,
+      walkingTime,
+      accessible,
+      verticalMovement,
+      isActive: true,
+    });
+
+    if (pw.is_bidirectional === '1') {
+      walkEdgeInserts.push({
         stationId,
         walkingDistance,
         walkingTime,
         accessible,
         verticalMovement,
         isActive: true,
-      },
-    });
-    walkEdgeCount++;
-
-    if (pw.is_bidirectional === '1') {
-      await prisma.walkingEdge.create({
-        data: { stationId, walkingDistance, walkingTime, accessible, verticalMovement, isActive: true },
       });
-      walkEdgeCount++;
     }
   }
-  console.log(`   ✔ Ingested ${walkEdgeCount} Walking Edge records.`);
+  await batchCreate(prisma.walkingEdge, walkEdgeInserts);
+  const walkEdgeCount = walkEdgeInserts.length;
+  console.log(`   ✔ Batch ingested ${walkEdgeCount} Walking Edge records.`);
 
   // ── ⑱ Interchanges (from transfers.txt) ─────────────────────────────────
   console.log('⑰ Ingesting Interchanges from transfers.txt...');
