@@ -220,32 +220,7 @@ function JourneyPlannerContent() {
             const cleanLine = isWalk ? "Walk" : formatLineName(rawLine);
             const hopCount = leg.hopCount ?? leg.stationsCount ?? leg.stopsCount ?? 1;
 
-            let durMins = leg.durationMinutes ?? Math.max(1, Math.round((leg.durationSeconds ?? leg.duration ?? 180) / 60));
-            // Realistic operational pacing calibration:
-            // Raw database running times (e.g. 85s link clearance) omit intermediate station dwell (~30-40s) + deceleration/acceleration.
-            // In real operations: Line 2A & 7 run ~2.3 min per station hop (7 stops Valnai -> Andheri W is 16 mins).
-            // Line 1 runs ~1.9 min per station hop. Line 3 runs ~2.1 min per hop.
-            if (!isWalk && hopCount > 1) {
-              const lineNorm = (rawLine || "").toUpperCase();
-              let ratePerHop = 2.1;
-              if (
-                lineNorm.includes("2A") ||
-                lineNorm.includes("YELLOW") ||
-                lineNorm.includes("LINE 7") ||
-                lineNorm.includes("RED") ||
-                lineNorm.includes("LINE7")
-              ) {
-                ratePerHop = 2.3;
-              } else if (
-                lineNorm.includes("LINE 1") ||
-                lineNorm.includes("LINE1") ||
-                lineNorm.includes("BLUE")
-              ) {
-                ratePerHop = 1.9;
-              }
-              const realisticMins = Math.round(hopCount * ratePerHop);
-              durMins = Math.max(durMins, realisticMins);
-            }
+            const durMins = leg.durationMinutes ?? Math.max(1, Math.round((leg.durationSeconds ?? leg.duration ?? 180) / 60));
 
             return {
               mode: isWalk ? ("walk" as const) : ("subway" as const),

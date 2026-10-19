@@ -239,29 +239,8 @@ function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
     const rawLine = leg.lineName ?? leg.lineCode ?? "";
     const cleanLine = isWalk ? "Transfer" : formatLineName(rawLine);
     const shortLine = isWalk ? "Transfer" : formatShortLineName(rawLine);
+    const durMins = leg.durationMinutes ?? Math.max(1, Math.round((leg.durationSeconds ?? leg.duration) / 60));
     const hopCount = leg.hopCount ?? leg.stationsCount ?? undefined;
-    let durMins = leg.durationMinutes ?? Math.max(1, Math.round((leg.durationSeconds ?? leg.duration) / 60));
-    if (!isWalk && hopCount && hopCount > 1) {
-      const lineNorm = (rawLine || "").toUpperCase();
-      let ratePerHop = 2.1;
-      if (
-        lineNorm.includes("2A") ||
-        lineNorm.includes("YELLOW") ||
-        lineNorm.includes("LINE 7") ||
-        lineNorm.includes("RED") ||
-        lineNorm.includes("LINE7")
-      ) {
-        ratePerHop = 2.3;
-      } else if (
-        lineNorm.includes("LINE 1") ||
-        lineNorm.includes("LINE1") ||
-        lineNorm.includes("BLUE")
-      ) {
-        ratePerHop = 1.9;
-      }
-      const realisticMins = Math.round(hopCount * ratePerHop);
-      durMins = Math.max(durMins, realisticMins);
-    }
     const towards = isWalk ? undefined : (leg.towards || undefined);
     const boardingPlatform = leg.boardingPlatform || leg.platform || null;
     const alightingPlatform = leg.alightingPlatform || null;
