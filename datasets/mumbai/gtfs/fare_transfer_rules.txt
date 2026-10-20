@@ -1,5 +1,5 @@
 from_leg_group_id,to_leg_group_id,fare_product_id,transfer_count,duration_limit,duration_limit_type,fare_transfer_type
 LEG_MMMOCL,LEG_MMMOCL,,-1,7200,1,0
 LEG_MMMOCL_NCMC,LEG_MMMOCL_NCMC,,-1,7200,1,0
-LEG_MMOPL,LEG_MMMOCL,,0,,,2
-LEG_MMOPL,LEG_MMRCL,,0,,,2
+LEG_MMOPL,LEG_MMMOCL,,,,,2
+LEG_MMOPL,LEG_MMRCL,,,,,2

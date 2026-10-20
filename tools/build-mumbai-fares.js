@@ -96,11 +96,12 @@ LEG_MONO,NET_MONO,PROD_MONO_PAPER_0_3,1
 
 // ── 6. fare_transfer_rules.txt (Strict Ratified GTFS Fares v2 Standard) ────────
 // Fields: from_leg_group_id,to_leg_group_id,fare_product_id,transfer_count,duration_limit,duration_limit_type,fare_transfer_type
+// NOTE: Per GTFS spec, transfer_count is forbidden (must be empty) when from_leg_group_id != to_leg_group_id
 const fareTransferRulesContent = `from_leg_group_id,to_leg_group_id,fare_product_id,transfer_count,duration_limit,duration_limit_type,fare_transfer_type
 LEG_MMMOCL,LEG_MMMOCL,,-1,7200,1,0
 LEG_MMMOCL_NCMC,LEG_MMMOCL_NCMC,,-1,7200,1,0
-LEG_MMOPL,LEG_MMMOCL,,0,,,2
-LEG_MMOPL,LEG_MMRCL,,0,,,2
+LEG_MMOPL,LEG_MMMOCL,,,,,2
+LEG_MMOPL,LEG_MMRCL,,,,,2
 `;
 
 // ── 7. fare_attributes.txt (GTFS-Fares v1 - Backward Compatible) ──────────────
@@ -171,14 +172,14 @@ MONO_8_12,MONORAIL
 MONO_12_PLUS,MONORAIL
 `;
 
-// ── 9. routes.txt with network_id ─────────────────────────────────────────────
-const routesContent = `route_long_name,route_short_name,agency_id,route_type,route_id,route_color,route_text_color,network_id
-,Monorail,MMRDA_MONO,2,MONORAIL,7C3AED,FFFFFF,NET_MONO
-Aqua Line (Aarey JVLR - Cuffe Parade),Line 3,MMRCL,1,LINE3,059DB2,FFFFFF,NET_MMRCL
-Blue Line (Versova - Ghatkopar),Line 1,MMOPL,1,LINE1,007DC5,FFFFFF,NET_MMOPL
-Red Line (Kashigaon - Gundavali),Line 7,MMMOCL,1,LINE7,E31E24,FFFFFF,NET_MMMOCL
-Yellow Line (Dahisar East - Andheri West),Line 2A,MMMOCL,1,LINE2A,FACC15,,NET_MMMOCL
-Yellow Line (Mandale Depot - Diamond Garden),Line 2B,MMMOCL,1,LINE2B,F0C800,,NET_MMMOCL
+// ── 9. routes.txt (Clean, standard routes - network_id specified in route_networks.txt) ──
+const routesContent = `route_long_name,route_short_name,agency_id,route_type,route_id,route_color,route_text_color
+,Monorail,MMRDA_MONO,2,MONORAIL,7C3AED,FFFFFF
+Aqua Line (Aarey JVLR - Cuffe Parade),Line 3,MMRCL,1,LINE3,059DB2,FFFFFF
+Blue Line (Versova - Ghatkopar),Line 1,MMOPL,1,LINE1,007DC5,FFFFFF
+Red Line (Kashigaon - Gundavali),Line 7,MMMOCL,1,LINE7,E31E24,FFFFFF
+Yellow Line (Dahisar East - Andheri West),Line 2A,MMMOCL,1,LINE2A,FACC15,
+Yellow Line (Mandale Depot - Diamond Garden),Line 2B,MMMOCL,1,LINE2B,F0C800,
 `;
 
 const filesToWrite = [
