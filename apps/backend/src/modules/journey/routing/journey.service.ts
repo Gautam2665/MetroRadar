@@ -20,7 +20,7 @@ import {
 } from './interchange-evaluator.service';
 import { RealtimePredictionService } from '../../realtime/services/realtime-prediction.service';
 import { JourneyQueryDto } from '../dto/journey-query.dto';
-import { calculateMumbaiFare, computeJourneyFares } from './policy_v1';
+import { computeJourneyFares } from './policy_v1';
 import {
   LandmarkRegistry,
   LandmarkRecord,
@@ -338,7 +338,10 @@ export class JourneyService {
 
     // 1. Check if identifier is a registered curated landmark (e.g. LM_OBEROI_SKY_CITY)
     const rawPlaceName = identifier.startsWith('place-')
-      ? identifier.replace(/^place-/, '').replace(/-/g, ' ').trim()
+      ? identifier
+          .replace(/^place-/, '')
+          .replace(/-/g, ' ')
+          .trim()
       : identifier.trim();
 
     const landmark =
@@ -1007,7 +1010,8 @@ export class JourneyService {
                 1,
                 Math.round((actualConnectingDep - nowSecs) / 60),
               );
-              nextTransitLeg.realtimeTimeStr = connectingPrediction.realtimeTimeStr;
+              nextTransitLeg.realtimeTimeStr =
+                connectingPrediction.realtimeTimeStr;
               nextTransitLeg.realtimeEtaMins = minsFromNow;
               nextTransitLeg.connectionWaitMins = waitMins;
               nextTransitLeg.delaySeconds = connectingPrediction.delaySeconds;
@@ -1112,18 +1116,6 @@ export class JourneyService {
         destNameUpper.includes('CHURCHGATE')
       ) {
         destinationGuidance = 'Exit for Mainline Railway Terminal';
-      }
-
-      let totalDistanceMeters = 0;
-      for (let i = 0; i < orderedStations.length - 1; i++) {
-        const s1 = orderedStations[i];
-        const s2 = orderedStations[i + 1];
-        totalDistanceMeters += getDistanceMeters(
-          s1.lat,
-          s1.lng,
-          s2.lat,
-          s2.lng,
-        );
       }
 
       const fareDetails = computeJourneyFares(legs);
@@ -1441,8 +1433,7 @@ export class JourneyService {
           1,
           Math.round(currentLeg.duration / 60),
         );
-        currentLeg.distanceMeters =
-          (currentLeg.distanceMeters || 0) + edgeDist;
+        currentLeg.distanceMeters = (currentLeg.distanceMeters || 0) + edgeDist;
         currentLeg.hopCount += 1;
         currentLeg.stationsCount = currentLeg.hopCount;
         currentLeg.stopsCount = currentLeg.hopCount;

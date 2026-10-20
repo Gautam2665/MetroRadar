@@ -266,8 +266,6 @@ function getInterchangeDetails(
 
   const isL1 = fromNorm.includes("line 1") || fromNorm.includes("line1") || fromNorm.includes("blue") || toNorm.includes("line 1") || toNorm.includes("line1") || toNorm.includes("blue");
   const isL2A = fromNorm.includes("line 2a") || fromNorm.includes("line2a") || fromNorm.includes("yellow") || toNorm.includes("line 2a") || toNorm.includes("line2a") || toNorm.includes("yellow");
-  const isL3 = fromNorm.includes("line 3") || fromNorm.includes("line3") || fromNorm.includes("aqua") || toNorm.includes("line 3") || toNorm.includes("line3") || toNorm.includes("aqua");
-  const isL7 = fromNorm.includes("line 7") || fromNorm.includes("line7") || fromNorm.includes("red") || toNorm.includes("line 7") || toNorm.includes("line7") || toNorm.includes("red");
 
   // 1. Andheri West / D.N. Nagar (L2A <-> L1)
   if (norm.includes("andheri") || norm.includes("d.n. nagar") || norm.includes("dn nagar")) {

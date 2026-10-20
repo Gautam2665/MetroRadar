@@ -1,5 +1,5 @@
 import { EdgeType } from '../graph/edge.types';
-import { GraphEdge, TransitGraph } from '../graph/graph.types';
+import { GraphEdge } from '../graph/graph.types';
 import { FareBreakdownItem, JourneyLeg } from './candidate.types';
 
 /** Supported semantic policy profiles */
@@ -62,7 +62,9 @@ export function getOperatorForLine(
   return 'MMMOCL';
 }
 
-export function getOperatorDisplayName(operator: MumbaiTransitOperator): string {
+export function getOperatorDisplayName(
+  operator: MumbaiTransitOperator,
+): string {
   switch (operator) {
     case 'MMOPL':
       return 'Mumbai Metro One (Reliance/MMOPL)';
@@ -117,35 +119,50 @@ export function calculateOperatorFare(
 
   if (operator === 'MMOPL') {
     if (distKm <= 3) return { paperFare: 10, smartCardFare: 9, slab: '0–3 km' };
-    if (distKm <= 8) return { paperFare: 20, smartCardFare: 18, slab: '3–8 km' };
-    if (distKm <= 12) return { paperFare: 30, smartCardFare: 27, slab: '8–12 km' };
+    if (distKm <= 8)
+      return { paperFare: 20, smartCardFare: 18, slab: '3–8 km' };
+    if (distKm <= 12)
+      return { paperFare: 30, smartCardFare: 27, slab: '8–12 km' };
     return { paperFare: 40, smartCardFare: 36, slab: '>12 km' };
   }
 
   if (operator === 'MMRCL') {
     if (distKm <= 3) return { paperFare: 10, smartCardFare: 9, slab: '0–3 km' };
-    if (distKm <= 12) return { paperFare: 20, smartCardFare: 18, slab: '3–12 km' };
-    if (distKm <= 18) return { paperFare: 30, smartCardFare: 27, slab: '12–18 km' };
-    if (distKm <= 24) return { paperFare: 40, smartCardFare: 36, slab: '18–24 km' };
-    if (distKm <= 30) return { paperFare: 50, smartCardFare: 45, slab: '24–30 km' };
+    if (distKm <= 12)
+      return { paperFare: 20, smartCardFare: 18, slab: '3–12 km' };
+    if (distKm <= 18)
+      return { paperFare: 30, smartCardFare: 27, slab: '12–18 km' };
+    if (distKm <= 24)
+      return { paperFare: 40, smartCardFare: 36, slab: '18–24 km' };
+    if (distKm <= 30)
+      return { paperFare: 50, smartCardFare: 45, slab: '24–30 km' };
     return { paperFare: 60, smartCardFare: 54, slab: '>30 km' };
   }
 
   if (operator === 'MMRDA_MONO') {
-    if (distKm <= 3) return { paperFare: 10, smartCardFare: 10, slab: '0–3 km' };
-    if (distKm <= 8) return { paperFare: 20, smartCardFare: 20, slab: '3–8 km' };
-    if (distKm <= 12) return { paperFare: 30, smartCardFare: 30, slab: '8–12 km' };
+    if (distKm <= 3)
+      return { paperFare: 10, smartCardFare: 10, slab: '0–3 km' };
+    if (distKm <= 8)
+      return { paperFare: 20, smartCardFare: 20, slab: '3–8 km' };
+    if (distKm <= 12)
+      return { paperFare: 30, smartCardFare: 30, slab: '8–12 km' };
     return { paperFare: 40, smartCardFare: 40, slab: '>12 km' };
   }
 
   // Default: MMMOCL (Line 2A, 7, 2B, 9)
   if (distKm <= 3) return { paperFare: 10, smartCardFare: 9, slab: '0–3 km' };
-  if (distKm <= 12) return { paperFare: 20, smartCardFare: 18, slab: '3–12 km' };
-  if (distKm <= 18) return { paperFare: 30, smartCardFare: 27, slab: '12–18 km' };
-  if (distKm <= 24) return { paperFare: 40, smartCardFare: 36, slab: '18–24 km' };
-  if (distKm <= 30) return { paperFare: 50, smartCardFare: 45, slab: '24–30 km' };
-  if (distKm <= 36) return { paperFare: 60, smartCardFare: 54, slab: '30–36 km' };
-  if (distKm <= 42) return { paperFare: 70, smartCardFare: 63, slab: '36–42 km' };
+  if (distKm <= 12)
+    return { paperFare: 20, smartCardFare: 18, slab: '3–12 km' };
+  if (distKm <= 18)
+    return { paperFare: 30, smartCardFare: 27, slab: '12–18 km' };
+  if (distKm <= 24)
+    return { paperFare: 40, smartCardFare: 36, slab: '18–24 km' };
+  if (distKm <= 30)
+    return { paperFare: 50, smartCardFare: 45, slab: '24–30 km' };
+  if (distKm <= 36)
+    return { paperFare: 60, smartCardFare: 54, slab: '30–36 km' };
+  if (distKm <= 42)
+    return { paperFare: 70, smartCardFare: 63, slab: '36–42 km' };
   return { paperFare: 80, smartCardFare: 72, slab: '>42 km' };
 }
 
@@ -306,7 +323,7 @@ export function computeJourneyFares(legs: JourneyLeg[]): JourneyFareResult {
 /** Legacy Compatibility Wrapper */
 export function calculateMumbaiFare(
   distanceMeters: number,
-  isContinuousNetwork: boolean = true,
+  _isContinuousNetwork: boolean = true,
   isCrossOperator: boolean = false,
   operatorLegDistances: number[] = [],
 ): FareResult {

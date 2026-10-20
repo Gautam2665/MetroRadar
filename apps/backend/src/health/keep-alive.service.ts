@@ -33,9 +33,13 @@ export class KeepAliveService implements OnApplicationBootstrap {
         headers: { 'User-Agent': 'MetroRadar-KeepAlive/1.0' },
         signal: AbortSignal.timeout(8000),
       });
-      this.logger.log(`Keep-alive ping succeeded (${url}) -> HTTP ${res.status}`);
+      this.logger.log(
+        `Keep-alive ping succeeded (${url}) -> HTTP ${res.status}`,
+      );
     } catch (err: any) {
-      this.logger.warn(`Keep-alive ping non-fatal notice: ${err?.message || err}`);
+      this.logger.warn(
+        `Keep-alive ping non-fatal notice: ${err?.message || err}`,
+      );
     }
   }
 }

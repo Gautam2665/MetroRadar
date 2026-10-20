@@ -96,9 +96,7 @@ describe('GraphBuilderService - GTFS StopTimes SSOT', () => {
         ]),
       },
       line: {
-        findMany: jest.fn().mockResolvedValue([
-          { id: 'line-2a', code: 'L2A' },
-        ]),
+        findMany: jest.fn().mockResolvedValue([{ id: 'line-2a', code: 'L2A' }]),
       },
       platform: {
         findMany: jest.fn().mockResolvedValue([]),
@@ -146,7 +144,8 @@ describe('GraphBuilderService - GTFS StopTimes SSOT', () => {
     expect(dahanukarToKandivali!.duration).toBe(85);
 
     // Sum of both hops: 110 + 85 = 195 seconds (06:10:10 - 06:06:55 = 195s)
-    const totalTransit = valnaiToDahanukar!.duration + dahanukarToKandivali!.duration;
+    const totalTransit =
+      valnaiToDahanukar!.duration + dahanukarToKandivali!.duration;
     expect(totalTransit).toBe(195);
   });
 

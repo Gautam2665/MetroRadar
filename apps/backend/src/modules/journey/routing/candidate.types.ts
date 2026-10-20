@@ -124,7 +124,7 @@ export interface TransferDetails {
 // ── Fare Breakdown Structure ───────────────────────────────────────────────
 
 export interface FareBreakdownItem {
-  operator: 'MMOPL' | 'MMMOCL' | 'MMRCL' | 'MMRDA_MONO' | string;
+  operator: 'MMOPL' | 'MMMOCL' | 'MMRCL' | 'MMRDA_MONO';
   operatorName: string;
   lines: string[];
   fromStation: string;

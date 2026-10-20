@@ -38,7 +38,9 @@ export class GraphProviderService implements OnApplicationBootstrap {
    * to eliminate cold-start routing latencies for first-load queries.
    */
   async onApplicationBootstrap(): Promise<void> {
-    this.logger.log('Pre-warming static network graph in-memory cache on startup...');
+    this.logger.log(
+      'Pre-warming static network graph in-memory cache on startup...',
+    );
     try {
       const systems = await this.db.system.findMany({
         where: { isActive: true },
@@ -54,7 +56,10 @@ export class GraphProviderService implements OnApplicationBootstrap {
         const start = Date.now();
         const graph = await this.get(sys.id, sys.code);
         const elapsed = Date.now() - start;
-        const totalEdges = [...graph.edges.values()].reduce((acc, edges) => acc + edges.length, 0);
+        const totalEdges = [...graph.edges.values()].reduce(
+          (acc, edges) => acc + edges.length,
+          0,
+        );
         this.logger.log(
           `Pre-warmed transit graph for [${sys.code}] in ${elapsed}ms (${graph.nodes.size} nodes, ${totalEdges} edges).`,
         );

@@ -85,8 +85,8 @@ const MUMBAI_METRO_BOUNDARY: [number, number][] = [
   [19.06, 72.92], // Kurla / Ghatkopar East
   [19.16, 72.96], // Bhandup / Mulund west of railway
   [19.26, 72.98], // Thane City boundary
-  [19.30, 72.88], // Mira-Bhayandar / Kashigaon
-  [19.30, 72.82], // Western coast Dahisar/Borivali
+  [19.3, 72.88], // Mira-Bhayandar / Kashigaon
+  [19.3, 72.82], // Western coast Dahisar/Borivali
   [19.18, 72.78], // Malad / Versova / Juhu coast
   [18.88, 72.78], // Loop closed
 ];
@@ -502,7 +502,8 @@ export class SearchService {
               const isInsideBoundary = isWithinMumbaiMetroServiceArea(lat, lon);
               // Urban last-mile catchment tightened to 4.5 km
               const MAX_METRO_CATCHMENT_METERS = 4500;
-              const isWithinCatchment = isInsideBoundary && distM <= MAX_METRO_CATCHMENT_METERS;
+              const isWithinCatchment =
+                isInsideBoundary && distM <= MAX_METRO_CATCHMENT_METERS;
 
               if (isWithinCatchment) {
                 const isWalking = distM <= 1200;
@@ -587,7 +588,8 @@ export class SearchService {
                     type: 'poi',
                     isLandmark: true,
                     isOutOfCoverage: true,
-                    coverageNotice: 'Outside active Mumbai Metro network (Navi Mumbai / MMR)',
+                    coverageNotice:
+                      'Outside active Mumbai Metro network (Navi Mumbai / MMR)',
                     city: 'mumbai',
                     systemId: '',
                     lines: [],

@@ -209,7 +209,7 @@ export class RealtimeService {
       const startStr = this.formatSecondsToHHMMSS(windowStartSecs);
       const endStr = this.formatSecondsToHHMMSS(windowEndSecs);
 
-      let activeTrips = await this.db.trip.findMany({
+      const activeTrips = await this.db.trip.findMany({
         where: {
           lineId: { in: lineIds },
           isActive: true,

@@ -118,7 +118,10 @@ export class StationResolverService {
       return null;
     }
 
-    const trimmed = rawQuery.replace(/[?!.,;:"'()]+/g, ' ').replace(/\s+/g, ' ').trim();
+    const trimmed = rawQuery
+      .replace(/[?!.,;:"'()]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
     const cleanLower = trimmed
       .toLowerCase()
       .replace(/metro\s+station/gi, '')
@@ -226,7 +229,10 @@ export class StationResolverService {
         // Look for POIs or exact station results
         const poiOrStation = searchRes.features.find((f: any) => {
           const p = f.properties || {};
-          return (p.type === 'poi' || p.isLandmark) && (p.stationId || p.nearestStation?.id || p.id);
+          return (
+            (p.type === 'poi' || p.isLandmark) &&
+            (p.stationId || p.nearestStation?.id || p.id)
+          );
         });
 
         if (poiOrStation && poiOrStation.properties) {
@@ -269,7 +275,13 @@ export class StationResolverService {
             });
           }
 
-          if (!stn && typeof props.id === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(props.id)) {
+          if (
+            !stn &&
+            typeof props.id === 'string' &&
+            /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+              props.id,
+            )
+          ) {
             stn = await this.prisma.station.findUnique({
               where: { id: props.id },
               select: {
