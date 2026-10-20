@@ -194,19 +194,52 @@ export class JourneyService {
             line: { select: { id: true, code: true, name: true, color: true } },
           },
         },
+        entrances: {
+          where: { isActive: true },
+          select: {
+            id: true,
+            name: true,
+            latitude: true,
+            longitude: true,
+          },
+        },
       },
     });
 
-    // 1. Calculate walking distance to all stations in catchment
+    // 1. Calculate walking distance to all stations/entrances in catchment
     const nearbyStations: Array<{
       station: (typeof stations)[0];
       distanceMeters: number;
+      bestEntrance: (typeof stations)[0]['entrances'][0] | null;
     }> = [];
 
     for (const stn of stations) {
-      const d = getDistanceMeters(lat, lng, stn.latitude, stn.longitude);
-      if (d <= maxRadiusMeters) {
-        nearbyStations.push({ station: stn, distanceMeters: d });
+      let bestEnt: (typeof stn.entrances)[0] | null = null;
+      let minEntDist = Infinity;
+      if (stn.entrances && stn.entrances.length > 0) {
+        for (const ent of stn.entrances) {
+          const d = getDistanceMeters(lat, lng, ent.latitude, ent.longitude);
+          if (d < minEntDist) {
+            minEntDist = d;
+            bestEnt = ent;
+          }
+        }
+      }
+      const stnCentroidDist = getDistanceMeters(
+        lat,
+        lng,
+        stn.latitude,
+        stn.longitude,
+      );
+      const effectiveDist =
+        bestEnt && minEntDist < Infinity ? minEntDist : stnCentroidDist;
+
+      if (effectiveDist <= maxRadiusMeters) {
+        nearbyStations.push({
+          station: stn,
+          distanceMeters: effectiveDist,
+          bestEntrance: bestEnt,
+        });
       }
     }
 
@@ -214,14 +247,39 @@ export class JourneyService {
     if (nearbyStations.length === 0 && stations.length > 0) {
       let closestStn = stations[0];
       let minD = Infinity;
+      let closestEnt: (typeof stations)[0]['entrances'][0] | null = null;
       for (const stn of stations) {
-        const d = getDistanceMeters(lat, lng, stn.latitude, stn.longitude);
-        if (d < minD) {
-          minD = d;
+        let bestEnt: (typeof stn.entrances)[0] | null = null;
+        let minEntDist = Infinity;
+        if (stn.entrances && stn.entrances.length > 0) {
+          for (const ent of stn.entrances) {
+            const d = getDistanceMeters(lat, lng, ent.latitude, ent.longitude);
+            if (d < minEntDist) {
+              minEntDist = d;
+              bestEnt = ent;
+            }
+          }
+        }
+        const stnCentroidDist = getDistanceMeters(
+          lat,
+          lng,
+          stn.latitude,
+          stn.longitude,
+        );
+        const effectiveDist =
+          bestEnt && minEntDist < Infinity ? minEntDist : stnCentroidDist;
+
+        if (effectiveDist < minD) {
+          minD = effectiveDist;
           closestStn = stn;
+          closestEnt = bestEnt;
         }
       }
-      nearbyStations.push({ station: closestStn, distanceMeters: minD });
+      nearbyStations.push({
+        station: closestStn,
+        distanceMeters: minD,
+        bestEntrance: closestEnt,
+      });
     }
 
     // 2. Per-Line Dominance Filter:
@@ -231,6 +289,7 @@ export class JourneyService {
       {
         station: (typeof stations)[0];
         distanceMeters: number;
+        bestEntrance: (typeof stations)[0]['entrances'][0] | null;
         lineInfo?: { id: string; code: string; name: string; color: string };
       }
     >();
@@ -244,6 +303,7 @@ export class JourneyService {
           closestPerLine.set(key, {
             station: item.station,
             distanceMeters: item.distanceMeters,
+            bestEntrance: item.bestEntrance,
           });
         }
       } else {
@@ -254,6 +314,7 @@ export class JourneyService {
             closestPerLine.set(lineKey, {
               station: item.station,
               distanceMeters: item.distanceMeters,
+              bestEntrance: item.bestEntrance,
               lineInfo: seq.line,
             });
           }
@@ -266,7 +327,7 @@ export class JourneyService {
     const seenStations = new Set<string>();
 
     for (const entry of closestPerLine.values()) {
-      const { station, distanceMeters, lineInfo } = entry;
+      const { station, distanceMeters, bestEntrance, lineInfo } = entry;
       const dedupKey = `${station.id}`;
       if (seenStations.has(dedupKey)) continue;
       seenStations.add(dedupKey);
@@ -275,18 +336,35 @@ export class JourneyService {
       const walkMins = Math.max(1, Math.round(walkSecs / 60));
       const lineLabel = lineInfo?.name || 'Metro';
 
+      let gateId = `SPATIAL_GATE_${station.code}`;
+      let gateName = `Walk to ${station.name} (${lineLabel})`;
+      let corridorNote = `Walk ${Math.round(distanceMeters)}m (~${walkMins} min) to ${station.name} for ${lineLabel}`;
+
+      if (bestEntrance) {
+        gateId = bestEntrance.id;
+        const gateMatch = bestEntrance.name.match(/(Gate\s+[A-Za-z0-9]+)/i);
+        const gateCode = gateMatch ? gateMatch[1] : 'Gate';
+        const parenMatch = bestEntrance.name.match(/\((.+?)\)/);
+        const landmarkDesc = parenMatch
+          ? parenMatch[1].trim()
+          : bestEntrance.name;
+
+        gateName = `${gateCode} (${landmarkDesc})`;
+        corridorNote = `Exit via ${gateCode} towards ${landmarkDesc} (~${Math.round(distanceMeters)}m walk)`;
+      }
+
       const gate: LandmarkAccessGate = {
-        gateId: `SPATIAL_GATE_${station.code}`,
-        gateName: `Walk to ${station.name} (${lineLabel})`,
+        gateId,
+        gateName,
         stationCode: station.code,
         stationName: station.name,
         lineCode: lineInfo?.code || '',
         lineName: lineLabel,
-        lineColor: lineInfo?.color || '#3b82f6',
-        walkDistanceMeters: distanceMeters,
+        lineColor: lineInfo?.color || '#06b6d4',
+        walkDistanceMeters: Math.round(distanceMeters),
         walkTimeSeconds: walkSecs,
         corridorType: 'WALK',
-        corridorNote: `Walk ${distanceMeters}m (~${walkMins} min) to ${station.name} for ${lineLabel}`,
+        corridorNote,
         indoorLevel: 'Street Level',
       };
 
@@ -1110,6 +1188,10 @@ export class JourneyService {
         destinationGuidance = destAttachment.gate?.gateName
           ? `Exit ${destAttachment.gate.gateName} for ${toEndpoint.landmark.name}`
           : `Exit for ${toEndpoint.landmark.name}`;
+      } else if (destAttachment.gate?.corridorNote) {
+        destinationGuidance = destAttachment.gate.corridorNote;
+      } else if (destAttachment.gate?.gateName) {
+        destinationGuidance = `Exit via ${destAttachment.gate.gateName}`;
       } else if (
         destNameUpper.includes('MUMBAI CENTRAL') ||
         destNameUpper.includes('CSMT') ||
@@ -1227,6 +1309,8 @@ export class JourneyService {
           corridorNote: destAttachment.gate.corridorNote,
           indoorLevel: destAttachment.gate.indoorLevel,
         };
+        candidateObj.destinationGuidance = destAttachment.gate.corridorNote;
+      } else if (destAttachment.gate?.corridorNote) {
         candidateObj.destinationGuidance = destAttachment.gate.corridorNote;
       }
 

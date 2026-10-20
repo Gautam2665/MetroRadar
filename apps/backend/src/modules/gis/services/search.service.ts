@@ -121,14 +121,112 @@ export class SearchService {
     const strippedQuery = `%${query.replace(/[^a-zA-Z0-9]/g, '')}%`;
     const features: Record<string, unknown>[] = [];
 
-    // 0. Search landmarks with direct FOB & concourse connections
+    // 0. Search GTFS Entrances / Wayfinding Gates from PostgreSQL
     if (
       !filterTypes ||
       filterTypes.includes('station') ||
       filterTypes.includes('landmark')
     ) {
+      try {
+        const matchingEntrances = await this.prisma.entrance.findMany({
+          where: {
+            isActive: true,
+            name: { contains: query, mode: 'insensitive' },
+          },
+          include: {
+            station: {
+              select: {
+                id: true,
+                code: true,
+                name: true,
+                city: true,
+                systemId: true,
+                sequences: {
+                  where: { isActive: true },
+                  select: {
+                    line: { select: { code: true, name: true, color: true } },
+                  },
+                },
+              },
+            },
+          },
+          take: 6,
+        });
+
+        for (const ent of matchingEntrances) {
+          const stn = ent.station;
+          if (!stn) continue;
+          const gateMatch = ent.name.match(/(Gate\s+[A-Za-z0-9]+)/i);
+          const gateLabel = gateMatch ? gateMatch[1] : 'Gate';
+          const parenMatch = ent.name.match(/\((.+?)\)/);
+          const landmarkName = parenMatch ? parenMatch[1].trim() : ent.name;
+
+          const lines = (stn.sequences || [])
+            .map((s) => s.line)
+            .filter(Boolean);
+          const primaryLine = lines[0] || {
+            code: 'MM',
+            name: 'Mumbai Metro',
+            color: '#06b6d4',
+          };
+
+          features.push({
+            type: 'Feature',
+            id: ent.id,
+            geometry: {
+              type: 'Point',
+              coordinates: [ent.longitude, ent.latitude],
+            },
+            properties: {
+              id: ent.id,
+              entranceId: ent.id,
+              stationId: stn.id,
+              code: stn.code,
+              name: `${landmarkName} (${gateLabel})`,
+              displayName: `${landmarkName} (${stn.name} · ${gateLabel})`,
+              address: `${ent.name}, ${stn.name}, Mumbai`,
+              type: 'poi',
+              isEntrance: true,
+              isLandmark: true,
+              city: stn.city || 'mumbai',
+              systemId: stn.systemId,
+              lines: lines.map((l) => ({
+                code: l.code,
+                name: l.name,
+                color: resolveLineColor(l.color ?? '', l.name ?? ''),
+              })),
+              lineColor: resolveLineColor(
+                primaryLine.color ?? '',
+                primaryLine.name ?? '',
+              ),
+              nearestStation: {
+                id: stn.id,
+                name: stn.name,
+                lineName: primaryLine.name,
+                lineColor: resolveLineColor(
+                  primaryLine.color ?? '',
+                  primaryLine.name ?? '',
+                ),
+                walkDistance: 'Station Gate',
+                nearestGate: ent.name,
+                gateCode: gateLabel,
+              },
+            },
+          });
+        }
+      } catch {
+        // Fallback gracefully
+      }
+
       const matchingLandmarks = LandmarkRegistry.search(query);
       for (const lm of matchingLandmarks) {
+        if (
+          features.some((f: any) =>
+            f.properties?.name?.toLowerCase().includes(lm.name.toLowerCase()),
+          )
+        ) {
+          continue;
+        }
         const stationRecord = await this.prisma.station.findFirst({
           where: { code: lm.connectedStationCode, isActive: true },
           select: { id: true, systemId: true, city: true },
@@ -457,12 +555,16 @@ export class SearchService {
           const placeName = item.name;
           const { lat, lon } = item;
 
-          // Find closest active station in DB using PostGIS ST_Distance
+          // Find closest active station & entrance in DB using PostGIS ST_Distance
           const nearestStn = await this.prisma.$queryRawUnsafe<any[]>(
             `
             SELECT 
               st.id, st.code, st.name, st.latitude, st.longitude, st.city, st."systemId",
-              ST_Distance(COALESCE(st.geom, ST_SetSRID(ST_MakePoint(st.longitude, st.latitude), 4326))::geography, ST_SetSRID(ST_MakePoint($2, $1), 4326)::geography) as distance,
+              ent.id as "entranceId", ent.name as "entranceName", ent.latitude as "entranceLat", ent.longitude as "entranceLon",
+              ST_Distance(
+                COALESCE(ent.geom, ST_SetSRID(ST_MakePoint(ent.longitude, ent.latitude), 4326), ST_SetSRID(ST_MakePoint(st.longitude, st.latitude), 4326))::geography,
+                ST_SetSRID(ST_MakePoint($2, $1), 4326)::geography
+              ) as distance,
               COALESCE((
                 SELECT json_agg(json_build_object('code', l.code, 'name', l.name, 'color', COALESCE(l.color, '#00e5ff')))
                 FROM lines l
@@ -470,6 +572,7 @@ export class SearchService {
                 WHERE ss."stationId" = st.id AND l."isActive" = true
               ), '[]'::json) as lines
             FROM stations st
+            LEFT JOIN entrances ent ON ent."stationId" = st.id AND ent."isActive" = true
             WHERE st."isActive" = true AND LOWER(st.city) IN ('mumbai', 'mm')
               AND (st.geom IS NOT NULL OR (st.latitude IS NOT NULL AND st.longitude IS NOT NULL))
             ORDER BY distance ASC
@@ -488,6 +591,9 @@ export class SearchService {
               name: 'Mumbai Metro',
               color: '#06b6d4',
             };
+
+            const gateMatch = stn.entranceName?.match(/(Gate\s+[A-Za-z0-9]+)/i);
+            const gateLabel = gateMatch ? gateMatch[1] : '';
 
             // Avoid duplicate if feature with same id/name already present
             const alreadyExists = features.some((f: any) =>
@@ -530,7 +636,7 @@ export class SearchService {
                     stationId: stn.id,
                     code: stn.code,
                     name: placeName,
-                    displayName: `${placeName} (Feeder Metro: ${stn.name} · ${distDisplay})`,
+                    displayName: `${placeName} (Feeder Metro: ${stn.name}${gateLabel ? ' via ' + gateLabel : ''} · ${distDisplay})`,
                     address: item.address || `${stn.name} vicinity, Mumbai`,
                     type: 'poi',
                     isLandmark: true,
@@ -555,6 +661,8 @@ export class SearchService {
                         primaryLine.name ?? '',
                       ),
                       walkDistance: distDisplay,
+                      nearestGate: stn.entranceName || undefined,
+                      gateCode: gateLabel || undefined,
                     },
                     landmarkDetails: {
                       name: placeName,
