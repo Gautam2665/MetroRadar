@@ -467,7 +467,7 @@ export class SearchService {
             );
 
             if (!alreadyExists) {
-              const placeId = `place-${placeName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+              const placeId = `${lat.toFixed(5)},${lon.toFixed(5)}`;
               const MAX_METRO_CATCHMENT_METERS = 7000; // 7km urban last-mile feeder catchment
               const isWithinCatchment = distM <= MAX_METRO_CATCHMENT_METERS;
 
@@ -491,11 +491,12 @@ export class SearchService {
                     coordinates: [lon, lat],
                   },
                   properties: {
-                    id: stn.id, // Snaps directly to closest station ID within reasonable last-mile walking/feeder distance
+                    id: placeId, // Coordinate ID preserves place position for candidate-pair routing
+                    placeId,
                     stationId: stn.id,
                     code: stn.code,
                     name: placeName,
-                    displayName: `${placeName} (Nearest Metro: ${stn.name} · ${distDisplay})`,
+                    displayName: `${placeName} (Feeder Metro: ${stn.name} · ${distDisplay})`,
                     address: item.address || `${stn.name} vicinity, Mumbai`,
                     type: 'poi',
                     isLandmark: true,
@@ -530,7 +531,7 @@ export class SearchService {
                       hasDirectAccess: distM <= 50,
                       walkDistanceMeters: distM,
                       walkTimeSeconds: travelSeconds,
-                      corridorNote: `Board/Deboard at ${stn.name}. ${isWalking ? 'Walk' : 'Last-mile connection'} to ${placeName}: ${distDisplay} (~${feederMins} min).`,
+                      corridorNote: `Board/Deboard via ${stn.name} or nearby corridor station. Last-mile connection to ${placeName}: ${distDisplay} (~${feederMins} min).`,
                       indoorLevel: 'Street / Concourse Level',
                     },
                   },
