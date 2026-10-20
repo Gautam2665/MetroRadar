@@ -149,10 +149,24 @@ export class RealtimePredictionService {
       Math.round(followingDiff / 60),
     );
 
-    const statusStr =
-      primary.delaySeconds > 0
-        ? `DELAYED_${Math.round(primary.delaySeconds / 60)}M`
-        : 'ON_TIME';
+    const isPrimaryArriving = Boolean((primary as any).isArriving);
+    const isPrimaryBoarding = Boolean((primary as any).isBoarding);
+
+    const primaryStatusStr = isPrimaryBoarding
+      ? 'BOARDING'
+      : isPrimaryArriving
+        ? 'ARRIVING'
+        : primary.delaySeconds > 0
+          ? `DELAYED_${Math.round(primary.delaySeconds / 60)}M`
+          : 'ON_TIME';
+
+    const primaryLabel = isPrimaryBoarding
+      ? 'At Platform · Boarding'
+      : isPrimaryArriving
+        ? 'Arriving now'
+        : primary.realtimeEtaMins <= 1
+          ? 'Leaves in 1 min'
+          : `Leaves in ${primary.realtimeEtaMins} mins`;
 
     return {
       primaryTrain: {
@@ -161,8 +175,8 @@ export class RealtimePredictionService {
         scheduledDeparture: primary.realtimeTimeStr,
         delaySeconds: primary.delaySeconds,
         etaMinutes: primary.realtimeEtaMins,
-        status: statusStr,
-        label: `Leaves in ${primary.realtimeEtaMins} mins`,
+        status: primaryStatusStr,
+        label: primaryLabel,
       },
       followingTrain: {
         tripId: `TRIP_${lineId}_02`,
@@ -312,27 +326,50 @@ export class RealtimePredictionService {
       // 1. Search for today's upcoming departures where actualDepartureSecs >= earliestDepartureSecs
       for (const st of filteredTimes) {
         const scheduledDepSecs = this.parseTimeToSeconds(st.departureTime);
+        const scheduledArrSecs = this.parseTimeToSeconds(st.arrivalTime);
         const delayState = this.gtfsRtSync.getDelayForTrip(st.trip.tripId);
         const delaySeconds = delayState?.delaySeconds ?? 0;
         const actualDepartureSecs = scheduledDepSecs + delaySeconds;
+        const actualArrivalSecs = scheduledArrSecs + delaySeconds;
 
-        // Require at least a 20-second boarding window if departing from current time
-        const minBoardingBuffer = earliestDepartureSecs === nowSecs ? 20 : 0;
-        if (actualDepartureSecs >= earliestDepartureSecs + minBoardingBuffer) {
-          const minsFromNow = Math.max(
-            0,
-            Math.round((actualDepartureSecs - nowSecs) / 60),
-          );
-          const realtimeTimeStr =
-            this.formatSecondsToTimeString(actualDepartureSecs);
+        const secsUntilDeparture = actualDepartureSecs - nowSecs;
+        const secsUntilArrival = actualArrivalSecs - nowSecs;
 
-          return {
-            realtimeEtaMins: minsFromNow,
-            realtimeTimeStr,
-            delaySeconds,
-            actualDepartureSecs,
-          };
+        // Skip trains that have already cleared the platform (> 15s after departure)
+        if (secsUntilDeparture < -15) {
+          continue;
         }
+
+        // Require train to be at or after earliest departure request
+        if (actualDepartureSecs < earliestDepartureSecs) {
+          continue;
+        }
+
+        let isArriving = false;
+        let isBoarding = false;
+        let minsFromNow = Math.max(0, Math.round(secsUntilDeparture / 60));
+
+        if (nowSecs >= actualArrivalSecs - 5 && secsUntilDeparture <= 30) {
+          // Train has arrived at platform and is dwelling
+          isBoarding = true;
+          minsFromNow = 0;
+        } else if (secsUntilArrival <= 75 && secsUntilArrival > -5) {
+          // Train is more than halfway through from previous station to platform (~40-75s away)
+          isArriving = true;
+          minsFromNow = 0;
+        }
+
+        const realtimeTimeStr =
+          this.formatSecondsToTimeString(actualDepartureSecs);
+
+        return {
+          realtimeEtaMins: minsFromNow,
+          realtimeTimeStr,
+          delaySeconds,
+          actualDepartureSecs,
+          isArriving,
+          isBoarding,
+        };
       }
 
       // 2. If no departure remaining today (e.g. late night), take next morning's first train

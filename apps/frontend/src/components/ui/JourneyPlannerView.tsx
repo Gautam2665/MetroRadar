@@ -181,7 +181,8 @@ interface CalculatedLegTiming {
   depTimestamp: number;
   depClock: string;
   etaMins: number;
-  isDepartingNow: boolean;
+  isArriving: boolean;
+  isBoardingNow: boolean;
   isDeparted: boolean;
   arrTimestamp: number;
   arrClock: string;
@@ -257,14 +258,27 @@ function calculateAllLegTimings(
     const legArrMs = legDepMs > 0 ? legDepMs + durMins * 60000 : 0;
 
     let etaMins = leg.realtimeEtaMins ?? 4;
-    let isDepartingNow = false;
+    let isArriving = false;
+    let isBoardingNow = false;
     let isDeparted = false;
 
     if (currentTime > 0 && legDepMs > 0) {
       const remainingSecs = Math.round((legDepMs - currentTime) / 1000);
-      etaMins = Math.max(0, Math.round(remainingSecs / 60));
-      isDepartingNow = remainingSecs <= 45 && remainingSecs >= -30;
-      isDeparted = remainingSecs < -30;
+      if (remainingSecs < -15) {
+        isDeparted = true;
+        etaMins = 0;
+      } else if (remainingSecs <= 20) {
+        // Within 20s of departure: train has arrived and is dwelling at platform
+        isBoardingNow = true;
+        etaMins = 0;
+      } else if (remainingSecs <= 75) {
+        // Between 20s and 75s: train is more than halfway through from previous stop and arriving
+        isArriving = true;
+        etaMins = 0;
+      } else {
+        // Train is earlier in transit
+        etaMins = Math.max(1, Math.ceil((remainingSecs - 20) / 60));
+      }
     }
 
     const depClock = legDepMs > 0
@@ -278,7 +292,8 @@ function calculateAllLegTimings(
       depTimestamp: legDepMs,
       depClock,
       etaMins,
-      isDepartingNow,
+      isArriving,
+      isBoardingNow,
       isDeparted,
       arrTimestamp: legArrMs,
       arrClock,
@@ -656,8 +671,10 @@ export function JourneyDetailsTimeline({
                     className={`text-xs px-2 py-0.5 rounded border flex items-center gap-1 font-mono ${
                       timing0.isDeparted
                         ? "bg-slate-800/80 text-slate-400 border-slate-700"
-                        : timing0.isDepartingNow
-                        ? "bg-amber-950/80 text-amber-300 border-amber-600 animate-pulse"
+                        : timing0.isBoardingNow
+                        ? "bg-amber-950/90 text-amber-300 border-amber-600 animate-pulse"
+                        : timing0.isArriving
+                        ? "bg-cyan-950/90 text-cyan-300 border-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.3)] animate-pulse"
                         : "bg-emerald-950 text-emerald-400 border-emerald-800"
                     }`}
                   >
@@ -665,15 +682,19 @@ export function JourneyDetailsTimeline({
                       className={`w-1.5 h-1.5 rounded-full ${
                         timing0.isDeparted
                           ? "bg-slate-500"
-                          : timing0.isDepartingNow
+                          : timing0.isBoardingNow
                           ? "bg-amber-400 animate-ping"
+                          : timing0.isArriving
+                          ? "bg-cyan-400 animate-ping"
                           : "bg-emerald-400 animate-pulse"
                       }`}
                     />
                     {timing0.isDeparted
                       ? `Departed (${timing0.depClock})`
-                      : timing0.isDepartingNow
-                      ? `Boarding now (${timing0.depClock})`
+                      : timing0.isBoardingNow
+                      ? `At Platform · Boarding (${timing0.depClock})`
+                      : timing0.isArriving
+                      ? `Arriving now (${timing0.depClock})`
                       : `Departs in ${timing0.etaMins} min${timing0.etaMins !== 1 ? "s" : ""} (${timing0.depClock})`}
                   </span>
                   {leg0.delaySeconds && leg0.delaySeconds > 0 ? (
@@ -851,8 +872,10 @@ export function JourneyDetailsTimeline({
                       className={`text-xs px-2 py-0.5 rounded border flex items-center gap-1 font-mono ${
                         nextTiming.isDeparted
                           ? "bg-slate-800/80 text-slate-400 border-slate-700"
-                          : nextTiming.isDepartingNow
-                          ? "bg-amber-950/80 text-amber-300 border-amber-600 animate-pulse"
+                          : nextTiming.isBoardingNow
+                          ? "bg-amber-950/90 text-amber-300 border-amber-600 animate-pulse"
+                          : nextTiming.isArriving
+                          ? "bg-cyan-950/90 text-cyan-300 border-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.3)] animate-pulse"
                           : "bg-emerald-950 text-emerald-400 border-emerald-800"
                       }`}
                     >
@@ -860,15 +883,19 @@ export function JourneyDetailsTimeline({
                         className={`w-1.5 h-1.5 rounded-full ${
                           nextTiming.isDeparted
                             ? "bg-slate-500"
-                            : nextTiming.isDepartingNow
+                            : nextTiming.isBoardingNow
                             ? "bg-amber-400 animate-ping"
+                            : nextTiming.isArriving
+                            ? "bg-cyan-400 animate-ping"
                             : "bg-emerald-400 animate-pulse"
                         }`}
                       />
                       {nextTiming.isDeparted
                         ? `Departed (${nextTiming.depClock})`
-                        : nextTiming.isDepartingNow
-                        ? `Boarding now (${nextTiming.depClock})`
+                        : nextTiming.isBoardingNow
+                        ? `At Platform · Boarding (${nextTiming.depClock})`
+                        : nextTiming.isArriving
+                        ? `Arriving now (${nextTiming.depClock})`
                         : `Departs in ${nextTiming.etaMins} min${nextTiming.etaMins !== 1 ? "s" : ""} (${nextTiming.depClock})`}
                     </span>
                     {nextLeg.delaySeconds && nextLeg.delaySeconds > 0 ? (
@@ -987,45 +1014,6 @@ export function JourneyDetailsTimeline({
         })()}
       </div>
 
-      {/* Fare & Operator Slabs Breakdown */}
-      {route.fareBreakdown && route.fareBreakdown.length > 0 && (
-        <div className="mt-4 p-3 rounded-xl bg-[#080d1a] border border-white/10 text-xs space-y-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5 font-bold text-white">
-              <span className="material-symbols-outlined text-[16px] text-amber-400">payments</span>
-              <span>Metro Fare & Ticketing</span>
-            </div>
-            <div className="text-right">
-              <span className="font-bold text-white text-[13px]">{route.fare}</span>
-              {route.smartCardFare && (
-                <span className="text-[10px] text-emerald-400 font-mono ml-2">NCMC: {route.smartCardFare}</span>
-              )}
-            </div>
-          </div>
-          {route.requiresMultipleTickets && (
-            <div className="text-[11px] text-amber-300 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1.5 rounded flex items-center gap-1.5 font-medium">
-              <span className="material-symbols-outlined text-[14px] shrink-0">warning</span>
-              <span>Cross-operator journey: 2 separate tickets required</span>
-            </div>
-          )}
-          <div className="space-y-1.5 pt-1 border-t border-white/5">
-            {route.fareBreakdown.map((item, idx) => (
-              <div key={idx} className="flex items-center justify-between text-[11px] text-slate-300">
-                <div className="flex items-center gap-1.5 truncate">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0" />
-                  <span className="truncate">{item.ticketLabel}</span>
-                  <span className="text-[10px] text-slate-500 font-mono">
-                    ({item.tariffSlab} · {item.distanceKm} km)
-                  </span>
-                </div>
-                <div className="font-mono text-white text-[11px] shrink-0 font-medium ml-2">
-                  ₹{item.paperFare}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* Embedded Coach Guidance Tip */}
       <CoachTip coach={route.boardCoach} occupancy={route.realtimeOccupancy} destination={destination} />
