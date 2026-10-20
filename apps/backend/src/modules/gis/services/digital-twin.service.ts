@@ -322,13 +322,14 @@ export class DigitalTwinService {
           .trim();
       }
 
+      // In GTFS, only explicit railway interchange FOBs/links (e.g. Andheri Western Railway Interchange FOB,
+      // Ghatkopar Central Railway Interchange FOB) physically connect to Indian Railways suburban networks.
+      // Standard street gates with nearby directional landmarks (e.g. Dadar Gate B3 facing towards Matunga Road)
+      // are regular street entrances and must NOT be marked as suburban rail interchanges.
       const isRailInterchange =
-        roadOrDesc.toLowerCase().includes('railway') ||
-        roadOrDesc.toLowerCase().includes('suburban') ||
-        roadOrDesc.toLowerCase().includes('fob') ||
-        roadOrDesc.toLowerCase().includes('skywalk') ||
-        roadOrDesc.toLowerCase().includes('terminus') ||
-        roadOrDesc.toLowerCase().includes('interchange');
+        Boolean(ent.name?.toLowerCase().includes('railway interchange')) ||
+        Boolean(ent.name?.toLowerCase().includes('rail interchange')) ||
+        Boolean(ent.name?.toLowerCase().includes('suburban interchange'));
 
       let concourseSide = 'CONCOURSE';
       if (/Gate\s+A/i.test(gate)) {
@@ -390,15 +391,24 @@ export class DigitalTwinService {
         ) {
           seenInterchangeStations.add(toStn.id);
           const lineName = line?.name || line?.code || 'Connecting Line';
+          const isRail =
+            line?.code === 'WR' ||
+            line?.code === 'CR' ||
+            toStn.code?.startsWith('IR_') ||
+            toStn.code?.startsWith('PF_WR_') ||
+            toStn.code?.startsWith('PF_CR_') ||
+            (toStn.name.toLowerCase().includes('railway') &&
+              !toStn.name.toLowerCase().includes('metro'));
+
           exitsMapped.push({
             id: ic.id,
-            gate: 'Interchange FOB',
+            gate: isRail ? 'Rail Interchange' : 'Line Interchange',
             name: `To ${toStn.name} (${lineName})`,
             distanceMeter: ic.walkingDistance || 180,
             type: 'INTERCHANGE',
             hasLift: true,
             hasEscalator: true,
-            isRailInterchange: true,
+            isRailInterchange: isRail,
             concourseSide: 'INTERCHANGE LINK',
           });
         }

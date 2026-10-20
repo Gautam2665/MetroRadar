@@ -96,12 +96,7 @@ export function toDigitalTwinModel(dto: Record<string, unknown> | null | undefin
             const isRail =
               typeof e.isRailInterchange === "boolean"
                 ? e.isRailInterchange
-                : nameStr.toLowerCase().includes("railway") ||
-                  nameStr.toLowerCase().includes("suburban") ||
-                  nameStr.toLowerCase().includes("fob") ||
-                  nameStr.toLowerCase().includes("skywalk") ||
-                  nameStr.toLowerCase().includes("terminus") ||
-                  nameStr.toLowerCase().includes("interchange");
+                : false;
 
             let side = (e.concourseSide as string) || "";
             if (!side) {
@@ -137,7 +132,7 @@ export function toDigitalTwinModel(dto: Record<string, unknown> | null | undefin
               distanceMeter: null,
               hasLift: Boolean(e.lift || true),
               hasEscalator: Boolean(e.escalator),
-              isRailInterchange: nameStr.toLowerCase().includes("railway") || nameStr.toLowerCase().includes("suburban"),
+              isRailInterchange: Boolean(e.isRailInterchange),
               concourseSide: side,
             };
           })
