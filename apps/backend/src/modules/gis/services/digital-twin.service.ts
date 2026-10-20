@@ -106,6 +106,15 @@ export class DigitalTwinService {
       { id: string; code: string; name: string; color: string | null }[]
     >(
       `SELECT DISTINCT l.id, l.code, l.name, l.color
+       , CASE WHEN EXISTS (
+           SELECT 1 FROM station_sequences ss WHERE ss."stationId" = $1::uuid AND ss."lineId" = l.id AND ss."isActive" = true
+         ) OR EXISTS (
+           SELECT 1 FROM trips t JOIN stop_times st ON st."tripId" = t.id
+           WHERE st."stationId" = $1::uuid AND t."lineId" = l.id AND t."isActive" = true AND st."isActive" = true
+         ) OR EXISTS (
+           SELECT 1 FROM platforms pf JOIN levels lvl ON lvl.id = pf."levelId"
+           WHERE lvl."stationId" = $1::uuid AND pf."lineId" = l.id AND pf."isActive" = true
+         ) THEN 1 ELSE 0 END AS is_direct
        FROM lines l
        WHERE l."isActive" = true AND (
          EXISTS (
@@ -130,7 +139,7 @@ export class DigitalTwinService {
              AND tl."stationId" = $1::uuid AND fp."lineId" = l.id
          )
        )
-       ORDER BY l.name`,
+       ORDER BY is_direct DESC, l.name ASC`,
       station.id,
     );
 
@@ -305,7 +314,7 @@ export class DigitalTwinService {
 
       // Use word boundary \b to prevent partial matches like 'gate' in 'Churchgate'
       const gateMatch = ent.name?.match(/\bGate\s+([A-Z0-9]+)\b/i);
-      const parenMatch = ent.name?.match(/\((.+)\)$/);
+      const parenMatch = ent.name?.match(/\(([^()]+)\)$/);
 
       if (gateMatch) {
         gate = gateMatch[1].toUpperCase();
@@ -315,8 +324,9 @@ export class DigitalTwinService {
       if (parenMatch && parenMatch[1]) {
         roadOrDesc = parenMatch[1].trim();
       } else if (ent.name) {
+        const escapedStn = station.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         roadOrDesc = ent.name
-          .replace(new RegExp(`^${station.name}\\s*`, 'i'), '')
+          .replace(new RegExp(`^${escapedStn}\\s*`, 'i'), '')
           .replace(/^Gate\s+[A-Z0-9]+\s*[-:·]?\s*/i, '')
           .trim();
       }
@@ -401,12 +411,12 @@ export class DigitalTwinService {
 
           exitsMapped.push({
             id: ic.id,
-            gate: isRail ? 'Rail Interchange' : 'Line Interchange',
+            gate: isRail ? 'Rail Link' : 'Interchange',
             name: `To ${toStn.name} (${lineName})`,
-            distanceMeter: ic.walkingDistance || 180,
+            distanceMeter: Math.round(ic.walkingDistance || 140),
             type: 'INTERCHANGE',
-            hasLift: true,
-            hasEscalator: true,
+            hasLift: false,
+            hasEscalator: false,
             isRailInterchange: isRail,
             concourseSide: 'INTERCHANGE LINK',
           });

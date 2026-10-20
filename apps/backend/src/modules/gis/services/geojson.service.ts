@@ -282,9 +282,18 @@ export class GeojsonService {
                 'code', l.code,
                 'name', l.name,
                 'color', COALESCE(l.color, '')
-              ))
+              ) ORDER BY l.is_direct DESC, l.name ASC)
               FROM (
-                SELECT DISTINCT l_sub.id, l_sub.code, l_sub.name, l_sub.color
+                SELECT DISTINCT l_sub.id, l_sub.code, l_sub.name, l_sub.color,
+                  CASE WHEN EXISTS (
+                    SELECT 1 FROM station_sequences ss WHERE ss."stationId" = st.id AND ss."lineId" = l_sub.id AND ss."isActive" = true
+                  ) OR EXISTS (
+                    SELECT 1 FROM trips t_sub JOIN stop_times st_sub ON st_sub."tripId" = t_sub.id
+                    WHERE st_sub."stationId" = st.id AND t_sub."lineId" = l_sub.id AND t_sub."isActive" = true AND st_sub."isActive" = true
+                  ) OR EXISTS (
+                    SELECT 1 FROM platforms pf JOIN levels lvl ON lvl.id = pf."levelId"
+                    WHERE lvl."stationId" = st.id AND pf."lineId" = l_sub.id AND pf."isActive" = true
+                  ) THEN 1 ELSE 0 END AS is_direct
                 FROM lines l_sub
                 WHERE l_sub."isActive" = true AND (
                   EXISTS (
