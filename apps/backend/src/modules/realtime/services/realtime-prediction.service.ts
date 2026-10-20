@@ -316,9 +316,11 @@ export class RealtimePredictionService {
         const delaySeconds = delayState?.delaySeconds ?? 0;
         const actualDepartureSecs = scheduledDepSecs + delaySeconds;
 
-        if (actualDepartureSecs >= earliestDepartureSecs) {
+        // Require at least a 20-second boarding window if departing from current time
+        const minBoardingBuffer = earliestDepartureSecs === nowSecs ? 20 : 0;
+        if (actualDepartureSecs >= earliestDepartureSecs + minBoardingBuffer) {
           const minsFromNow = Math.max(
-            1,
+            0,
             Math.round((actualDepartureSecs - nowSecs) / 60),
           );
           const realtimeTimeStr =

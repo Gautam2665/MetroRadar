@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { StationSearchInput, StationItem } from "../StationSearchInput";
 import { RouteOption, RouteLeg } from "../../containers/JourneyPlannerContainer";
@@ -180,28 +181,55 @@ interface CalculatedLegTiming {
   depTimestamp: number;
   depClock: string;
   etaMins: number;
+  isDepartingNow: boolean;
+  isDeparted: boolean;
   arrTimestamp: number;
   arrClock: string;
 }
 
+function parseTimeStringToEpoch(
+  timeStr?: string | null,
+  fallbackEtaMins: number = 4,
+  referenceTime: number = 0
+): number {
+  const ref = referenceTime > 0 ? referenceTime : 0;
+  if (timeStr) {
+    const match = timeStr.trim().match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)?$/i);
+    if (match) {
+      let hours = parseInt(match[1], 10);
+      const minutes = parseInt(match[2], 10);
+      const isPm = match[4]?.toUpperCase() === "PM";
+      const isAm = match[4]?.toUpperCase() === "AM";
+      if (isPm && hours < 12) hours += 12;
+      if (isAm && hours === 12) hours = 0;
+      const d = new Date(ref > 0 ? ref : 0);
+      d.setHours(hours, minutes, 0, 0);
+      return d.getTime();
+    }
+  }
+  return ref > 0 ? ref + fallbackEtaMins * 60000 : 0;
+}
+
 function calculateAllLegTimings(
   transitLegs: RouteLeg[],
-  allLegs: RouteLeg[]
+  allLegs: RouteLeg[],
+  currentTime: number = 0
 ): CalculatedLegTiming[] {
-  const now = Date.now();
   const timings: CalculatedLegTiming[] = [];
 
   transitLegs.forEach((leg, idx) => {
     let legDepMs: number;
-    let etaMins: number;
 
     if (idx === 0) {
-      const firstEta =
-        typeof leg.realtimeEtaMins === "number" && !isNaN(leg.realtimeEtaMins)
-          ? leg.realtimeEtaMins
-          : 4;
-      etaMins = firstEta;
-      legDepMs = now + firstEta * 60000;
+      if (leg.realtimeTimeStr) {
+        legDepMs = parseTimeStringToEpoch(leg.realtimeTimeStr, leg.realtimeEtaMins ?? 4, currentTime);
+      } else {
+        const firstEta =
+          typeof leg.realtimeEtaMins === "number" && !isNaN(leg.realtimeEtaMins)
+            ? leg.realtimeEtaMins
+            : 4;
+        legDepMs = currentTime > 0 ? currentTime + firstEta * 60000 : 0;
+      }
     } else {
       const prevStation = transitLegs[idx - 1].toStation || "";
       const curStation = leg.fromStation || prevStation;
@@ -212,35 +240,46 @@ function calculateAllLegTimings(
       );
       const walkDurationMins = walkLeg?.durationMins ?? 3;
       const prevArrMs = timings[idx - 1].arrTimestamp;
-      const platformArrivalMs = prevArrMs + walkDurationMins * 60000;
+      const platformArrivalMs = prevArrMs > 0 ? prevArrMs + walkDurationMins * 60000 : 0;
 
-      const waitMins =
-        typeof leg.connectionWaitMins === "number" && !isNaN(leg.connectionWaitMins)
-          ? leg.connectionWaitMins
-          : 3;
-
-      legDepMs = platformArrivalMs + waitMins * 60000;
-      etaMins = Math.max(1, Math.round((legDepMs - now) / 60000));
+      if (leg.realtimeTimeStr) {
+        legDepMs = parseTimeStringToEpoch(leg.realtimeTimeStr, 3, platformArrivalMs);
+      } else {
+        const waitMins =
+          typeof leg.connectionWaitMins === "number" && !isNaN(leg.connectionWaitMins)
+            ? leg.connectionWaitMins
+            : 3;
+        legDepMs = platformArrivalMs > 0 ? platformArrivalMs + waitMins * 60000 : 0;
+      }
     }
 
     const durMins = leg.durationMins ?? 5;
-    const legArrMs = legDepMs + durMins * 60000;
+    const legArrMs = legDepMs > 0 ? legDepMs + durMins * 60000 : 0;
 
-    const depClock = new Date(legDepMs).toLocaleTimeString([], {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    });
-    const arrClock = new Date(legArrMs).toLocaleTimeString([], {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    });
+    let etaMins = leg.realtimeEtaMins ?? 4;
+    let isDepartingNow = false;
+    let isDeparted = false;
+
+    if (currentTime > 0 && legDepMs > 0) {
+      const remainingSecs = Math.round((legDepMs - currentTime) / 1000);
+      etaMins = Math.max(0, Math.round(remainingSecs / 60));
+      isDepartingNow = remainingSecs <= 45 && remainingSecs >= -30;
+      isDeparted = remainingSecs < -30;
+    }
+
+    const depClock = legDepMs > 0
+      ? new Date(legDepMs).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", hour12: true })
+      : leg.realtimeTimeStr || "";
+    const arrClock = legArrMs > 0
+      ? new Date(legArrMs).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", hour12: true })
+      : "";
 
     timings.push({
       depTimestamp: legDepMs,
       depClock,
       etaMins,
+      isDepartingNow,
+      isDeparted,
       arrTimestamp: legArrMs,
       arrClock,
     });
@@ -258,20 +297,66 @@ interface InterchangeDetails {
 function getInterchangeDetails(
   stationName: string,
   fromLineRaw?: string,
-  toLineRaw?: string
+  toLineRaw?: string,
+  towards?: string | null,
+  platform?: string | null
 ): InterchangeDetails {
   const norm = stationName.toLowerCase().replace(/[-_()]/g, " ");
   const fromNorm = (fromLineRaw || "").toLowerCase();
   const toNorm = (toLineRaw || "").toLowerCase();
+  const towardsNorm = (towards || "").toLowerCase();
+  const platformNorm = (platform || "").toLowerCase();
 
-  const isL1 = fromNorm.includes("line 1") || fromNorm.includes("line1") || fromNorm.includes("blue") || toNorm.includes("line 1") || toNorm.includes("line1") || toNorm.includes("blue");
-  const isL2A = fromNorm.includes("line 2a") || fromNorm.includes("line2a") || fromNorm.includes("yellow") || toNorm.includes("line 2a") || toNorm.includes("line2a") || toNorm.includes("yellow");
+  const isL1 =
+    fromNorm.includes("line 1") ||
+    fromNorm.includes("line1") ||
+    fromNorm.includes("blue") ||
+    toNorm.includes("line 1") ||
+    toNorm.includes("line1") ||
+    toNorm.includes("blue");
+  const isL2A =
+    fromNorm.includes("line 2a") ||
+    fromNorm.includes("line2a") ||
+    fromNorm.includes("yellow") ||
+    toNorm.includes("line 2a") ||
+    toNorm.includes("line2a") ||
+    toNorm.includes("yellow");
 
   // 1. Andheri West / D.N. Nagar (L2A <-> L1)
   if (norm.includes("andheri") || norm.includes("d.n. nagar") || norm.includes("dn nagar")) {
     if (isL2A || isL1 || norm.includes("west")) {
+      const isFromL2AToL1 =
+        (fromNorm.includes("2a") || fromNorm.includes("yellow")) &&
+        (toNorm.includes("1") || toNorm.includes("blue"));
+      const isGhatkoparBound =
+        towardsNorm.includes("ghatkopar") ||
+        platformNorm.includes("1") ||
+        platformNorm === "platform 1";
+      const isVersovaBound =
+        towardsNorm.includes("versova") ||
+        platformNorm.includes("2") ||
+        platformNorm === "platform 2";
+
+      if (isFromL2AToL1) {
+        if (isGhatkoparBound) {
+          return {
+            instruction:
+              "Direct covered skywalk from Line 2A concourse straight to Line 1 Platform 1 (towards Ghatkopar)",
+            chipBadge: "🎫 Re-tap required",
+            isPaidArea: false,
+          };
+        } else if (isVersovaBound) {
+          return {
+            instruction:
+              "Cross covered skywalk to Line 1 concourse and take overbridge to Platform 2 (towards Versova)",
+            chipBadge: "🎫 Re-tap required",
+            isPaidArea: false,
+          };
+        }
+      }
       return {
-        instruction: "Cross covered Link Rd skywalk to Line 1 concourse (~180m)",
+        instruction:
+          "Cross covered Link Rd skywalk (direct Platform 1 connection for Ghatkopar; concourse for Versova)",
         chipBadge: "🎫 Re-tap required",
         isPaidArea: false,
       };
@@ -483,9 +568,24 @@ export function JourneyDetailsTimeline({
   origin: string;
   destination: string;
 }) {
+  const [currentTime, setCurrentTime] = useState<number>(0);
+
+  useEffect(() => {
+    setCurrentTime(Date.now());
+
+    const timer = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [route.id]);
+
   const transitLegs = route.legs.filter((l) => l.mode !== "walk" && l.type !== "WALK");
   const totalStops = transitLegs.reduce((sum, l) => sum + (l.stopsCount || 1), 0);
-  const legTimings = calculateAllLegTimings(transitLegs, route.legs);
+  const legTimings = calculateAllLegTimings(
+    transitLegs,
+    route.legs,
+    currentTime
+  );
 
   return (
     <motion.div
@@ -552,9 +652,29 @@ export function JourneyDetailsTimeline({
                 </div>
 
                 <div className="flex items-center gap-2 mt-1">
-                  <span className="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center gap-1 font-mono">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    Departs in {timing0.etaMins} mins ({timing0.depClock})
+                  <span
+                    className={`text-xs px-2 py-0.5 rounded border flex items-center gap-1 font-mono ${
+                      timing0.isDeparted
+                        ? "bg-slate-800/80 text-slate-400 border-slate-700"
+                        : timing0.isDepartingNow
+                        ? "bg-amber-950/80 text-amber-300 border-amber-600 animate-pulse"
+                        : "bg-emerald-950 text-emerald-400 border-emerald-800"
+                    }`}
+                  >
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full ${
+                        timing0.isDeparted
+                          ? "bg-slate-500"
+                          : timing0.isDepartingNow
+                          ? "bg-amber-400 animate-ping"
+                          : "bg-emerald-400 animate-pulse"
+                      }`}
+                    />
+                    {timing0.isDeparted
+                      ? `Departed (${timing0.depClock})`
+                      : timing0.isDepartingNow
+                      ? `Boarding now (${timing0.depClock})`
+                      : `Departs in ${timing0.etaMins} min${timing0.etaMins !== 1 ? "s" : ""} (${timing0.depClock})`}
                   </span>
                   {leg0.delaySeconds && leg0.delaySeconds > 0 ? (
                     <span className="text-xs text-amber-400 font-mono">
@@ -629,7 +749,13 @@ export function JourneyDetailsTimeline({
           );
 
           const walkMins = walkLeg?.durationMins || 3;
-          const icxDetails = getInterchangeDetails(interchangeStation, curLeg.line, nextLeg.line);
+          const icxDetails = getInterchangeDetails(
+            interchangeStation,
+            curLeg.line,
+            nextLeg.line,
+            nextLeg.towards,
+            nextLeg.platform
+          );
 
           return (
             <div key={`icx-group-${idx}`} className="space-y-4">
@@ -721,9 +847,29 @@ export function JourneyDetailsTimeline({
 
                   {/* Green Countdown & Departure Time Pill */}
                   <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center gap-1 font-mono">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      Departs in {nextTiming.etaMins} mins ({nextTiming.depClock})
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded border flex items-center gap-1 font-mono ${
+                        nextTiming.isDeparted
+                          ? "bg-slate-800/80 text-slate-400 border-slate-700"
+                          : nextTiming.isDepartingNow
+                          ? "bg-amber-950/80 text-amber-300 border-amber-600 animate-pulse"
+                          : "bg-emerald-950 text-emerald-400 border-emerald-800"
+                      }`}
+                    >
+                      <span
+                        className={`w-1.5 h-1.5 rounded-full ${
+                          nextTiming.isDeparted
+                            ? "bg-slate-500"
+                            : nextTiming.isDepartingNow
+                            ? "bg-amber-400 animate-ping"
+                            : "bg-emerald-400 animate-pulse"
+                        }`}
+                      />
+                      {nextTiming.isDeparted
+                        ? `Departed (${nextTiming.depClock})`
+                        : nextTiming.isDepartingNow
+                        ? `Boarding now (${nextTiming.depClock})`
+                        : `Departs in ${nextTiming.etaMins} min${nextTiming.etaMins !== 1 ? "s" : ""} (${nextTiming.depClock})`}
                     </span>
                     {nextLeg.delaySeconds && nextLeg.delaySeconds > 0 ? (
                       <span className="text-xs text-amber-400 font-mono">
@@ -1139,12 +1285,17 @@ export function JourneyPlannerView({
                       )}
                     </div>
 
-                    <div className="text-right">
-                      <div className="font-bold text-white text-[17px]">{route.fare}</div>
+                    <div className="text-right shrink-0">
+                      <div className="font-extrabold text-cyan-400 text-[17px]">{route.fare}</div>
                       {route.smartCardFare && (
                         <div className="text-[10px] text-slate-400 font-mono">
                           Smart Card: {route.smartCardFare}
                         </div>
+                      )}
+                      {route.requiresMultipleTickets && (
+                        <span className="inline-block mt-0.5 px-1.5 py-0.2 rounded bg-amber-500/10 border border-amber-500/30 text-[9px] font-bold text-amber-300">
+                          2 Tickets
+                        </span>
                       )}
                     </div>
                   </div>

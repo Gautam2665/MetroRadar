@@ -282,6 +282,8 @@ function JourneyPlannerContent() {
             durationSeconds: c.durationSeconds,
             fare: fareDisplay,
             smartCardFare: smartCardDisplay,
+            fareBreakdown: c.fareBreakdown,
+            requiresMultipleTickets: c.requiresMultipleTickets,
             distance: "",
             interchanges: c.transfers ?? 0,
             walkDistance: `${c.walkingDistanceMeters ?? 350}m`,
@@ -714,10 +716,19 @@ function JourneyPlannerContent() {
                             </span>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <div className="text-base font-bold text-white leading-tight">{cand.fare}</div>
+                        <div className="text-right shrink-0">
+                          <div className="text-base font-extrabold text-cyan-400 leading-tight">
+                            {cand.fare}
+                          </div>
                           {cand.smartCardFare && (
-                            <div className="text-[10px] text-gray-400">Smart Card: {cand.smartCardFare}</div>
+                            <div className="text-[10px] text-gray-400 font-mono">
+                              Smart Card: {cand.smartCardFare}
+                            </div>
+                          )}
+                          {cand.requiresMultipleTickets && (
+                            <span className="inline-block mt-0.5 px-1.5 py-0.2 rounded bg-amber-500/10 border border-amber-500/30 text-[9px] font-bold text-amber-300">
+                              2 Tickets
+                            </span>
                           )}
                         </div>
                       </div>

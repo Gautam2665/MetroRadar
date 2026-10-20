@@ -118,12 +118,11 @@ export function calculateOperatorFare(
   const distKm = Math.max(0.2, distanceMeters / 1000);
 
   if (operator === 'MMOPL') {
-    if (distKm <= 3) return { paperFare: 10, smartCardFare: 9, slab: '0–3 km' };
+    if (distKm <= 3)
+      return { paperFare: 20, smartCardFare: 18, slab: '0–3 km' };
     if (distKm <= 8)
-      return { paperFare: 20, smartCardFare: 18, slab: '3–8 km' };
-    if (distKm <= 12)
-      return { paperFare: 30, smartCardFare: 27, slab: '8–12 km' };
-    return { paperFare: 40, smartCardFare: 36, slab: '>12 km' };
+      return { paperFare: 30, smartCardFare: 27, slab: '3–8 km' };
+    return { paperFare: 40, smartCardFare: 36, slab: '>8 km' };
   }
 
   if (operator === 'MMRCL') {

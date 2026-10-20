@@ -373,10 +373,7 @@ export class RealtimeService {
                 0,
                 Math.min(1, (nowSecs - curr.predDepSecs) / segDuration),
               );
-              currentStatus =
-                progress < 0.08 || progress > 0.92
-                  ? 'STOPPED_AT'
-                  : 'IN_TRANSIT_TO';
+              currentStatus = progress >= 0.95 ? 'STOPPED_AT' : 'IN_TRANSIT_TO';
               break;
             }
           }

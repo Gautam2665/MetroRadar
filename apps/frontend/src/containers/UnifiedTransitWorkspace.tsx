@@ -442,6 +442,8 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
             durationSeconds: c.durationSeconds,
             fare: fareDisplay,
             smartCardFare: smartCardDisplay,
+            fareBreakdown: c.fareBreakdown,
+            requiresMultipleTickets: c.requiresMultipleTickets,
             distance: "",
             interchanges: c.transfers ?? 0,
             walkDistance: `${c.walkingDistanceMeters ?? 350}m`,
