@@ -142,10 +142,11 @@ CORRIDOR_METADATA = {
         "headsigns": {0: "Gundavali", 1: "Kashigaon"},
         # Combined L9 + L7 single corridor: 17 stations (Kashigaon <-> Gundavali)
         # 16 hops * 120s rolling + 15 intermediate dwells (14*35s + 1*45s = 535s) = 1,920s + 535s + 5s = 2,460s = EXACTLY 41 min (41:00)
+        # Weekday: 276 trips -> Peak 6.0 min headway, Off-peak 8.7 min headway
         "default_hop_seconds": 120,
         "default_dwell_seconds": 35,
         "services": {
-            "SVC_WEEKDAY":  {"total": 276, "span": ("05:50:00", "23:00:00"), "peak_ratio": 1.6},
+            "SVC_WEEKDAY":  {"total": 276, "span": ("05:50:00", "23:00:00"), "peak_ratio": 1.52},
             "SVC_SATURDAY": {"total": 223, "span": ("05:50:00", "23:00:00"), "peak_ratio": 1.3},
             "SVC_SUNDAY":   {"total": 205, "span": ("05:50:00", "23:00:00"), "peak_ratio": 1.2}
         }
@@ -153,12 +154,13 @@ CORRIDOR_METADATA = {
     "LINE2A": {
         "headsigns": {0: "Andheri (West)", 1: "Dahisar (East)"},
         # 17 stations: 16 hops * 98s + 15 intermediate dwells (14*35s + 1*45s = 535s) = 1,568s + 535s = 2,103s (~35 min)
+        # Weekday: 276 trips -> Peak 6.0 min headway, Off-peak 8.7 min headway
         "default_hop_seconds": 98,
         "default_dwell_seconds": 35,
         "services": {
-            "SVC_WEEKDAY":  {"total": 289, "span": ("05:50:00", "23:00:00"), "peak_ratio": 1.6},
-            "SVC_SATURDAY": {"total": 231, "span": ("05:50:00", "23:00:00"), "peak_ratio": 1.3},
-            "SVC_SUNDAY":   {"total": 213, "span": ("05:50:00", "23:00:00"), "peak_ratio": 1.2}
+            "SVC_WEEKDAY":  {"total": 276, "span": ("05:50:00", "23:00:00"), "peak_ratio": 1.52},
+            "SVC_SATURDAY": {"total": 223, "span": ("05:50:00", "23:00:00"), "peak_ratio": 1.3},
+            "SVC_SUNDAY":   {"total": 205, "span": ("05:50:00", "23:00:00"), "peak_ratio": 1.2}
         }
     },
     "LINE2B": {

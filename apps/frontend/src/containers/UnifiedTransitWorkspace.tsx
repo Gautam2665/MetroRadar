@@ -536,7 +536,7 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
       (totalMins >= 17 * 60 + 30 && totalMins <= 20 * 60 + 30);
 
     if (isPeak) {
-      return { text: "Headway: ~3.5 - 5 min (Peak)", isClosed: false };
+      return { text: "Headway: ~4 - 6 min (Peak)", isClosed: false };
     }
 
     // Late Evening (20:30 - 23:30) or Early Morning (05:30 - 08:30)

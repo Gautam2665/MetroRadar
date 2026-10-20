@@ -408,7 +408,7 @@ export class RealtimePredictionService {
     earliestDepartureSecs: number,
     nowSecs: number,
   ) {
-    const headwaySecs = 240; // 4 mins default headway
+    const headwaySecs = 360; // 6 mins calibrated default headway
     const actualDepartureSecs = earliestDepartureSecs + headwaySecs;
     let minsFromNow = Math.round((actualDepartureSecs - nowSecs) / 60);
     if (minsFromNow < -30) minsFromNow += 1440;
