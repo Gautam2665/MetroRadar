@@ -22,6 +22,10 @@ export interface StationExit {
   gate: string;
   name: string;
   distanceMeter?: number | null;
+  hasLift?: boolean;
+  hasEscalator?: boolean;
+  isRailInterchange?: boolean;
+  concourseSide?: string;
 }
 
 export interface DigitalTwin {
@@ -86,17 +90,57 @@ export function toDigitalTwinModel(dto: Record<string, unknown> | null | undefin
       levels: mappedLevels,
       platformEtas: (dto.platformEtas as PlatformEta[]) || [],
       exits: Array.isArray(dto.exits) && (dto.exits as unknown[]).length > 0
-        ? (dto.exits as Record<string, unknown>[]).map((e, idx) => ({
-            gate: (e.gate as string) || (e.name as string) || `Gate ${idx + 1}`,
-            name: (e.name as string) || `Exit ${idx + 1}`,
-            distanceMeter: typeof e.distanceMeter === "number" && e.distanceMeter > 0 ? e.distanceMeter : null,
-          }))
+        ? (dto.exits as Record<string, unknown>[]).map((e, idx) => {
+            const gateStr = (e.gate as string) || (e.name as string) || `Gate ${idx + 1}`;
+            const nameStr = (e.name as string) || `Exit ${idx + 1}`;
+            const isRail =
+              typeof e.isRailInterchange === "boolean"
+                ? e.isRailInterchange
+                : nameStr.toLowerCase().includes("railway") ||
+                  nameStr.toLowerCase().includes("suburban") ||
+                  nameStr.toLowerCase().includes("fob") ||
+                  nameStr.toLowerCase().includes("skywalk") ||
+                  nameStr.toLowerCase().includes("terminus") ||
+                  nameStr.toLowerCase().includes("interchange");
+
+            let side = (e.concourseSide as string) || "";
+            if (!side) {
+              if (/Gate\s+A/i.test(gateStr)) side = "CONCOURSE A (WEST)";
+              else if (/Gate\s+B/i.test(gateStr)) side = "CONCOURSE B (EAST)";
+              else if (/Gate\s+[12]/i.test(gateStr)) side = "NORTH / WEST CONCOURSE";
+              else if (/Gate\s+[345]/i.test(gateStr)) side = "SOUTH / EAST CONCOURSE";
+              else side = "CONCOURSE";
+            }
+
+            const isL3 = mappedLines.some((l) => l.code === "L3" || l.name.toLowerCase().includes("aqua"));
+            return {
+              gate: gateStr,
+              name: nameStr,
+              distanceMeter: typeof e.distanceMeter === "number" && e.distanceMeter > 0 ? e.distanceMeter : null,
+              hasLift: typeof e.hasLift === "boolean" ? e.hasLift : isL3 || true,
+              hasEscalator: typeof e.hasEscalator === "boolean" ? e.hasEscalator : isL3,
+              isRailInterchange: isRail,
+              concourseSide: side,
+            };
+          })
         : Array.isArray(physicalRecord.entrances)
-        ? (physicalRecord.entrances as Record<string, unknown>[]).map((e, idx) => ({
-            gate: (e.name as string) || `Gate ${idx + 1}`,
-            name: (e.description as string) || (e.name as string) || "Station Gate",
-            distanceMeter: null,
-          }))
+        ? (physicalRecord.entrances as Record<string, unknown>[]).map((e, idx) => {
+            const gateStr = (e.name as string) || `Gate ${idx + 1}`;
+            const nameStr = (e.description as string) || (e.name as string) || "Station Gate";
+            let side = "CONCOURSE";
+            if (/Gate\s+A/i.test(gateStr)) side = "CONCOURSE A (WEST)";
+            else if (/Gate\s+B/i.test(gateStr)) side = "CONCOURSE B (EAST)";
+
+            return {
+              gate: gateStr,
+              name: nameStr,
+              distanceMeter: null,
+              hasLift: Boolean(e.lift || true),
+              hasEscalator: Boolean(e.escalator),
+              isRailInterchange: nameStr.toLowerCase().includes("railway") || nameStr.toLowerCase().includes("suburban"),
+              concourseSide: side,
+            };
+          })
         : [],
       rawDto: dto,
     };

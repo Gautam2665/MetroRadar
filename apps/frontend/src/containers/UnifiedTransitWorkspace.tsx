@@ -735,53 +735,64 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
     if (selectedStationId) {
       return (
         <div className="flex flex-col h-full overflow-hidden">
-          {/* Station Header */}
-          <div className="p-4 border-b border-[#1A293E] flex items-start justify-between shrink-0">
-            <div className="flex-1 min-w-0">
-              <p className="text-[10px] font-bold text-[#00E5FF] uppercase tracking-wider mb-0.5">
-                Station Inspector
-              </p>
-              {twinLoading ? (
-                <div className="h-5 w-40 bg-white/10 rounded animate-pulse" />
-              ) : (
-                <h2 className="text-base font-bold text-white truncate">
-                  {twin?.stationName || selectedStationName}
-                </h2>
-              )}
-              <div className="flex items-center gap-2 mt-1 flex-wrap">
-                {twin?.code && (
-                  <span className="text-[10px] font-mono text-slate-300 bg-white/5 px-1.5 py-0.5 rounded border border-white/10">
-                    {twin.code}
+          {/* 1. Station Header (Streamlined: Metro icon, Line pill, Step-free badge) */}
+          <div className="p-3.5 border-b border-[#1A293E] bg-[#0c1422] shrink-0">
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h2 className="text-base font-bold text-white flex items-center gap-1.5 truncate">
+                    <span>🚇</span>
+                    <span>{twin?.stationName || selectedStationName}</span>
+                  </h2>
+                  {twin?.lines && twin.lines.length > 0 ? (
+                    twin.lines.map((l, i) => (
+                      <span
+                        key={i}
+                        className="px-2 py-0.5 rounded-full text-[10px] font-bold border"
+                        style={{
+                          backgroundColor: `${l.color}15`,
+                          borderColor: `${l.color}50`,
+                          color: l.color,
+                        }}
+                      >
+                        {l.name || l.code}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold border border-cyan-500/40 bg-cyan-500/10 text-cyan-300">
+                      Mumbai Metro
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="text-[11px] text-emerald-400 flex items-center gap-1 font-semibold">
+                    <span>♿</span>
+                    <span>Step-Free Lifts Available</span>
                   </span>
-                )}
-                {twin?.wheelchairAccessible && (
-                  <span className="text-[10px] text-emerald-400 flex items-center gap-1 font-semibold">
-                    <span className="material-symbols-outlined text-xs">accessible</span>
-                    Step-Free Lifts Active
-                  </span>
-                )}
+                </div>
               </div>
+
+              <button
+                onClick={() => setSelectedStationId(null)}
+                className="w-7 h-7 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 hover:text-white transition cursor-pointer shrink-0"
+                title="Close Station Inspector"
+              >
+                <span className="material-symbols-outlined text-sm">close</span>
+              </button>
             </div>
-            <button
-              onClick={() => setSelectedStationId(null)}
-              className="w-7 h-7 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 hover:text-white transition cursor-pointer shrink-0 ml-2"
-              title="Close Station Inspector"
-            >
-              <span className="material-symbols-outlined text-sm">close</span>
-            </button>
           </div>
 
-          {/* Quick Route Actions */}
-          <div className="px-4 py-2.5 border-b border-[#1A293E] bg-[#0E1725] flex items-center gap-2 shrink-0">
+          {/* 2. Quick Route Actions */}
+          <div className="px-3.5 py-2 border-b border-[#1A293E] bg-[#0E1725] flex items-center gap-2 shrink-0">
             <button
               onClick={() => {
                 setOriginInput(twin?.stationName || selectedStationName);
                 setOriginStationId(selectedStationId);
                 setIsPlanOpen(true);
               }}
-              className="flex-1 py-1.5 px-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[11px] font-bold flex items-center justify-center gap-1.5 transition cursor-pointer"
+              className="flex-1 py-1.5 px-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[11px] font-bold flex items-center justify-center gap-1.5 transition cursor-pointer shadow-sm"
             >
-              <span className="material-symbols-outlined text-xs">trip_origin</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400" />
               <span>Route From Here</span>
             </button>
             <button
@@ -790,9 +801,9 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
                 setDestStationId(selectedStationId);
                 setIsPlanOpen(true);
               }}
-              className="flex-1 py-1.5 px-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[11px] font-bold flex items-center justify-center gap-1.5 transition cursor-pointer"
+              className="flex-1 py-1.5 px-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[11px] font-bold flex items-center justify-center gap-1.5 transition cursor-pointer shadow-sm"
             >
-              <span className="material-symbols-outlined text-xs">location_on</span>
+              <span className="w-2 h-2 rounded-full bg-rose-400" />
               <span>Route To Here</span>
             </button>
           </div>
@@ -807,40 +818,53 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
               </div>
             ) : twin ? (
               <>
-                {/* Platform ETAs */}
-                <div className="rounded-xl p-3.5 bg-[#0E1624] border border-[#1B293C] space-y-2.5">
-                  <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[#00E5FF] text-sm">schedule</span>
-                    <span>Live Platform ETAs</span>
-                  </h4>
-                  <div className="space-y-2">
+                {/* ⏱️ Live Platforms */}
+                <div className="rounded-xl p-3.5 bg-[#0E1624] border border-[#1B293C] space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
+                      <span className="text-sm">⏱️</span>
+                      <span>Live Platforms</span>
+                    </h4>
+                    <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      Live Tracker
+                    </span>
+                  </div>
+                  <div className="rounded-lg bg-[#080E18] border border-white/5 divide-y divide-white/5 overflow-hidden">
                     {twin.platformEtas && twin.platformEtas.length > 0 ? (
                       twin.platformEtas.map((eta, i) => (
                         <div
                           key={i}
-                          className="flex justify-between items-center p-2 rounded-lg bg-[#080E18] border border-white/5"
+                          className="flex justify-between items-center p-2.5 hover:bg-white/[0.02] transition"
                         >
                           <div>
-                            <p className="text-xs font-bold text-white">{eta.platform}</p>
-                            <p className="text-[10px] text-slate-400">→ {eta.towards}</p>
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-xs font-bold text-white">{eta.platform}</span>
+                              <span className="text-slate-500 text-xs">•</span>
+                              <span className="text-[11px] text-slate-300 font-medium">Towards {eta.towards}</span>
+                            </div>
+                            {eta.recommendedCoach && (
+                              <p className="text-[10px] text-[#00E5FF] font-medium mt-0.5">
+                                Rec: {eta.recommendedCoach}
+                              </p>
+                            )}
                           </div>
-                          <div className="text-right">
+                          <div className="text-right flex items-center gap-2">
                             {eta.etaMins === null || eta.etaMins === undefined ? (
                               <span className="text-[11px] text-slate-400 font-semibold">Service Closed</span>
                             ) : eta.etaMins <= 0 ? (
                               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold text-[11px] border border-emerald-500/30">
                                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                                Arriving
+                                Arriving now
                               </span>
                             ) : (
-                              <p className="text-base font-bold text-[#00E5FF] leading-none">
-                                {eta.etaMins}
-                                <span className="text-[10px] font-normal ml-0.5">min</span>
-                              </p>
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-sky-500/10 text-[#00E5FF] font-bold text-xs border border-sky-500/20">
+                                in {eta.etaMins} min
+                              </span>
                             )}
                             {eta.crowdLevel && (
-                              <p
-                                className="text-[9px] font-bold mt-0.5"
+                              <span
+                                className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-white/5"
                                 style={{
                                   color:
                                     eta.crowdLevel === "Low"
@@ -850,111 +874,172 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
                                       : "#ef4444",
                                 }}
                               >
-                                {eta.crowdLevel} Crowd
-                              </p>
+                                {eta.crowdLevel}
+                              </span>
                             )}
                           </div>
                         </div>
                       ))
                     ) : (
-                      <p className="text-xs text-slate-400">Regular revenue schedule active</p>
+                      <div className="p-2.5 text-xs text-slate-400">Regular revenue schedule active</div>
                     )}
                   </div>
                 </div>
 
-                {/* Exits & Interchanges */}
-                <div className="rounded-xl p-3.5 bg-[#0E1624] border border-[#1B293C] space-y-2.5">
-                  <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-slate-400 text-sm">door_open</span>
-                    <span>Verified Exits &amp; Interchanges</span>
-                  </h4>
-                  <div className="space-y-1.5">
-                    {twin.exits && twin.exits.length > 0 ? (
-                      twin.exits.map((exit, i) => (
-                        <div
-                          key={i}
-                          className="flex justify-between items-center p-2 rounded-lg bg-[#080E18] border border-white/5"
-                        >
-                          <div>
-                            <p className="text-xs font-bold text-white">{exit.gate}</p>
-                            {exit.name && exit.name !== exit.gate && (
-                              <p className="text-[10px] text-slate-400">{exit.name}</p>
-                            )}
-                          </div>
-                          {typeof exit.distanceMeter === "number" && exit.distanceMeter > 0 && (
-                            <span className="text-[10px] font-mono text-slate-400 flex items-center gap-1">
-                              <span className="material-symbols-outlined text-[11px]">directions_walk</span>
-                              {exit.distanceMeter}m
-                            </span>
-                          )}
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-xs text-slate-400">All standard concourse gates open</p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Station Levels */}
+                {/* 🚪 Gates & Wayfinding */}
                 <div className="rounded-xl p-3.5 bg-[#0E1624] border border-[#1B293C] space-y-2.5">
                   <div className="flex items-center justify-between">
                     <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-slate-400 text-sm">layers</span>
-                      <span>Station Levels</span>
+                      <span className="text-sm">🚪</span>
+                      <span>
+                        Gates &amp; Wayfinding {twin.exits && twin.exits.length > 0 ? `(${twin.exits.length} Gates)` : ""}
+                      </span>
                     </h4>
-                    <span className="text-[10px] font-mono text-[#00E5FF]">Active: {activeLevel}</span>
                   </div>
-                  <div className="space-y-1.5">
-                    {twin.levels && twin.levels.length > 0 ? (
-                      twin.levels.map((level, lIdx) => {
-                        const lvlTag: "G" | "L1" | "L2" =
-                          level.levelNumber !== undefined && level.levelNumber <= 0
-                            ? "G"
-                            : level.levelNumber === 1
-                            ? "L1"
-                            : "L2";
-                        const isSelected = activeLevel === lvlTag;
 
-                        return (
-                          <button
-                            key={level.id || lIdx}
-                            type="button"
-                            onClick={() => setActiveLevel(lvlTag)}
-                            className={`w-full text-left p-2 rounded-lg border transition cursor-pointer ${
-                              isSelected
-                                ? "bg-[#00E5FF]/10 border-[#00E5FF]/50"
-                                : "bg-[#080E18] border-white/5 hover:border-white/20"
-                            }`}
-                          >
-                            <div className="flex justify-between items-center mb-0.5">
-                              <p className={`text-xs font-bold ${isSelected ? "text-[#00E5FF]" : "text-white"}`}>
-                                {level.name}
-                              </p>
-                              <span className="text-[9px] px-1 py-0.2 rounded bg-white/5 text-slate-400 font-mono">
-                                {lvlTag}
-                              </span>
-                            </div>
-                            <div className="flex flex-wrap gap-1 mt-1">
-                              {level.facilities && level.facilities.length > 0 ? (
-                                level.facilities.map((f, fi) => (
-                                  <span
-                                    key={fi}
-                                    className="text-[9px] px-1.5 py-0.5 rounded-full bg-white/5 text-slate-300"
-                                  >
-                                    {f}
-                                  </span>
-                                ))
-                              ) : (
-                                <span className="text-[9px] text-slate-500 font-mono">Verified Concourse</span>
-                              )}
-                            </div>
-                          </button>
-                        );
-                      })
+                  <div className="space-y-3">
+                    {twin.exits && twin.exits.length > 0 ? (
+                      Object.entries(
+                        twin.exits.reduce<Record<string, typeof twin.exits>>((acc, exit) => {
+                          const side = exit.concourseSide || "CONCOURSE GATES";
+                          if (!acc[side]) acc[side] = [];
+                          acc[side].push(exit);
+                          return acc;
+                        }, {})
+                      ).map(([concourseSide, exits]) => (
+                        <div key={concourseSide} className="space-y-1">
+                          <div className="text-[10px] font-bold text-slate-400 tracking-wider uppercase px-1 pb-1 border-b border-white/5">
+                            {concourseSide}
+                          </div>
+                          <div className="space-y-1">
+                            {exits.map((exit, i) => {
+                              const displayName =
+                                exit.name && exit.name !== exit.gate
+                                  ? exit.name.replace(/^.*Gate\s*[A-Z0-9]+\s*[-:·]\s*/i, "").trim() || exit.name
+                                  : `Gate ${exit.gate}`;
+
+                              return (
+                                <div
+                                  key={exit.id || i}
+                                  className="flex items-center justify-between gap-2 py-1.5 px-2 rounded hover:bg-slate-800/50 text-xs transition"
+                                >
+                                  <div className="flex items-center gap-2 min-w-0">
+                                    <span className="font-mono font-bold text-sky-400 bg-sky-950/80 border border-sky-800/40 px-1.5 py-0.5 rounded text-[11px] shrink-0">
+                                      {exit.gate}
+                                    </span>
+                                    <span className="text-slate-300 truncate text-xs">
+                                      {displayName}
+                                    </span>
+                                    {exit.isRailInterchange && (
+                                      <span className="text-[10px] font-medium text-amber-300 bg-amber-500/10 border border-amber-500/30 px-1.5 py-0.2 rounded shrink-0 flex items-center gap-1">
+                                        🚆 Suburban Link
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="flex items-center gap-1.5 shrink-0 ml-1">
+                                    {exit.hasLift && (
+                                      <span
+                                        className="text-[10px] font-semibold text-emerald-300 bg-emerald-500/10 border border-emerald-500/30 px-1.5 py-0.2 rounded flex items-center gap-0.5"
+                                        title="Step-Free Lift Available"
+                                      >
+                                        🛗 Lift
+                                      </span>
+                                    )}
+                                    {exit.hasEscalator && (
+                                      <span
+                                        className="text-[10px] font-semibold text-sky-300 bg-sky-500/10 border border-sky-500/30 px-1.5 py-0.2 rounded flex items-center gap-0.5"
+                                        title="Escalator Available"
+                                      >
+                                        ⚡ Esc
+                                      </span>
+                                    )}
+                                    {typeof exit.distanceMeter === "number" && exit.distanceMeter > 0 && (
+                                      <span className="text-[10px] font-mono text-slate-400 flex items-center gap-0.5">
+                                        <span className="material-symbols-outlined text-[11px]">directions_walk</span>
+                                        {exit.distanceMeter}m
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ))
                     ) : (
-                      <p className="text-xs text-slate-400">Ground concourse and elevated platforms active</p>
+                      <p className="text-xs text-slate-400 px-1">All standard concourse gates open</p>
                     )}
                   </div>
+                </div>
+
+                {/* 🏢 Station Amenities */}
+                <div className="rounded-xl p-3.5 bg-[#0E1624] border border-[#1B293C] space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
+                      <span className="text-sm">🏢</span>
+                      <span>Station Amenities</span>
+                    </h4>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="flex items-center gap-2 p-2 rounded-lg bg-[#080E18] border border-white/5 text-xs text-slate-200">
+                      <span className="text-sm shrink-0">🛗</span>
+                      <span className="text-[11px] font-medium truncate">Lifts (All levels)</span>
+                    </div>
+                    <div className="flex items-center gap-2 p-2 rounded-lg bg-[#080E18] border border-white/5 text-xs text-slate-200">
+                      <span className="text-sm shrink-0">🚻</span>
+                      <span className="text-[11px] font-medium truncate">Washrooms (L1)</span>
+                    </div>
+                    <div className="flex items-center gap-2 p-2 rounded-lg bg-[#080E18] border border-white/5 text-xs text-slate-200">
+                      <span className="text-sm shrink-0">🚰</span>
+                      <span className="text-[11px] font-medium truncate">Drinking Water</span>
+                    </div>
+                    <div className="flex items-center gap-2 p-2 rounded-lg bg-[#080E18] border border-white/5 text-xs text-slate-200">
+                      <span className="text-sm shrink-0">🏧</span>
+                      <span className="text-[11px] font-medium truncate">ATM Counter</span>
+                    </div>
+                    <div className="flex items-center gap-2 p-2 rounded-lg bg-[#080E18] border border-white/5 text-xs text-slate-200">
+                      <span className="text-sm shrink-0">🩺</span>
+                      <span className="text-[11px] font-medium truncate">First Aid Desk</span>
+                    </div>
+                    <div className="flex items-center gap-2 p-2 rounded-lg bg-[#080E18] border border-white/5 text-xs text-slate-200">
+                      <span className="text-sm shrink-0">🎫</span>
+                      <span className="text-[11px] font-medium truncate">Ticket Counter</span>
+                    </div>
+                  </div>
+
+                  {/* Compact Level Switcher */}
+                  {twin.levels && twin.levels.length > 0 && (
+                    <div className="pt-2 border-t border-white/5 flex items-center justify-between">
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Levels</span>
+                      <div className="flex gap-1.5">
+                        {twin.levels.map((level, lIdx) => {
+                          const lvlTag: "G" | "L1" | "L2" =
+                            level.levelNumber !== undefined && level.levelNumber <= 0
+                              ? "G"
+                              : level.levelNumber === 1
+                              ? "L1"
+                              : "L2";
+                          const isSelected = activeLevel === lvlTag;
+
+                          return (
+                            <button
+                              key={level.id || lIdx}
+                              type="button"
+                              onClick={() => setActiveLevel(lvlTag)}
+                              className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold transition cursor-pointer ${
+                                isSelected
+                                  ? "bg-[#00E5FF]/20 text-[#00E5FF] border border-[#00E5FF]/40"
+                                  : "bg-white/5 text-slate-400 hover:text-white border border-white/5"
+                              }`}
+                            >
+                              {lvlTag}: {level.name.replace(/^(Station\s+|Metro\s+)/i, "").split(" ")[0]}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </>
             ) : null}

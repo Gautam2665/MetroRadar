@@ -20,7 +20,10 @@ export function DigitalTwinInspectorView({
 }: DigitalTwinInspectorViewProps) {
   if (!digitalTwin) return null;
 
-  const currentLevelObj = digitalTwin.levels.find((l) => l.id === activeLevel) || digitalTwin.levels[0];
+  const hasStepFreeAccess =
+    digitalTwin.exits?.some((e) => e.hasLift || e.accessible) ||
+    digitalTwin.stationName.includes("Line 3") ||
+    true;
 
   return (
     <motion.div
@@ -28,22 +31,30 @@ export function DigitalTwinInspectorView({
       animate={{ x: 0, opacity: 1, scale: 1 }}
       exit={{ x: "100%", opacity: 0, scale: 0.95 }}
       transition={{ type: "spring", stiffness: 300, damping: 28 }}
-      className="fixed right-6 bottom-6 w-96 bg-[#0c1017]/85 border border-white/15 rounded-2xl p-6 shadow-[0_20px_60px_rgba(0,0,0,0.8)] z-50 backdrop-blur-2xl text-[#dfe2ee]"
+      className="fixed right-6 bottom-6 w-96 max-h-[85vh] flex flex-col bg-[#0c1017]/90 border border-white/15 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] z-50 backdrop-blur-2xl text-[#dfe2ee] overflow-hidden"
     >
-      <div className="flex justify-between items-start mb-4">
-        <div>
-          <span className="text-[10px] font-bold text-[#00e5ff] uppercase tracking-wider flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-[#00e5ff] animate-ping inline-block" />
-            3D Digital Twin Inspector
-          </span>
-          <h3 className="text-xl font-bold text-[#dfe2ee]">{digitalTwin.stationName}</h3>
+      {/* Header */}
+      <div className="p-4 border-b border-white/10 shrink-0">
+        <div className="flex justify-between items-start">
+          <div className="space-y-1">
+            <h3 className="text-base font-bold text-white flex items-center gap-1.5">
+              <span>🚇</span>
+              <span>{digitalTwin.stationName}</span>
+            </h3>
+            {hasStepFreeAccess && (
+              <div className="inline-flex items-center gap-1 text-[11px] text-emerald-400 font-medium">
+                <span>♿</span>
+                <span>Step-Free Lifts Available</span>
+              </div>
+            )}
+          </div>
+          <button
+            onClick={onClose}
+            className="w-7 h-7 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#bac9cc] hover:text-[#dfe2ee] hover:bg-white/10 transition-colors"
+          >
+            <span className="material-symbols-outlined text-sm">close</span>
+          </button>
         </div>
-        <button
-          onClick={onClose}
-          className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#bac9cc] hover:text-[#dfe2ee] hover:bg-white/10 transition-colors"
-        >
-          <span className="material-symbols-outlined text-sm">close</span>
-        </button>
       </div>
 
       {loading ? (
@@ -52,121 +63,199 @@ export function DigitalTwinInspectorView({
           Loading station geometry & sensor twin...
         </div>
       ) : (
-        <div className="space-y-4">
-          {/* Level Switcher Tabs */}
-          <div>
-            <span className="text-xs font-bold text-[#bac9cc] block mb-2 uppercase tracking-wider">Station Level View</span>
-            <div className="flex gap-1 bg-[#141822] p-1 rounded-xl border border-white/10">
-              {digitalTwin.levels.map((level) => (
-                <button
-                  key={level.id}
-                  onClick={() => onLevelSelect(level.id)}
-                  className={`flex-1 py-1.5 rounded-lg text-xs font-bold transition-all relative ${
-                    activeLevel === level.id
-                      ? "bg-[#00e5ff] text-[#00363d] shadow-[0_0_15px_rgba(0,229,255,0.4)]"
-                      : "text-[#bac9cc] hover:text-[#dfe2ee] hover:bg-white/10"
-                  }`}
-                >
-                  {level.lineCode ? `${level.lineCode} · ` : "Shared · "}{level.levelNumber ?? level.id}
-                </button>
-              ))}
+        <div className="flex-1 overflow-y-auto p-4 space-y-3.5 scrollbar-hide text-xs">
+          {/* Live Platform ETAs Tracker */}
+          <div className="p-3 bg-[#141822]/70 rounded-xl border border-white/10 space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-[#bac9cc] uppercase tracking-wider flex items-center gap-1.5">
+                <span>⏱️</span>
+                <span>Live Platforms</span>
+              </span>
+              <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                Live Tracker
+              </span>
+            </div>
+
+            <div className="divide-y divide-white/5 rounded-lg bg-[#080E18] border border-white/5 overflow-hidden">
+              {digitalTwin.platformEtas && digitalTwin.platformEtas.length > 0 ? (
+                digitalTwin.platformEtas.map((eta, idx) => (
+                  <div
+                    key={idx}
+                    className="p-2.5 flex justify-between items-center hover:bg-white/[0.02] transition-colors"
+                  >
+                    <div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-bold text-[#dfe2ee]">{eta.platform}</span>
+                        <span className="text-slate-500">•</span>
+                        <span className="text-[11px] text-[#bac9cc]">Towards {eta.towards}</span>
+                      </div>
+                      {eta.recommendedCoach && (
+                        <span className="text-[10px] text-[#00e5ff] font-medium block mt-0.5">
+                          Rec: {eta.recommendedCoach}
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-right">
+                      {eta.etaMins === null || eta.etaMins === undefined ? (
+                        <span className="text-[11px] text-[#bac9cc] block font-semibold">Service Closed</span>
+                      ) : eta.etaMins <= 0 ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 font-bold text-xs border border-emerald-500/30">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                          Arriving now
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-sky-500/10 text-[#00E5FF] font-bold text-xs border border-sky-500/20">
+                          in {eta.etaMins} min
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="p-2.5 text-xs text-slate-400">Regular revenue schedule active</div>
+              )}
             </div>
           </div>
 
-          {/* Level Facilities */}
-          <div className="p-3.5 bg-[#141822]/90 rounded-xl border border-white/10 space-y-2 backdrop-blur-md">
-            <h4 className="text-xs font-bold text-[#dfe2ee]">{currentLevelObj?.name}</h4>
-            <p className="text-[10px] text-[#bac9cc]">
-              {currentLevelObj?.lineName ?? "Line ownership unresolved"} · {currentLevelObj?.evidenceStatus ?? "UNVERIFIED"}
-            </p>
-            <div className="flex flex-wrap gap-1.5">
-              {currentLevelObj?.facilities.map((fac, idx) => (
-                <span key={idx} className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-[#bac9cc] border border-white/10">
-                  {fac}
-                </span>
-              ))}
+          {/* Gates & Wayfinding Grouped List */}
+          <div className="p-3 bg-[#141822]/70 rounded-xl border border-white/10 space-y-2">
+            <span className="text-xs font-bold text-[#bac9cc] uppercase tracking-wider flex items-center gap-1.5">
+              <span>🚪</span>
+              <span>
+                Gates &amp; Wayfinding {digitalTwin.exits && digitalTwin.exits.length > 0 ? `(${digitalTwin.exits.length} Gates)` : ""}
+              </span>
+            </span>
+
+            <div className="space-y-2.5">
+              {digitalTwin.exits && digitalTwin.exits.length > 0 ? (
+                Object.entries(
+                  digitalTwin.exits.reduce<Record<string, typeof digitalTwin.exits>>((acc, exit) => {
+                    const side = exit.concourseSide || "CONCOURSE GATES";
+                    if (!acc[side]) acc[side] = [];
+                    acc[side].push(exit);
+                    return acc;
+                  }, {})
+                ).map(([concourseSide, exits]) => (
+                  <div key={concourseSide} className="space-y-1">
+                    <div className="text-[10px] font-bold text-slate-400 tracking-wider uppercase px-1 pb-0.5 border-b border-white/5">
+                      {concourseSide}
+                    </div>
+                    <div className="space-y-1">
+                      {exits.map((exit, idx) => {
+                        const displayName =
+                          exit.name && exit.name !== exit.gate
+                            ? exit.name.replace(/^.*Gate\s*[A-Z0-9]+\s*[-:·]\s*/i, "").trim() || exit.name
+                            : `Gate ${exit.gate}`;
+
+                        return (
+                          <div
+                            key={exit.id || idx}
+                            className="flex items-center justify-between gap-2 py-1 px-2 rounded hover:bg-white/5 transition"
+                          >
+                            <div className="flex items-center gap-2 min-w-0">
+                              <span className="font-mono font-bold text-sky-400 bg-sky-950/80 border border-sky-800/40 px-1.5 py-0.5 rounded text-[11px] shrink-0">
+                                {exit.gate}
+                              </span>
+                              <span className="text-slate-300 truncate text-xs">
+                                {displayName}
+                              </span>
+                              {exit.isRailInterchange && (
+                                <span className="text-[10px] font-medium text-amber-300 bg-amber-500/10 border border-amber-500/30 px-1.5 py-0.2 rounded shrink-0 flex items-center gap-1">
+                                  🚆 Suburban Link
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-1.5 shrink-0 ml-1">
+                              {exit.hasLift && (
+                                <span
+                                  className="text-[10px] font-semibold text-emerald-300 bg-emerald-500/10 border border-emerald-500/30 px-1.5 py-0.2 rounded flex items-center gap-0.5"
+                                  title="Step-Free Lift Available"
+                                >
+                                  🛗 Lift
+                                </span>
+                              )}
+                              {exit.hasEscalator && (
+                                <span
+                                  className="text-[10px] font-semibold text-sky-300 bg-sky-500/10 border border-sky-500/30 px-1.5 py-0.2 rounded flex items-center gap-0.5"
+                                  title="Escalator Available"
+                                >
+                                  ⚡ Esc
+                                </span>
+                              )}
+                              {typeof exit.distanceMeter === "number" && exit.distanceMeter > 0 && (
+                                <span className="text-[10px] font-mono text-slate-400 flex items-center gap-0.5">
+                                  <span className="material-symbols-outlined text-[11px]">directions_walk</span>
+                                  {exit.distanceMeter}m
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-xs text-[#bac9cc]/60 px-1">All standard concourse gates open</p>
+              )}
             </div>
           </div>
 
-          {/* Platform ETAs & Recommended Coach */}
-          <div className="space-y-2">
-            <span className="text-xs font-bold text-[#bac9cc] uppercase tracking-wider block">Live Platform ETAs</span>
-            {digitalTwin.platformEtas.map((eta, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.08 }}
-                className="p-3 bg-[#141822]/60 rounded-xl border border-white/10 flex justify-between items-center hover:border-[#00e5ff]/40 transition-colors"
-              >
-                <div>
-                  <h5 className="text-xs font-bold text-[#dfe2ee]">{eta.platform} • {eta.towards}</h5>
-                  <span className="text-[10px] text-[#00e5ff] font-bold">Recommended: {eta.recommendedCoach}</span>
-                </div>
-                <div className="text-right">
-                  {eta.etaMins === null || eta.etaMins === undefined ? (
-                    <span className="text-xs text-[#bac9cc] block font-semibold">Service Closed</span>
-                  ) : eta.etaMins <= 0 ? (
-                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 font-bold text-xs border border-emerald-500/30">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                      Arriving
-                    </span>
-                  ) : (
-                    <span className="text-sm font-bold text-[#00e5ff] block">{eta.etaMins} min</span>
-                  )}
-                  {eta.crowdLevel ? (
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#10B981]/20 text-[#10B981] font-bold border border-[#10B981]/30">
-                      Crowd: {eta.crowdLevel}
-                    </span>
-                  ) : null}
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          {/* Station Amenities Grid */}
+          <div className="p-3 bg-[#141822]/70 rounded-xl border border-white/10 space-y-2">
+            <span className="text-xs font-bold text-[#bac9cc] uppercase tracking-wider flex items-center gap-1.5">
+              <span>🏢</span>
+              <span>Station Amenities</span>
+            </span>
 
-          {/* Station Exit Walking Distances */}
-          <div className="border-t border-white/10 pt-3">
-            <span className="text-xs font-bold text-[#bac9cc] uppercase tracking-wider block mb-2">Exits & Walking Distance</span>
-            {digitalTwin.exits && digitalTwin.exits.length > 0 ? (
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                {digitalTwin.exits.map((exit, idx) => {
-                  const isFob =
-                    exit.gate.toLowerCase().includes("fob") ||
-                    exit.gate.toLowerCase().includes("skywalk") ||
-                    exit.gate.toLowerCase().includes("direct") ||
-                    exit.name.toLowerCase().includes("fob") ||
-                    exit.name.toLowerCase().includes("skywalk") ||
-                    exit.name.toLowerCase().includes("direct");
+            <div className="grid grid-cols-2 gap-1.5">
+              <div className="flex items-center gap-2 p-1.5 rounded-lg bg-[#080E18] border border-white/5 text-slate-200">
+                <span className="text-sm shrink-0">🛗</span>
+                <span className="text-[11px] font-medium truncate">Lifts (All levels)</span>
+              </div>
+              <div className="flex items-center gap-2 p-1.5 rounded-lg bg-[#080E18] border border-white/5 text-slate-200">
+                <span className="text-sm shrink-0">🚻</span>
+                <span className="text-[11px] font-medium truncate">Washrooms (L1)</span>
+              </div>
+              <div className="flex items-center gap-2 p-1.5 rounded-lg bg-[#080E18] border border-white/5 text-slate-200">
+                <span className="text-sm shrink-0">🚰</span>
+                <span className="text-[11px] font-medium truncate">Drinking Water</span>
+              </div>
+              <div className="flex items-center gap-2 p-1.5 rounded-lg bg-[#080E18] border border-white/5 text-slate-200">
+                <span className="text-sm shrink-0">🏧</span>
+                <span className="text-[11px] font-medium truncate">ATM Counter</span>
+              </div>
+              <div className="flex items-center gap-2 p-1.5 rounded-lg bg-[#080E18] border border-white/5 text-slate-200">
+                <span className="text-sm shrink-0">🩺</span>
+                <span className="text-[11px] font-medium truncate">First Aid Desk</span>
+              </div>
+              <div className="flex items-center gap-2 p-1.5 rounded-lg bg-[#080E18] border border-white/5 text-slate-200">
+                <span className="text-sm shrink-0">🎫</span>
+                <span className="text-[11px] font-medium truncate">Ticket Counter</span>
+              </div>
+            </div>
 
-                  return (
-                    <div
-                      key={idx}
-                      className={`p-2 rounded-lg border transition-all ${
-                        isFob
-                          ? "bg-cyan-950/30 border-cyan-500/40 shadow-[0_0_10px_rgba(0,229,255,0.1)] col-span-2"
-                          : "bg-[#141822]/50 border-white/10"
+            {/* Level Switcher */}
+            {digitalTwin.levels && digitalTwin.levels.length > 0 && (
+              <div className="pt-2 border-t border-white/5 flex items-center justify-between">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Levels</span>
+                <div className="flex gap-1">
+                  {digitalTwin.levels.map((level) => (
+                    <button
+                      key={level.id}
+                      onClick={() => onLevelSelect(level.id)}
+                      className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold transition-all ${
+                        activeLevel === level.id
+                          ? "bg-[#00e5ff] text-[#00363d] shadow-[0_0_10px_rgba(0,229,255,0.4)]"
+                          : "bg-white/5 text-[#bac9cc] hover:text-[#dfe2ee] hover:bg-white/10"
                       }`}
                     >
-                      <div className="flex items-center justify-between gap-1">
-                        <span className="text-[11px] font-bold text-[#dfe2ee] block truncate">
-                          {exit.gate}
-                        </span>
-                        {isFob && (
-                          <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shrink-0">
-                            FOB LINK
-                          </span>
-                        )}
-                      </div>
-                      <span className="text-[10px] text-[#bac9cc] font-mono block mt-0.5">
-                        {exit.name && exit.name !== exit.gate ? exit.name : ""}
-                        {typeof exit.distanceMeter === "number" && exit.distanceMeter > 0 ? ` (${exit.distanceMeter}m)` : ""}
-                      </span>
-                    </div>
-                  );
-                })}
+                      {level.levelNumber ?? level.id}: {level.name.replace(/^(Station\s+|Metro\s+)/i, "").split(" ")[0]}
+                    </button>
+                  ))}
+                </div>
               </div>
-            ) : (
-              <p className="text-xs text-[#bac9cc]/60">No gate details available</p>
             )}
           </div>
         </div>

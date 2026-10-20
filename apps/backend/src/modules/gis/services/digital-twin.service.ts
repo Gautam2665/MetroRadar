@@ -158,6 +158,16 @@ export class DigitalTwinService {
       orderBy: { platformNumber: 'asc' },
     });
 
+    const SUPPRESSED_AMENITIES = new Set([
+      'Tactile Paving',
+      'Pedestrian Walkway',
+      'Station Entry Security Screening',
+      'Security Screening',
+      'Station Entry Gates',
+      'Automated Fare Collection (AFC) Turnstiles',
+      'ATM Kiosk',
+    ]);
+
     // Structure child entities under physical and services namespaces
     const levelsMapped = station.levels.map((lvl) => {
       const amenitiesList =
@@ -166,28 +176,27 @@ export class DigitalTwinService {
       if (lvl.type === 'PLATFORM') {
         defaultFacilities.push(
           'Platform Screen Doors',
-          'Accessible Boarding',
+          'Step-Free Lifts',
           'RO Drinking Water',
           'Emergency Help Point',
         );
       } else if (lvl.type === 'CONCOURSE') {
         defaultFacilities.push(
-          'Ticket Office & Customer Care',
+          'Ticket Counter & Customer Care',
           'Automated Fare Gates',
-          'Accessible Restrooms',
-          'ATM Kiosk',
-          'Escalators & Elevators',
+          'Accessible Washrooms',
+          'Bank ATM',
+          'Step-Free Lifts',
+          'First Aid Desk',
         );
       } else if (lvl.type === 'STREET') {
-        defaultFacilities.push(
-          'Station Entry Gates',
-          'Security Screening',
-          'Tactile Paving',
-          'Pedestrian Walkway',
-        );
+        defaultFacilities.push('Step-Free Lifts', 'Covered Walkway');
       }
-      const facilities = Array.from(
+      const rawFacilities = Array.from(
         new Set([...amenitiesList, ...defaultFacilities]),
+      );
+      const facilities = rawFacilities.filter(
+        (f) => !SUPPRESSED_AMENITIES.has(f),
       );
 
       return {
@@ -278,12 +287,21 @@ export class DigitalTwinService {
     }));
 
     // Exits & Interchanges mapping (real Wayfinder gates & road connectivity, no synthetic walking distance)
+    const isLine3 =
+      station.levels.some((l) => l.line?.code === 'L3') ||
+      (station.code || '').includes('L3') ||
+      station.name.includes('Line 3');
+
     const exitsMapped: Array<{
       id: string;
       gate: string;
       name: string;
       distanceMeter: number | null;
       type: 'ENTRANCE' | 'INTERCHANGE';
+      hasLift: boolean;
+      hasEscalator: boolean;
+      isRailInterchange: boolean;
+      concourseSide: string;
     }> = [];
 
     station.entrances.forEach((ent, idx) => {
@@ -304,12 +322,35 @@ export class DigitalTwinService {
           .trim();
       }
 
+      const isRailInterchange =
+        roadOrDesc.toLowerCase().includes('railway') ||
+        roadOrDesc.toLowerCase().includes('suburban') ||
+        roadOrDesc.toLowerCase().includes('fob') ||
+        roadOrDesc.toLowerCase().includes('skywalk') ||
+        roadOrDesc.toLowerCase().includes('terminus') ||
+        roadOrDesc.toLowerCase().includes('interchange');
+
+      let concourseSide = 'CONCOURSE';
+      if (/Gate\s+A/i.test(gate)) {
+        concourseSide = 'CONCOURSE A (WEST)';
+      } else if (/Gate\s+B/i.test(gate)) {
+        concourseSide = 'CONCOURSE B (EAST)';
+      } else if (/Gate\s+[12]/i.test(gate)) {
+        concourseSide = 'NORTH / WEST CONCOURSE';
+      } else if (/Gate\s+[345]/i.test(gate)) {
+        concourseSide = 'SOUTH / EAST CONCOURSE';
+      }
+
       exitsMapped.push({
         id: ent.id,
         gate,
         name: roadOrDesc,
         distanceMeter: null,
         type: 'ENTRANCE',
+        hasLift: ent.lift || isLine3 || ent.accessible,
+        hasEscalator: ent.escalator || isLine3,
+        isRailInterchange,
+        concourseSide,
       });
     });
 
@@ -355,6 +396,10 @@ export class DigitalTwinService {
             name: `To ${toStn.name} (${lineName})`,
             distanceMeter: ic.walkingDistance || 180,
             type: 'INTERCHANGE',
+            hasLift: true,
+            hasEscalator: true,
+            isRailInterchange: true,
+            concourseSide: 'INTERCHANGE LINK',
           });
         }
       }
