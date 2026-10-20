@@ -204,6 +204,8 @@ export class RealtimePredictionService {
     realtimeTimeStr: string;
     delaySeconds: number;
     actualDepartureSecs: number;
+    isArriving?: boolean;
+    isBoarding?: boolean;
   }> {
     try {
       const isUuid =
@@ -391,6 +393,8 @@ export class RealtimePredictionService {
         realtimeTimeStr,
         delaySeconds,
         actualDepartureSecs,
+        isArriving: false,
+        isBoarding: false,
       };
     } catch (err) {
       this.logger.warn(
@@ -415,6 +419,8 @@ export class RealtimePredictionService {
       realtimeTimeStr,
       delaySeconds: 0,
       actualDepartureSecs,
+      isArriving: false,
+      isBoarding: false,
     };
   }
 
