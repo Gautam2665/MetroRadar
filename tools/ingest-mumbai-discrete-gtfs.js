@@ -225,7 +225,10 @@ async function main() {
       await prisma.stopTime.deleteMany({ where: { tripId: { in: chunk } } });
       await prisma.frequency.deleteMany({ where: { tripId: { in: chunk } } });
     }
-    await prisma.trip.deleteMany({ where: { id: { in: tIds } } });
+    for (let i = 0; i < tIds.length; i += 500) {
+      const chunk = tIds.slice(i, i + 500);
+      await prisma.trip.deleteMany({ where: { id: { in: chunk } } });
+    }
   }
 
   // Station sequences
