@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { DatabaseService } from '../../../database/database.service';
 import { GeojsonService, GeoJsonRawResult } from './geojson.service';
-import { LandmarkRegistry } from './landmark-registry';
 
 interface StationLineProperty {
   code?: string;
@@ -216,77 +215,6 @@ export class SearchService {
         }
       } catch {
         // Fallback gracefully
-      }
-
-      const matchingLandmarks = LandmarkRegistry.search(query);
-      for (const lm of matchingLandmarks) {
-        if (
-          features.some((f: any) =>
-            f.properties?.name?.toLowerCase().includes(lm.name.toLowerCase()),
-          )
-        ) {
-          continue;
-        }
-        const stationRecord = await this.prisma.station.findFirst({
-          where: { code: lm.connectedStationCode, isActive: true },
-          select: { id: true, systemId: true, city: true },
-        });
-
-        features.push({
-          type: 'Feature',
-          id: lm.id,
-          geometry: {
-            type: 'Point',
-            coordinates: lm.coordinates,
-          },
-          properties: {
-            id: lm.id,
-            stationId: stationRecord?.id,
-            landmarkId: lm.id,
-            code: lm.connectedStationCode,
-            name: lm.name,
-            displayName: `${lm.name} (${lm.hasDirectFob ? 'Direct FOB to ' : ''}${lm.connectedStationName})`,
-            address:
-              lm.corridorNote || `${lm.connectedStationName} precinct, Mumbai`,
-            type: 'poi',
-            isLandmark: true,
-            city: stationRecord?.city || 'mumbai',
-            systemId: stationRecord?.systemId || '',
-            lines: [
-              {
-                code: lm.connectedLineCode,
-                name: lm.connectedLineName,
-                color: lm.connectedLineColor,
-              },
-            ],
-            lineColor: lm.connectedLineColor,
-            nearestStation: {
-              id: stationRecord?.id,
-              name: lm.connectedStationName,
-              lineName: lm.connectedLineName,
-              lineColor: lm.connectedLineColor,
-              walkDistance: lm.hasDirectFob
-                ? 'Direct FOB'
-                : lm.walkDistanceMeters
-                  ? `${lm.walkDistanceMeters}m`
-                  : undefined,
-            },
-            landmarkDetails: {
-              landmarkId: lm.id,
-              name: lm.name,
-              category: lm.category,
-              connectedStationCode: lm.connectedStationCode,
-              connectedStationName: lm.connectedStationName,
-              hasDirectFob: lm.hasDirectFob,
-              hasDirectAccess: lm.hasDirectAccess,
-              directFobName: lm.directFobName,
-              walkDistanceMeters: lm.walkDistanceMeters,
-              walkTimeSeconds: lm.walkTimeSeconds,
-              corridorNote: lm.corridorNote,
-              indoorLevel: lm.indoorLevel,
-            },
-          },
-        });
       }
     }
 

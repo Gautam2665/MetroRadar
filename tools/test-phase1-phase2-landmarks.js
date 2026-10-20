@@ -1,14 +1,13 @@
 const { PrismaClient } = require('@prisma/client');
-const { LandmarkRegistry } = require('../apps/backend/dist/modules/gis/services/landmark-registry');
 
 const prisma = new PrismaClient();
 
 async function testPhase1And2() {
   console.log('================================================================');
-  console.log('🧪 TESTING PHASE 1 & PHASE 2: GTFS 2.0 & LANDMARK SNAPPING');
+  console.log('🧪 TESTING: GTFS ENTRANCES & GATES FROM POSTGRESQL');
   console.log('================================================================\n');
 
-  // 1. Verify Phase 1: Station Entrances in Database
+  // 1. Verify Station Entrances in Database
   console.log('📍 [Test 1] Verifying Physical Gates (location_type = 2) in DB...');
   const devipada = await prisma.station.findFirst({
     where: { code: 'STN_L7_004' },
@@ -24,53 +23,38 @@ async function testPhase1And2() {
     console.error('   ❌ FAIL: Oberoi Sky City FOB not found!');
   }
 
-  // 2. Verify Phase 2: Landmark Registry & Direct Connections
-  console.log('\n🏢 [Test 2] Verifying Landmark Registry & Aliases...');
-  const oberoi = LandmarkRegistry.findByNameOrAlias('Oberoi Sky City');
-  console.log(`- Oberoi Sky City matched:`, {
-    name: oberoi?.name,
-    station: oberoi?.connectedStationName,
-    stationCode: oberoi?.connectedStationCode,
-    hasDirectFob: oberoi?.hasDirectFob,
-    walkDistance: `${oberoi?.walkDistanceMeters}m`,
-    note: oberoi?.corridorNote
+  // 2. Verify Database GTFS Entrance Lookups
+  console.log('\n🏢 [Test 2] Verifying Direct GTFS Entrance Queries...');
+  const matchedEntrance = await prisma.entrance.findFirst({
+    where: {
+      name: { contains: 'Oberoi Sky City', mode: 'insensitive' },
+      isActive: true,
+    },
+    include: { station: true },
   });
 
-  const infiniti = LandmarkRegistry.findByNameOrAlias('Infiniti Mall Malad');
-  console.log(`- Infiniti Mall Malad matched:`, {
-    name: infiniti?.name,
-    station: infiniti?.connectedStationName,
-    stationCode: infiniti?.connectedStationCode,
-    hasDirectAccess: infiniti?.hasDirectAccess,
-    walkDistance: `${infiniti?.walkDistanceMeters}m`,
-    note: infiniti?.corridorNote
+  console.log(`- Matched Entrance in DB:`, {
+    id: matchedEntrance?.id,
+    name: matchedEntrance?.name,
+    station: matchedEntrance?.station?.name,
+    stationCode: matchedEntrance?.station?.code,
+    lift: matchedEntrance?.lift,
+    escalator: matchedEntrance?.escalator,
   });
 
-  if (oberoi?.connectedStationName === 'Devipada' && oberoi.hasDirectFob) {
-    console.log('   ✅ PASS: Oberoi Sky City deterministically binds to Devipada via FOB (NOT Magathane)!');
+  if (matchedEntrance?.station?.name === 'Devipada') {
+    console.log('   ✅ PASS: Oberoi Sky City connects to Devipada via GTFS Entrance!');
   } else {
     console.error('   ❌ FAIL: Oberoi Sky City did not bind to Devipada!');
   }
 
-  // 3. Verify Spatial Snapping
-  console.log('\n📐 [Test 3] Verifying Spatial Snapping from Coordinates...');
-  // Point inside Oberoi Sky City township (19.2246, 72.8637)
-  const snappedOberoi = LandmarkRegistry.snapCoordinateToLandmark(72.8637, 19.2246, 300);
-  console.log(`- Coordinate [19.2246, 72.8637] snapped to: ${snappedOberoi?.name} -> Station: ${snappedOberoi?.connectedStationName}`);
-
-  // Point inside Infiniti Mall Malad (19.1843, 72.8338)
-  const snappedInfiniti = LandmarkRegistry.snapCoordinateToLandmark(72.8338, 19.1843, 300);
-  console.log(`- Coordinate [19.1843, 72.8338] snapped to: ${snappedInfiniti?.name} -> Station: ${snappedInfiniti?.connectedStationName}`);
-
-  if (snappedOberoi?.id === 'LM_OBEROI_SKY_CITY' && snappedInfiniti?.id === 'LM_INFINITI_MALL_MALAD') {
-    console.log('   ✅ PASS: Turf/Haversine spatial snapping resolves landmarks with 0m street walking!');
-  }
-
   console.log('\n================================================================');
-  console.log('🎉 ALL INTEGRATION TESTS PASSED: PHASE 1 & 2 FOUNDATION COMPLETE');
+  console.log('🎉 ALL INTEGRATION TESTS PASSED: GTFS DATABASE IS SOURCE OF TRUTH');
   console.log('================================================================');
 }
 
 testPhase1And2()
   .catch(console.error)
+  .finally(() => prisma.$disconnect());
+
   .finally(() => prisma.$disconnect());

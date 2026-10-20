@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { DatabaseService } from '../../../database/database.service';
 import { SearchService } from '../../gis/services/search.service';
-import { LandmarkRegistry } from '../../gis/services/landmark-registry';
 
 export interface ResolvedStation {
   id: string;
@@ -149,35 +148,40 @@ export class StationResolverService {
       }
     }
 
-    // 2. Direct Landmark Registry Check (e.g. Oberoi Sky City, Infiniti Mall, BKC)
-    const registeredLm = LandmarkRegistry.findByNameOrAlias(trimmed);
-    if (registeredLm) {
-      const stn = await this.prisma.station.findFirst({
-        where: {
-          code: registeredLm.connectedStationCode,
-          isActive: true,
+    // 2. Direct GTFS Entrance Check (e.g. Oberoi Sky City FOB, Gate A4, RBI, etc.)
+    const matchedEntrance = await this.prisma.entrance.findFirst({
+      where: {
+        isActive: true,
+        OR: [
+          { name: { contains: trimmed, mode: 'insensitive' } },
+          { id: trimmed },
+        ],
+      },
+      include: {
+        station: {
+          select: {
+            id: true,
+            code: true,
+            name: true,
+            city: true,
+            latitude: true,
+            longitude: true,
+          },
         },
-        select: {
-          id: true,
-          code: true,
-          name: true,
-          city: true,
-          latitude: true,
-          longitude: true,
-        },
-      });
-      if (stn) {
-        this.logger.log(
-          `Resolved landmark "${trimmed}" to connected station "${stn.name}" (${stn.code}) via LandmarkRegistry`,
-        );
-        return {
-          ...stn,
-          confidence: 0.98,
-          isPoi: true,
-          poiName: registeredLm.name,
-          walkDistanceMeters: registeredLm.walkDistanceMeters || 180,
-        };
-      }
+      },
+    });
+
+    if (matchedEntrance?.station) {
+      this.logger.log(
+        `Resolved entrance "${trimmed}" to station "${matchedEntrance.station.name}" (${matchedEntrance.station.code}) via GTFS entrance`,
+      );
+      return {
+        ...matchedEntrance.station,
+        confidence: 0.98,
+        isPoi: true,
+        poiName: matchedEntrance.name,
+        walkDistanceMeters: 50,
+      };
     }
 
     // 3. Check Commuter Alias lookup table

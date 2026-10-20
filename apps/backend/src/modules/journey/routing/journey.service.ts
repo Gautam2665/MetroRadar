@@ -22,16 +22,10 @@ import { RealtimePredictionService } from '../../realtime/services/realtime-pred
 import { JourneyQueryDto } from '../dto/journey-query.dto';
 import { computeJourneyFares } from './policy_v1';
 import {
-  LandmarkRegistry,
-  LandmarkRecord,
-  LandmarkAccessGate,
-} from '../../gis/services/landmark-registry';
-import {
   RouteCandidate,
   JourneyLeg,
   JourneyResponse,
   StationRef,
-  estimateWaiting,
   candidateId,
   CandidateAttributes,
   LegMode,
@@ -65,8 +59,36 @@ interface EnrichedCandidate extends RouteCandidate {
   _rankScore: number; // internal sorting key, not exposed
 }
 
+export interface StationGateAccess {
+  gateId: string;
+  gateName: string;
+  stationCode: string;
+  stationName: string;
+  lineCode: string;
+  lineName: string;
+  lineColor: string;
+  walkDistanceMeters: number;
+  walkTimeSeconds: number;
+  corridorType: 'WALK' | 'TRAVELATOR' | 'FOB' | 'SUBWAY';
+  corridorNote: string;
+  indoorLevel: string;
+}
+
+export interface LandmarkMeta {
+  id: string;
+  name: string;
+  category?: string;
+  hasDirectFob?: boolean;
+  hasDirectAccess?: boolean;
+  directFobName?: string;
+  walkDistanceMeters?: number;
+  walkTimeSeconds?: number;
+  corridorNote?: string;
+  indoorLevel?: string;
+}
+
 interface ResolvedGateAttachment {
-  gate: LandmarkAccessGate;
+  gate: StationGateAccess;
   station: {
     id: string;
     code: string;
@@ -86,7 +108,7 @@ interface ResolvedEndpoint {
   longitude: number;
   systemId: string;
   systemCode: string;
-  landmark?: LandmarkRecord;
+  landmark?: LandmarkMeta;
   attachments: ResolvedGateAttachment[];
   primaryStation: {
     id: string;
@@ -353,7 +375,7 @@ export class JourneyService {
         corridorNote = `Exit via ${gateCode} towards ${landmarkDesc} (~${Math.round(distanceMeters)}m walk)`;
       }
 
-      const gate: LandmarkAccessGate = {
+      const gate: StationGateAccess = {
         gateId,
         gateName,
         stationCode: station.code,
@@ -414,7 +436,7 @@ export class JourneyService {
       }
     }
 
-    // 1. Check if identifier is a registered curated landmark (e.g. LM_OBEROI_SKY_CITY)
+    // 1. Check if identifier resolves to a physical GTFS Entrance / Gate in PostgreSQL
     const rawPlaceName = identifier.startsWith('place-')
       ? identifier
           .replace(/^place-/, '')
@@ -422,106 +444,106 @@ export class JourneyService {
           .trim()
       : identifier.trim();
 
-    const landmark =
-      LandmarkRegistry.findById(identifier) ||
-      LandmarkRegistry.findByNameOrAlias(identifier) ||
-      LandmarkRegistry.findByNameOrAlias(rawPlaceName);
-
-    if (landmark) {
-      const primaryStation = await this.db.station.findFirst({
-        where: {
-          OR: [
-            { code: landmark.connectedStationCode },
-            {
-              name: {
-                contains: landmark.connectedStationName,
-                mode: 'insensitive',
+    const dbEntrance = await this.db.entrance.findFirst({
+      where: {
+        OR: [
+          { id: identifier },
+          { name: { equals: identifier, mode: 'insensitive' } },
+          { name: { contains: rawPlaceName, mode: 'insensitive' } },
+        ],
+        isActive: true,
+      },
+      include: {
+        station: {
+          include: {
+            system: { select: { id: true, code: true } },
+            sequences: {
+              where: { isActive: true },
+              include: {
+                line: {
+                  select: { id: true, code: true, name: true, color: true },
+                },
               },
             },
-          ],
-          isActive: true,
+          },
         },
-        select: {
-          id: true,
-          code: true,
-          name: true,
-          systemId: true,
-          latitude: true,
-          longitude: true,
-          system: { select: { id: true, code: true } },
-        },
-      });
+      },
+    });
 
-      if (primaryStation) {
-        // Run spatial candidate attachments with Per-Line Dominance Filter
-        const spatialAttachments = await this.findSpatialCandidateAttachments(
-          landmark.coordinates[1],
-          landmark.coordinates[0],
-          primaryStation.systemId,
-          800,
-        );
+    if (dbEntrance && dbEntrance.station) {
+      const primaryStation = dbEntrance.station;
+      const primaryLine = primaryStation.sequences[0]?.line;
+      const isFob =
+        dbEntrance.name.toLowerCase().includes('fob') ||
+        dbEntrance.name.toLowerCase().includes('skywalk') ||
+        dbEntrance.name.toLowerCase().includes('interchange');
+      const gateMatch = dbEntrance.name.match(/\bGate\s+([A-Z0-9]+)\b/i);
+      const gateCode = gateMatch
+        ? `Gate ${gateMatch[1].toUpperCase()}`
+        : isFob
+          ? 'FOB'
+          : 'Gate';
+      const parenMatch = dbEntrance.name.match(/\((.+?)\)/);
+      const landmarkDesc = parenMatch ? parenMatch[1].trim() : dbEntrance.name;
 
-        const attachments: ResolvedGateAttachment[] = [];
-        // If landmark has dedicated FOB (e.g. Oberoi Sky City), prioritize its dedicated concourse FOB
-        if (landmark.hasDirectFob) {
-          const directFobGate: LandmarkAccessGate = {
-            gateId: 'DIRECT_FOB',
-            gateName:
-              landmark.directFobName || `${landmark.name} Direct Skywalk`,
-            stationCode: primaryStation.code,
-            stationName: primaryStation.name,
-            lineCode: landmark.connectedLineCode,
-            lineName: landmark.connectedLineName,
-            lineColor: landmark.connectedLineColor,
-            walkDistanceMeters: landmark.walkDistanceMeters,
-            walkTimeSeconds: landmark.walkTimeSeconds,
-            corridorType: 'FOB',
-            corridorNote: landmark.corridorNote,
-            indoorLevel: landmark.indoorLevel,
-          };
-          attachments.push({ gate: directFobGate, station: primaryStation });
+      const directGate: StationGateAccess = {
+        gateId: dbEntrance.id,
+        gateName: `${gateCode} · ${landmarkDesc}`,
+        stationCode: primaryStation.code,
+        stationName: primaryStation.name,
+        lineCode: primaryLine?.code || '',
+        lineName: primaryLine?.name || '',
+        lineColor: primaryLine?.color || '',
+        walkDistanceMeters: isFob ? 0 : 50,
+        walkTimeSeconds: isFob ? 0 : 40,
+        corridorType: isFob ? 'FOB' : 'WALK',
+        corridorNote: isFob
+          ? `Direct connection via FOB to ${primaryStation.name}. Zero street walking required.`
+          : `Access via ${gateCode} (${landmarkDesc})`,
+        indoorLevel: 'Concourse',
+      };
+
+      const landmarkMeta: LandmarkMeta = {
+        id: dbEntrance.id,
+        name: landmarkDesc,
+        category: isFob ? 'TRANSIT_HUB' : 'COMMERCIAL',
+        hasDirectFob: isFob,
+        hasDirectAccess: true,
+        directFobName: isFob ? dbEntrance.name : undefined,
+        walkDistanceMeters: isFob ? 0 : 50,
+        walkTimeSeconds: isFob ? 0 : 40,
+        corridorNote: directGate.corridorNote,
+        indoorLevel: 'Concourse',
+      };
+
+      const spatialAttachments = await this.findSpatialCandidateAttachments(
+        dbEntrance.latitude,
+        dbEntrance.longitude,
+        primaryStation.systemId,
+        800,
+      );
+
+      const attachments: ResolvedGateAttachment[] = [
+        { gate: directGate, station: primaryStation },
+      ];
+      for (const sa of spatialAttachments) {
+        if (!attachments.some((a) => a.station.id === sa.station.id)) {
+          attachments.push(sa);
         }
-
-        // Add any distinct spatial line attachments
-        for (const sa of spatialAttachments) {
-          if (!attachments.some((a) => a.station.id === sa.station.id)) {
-            attachments.push(sa);
-          }
-        }
-
-        if (attachments.length === 0) {
-          attachments.push({
-            gate: {
-              gateId: 'MAIN_GATE',
-              gateName: `${landmark.name} Access`,
-              stationCode: primaryStation.code,
-              stationName: primaryStation.name,
-              lineCode: landmark.connectedLineCode,
-              lineName: landmark.connectedLineName,
-              lineColor: landmark.connectedLineColor,
-              walkDistanceMeters: landmark.walkDistanceMeters,
-              walkTimeSeconds: landmark.walkTimeSeconds,
-              corridorType: landmark.hasDirectFob ? 'FOB' : 'WALK',
-              corridorNote: landmark.corridorNote,
-              indoorLevel: landmark.indoorLevel,
-            },
-            station: primaryStation,
-          });
-        }
-
-        return {
-          id: landmark.id,
-          name: landmark.name,
-          code: landmark.connectedStationCode,
-          latitude: landmark.coordinates[1],
-          longitude: landmark.coordinates[0],
-          systemId: primaryStation.systemId,
-          systemCode: primaryStation.system.code,
-          landmark,
-          attachments,
-          primaryStation,
-        };
       }
+
+      return {
+        id: dbEntrance.id,
+        name: `${primaryStation.name} (${gateCode})`,
+        code: primaryStation.code,
+        latitude: dbEntrance.latitude,
+        longitude: dbEntrance.longitude,
+        systemId: primaryStation.systemId,
+        systemCode: primaryStation.system.code,
+        landmark: landmarkMeta,
+        attachments,
+        primaryStation,
+      };
     }
 
     // 2. Resolve standard Station by UUID, code, or name
@@ -642,7 +664,7 @@ export class JourneyService {
 
     if (!stn) return null;
 
-    const directGate: LandmarkAccessGate = {
+    const directGate: StationGateAccess = {
       gateId: 'DIRECT',
       gateName: `${stn.name} Platform Concourse`,
       stationCode: stn.code,
@@ -1182,7 +1204,6 @@ export class JourneyService {
         lng: destAttachment.station.longitude,
       };
 
-      const destNameUpper = (lastStation.name || '').toUpperCase();
       let destinationGuidance: string | null = null;
       if (toEndpoint.landmark) {
         destinationGuidance = destAttachment.gate?.gateName
@@ -1190,14 +1211,11 @@ export class JourneyService {
           : `Exit for ${toEndpoint.landmark.name}`;
       } else if (destAttachment.gate?.corridorNote) {
         destinationGuidance = destAttachment.gate.corridorNote;
-      } else if (destAttachment.gate?.gateName) {
-        destinationGuidance = `Exit via ${destAttachment.gate.gateName}`;
       } else if (
-        destNameUpper.includes('MUMBAI CENTRAL') ||
-        destNameUpper.includes('CSMT') ||
-        destNameUpper.includes('CHURCHGATE')
+        destAttachment.gate?.gateName &&
+        destAttachment.gate.gateId !== 'DIRECT'
       ) {
-        destinationGuidance = 'Exit for Mainline Railway Terminal';
+        destinationGuidance = `Exit via ${destAttachment.gate.gateName}`;
       }
 
       const fareDetails = computeJourneyFares(legs);
@@ -1300,9 +1318,9 @@ export class JourneyService {
         candidateObj.destinationLandmark = {
           id: toEndpoint.landmark.id,
           name: toEndpoint.landmark.name,
-          category: toEndpoint.landmark.category,
-          hasDirectFob: toEndpoint.landmark.hasDirectFob,
-          hasDirectAccess: toEndpoint.landmark.hasDirectAccess,
+          category: toEndpoint.landmark.category || 'COMMERCIAL',
+          hasDirectFob: Boolean(toEndpoint.landmark.hasDirectFob),
+          hasDirectAccess: Boolean(toEndpoint.landmark.hasDirectAccess),
           directFobName: toEndpoint.landmark.directFobName,
           walkDistanceMeters: destAttachment.gate.walkDistanceMeters,
           walkTimeSeconds: destAttachment.gate.walkTimeSeconds,
@@ -1318,9 +1336,9 @@ export class JourneyService {
         candidateObj.originLandmark = {
           id: fromEndpoint.landmark.id,
           name: fromEndpoint.landmark.name,
-          category: fromEndpoint.landmark.category,
-          hasDirectFob: fromEndpoint.landmark.hasDirectFob,
-          hasDirectAccess: fromEndpoint.landmark.hasDirectAccess,
+          category: fromEndpoint.landmark.category || 'COMMERCIAL',
+          hasDirectFob: Boolean(fromEndpoint.landmark.hasDirectFob),
+          hasDirectAccess: Boolean(fromEndpoint.landmark.hasDirectAccess),
           directFobName: fromEndpoint.landmark.directFobName,
           walkDistanceMeters: originAttachment.gate.walkDistanceMeters,
           walkTimeSeconds: originAttachment.gate.walkTimeSeconds,

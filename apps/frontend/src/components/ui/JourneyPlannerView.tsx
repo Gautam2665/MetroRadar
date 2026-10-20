@@ -6,7 +6,6 @@ import { StationSearchInput, StationItem } from "../StationSearchInput";
 import { RouteOption, RouteLeg } from "../../containers/JourneyPlannerContainer";
 import { formatShortLineName, formatLineName } from "../../utils/transitFormatter";
 import { CITY_METADATA } from "../../config/cityMetadata";
-import { resolveStationExitGate, ExitGateInfo } from "../../config/stationGates";
 
 export type { RouteOption, RouteLeg };
 
@@ -423,14 +422,6 @@ function getInterchangeDetails(
   };
 }
 
-function getStationExitGateInfo(
-  stationName: string,
-  destinationQuery?: string,
-  existingGuidance?: string | null
-): ExitGateInfo | null {
-  return resolveStationExitGate(stationName, destinationQuery, existingGuidance);
-}
-
 // ── Stitch Vertical Timeline: Journey Details ────────────────────────────────
 
 export function JourneyDetailsTimeline({
@@ -800,7 +791,6 @@ export function JourneyDetailsTimeline({
                 lastTransitLeg?.durationMins
               );
           const isLandmark = destination && destination.toLowerCase().trim() !== finalStationName.toLowerCase().trim();
-          const exitGateInfo = getStationExitGateInfo(finalStationName, destination, route.destinationGuidance);
 
           return (
             <div className="relative">
@@ -829,77 +819,35 @@ export function JourneyDetailsTimeline({
                   </span>
                 </div>
 
-                {/* Wayfinder Nearest Exit Gate Card */}
-                {exitGateInfo ? (
+                {/* Authoritative GTFS Wayfinder Exit Gate Guidance */}
+                {route.destinationGuidance ? (
                   <div className="mt-2.5 p-3 rounded-xl bg-gradient-to-br from-[#0c1c2e]/95 to-[#0f2742]/95 border border-cyan-500/40 text-xs text-cyan-200 shadow-md">
                     <div className="flex items-center gap-1.5 font-bold text-cyan-300">
                       <span className="material-symbols-outlined text-[16px] text-cyan-400">output</span>
-                      <span className="text-xs">Wayfinder Nearest Exit: {exitGateInfo.gate}</span>
-                      {exitGateInfo.lineName && (
-                        <span className="px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 text-[9px] font-bold border border-cyan-500/40 ml-1">
-                          {exitGateInfo.lineName.includes("Line 3") ? "MMRC Line 3" : exitGateInfo.lineName}
-                        </span>
-                      )}
-                      {exitGateInfo.isDirectFob && (
+                      <span className="text-xs">Wayfinder Exit Guidance</span>
+                      {route.destinationGuidance.includes("FOB") && (
                         <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 text-[9px] font-bold border border-emerald-500/40 ml-auto">
                           Direct Access
                         </span>
                       )}
                     </div>
                     <div className="text-[11.5px] font-medium text-slate-100 mt-1.5">
-                      {exitGateInfo.landmarkSummary}
+                      {route.destinationGuidance}
                     </div>
-                    {exitGateInfo.walkNote && (
-                      <div className="text-[10px] text-cyan-300/90 mt-1 font-mono flex items-center gap-1">
-                        <span className="material-symbols-outlined text-[12px] text-cyan-400">directions_walk</span>
-                        <span>{exitGateInfo.walkNote}</span>
-                      </div>
-                    )}
-
-                    {/* All Mapped Station Gates */}
-                    {exitGateInfo.allGates && exitGateInfo.allGates.length > 0 && (
-                      <div className="mt-2.5 pt-2 border-t border-cyan-500/20">
-                        <div className="text-[9.5px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center justify-between">
-                          <span className="flex items-center gap-1">
-                            <span className="material-symbols-outlined text-[11px] text-cyan-400">door_front</span>
-                            All Station Gates ({exitGateInfo.allGates.length})
-                          </span>
-                          <span className="text-[9px] text-cyan-400 font-mono font-medium">MMRC Wayfinder</span>
-                        </div>
-                        <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-0.5 scrollbar-thin">
-                          {exitGateInfo.allGates.map((g, idx) => (
-                            <span
-                              key={idx}
-                              className={`px-2 py-0.5 rounded-lg text-[10px] leading-snug border transition-all ${
-                                g.isRecommended
-                                  ? "bg-cyan-500/25 border-cyan-400 text-cyan-200 font-semibold shadow-[0_0_8px_rgba(0,229,255,0.25)]"
-                                  : "bg-white/[0.04] border-white/10 text-slate-300"
-                              }`}
-                            >
-                              <span className="font-bold text-white mr-1">{g.gate}:</span>
-                              <span className="text-slate-300">{g.landmark}</span>
-                            </span>
-                          ))}
-                        </div>
+                    {route.destinationGuidance.includes("FOB") && (
+                      <div className="mt-2 inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-[10.5px] font-semibold text-emerald-400">
+                        <span className="material-symbols-outlined text-[13px]">check_circle</span>
+                        Zero street walking · Direct Skywalk Access
                       </div>
                     )}
                   </div>
                 ) : (
-                  (route.destinationGuidance || isLandmark) && (
+                  isLandmark && (
                     <div className="text-[11px] text-slate-400 mt-1 flex items-center gap-1.5">
                       <span className="material-symbols-outlined text-[13px] text-amber-400">output</span>
-                      <span>
-                        {route.destinationGuidance || `Exit Gate for ${destination}`}
-                      </span>
+                      <span>Exit Gate for {destination}</span>
                     </div>
                   )
-                )}
-
-                {route.destinationGuidance && route.destinationGuidance.includes("FOB") && !exitGateInfo?.isDirectFob && (
-                  <div className="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-[10.5px] font-semibold text-emerald-400">
-                    <span className="material-symbols-outlined text-[13px]">check_circle</span>
-                    Zero street walking · Direct Skywalk Access
-                  </div>
                 )}
               </div>
             </div>
