@@ -92,6 +92,20 @@ export type RouteOption = {
   reasonCodes?: string[];
   humanSummary?: string;
   destinationGuidance?: string | null;
+  fareBreakdown?: Array<{
+    operator: string;
+    operatorName: string;
+    lines: string[];
+    fromStation: string;
+    toStation: string;
+    distanceMeters: number;
+    distanceKm: number;
+    paperFare: number;
+    smartCardFare: number;
+    tariffSlab: string;
+    ticketLabel: string;
+  }>;
+  requiresMultipleTickets?: boolean;
   realtime?: {
     primaryTrain?: {
       tripId?: string;
@@ -171,6 +185,20 @@ interface BackendCandidate {
   isDirect: boolean;
   lines: string[];
   fare?: number;
+  fareBreakdown?: Array<{
+    operator: string;
+    operatorName: string;
+    lines: string[];
+    fromStation: string;
+    toStation: string;
+    distanceMeters: number;
+    distanceKm: number;
+    paperFare: number;
+    smartCardFare: number;
+    tariffSlab: string;
+    ticketLabel: string;
+  }>;
+  requiresMultipleTickets?: boolean;
   confidence: number;
   tradeoffs: {
     durationDeltaSeconds: number;
@@ -322,6 +350,8 @@ function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
     reasonCodes: candidate.reasonCodes,
     humanSummary: candidate.humanSummary,
     destinationGuidance: candidate.destinationGuidance || null,
+    fareBreakdown: candidate.fareBreakdown,
+    requiresMultipleTickets: candidate.requiresMultipleTickets,
     realtime: candidate.realtime,
   };
 }

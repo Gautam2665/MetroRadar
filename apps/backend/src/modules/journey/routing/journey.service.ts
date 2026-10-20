@@ -20,7 +20,7 @@ import {
 } from './interchange-evaluator.service';
 import { RealtimePredictionService } from '../../realtime/services/realtime-prediction.service';
 import { JourneyQueryDto } from '../dto/journey-query.dto';
-import { calculateMumbaiFare } from './policy_v1';
+import { calculateMumbaiFare, computeJourneyFares } from './policy_v1';
 import {
   LandmarkRegistry,
   LandmarkRecord,
@@ -1126,7 +1126,7 @@ export class JourneyService {
         );
       }
 
-      const fareDetails = calculateMumbaiFare(totalDistanceMeters);
+      const fareDetails = computeJourneyFares(legs);
 
       const firstTransitLeg = legs.find((l) => l.type === EdgeType.TRANSIT);
       const originStationId = firstTransitLeg?.from || firstStation.id;
@@ -1184,8 +1184,10 @@ export class JourneyService {
         geojson,
         isDirect,
         lines: lineNames,
-        fare: fareDetails.paperFare,
-        smartCardFare: fareDetails.smartCardFare,
+        fare: fareDetails.totalPaperFare,
+        smartCardFare: fareDetails.totalSmartCardFare,
+        fareBreakdown: fareDetails.breakdown,
+        requiresMultipleTickets: fareDetails.requiresMultipleTickets,
         realtime: realtimeData,
         confidence: 0.85,
         transferSafetyBufferSeconds: safetyBufferSeconds,
@@ -1399,6 +1401,15 @@ export class JourneyService {
       };
       const legMode: LegMode =
         edge.type === EdgeType.TRANSIT ? 'METRO' : 'TRANSFER';
+      const edgeDist =
+        fromSt && toSt
+          ? getDistanceMeters(
+              fromSt.latitude,
+              fromSt.longitude,
+              toSt.latitude,
+              toSt.longitude,
+            )
+          : 0;
       const throughServiceContinuationFromPrevious = Boolean(
         edge.type === EdgeType.TRANSIT &&
         previousTransit?.to === edge.from &&
@@ -1430,6 +1441,8 @@ export class JourneyService {
           1,
           Math.round(currentLeg.duration / 60),
         );
+        currentLeg.distanceMeters =
+          (currentLeg.distanceMeters || 0) + edgeDist;
         currentLeg.hopCount += 1;
         currentLeg.stationsCount = currentLeg.hopCount;
         currentLeg.stopsCount = currentLeg.hopCount;
@@ -1454,6 +1467,7 @@ export class JourneyService {
           duration: edge.duration,
           durationSeconds: edge.duration,
           durationMinutes: Math.max(1, Math.round(edge.duration / 60)),
+          distanceMeters: edgeDist,
           lineId: edge.lineId ?? null,
           lineName: line?.name ?? null,
           lineColor: line?.color ?? null,

@@ -121,6 +121,22 @@ export interface TransferDetails {
   instructions: string[];
 }
 
+// ── Fare Breakdown Structure ───────────────────────────────────────────────
+
+export interface FareBreakdownItem {
+  operator: 'MMOPL' | 'MMMOCL' | 'MMRCL' | 'MMRDA_MONO' | string;
+  operatorName: string;
+  lines: string[];
+  fromStation: string;
+  toStation: string;
+  distanceMeters: number;
+  distanceKm: number;
+  paperFare: number;
+  smartCardFare: number;
+  tariffSlab: string;
+  ticketLabel: string;
+}
+
 // ── Journey Leg ───────────────────────────────────────────────────────────────
 
 export type LegMode = 'METRO' | 'TRANSFER';
@@ -142,6 +158,7 @@ export interface JourneyLeg {
   duration: number;
   durationSeconds: number;
   durationMinutes: number;
+  distanceMeters?: number;
   lineId: string | null;
   lineName: string | null;
   lineColor: string | null;
@@ -250,6 +267,12 @@ export interface RouteCandidate {
 
   /** Dynamic GTFS-RT departure predictions & ETAs */
   realtime?: any;
+
+  /** Multi-operator fare breakdown per ticket */
+  fareBreakdown?: FareBreakdownItem[];
+
+  /** true when the journey crosses operator boundaries requiring separate tickets */
+  requiresMultipleTickets?: boolean;
 
   /**
    * 0–1 confidence that this route is operational right now.

@@ -843,6 +843,46 @@ export function JourneyDetailsTimeline({
         })()}
       </div>
 
+      {/* Fare & Operator Slabs Breakdown */}
+      {route.fareBreakdown && route.fareBreakdown.length > 0 && (
+        <div className="mt-4 p-3 rounded-xl bg-[#080d1a] border border-white/10 text-xs space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5 font-bold text-white">
+              <span className="material-symbols-outlined text-[16px] text-amber-400">payments</span>
+              <span>Metro Fare & Ticketing</span>
+            </div>
+            <div className="text-right">
+              <span className="font-bold text-white text-[13px]">{route.fare}</span>
+              {route.smartCardFare && (
+                <span className="text-[10px] text-emerald-400 font-mono ml-2">NCMC: {route.smartCardFare}</span>
+              )}
+            </div>
+          </div>
+          {route.requiresMultipleTickets && (
+            <div className="text-[11px] text-amber-300 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1.5 rounded flex items-center gap-1.5 font-medium">
+              <span className="material-symbols-outlined text-[14px] shrink-0">warning</span>
+              <span>Cross-operator journey: 2 separate tickets required</span>
+            </div>
+          )}
+          <div className="space-y-1.5 pt-1 border-t border-white/5">
+            {route.fareBreakdown.map((item, idx) => (
+              <div key={idx} className="flex items-center justify-between text-[11px] text-slate-300">
+                <div className="flex items-center gap-1.5 truncate">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0" />
+                  <span className="truncate">{item.ticketLabel}</span>
+                  <span className="text-[10px] text-slate-500 font-mono">
+                    ({item.tariffSlab} · {item.distanceKm} km)
+                  </span>
+                </div>
+                <div className="font-mono text-white text-[11px] shrink-0 font-medium ml-2">
+                  ₹{item.paperFare}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Embedded Coach Guidance Tip */}
       <CoachTip coach={route.boardCoach} occupancy={route.realtimeOccupancy} destination={destination} />
     </motion.div>
