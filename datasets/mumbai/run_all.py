@@ -121,7 +121,7 @@ CORRIDOR_METADATA = {
         "default_hop_seconds": 85,
         "default_dwell_seconds": 30,
         "services": {
-            "SVC_WEEKDAY":  {"total": 420, "span": ("05:30:00", "23:45:00"), "peak_ratio": 1.55},
+            "SVC_WEEKDAY":  {"total": 436, "span": ("05:30:00", "23:45:00"), "peak_ratio": 1.50},
             "SVC_SATURDAY": {"total": 330, "span": ("05:30:00", "23:45:00"), "peak_ratio": 1.35},
             "SVC_SUNDAY":   {"total": 270, "span": ("05:30:00", "23:45:00"), "peak_ratio": 1.20}
         }
@@ -146,7 +146,7 @@ CORRIDOR_METADATA = {
         "default_hop_seconds": 120,
         "default_dwell_seconds": 35,
         "services": {
-            "SVC_WEEKDAY":  {"total": 276, "span": ("05:50:00", "23:00:00"), "peak_ratio": 1.52},
+            "SVC_WEEKDAY":  {"total": 294, "span": ("05:50:00", "23:00:00"), "peak_ratio": 1.34},
             "SVC_SATURDAY": {"total": 223, "span": ("05:50:00", "23:00:00"), "peak_ratio": 1.3},
             "SVC_SUNDAY":   {"total": 205, "span": ("05:50:00", "23:00:00"), "peak_ratio": 1.2}
         }
@@ -158,7 +158,7 @@ CORRIDOR_METADATA = {
         "default_hop_seconds": 98,
         "default_dwell_seconds": 35,
         "services": {
-            "SVC_WEEKDAY":  {"total": 276, "span": ("05:50:00", "23:00:00"), "peak_ratio": 1.52},
+            "SVC_WEEKDAY":  {"total": 294, "span": ("05:50:00", "23:00:00"), "peak_ratio": 1.34},
             "SVC_SATURDAY": {"total": 223, "span": ("05:50:00", "23:00:00"), "peak_ratio": 1.3},
             "SVC_SUNDAY":   {"total": 205, "span": ("05:50:00", "23:00:00"), "peak_ratio": 1.2}
         }
@@ -182,7 +182,7 @@ CORRIDOR_METADATA = {
         "default_hop_seconds": 96,
         "default_dwell_seconds": 35,
         "services": {
-            "SVC_WEEKDAY":  {"total": 264, "span": ("05:55:00", "22:30:00"), "peak_ratio": 1.55},
+            "SVC_WEEKDAY":  {"total": 284, "span": ("05:55:00", "22:30:00"), "peak_ratio": 1.34},
             "SVC_SATURDAY": {"total": 216, "span": ("05:55:00", "22:30:00"), "peak_ratio": 1.35},
             "SVC_SUNDAY":   {"total": 172, "span": ("06:30:00", "22:30:00"), "peak_ratio": 1.15}
         }
