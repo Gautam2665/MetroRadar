@@ -1,0 +1,5 @@
+network_id,network_name
+NET_MMOPL,"Mumbai Metro One (Line 1)"
+NET_MMMOCL,"Maha Mumbai Metro (Lines 2A & 7)"
+NET_MMRCL,"Aqua Line 3 (MMRCL)"
+NET_MONO,"Mumbai Monorail (MMRDA)"

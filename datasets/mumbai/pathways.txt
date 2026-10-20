@@ -1444,3 +1444,4 @@ PW_GHATKOPAR_CR_SKYWALK,NODE_STN_L1_012_UNPAID,PF_CR_GHATKOPAR,1,1,90,70,Direct 
 PW_MUM_CENTRAL_FORECOURT,NODE_STN_L3_019_UNPAID,PF_WR_MUMBAI_CENTRAL,1,1,140,100,Station Forecourt Link to Mumbai Central Railway Station - 140m,Station Forecourt Link to Metro Line 3 Aqua Line - 140m
 PW_CHURCHGATE_WALK,NODE_STN_L3_025_UNPAID,PF_WR_CHURCHGATE,1,1,160,120,Walkway to Churchgate Railway Station - 160m,Walkway to Metro Line 3 Aqua Line - 160m
 PW_CHEMBUR_MONO_SKYWALK,NODE_STN_L2B_015_UNPAID,NODE_STN_MONO_001_UNPAID,1,1,190,140,Skywalk to Chembur Monorail Station - 190m,Skywalk to Metro Line 2B (Yellow Line) - 190m
+PW_STN_L2A_017_MEZZ_CONC,NODE_STN_L2A_017_MEZZ,NODE_STN_L2A_017_UNPAID,2,1,12,25,"Concourse / Ticketing","Mezzanine / FOB"

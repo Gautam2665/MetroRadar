@@ -1,7 +1,7 @@
-route_id,agency_id,route_short_name,route_long_name,route_type,route_color,route_text_color
-LINE1,MMOPL,Line 1,Blue Line (Versova - Ghatkopar),1,007DC5,FFFFFF
-LINE2A,MMMOCL,Line 2A,Yellow Line (Dahisar East - Andheri West),1,FACC15,000000
-LINE2B,MMMOCL,Line 2B,Yellow Line (Mandale Depot - Diamond Garden),1,F0C800,000000
-LINE3,MMRCL,Line 3,Aqua Line (Aarey JVLR - Cuffe Parade),1,059DB2,FFFFFF
-LINE7,MMMOCL,Line 7,Red Line (Kashigaon - Gundavali),1,E31E24,FFFFFF
-MONORAIL,MMRDA_MONO,Monorail,Monorail,2,7C3AED,FFFFFF
+route_long_name,route_short_name,agency_id,route_type,route_id,route_color,route_text_color,network_id
+,Monorail,MMRDA_MONO,2,MONORAIL,7C3AED,FFFFFF,NET_MONO
+Aqua Line (Aarey JVLR - Cuffe Parade),Line 3,MMRCL,1,LINE3,059DB2,FFFFFF,NET_MMRCL
+Blue Line (Versova - Ghatkopar),Line 1,MMOPL,1,LINE1,007DC5,FFFFFF,NET_MMOPL
+Red Line (Kashigaon - Gundavali),Line 7,MMMOCL,1,LINE7,E31E24,FFFFFF,NET_MMMOCL
+Yellow Line (Dahisar East - Andheri West),Line 2A,MMMOCL,1,LINE2A,FACC15,,NET_MMMOCL
+Yellow Line (Mandale Depot - Diamond Garden),Line 2B,MMMOCL,1,LINE2B,F0C800,,NET_MMMOCL
