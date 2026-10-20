@@ -76,6 +76,36 @@ function resolveLineColor(color: string, lineName: string): string {
   return resolved;
 }
 
+// Mumbai Metro Service Area Boundary Polygon
+// Cuts off at Thane Creek in the east and Dahisar/Mira-Bhayandar in the north, excluding Navi Mumbai
+const MUMBAI_METRO_BOUNDARY: [number, number][] = [
+  [18.88, 72.78], // South Colaba tip
+  [18.98, 72.94], // Docklands / Wadala
+  [19.04, 72.94], // Chembur / Mankhurd edge (before Thane Creek Bridge)
+  [19.06, 72.92], // Kurla / Ghatkopar East
+  [19.16, 72.96], // Bhandup / Mulund west of railway
+  [19.26, 72.98], // Thane City boundary
+  [19.30, 72.88], // Mira-Bhayandar / Kashigaon
+  [19.30, 72.82], // Western coast Dahisar/Borivali
+  [19.18, 72.78], // Malad / Versova / Juhu coast
+  [18.88, 72.78], // Loop closed
+];
+
+function isWithinMumbaiMetroServiceArea(lat: number, lon: number): boolean {
+  let inside = false;
+  let j = MUMBAI_METRO_BOUNDARY.length - 1;
+  for (let i = 0; i < MUMBAI_METRO_BOUNDARY.length; i++) {
+    const [latI, lonI] = MUMBAI_METRO_BOUNDARY[i];
+    const [latJ, lonJ] = MUMBAI_METRO_BOUNDARY[j];
+    const intersect =
+      lonI > lon !== lonJ > lon &&
+      lat < ((latJ - latI) * (lon - lonI)) / (lonJ - lonI) + latI;
+    if (intersect) inside = !inside;
+    j = i;
+  }
+  return inside;
+}
+
 @Injectable()
 export class SearchService {
   constructor(
@@ -468,8 +498,11 @@ export class SearchService {
 
             if (!alreadyExists) {
               const placeId = `${lat.toFixed(5)},${lon.toFixed(5)}`;
-              const MAX_METRO_CATCHMENT_METERS = 7000; // 7km urban last-mile feeder catchment
-              const isWithinCatchment = distM <= MAX_METRO_CATCHMENT_METERS;
+              // Boundary Gate: Check if point falls within Mumbai Metro service boundary
+              const isInsideBoundary = isWithinMumbaiMetroServiceArea(lat, lon);
+              // Urban last-mile catchment tightened to 4.5 km
+              const MAX_METRO_CATCHMENT_METERS = 4500;
+              const isWithinCatchment = isInsideBoundary && distM <= MAX_METRO_CATCHMENT_METERS;
 
               if (isWithinCatchment) {
                 const isWalking = distM <= 1200;
