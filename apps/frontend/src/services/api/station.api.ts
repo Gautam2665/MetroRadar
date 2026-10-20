@@ -248,11 +248,27 @@ export class StationApi {
             color: (props.color as string) || "#00E5FF",
             systemId: (props.systemId as string) || "",
             coordinates: geom.coordinates || [],
+            lengthKm: typeof props.lengthKm === "number" ? props.lengthKm : (Number(props.lengthKm) || undefined),
+            travelTimeMinutes: typeof props.travelTimeMinutes === "number" ? props.travelTimeMinutes : (Number(props.travelTimeMinutes) || undefined),
+            firstTrain: (props.firstTrain as string) || undefined,
+            lastTrain: (props.lastTrain as string) || undefined,
+            stationsCount: typeof props.stationsCount === "number" ? props.stationsCount : undefined,
+            stations: Array.isArray(props.stations) ? (props.stations as LineStationDto[]) : [],
           };
         })
       : [];
     return { success: true, data: rawList };
   }
+}
+
+export interface LineStationDto {
+  id: string;
+  code: string;
+  name: string;
+  sequence: number;
+  distanceFromPrevious?: number;
+  travelTimeFromPrevious?: number;
+  interchanges?: Array<{ code: string; name: string; color: string }>;
 }
 
 export interface MetroLineDto {
@@ -262,4 +278,10 @@ export interface MetroLineDto {
   color: string;
   systemId: string;
   coordinates?: [number, number][];
+  lengthKm?: number;
+  travelTimeMinutes?: number;
+  firstTrain?: string;
+  lastTrain?: string;
+  stationsCount?: number;
+  stations?: LineStationDto[];
 }

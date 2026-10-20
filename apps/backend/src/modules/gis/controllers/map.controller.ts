@@ -43,7 +43,7 @@ export class MapController {
     summary: 'Get lines GeoJSON Features (reconstructed polylines)',
   })
   async getLines(): Promise<unknown> {
-    const cacheKey = 'geojson:lines:v15';
+    const cacheKey = 'geojson:lines:v16';
     const cached =
       await this.redisService.get<Record<string, unknown>>(cacheKey);
     if (cached) return cached;

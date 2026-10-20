@@ -24,6 +24,12 @@ export interface LineProperties {
   name: string;
   color: string;
   systemId: string;
+  lengthKm?: number;
+  travelTimeMinutes?: number;
+  firstTrain?: string;
+  lastTrain?: string;
+  stationsCount?: number;
+  stations?: unknown[];
 }
 
 export interface LineFeature {
@@ -169,22 +175,117 @@ export class GeojsonService {
           'type', 'Feature',
           'geometry', json_build_object(
             'type', 'LineString',
-            'coordinates', (
+            'coordinates', COALESCE((
                SELECT json_agg(json_build_array(sh.longitude, sh.latitude) ORDER BY sh.sequence)
                FROM shapes sh
                WHERE sh."shapeId" = s."shapeId" AND sh."systemId" = l."systemId"
-            )
+            ), '[]'::json)
           ),
           'properties', json_build_object(
             'id', l.id,
             'code', l.code,
             'name', l.name,
             'color', COALESCE(l.color, ''),
-            'systemId', l."systemId"
+            'systemId', l."systemId",
+            'lengthKm', COALESCE(
+              l.length,
+              (
+                SELECT ROUND(SUM(ss."distanceFromPrevious")::numeric, 1)
+                FROM station_sequences ss
+                WHERE ss."lineId" = l.id AND ss."isActive" = true
+              ),
+              0
+            ),
+            'travelTimeMinutes', COALESCE(
+              (
+                SELECT ROUND(SUM(ss."travelTimeFromPrevious")::numeric / 60)
+                FROM station_sequences ss
+                WHERE ss."lineId" = l.id AND ss."isActive" = true
+              ),
+              0
+            ),
+            'firstTrain', (
+              SELECT MIN(stt."departureTime")
+              FROM stop_times stt
+              JOIN trips t ON t.id = stt."tripId"
+              WHERE t."lineId" = l.id AND t."isActive" = true AND stt."isActive" = true
+            ),
+            'lastTrain', (
+              SELECT MAX(stt."departureTime")
+              FROM stop_times stt
+              JOIN trips t ON t.id = stt."tripId"
+              WHERE t."lineId" = l.id AND t."isActive" = true AND stt."isActive" = true
+            ),
+            'stationsCount', (
+              SELECT COUNT(*)::int
+              FROM station_sequences ss
+              WHERE ss."lineId" = l.id AND ss."isActive" = true
+            ),
+            'stations', COALESCE((
+              SELECT json_agg(json_build_object(
+                'id', st.id,
+                'code', st.code,
+                'name', st.name,
+                'sequence', ss.sequence,
+                'distanceFromPrevious', ss."distanceFromPrevious",
+                'travelTimeFromPrevious', ss."travelTimeFromPrevious",
+                'interchanges', COALESCE((
+                  SELECT json_agg(json_build_object(
+                    'code', other_l.code,
+                    'name', other_l.name,
+                    'color', COALESCE(other_l.color, '')
+                  ))
+                  FROM (
+                    SELECT DISTINCT il.id, il.code, il.name, il.color
+                    FROM lines il
+                    WHERE il.id != l.id AND il."isActive" = true AND (
+                      EXISTS (
+                        SELECT 1 FROM station_sequences iss 
+                        WHERE iss."stationId" = st.id AND iss."lineId" = il.id AND iss."isActive" = true
+                      )
+                      OR EXISTS (
+                        SELECT 1 FROM trips it JOIN stop_times ist ON ist."tripId" = it.id
+                        WHERE ist."stationId" = st.id AND it."lineId" = il.id AND it."isActive" = true AND ist."isActive" = true
+                      )
+                      OR EXISTS (
+                        SELECT 1 FROM interchanges ic
+                        JOIN platforms fp ON fp.id = ic."fromPlatformId"
+                        JOIN levels fl ON fl.id = fp."levelId"
+                        JOIN platforms tp ON tp.id = ic."toPlatformId"
+                        WHERE ic."isActive" = true AND fp."isActive" = true AND tp."isActive" = true
+                          AND fl."stationId" = st.id AND tp."lineId" = il.id
+                      )
+                      OR EXISTS (
+                        SELECT 1 FROM interchanges ic
+                        JOIN platforms fp ON fp.id = ic."fromPlatformId"
+                        JOIN platforms tp ON tp.id = ic."toPlatformId"
+                        JOIN levels tl ON tl.id = tp."levelId"
+                        WHERE ic."isActive" = true AND fp."isActive" = true AND tp."isActive" = true
+                          AND tl."stationId" = st.id AND fp."lineId" = il.id
+                      )
+                      OR EXISTS (
+                        SELECT 1 FROM stations same_stn
+                        JOIN trips t_same ON true
+                        JOIN stop_times st_same ON st_same."tripId" = t_same.id AND st_same."stationId" = same_stn.id
+                        WHERE LOWER(TRIM(same_stn.name)) = LOWER(TRIM(st.name))
+                          AND same_stn.city = st.city
+                          AND same_stn."isActive" = true
+                          AND t_same."lineId" = il.id
+                          AND t_same."isActive" = true
+                          AND st_same."isActive" = true
+                      )
+                    )
+                  ) other_l
+                ), '[]'::json)
+              ) ORDER BY ss.sequence ASC)
+              FROM station_sequences ss
+              JOIN stations st ON st.id = ss."stationId"
+              WHERE ss."lineId" = l.id AND ss."isActive" = true
+            ), '[]'::json)
           )
         ) as feature
       FROM lines l
-      JOIN canonical_shapes s ON s."lineId" = l.id
+      LEFT JOIN canonical_shapes s ON s."lineId" = l.id
       WHERE l."isActive" = true;
     `);
 
