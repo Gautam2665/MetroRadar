@@ -287,11 +287,6 @@ export class DigitalTwinService {
     }));
 
     // Exits & Interchanges mapping (real Wayfinder gates & road connectivity, no synthetic walking distance)
-    const isLine3 =
-      station.levels.some((l) => l.line?.code === 'L3') ||
-      (station.code || '').includes('L3') ||
-      station.name.includes('Line 3');
-
     const exitsMapped: Array<{
       id: string;
       gate: string;
@@ -308,17 +303,21 @@ export class DigitalTwinService {
       let gate = `Gate ${idx + 1}`;
       let roadOrDesc = ent.name || `${station.name} Gate ${idx + 1}`;
 
-      const gateMatch = ent.name?.match(/(Gate\s+[A-Z0-9]+)/i);
+      // Use word boundary \b to prevent partial matches like 'gate' in 'Churchgate'
+      const gateMatch = ent.name?.match(/\bGate\s+([A-Z0-9]+)\b/i);
       const parenMatch = ent.name?.match(/\((.+)\)$/);
 
       if (gateMatch) {
-        gate = gateMatch[1];
+        gate = gateMatch[1].toUpperCase();
+      } else if (ent.name?.toLowerCase().includes('fob')) {
+        gate = 'FOB';
       }
       if (parenMatch && parenMatch[1]) {
         roadOrDesc = parenMatch[1].trim();
       } else if (ent.name) {
         roadOrDesc = ent.name
           .replace(new RegExp(`^${station.name}\\s*`, 'i'), '')
+          .replace(/^Gate\s+[A-Z0-9]+\s*[-:·]?\s*/i, '')
           .trim();
       }
 
@@ -332,13 +331,13 @@ export class DigitalTwinService {
         Boolean(ent.name?.toLowerCase().includes('suburban interchange'));
 
       let concourseSide = 'CONCOURSE';
-      if (/Gate\s+A/i.test(gate)) {
+      if (/^A/i.test(gate) || /Gate\s+A/i.test(ent.name)) {
         concourseSide = 'CONCOURSE A (WEST)';
-      } else if (/Gate\s+B/i.test(gate)) {
+      } else if (/^B/i.test(gate) || /Gate\s+B/i.test(ent.name)) {
         concourseSide = 'CONCOURSE B (EAST)';
-      } else if (/Gate\s+[12]/i.test(gate)) {
+      } else if (/^[12]/i.test(gate) || /Gate\s+[12]/i.test(ent.name)) {
         concourseSide = 'NORTH / WEST CONCOURSE';
-      } else if (/Gate\s+[345]/i.test(gate)) {
+      } else if (/^[345]/i.test(gate) || /Gate\s+[345]/i.test(ent.name)) {
         concourseSide = 'SOUTH / EAST CONCOURSE';
       }
 
@@ -348,8 +347,8 @@ export class DigitalTwinService {
         name: roadOrDesc,
         distanceMeter: null,
         type: 'ENTRANCE',
-        hasLift: ent.lift || isLine3 || ent.accessible,
-        hasEscalator: ent.escalator || isLine3,
+        hasLift: Boolean(ent.lift || ent.accessible),
+        hasEscalator: Boolean(ent.escalator),
         isRailInterchange,
         concourseSide,
       });

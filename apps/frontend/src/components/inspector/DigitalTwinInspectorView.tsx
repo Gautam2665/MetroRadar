@@ -20,11 +20,6 @@ export function DigitalTwinInspectorView({
 }: DigitalTwinInspectorViewProps) {
   if (!digitalTwin) return null;
 
-  const hasStepFreeAccess =
-    digitalTwin.exits?.some((e) => e.hasLift || e.accessible) ||
-    digitalTwin.stationName.includes("Line 3") ||
-    true;
-
   return (
     <motion.div
       initial={{ x: "100%", opacity: 0, scale: 0.95 }}
@@ -35,19 +30,11 @@ export function DigitalTwinInspectorView({
     >
       {/* Header */}
       <div className="p-4 border-b border-white/10 shrink-0">
-        <div className="flex justify-between items-start">
-          <div className="space-y-1">
-            <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-              <span>🚇</span>
-              <span>{digitalTwin.stationName}</span>
-            </h3>
-            {hasStepFreeAccess && (
-              <div className="inline-flex items-center gap-1 text-[11px] text-emerald-400 font-medium">
-                <span>♿</span>
-                <span>Step-Free Lifts Available</span>
-              </div>
-            )}
-          </div>
+        <div className="flex justify-between items-center">
+          <h3 className="text-base font-bold text-white flex items-center gap-1.5">
+            <span>🚇</span>
+            <span>{digitalTwin.stationName}</span>
+          </h3>
           <button
             onClick={onClose}
             className="w-7 h-7 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#bac9cc] hover:text-[#dfe2ee] hover:bg-white/10 transition-colors"
@@ -90,11 +77,6 @@ export function DigitalTwinInspectorView({
                         <span className="text-slate-500">•</span>
                         <span className="text-[11px] text-[#bac9cc]">Towards {eta.towards}</span>
                       </div>
-                      {eta.recommendedCoach && (
-                        <span className="text-[10px] text-[#00e5ff] font-medium block mt-0.5">
-                          Rec: {eta.recommendedCoach}
-                        </span>
-                      )}
                     </div>
                     <div className="text-right">
                       {eta.etaMins === null || eta.etaMins === undefined ? (
@@ -151,22 +133,24 @@ export function DigitalTwinInspectorView({
                         return (
                           <div
                             key={exit.id || idx}
-                            className="flex items-center justify-between gap-2 py-1 px-2 rounded hover:bg-white/5 transition"
+                            className="flex items-start justify-between gap-2 py-1 px-2 rounded hover:bg-white/5 transition"
                           >
-                            <div className="flex items-center gap-2 min-w-0">
-                              <span className="font-mono font-bold text-sky-400 bg-sky-950/80 border border-sky-800/40 px-1.5 py-0.5 rounded text-[11px] shrink-0">
+                            <div className="flex items-start gap-2 flex-1 min-w-0">
+                              <span className="font-mono font-bold text-sky-400 bg-sky-950/80 border border-sky-800/40 px-1.5 py-0.5 rounded text-[11px] shrink-0 mt-0.5">
                                 {exit.gate}
                               </span>
-                              <span className="text-slate-300 truncate text-xs">
-                                {displayName}
-                              </span>
-                              {exit.isRailInterchange && (
-                                <span className="text-[10px] font-medium text-amber-300 bg-amber-500/10 border border-amber-500/30 px-1.5 py-0.2 rounded shrink-0 flex items-center gap-1">
-                                  🚆 Suburban Link
+                              <div className="min-w-0 flex-1">
+                                <span className="text-slate-300 text-xs leading-snug break-words">
+                                  {displayName}
                                 </span>
-                              )}
+                                {exit.isRailInterchange && (
+                                  <span className="ml-1.5 text-[10px] font-medium text-amber-300 bg-amber-500/10 border border-amber-500/30 px-1.5 py-0.2 rounded shrink-0 inline-flex items-center gap-1">
+                                    🚆 Suburban Link
+                                  </span>
+                                )}
+                              </div>
                             </div>
-                            <div className="flex items-center gap-1.5 shrink-0 ml-1">
+                            <div className="flex items-center gap-1.5 shrink-0 ml-1 mt-0.5">
                               {exit.hasLift && (
                                 <span
                                   className="text-[10px] font-semibold text-emerald-300 bg-emerald-500/10 border border-emerald-500/30 px-1.5 py-0.2 rounded flex items-center gap-0.5"

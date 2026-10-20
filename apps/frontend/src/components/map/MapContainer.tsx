@@ -969,6 +969,7 @@ export default function MapContainer({
     if (!map || !mapLoaded || !selectedStationId) {
       if (map) {
         if (map.getLayer("station-indoor-platforms")) map.removeLayer("station-indoor-platforms");
+        if (map.getLayer("station-indoor-entrances-labels")) map.removeLayer("station-indoor-entrances-labels");
         if (map.getLayer("station-indoor-entrances")) map.removeLayer("station-indoor-entrances");
         if (map.getSource("station-indoor-source")) map.removeSource("station-indoor-source");
       }
@@ -1011,23 +1012,66 @@ export default function MapContainer({
           });
 
           // Indoor Entrances Layer
+          // Indoor Entrances Layer (Emerald for Step-Free Lifts, Cyan for Escalator/Stairs)
           map.addLayer({
             id: "station-indoor-entrances",
             type: "circle",
             source: "station-indoor-source",
             filter: ["==", ["get", "type"], "entrance"],
             paint: {
-              "circle-color": "#4ade80",
+              "circle-color": [
+                "case",
+                ["get", "hasLift"],
+                "#10b981",
+                "#0284c7",
+              ],
               "circle-radius": [
                 "interpolate",
                 ["linear"],
                 ["zoom"],
-                14, 5,
-                16.5, 9,
-                19, 14,
+                14, 6,
+                16.5, 10,
+                19, 15,
               ],
-              "circle-stroke-color": "#09090b",
+              "circle-stroke-color": "#ffffff",
               "circle-stroke-width": 2,
+            },
+          });
+
+          // Indoor Entrances Labels with Gate Code and Lift/Escalator Icon
+          map.addLayer({
+            id: "station-indoor-entrances-labels",
+            type: "symbol",
+            source: "station-indoor-source",
+            filter: ["==", ["get", "type"], "entrance"],
+            layout: {
+              "text-field": [
+                "case",
+                ["get", "hasLift"],
+                ["concat", ["get", "gateCode"], " 🛗"],
+                ["concat", ["get", "gateCode"], " ⚡"],
+              ],
+              "text-size": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                14, 9,
+                16.5, 11,
+                19, 13,
+              ],
+              "text-offset": [0, -1.3],
+              "text-anchor": "bottom",
+              "text-allow-overlap": true,
+            },
+            paint: {
+              "text-color": [
+                "case",
+                ["get", "hasLift"],
+                "#34d399",
+                "#38bdf8",
+              ],
+              "text-halo-color": "#080e18",
+              "text-halo-width": 2,
             },
           });
         }

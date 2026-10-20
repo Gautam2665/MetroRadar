@@ -526,22 +526,45 @@ export class GeojsonService {
     const features: Record<string, unknown>[] = [];
 
     // 1. Entrance Points (Location Type 2 - Street / Level 0)
+    const seenGateCoords = new Map<string, number>();
     for (const ent of station.entrances) {
+      const coordKey = `${ent.longitude.toFixed(5)},${ent.latitude.toFixed(5)}`;
+      const occurrence = seenGateCoords.get(coordKey) || 0;
+      seenGateCoords.set(coordKey, occurrence + 1);
+
+      let lon = ent.longitude;
+      let lat = ent.latitude;
+      if (occurrence > 0) {
+        // Disperse duplicate entries along a minor radial offset (approx 15-20 meters)
+        const angle = (occurrence * 45 * Math.PI) / 180;
+        lat += 0.00018 * Math.cos(angle);
+        lon += 0.00018 * Math.sin(angle);
+      }
+
+      const m = ent.name?.match(/\bGate\s+([A-Z0-9]+)\b/i);
+      const gateCode = m ? m[1].toUpperCase() : 'GATE';
+      const parenMatch = ent.name?.match(/\((.+)\)$/);
+      const landmarkName = parenMatch ? parenMatch[1].trim() : ent.name;
+
       features.push({
         type: 'Feature',
         id: `ent-${ent.id}`,
         geometry: {
           type: 'Point',
-          coordinates: [ent.longitude, ent.latitude],
+          coordinates: [lon, lat],
         },
         properties: {
           id: ent.id,
           name: ent.name,
+          gateCode,
+          landmarkName,
           type: 'entrance',
           level_id: 'LVL_G',
           levelNumber: 0,
           levelName: 'Street Level',
-          accessible: ent.accessible,
+          hasLift: Boolean(ent.lift || ent.accessible),
+          hasEscalator: Boolean(ent.escalator),
+          accessible: Boolean(ent.accessible || ent.lift),
         },
       });
     }

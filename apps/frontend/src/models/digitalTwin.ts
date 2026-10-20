@@ -93,7 +93,9 @@ export function toDigitalTwinModel(dto: Record<string, unknown> | null | undefin
       platformEtas: (dto.platformEtas as PlatformEta[]) || [],
       exits: Array.isArray(dto.exits) && (dto.exits as unknown[]).length > 0
         ? (dto.exits as Record<string, unknown>[]).map((e, idx) => {
-            const gateStr = (e.gate as string) || (e.name as string) || `Gate ${idx + 1}`;
+            const rawGate = (e.gate as string) || (e.name as string) || `Gate ${idx + 1}`;
+            const m = rawGate.match(/\bGate\s+([A-Z0-9]+)\b/i);
+            const gateStr = m ? m[1].toUpperCase() : rawGate;
             const nameStr = (e.name as string) || `Exit ${idx + 1}`;
             const isRail =
               typeof e.isRailInterchange === "boolean"
@@ -102,35 +104,37 @@ export function toDigitalTwinModel(dto: Record<string, unknown> | null | undefin
 
             let side = (e.concourseSide as string) || "";
             if (!side) {
-              if (/Gate\s+A/i.test(gateStr)) side = "CONCOURSE A (WEST)";
-              else if (/Gate\s+B/i.test(gateStr)) side = "CONCOURSE B (EAST)";
-              else if (/Gate\s+[12]/i.test(gateStr)) side = "NORTH / WEST CONCOURSE";
-              else if (/Gate\s+[345]/i.test(gateStr)) side = "SOUTH / EAST CONCOURSE";
+              if (/^A/i.test(gateStr) || /Gate\s+A/i.test(rawGate)) side = "CONCOURSE A (WEST)";
+              else if (/^B/i.test(gateStr) || /Gate\s+B/i.test(rawGate)) side = "CONCOURSE B (EAST)";
+              else if (/^[12]/i.test(gateStr) || /Gate\s+[12]/i.test(rawGate)) side = "NORTH / WEST CONCOURSE";
+              else if (/^[345]/i.test(gateStr) || /Gate\s+[345]/i.test(rawGate)) side = "SOUTH / EAST CONCOURSE";
               else side = "CONCOURSE";
             }
 
-            const isL3 = mappedLines.some((l) => l.code === "L3" || l.name.toLowerCase().includes("aqua"));
-            const hasLift = typeof e.hasLift === "boolean" ? e.hasLift : isL3 || true;
+            const hasLift = Boolean(e.hasLift ?? e.lift);
+            const hasEscalator = Boolean(e.hasEscalator ?? e.escalator);
             return {
               gate: gateStr,
               name: nameStr,
               distanceMeter: typeof e.distanceMeter === "number" && e.distanceMeter > 0 ? e.distanceMeter : null,
               accessible: typeof e.accessible === "boolean" ? e.accessible : hasLift,
               hasLift,
-              hasEscalator: typeof e.hasEscalator === "boolean" ? e.hasEscalator : isL3,
+              hasEscalator,
               isRailInterchange: isRail,
               concourseSide: side,
             };
           })
         : Array.isArray(physicalRecord.entrances)
         ? (physicalRecord.entrances as Record<string, unknown>[]).map((e, idx) => {
-            const gateStr = (e.name as string) || `Gate ${idx + 1}`;
+            const rawGate = (e.name as string) || `Gate ${idx + 1}`;
+            const m = rawGate.match(/\bGate\s+([A-Z0-9]+)\b/i);
+            const gateStr = m ? m[1].toUpperCase() : rawGate;
             const nameStr = (e.description as string) || (e.name as string) || "Station Gate";
             let side = "CONCOURSE";
-            if (/Gate\s+A/i.test(gateStr)) side = "CONCOURSE A (WEST)";
-            else if (/Gate\s+B/i.test(gateStr)) side = "CONCOURSE B (EAST)";
+            if (/^A/i.test(gateStr) || /Gate\s+A/i.test(rawGate)) side = "CONCOURSE A (WEST)";
+            else if (/^B/i.test(gateStr) || /Gate\s+B/i.test(rawGate)) side = "CONCOURSE B (EAST)";
 
-            const hasLift = Boolean(e.lift || true);
+            const hasLift = Boolean(e.lift || e.accessible);
             return {
               gate: gateStr,
               name: nameStr,

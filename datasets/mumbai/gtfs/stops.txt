@@ -265,14 +265,14 @@ ENT_STN_L3_023_A3,"CSMT Metro Gate A3 (West Pavilion Surface Access)",18.940864,
 ENT_STN_L3_023_A4,"CSMT Metro Gate A4 (West Pavilion Surface Access)",18.940464,72.831920,2,STN_L3_023,,LVL_STN_L3_023_G,0
 ENT_STN_L3_023_B1,"CSMT Metro Gate B1 (Crawford Market)",18.940864,72.832420,2,STN_L3_023,,LVL_STN_L3_023_G,1
 ENT_STN_L3_023_B2,"CSMT Metro Gate B2 (East Pavilion Surface Access)",18.940464,72.832420,2,STN_L3_023,,LVL_STN_L3_023_G,0
-ENT_STN_L3_024_A1,"Hutatma Chowk Gate A1 (Central Bank of India)",18.934779,72.832576,2,STN_L3_024,,LVL_STN_L3_024_G,1
-ENT_STN_L3_024_A2,"Hutatma Chowk Gate A2 (Western Railway Headquarters)",18.934379,72.832576,2,STN_L3_024,,LVL_STN_L3_024_G,0
-ENT_STN_L3_024_A3,"Hutatma Chowk Gate A3 (West Pavilion Surface Access)",18.934779,72.832576,2,STN_L3_024,,LVL_STN_L3_024_G,0
-ENT_STN_L3_024_A4,"Hutatma Chowk Gate A4 (Reserve Bank Of India)",18.934379,72.832576,2,STN_L3_024,,LVL_STN_L3_024_G,0
-ENT_STN_L3_024_B1,"Hutatma Chowk Gate B1 (East Pavilion Surface Access)",18.934779,72.833076,2,STN_L3_024,,LVL_STN_L3_024_G,1
-ENT_STN_L3_024_B2,"Hutatma Chowk Gate B2 (East Pavilion Surface Access)",18.934379,72.833076,2,STN_L3_024,,LVL_STN_L3_024_G,0
-ENT_STN_L3_024_B3,"Hutatma Chowk Gate B3 (East Pavilion Surface Access)",18.934779,72.833076,2,STN_L3_024,,LVL_STN_L3_024_G,0
-ENT_STN_L3_024_B4,"Hutatma Chowk Gate B4 (Brihanmumbai Municipal Corporation (BMC))",18.934379,72.833076,2,STN_L3_024,,LVL_STN_L3_024_G,0
+ENT_STN_L3_024_A1,"Hutatma Chowk Gate A1 (Central Bank of India)",18.93385,72.8322,2,STN_L3_024,,LVL_STN_L3_024_G,1
+ENT_STN_L3_024_A2,"Hutatma Chowk Gate A2 (Western Railway Headquarters)",18.93425,72.83245,2,STN_L3_024,,LVL_STN_L3_024_G,0
+ENT_STN_L3_024_A3,"Hutatma Chowk Gate A3 (West Pavilion Surface Access)",18.93475,72.83275,2,STN_L3_024,,LVL_STN_L3_024_G,0
+ENT_STN_L3_024_A4,"Hutatma Chowk Gate A4 (Reserve Bank Of India)",18.93525,72.83305,2,STN_L3_024,,LVL_STN_L3_024_G,0
+ENT_STN_L3_024_B1,"Hutatma Chowk Gate B1 (East Pavilion Surface Access)",18.93395,72.83255,2,STN_L3_024,,LVL_STN_L3_024_G,1
+ENT_STN_L3_024_B2,"Hutatma Chowk Gate B2 (East Pavilion Surface Access)",18.9344,72.83285,2,STN_L3_024,,LVL_STN_L3_024_G,0
+ENT_STN_L3_024_B3,"Hutatma Chowk Gate B3 (East Pavilion Surface Access)",18.93485,72.83315,2,STN_L3_024,,LVL_STN_L3_024_G,0
+ENT_STN_L3_024_B4,"Hutatma Chowk Gate B4 (Brihanmumbai Municipal Corporation (BMC))",18.93535,72.83345,2,STN_L3_024,,LVL_STN_L3_024_G,0
 ENT_STN_L3_025_A1,"Churchgate Gate A1 (Industrial Assurance Building)",18.930854,72.825922,2,STN_L3_025,,LVL_STN_L3_025_G,1
 ENT_STN_L3_025_A2,"Churchgate Gate A2 (Vidhan Bhavan)",18.930454,72.825922,2,STN_L3_025,,LVL_STN_L3_025_G,0
 ENT_STN_L3_025_A3,"Churchgate Gate A3 (West Pavilion Surface Access)",18.930854,72.825922,2,STN_L3_025,,LVL_STN_L3_025_G,0
