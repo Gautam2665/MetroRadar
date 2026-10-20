@@ -1,0 +1,5 @@
+from_leg_group_id,to_leg_group_id,transfer_count,duration_limit,duration_limit_type,fare_transfer_type,transfer_charge
+LEG_MMMOCL_P1,LEG_MMMOCL_P1,-1,7200,1,0,0.00
+LEG_MMMOCL_N1,LEG_MMMOCL_N1,-1,7200,1,0,0.00
+LEG_MMOPL_P1,LEG_MMMOCL_P1,0,0,1,2,0.00
+LEG_MMOPL_P1,LEG_MMRCL_P1,0,0,1,2,0.00
