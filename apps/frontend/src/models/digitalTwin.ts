@@ -19,9 +19,11 @@ export interface PlatformEta {
 }
 
 export interface StationExit {
+  id?: string;
   gate: string;
   name: string;
   distanceMeter?: number | null;
+  accessible?: boolean;
   hasLift?: boolean;
   hasEscalator?: boolean;
   isRailInterchange?: boolean;
@@ -108,11 +110,13 @@ export function toDigitalTwinModel(dto: Record<string, unknown> | null | undefin
             }
 
             const isL3 = mappedLines.some((l) => l.code === "L3" || l.name.toLowerCase().includes("aqua"));
+            const hasLift = typeof e.hasLift === "boolean" ? e.hasLift : isL3 || true;
             return {
               gate: gateStr,
               name: nameStr,
               distanceMeter: typeof e.distanceMeter === "number" && e.distanceMeter > 0 ? e.distanceMeter : null,
-              hasLift: typeof e.hasLift === "boolean" ? e.hasLift : isL3 || true,
+              accessible: typeof e.accessible === "boolean" ? e.accessible : hasLift,
+              hasLift,
               hasEscalator: typeof e.hasEscalator === "boolean" ? e.hasEscalator : isL3,
               isRailInterchange: isRail,
               concourseSide: side,
@@ -126,11 +130,13 @@ export function toDigitalTwinModel(dto: Record<string, unknown> | null | undefin
             if (/Gate\s+A/i.test(gateStr)) side = "CONCOURSE A (WEST)";
             else if (/Gate\s+B/i.test(gateStr)) side = "CONCOURSE B (EAST)";
 
+            const hasLift = Boolean(e.lift || true);
             return {
               gate: gateStr,
               name: nameStr,
               distanceMeter: null,
-              hasLift: Boolean(e.lift || true),
+              accessible: typeof e.accessible === "boolean" ? e.accessible : hasLift,
+              hasLift,
               hasEscalator: Boolean(e.escalator),
               isRailInterchange: Boolean(e.isRailInterchange),
               concourseSide: side,
