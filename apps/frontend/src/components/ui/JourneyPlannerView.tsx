@@ -6,6 +6,7 @@ import { StationSearchInput, StationItem } from "../StationSearchInput";
 import { RouteOption, RouteLeg } from "../../containers/JourneyPlannerContainer";
 import { formatShortLineName, formatLineName } from "../../utils/transitFormatter";
 import { CITY_METADATA } from "../../config/cityMetadata";
+import { resolveStationExitGate, ExitGateInfo } from "../../config/stationGates";
 
 export type { RouteOption, RouteLeg };
 
@@ -422,154 +423,12 @@ function getInterchangeDetails(
   };
 }
 
-interface ExitGateInfo {
-  gate: string;
-  landmarkSummary: string;
-  walkNote?: string;
-  isDirectFob?: boolean;
-}
-
 function getStationExitGateInfo(
   stationName: string,
   destinationQuery?: string,
   existingGuidance?: string | null
 ): ExitGateInfo | null {
-  const stnNorm = stationName.toLowerCase().replace(/[-_()]/g, " ");
-  const destNorm = (destinationQuery || "").toLowerCase();
-
-  // Vidhan Bhawan (Line 3 Aqua Line)
-  if (stnNorm.includes("vidhan") || destNorm.includes("vidhan")) {
-    if (destNorm.includes("oberoi") || destNorm.includes("nariman") || destNorm.includes("marine")) {
-      return {
-        gate: "Gate B2 / B3",
-        landmarkSummary: "The Oberoi, Mumbai & Nariman Point",
-        walkNote: "Exit via Gate B2 / B3 towards Madam Cama Road (~240m walk)",
-        isDirectFob: false,
-      };
-    }
-    if (destNorm.includes("mittal") || destNorm.includes("maker")) {
-      return {
-        gate: "Gate B4",
-        landmarkSummary: "Mittal Towers & Maker Chambers",
-        walkNote: "Direct building access via Gate B4 (~10m walk)",
-        isDirectFob: true,
-      };
-    }
-    if (destNorm.includes("mantralaya") || destNorm.includes("assembly") || destNorm.includes("vidhan")) {
-      return {
-        gate: "Gate B1",
-        landmarkSummary: "Vidhan Bhavan & Mantralaya",
-        walkNote: "Exit via Gate B1 (~170m walk)",
-        isDirectFob: false,
-      };
-    }
-    if (destNorm.includes("gallery") || destNorm.includes("ngma") || destNorm.includes("modern art")) {
-      return {
-        gate: "Gate A3",
-        landmarkSummary: "National Gallery of Modern Art",
-        walkNote: "Exit via Gate A3 (~650m walk)",
-        isDirectFob: false,
-      };
-    }
-    // Default for Vidhan Bhawan station
-    return {
-      gate: "Gate B1 / B2 / B4",
-      landmarkSummary: "Gate B1 (Vidhan Bhavan & Mantralaya) · Gate B2 (The Oberoi & Nariman Point) · Gate B4 (Mittal Towers)",
-      walkNote: "Nearest exit gates configured via Mumbai Metro Line 3 Wayfinder",
-      isDirectFob: false,
-    };
-  }
-
-  // Churchgate (Line 3)
-  if (stnNorm.includes("churchgate")) {
-    if (destNorm.includes("eros") || destNorm.includes("oval")) {
-      return {
-        gate: "Gate B1",
-        landmarkSummary: "Eros Theatre & Oval Maidan",
-        walkNote: "Exit via Gate B1 (~400m walk)",
-      };
-    }
-    return {
-      gate: "Gate A1 / B1",
-      landmarkSummary: "Gate A1 (WR Headquarters) · Gate B1 (Eros Theatre & Oval Maidan)",
-      walkNote: "Exit via concourse pedestrian subway",
-    };
-  }
-
-  // CSMT Metro (Line 3)
-  if (stnNorm.includes("csmt")) {
-    if (destNorm.includes("crawford") || destNorm.includes("manish")) {
-      return {
-        gate: "Gate B1",
-        landmarkSummary: "Crawford Market & Manish Market",
-        walkNote: "Exit via Gate B1 (~550m walk)",
-      };
-    }
-    return {
-      gate: "Gate A1 / B1",
-      landmarkSummary: "Gate A1 (CSMT Main Terminus) · Gate B1 (Crawford Market)",
-      walkNote: "Subway connection to CSMT suburban & mainline",
-    };
-  }
-
-  // BKC (Line 3)
-  if (stnNorm.includes("bkc") || stnNorm.includes("bandra kurla")) {
-    return {
-      gate: "Gate B1 / Skywalk",
-      landmarkSummary: "Jio World Centre, Maker Maxity & MCA Club",
-      walkNote: "Direct Skywalk access to G Block / BKC Financial District",
-      isDirectFob: true,
-    };
-  }
-
-  // Siddhivinayak (Line 3)
-  if (stnNorm.includes("siddhivinayak")) {
-    return {
-      gate: "Gate B2",
-      landmarkSummary: "Shree Siddhivinayak Temple",
-      walkNote: "Direct 62m pedestrian access via Gate B2",
-      isDirectFob: false,
-    };
-  }
-
-  // Santacruz (Line 3)
-  if (stnNorm.includes("santacruz")) {
-    return {
-      gate: "Gate B2",
-      landmarkSummary: "Santacruz Railway Station (East) & Bus Station",
-      walkNote: "Exit via Gate B2 (~594m walk)",
-    };
-  }
-
-  // CSMIA T1 (Line 3)
-  if (stnNorm.includes("terminal 1") || stnNorm.includes("t1")) {
-    return {
-      gate: "Gate A1",
-      landmarkSummary: "Domestic Airport Terminal 1 & Taxi Pickup",
-      walkNote: "Exit via Gate A1 (~600m covered path)",
-    };
-  }
-
-  // CSMIA T2 (Line 3)
-  if (stnNorm.includes("terminal 2") || stnNorm.includes("t2")) {
-    return {
-      gate: "Gate A2",
-      landmarkSummary: "International Airport Terminal 2 & Car Park",
-      walkNote: "Exit via Gate A2 (~200m direct terminal walkway)",
-    };
-  }
-
-  // If existingGuidance contains gate information
-  if (existingGuidance && /gate\s+[a-z0-9]+/i.test(existingGuidance)) {
-    const match = existingGuidance.match(/gate\s+([a-z0-9,\s/]+)/i);
-    return {
-      gate: match ? `Gate ${match[1].trim()}` : "Exit Gate",
-      landmarkSummary: destinationQuery || stationName,
-      walkNote: existingGuidance,
-    };
-  }
-
-  return null;
+  return resolveStationExitGate(stationName, destinationQuery, existingGuidance);
 }
 
 // ── Stitch Vertical Timeline: Journey Details ────────────────────────────────
@@ -972,22 +831,56 @@ export function JourneyDetailsTimeline({
 
                 {/* Wayfinder Nearest Exit Gate Card */}
                 {exitGateInfo ? (
-                  <div className="mt-2.5 p-2.5 rounded-xl bg-[#0d2238]/90 border border-cyan-500/40 text-xs text-cyan-200 shadow-sm">
+                  <div className="mt-2.5 p-3 rounded-xl bg-gradient-to-br from-[#0c1c2e]/95 to-[#0f2742]/95 border border-cyan-500/40 text-xs text-cyan-200 shadow-md">
                     <div className="flex items-center gap-1.5 font-bold text-cyan-300">
-                      <span className="material-symbols-outlined text-[15px] text-cyan-400">output</span>
-                      <span>Wayfinder Nearest Exit: {exitGateInfo.gate}</span>
+                      <span className="material-symbols-outlined text-[16px] text-cyan-400">output</span>
+                      <span className="text-xs">Wayfinder Nearest Exit: {exitGateInfo.gate}</span>
+                      {exitGateInfo.lineName && (
+                        <span className="px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 text-[9px] font-bold border border-cyan-500/40 ml-1">
+                          {exitGateInfo.lineName.includes("Line 3") ? "MMRC Line 3" : exitGateInfo.lineName}
+                        </span>
+                      )}
                       {exitGateInfo.isDirectFob && (
                         <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 text-[9px] font-bold border border-emerald-500/40 ml-auto">
                           Direct Access
                         </span>
                       )}
                     </div>
-                    <div className="text-[11px] text-slate-200 mt-1">
+                    <div className="text-[11.5px] font-medium text-slate-100 mt-1.5">
                       {exitGateInfo.landmarkSummary}
                     </div>
                     {exitGateInfo.walkNote && (
-                      <div className="text-[10px] text-cyan-300/80 mt-0.5 font-mono">
-                        {exitGateInfo.walkNote}
+                      <div className="text-[10px] text-cyan-300/90 mt-1 font-mono flex items-center gap-1">
+                        <span className="material-symbols-outlined text-[12px] text-cyan-400">directions_walk</span>
+                        <span>{exitGateInfo.walkNote}</span>
+                      </div>
+                    )}
+
+                    {/* All Mapped Station Gates */}
+                    {exitGateInfo.allGates && exitGateInfo.allGates.length > 0 && (
+                      <div className="mt-2.5 pt-2 border-t border-cyan-500/20">
+                        <div className="text-[9.5px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+                          <span className="flex items-center gap-1">
+                            <span className="material-symbols-outlined text-[11px] text-cyan-400">door_front</span>
+                            All Station Gates ({exitGateInfo.allGates.length})
+                          </span>
+                          <span className="text-[9px] text-cyan-400 font-mono font-medium">MMRC Wayfinder</span>
+                        </div>
+                        <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-0.5 scrollbar-thin">
+                          {exitGateInfo.allGates.map((g, idx) => (
+                            <span
+                              key={idx}
+                              className={`px-2 py-0.5 rounded-lg text-[10px] leading-snug border transition-all ${
+                                g.isRecommended
+                                  ? "bg-cyan-500/25 border-cyan-400 text-cyan-200 font-semibold shadow-[0_0_8px_rgba(0,229,255,0.25)]"
+                                  : "bg-white/[0.04] border-white/10 text-slate-300"
+                              }`}
+                            >
+                              <span className="font-bold text-white mr-1">{g.gate}:</span>
+                              <span className="text-slate-300">{g.landmark}</span>
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
