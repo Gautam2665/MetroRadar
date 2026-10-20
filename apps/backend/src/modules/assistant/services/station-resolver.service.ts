@@ -149,7 +149,8 @@ export class StationResolverService {
     }
 
     // 2. Direct GTFS Entrance Check (e.g. Oberoi Sky City FOB, Gate A4, RBI, etc.)
-    const matchedEntrance = await this.prisma.entrance.findFirst({
+    const matchedEntrance = this.prisma.entrance
+      ? await this.prisma.entrance.findFirst({
       where: {
         isActive: true,
         OR: [
@@ -169,7 +170,8 @@ export class StationResolverService {
           },
         },
       },
-    });
+    })
+      : null;
 
     if (matchedEntrance?.station) {
       this.logger.log(

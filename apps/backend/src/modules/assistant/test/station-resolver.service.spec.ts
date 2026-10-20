@@ -83,6 +83,9 @@ describe('StationResolverService', () => {
         return Promise.resolve(mockStations);
       }),
     },
+    entrance: {
+      findFirst: jest.fn().mockResolvedValue(null),
+    },
   };
 
   const mockSearchService = {
