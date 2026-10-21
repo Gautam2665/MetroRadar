@@ -464,6 +464,7 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
             attributes: c.attributes,
             destinationGuidance: c.destinationGuidance,
             boardCoach: c.boardCoach,
+            stations: c.stations || [],
             realtimeOccupancy: c.realtimeOccupancy,
             realtime: c.realtime,
           };

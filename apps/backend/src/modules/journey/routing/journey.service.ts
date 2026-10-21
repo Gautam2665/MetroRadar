@@ -464,16 +464,6 @@ export class JourneyService {
       );
       if (attachments.length > 0) {
         const primary = attachments[0].station;
-        const landmarkMeta: LandmarkMeta = {
-          id: `coord-${lat.toFixed(5)}-${lng.toFixed(5)}`,
-          name: `Location (${lat.toFixed(4)}, ${lng.toFixed(4)})`,
-          category: 'RESIDENTIAL',
-          hasDirectFob: false,
-          hasDirectAccess: false,
-          walkDistanceMeters: attachments[0].gate.walkDistanceMeters,
-          walkTimeSeconds: attachments[0].gate.walkTimeSeconds,
-          corridorNote: attachments[0].gate.corridorNote,
-        };
         return {
           id: `${lat.toFixed(5)},${lng.toFixed(5)}`,
           name: `Location (${lat.toFixed(4)}, ${lng.toFixed(4)})`,
@@ -482,7 +472,7 @@ export class JourneyService {
           longitude: lng,
           systemId: system.id,
           systemCode: system.code,
-          landmark: landmarkMeta,
+          landmark: undefined,
           attachments,
           primaryStation: primary,
         };
@@ -693,16 +683,6 @@ export class JourneyService {
             if (attachments.length > 0) {
               const primary = attachments[0].station;
               const placeName = (feat.properties?.name as string) || queryTerm;
-              const landmarkMeta: LandmarkMeta = {
-                id: identifier,
-                name: placeName,
-                category: 'COMMERCIAL',
-                hasDirectFob: false,
-                hasDirectAccess: false,
-                walkDistanceMeters: attachments[0].gate.walkDistanceMeters,
-                walkTimeSeconds: attachments[0].gate.walkTimeSeconds,
-                corridorNote: attachments[0].gate.corridorNote,
-              };
               return {
                 id: identifier,
                 name: placeName,
@@ -711,7 +691,7 @@ export class JourneyService {
                 longitude: lon,
                 systemId: system.id,
                 systemCode: system.code,
-                landmark: landmarkMeta,
+                landmark: undefined,
                 attachments,
                 primaryStation: primary,
               };
@@ -997,9 +977,10 @@ export class JourneyService {
 
       const legs = await this.buildLegs(path, lineMap, stationMap, false);
 
-      // ── Attach First-Mile Leg if origin is a landmark ─────────────────
+      // ── Attach First-Mile Leg if origin is a landmark with direct FOB / access ──
       if (
         fromEndpoint.landmark &&
+        (fromEndpoint.landmark.hasDirectFob || fromEndpoint.landmark.hasDirectAccess) &&
         (originAttachment.gate.walkTimeSeconds > 0 ||
           originAttachment.gate.walkDistanceMeters > 0 ||
           originAttachment.gate.corridorNote)
@@ -1048,9 +1029,10 @@ export class JourneyService {
         legs.unshift(accessLeg);
       }
 
-      // ── Attach Last-Mile Leg if destination is a landmark ─────────────
+      // ── Attach Last-Mile Leg if destination is a landmark with direct FOB / access ──
       if (
         toEndpoint.landmark &&
+        (toEndpoint.landmark.hasDirectFob || toEndpoint.landmark.hasDirectAccess) &&
         (destAttachment.gate.walkTimeSeconds > 0 ||
           destAttachment.gate.walkDistanceMeters > 0 ||
           destAttachment.gate.corridorNote)
@@ -1203,40 +1185,45 @@ export class JourneyService {
       };
 
       let destinationGuidance: string | null = null;
-      if (toEndpoint.landmark) {
+      if (
+        toEndpoint.landmark &&
+        (toEndpoint.landmark.hasDirectFob || toEndpoint.landmark.hasDirectAccess)
+      ) {
         destinationGuidance = destAttachment.gate?.gateName
           ? `Exit ${destAttachment.gate.gateName} for ${toEndpoint.landmark.name}`
           : `Exit for ${toEndpoint.landmark.name}`;
-      } else if (destAttachment.gate?.corridorNote) {
-        destinationGuidance = destAttachment.gate.corridorNote;
       } else if (
-        destAttachment.gate?.gateName &&
-        destAttachment.gate.gateId !== 'DIRECT'
+        destAttachment.gate?.corridorType === 'FOB' ||
+        destAttachment.gate?.corridorType === 'TRAVELATOR'
       ) {
-        destinationGuidance = `Exit via ${destAttachment.gate.gateName}`;
+        destinationGuidance = destAttachment.gate.corridorNote || null;
       }
 
       const fareDetails = computeJourneyFares(legs);
 
-      const originRef: StationRef = fromEndpoint.landmark
-        ? {
-            id: fromEndpoint.landmark.id,
-            name: fromEndpoint.landmark.name,
-            code: fromEndpoint.code,
-            lat: fromEndpoint.latitude,
-            lng: fromEndpoint.longitude,
-          }
-        : firstStation;
+      const originRef: StationRef =
+        fromEndpoint.landmark &&
+        (fromEndpoint.landmark.hasDirectFob || fromEndpoint.landmark.hasDirectAccess)
+          ? {
+              id: fromEndpoint.landmark.id,
+              name: fromEndpoint.landmark.name,
+              code: fromEndpoint.code,
+              lat: fromEndpoint.latitude,
+              lng: fromEndpoint.longitude,
+            }
+          : firstStation;
 
-      const destRef: StationRef = toEndpoint.landmark
-        ? {
-            id: toEndpoint.landmark.id,
-            name: toEndpoint.landmark.name,
-            code: toEndpoint.code,
-            lat: toEndpoint.latitude,
-            lng: toEndpoint.longitude,
-          }
-        : lastStation;
+      const destRef: StationRef =
+        toEndpoint.landmark &&
+        (toEndpoint.landmark.hasDirectFob || toEndpoint.landmark.hasDirectAccess)
+          ? {
+              id: toEndpoint.landmark.id,
+              name: toEndpoint.landmark.name,
+              code: toEndpoint.code,
+              lat: toEndpoint.latitude,
+              lng: toEndpoint.longitude,
+            }
+          : lastStation;
 
       candidateOriginalPaths.set(id, path);
 

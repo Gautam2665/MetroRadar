@@ -106,6 +106,7 @@ export type RouteOption = {
     ticketLabel: string;
   }>;
   requiresMultipleTickets?: boolean;
+  stations?: Array<{ id?: string; name: string; code?: string }>;
   realtime?: {
     primaryTrain?: {
       tripId?: string;
@@ -352,6 +353,7 @@ function mapCandidateToRouteOption(candidate: BackendCandidate): RouteOption {
     destinationGuidance: candidate.destinationGuidance || null,
     fareBreakdown: candidate.fareBreakdown,
     requiresMultipleTickets: candidate.requiresMultipleTickets,
+    stations: candidate.stations || [],
     realtime: candidate.realtime,
   };
 }

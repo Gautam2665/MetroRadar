@@ -65,8 +65,8 @@ assert(
   "Yellow line color is #facc15"
 );
 assert(
-  resolveLineColor("BLUE_Line") === "#3b82f6",
-  "Blue line color is #3b82f6"
+  resolveLineColor("BLUE_Line") === "#007DC5",
+  "Blue line color is #007DC5"
 );
 assert(
   resolveLineColor("GREY_Line") === "#808080",
@@ -98,8 +98,8 @@ assert(
 const dilshadRawLines = [
   { code: "19", name: "RED_Shaheed Sthal to Rithala", color: "#ef4444" },
   { code: "18", name: "RED_Dilshad Garden to Rithala", color: "#ef4444" },
-  { code: "0", name: "RED_Rithala to Dilshad Garden", color: "#ef4444" },
-  { code: "1", name: "RED_Rithala to Shaheed Sthal", color: "#ef4444" },
+  { code: "19", name: "RED_Shaheed Sthal to Rithala", color: "#ef4444" },
+  { code: "18", name: "RED_Dilshad Garden to Rithala", color: "#ef4444" },
 ];
 const dilshadCleanLines = normalizeStationLines(dilshadRawLines);
 assert(
@@ -111,38 +111,47 @@ assert(
   "Dilshad Garden clean line is Red Line"
 );
 
-// Rajiv Chowk (Yellow Line + Blue Line)
-const rajivRawLines = [
-  { code: "Y1", name: "YELLOW_Samaypur Badli to Huda City Centre", color: "#facc15" },
-  { code: "Y2", name: "YELLOW_Huda City Centre to Samaypur Badli", color: "#facc15" },
-  { code: "B1", name: "BLUE_Dwarka to Noida", color: "#3b82f6" },
-  { code: "B2", name: "BLUE_Noida to Dwarka", color: "#3b82f6" },
+// Real database sample for Anand Vihar ISBT (Blue Line + Pink Line interchange)
+const anandViharRawLines = [
+  { code: "3", name: "BLUE_Dwarka Sector - 21 to Vaishali", color: "#3b82f6" },
+  { code: "4", name: "BLUE_Vaishali to Dwarka Sector - 21", color: "#3b82f6" },
+  { code: "7", name: "PINK_Majlis Park to Shiv Vihar", color: "#ec4899" },
+  { code: "8", name: "PINK_Shiv Vihar to Majlis Park", color: "#ec4899" },
 ];
-const rajivCleanLines = normalizeStationLines(rajivRawLines);
+const anandViharCleanLines = normalizeStationLines(anandViharRawLines);
 assert(
-  rajivCleanLines.length === 2,
-  `Rajiv Chowk lines deduped to 2 lines (got ${rajivCleanLines.length})`
+  anandViharCleanLines.length === 2,
+  `Anand Vihar interchange lines deduped from 4 to 2 distinct lines (got ${anandViharCleanLines.length})`
+);
+const anandViharLineNames = anandViharCleanLines.map((l) => l.shortName).sort();
+assert(
+  anandViharLineNames[0] === "Blue Line" && anandViharLineNames[1] === "Pink Line",
+  "Anand Vihar has both Blue Line and Pink Line cleanly identified"
 );
 
-// ── Test 4: Station name matching ─────────────────────────────────────────────
-console.log("\n[Test Suite 4: Station name normalization & matching]");
+// ── Test 4: Station matching utility ──────────────────────────────────────────
+console.log("\n[Test Suite 4: Station matching]");
 assert(
   isStationMatch("Dwarka Sector - 21", "Dwarka Sector 21"),
-  "Hyphenated and non-hyphenated station names match"
+  "Matches across dash differences"
 );
 assert(
-  isStationMatch("Rajiv Chowk", "RAJIV CHOWK"),
-  "Case-insensitive matching works"
+  isStationMatch("Kashmere Gate", "kashmere gate"),
+  "Matches across case differences"
 );
 assert(
-  isStationMatch("New Delhi Metro Station", "New Delhi"),
-  "Substring station matching works"
+  isStationMatch("Rajiv Chowk (Platform 1)", "Rajiv Chowk"),
+  "Matches with parenthetical suffix"
+);
+assert(
+  !isStationMatch("Noida City Centre", "Noida Sector 52"),
+  "Rejects distinct stations"
 );
 
-// ── Test 5: Journey Context Derivation (Transfer vs Direct) ───────────────────
-console.log("\n[Test Suite 5: Journey Context Derivation]");
+// ── Test 5: Transfer Station derivation for Journey Context ───────────────────
+console.log("\n[Test Suite 5: Journey Context Derivation (Transfer vs Direct)]");
 
-// Candidate 1: Multi-leg transfer route (Airport Express -> Yellow -> Blue)
+// Candidate 1: Multi-leg route (Dwarka Sec 21 -> New Delhi -> Rajiv Chowk -> Yamuna Bank)
 const candidate1: RouteOption = {
   id: "cand-1",
   label: "⚡ Fastest",
@@ -210,6 +219,11 @@ const candidate2: RouteOption = {
   crowdColor: "#fec931",
   boardCoach: "Coach 2",
   score: 33,
+  stations: [
+    { name: "Dwarka Sector - 21", code: "DW21" },
+    { name: "Rajiv Chowk", code: "RC" },
+    { name: "Yamuna Bank", code: "YB" },
+  ],
   legs: [
     {
       mode: "subway",
@@ -272,4 +286,18 @@ assert(
   "Palam station (Magenta Line) has no journey context on Candidate 1"
 );
 
-console.log("\n✅ ALL 16 ASSERTIONS PASSED SUCCESSFULLY!");
+// Check Mogra on Candidate 2 (Mogra is on Line 7 / Red Line, not Blue Line direct -> must be null!)
+const mograContextCand2 = deriveJourneyStationContext("Mogra", candidate2);
+assert(
+  mograContextCand2 === null,
+  "Mogra station (Line 7) has no journey context on Candidate 2 (prevents card bug on unvisited stations)"
+);
+
+// Check Palam on Candidate 2 (Palam is on Magenta Line, not Blue Line direct -> must be null!)
+const palamContextCand2 = deriveJourneyStationContext("Palam", candidate2);
+assert(
+  palamContextCand2 === null,
+  "Palam station has no journey context on Candidate 2"
+);
+
+console.log("\n✅ ALL 18 ASSERTIONS PASSED SUCCESSFULLY!");

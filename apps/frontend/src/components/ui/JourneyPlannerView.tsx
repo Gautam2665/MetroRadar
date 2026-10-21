@@ -477,19 +477,6 @@ export function JourneyDetailsTimeline({
             : "before:bg-gradient-to-b before:from-emerald-400 via-amber-400 to-rose-500"
         }`}
       >
-        {/* Domain Intelligence / Direct FOB Link Banner */}
-        {route.destinationGuidance && (
-          <div className="p-3 rounded-xl bg-gradient-to-r from-cyan-950/40 to-emerald-950/40 border border-cyan-500/30 text-xs text-cyan-200 shadow-[0_0_15px_rgba(0,229,255,0.08)] mb-3">
-            <div className="flex items-center gap-1.5 font-bold text-cyan-300 mb-1">
-              <span className="material-symbols-outlined text-[16px] text-cyan-400">link</span>
-              <span>Direct Infrastructure Link</span>
-            </div>
-            <div className="text-[11.5px] text-slate-200 leading-relaxed">
-              {route.destinationGuidance}
-            </div>
-          </div>
-        )}
-
         {/* Step 1: Origin Boarding */}
         {transitLegs.length > 0 && (() => {
           const leg0 = transitLegs[0];

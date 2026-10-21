@@ -294,6 +294,7 @@ function JourneyPlannerContent() {
             attributes: c.attributes,
             destinationGuidance: c.destinationGuidance,
             boardCoach: c.boardCoach,
+            stations: c.stations || [],
             realtimeOccupancy: c.realtimeOccupancy,
             realtime: c.realtime,
           };
@@ -735,7 +736,9 @@ function JourneyPlannerContent() {
 
                       {/* Leg Breakdown Summary Chips */}
                       <div className="flex items-center space-x-2 mt-3 pt-2.5 border-t border-[#16273B] text-xs flex-wrap gap-y-1">
-                        {cand.legs.map((leg, legIdx) => (
+                        {cand.legs
+                          .filter((leg) => leg.mode !== "walk" || leg.type === "TRANSFER" || leg.transferDetails)
+                          .map((leg, legIdx) => (
                           <div key={legIdx} className="flex items-center gap-1.5">
                             {legIdx > 0 && <span className="text-slate-600">→</span>}
                             {leg.mode === "walk" ? (

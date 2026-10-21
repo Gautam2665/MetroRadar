@@ -250,9 +250,25 @@ export function deriveJourneyStationContext(
   }
 
   // 4. Check direct pass-through / direct run
-  // If candidate has 0 transfers or station is an intermediate through station
+  // Only valid if candidate has 0 transfers and the queried station is actually visited along this route
   const isDirectCandidate = selectedCandidate.interchanges === 0;
   if (isDirectCandidate && transitLegs.length === 1) {
+    const isVisited =
+      (selectedCandidate.stations &&
+        selectedCandidate.stations.some(
+          (s) =>
+            isStationMatch(s.name, stationName) ||
+            (s.code && s.code.toUpperCase() === stationName.toUpperCase())
+        )) ||
+      (selectedCandidate.geojson?.features &&
+        selectedCandidate.geojson.features.some((f: any) =>
+          isStationMatch(f.properties?.name || f.properties?.stationName, stationName)
+        ));
+
+    if (!isVisited) {
+      return null;
+    }
+
     const directLeg = transitLegs[0];
     return {
       role: 'direct_pass_through',
