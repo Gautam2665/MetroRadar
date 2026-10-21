@@ -116,7 +116,7 @@ export class MapController {
     if (!q) throw new BadRequestException('Query parameter q is required');
     const filterTypes = type ? type.split(',') : undefined;
 
-    const cacheKey = `search:v19:${q}:${type || 'all'}`;
+    const cacheKey = `search:v20:${q}:${type || 'all'}`;
     const cached =
       await this.redisService.get<Record<string, unknown>>(cacheKey);
     if (cached) return cached;
