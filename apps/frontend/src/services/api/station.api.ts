@@ -117,8 +117,12 @@ function parseSearchFeatures(data: Record<string, unknown> | null | undefined): 
           }))
       : [];
 
-    // If a station with this normalized name already exists, merge lines dynamically
-    const existing = results.find((r) => normalizeNameKey(r.name) === normKey);
+    // If a station with this normalized name already exists, merge lines dynamically (preserve distinct POI feeder options)
+    const existing = results.find(
+      (r) =>
+        normalizeNameKey(r.name) === normKey &&
+        (r.type === "station" || r.nearestStation?.id === nearestStation?.id)
+    );
     if (existing) {
       for (const l of lines) {
         if (!existing.lines.some((el) => el.code === l.code || el.name.toLowerCase() === l.name.toLowerCase())) {

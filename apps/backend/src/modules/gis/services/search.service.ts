@@ -483,8 +483,8 @@ export class SearchService {
           const placeName = item.name;
           const { lat, lon } = item;
 
-          // Find closest active station & entrance in DB using PostGIS ST_Distance
-          const nearestStn = await this.prisma.$queryRawUnsafe<any[]>(
+          // Find candidate active stations & entrances in DB using PostGIS ST_Distance
+          const nearestRows = await this.prisma.$queryRawUnsafe<any[]>(
             `
             SELECT 
               st.id, st.code, st.name, st.latitude, st.longitude, st.city, st."systemId",
@@ -504,52 +504,155 @@ export class SearchService {
             WHERE st."isActive" = true AND LOWER(st.city) IN ('mumbai', 'mm')
               AND (st.geom IS NOT NULL OR (st.latitude IS NOT NULL AND st.longitude IS NOT NULL))
             ORDER BY distance ASC
-            LIMIT 1;
+            LIMIT 50;
             `,
             lat,
             lon,
           );
 
-          if (nearestStn && nearestStn.length > 0) {
-            const stn = nearestStn[0];
-            const distM = Math.round(stn.distance);
-            const lines = Array.isArray(stn.lines) ? stn.lines : [];
-            const primaryLine = lines[0] || {
-              code: 'MM',
-              name: 'Mumbai Metro',
-              color: '#06b6d4',
-            };
-
-            const gateMatch = stn.entranceName?.match(/(Gate\s+[A-Za-z0-9]+)/i);
-            const gateLabel = gateMatch ? gateMatch[1] : '';
-
-            // Avoid duplicate if feature with same id/name already present
-            const alreadyExists = features.some((f: any) =>
-              f.properties?.name
-                ?.toLowerCase()
-                .includes(placeName.toLowerCase()),
+          if (nearestRows && nearestRows.length > 0) {
+            // Deduplicate stations, keeping the entrance with minimum distance
+            const stationsById = new Map<string, any>();
+            for (const row of nearestRows) {
+              if (!stationsById.has(row.id)) {
+                stationsById.set(row.id, row);
+              } else {
+                const existing = stationsById.get(row.id);
+                if (row.distance < existing.distance) {
+                  stationsById.set(row.id, row);
+                }
+              }
+            }
+            const sortedStations = Array.from(stationsById.values()).sort(
+              (a, b) => a.distance - b.distance,
             );
 
-            if (!alreadyExists) {
-              const placeId = `${lat.toFixed(5)},${lon.toFixed(5)}`;
-              // Boundary Gate: Check if point falls within Mumbai Metro service boundary
-              const isInsideBoundary = isWithinMumbaiMetroServiceArea(lat, lon);
-              // Urban last-mile catchment tightened to 4.5 km
-              const MAX_METRO_CATCHMENT_METERS = 4500;
-              const isWithinCatchment =
-                isInsideBoundary && distM <= MAX_METRO_CATCHMENT_METERS;
+            // Boundary Gate: Check if point falls within Mumbai Metro service boundary
+            const isInsideBoundary = isWithinMumbaiMetroServiceArea(lat, lon);
+            const MAX_METRO_CATCHMENT_METERS = 4500;
+            const closestDistM = Math.round(sortedStations[0].distance);
 
-              if (isWithinCatchment) {
+            if (!isInsideBoundary || closestDistM > MAX_METRO_CATCHMENT_METERS) {
+              const placeId = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+              // Out of metro network coverage: do not hijack a distant station
+              features.push({
+                type: 'Feature',
+                id: placeId,
+                geometry: {
+                  type: 'Point',
+                  coordinates: [lon, lat],
+                },
+                properties: {
+                  id: placeId,
+                  code: 'OUT',
+                  name: placeName,
+                  displayName: `${placeName} (Outside Mumbai Metro Coverage)`,
+                  address: item.address || 'Outside active metro corridor',
+                  type: 'poi',
+                  isLandmark: true,
+                  isOutOfCoverage: true,
+                  coverageNotice:
+                    'Outside active Mumbai Metro network (Navi Mumbai / MMR)',
+                  city: 'mumbai',
+                  systemId: '',
+                  lines: [],
+                  lineColor: '#64748b',
+                  nearestStation: undefined,
+                  landmarkDetails: {
+                    name: placeName,
+                    address: item.address || 'MMR / Navi Mumbai',
+                    walkDistanceMeters: closestDistM,
+                    corridorNote: `Nearest active metro station (${sortedStations[0].name}) is ~${Math.round(closestDistM / 1000)} km away, outside walking catchment.`,
+                  },
+                },
+              });
+            } else {
+              // Pick candidate stations serving distinct corridors/lines
+              const pickedStations: any[] = [];
+              const coveredLines = new Set<string>();
+              const MAX_FEEDER_RADIUS_METERS = 3800;
+
+              // Map each serving line to its closest station
+              const bestStationPerLine = new Map<string, any>();
+              for (const stn of sortedStations) {
+                if (stn.distance > MAX_FEEDER_RADIUS_METERS) break;
+                const lines = Array.isArray(stn.lines) ? stn.lines : [];
+                for (const l of lines) {
+                  if (!bestStationPerLine.has(l.code)) {
+                    bestStationPerLine.set(l.code, stn);
+                  }
+                }
+              }
+
+              // 1. Always include closest station
+              const closest = sortedStations[0];
+              pickedStations.push(closest);
+              (closest.lines || []).forEach((l: any) => coveredLines.add(l.code));
+
+              // 2. Prioritize key opposing corridors (West Line 2A vs East Line 7 vs Cross Line 1)
+              const priorityLinePairs = [
+                ['LINE2A', 'LINE7'],
+                ['LINE2A', 'LINE1'],
+                ['LINE7', 'LINE1'],
+              ];
+
+              for (const [codeA, codeB] of priorityLinePairs) {
+                if (pickedStations.length >= 3) break;
+                const targetCode = coveredLines.has(codeA)
+                  ? codeB
+                  : coveredLines.has(codeB)
+                    ? codeA
+                    : null;
+                if (targetCode && bestStationPerLine.has(targetCode)) {
+                  const stn = bestStationPerLine.get(targetCode);
+                  if (!pickedStations.some((p) => p.id === stn.id)) {
+                    pickedStations.push(stn);
+                    (stn.lines || []).forEach((l: any) => coveredLines.add(l.code));
+                  }
+                }
+              }
+
+              // 3. Fill up to 3 options with closest distinct line stations
+              for (const stn of sortedStations) {
+                if (pickedStations.length >= 3) break;
+                if (stn.distance > MAX_FEEDER_RADIUS_METERS) break;
+                const lines = Array.isArray(stn.lines) ? stn.lines : [];
+                const hasNewLine = lines.some((l: any) => !coveredLines.has(l.code));
+                if (hasNewLine && !pickedStations.some((p) => p.id === stn.id)) {
+                  pickedStations.push(stn);
+                  lines.forEach((l: any) => coveredLines.add(l.code));
+                }
+              }
+
+              for (const stn of pickedStations) {
+                const distM = Math.round(stn.distance);
+                const lines = Array.isArray(stn.lines) ? stn.lines : [];
+                const primaryLine = lines[0] || {
+                  code: 'MM',
+                  name: 'Mumbai Metro',
+                  color: '#06b6d4',
+                };
+
+                const gateMatch = stn.entranceName?.match(/(Gate\s+[A-Za-z0-9]+)/i);
+                const gateLabel = gateMatch ? gateMatch[1] : '';
+
                 const isWalking = distM <= 1200;
                 const distDisplay = isWalking
                   ? `~${distM}m walk`
                   : `~${(distM / 1000).toFixed(1)} km via Auto/Bus`;
 
-                // Urban auto/cab speed in Mumbai ~18-20 km/h (~3.2 min/km + 2 min buffer)
                 const feederMins = isWalking
                   ? Math.max(1, Math.round(distM / 80))
                   : Math.max(3, Math.round(2 + (distM / 1000) * 3.2));
                 const travelSeconds = feederMins * 60;
+
+                const featureName = pickedStations.length > 1
+                  ? `${placeName} (via ${stn.name})`
+                  : placeName;
+                const placeId = `${lat.toFixed(5)},${lon.toFixed(5)}_${stn.code}`;
+
+                // Avoid duplicate if feature with same id already present
+                if (features.some((f: any) => f.id === placeId)) continue;
 
                 features.push({
                   type: 'Feature',
@@ -559,11 +662,11 @@ export class SearchService {
                     coordinates: [lon, lat],
                   },
                   properties: {
-                    id: placeId, // Coordinate ID preserves place position for candidate-pair routing
+                    id: placeId,
                     placeId,
                     stationId: stn.id,
                     code: stn.code,
-                    name: placeName,
+                    name: featureName,
                     displayName: `${placeName} (Feeder Metro: ${stn.name}${gateLabel ? ' via ' + gateLabel : ''} · ${distDisplay})`,
                     address: item.address || `${stn.name} vicinity, Mumbai`,
                     type: 'poi',
@@ -593,7 +696,7 @@ export class SearchService {
                       gateCode: gateLabel || undefined,
                     },
                     landmarkDetails: {
-                      name: placeName,
+                      name: featureName,
                       address: item.address || 'Mumbai, Maharashtra',
                       connectedStationCode: stn.code,
                       connectedStationName: stn.name,
@@ -603,39 +706,6 @@ export class SearchService {
                       walkTimeSeconds: travelSeconds,
                       corridorNote: `Board/Deboard via ${stn.name} or nearby corridor station. Last-mile connection to ${placeName}: ${distDisplay} (~${feederMins} min).`,
                       indoorLevel: 'Street / Concourse Level',
-                    },
-                  },
-                });
-              } else {
-                // Out of metro network coverage: do not hijack a distant station across water bodies or >2km away!
-                features.push({
-                  type: 'Feature',
-                  id: placeId,
-                  geometry: {
-                    type: 'Point',
-                    coordinates: [lon, lat],
-                  },
-                  properties: {
-                    id: placeId, // Retains its own unique ID, not a distant station ID
-                    code: 'OUT',
-                    name: placeName,
-                    displayName: `${placeName} (Outside Mumbai Metro Coverage)`,
-                    address: item.address || 'Outside active metro corridor',
-                    type: 'poi',
-                    isLandmark: true,
-                    isOutOfCoverage: true,
-                    coverageNotice:
-                      'Outside active Mumbai Metro network (Navi Mumbai / MMR)',
-                    city: 'mumbai',
-                    systemId: '',
-                    lines: [],
-                    lineColor: '#64748b',
-                    nearestStation: undefined,
-                    landmarkDetails: {
-                      name: placeName,
-                      address: item.address || 'MMR / Navi Mumbai',
-                      walkDistanceMeters: distM,
-                      corridorNote: `Nearest active metro station (${stn.name}) is ~${Math.round(distM / 1000)} km away, outside walking catchment.`,
                     },
                   },
                 });
