@@ -153,6 +153,8 @@ describe('CandidateFilterService', () => {
         transfers: 0,
         walkingSeconds: 0,
         lines: ['Red Line'],
+        destination: { id: 'STN_GUNDAVALI' },
+        destFeederDistanceMeters: 1747,
       };
       const l7l1Transfer: any = {
         id: 'L7_L1_TRANSFER',
@@ -160,11 +162,35 @@ describe('CandidateFilterService', () => {
         transfers: 1,
         walkingSeconds: 180,
         lines: ['Red Line', 'Blue Line'],
+        destination: { id: 'STN_ANDHERI' },
+        destFeederDistanceMeters: 1669,
       };
       const result = service.filter([l7Direct, l7l1Transfer]);
       expect(result).toHaveLength(2);
       expect(result.map((r) => r.id)).toContain('L7_DIRECT');
       expect(result.map((r) => r.id)).toContain('L7_L1_TRANSFER');
+    });
+
+    it('prunes strictly inferior multi-transfer detour to same destination station (e.g. Galleria to Kashigaon)', () => {
+      const bestRoute: any = {
+        id: 'BLUE_RED_KASHIGAON',
+        durationSeconds: 4020, // 67 min
+        transfers: 1,
+        walkingSeconds: 210,
+        lines: ['Blue Line', 'Red Line'],
+        destination: { id: 'STN_KASHIGAON' },
+      };
+      const inferiorDetour: any = {
+        id: 'AQUA_BLUE_RED_KASHIGAON',
+        durationSeconds: 4980, // 83 min (+16 min slower!)
+        transfers: 2, // extra transfer!
+        walkingSeconds: 365,
+        lines: ['Aqua Line', 'Blue Line', 'Red Line'],
+        destination: { id: 'STN_KASHIGAON' },
+      };
+      const result = service.filter([bestRoute, inferiorDetour]);
+      expect(result).toHaveLength(1);
+      expect(result[0].id).toBe('BLUE_RED_KASHIGAON');
     });
 
     it('handles empty input', () => {

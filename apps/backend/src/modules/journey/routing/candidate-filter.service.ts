@@ -9,6 +9,9 @@ export interface FilterableCandidate {
   durationSeconds: number;
   transfers: number;
   walkingSeconds: number;
+  destination?: { id: string; name?: string; code?: string };
+  destFeederDistanceMeters?: number;
+  lines?: string[];
 }
 
 /**
@@ -140,17 +143,36 @@ export class CandidateFilterService {
       const durationRatio =
         c.durationSeconds / Math.max(fastest.durationSeconds, 1);
 
-      // Rule 1: Strictly more transfers AND significantly slower
+      const destC = (c as any).destination?.id;
+      const destFastest = (fastest as any).destination?.id;
+      const isSameDestination = destC && destFastest && destC === destFastest;
+
+      // Rule 1: Strictly more transfers AND slower
       if (c.transfers > fastest.transfers) {
-        if (durationRatio > 1.85 && durationDelta > 900) {
-          return false;
+        if (isSameDestination) {
+          // If taking the commuter to the exact same station with more transfers,
+          // it cannot be more than 15% slower or 300 seconds (5 mins) slower.
+          if (durationRatio > 1.15 || durationDelta > 300) {
+            return false;
+          }
+        } else {
+          // If deboarding at a different station (e.g. multi-feeder locality), allow reasonable delta
+          if (durationRatio > 1.6 && durationDelta > 900) {
+            return false;
+          }
         }
       }
 
       // Rule 2: Equal or more transfers AND drastically slower
       if (c.transfers >= fastest.transfers) {
-        if (durationRatio > 2.0 && durationDelta > 1200) {
-          return false;
+        if (isSameDestination) {
+          if (durationRatio > 1.35 && durationDelta > 600) {
+            return false;
+          }
+        } else {
+          if (durationRatio > 1.8 && durationDelta > 1200) {
+            return false;
+          }
         }
       }
 
@@ -199,23 +221,12 @@ export class CandidateFilterService {
    * Returns true if `b` dominates `a`.
    */
   private dominates(b: FilterableCandidate, a: FilterableCandidate): boolean {
-    // Preserve routes serving distinct transit corridors / line combinations
-    // (e.g. Direct Line 7 to Gundavali vs Line 7 -> Line 1 to Andheri / D.N. Nagar)
-    // as long as the duration delta is within 15 minutes (900s) and transfers <= 2
-    const linesA = (a as any).lines || [];
-    const linesB = (b as any).lines || [];
-    const hasDistinctCorridor =
-      linesA.length !== linesB.length ||
-      linesA.some((l: string) => !linesB.includes(l));
+    const destA = (a as any).destination?.id;
+    const destB = (b as any).destination?.id;
+    const isDifferentDestination = destA && destB && destA !== destB;
 
-    if (
-      hasDistinctCorridor &&
-      a.transfers <= 2 &&
-      a.durationSeconds - b.durationSeconds <= 1200
-    ) {
-      return false;
-    }
-
+    // 1. Strict Pareto Dominance:
+    // If b is at least as good on ALL dimensions and strictly better on >= 1:
     const atLeastAsGoodOnAll =
       b.durationSeconds <= a.durationSeconds &&
       b.transfers <= a.transfers &&
@@ -227,31 +238,44 @@ export class CandidateFilterService {
       b.walkingSeconds < a.walkingSeconds;
 
     if (atLeastAsGoodOnAll && strictlyBetterOnAtLeastOne) {
+      if (isDifferentDestination) {
+        const distA = (a as any).destFeederDistanceMeters ?? Infinity;
+        const distB = (b as any).destFeederDistanceMeters ?? Infinity;
+        // If 'a' drops the passenger closer to their destination locality, keep 'a'
+        if (distA < distB) {
+          return false;
+        }
+      }
       return true;
     }
 
-    // Trade-off / Subsumption Dominance:
-    // A route `a` is only trade-off dominated by `b` if the trade-off is clearly unreasonable:
-    // 1. If `b` has fewer transfers AND is at least 10 minutes faster (600s).
-    // 2. If `b` has equal transfers AND is at least 10 minutes faster (600s), while `a` saves negligible walking.
+    // 2. If b is strictly faster AND has strictly fewer transfers (b is superior on both primary transit metrics):
+    if (b.durationSeconds < a.durationSeconds && b.transfers < a.transfers) {
+      if (!isDifferentDestination) {
+        // Same destination: candidate 'a' has strictly MORE transfers AND takes LONGER.
+        // It is an inferior detour.
+        return true;
+      }
+
+      // Different destination: check if 'a' brings the user closer to destination locality
+      const distA = (a as any).destFeederDistanceMeters ?? Infinity;
+      const distB = (b as any).destFeederDistanceMeters ?? Infinity;
+      if (distA < distB && a.durationSeconds - b.durationSeconds <= 1200) {
+        return false;
+      }
+      return true;
+    }
+
+    // 3. Trade-off / Subsumption Dominance for same transfers or walking trade-offs:
     if (b.durationSeconds < a.durationSeconds && b.transfers <= a.transfers) {
       const durationDelta = a.durationSeconds - b.durationSeconds;
       const walkingSavedByA = b.walkingSeconds - a.walkingSeconds;
 
-      // Keep alternative corridors if duration difference is under 10 minutes (600s)
-      if (durationDelta < 600) {
-        return false;
-      }
-
-      if (b.transfers < a.transfers) {
-        if (hasDistinctCorridor && durationDelta <= 1200) {
-          return false;
+      if (!isDifferentDestination) {
+        if (durationDelta > 600) {
+          if (b.transfers < a.transfers) return true;
+          if (durationDelta > Math.max(600, 2.5 * walkingSavedByA)) return true;
         }
-        return true;
-      }
-
-      if (durationDelta > Math.max(600, 2.5 * walkingSavedByA)) {
-        return true;
       }
     }
 

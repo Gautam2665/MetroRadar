@@ -1261,7 +1261,8 @@ export class JourneyService {
         } satisfies CandidateAttributes,
         destinationGuidance,
         _rankScore: rankScore,
-      };
+        destFeederDistanceMeters: destAttachment.gate.walkDistanceMeters,
+      } as EnrichedCandidate & { destFeederDistanceMeters?: number };
 
       // ── ICX Evaluation ────────────────────────────────────────────────────
       const evalResult = this.interchangeEvaluator.evaluateCandidate(
