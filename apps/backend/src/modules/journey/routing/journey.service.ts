@@ -171,6 +171,17 @@ export class JourneyService {
   private readonly logger = new Logger(JourneyService.name);
   private readonly GRAPH_VERSION = 'v2';
   private readonly lineShapeCache = new Map<string, [number, number][]>();
+  private readonly directionPlatformCache = new Map<
+    string,
+    {
+      towards: string | null;
+      boardingPlatform: string | null;
+      alightingPlatform: string | null;
+      platformStatus: 'KNOWN' | 'USER_REPORTED' | 'UNKNOWN';
+      scheduledDurationSeconds: number | null;
+    }
+  >();
+  private readonly tripHeadsignCache = new Map<string, string | null>();
 
   constructor(
     private readonly db: DatabaseService,
@@ -847,6 +858,14 @@ export class JourneyService {
       destAttachment: ResolvedGateAttachment;
     }> = [];
 
+    // When origin or destination has multiple attachment stations (e.g. localities/POIs),
+    // corridor diversity is already established across the different attachment station pairs.
+    // Setting kPerPair = 1 yields the optimal shortest path for each feeder pair without
+    // the combinatorial explosion of running Yen's deviation loops across all combinations.
+    const isMultiAttachment =
+      fromEndpoint.attachments.length > 1 || toEndpoint.attachments.length > 1;
+    const kPerPair = isMultiAttachment ? 1 : k;
+
     for (const origAtt of fromEndpoint.attachments) {
       for (const destAtt of toEndpoint.attachments) {
         if (origAtt.station.id === destAtt.station.id) {
@@ -858,7 +877,7 @@ export class JourneyService {
           origAtt.station.id,
           destAtt.station.id,
           weights,
-          k,
+          kPerPair,
         );
 
         for (const p of rawPaths) {
@@ -931,6 +950,7 @@ export class JourneyService {
       query.departureTime,
     );
     const enriched: EnrichedCandidate[] = [];
+    const candidateOriginalPaths = new Map<string, GraphEdge[]>();
 
     for (const {
       path,
@@ -975,7 +995,7 @@ export class JourneyService {
         };
       });
 
-      const legs = await this.buildLegs(path, lineMap, stationMap);
+      const legs = await this.buildLegs(path, lineMap, stationMap, false);
 
       // ── Attach First-Mile Leg if origin is a landmark ─────────────────
       if (
@@ -1079,97 +1099,23 @@ export class JourneyService {
         legs.push(egressLeg);
       }
 
-      // ── Time-Dependent Interchange & Safety Buffer Simulation ─────────
-      let currentClockSecs = baseDepartureSecs;
+      // ── Fast In-Memory Interchange & Safety Buffer Estimation ─────────
       let initialWaitSeconds = 120;
       let totalTransferWaitSeconds = 0;
       let hasFirstTransitBoarded = false;
-      let platformArrivalSecs = currentClockSecs;
 
       for (let i = 0; i < legs.length; i++) {
         const leg = legs[i];
         if (leg.type === EdgeType.TRANSIT) {
           if (!hasFirstTransitBoarded) {
             hasFirstTransitBoarded = true;
-            const originDep =
-              await this.realtimePrediction.predictTransitDeparture(
-                leg.from,
-                leg.lineId,
-                leg.towards,
-                currentClockSecs,
-                currentClockSecs,
-              );
-            initialWaitSeconds = Math.max(
-              60,
-              originDep.actualDepartureSecs - currentClockSecs,
-            );
-            currentClockSecs =
-              originDep.actualDepartureSecs + leg.durationSeconds;
-            platformArrivalSecs = currentClockSecs;
-            leg.connectionWaitMins = 0;
-            leg.realtimeEtaMins = originDep.realtimeEtaMins;
-            leg.realtimeTimeStr = originDep.realtimeTimeStr;
-          } else if (leg.throughServiceContinuationFromPrevious) {
-            currentClockSecs += leg.durationSeconds;
-            platformArrivalSecs = currentClockSecs;
-          } else {
-            currentClockSecs += leg.durationSeconds;
-            platformArrivalSecs = currentClockSecs;
           }
         } else if (
           leg.type === EdgeType.WALK ||
           leg.type === EdgeType.TRANSFER
         ) {
-          if (!hasFirstTransitBoarded) {
-            currentClockSecs += leg.durationSeconds;
-          } else {
-            const walkSecs = leg.durationSeconds;
-            const connectingPlatformArrival = platformArrivalSecs + walkSecs;
-            const earliestFeasibleDep =
-              connectingPlatformArrival + safetyBufferSeconds;
-
-            const nextTransitLeg = legs[i + 1];
-            const connectingPrediction =
-              await this.realtimePrediction.predictTransitDeparture(
-                leg.to,
-                nextTransitLeg?.lineId ?? null,
-                nextTransitLeg?.towards ?? null,
-                earliestFeasibleDep,
-                this.getNowSecondsOfDay(),
-              );
-
-            const actualConnectingDep = Math.max(
-              earliestFeasibleDep,
-              connectingPrediction.actualDepartureSecs,
-            );
-            const waitSecs = actualConnectingDep - connectingPlatformArrival;
-            totalTransferWaitSeconds += waitSecs;
-
-            const waitMins = Math.max(1, Math.round(waitSecs / 60));
-            const walkMins = Math.max(1, Math.round(walkSecs / 60));
-            const pathwayMeters =
-              leg.transferDetails?.pathwayDistanceMeters ??
-              Math.max(60, Math.round(walkSecs * 1.2));
-
-            leg.connectionWaitMins = waitMins;
-            leg.transferDurationText = `${walkMins} min transfer · Next train ${connectingPrediction.realtimeTimeStr}`;
-            leg.transferSummary = `${pathwayMeters} m · ${walkMins} min transfer · Next train ${connectingPrediction.realtimeTimeStr}`;
-
-            // Crucial: Update connecting transit leg with the projected departure time & ETA
-            if (nextTransitLeg && nextTransitLeg.type === EdgeType.TRANSIT) {
-              const nowSecs = this.getNowSecondsOfDay();
-              const minsFromNow = Math.max(
-                1,
-                Math.round((actualConnectingDep - nowSecs) / 60),
-              );
-              nextTransitLeg.realtimeTimeStr =
-                connectingPrediction.realtimeTimeStr;
-              nextTransitLeg.realtimeEtaMins = minsFromNow;
-              nextTransitLeg.connectionWaitMins = waitMins;
-              nextTransitLeg.delaySeconds = connectingPrediction.delaySeconds;
-            }
-
-            currentClockSecs = actualConnectingDep;
+          if (hasFirstTransitBoarded) {
+            totalTransferWaitSeconds += Math.max(120, safetyBufferSeconds);
           }
         }
       }
@@ -1272,23 +1218,6 @@ export class JourneyService {
 
       const fareDetails = computeJourneyFares(legs);
 
-      const firstTransitLeg = legs.find((l) => l.type === EdgeType.TRANSIT);
-      const originStationId = firstTransitLeg?.from || firstStation.id;
-      const originLineId = firstTransitLeg?.lineId || '';
-
-      const realtimeData = await this.realtimePrediction.predictJourneyTrains(
-        originStationId,
-        originLineId,
-      );
-
-      const geojson = await this.buildGeoJson(
-        orderedStations,
-        legs,
-        path,
-        stationMap,
-        lineMap,
-      );
-
       const originRef: StationRef = fromEndpoint.landmark
         ? {
             id: fromEndpoint.landmark.id,
@@ -1309,6 +1238,8 @@ export class JourneyService {
           }
         : lastStation;
 
+      candidateOriginalPaths.set(id, path);
+
       const candidateObj: EnrichedCandidate = {
         id,
         rank: 0,
@@ -1325,14 +1256,14 @@ export class JourneyService {
         walkingDistanceMeters: totalPathwayMeters,
         legs,
         stations: orderedStations,
-        geojson,
+        geojson: { type: 'FeatureCollection', features: [] },
         isDirect,
         lines: lineNames,
         fare: fareDetails.totalPaperFare,
         smartCardFare: fareDetails.totalSmartCardFare,
         fareBreakdown: fareDetails.breakdown,
         requiresMultipleTickets: fareDetails.requiresMultipleTickets,
-        realtime: realtimeData,
+        realtime: null,
         confidence: 0.85,
         transferSafetyBufferSeconds: safetyBufferSeconds,
         transferRiskLevel: safetyBufferSeconds >= 300 ? 'BUFFERED' : 'SAFE',
@@ -1441,20 +1372,179 @@ export class JourneyService {
     } else {
       filtered.sort((a, b) => a._rankScore - b._rankScore);
     }
-    filtered.forEach((c, i) => {
+
+    // Retain top surviving candidates up to requested k (default 3)
+    const maxSurviving = Math.max(1, k || 3);
+    const topCandidates = filtered.slice(0, maxSurviving);
+
+    // ── 8. Enrich top candidates with realtime departures, platforms, & GeoJSON ──
+    for (const candidate of topCandidates) {
+      // Finalize transit legs with deterministic direction and platform
+      for (let i = 0; i < candidate.legs.length; i++) {
+        const prev = i > 0 ? candidate.legs[i - 1] : null;
+        const next = i < candidate.legs.length - 1 ? candidate.legs[i + 1] : null;
+        await this.finalizeLeg(candidate.legs[i], prev, next, stationMap, lineMap);
+      }
+
+      // Realtime departure & connection simulation
+      let currentClockSecs = baseDepartureSecs;
+      let initialWaitSeconds = 120;
+      let totalTransferWaitSeconds = 0;
+      let hasFirstTransitBoarded = false;
+      let platformArrivalSecs = currentClockSecs;
+
+      for (let i = 0; i < candidate.legs.length; i++) {
+        const leg = candidate.legs[i];
+        if (leg.type === EdgeType.TRANSIT) {
+          if (!hasFirstTransitBoarded) {
+            hasFirstTransitBoarded = true;
+            const originDep =
+              await this.realtimePrediction.predictTransitDeparture(
+                leg.from,
+                leg.lineId,
+                leg.towards,
+                currentClockSecs,
+                currentClockSecs,
+              );
+            initialWaitSeconds = Math.max(
+              60,
+              originDep.actualDepartureSecs - currentClockSecs,
+            );
+            currentClockSecs =
+              originDep.actualDepartureSecs + leg.durationSeconds;
+            platformArrivalSecs = currentClockSecs;
+            leg.connectionWaitMins = 0;
+            leg.realtimeEtaMins = originDep.realtimeEtaMins;
+            leg.realtimeTimeStr = originDep.realtimeTimeStr;
+          } else if (leg.throughServiceContinuationFromPrevious) {
+            currentClockSecs += leg.durationSeconds;
+            platformArrivalSecs = currentClockSecs;
+          } else {
+            currentClockSecs += leg.durationSeconds;
+            platformArrivalSecs = currentClockSecs;
+          }
+        } else if (
+          leg.type === EdgeType.WALK ||
+          leg.type === EdgeType.TRANSFER
+        ) {
+          if (!hasFirstTransitBoarded) {
+            currentClockSecs += leg.durationSeconds;
+          } else {
+            const walkSecs = leg.durationSeconds;
+            const connectingPlatformArrival = platformArrivalSecs + walkSecs;
+            const earliestFeasibleDep =
+              connectingPlatformArrival + safetyBufferSeconds;
+
+            const nextTransitLeg = candidate.legs[i + 1];
+            const connectingPrediction =
+              await this.realtimePrediction.predictTransitDeparture(
+                leg.to,
+                nextTransitLeg?.lineId ?? null,
+                nextTransitLeg?.towards ?? null,
+                earliestFeasibleDep,
+                this.getNowSecondsOfDay(),
+              );
+
+            const actualConnectingDep = Math.max(
+              earliestFeasibleDep,
+              connectingPrediction.actualDepartureSecs,
+            );
+            const waitSecs = actualConnectingDep - connectingPlatformArrival;
+            totalTransferWaitSeconds += waitSecs;
+
+            const waitMins = Math.max(1, Math.round(waitSecs / 60));
+            const walkMins = Math.max(1, Math.round(walkSecs / 60));
+            const pathwayMeters =
+              leg.transferDetails?.pathwayDistanceMeters ??
+              Math.max(60, Math.round(walkSecs * 1.2));
+
+            leg.connectionWaitMins = waitMins;
+            leg.transferDurationText = `${walkMins} min transfer · Next train ${connectingPrediction.realtimeTimeStr}`;
+            leg.transferSummary = `${pathwayMeters} m · ${walkMins} min transfer · Next train ${connectingPrediction.realtimeTimeStr}`;
+
+            if (nextTransitLeg && nextTransitLeg.type === EdgeType.TRANSIT) {
+              const nowSecs = this.getNowSecondsOfDay();
+              const minsFromNow = Math.max(
+                1,
+                Math.round((actualConnectingDep - nowSecs) / 60),
+              );
+              nextTransitLeg.realtimeTimeStr =
+                connectingPrediction.realtimeTimeStr;
+              nextTransitLeg.realtimeEtaMins = minsFromNow;
+              nextTransitLeg.connectionWaitMins = waitMins;
+              nextTransitLeg.delaySeconds = connectingPrediction.delaySeconds;
+            }
+
+            currentClockSecs = actualConnectingDep;
+          }
+        }
+      }
+
+      candidate.waiting = {
+        total: {
+          seconds: initialWaitSeconds + totalTransferWaitSeconds,
+          source: 'schedule',
+          confidence: 0.85,
+        },
+        initialWait: {
+          seconds: initialWaitSeconds,
+          source: 'schedule',
+          confidence: 0.85,
+        },
+        transferWait: {
+          seconds: totalTransferWaitSeconds,
+          source: 'schedule',
+          confidence: 0.85,
+        },
+      };
+
+      const inVehSecs = candidate.legs
+        .filter((l) => l.type === EdgeType.TRANSIT)
+        .reduce((sum, l) => sum + l.durationSeconds, 0);
+      const walkSecs = candidate.legs
+        .filter((l) => l.type === EdgeType.WALK || l.type === EdgeType.TRANSFER)
+        .reduce((sum, l) => sum + l.durationSeconds, 0);
+
+      candidate.inVehicleSeconds = inVehSecs;
+      candidate.walkingSeconds = walkSecs;
+      candidate.durationSeconds =
+        inVehSecs + walkSecs + candidate.waiting.total.seconds;
+      candidate.durationMinutes = Math.round(candidate.durationSeconds / 60);
+      candidate.duration = candidate.durationMinutes;
+
+      const firstTransitLeg = candidate.legs.find((l) => l.type === EdgeType.TRANSIT);
+      const originStationId = firstTransitLeg?.from || candidate.origin.id;
+      const originLineId = firstTransitLeg?.lineId || '';
+
+      candidate.realtime = await this.realtimePrediction.predictJourneyTrains(
+        originStationId,
+        originLineId,
+      );
+
+      const origPath = candidateOriginalPaths.get(candidate.id) || [];
+      candidate.geojson = await this.buildGeoJson(
+        candidate.stations,
+        candidate.legs,
+        origPath,
+        stationMap,
+        lineMap,
+      );
+    }
+
+    topCandidates.forEach((c, i) => {
       c.rank = i + 1;
     });
 
-    // ── 8. Attribute flags + tradeoffs ────────────────────────────────────────
-    this.scorer.computeAttributes(filtered);
-    this.scorer.computeTradeoffs(filtered);
+    // ── 9. Attribute flags + tradeoffs ────────────────────────────────────────
+    this.scorer.computeAttributes(topCandidates);
+    this.scorer.computeTradeoffs(topCandidates);
 
     this.logger.log(
       `Journey planned: ${fromEndpoint.name} → ${toEndpoint.name}, ` +
-        `${filtered.length} candidates (from ${candidatePathsWithEndpoints.length} raw paths)`,
+        `${topCandidates.length} candidates (from ${candidatePathsWithEndpoints.length} raw paths)`,
     );
 
-    // ── 9. Build response ─────────────────────────────────────────────────────
+    // ── 10. Build response ─────────────────────────────────────────────────────
     const fromRef: StationRef = {
       id: fromEndpoint.id,
       name: fromEndpoint.name,
@@ -1471,7 +1561,7 @@ export class JourneyService {
     };
 
     // Strip internal fields before returning
-    const candidates: RouteCandidate[] = filtered.map((c) => {
+    const candidates: RouteCandidate[] = topCandidates.map((c) => {
       delete (c as { _rankScore?: number })._rankScore;
       return c;
     });
@@ -1520,6 +1610,7 @@ export class JourneyService {
         longitude: number;
       }
     >,
+    shouldFinalize = true,
   ): Promise<JourneyLeg[]> {
     const legs: JourneyLeg[] = [];
     let currentLeg: JourneyLeg | null = null;
@@ -1641,7 +1732,39 @@ export class JourneyService {
     for (let i = 0; i < legs.length; i++) {
       const prev = i > 0 ? legs[i - 1] : null;
       const next = i < legs.length - 1 ? legs[i + 1] : null;
-      await this.finalizeLeg(legs[i], prev, next);
+      if (shouldFinalize) {
+        await this.finalizeLeg(legs[i], prev, next, stationMap, lineMap);
+      } else if (
+        legs[i].type === EdgeType.WALK ||
+        legs[i].type === EdgeType.TRANSFER
+      ) {
+        const transfer = this.interchangeEvaluator.resolveTransferDetails(
+          legs[i].fromStationName,
+          legs[i].toStationName,
+          prev?.lineName,
+          next?.lineName,
+          legs[i].fromStation?.code,
+          legs[i].toStation?.code,
+        );
+        if (transfer) {
+          legs[i].transferDetails = transfer;
+          legs[i].transferTitle = transfer.name;
+          legs[i].transferDurationText = transfer.durationDisplay;
+          legs[i].transferInstructions = transfer.instructions;
+          if (transfer.estimatedDurationSeconds !== null) {
+            legs[i].duration = transfer.estimatedDurationSeconds;
+            legs[i].durationSeconds = transfer.estimatedDurationSeconds;
+            legs[i].durationMinutes = Math.max(
+              1,
+              Math.round(transfer.estimatedDurationSeconds / 60),
+            );
+          }
+          legs[i].transferSummary =
+            transfer.pathwayDistanceMeters !== null
+              ? `${transfer.pathwayDistanceMeters} m · ${transfer.durationDisplay}`
+              : transfer.durationDisplay;
+        }
+      }
     }
     return legs;
   }
@@ -2105,6 +2228,20 @@ export class JourneyService {
     leg: JourneyLeg,
     prevLeg?: JourneyLeg | null,
     nextLeg?: JourneyLeg | null,
+    stationMap?: Map<
+      string,
+      {
+        id: string;
+        name: string;
+        code: string;
+        latitude: number;
+        longitude: number;
+      }
+    >,
+    lineMap?: Map<
+      string,
+      { id: string; name: string | null; color: string; code: string | null }
+    >,
   ): Promise<void> {
     if (leg.type === EdgeType.TRANSIT) {
       // 1. Authoritative deterministic DB resolution from StationSequence and Platform
@@ -2112,6 +2249,8 @@ export class JourneyService {
         leg.from,
         leg.to,
         leg.lineId,
+        stationMap,
+        lineMap,
       );
 
       if (dbResolved.towards) {
@@ -2226,6 +2365,20 @@ export class JourneyService {
     fromStationId: string,
     toStationId: string,
     lineId: string | null,
+    stationMap?: Map<
+      string,
+      {
+        id: string;
+        name: string;
+        code: string;
+        latitude: number;
+        longitude: number;
+      }
+    >,
+    lineMap?: Map<
+      string,
+      { id: string; name: string | null; color: string; code: string | null }
+    >,
   ): Promise<{
     towards: string | null;
     boardingPlatform: string | null;
@@ -2243,15 +2396,30 @@ export class JourneyService {
       };
     }
 
+    const cacheKey = `${fromStationId}:${toStationId}:${lineId || ''}`;
+    if (this.directionPlatformCache.has(cacheKey)) {
+      return this.directionPlatformCache.get(cacheKey)!;
+    }
+
     try {
       const isUuid = (str: string) =>
         /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
           str,
         );
 
-      const [fromSt, toSt, line] = await Promise.all([
-        isUuid(fromStationId)
-          ? this.db.station.findUnique({
+      let fromSt:
+        | {
+            id: string;
+            code: string;
+            name: string;
+            latitude: number;
+            longitude: number;
+          }
+        | null
+        | undefined = stationMap?.get(fromStationId);
+      if (!fromSt) {
+        fromSt = isUuid(fromStationId)
+          ? await this.db.station.findUnique({
               where: { id: fromStationId },
               select: {
                 id: true,
@@ -2261,7 +2429,7 @@ export class JourneyService {
                 longitude: true,
               },
             })
-          : this.db.station.findFirst({
+          : await this.db.station.findFirst({
               where: { code: fromStationId },
               select: {
                 id: true,
@@ -2270,9 +2438,22 @@ export class JourneyService {
                 latitude: true,
                 longitude: true,
               },
-            }),
-        isUuid(toStationId)
-          ? this.db.station.findUnique({
+            });
+      }
+
+      let toSt:
+        | {
+            id: string;
+            code: string;
+            name: string;
+            latitude: number;
+            longitude: number;
+          }
+        | null
+        | undefined = stationMap?.get(toStationId);
+      if (!toSt) {
+        toSt = isUuid(toStationId)
+          ? await this.db.station.findUnique({
               where: { id: toStationId },
               select: {
                 id: true,
@@ -2282,7 +2463,7 @@ export class JourneyService {
                 longitude: true,
               },
             })
-          : this.db.station.findFirst({
+          : await this.db.station.findFirst({
               where: { code: toStationId },
               select: {
                 id: true,
@@ -2291,19 +2472,29 @@ export class JourneyService {
                 latitude: true,
                 longitude: true,
               },
-            }),
-        lineId && isUuid(lineId)
-          ? this.db.line.findUnique({
+            });
+      }
+
+      let line:
+        | {
+            id: string;
+            code: string | null;
+            name: string | null;
+            color?: string | null;
+          }
+        | null
+        | undefined = lineId ? lineMap?.get(lineId) : null;
+      if (!line && lineId) {
+        line = isUuid(lineId)
+          ? await this.db.line.findUnique({
               where: { id: lineId },
-              select: { id: true, code: true, name: true },
+              select: { id: true, code: true, name: true, color: true },
             })
-          : lineId
-            ? this.db.line.findFirst({
-                where: { code: lineId },
-                select: { id: true, code: true, name: true },
-              })
-            : null,
-      ]);
+          : await this.db.line.findFirst({
+              where: { code: lineId },
+              select: { id: true, code: true, name: true, color: true },
+            });
+      }
 
       // Resolve trip headsign from GTFS trips table if available
       const tripHeadsign = await this.resolveTripHeadsign(
@@ -2426,7 +2617,7 @@ export class JourneyService {
       }
 
       if (selectedTrip || platformNumber) {
-        return {
+        const result = {
           towards:
             terminalStation?.name ??
             tripHeadsign ??
@@ -2439,19 +2630,23 @@ export class JourneyService {
           alightingPlatform: null,
           platformStatus:
             platformNumber && platformNumber !== 'UNKNOWN'
-              ? 'KNOWN'
-              : 'UNKNOWN',
+              ? ('KNOWN' as const)
+              : ('UNKNOWN' as const),
           scheduledDurationSeconds,
         };
+        this.directionPlatformCache.set(cacheKey, result);
+        return result;
       }
 
-      return {
+      const fallbackResult = {
         towards: null,
         boardingPlatform: null,
         alightingPlatform: null,
-        platformStatus: 'UNKNOWN',
+        platformStatus: 'UNKNOWN' as const,
         scheduledDurationSeconds: null,
       };
+      this.directionPlatformCache.set(cacheKey, fallbackResult);
+      return fallbackResult;
     } catch (err) {
       this.logger.warn(
         `Error resolving deterministic platform/direction: ${err}`,
@@ -2481,6 +2676,11 @@ export class JourneyService {
     toStationId: string,
   ): Promise<string | null> {
     if (!lineId) return null;
+    const cacheKey = `${lineId}:${fromStationId}:${toStationId}`;
+    if (this.tripHeadsignCache.has(cacheKey)) {
+      return this.tripHeadsignCache.get(cacheKey)!;
+    }
+
     try {
       const trips = await this.db.trip.findMany({
         where: {
@@ -2516,9 +2716,11 @@ export class JourneyService {
           fromST.stopSequence < toST.stopSequence &&
           t.tripHeadsign
         ) {
+          this.tripHeadsignCache.set(cacheKey, t.tripHeadsign);
           return t.tripHeadsign;
         }
       }
+      this.tripHeadsignCache.set(cacheKey, null);
       return null;
     } catch {
       return null;
