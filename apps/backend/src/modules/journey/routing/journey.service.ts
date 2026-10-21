@@ -234,7 +234,6 @@ export class JourneyService {
     lat: number,
     lng: number,
     systemId: string,
-    maxRadiusMeters = 3800,
   ): Promise<ResolvedGateAttachment[]> {
     const stations = await this.db.station.findMany({
       where: { systemId, isActive: true },
@@ -265,7 +264,7 @@ export class JourneyService {
       },
     });
 
-    // 1. Calculate walking distance to all stations/entrances in catchment
+    // 1. Calculate distance to all stations/entrances
     const nearbyStations: Array<{
       station: (typeof stations)[0];
       distanceMeters: number;
@@ -293,69 +292,29 @@ export class JourneyService {
       const effectiveDist =
         bestEnt && minEntDist < Infinity ? minEntDist : stnCentroidDist;
 
-      if (effectiveDist <= maxRadiusMeters) {
-        nearbyStations.push({
-          station: stn,
-          distanceMeters: effectiveDist,
-          bestEntrance: bestEnt,
-        });
-      }
+      nearbyStations.push({
+        station: stn,
+        distanceMeters: effectiveDist,
+        bestEntrance: bestEnt,
+      });
     }
 
-    // Fallback if none found within catchment: pick closest stations across distinct lines
-    if (nearbyStations.length === 0 && stations.length > 0) {
-      const sorted = stations
-        .map((stn) => {
-          let bestEnt: (typeof stn.entrances)[0] | null = null;
-          let minEntDist = Infinity;
-          if (stn.entrances && stn.entrances.length > 0) {
-            for (const ent of stn.entrances) {
-              const d = getDistanceMeters(lat, lng, ent.latitude, ent.longitude);
-              if (d < minEntDist) {
-                minEntDist = d;
-                bestEnt = ent;
-              }
-            }
-          }
-          const stnCentroidDist = getDistanceMeters(
-            lat,
-            lng,
-            stn.latitude,
-            stn.longitude,
-          );
-          const effectiveDist =
-            bestEnt && minEntDist < Infinity ? minEntDist : stnCentroidDist;
-          return {
-            station: stn,
-            distanceMeters: effectiveDist,
-            bestEntrance: bestEnt,
-          };
-        })
-        .sort((a, b) => a.distanceMeters - b.distanceMeters);
-
-      const seenLineIds = new Set<string>();
-      for (const item of sorted) {
-        const lineId = item.station.sequences?.[0]?.lineId || 'UNKNOWN';
-        if (!seenLineIds.has(lineId)) {
-          seenLineIds.add(lineId);
-          nearbyStations.push(item);
-          if (nearbyStations.length >= 3) break;
-        }
-      }
-      if (nearbyStations.length === 0 && sorted.length > 0) {
-        nearbyStations.push(sorted[0]);
-      }
+    if (nearbyStations.length === 0) {
+      return [];
     }
 
     // 2. Relative Proximity & Per-Line Dominance Filter:
-    // Sort nearby stations by distance. If an immediate feeder station is nearby (e.g. 280m),
-    // do not attach distant stations across town on other lines that are 8x-10x further (e.g. 2.5km across railway tracks).
+    // Sort all stations by distance to find the closest feeder station.
     nearbyStations.sort((a, b) => a.distanceMeters - b.distanceMeters);
     const minDist = nearbyStations[0]?.distanceMeters ?? 0;
-    const maxFeederCutoff = Math.min(
-      maxRadiusMeters,
-      Math.max(1500, minDist * 2.2),
-    );
+
+    // Relative Proximity Feeder Cutoff:
+    // Rather than setting an arbitrary hard maximum distance that limits or rejects outer localities,
+    // we dynamically evaluate relative to the closest station (minDist):
+    // - Always consider stations within (minDist + 1500m) or (minDist * 1.6).
+    // This allows any locality across the region to seamlessly snap to its nearest feeder metro,
+    // while preventing someone right next to a station (e.g. 280m) from jumping across town to another line (2.5km).
+    const maxFeederCutoff = Math.max(minDist + 1500, minDist * 1.6);
 
     const closestPerLine = new Map<
       string,
@@ -447,6 +406,32 @@ export class JourneyService {
       attachments.push({ gate, station });
     }
 
+    if (attachments.length === 0 && nearbyStations.length > 0) {
+      const top = nearbyStations[0];
+      const seq = top.station.sequences?.[0];
+      const lineInfo = seq?.line;
+      const lineLabel = lineInfo?.name || 'Metro';
+      const walkSecs = Math.max(60, Math.round(top.distanceMeters / 1.2));
+
+      attachments.push({
+        station: top.station,
+        gate: {
+          gateId: top.bestEntrance?.id || `SPATIAL_GATE_${top.station.code}`,
+          gateName: top.bestEntrance?.name || `Walk to ${top.station.name}`,
+          stationCode: top.station.code,
+          stationName: top.station.name,
+          lineCode: lineInfo?.code || '',
+          lineName: lineLabel,
+          lineColor: lineInfo?.color || '#06b6d4',
+          walkDistanceMeters: Math.round(top.distanceMeters),
+          walkTimeSeconds: walkSecs,
+          corridorType: 'WALK',
+          corridorNote: `Connect to ${top.station.name}`,
+          indoorLevel: 'Street Level',
+        },
+      });
+    }
+
     return attachments;
   }
 
@@ -471,7 +456,6 @@ export class JourneyService {
         lat,
         lng,
         system.id,
-        3800,
       );
       if (attachments.length > 0) {
         const primary = attachments[0].station;
@@ -574,7 +558,6 @@ export class JourneyService {
         dbEntrance.latitude,
         dbEntrance.longitude,
         primaryStation.systemId,
-        3800,
       );
 
       const attachments: ResolvedGateAttachment[] = [
@@ -689,7 +672,6 @@ export class JourneyService {
               lat,
               lon,
               system.id,
-              3800,
             );
             if (attachments.length > 0) {
               const primary = attachments[0].station;
