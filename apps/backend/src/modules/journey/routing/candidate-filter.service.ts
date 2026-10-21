@@ -140,16 +140,16 @@ export class CandidateFilterService {
       const durationRatio =
         c.durationSeconds / Math.max(fastest.durationSeconds, 1);
 
-      // Rule 1: Strictly more transfers AND slower
+      // Rule 1: Strictly more transfers AND significantly slower
       if (c.transfers > fastest.transfers) {
-        if (durationRatio > 1.25 && durationDelta > 360) {
+        if (durationRatio > 1.85 && durationDelta > 900) {
           return false;
         }
       }
 
-      // Rule 2: Equal or more transfers AND significantly slower
+      // Rule 2: Equal or more transfers AND drastically slower
       if (c.transfers >= fastest.transfers) {
-        if (durationRatio > 1.35 && durationDelta > 600) {
+        if (durationRatio > 2.0 && durationDelta > 1200) {
           return false;
         }
       }
@@ -211,7 +211,7 @@ export class CandidateFilterService {
     if (
       hasDistinctCorridor &&
       a.transfers <= 2 &&
-      a.durationSeconds - b.durationSeconds <= 900
+      a.durationSeconds - b.durationSeconds <= 1200
     ) {
       return false;
     }
@@ -244,6 +244,9 @@ export class CandidateFilterService {
       }
 
       if (b.transfers < a.transfers) {
+        if (hasDistinctCorridor && durationDelta <= 1200) {
+          return false;
+        }
         return true;
       }
 

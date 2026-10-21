@@ -347,8 +347,16 @@ export class JourneyService {
       }
     }
 
-    // 2. Per-Line Dominance Filter:
-    // Group candidate stations by line ID and select minimum distance per line.
+    // 2. Relative Proximity & Per-Line Dominance Filter:
+    // Sort nearby stations by distance. If an immediate feeder station is nearby (e.g. 280m),
+    // do not attach distant stations across town on other lines that are 8x-10x further (e.g. 2.5km across railway tracks).
+    nearbyStations.sort((a, b) => a.distanceMeters - b.distanceMeters);
+    const minDist = nearbyStations[0]?.distanceMeters ?? 0;
+    const maxFeederCutoff = Math.min(
+      maxRadiusMeters,
+      Math.max(1500, minDist * 2.2),
+    );
+
     const closestPerLine = new Map<
       string,
       {
@@ -360,6 +368,9 @@ export class JourneyService {
     >();
 
     for (const item of nearbyStations) {
+      if (item.distanceMeters > maxFeederCutoff) {
+        continue;
+      }
       const seqs = item.station.sequences || [];
       if (seqs.length === 0) {
         const key = `STN_${item.station.id}`;
