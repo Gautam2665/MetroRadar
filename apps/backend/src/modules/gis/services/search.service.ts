@@ -120,105 +120,7 @@ export class SearchService {
     const strippedQuery = `%${query.replace(/[^a-zA-Z0-9]/g, '')}%`;
     const features: Record<string, unknown>[] = [];
 
-    // 0. Search GTFS Entrances / Wayfinding Gates from PostgreSQL
-    if (
-      !filterTypes ||
-      filterTypes.includes('station') ||
-      filterTypes.includes('landmark')
-    ) {
-      try {
-        const matchingEntrances = await this.prisma.entrance.findMany({
-          where: {
-            isActive: true,
-            name: { contains: query, mode: 'insensitive' },
-          },
-          include: {
-            station: {
-              select: {
-                id: true,
-                code: true,
-                name: true,
-                city: true,
-                systemId: true,
-                sequences: {
-                  where: { isActive: true },
-                  select: {
-                    line: { select: { code: true, name: true, color: true } },
-                  },
-                },
-              },
-            },
-          },
-          take: 6,
-        });
-
-        for (const ent of matchingEntrances) {
-          const stn = ent.station;
-          if (!stn) continue;
-          const gateMatch = ent.name.match(/(Gate\s+[A-Za-z0-9]+)/i);
-          const gateLabel = gateMatch ? gateMatch[1] : 'Gate';
-          const parenMatch = ent.name.match(/\((.+?)\)/);
-          const landmarkName = parenMatch ? parenMatch[1].trim() : ent.name;
-
-          const lines = (stn.sequences || [])
-            .map((s) => s.line)
-            .filter(Boolean);
-          const primaryLine = lines[0] || {
-            code: 'MM',
-            name: 'Mumbai Metro',
-            color: '#06b6d4',
-          };
-
-          features.push({
-            type: 'Feature',
-            id: ent.id,
-            geometry: {
-              type: 'Point',
-              coordinates: [ent.longitude, ent.latitude],
-            },
-            properties: {
-              id: ent.id,
-              entranceId: ent.id,
-              stationId: stn.id,
-              code: stn.code,
-              name: `${landmarkName} (${gateLabel})`,
-              displayName: `${landmarkName} (${stn.name} · ${gateLabel})`,
-              address: `${ent.name}, ${stn.name}, Mumbai`,
-              type: 'poi',
-              isEntrance: true,
-              isLandmark: true,
-              city: stn.city || 'mumbai',
-              systemId: stn.systemId,
-              lines: lines.map((l) => ({
-                code: l.code,
-                name: l.name,
-                color: resolveLineColor(l.color ?? '', l.name ?? ''),
-              })),
-              lineColor: resolveLineColor(
-                primaryLine.color ?? '',
-                primaryLine.name ?? '',
-              ),
-              nearestStation: {
-                id: stn.id,
-                name: stn.name,
-                lineName: primaryLine.name,
-                lineColor: resolveLineColor(
-                  primaryLine.color ?? '',
-                  primaryLine.name ?? '',
-                ),
-                walkDistance: 'Station Gate',
-                nearestGate: ent.name,
-                gateCode: gateLabel,
-              },
-            },
-          });
-        }
-      } catch {
-        // Fallback gracefully
-      }
-    }
-
-    // 1. Search stations
+    // 1. Search stations (Highest priority: actual metro stations)
     if (!filterTypes || filterTypes.includes('station')) {
       const stationsRaw = await this.prisma.$queryRawUnsafe<GeoJsonRawResult[]>(
         `
@@ -646,6 +548,108 @@ export class SearchService {
         }
       } catch (err: any) {
         // Silently continue if external geocoder times out
+      }
+    }
+
+    // 5. Search GTFS Entrances / Wayfinding Gates (ONLY when user explicitly searches for a gate/exit/fob)
+    const isExplicitGateSearch =
+      /\b(gate|exit|entrance|entry|fob|skywalk)\b/i.test(query);
+
+    if (
+      isExplicitGateSearch &&
+      (!filterTypes ||
+        filterTypes.includes('station') ||
+        filterTypes.includes('landmark'))
+    ) {
+      try {
+        const matchingEntrances = await this.prisma.entrance.findMany({
+          where: {
+            isActive: true,
+            name: { contains: query, mode: 'insensitive' },
+          },
+          include: {
+            station: {
+              select: {
+                id: true,
+                code: true,
+                name: true,
+                city: true,
+                systemId: true,
+                sequences: {
+                  where: { isActive: true },
+                  select: {
+                    line: { select: { code: true, name: true, color: true } },
+                  },
+                },
+              },
+            },
+          },
+          take: 4,
+        });
+
+        for (const ent of matchingEntrances) {
+          const stn = ent.station;
+          if (!stn) continue;
+          const gateMatch = ent.name.match(/(Gate\s+[A-Za-z0-9]+)/i);
+          const gateLabel = gateMatch ? gateMatch[1] : 'Gate';
+          const parenMatch = ent.name.match(/\((.+?)\)/);
+          const landmarkName = parenMatch ? parenMatch[1].trim() : ent.name;
+
+          const lines = (stn.sequences || [])
+            .map((s) => s.line)
+            .filter(Boolean);
+          const primaryLine = lines[0] || {
+            code: 'MM',
+            name: 'Mumbai Metro',
+            color: '#06b6d4',
+          };
+
+          features.push({
+            type: 'Feature',
+            id: ent.id,
+            geometry: {
+              type: 'Point',
+              coordinates: [ent.longitude, ent.latitude],
+            },
+            properties: {
+              id: ent.id,
+              entranceId: ent.id,
+              stationId: stn.id,
+              code: stn.code,
+              name: `${landmarkName} (${gateLabel})`,
+              displayName: `${landmarkName} (${stn.name} · ${gateLabel})`,
+              address: `${ent.name}, ${stn.name}, Mumbai`,
+              type: 'poi',
+              isEntrance: true,
+              isLandmark: true,
+              city: stn.city || 'mumbai',
+              systemId: stn.systemId,
+              lines: lines.map((l) => ({
+                code: l.code,
+                name: l.name,
+                color: resolveLineColor(l.color ?? '', l.name ?? ''),
+              })),
+              lineColor: resolveLineColor(
+                primaryLine.color ?? '',
+                primaryLine.name ?? '',
+              ),
+              nearestStation: {
+                id: stn.id,
+                name: stn.name,
+                lineName: primaryLine.name,
+                lineColor: resolveLineColor(
+                  primaryLine.color ?? '',
+                  primaryLine.name ?? '',
+                ),
+                walkDistance: 'Station Gate',
+                nearestGate: ent.name,
+                gateCode: gateLabel,
+              },
+            },
+          });
+        }
+      } catch {
+        // Fallback gracefully
       }
     }
 
