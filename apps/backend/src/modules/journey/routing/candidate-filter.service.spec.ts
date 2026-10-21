@@ -146,6 +146,27 @@ describe('CandidateFilterService', () => {
       expect(result).toHaveLength(1);
     });
 
+    it('preserves distinct corridor candidates (e.g. L7 direct vs L7 -> L1 connecting to Andheri)', () => {
+      const l7Direct: any = {
+        id: 'L7_DIRECT',
+        durationSeconds: 1560,
+        transfers: 0,
+        walkingSeconds: 0,
+        lines: ['Red Line'],
+      };
+      const l7l1Transfer: any = {
+        id: 'L7_L1_TRANSFER',
+        durationSeconds: 2040,
+        transfers: 1,
+        walkingSeconds: 180,
+        lines: ['Red Line', 'Blue Line'],
+      };
+      const result = service.filter([l7Direct, l7l1Transfer]);
+      expect(result).toHaveLength(2);
+      expect(result.map((r) => r.id)).toContain('L7_DIRECT');
+      expect(result.map((r) => r.id)).toContain('L7_L1_TRANSFER');
+    });
+
     it('handles empty input', () => {
       expect(service.filter([])).toEqual([]);
     });

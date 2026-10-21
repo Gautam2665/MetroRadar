@@ -1353,6 +1353,59 @@ export class JourneyService {
       filtered.sort((a, b) => a._rankScore - b._rankScore);
     }
 
+    // ── 7b. Locality Multi-Corridor & Divide-Crossing Re-Ranking ─────────────
+    // When destination is a locality/coordinates with multiple candidate feeder stations
+    // across different metro lines (e.g. Irla having Andheri L1, Andheri West L2A, Gundavali L7):
+    // 1. Identify which candidate reaches the feeder station closest to the destination locality.
+    // 2. In Mumbai, the Western Railway corridor (longitude ~72.851) divides the Western suburbs
+    //    (Line 2A, SV Road, Irla, Juhu) from the Eastern highway corridor (Line 7, WEH).
+    // 3. If a commuter originates in the East (e.g. Thakur Village on Line 7) heading to a West locality (Irla):
+    //    - Candidate A (L7 -> L1) uses the metro to cross the railway barrier and deboards at Andheri L1 (closest station).
+    //    - Candidate B (L7 direct) stops at Gundavali in the East, leaving the passenger to fight road traffic across the tracks.
+    //    Commuters explicitly prefer taking the metro across the tracks (Candidate 1: L7 -> L1) over deboarding
+    //    in the East (Candidate 2: L7 direct to Gundavali).
+    // 4. Conversely, if origin and destination are already on the same side (e.g. Borivali West on L2A to Irla),
+    //    the direct run on the origin line remains Candidate 1, and the transfer route is Candidate 2.
+    if (toEndpoint.attachments.length > 1 && filtered.length > 1) {
+      const getDestDistance = (c: EnrichedCandidate): number => {
+        const att = toEndpoint.attachments.find(
+          (a) => a.station.id === c.destination.id,
+        );
+        return att ? att.gate.walkDistanceMeters : 99999;
+      };
+
+      const minDestDist = Math.min(...filtered.map(getDestDistance));
+      const RAILWAY_DIVIDE_LNG = 72.851;
+      const isDestWest = toEndpoint.longitude < RAILWAY_DIVIDE_LNG;
+
+      filtered.sort((a, b) => {
+        const distA = getDestDistance(a);
+        const distB = getDestDistance(b);
+        const aIsClosest = distA <= minDestDist + 150;
+        const bIsClosest = distB <= minDestDist + 150;
+
+        const aDestLng = a.destination.lng ?? 72.851;
+        const bDestLng = b.destination.lng ?? 72.851;
+        const aOnDestSide = (aDestLng < RAILWAY_DIVIDE_LNG) === isDestWest;
+        const bOnDestSide = (bDestLng < RAILWAY_DIVIDE_LNG) === isDestWest;
+
+        // If candidate 'a' reaches the destination side of the railway divide AND deboards at the closest station,
+        // while candidate 'b' terminates on the opposite side of the railway divide, candidate 'a' takes precedence.
+        if (aOnDestSide && !bOnDestSide && aIsClosest) {
+          return -1;
+        }
+        if (bOnDestSide && !aOnDestSide && bIsClosest) {
+          return 1;
+        }
+
+        // Otherwise maintain the standard rankScore / friction sort
+        return sortByFriction
+          ? (a.interchangeFriction?.effectiveCostSeconds ?? a._rankScore) -
+              (b.interchangeFriction?.effectiveCostSeconds ?? b._rankScore)
+          : a._rankScore - b._rankScore;
+      });
+    }
+
     // Retain top surviving candidates up to requested k (default 3)
     const maxSurviving = Math.max(1, k || 3);
     const topCandidates = filtered.slice(0, maxSurviving);
