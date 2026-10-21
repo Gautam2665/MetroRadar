@@ -567,93 +567,49 @@ export class SearchService {
                 },
               });
             } else {
-              // Pick candidate stations serving distinct corridors/lines
-              const pickedStations: any[] = [];
-              const coveredLines = new Set<string>();
+              // Aggregate serving lines across nearby stations within catchment (for visual pills)
               const MAX_FEEDER_RADIUS_METERS = 3800;
+              const nearbyCatchmentStations = sortedStations.filter(
+                (stn) => stn.distance <= MAX_FEEDER_RADIUS_METERS,
+              );
+              const servingStations =
+                nearbyCatchmentStations.length > 0
+                  ? nearbyCatchmentStations
+                  : [sortedStations[0]];
 
-              // Map each serving line to its closest station
-              const bestStationPerLine = new Map<string, any>();
-              for (const stn of sortedStations) {
-                if (stn.distance > MAX_FEEDER_RADIUS_METERS) break;
+              const seenLineCodes = new Set<string>();
+              const aggregatedLines: any[] = [];
+              for (const stn of servingStations) {
                 const lines = Array.isArray(stn.lines) ? stn.lines : [];
                 for (const l of lines) {
-                  if (!bestStationPerLine.has(l.code)) {
-                    bestStationPerLine.set(l.code, stn);
+                  if (!seenLineCodes.has(l.code)) {
+                    seenLineCodes.add(l.code);
+                    aggregatedLines.push({
+                      code: l.code,
+                      name: l.name,
+                      color: resolveLineColor(l.color ?? '', l.name ?? ''),
+                    });
                   }
                 }
               }
 
-              // 1. Always include closest station
-              const closest = sortedStations[0];
-              pickedStations.push(closest);
-              (closest.lines || []).forEach((l: any) => coveredLines.add(l.code));
+              const primaryLine = aggregatedLines[0] || {
+                code: 'MM',
+                name: 'Mumbai Metro',
+                color: '#06b6d4',
+              };
 
-              // 2. Prioritize key opposing corridors (West Line 2A vs East Line 7 vs Cross Line 1)
-              const priorityLinePairs = [
-                ['LINE2A', 'LINE7'],
-                ['LINE2A', 'LINE1'],
-                ['LINE7', 'LINE1'],
-              ];
+              const closestStn = sortedStations[0];
+              const closestDistM = Math.round(closestStn.distance);
+              const isWalking = closestDistM <= 1200;
+              const distDisplay = isWalking
+                ? `~${closestDistM}m walk`
+                : `~${(closestDistM / 1000).toFixed(1)} km via Auto/Bus`;
 
-              for (const [codeA, codeB] of priorityLinePairs) {
-                if (pickedStations.length >= 3) break;
-                const targetCode = coveredLines.has(codeA)
-                  ? codeB
-                  : coveredLines.has(codeB)
-                    ? codeA
-                    : null;
-                if (targetCode && bestStationPerLine.has(targetCode)) {
-                  const stn = bestStationPerLine.get(targetCode);
-                  if (!pickedStations.some((p) => p.id === stn.id)) {
-                    pickedStations.push(stn);
-                    (stn.lines || []).forEach((l: any) => coveredLines.add(l.code));
-                  }
-                }
-              }
+              const placeId = `${lat.toFixed(5)},${lon.toFixed(5)}`;
 
-              // 3. Fill up to 3 options with closest distinct line stations
-              for (const stn of sortedStations) {
-                if (pickedStations.length >= 3) break;
-                if (stn.distance > MAX_FEEDER_RADIUS_METERS) break;
-                const lines = Array.isArray(stn.lines) ? stn.lines : [];
-                const hasNewLine = lines.some((l: any) => !coveredLines.has(l.code));
-                if (hasNewLine && !pickedStations.some((p) => p.id === stn.id)) {
-                  pickedStations.push(stn);
-                  lines.forEach((l: any) => coveredLines.add(l.code));
-                }
-              }
-
-              for (const stn of pickedStations) {
-                const distM = Math.round(stn.distance);
-                const lines = Array.isArray(stn.lines) ? stn.lines : [];
-                const primaryLine = lines[0] || {
-                  code: 'MM',
-                  name: 'Mumbai Metro',
-                  color: '#06b6d4',
-                };
-
-                const gateMatch = stn.entranceName?.match(/(Gate\s+[A-Za-z0-9]+)/i);
-                const gateLabel = gateMatch ? gateMatch[1] : '';
-
-                const isWalking = distM <= 1200;
-                const distDisplay = isWalking
-                  ? `~${distM}m walk`
-                  : `~${(distM / 1000).toFixed(1)} km via Auto/Bus`;
-
-                const feederMins = isWalking
-                  ? Math.max(1, Math.round(distM / 80))
-                  : Math.max(3, Math.round(2 + (distM / 1000) * 3.2));
-                const travelSeconds = feederMins * 60;
-
-                const featureName = pickedStations.length > 1
-                  ? `${placeName} (via ${stn.name})`
-                  : placeName;
-                const placeId = `${lat.toFixed(5)},${lon.toFixed(5)}_${stn.code}`;
-
-                // Avoid duplicate if feature with same id already present
-                if (features.some((f: any) => f.id === placeId)) continue;
-
+              // Only emit a single clean place feature (no pre-snapped station)
+              if (!features.some((f: any) => f.id === placeId)) {
                 features.push({
                   type: 'Feature',
                   id: placeId,
@@ -664,48 +620,24 @@ export class SearchService {
                   properties: {
                     id: placeId,
                     placeId,
-                    stationId: stn.id,
-                    code: stn.code,
-                    name: featureName,
-                    displayName: `${placeName} (Feeder Metro: ${stn.name}${gateLabel ? ' via ' + gateLabel : ''} · ${distDisplay})`,
-                    address: item.address || `${stn.name} vicinity, Mumbai`,
+                    name: placeName,
+                    displayName: placeName,
+                    address: item.address || 'Mumbai, Maharashtra',
                     type: 'poi',
                     isLandmark: true,
                     isOutOfCoverage: false,
                     city: 'mumbai',
-                    systemId: stn.systemId,
-                    lines: lines.map((l: any) => ({
-                      code: l.code,
-                      name: l.name,
-                      color: resolveLineColor(l.color ?? '', l.name ?? ''),
-                    })),
-                    lineColor: resolveLineColor(
-                      primaryLine.color ?? '',
-                      primaryLine.name ?? '',
-                    ),
-                    nearestStation: {
-                      id: stn.id,
-                      name: stn.name,
-                      lineName: primaryLine.name,
-                      lineColor: resolveLineColor(
-                        primaryLine.color ?? '',
-                        primaryLine.name ?? '',
-                      ),
-                      walkDistance: distDisplay,
-                      nearestGate: stn.entranceName || undefined,
-                      gateCode: gateLabel || undefined,
-                    },
+                    systemId: closestStn.systemId,
+                    lines: aggregatedLines,
+                    lineColor: primaryLine.color,
+                    lat,
+                    lng: lon,
                     landmarkDetails: {
-                      name: featureName,
+                      name: placeName,
                       address: item.address || 'Mumbai, Maharashtra',
-                      connectedStationCode: stn.code,
-                      connectedStationName: stn.name,
-                      hasDirectFob: distM <= 50,
-                      hasDirectAccess: distM <= 50,
-                      walkDistanceMeters: distM,
-                      walkTimeSeconds: travelSeconds,
-                      corridorNote: `Board/Deboard via ${stn.name} or nearby corridor station. Last-mile connection to ${placeName}: ${distDisplay} (~${feederMins} min).`,
-                      indoorLevel: 'Street / Concourse Level',
+                      walkDistanceMeters: closestDistM,
+                      corridorNote: `Multi-corridor transit access (${distDisplay})`,
+                      indoorLevel: 'Street Level',
                     },
                   },
                 });

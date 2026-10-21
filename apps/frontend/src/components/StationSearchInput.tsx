@@ -96,7 +96,10 @@ export function StationSearchInput({
     onChange(place.name);
     if (onSelectStation) {
       onSelectStation({
-        id: place.nearestStation?.id || place.rawStationId || place.id,
+        id:
+          place.type === "poi" || place.isLandmark
+            ? (place.lat && place.lng ? `${place.lat.toFixed(5)},${place.lng.toFixed(5)}` : place.id)
+            : (place.rawStationId || place.id),
         name: place.name,
         code: place.code || "STN",
         city: activeCity || "mumbai",

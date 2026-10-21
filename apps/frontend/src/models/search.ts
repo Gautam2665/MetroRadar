@@ -10,6 +10,7 @@ export interface PlaceSuggestion {
     walkDistance?: string; // "900m" or "10 min walk"
   };
   type: "station" | "poi" | "address";
+  isLandmark?: boolean;
   rawStationId?: string;
   lat?: number;
   lng?: number;

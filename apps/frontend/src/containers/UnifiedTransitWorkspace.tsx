@@ -324,7 +324,12 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
         if (searchRes.success && searchRes.data.length > 0) {
           const first = searchRes.data[0];
           if (first.isOutOfCoverage) isOrigOut = true;
-          else finalOrigId = first.stationId || first.nearestStation?.id || first.id;
+          else {
+            finalOrigId =
+              first.type === "poi" || first.isLandmark
+                ? (first.lat && first.lng ? `${first.lat.toFixed(5)},${first.lng.toFixed(5)}` : first.id)
+                : (first.stationId || first.id || first.name);
+          }
         }
       }
     }
@@ -339,7 +344,12 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
         if (searchRes.success && searchRes.data.length > 0) {
           const first = searchRes.data[0];
           if (first.isOutOfCoverage) isDestOut = true;
-          else finalDestId = first.stationId || first.nearestStation?.id || first.id;
+          else {
+            finalDestId =
+              first.type === "poi" || first.isLandmark
+                ? (first.lat && first.lng ? `${first.lat.toFixed(5)},${first.lng.toFixed(5)}` : first.id)
+                : (first.stationId || first.id || first.name);
+          }
         }
       }
     }
@@ -1463,11 +1473,12 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
                             onSelect={(place) => {
                               setOriginInput(cleanPlaceName(place.name));
                               setOriginOutOfCoverage(Boolean(place.isOutOfCoverage));
-                              setOriginStationId(
-                                place.isOutOfCoverage
-                                  ? null
-                                  : (place.rawStationId || place.nearestStation?.id || place.id || place.name)
-                              );
+                              const chosenId = place.isOutOfCoverage
+                                ? null
+                                : place.type === "poi" || place.isLandmark
+                                ? (place.lat && place.lng ? `${place.lat.toFixed(5)},${place.lng.toFixed(5)}` : place.id)
+                                : (place.rawStationId || place.id || place.name);
+                              setOriginStationId(chosenId);
                               setShowOriginSuggestions(false);
                             }}
                           />
@@ -1552,11 +1563,12 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
                             onSelect={(place) => {
                               setDestInput(cleanPlaceName(place.name));
                               setDestOutOfCoverage(Boolean(place.isOutOfCoverage));
-                              setDestStationId(
-                                place.isOutOfCoverage
-                                  ? null
-                                  : (place.rawStationId || place.nearestStation?.id || place.id || place.name)
-                              );
+                              const chosenId = place.isOutOfCoverage
+                                ? null
+                                : place.type === "poi" || place.isLandmark
+                                ? (place.lat && place.lng ? `${place.lat.toFixed(5)},${place.lng.toFixed(5)}` : place.id)
+                                : (place.rawStationId || place.id || place.name);
+                              setDestStationId(chosenId);
                               setShowDestSuggestions(false);
                             }}
                           />

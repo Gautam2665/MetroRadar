@@ -68,7 +68,8 @@ export function toPlaceSuggestion(s: StationSearchResult): PlaceSuggestion {
     address,
     nearestStation,
     type: s.isLandmark ? "poi" : "station",
-    rawStationId: s.isOutOfCoverage ? undefined : (s.stationId || s.id),
+    isLandmark: Boolean(s.isLandmark),
+    rawStationId: s.isLandmark || s.isOutOfCoverage ? undefined : (s.stationId || s.id),
     code: s.code,
     lines: s.lines,
     lat: s.lat,
@@ -117,12 +118,16 @@ function parseSearchFeatures(data: Record<string, unknown> | null | undefined): 
           }))
       : [];
 
-    // If a station with this normalized name already exists, merge lines dynamically (preserve distinct POI feeder options)
-    const existing = results.find(
-      (r) =>
-        normalizeNameKey(r.name) === normKey &&
-        (r.type === "station" || r.nearestStation?.id === nearestStation?.id)
-    );
+    const isLandmark = Boolean(props.isLandmark) || featureType === "poi";
+    const coordLat = geom.coordinates?.[1];
+    const coordLng = geom.coordinates?.[0];
+    const coordId =
+      coordLat !== undefined && coordLng !== undefined
+        ? `${coordLat.toFixed(5)},${coordLng.toFixed(5)}`
+        : (props.id as string);
+
+    // If an entity with this normalized name already exists, merge lines dynamically
+    const existing = results.find((r) => normalizeNameKey(r.name) === normKey);
     if (existing) {
       for (const l of lines) {
         if (!existing.lines.some((el) => el.code === l.code || el.name.toLowerCase() === l.name.toLowerCase())) {
@@ -132,25 +137,25 @@ function parseSearchFeatures(data: Record<string, unknown> | null | undefined): 
       continue;
     }
 
-    const uniqueId = (f.id as string) || `${props.id as string}-${normKey}`;
+    const uniqueId = isLandmark ? coordId : ((f.id as string) || `${props.id as string}-${normKey}`);
     const isOutOfCoverage = Boolean(props.isOutOfCoverage);
     const coverageNotice = (props.coverageNotice as string) || undefined;
 
     results.push({
       id: uniqueId,
-      stationId: isOutOfCoverage ? undefined : (props.id as string),
+      stationId: isOutOfCoverage || isLandmark ? undefined : (props.id as string),
       name: name || "Station",
       address,
       code,
       city: ((props.city as string) || "").toLowerCase(),
       systemId: (props.systemId as string) || "",
       lines,
-      lat: geom.coordinates?.[1] ?? 0,
-      lng: geom.coordinates?.[0] ?? 0,
-      isLandmark: Boolean(props.isLandmark),
+      lat: coordLat ?? 0,
+      lng: coordLng ?? 0,
+      isLandmark,
       isOutOfCoverage,
       coverageNotice,
-      type: (props.type as "station" | "poi" | "address") || (props.isLandmark ? "poi" : "station"),
+      type: (props.type as "station" | "poi" | "address") || (isLandmark ? "poi" : "station"),
       nearestStation,
       landmarkDetails: props.landmarkDetails as Record<string, unknown> | undefined,
     });

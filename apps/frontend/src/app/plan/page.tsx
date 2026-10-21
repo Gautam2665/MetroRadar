@@ -92,9 +92,9 @@ function JourneyPlannerContent() {
     setOriginStationId(
       place.isOutOfCoverage
         ? null
-        : place.type === "station"
-        ? (place.rawStationId ?? place.id)
-        : (place.nearestStation?.id ?? place.rawStationId ?? place.id)
+        : place.type === "poi" || place.isLandmark
+        ? (place.lat && place.lng ? `${place.lat.toFixed(5)},${place.lng.toFixed(5)}` : place.id)
+        : (place.rawStationId ?? place.id)
     );
     setShowOriginSuggestions(false);
   };
@@ -105,9 +105,9 @@ function JourneyPlannerContent() {
     setDestStationId(
       place.isOutOfCoverage
         ? null
-        : place.type === "station"
-        ? (place.rawStationId ?? place.id)
-        : (place.nearestStation?.id ?? place.rawStationId ?? place.id)
+        : place.type === "poi" || place.isLandmark
+        ? (place.lat && place.lng ? `${place.lat.toFixed(5)},${place.lng.toFixed(5)}` : place.id)
+        : (place.rawStationId ?? place.id)
     );
     setShowDestSuggestions(false);
   };
