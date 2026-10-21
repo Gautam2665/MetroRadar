@@ -78,12 +78,16 @@ export class CandidateFilterService {
       if (c.transfers > MAX_TRANSFERS) return false;
       if (c.durationSeconds > MAX_DURATION_S) return false;
 
-      // Prune routes with out-of-station street walks > 300m between stations
-      // so Candidate 2 selects metro interchanges (e.g. via Andheri West) rather than walking between stations
+      // Prune routes with out-of-station street walks > 1200m between stations during interchange
+      // so Candidate 2 selects metro interchanges (e.g. via Andheri West) rather than walking between stations.
+      // Note: This does not apply to first-mile access or last-mile egress legs.
       const candAny = c as any;
       if (Array.isArray(candAny.legs)) {
         const hasLongStreetWalkBetweenStations = candAny.legs.some(
-          (leg: any) => {
+          (leg: any, index: number) => {
+            if (index === 0 || index === candAny.legs.length - 1) {
+              return false;
+            }
             if (
               leg.type === 'WALK' &&
               leg.fromStationName &&
@@ -195,6 +199,23 @@ export class CandidateFilterService {
    * Returns true if `b` dominates `a`.
    */
   private dominates(b: FilterableCandidate, a: FilterableCandidate): boolean {
+    // Preserve routes serving distinct transit corridors / line combinations
+    // (e.g. Direct Line 7 to Gundavali vs Line 7 -> Line 1 to Andheri / D.N. Nagar)
+    // as long as the duration delta is within 15 minutes (900s) and transfers <= 2
+    const linesA = (a as any).lines || [];
+    const linesB = (b as any).lines || [];
+    const hasDistinctCorridor =
+      linesA.length !== linesB.length ||
+      linesA.some((l: string) => !linesB.includes(l));
+
+    if (
+      hasDistinctCorridor &&
+      a.transfers <= 2 &&
+      a.durationSeconds - b.durationSeconds <= 900
+    ) {
+      return false;
+    }
+
     const atLeastAsGoodOnAll =
       b.durationSeconds <= a.durationSeconds &&
       b.transfers <= a.transfers &&

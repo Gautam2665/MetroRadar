@@ -182,10 +182,36 @@ export class JourneyService {
     private readonly realtimePrediction: RealtimePredictionService,
   ) {}
 
+  private async findNearestStation(lat: number, lng: number) {
+    const stations = await this.db.station.findMany({
+      where: { isActive: true },
+      select: {
+        id: true,
+        code: true,
+        name: true,
+        latitude: true,
+        longitude: true,
+        systemId: true,
+        system: { select: { id: true, code: true } },
+      },
+    });
+    if (stations.length === 0) return null;
+    let closest = stations[0];
+    let minD = Infinity;
+    for (const s of stations) {
+      const d = getDistanceMeters(lat, lng, s.latitude, s.longitude);
+      if (d < minD) {
+        minD = d;
+        closest = s;
+      }
+    }
+    return closest;
+  }
+
   /**
    * Dynamic Spatial Snapper with Per-Line Dominance Filter.
    *
-   * 1. Finds all active stations within walk catchment radius R (default: 800m).
+   * 1. Finds all active stations within walk catchment radius R (default: 3800m).
    * 2. De-dupes redundant stations on the exact same line (Per-Line Dominance Filter):
    *    If an origin is within radius of two stations on the exact same line,
    *    only keep the closer one on that specific line.
@@ -197,7 +223,7 @@ export class JourneyService {
     lat: number,
     lng: number,
     systemId: string,
-    maxRadiusMeters = 800,
+    maxRadiusMeters = 3800,
   ): Promise<ResolvedGateAttachment[]> {
     const stations = await this.db.station.findMany({
       where: { systemId, isActive: true },
@@ -265,43 +291,49 @@ export class JourneyService {
       }
     }
 
-    // Fallback if none found within catchment: pick closest station
+    // Fallback if none found within catchment: pick closest stations across distinct lines
     if (nearbyStations.length === 0 && stations.length > 0) {
-      let closestStn = stations[0];
-      let minD = Infinity;
-      let closestEnt: (typeof stations)[0]['entrances'][0] | null = null;
-      for (const stn of stations) {
-        let bestEnt: (typeof stn.entrances)[0] | null = null;
-        let minEntDist = Infinity;
-        if (stn.entrances && stn.entrances.length > 0) {
-          for (const ent of stn.entrances) {
-            const d = getDistanceMeters(lat, lng, ent.latitude, ent.longitude);
-            if (d < minEntDist) {
-              minEntDist = d;
-              bestEnt = ent;
+      const sorted = stations
+        .map((stn) => {
+          let bestEnt: (typeof stn.entrances)[0] | null = null;
+          let minEntDist = Infinity;
+          if (stn.entrances && stn.entrances.length > 0) {
+            for (const ent of stn.entrances) {
+              const d = getDistanceMeters(lat, lng, ent.latitude, ent.longitude);
+              if (d < minEntDist) {
+                minEntDist = d;
+                bestEnt = ent;
+              }
             }
           }
-        }
-        const stnCentroidDist = getDistanceMeters(
-          lat,
-          lng,
-          stn.latitude,
-          stn.longitude,
-        );
-        const effectiveDist =
-          bestEnt && minEntDist < Infinity ? minEntDist : stnCentroidDist;
+          const stnCentroidDist = getDistanceMeters(
+            lat,
+            lng,
+            stn.latitude,
+            stn.longitude,
+          );
+          const effectiveDist =
+            bestEnt && minEntDist < Infinity ? minEntDist : stnCentroidDist;
+          return {
+            station: stn,
+            distanceMeters: effectiveDist,
+            bestEntrance: bestEnt,
+          };
+        })
+        .sort((a, b) => a.distanceMeters - b.distanceMeters);
 
-        if (effectiveDist < minD) {
-          minD = effectiveDist;
-          closestStn = stn;
-          closestEnt = bestEnt;
+      const seenLineIds = new Set<string>();
+      for (const item of sorted) {
+        const lineId = item.station.sequences?.[0]?.lineId || 'UNKNOWN';
+        if (!seenLineIds.has(lineId)) {
+          seenLineIds.add(lineId);
+          nearbyStations.push(item);
+          if (nearbyStations.length >= 3) break;
         }
       }
-      nearbyStations.push({
-        station: closestStn,
-        distanceMeters: minD,
-        bestEntrance: closestEnt,
-      });
+      if (nearbyStations.length === 0 && sorted.length > 0) {
+        nearbyStations.push(sorted[0]);
+      }
     }
 
     // 2. Per-Line Dominance Filter:
@@ -399,9 +431,9 @@ export class JourneyService {
   private async resolveEndpoint(
     identifier: string,
   ): Promise<ResolvedEndpoint | null> {
-    // 0. Coordinate string format: "lat,lng" or "lat, lng"
+    // 0. Coordinate string format: "lat,lng" or "lat, lng" (optionally with _suffix)
     const coordMatch = identifier.match(
-      /^(-?\d+(\.\d+)?)\s*,\s*(-?\d+(\.\d+)?)$/,
+      /^(-?\d+(\.\d+)?)\s*,\s*(-?\d+(\.\d+)?)(?:_.*)?$/,
     );
     if (coordMatch) {
       const p1 = parseFloat(coordMatch[1]);
@@ -409,19 +441,28 @@ export class JourneyService {
       const lat = p1 < 40 ? p1 : p2;
       const lng = p1 > 40 ? p1 : p2;
 
-      const system = await this.db.system.findFirst({
-        where: { isActive: true },
-        select: { id: true, code: true },
-      });
-      if (!system) return null;
+      const nearestStation = await this.findNearestStation(lat, lng);
+      if (!nearestStation || !nearestStation.system) return null;
+      const system = nearestStation.system;
 
       const attachments = await this.findSpatialCandidateAttachments(
         lat,
         lng,
         system.id,
+        3800,
       );
       if (attachments.length > 0) {
         const primary = attachments[0].station;
+        const landmarkMeta: LandmarkMeta = {
+          id: `coord-${lat.toFixed(5)}-${lng.toFixed(5)}`,
+          name: `Location (${lat.toFixed(4)}, ${lng.toFixed(4)})`,
+          category: 'RESIDENTIAL',
+          hasDirectFob: false,
+          hasDirectAccess: false,
+          walkDistanceMeters: attachments[0].gate.walkDistanceMeters,
+          walkTimeSeconds: attachments[0].gate.walkTimeSeconds,
+          corridorNote: attachments[0].gate.corridorNote,
+        };
         return {
           id: `${lat.toFixed(5)},${lng.toFixed(5)}`,
           name: `Location (${lat.toFixed(4)}, ${lng.toFixed(4)})`,
@@ -430,6 +471,7 @@ export class JourneyService {
           longitude: lng,
           systemId: system.id,
           systemCode: system.code,
+          landmark: landmarkMeta,
           attachments,
           primaryStation: primary,
         };
@@ -520,7 +562,7 @@ export class JourneyService {
         dbEntrance.latitude,
         dbEntrance.longitude,
         primaryStation.systemId,
-        800,
+        3800,
       );
 
       const attachments: ResolvedGateAttachment[] = [
@@ -628,27 +670,37 @@ export class JourneyService {
         if (coords && coords.length >= 2) {
           const lon = coords[0];
           const lat = coords[1];
-          const system = await this.db.system.findFirst({
-            where: { isActive: true },
-            select: { id: true, code: true },
-          });
-          if (system) {
+          const nearestStation = await this.findNearestStation(lat, lon);
+          if (nearestStation && nearestStation.system) {
+            const system = nearestStation.system;
             const attachments = await this.findSpatialCandidateAttachments(
               lat,
               lon,
               system.id,
-              2500,
+              3800,
             );
             if (attachments.length > 0) {
               const primary = attachments[0].station;
+              const placeName = (feat.properties?.name as string) || queryTerm;
+              const landmarkMeta: LandmarkMeta = {
+                id: identifier,
+                name: placeName,
+                category: 'COMMERCIAL',
+                hasDirectFob: false,
+                hasDirectAccess: false,
+                walkDistanceMeters: attachments[0].gate.walkDistanceMeters,
+                walkTimeSeconds: attachments[0].gate.walkTimeSeconds,
+                corridorNote: attachments[0].gate.corridorNote,
+              };
               return {
                 id: identifier,
-                name: (feat.properties?.name as string) || queryTerm,
+                name: placeName,
                 code: primary.code,
                 latitude: lat,
                 longitude: lon,
                 systemId: system.id,
                 systemCode: system.code,
+                landmark: landmarkMeta,
                 attachments,
                 primaryStation: primary,
               };
