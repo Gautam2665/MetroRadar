@@ -105,262 +105,6 @@ function isWithinMumbaiMetroServiceArea(lat: number, lon: number): boolean {
   return inside;
 }
 
-interface CuratedLocality {
-  name: string;
-  aliases: string[];
-  lat: number;
-  lon: number;
-  address: string;
-}
-
-const MUMBAI_POPULAR_LOCALITIES: CuratedLocality[] = [
-  {
-    name: 'Irla',
-    aliases: ['irla', 'irla vile parle', 'irla market', 'irla juhu'],
-    lat: 19.1084,
-    lon: 72.84342,
-    address: 'Irla, Vile Parle West, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Thakur Village',
-    aliases: ['thakur village', 'thakur village kandivali', 'thakur vill'],
-    lat: 19.21083,
-    lon: 72.87474,
-    address: 'Thakur Village, Kandivali East, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Thakur Complex',
-    aliases: ['thakur complex', 'thakur complex kandivali'],
-    lat: 19.2065,
-    lon: 72.868,
-    address: 'Thakur Complex, Kandivali East, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Lokhandwala Complex',
-    aliases: ['lokhandwala', 'lokhandwala complex', 'lokhandwala andheri'],
-    lat: 19.1415,
-    lon: 72.8258,
-    address: 'Lokhandwala Complex, Andheri West, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Juhu',
-    aliases: ['juhu', 'juhu beach', 'juhu circle', 'juhu tara'],
-    lat: 19.0988,
-    lon: 72.8264,
-    address: 'Juhu, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Bandra',
-    aliases: ['bandra', 'bandra west', 'bandra station', 'linking road'],
-    lat: 19.0596,
-    lon: 72.8295,
-    address: 'Bandra West, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Bandra Kurla Complex (BKC)',
-    aliases: ['bkc', 'bandra kurla complex', 'bkc mumbai'],
-    lat: 19.0657,
-    lon: 72.8687,
-    address: 'Bandra Kurla Complex, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Powai',
-    aliases: ['powai', 'hiranandani powai', 'powai lake', 'iit bombay'],
-    lat: 19.1176,
-    lon: 72.906,
-    address: 'Hiranandani Gardens, Powai, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Mithibai College',
-    aliases: ['mithibai', 'mithibai college', 'nmims', 'vile parle west'],
-    lat: 19.1025,
-    lon: 72.8373,
-    address: 'Vile Parle West, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Oberoi Mall',
-    aliases: ['oberoi mall', 'oberoi goregaon'],
-    lat: 19.1738,
-    lon: 72.8601,
-    address: 'Oberoi Mall, Goregaon East, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Inorbit Mall Malad',
-    aliases: ['inorbit', 'inorbit mall', 'inorbit malad'],
-    lat: 19.1764,
-    lon: 72.8347,
-    address: 'Inorbit Mall, Malad West, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Infiniti Mall Malad',
-    aliases: ['infiniti malad', 'infiniti mall malad'],
-    lat: 19.1843,
-    lon: 72.8344,
-    address: 'Infiniti Mall, Link Road, Malad West, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Infiniti Mall Andheri',
-    aliases: ['infiniti andheri', 'infiniti mall andheri'],
-    lat: 19.1412,
-    lon: 72.8315,
-    address: 'Infiniti Mall, Oshiwara, Andheri West, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Marina Enclave',
-    aliases: ['marina enclave', 'jankalyan nagar', 'marina enclave malad'],
-    lat: 19.2005,
-    lon: 72.821,
-    address: 'Jankalyan Nagar, Malad West, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Evershine Nagar',
-    aliases: ['evershine', 'evershine nagar', 'evershine nagar malad'],
-    lat: 19.1865,
-    lon: 72.8342,
-    address: 'Evershine Nagar, Malad West, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Charkop',
-    aliases: ['charkop', 'charkop kandivali', 'charkop sector'],
-    lat: 19.2155,
-    lon: 72.8235,
-    address: 'Charkop, Kandivali West, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Mahavir Nagar',
-    aliases: ['mahavir nagar', 'mahavir nagar kandivali'],
-    lat: 19.2158,
-    lon: 72.8402,
-    address: 'Mahavir Nagar, Kandivali West, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Seven Bungalows',
-    aliases: ['seven bungalows', '7 bungalows', 'versova'],
-    lat: 19.1302,
-    lon: 72.8198,
-    address: 'Seven Bungalows, Andheri West, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Versova',
-    aliases: ['versova', 'versova beach', 'versova village'],
-    lat: 19.1363,
-    lon: 72.8128,
-    address: 'Versova, Andheri West, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Carter Road',
-    aliases: ['carter road', 'carter road promenade'],
-    lat: 19.0664,
-    lon: 72.8229,
-    address: 'Carter Road, Bandra West, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Bandra Bandstand',
-    aliases: ['bandstand', 'bandra bandstand'],
-    lat: 19.0436,
-    lon: 72.8195,
-    address: 'Bandstand, Bandra West, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Pali Hill',
-    aliases: ['pali hill', 'pali naka'],
-    lat: 19.0628,
-    lon: 72.8277,
-    address: 'Pali Hill, Bandra West, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Siddhivinayak Temple',
-    aliases: ['siddhivinayak', 'siddhivinayak temple', 'prabhadevi'],
-    lat: 19.0169,
-    lon: 72.8303,
-    address: 'Prabhadevi, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Haji Ali',
-    aliases: ['haji ali', 'haji ali dargah'],
-    lat: 18.9774,
-    lon: 72.8109,
-    address: 'Worli / Mahalaxmi, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Nariman Point',
-    aliases: ['nariman point', 'marine drive'],
-    lat: 18.926,
-    lon: 72.823,
-    address: 'Nariman Point, South Mumbai, Maharashtra',
-  },
-  {
-    name: 'Colaba',
-    aliases: ['colaba', 'gateway of india', 'colaba causeway'],
-    lat: 18.922,
-    lon: 72.8347,
-    address: 'Colaba, South Mumbai, Maharashtra',
-  },
-  {
-    name: 'Worli',
-    aliases: ['worli', 'worli sea face', 'worli naka'],
-    lat: 19.0134,
-    lon: 72.8153,
-    address: 'Worli, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Lower Parel',
-    aliases: ['lower parel', 'phoenix palladium', 'high street phoenix'],
-    lat: 18.9953,
-    lon: 72.8242,
-    address: 'Lower Parel, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Dadar',
-    aliases: ['dadar', 'dadar west', 'dadar east', 'shivaji park'],
-    lat: 19.0269,
-    lon: 72.8371,
-    address: 'Dadar, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Kurla',
-    aliases: ['kurla', 'phoenix marketcity', 'kurla west'],
-    lat: 19.0864,
-    lon: 72.8887,
-    address: 'Kurla, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Chembur',
-    aliases: ['chembur', 'diamond garden', 'chembur east'],
-    lat: 19.0596,
-    lon: 72.8988,
-    address: 'Chembur, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Ghatkopar East',
-    aliases: ['ghatkopar east', 'pant nagar'],
-    lat: 19.086,
-    lon: 72.912,
-    address: 'Ghatkopar East, Mumbai, Maharashtra',
-  },
-  {
-    name: 'Vashi',
-    aliases: ['vashi', 'inorbit vashi'],
-    lat: 19.0657,
-    lon: 72.9984,
-    address: 'Vashi, Navi Mumbai, Maharashtra',
-  },
-  {
-    name: 'Kharghar',
-    aliases: ['kharghar', 'central park kharghar'],
-    lat: 19.0434,
-    lon: 73.0673,
-    address: 'Kharghar, Navi Mumbai, Maharashtra',
-  },
-  {
-    name: 'Thane',
-    aliases: ['thane', 'viviana mall', 'thane west'],
-    lat: 19.2084,
-    lon: 72.9719,
-    address: 'Thane, Maharashtra',
-  },
-];
-
 @Injectable()
 export class SearchService {
   private readonly searchCache = new Map<
@@ -528,10 +272,10 @@ export class SearchService {
       features.push(...systemsRaw.map((r) => r.feature));
     }
 
-    // 4. Dynamic Geocoding & Closest Station Snapping (Local Curated Index + Google Places + Photon Fallback)
+    // 4. Dynamic Geocoding & Closest Station Snapping (Google Places + Photon Fallback)
     // If user typed a locality/landmark (e.g. "Irla", "Thakur Village", "Oberoi Mall", "Marina Enclave")
     if (
-      cleanQ.length >= 2 &&
+      cleanQ.length >= 3 &&
       (!filterTypes ||
         filterTypes.includes('station') ||
         filterTypes.includes('landmark'))
@@ -544,28 +288,15 @@ export class SearchService {
           address?: string;
         }> = [];
 
-        // Fast-path: Check curated Mumbai localities index first (< 0.1ms)
-        const lowerQ = cleanQ.toLowerCase();
-        const matchedCurated = MUMBAI_POPULAR_LOCALITIES.filter((loc) => {
-          const nameMatch = loc.name.toLowerCase().includes(lowerQ);
-          const aliasMatch = loc.aliases.some(
-            (a) => a.includes(lowerQ) || lowerQ.includes(a),
-          );
-          return nameMatch || aliasMatch;
-        });
+        // Geocode if there is no exact station name match and fewer than 5 station results
+        const hasExactStationMatch = features.some(
+          (f: any) =>
+            f.properties?.type === 'station' &&
+            asPrimitiveString(f.properties?.name).toLowerCase() ===
+              cleanQ.toLowerCase(),
+        );
 
-        for (const loc of matchedCurated.slice(0, 3)) {
-          candidatePlaces.push({
-            name: loc.name,
-            address: loc.address,
-            lat: loc.lat,
-            lon: loc.lon,
-          });
-        }
-
-        // Only reach out to external geocoders if local curated index yielded 0 results
-        // and we have fewer than 2 station matches (to avoid unnecessary network lag)
-        if (candidatePlaces.length === 0 && features.length < 2 && cleanQ.length >= 3) {
+        if (!hasExactStationMatch && features.length < 5) {
           const apiKey = process.env.GOOGLE_MAPS_API_KEY;
 
           // 1. Try Official Google Places API if key configured

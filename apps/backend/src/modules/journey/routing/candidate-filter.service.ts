@@ -253,8 +253,11 @@ export class CandidateFilterService {
 
         const distA = (a as any).destFeederDistanceMeters ?? Infinity;
         const distB = (b as any).destFeederDistanceMeters ?? Infinity;
-        // If 'a' drops the passenger closer to their destination locality, keep 'a'
-        if (distA < distB) {
+        // If 'a' drops the passenger closer or within comparable proximity to their destination locality, keep 'a'
+        if (
+          (distA < distB || Math.abs(distA - distB) < 1500) &&
+          a.durationSeconds - b.durationSeconds <= 1200
+        ) {
           return false;
         }
       }
@@ -269,7 +272,7 @@ export class CandidateFilterService {
         return true;
       }
 
-      // Different destination: check if 'a' represents a different corridor or brings user closer
+      // Different destination: check if 'a' represents a different corridor or brings user closer / comparable distance
       const linesA = (a as any).lines || [];
       const linesB = (b as any).lines || [];
       const differentCorridor =
@@ -280,7 +283,7 @@ export class CandidateFilterService {
       const distA = (a as any).destFeederDistanceMeters ?? Infinity;
       const distB = (b as any).destFeederDistanceMeters ?? Infinity;
       if (
-        (distA < distB || differentCorridor) &&
+        (distA < distB || Math.abs(distA - distB) < 1500 || differentCorridor) &&
         a.durationSeconds - b.durationSeconds <= 1200
       ) {
         return false;

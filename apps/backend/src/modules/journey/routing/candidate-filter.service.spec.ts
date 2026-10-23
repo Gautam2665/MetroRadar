@@ -171,6 +171,31 @@ describe('CandidateFilterService', () => {
       expect(result.map((r) => r.id)).toContain('L7_L1_TRANSFER');
     });
 
+    it('preserves multi-corridor candidate when destination station is on destination side of barrier (e.g. Thakur Village to Irla)', () => {
+      const l7Direct: any = {
+        id: 'L7_DIRECT_GUNDAVALI',
+        durationSeconds: 1420,
+        transfers: 0,
+        walkingSeconds: 0,
+        lines: ['Red Line'],
+        destination: { id: 'STN_GUNDAVALI' },
+        destFeederDistanceMeters: 1360,
+      };
+      const l7l1Transfer: any = {
+        id: 'L7_L1_ANDHERI',
+        durationSeconds: 1980,
+        transfers: 1,
+        walkingSeconds: 180,
+        lines: ['Red Line', 'Blue Line'],
+        destination: { id: 'STN_ANDHERI' },
+        destFeederDistanceMeters: 1406,
+      };
+      const result = service.filter([l7Direct, l7l1Transfer]);
+      expect(result).toHaveLength(2);
+      expect(result.map((r) => r.id)).toContain('L7_DIRECT_GUNDAVALI');
+      expect(result.map((r) => r.id)).toContain('L7_L1_ANDHERI');
+    });
+
     it('prunes strictly inferior multi-transfer detour to same destination station (e.g. Galleria to Kashigaon)', () => {
       const bestRoute: any = {
         id: 'BLUE_RED_KASHIGAON',
