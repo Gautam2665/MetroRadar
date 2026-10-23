@@ -196,6 +196,30 @@ describe('CandidateFilterService', () => {
       expect(result.map((r) => r.id)).toContain('L7_L1_ANDHERI');
     });
 
+    it('prunes inferior over-run station that takes 20+ minutes longer and drops passenger further away (e.g. Andheri vs Andheri West / D.N. Nagar)', () => {
+      const candidate1: any = {
+        id: 'L7_L1_ANDHERI',
+        durationSeconds: 2100, // 35 min
+        transfers: 1,
+        walkingSeconds: 180,
+        lines: ['Red Line', 'Blue Line'],
+        destination: { id: 'STN_ANDHERI' },
+        destFeederDistanceMeters: 1406,
+      };
+      const option3Overrun: any = {
+        id: 'L7_L1_ANDHERI_WEST_OVERRUN',
+        durationSeconds: 3360, // 56 min (+21 min slower!)
+        transfers: 1,
+        walkingSeconds: 450,
+        lines: ['Red Line', 'Blue Line'],
+        destination: { id: 'STN_ANDHERI_WEST' },
+        destFeederDistanceMeters: 2582, // 1.18 km further!
+      };
+      const result = service.filter([candidate1, option3Overrun]);
+      expect(result).toHaveLength(1);
+      expect(result[0].id).toBe('L7_L1_ANDHERI');
+    });
+
     it('prunes strictly inferior multi-transfer detour to same destination station (e.g. Galleria to Kashigaon)', () => {
       const bestRoute: any = {
         id: 'BLUE_RED_KASHIGAON',

@@ -310,10 +310,13 @@ export class JourneyService {
 
     // Relative Proximity Feeder Cutoff:
     // Snaps to candidate stations on distinct transit lines within a reasonable feeder distance
-    // of the closest station (minDist + 1500m, up to 1.6x minDist).
-    // This naturally captures adjacent corridors within the locality's catchment (e.g. Gundavali L7 and Andheri L1 for Irla)
-    // while preventing distant cross-town lines (e.g. Line 2A for Thakur Village, which is ~4km away across the railway barrier).
-    const maxFeederCutoff = Math.max(minDist + 1500, minDist * 1.6);
+    // of the closest station. When an immediate feeder exists (<1.5km), limits candidate line reach
+    // to ~1.9km so distant cross-town stations (e.g. Andheri West / D.N. Nagar at 2.6km for Irla)
+    // are not attached when Andheri (1.4km) and Gundavali (1.36km) already serve the locality.
+    const maxFeederCutoff = Math.max(
+      1500,
+      Math.min(minDist + 750, minDist * 1.4),
+    );
 
     const closestPerLine = new Map<
       string,

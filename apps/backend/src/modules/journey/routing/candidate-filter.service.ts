@@ -170,7 +170,7 @@ export class CandidateFilterService {
             return false;
           }
         } else {
-          if (durationRatio > 1.8 && durationDelta > 1200) {
+          if (durationRatio > 1.5 && durationDelta > 900) {
             return false;
           }
         }
@@ -253,10 +253,10 @@ export class CandidateFilterService {
 
         const distA = (a as any).destFeederDistanceMeters ?? Infinity;
         const distB = (b as any).destFeederDistanceMeters ?? Infinity;
-        // If 'a' drops the passenger closer or within comparable proximity to their destination locality, keep 'a'
+        // If 'a' drops the passenger closer or within tight comparable proximity to their destination locality (e.g. Gundavali vs Andheri), keep 'a'
         if (
-          (distA < distB || Math.abs(distA - distB) < 1500) &&
-          a.durationSeconds - b.durationSeconds <= 1200
+          distA < distB ||
+          (distA <= distB + 300 && a.durationSeconds - b.durationSeconds <= 600)
         ) {
           return false;
         }
@@ -283,7 +283,10 @@ export class CandidateFilterService {
       const distA = (a as any).destFeederDistanceMeters ?? Infinity;
       const distB = (b as any).destFeederDistanceMeters ?? Infinity;
       if (
-        (distA < distB || Math.abs(distA - distB) < 1500 || differentCorridor) &&
+        (distA < distB ||
+          (distA <= distB + 300 &&
+            a.durationSeconds - b.durationSeconds <= 600) ||
+          differentCorridor) &&
         a.durationSeconds - b.durationSeconds <= 1200
       ) {
         return false;
@@ -300,6 +303,14 @@ export class CandidateFilterService {
         if (durationDelta > 600) {
           if (b.transfers < a.transfers) return true;
           if (durationDelta > Math.max(600, 2.5 * walkingSavedByA)) return true;
+        }
+      } else {
+        // Different destination: if candidate 'a' takes longer, has equal-or-more transfers,
+        // AND drops the passenger further away from their destination, 'b' strictly dominates 'a'.
+        const distA = (a as any).destFeederDistanceMeters ?? Infinity;
+        const distB = (b as any).destFeederDistanceMeters ?? Infinity;
+        if (distA > distB + 300 && durationDelta > 600) {
+          return true;
         }
       }
     }
