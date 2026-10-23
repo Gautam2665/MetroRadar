@@ -105,8 +105,269 @@ function isWithinMumbaiMetroServiceArea(lat: number, lon: number): boolean {
   return inside;
 }
 
+interface CuratedLocality {
+  name: string;
+  aliases: string[];
+  lat: number;
+  lon: number;
+  address: string;
+}
+
+const MUMBAI_POPULAR_LOCALITIES: CuratedLocality[] = [
+  {
+    name: 'Irla',
+    aliases: ['irla', 'irla vile parle', 'irla market', 'irla juhu'],
+    lat: 19.1084,
+    lon: 72.84342,
+    address: 'Irla, Vile Parle West, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Thakur Village',
+    aliases: ['thakur village', 'thakur village kandivali', 'thakur vill'],
+    lat: 19.21083,
+    lon: 72.87474,
+    address: 'Thakur Village, Kandivali East, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Thakur Complex',
+    aliases: ['thakur complex', 'thakur complex kandivali'],
+    lat: 19.2065,
+    lon: 72.868,
+    address: 'Thakur Complex, Kandivali East, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Lokhandwala Complex',
+    aliases: ['lokhandwala', 'lokhandwala complex', 'lokhandwala andheri'],
+    lat: 19.1415,
+    lon: 72.8258,
+    address: 'Lokhandwala Complex, Andheri West, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Juhu',
+    aliases: ['juhu', 'juhu beach', 'juhu circle', 'juhu tara'],
+    lat: 19.0988,
+    lon: 72.8264,
+    address: 'Juhu, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Bandra',
+    aliases: ['bandra', 'bandra west', 'bandra station', 'linking road'],
+    lat: 19.0596,
+    lon: 72.8295,
+    address: 'Bandra West, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Bandra Kurla Complex (BKC)',
+    aliases: ['bkc', 'bandra kurla complex', 'bkc mumbai'],
+    lat: 19.0657,
+    lon: 72.8687,
+    address: 'Bandra Kurla Complex, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Powai',
+    aliases: ['powai', 'hiranandani powai', 'powai lake', 'iit bombay'],
+    lat: 19.1176,
+    lon: 72.906,
+    address: 'Hiranandani Gardens, Powai, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Mithibai College',
+    aliases: ['mithibai', 'mithibai college', 'nmims', 'vile parle west'],
+    lat: 19.1025,
+    lon: 72.8373,
+    address: 'Vile Parle West, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Oberoi Mall',
+    aliases: ['oberoi mall', 'oberoi goregaon'],
+    lat: 19.1738,
+    lon: 72.8601,
+    address: 'Oberoi Mall, Goregaon East, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Inorbit Mall Malad',
+    aliases: ['inorbit', 'inorbit mall', 'inorbit malad'],
+    lat: 19.1764,
+    lon: 72.8347,
+    address: 'Inorbit Mall, Malad West, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Infiniti Mall Malad',
+    aliases: ['infiniti malad', 'infiniti mall malad'],
+    lat: 19.1843,
+    lon: 72.8344,
+    address: 'Infiniti Mall, Link Road, Malad West, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Infiniti Mall Andheri',
+    aliases: ['infiniti andheri', 'infiniti mall andheri'],
+    lat: 19.1412,
+    lon: 72.8315,
+    address: 'Infiniti Mall, Oshiwara, Andheri West, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Marina Enclave',
+    aliases: ['marina enclave', 'jankalyan nagar', 'marina enclave malad'],
+    lat: 19.2005,
+    lon: 72.821,
+    address: 'Jankalyan Nagar, Malad West, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Evershine Nagar',
+    aliases: ['evershine', 'evershine nagar', 'evershine nagar malad'],
+    lat: 19.1865,
+    lon: 72.8342,
+    address: 'Evershine Nagar, Malad West, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Charkop',
+    aliases: ['charkop', 'charkop kandivali', 'charkop sector'],
+    lat: 19.2155,
+    lon: 72.8235,
+    address: 'Charkop, Kandivali West, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Mahavir Nagar',
+    aliases: ['mahavir nagar', 'mahavir nagar kandivali'],
+    lat: 19.2158,
+    lon: 72.8402,
+    address: 'Mahavir Nagar, Kandivali West, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Seven Bungalows',
+    aliases: ['seven bungalows', '7 bungalows', 'versova'],
+    lat: 19.1302,
+    lon: 72.8198,
+    address: 'Seven Bungalows, Andheri West, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Versova',
+    aliases: ['versova', 'versova beach', 'versova village'],
+    lat: 19.1363,
+    lon: 72.8128,
+    address: 'Versova, Andheri West, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Carter Road',
+    aliases: ['carter road', 'carter road promenade'],
+    lat: 19.0664,
+    lon: 72.8229,
+    address: 'Carter Road, Bandra West, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Bandra Bandstand',
+    aliases: ['bandstand', 'bandra bandstand'],
+    lat: 19.0436,
+    lon: 72.8195,
+    address: 'Bandstand, Bandra West, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Pali Hill',
+    aliases: ['pali hill', 'pali naka'],
+    lat: 19.0628,
+    lon: 72.8277,
+    address: 'Pali Hill, Bandra West, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Siddhivinayak Temple',
+    aliases: ['siddhivinayak', 'siddhivinayak temple', 'prabhadevi'],
+    lat: 19.0169,
+    lon: 72.8303,
+    address: 'Prabhadevi, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Haji Ali',
+    aliases: ['haji ali', 'haji ali dargah'],
+    lat: 18.9774,
+    lon: 72.8109,
+    address: 'Worli / Mahalaxmi, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Nariman Point',
+    aliases: ['nariman point', 'marine drive'],
+    lat: 18.926,
+    lon: 72.823,
+    address: 'Nariman Point, South Mumbai, Maharashtra',
+  },
+  {
+    name: 'Colaba',
+    aliases: ['colaba', 'gateway of india', 'colaba causeway'],
+    lat: 18.922,
+    lon: 72.8347,
+    address: 'Colaba, South Mumbai, Maharashtra',
+  },
+  {
+    name: 'Worli',
+    aliases: ['worli', 'worli sea face', 'worli naka'],
+    lat: 19.0134,
+    lon: 72.8153,
+    address: 'Worli, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Lower Parel',
+    aliases: ['lower parel', 'phoenix palladium', 'high street phoenix'],
+    lat: 18.9953,
+    lon: 72.8242,
+    address: 'Lower Parel, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Dadar',
+    aliases: ['dadar', 'dadar west', 'dadar east', 'shivaji park'],
+    lat: 19.0269,
+    lon: 72.8371,
+    address: 'Dadar, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Kurla',
+    aliases: ['kurla', 'phoenix marketcity', 'kurla west'],
+    lat: 19.0864,
+    lon: 72.8887,
+    address: 'Kurla, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Chembur',
+    aliases: ['chembur', 'diamond garden', 'chembur east'],
+    lat: 19.0596,
+    lon: 72.8988,
+    address: 'Chembur, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Ghatkopar East',
+    aliases: ['ghatkopar east', 'pant nagar'],
+    lat: 19.086,
+    lon: 72.912,
+    address: 'Ghatkopar East, Mumbai, Maharashtra',
+  },
+  {
+    name: 'Vashi',
+    aliases: ['vashi', 'inorbit vashi'],
+    lat: 19.0657,
+    lon: 72.9984,
+    address: 'Vashi, Navi Mumbai, Maharashtra',
+  },
+  {
+    name: 'Kharghar',
+    aliases: ['kharghar', 'central park kharghar'],
+    lat: 19.0434,
+    lon: 73.0673,
+    address: 'Kharghar, Navi Mumbai, Maharashtra',
+  },
+  {
+    name: 'Thane',
+    aliases: ['thane', 'viviana mall', 'thane west'],
+    lat: 19.2084,
+    lon: 72.9719,
+    address: 'Thane, Maharashtra',
+  },
+];
+
 @Injectable()
 export class SearchService {
+  private readonly searchCache = new Map<
+    string,
+    { timestamp: number; data: Record<string, unknown> }
+  >();
+
   constructor(
     private readonly prisma: DatabaseService,
     private readonly geojsonService: GeojsonService,
@@ -116,8 +377,21 @@ export class SearchService {
     query: string,
     filterTypes?: string[],
   ): Promise<Record<string, unknown>> {
-    const formattedQuery = `%${query}%`;
-    const strippedQuery = `%${query.replace(/[^a-zA-Z0-9]/g, '')}%`;
+    const cleanQ = query.trim();
+    if (!cleanQ) {
+      return this.geojsonService.wrapFeatureCollection([]);
+    }
+
+    const cacheKey = `${cleanQ.toLowerCase()}:${(filterTypes || []).join(',')}`;
+    const cached = this.searchCache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < 300000) {
+      // 5 min cache
+      return cached.data;
+    }
+
+    const formattedQuery = `%${cleanQ}%`;
+    const prefixQuery = `${cleanQ}%`;
+    const strippedQuery = `%${cleanQ.replace(/[^a-zA-Z0-9]/g, '')}%`;
     const features: Record<string, unknown>[] = [];
 
     // 1. Search stations (Highest priority: actual metro stations)
@@ -142,46 +416,9 @@ export class SearchService {
               'systemId', st."systemId",
               'lines', COALESCE((
                 SELECT json_agg(json_build_object('code', l.code, 'name', l.name, 'color', COALESCE(l.color, '#00e5ff')))
-                FROM (
-                  SELECT DISTINCT l_sub.id, l_sub.code, l_sub.name, l_sub.color
-                  FROM lines l_sub
-                  JOIN trips t_sub ON t_sub."lineId" = l_sub.id
-                  JOIN stop_times st_sub ON st_sub."tripId" = t_sub.id
-                  WHERE st_sub."stationId" = st.id AND l_sub."isActive" = true AND t_sub."isActive" = true AND st_sub."isActive" = true
-                  UNION
-                  SELECT DISTINCT l_sub2.id, l_sub2.code, l_sub2.name, l_sub2.color
-                  FROM lines l_sub2
-                  JOIN station_sequences ss_sub ON ss_sub."lineId" = l_sub2.id
-                  WHERE ss_sub."stationId" = st.id AND l_sub2."isActive" = true
-                  UNION
-                  SELECT DISTINCT l_sub3.id, l_sub3.code, l_sub3.name, l_sub3.color
-                  FROM lines l_sub3
-                  JOIN platforms tp ON tp."lineId" = l_sub3.id
-                  JOIN interchanges i ON i."toPlatformId" = tp.id
-                  JOIN platforms fp ON fp.id = i."fromPlatformId"
-                  JOIN levels fl ON fl.id = fp."levelId"
-                  WHERE fl."stationId" = st.id AND i."isActive" = true AND fp."isActive" = true AND tp."isActive" = true AND l_sub3."isActive" = true
-                  UNION
-                  SELECT DISTINCT l_sub4.id, l_sub4.code, l_sub4.name, l_sub4.color
-                  FROM lines l_sub4
-                  JOIN platforms fp ON fp."lineId" = l_sub4.id
-                  JOIN interchanges i ON i."fromPlatformId" = fp.id
-                  JOIN platforms tp ON tp.id = i."toPlatformId"
-                  JOIN levels tl ON tl.id = tp."levelId"
-                  WHERE tl."stationId" = st.id AND i."isActive" = true AND fp."isActive" = true AND tp."isActive" = true AND l_sub4."isActive" = true
-                  UNION
-                  SELECT DISTINCT l_sub5.id, l_sub5.code, l_sub5.name, l_sub5.color
-                  FROM lines l_sub5
-                  JOIN trips t_same ON t_same."lineId" = l_sub5.id
-                  JOIN stop_times st_same ON st_same."tripId" = t_same.id
-                  JOIN stations same_stn ON same_stn.id = st_same."stationId"
-                  WHERE LOWER(TRIM(same_stn.name)) = LOWER(TRIM(st.name))
-                    AND same_stn.city = st.city
-                    AND same_stn."isActive" = true
-                    AND t_same."isActive" = true
-                    AND st_same."isActive" = true
-                    AND l_sub5."isActive" = true
-                ) l
+                FROM lines l
+                JOIN station_sequences ss ON ss."lineId" = l.id
+                WHERE ss."stationId" = st.id AND l."isActive" = true
               ), '[]'::json)
             )
           ) as feature
@@ -191,16 +428,19 @@ export class SearchService {
           OR st.code ILIKE $1 
           OR st.city ILIKE $1
           OR REGEXP_REPLACE(st.name, '[^a-zA-Z0-9]', '', 'g') ILIKE $2
-          OR (
-            SELECT string_agg(substring(word from 1 for 1), '')
-            FROM regexp_split_to_table(st.name, '\\s+') AS word
-            WHERE word ~ '^[a-zA-Z]'
-          ) ILIKE $1
         )
-        LIMIT 100;
+        ORDER BY 
+          CASE 
+            WHEN st.name ILIKE $3 THEN 1 
+            WHEN st.name ILIKE $1 THEN 2 
+            ELSE 3 
+          END,
+          LENGTH(st.name) ASC
+        LIMIT 25;
       `,
         formattedQuery,
         strippedQuery,
+        prefixQuery,
       );
       const resolvedStationFeatures: Record<string, unknown>[] =
         stationsRaw.map((r) => {
@@ -288,17 +528,15 @@ export class SearchService {
       features.push(...systemsRaw.map((r) => r.feature));
     }
 
-    // 4. Dynamic Geocoding & Closest Station Snapping (Google Maps Platform + Photon Fallback)
-    // If user typed a locality/landmark (e.g. "Evershine Nagar", "Irla", "Hanuman Mandir Vile Parle", "Mithibai College")
-    const cleanQ = query.trim();
+    // 4. Dynamic Geocoding & Closest Station Snapping (Local Curated Index + Google Places + Photon Fallback)
+    // If user typed a locality/landmark (e.g. "Irla", "Thakur Village", "Oberoi Mall", "Marina Enclave")
     if (
-      cleanQ.length >= 3 &&
+      cleanQ.length >= 2 &&
       (!filterTypes ||
         filterTypes.includes('station') ||
         filterTypes.includes('landmark'))
     ) {
       try {
-        const apiKey = process.env.GOOGLE_MAPS_API_KEY;
         const candidatePlaces: Array<{
           name: string;
           lat: number;
@@ -306,78 +544,103 @@ export class SearchService {
           address?: string;
         }> = [];
 
-        // 1. Try Official Google Places API (New) if key configured
-        if (apiKey) {
-          try {
-            const googleRes = await axios.post(
-              'https://places.googleapis.com/v1/places:searchText',
-              {
-                textQuery: `${cleanQ} Mumbai`,
-                locationBias: {
-                  rectangle: {
-                    low: { latitude: 18.89, longitude: 72.75 },
-                    high: { latitude: 19.32, longitude: 73.05 },
-                  },
-                },
-                maxResultCount: 4,
-              },
-              {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'X-Goog-Api-Key': apiKey,
-                  'X-Goog-FieldMask':
-                    'places.displayName,places.formattedAddress,places.location',
-                },
-                timeout: 3000,
-              },
-            );
+        // Fast-path: Check curated Mumbai localities index first (< 0.1ms)
+        const lowerQ = cleanQ.toLowerCase();
+        const matchedCurated = MUMBAI_POPULAR_LOCALITIES.filter((loc) => {
+          const nameMatch = loc.name.toLowerCase().includes(lowerQ);
+          const aliasMatch = loc.aliases.some(
+            (a) => a.includes(lowerQ) || lowerQ.includes(a),
+          );
+          return nameMatch || aliasMatch;
+        });
 
-            if (Array.isArray(googleRes.data?.places)) {
-              for (const p of googleRes.data.places) {
-                if (p.location?.latitude && p.location?.longitude) {
-                  candidatePlaces.push({
-                    name: p.displayName?.text || cleanQ,
-                    address: p.formattedAddress || 'Mumbai, Maharashtra',
-                    lat: p.location.latitude,
-                    lon: p.location.longitude,
-                  });
-                }
-              }
-            }
-          } catch (gErr) {
-            // Fall back to Photon if Google request fails or quota reached
-          }
+        for (const loc of matchedCurated.slice(0, 3)) {
+          candidatePlaces.push({
+            name: loc.name,
+            address: loc.address,
+            lat: loc.lat,
+            lon: loc.lon,
+          });
         }
 
-        // 2. Photon fallback if Google yielded 0 places
-        if (candidatePlaces.length === 0) {
-          try {
-            const geoUrl = `https://photon.komoot.io/api/?q=${encodeURIComponent(cleanQ + ', Mumbai')}&limit=3`;
-            const geoRes = await axios.get(geoUrl, { timeout: 3000 });
-            if (geoRes.data && Array.isArray(geoRes.data.features)) {
-              for (const item of geoRes.data.features) {
-                const coords = item.geometry?.coordinates as [number, number];
-                if (coords && coords.length >= 2) {
-                  const props = item.properties || {};
-                  const addrParts = [
-                    props.street,
-                    props.district,
-                    props.city || 'Mumbai',
-                  ].filter(Boolean);
-                  candidatePlaces.push({
-                    name: props.name || cleanQ,
-                    address:
-                      addrParts.length > 0
-                        ? addrParts.join(', ')
-                        : 'Mumbai, Maharashtra',
-                    lon: coords[0],
-                    lat: coords[1],
-                  });
+        // Only reach out to external geocoders if local curated index yielded 0 results
+        // and we have fewer than 2 station matches (to avoid unnecessary network lag)
+        if (candidatePlaces.length === 0 && features.length < 2 && cleanQ.length >= 3) {
+          const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+
+          // 1. Try Official Google Places API if key configured
+          if (apiKey) {
+            try {
+              const googleRes = await axios.post(
+                'https://places.googleapis.com/v1/places:searchText',
+                {
+                  textQuery: `${cleanQ} Mumbai`,
+                  locationBias: {
+                    rectangle: {
+                      low: { latitude: 18.89, longitude: 72.75 },
+                      high: { latitude: 19.32, longitude: 73.05 },
+                    },
+                  },
+                  maxResultCount: 3,
+                },
+                {
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'X-Goog-Api-Key': apiKey,
+                    'X-Goog-FieldMask':
+                      'places.displayName,places.formattedAddress,places.location',
+                  },
+                  timeout: 1500,
+                },
+              );
+
+              if (Array.isArray(googleRes.data?.places)) {
+                for (const p of googleRes.data.places) {
+                  if (p.location?.latitude && p.location?.longitude) {
+                    candidatePlaces.push({
+                      name: p.displayName?.text || cleanQ,
+                      address: p.formattedAddress || 'Mumbai, Maharashtra',
+                      lat: p.location.latitude,
+                      lon: p.location.longitude,
+                    });
+                  }
                 }
               }
+            } catch (gErr) {
+              // Fall back to Photon
             }
-          } catch (pErr) {
-            // Silently ignore photon failure
+          }
+
+          // 2. Photon fallback with tight 1500ms timeout
+          if (candidatePlaces.length === 0) {
+            try {
+              const geoUrl = `https://photon.komoot.io/api/?q=${encodeURIComponent(cleanQ + ', Mumbai')}&limit=3`;
+              const geoRes = await axios.get(geoUrl, { timeout: 1500 });
+              if (geoRes.data && Array.isArray(geoRes.data.features)) {
+                for (const item of geoRes.data.features) {
+                  const coords = item.geometry?.coordinates as [number, number];
+                  if (coords && coords.length >= 2) {
+                    const props = item.properties || {};
+                    const addrParts = [
+                      props.street,
+                      props.district,
+                      props.city || 'Mumbai',
+                    ].filter(Boolean);
+                    candidatePlaces.push({
+                      name: props.name || cleanQ,
+                      address:
+                        addrParts.length > 0
+                          ? addrParts.join(', ')
+                          : 'Mumbai, Maharashtra',
+                      lon: coords[0],
+                      lat: coords[1],
+                    });
+                  }
+                }
+              }
+            } catch (pErr) {
+              // Silently ignore photon failure
+            }
           }
         }
 
@@ -385,14 +648,13 @@ export class SearchService {
           const placeName = item.name;
           const { lat, lon } = item;
 
-          // Find candidate active stations & entrances in DB using PostGIS ST_Distance
+          // Find closest stations using high-performance PostGIS distance
           const nearestRows = await this.prisma.$queryRawUnsafe<any[]>(
             `
             SELECT 
               st.id, st.code, st.name, st.latitude, st.longitude, st.city, st."systemId",
-              ent.id as "entranceId", ent.name as "entranceName", ent.latitude as "entranceLat", ent.longitude as "entranceLon",
               ST_Distance(
-                COALESCE(ent.geom, ST_SetSRID(ST_MakePoint(ent.longitude, ent.latitude), 4326), ST_SetSRID(ST_MakePoint(st.longitude, st.latitude), 4326))::geography,
+                COALESCE(st.geom, ST_SetSRID(ST_MakePoint(st.longitude, st.latitude), 4326))::geography,
                 ST_SetSRID(ST_MakePoint($2, $1), 4326)::geography
               ) as distance,
               COALESCE((
@@ -402,11 +664,10 @@ export class SearchService {
                 WHERE ss."stationId" = st.id AND l."isActive" = true
               ), '[]'::json) as lines
             FROM stations st
-            LEFT JOIN entrances ent ON ent."stationId" = st.id AND ent."isActive" = true
             WHERE st."isActive" = true AND LOWER(st.city) IN ('mumbai', 'mm')
               AND (st.geom IS NOT NULL OR (st.latitude IS NOT NULL AND st.longitude IS NOT NULL))
             ORDER BY distance ASC
-            LIMIT 50;
+            LIMIT 15;
             `,
             lat,
             lon,
@@ -653,7 +914,9 @@ export class SearchService {
       }
     }
 
-    return this.geojsonService.wrapFeatureCollection(features);
+    const result = this.geojsonService.wrapFeatureCollection(features);
+    this.searchCache.set(cacheKey, { timestamp: Date.now(), data: result });
+    return result;
   }
 
   async getNearbyEntities(

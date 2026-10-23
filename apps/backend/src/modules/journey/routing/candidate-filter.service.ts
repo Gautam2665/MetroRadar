@@ -239,6 +239,18 @@ export class CandidateFilterService {
 
     if (atLeastAsGoodOnAll && strictlyBetterOnAtLeastOne) {
       if (isDifferentDestination) {
+        // If candidate 'a' represents a different transit corridor (e.g. Yellow Line vs Red Line),
+        // preserve corridor diversity for multi-feeder localities unless drastically slower.
+        const linesA = (a as any).lines || [];
+        const linesB = (b as any).lines || [];
+        const differentCorridor =
+          linesA.length > 0 &&
+          linesB.length > 0 &&
+          !linesA.some((l: string) => linesB.includes(l));
+        if (differentCorridor && a.durationSeconds - b.durationSeconds < 900) {
+          return false;
+        }
+
         const distA = (a as any).destFeederDistanceMeters ?? Infinity;
         const distB = (b as any).destFeederDistanceMeters ?? Infinity;
         // If 'a' drops the passenger closer to their destination locality, keep 'a'
@@ -257,10 +269,20 @@ export class CandidateFilterService {
         return true;
       }
 
-      // Different destination: check if 'a' brings the user closer to destination locality
+      // Different destination: check if 'a' represents a different corridor or brings user closer
+      const linesA = (a as any).lines || [];
+      const linesB = (b as any).lines || [];
+      const differentCorridor =
+        linesA.length > 0 &&
+        linesB.length > 0 &&
+        !linesA.some((l: string) => linesB.includes(l));
+
       const distA = (a as any).destFeederDistanceMeters ?? Infinity;
       const distB = (b as any).destFeederDistanceMeters ?? Infinity;
-      if (distA < distB && a.durationSeconds - b.durationSeconds <= 1200) {
+      if (
+        (distA < distB || differentCorridor) &&
+        a.durationSeconds - b.durationSeconds <= 1200
+      ) {
         return false;
       }
       return true;

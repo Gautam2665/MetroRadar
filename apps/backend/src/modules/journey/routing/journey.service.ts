@@ -309,12 +309,13 @@ export class JourneyService {
     const minDist = nearbyStations[0]?.distanceMeters ?? 0;
 
     // Relative Proximity Feeder Cutoff:
-    // Rather than setting an arbitrary hard maximum distance that limits or rejects outer localities,
-    // we dynamically evaluate relative to the closest station (minDist):
-    // - Always consider stations within (minDist + 1500m) or (minDist * 1.6).
-    // This allows any locality across the region to seamlessly snap to its nearest feeder metro,
-    // while preventing someone right next to a station (e.g. 280m) from jumping across town to another line (2.5km).
-    const maxFeederCutoff = Math.max(minDist + 1500, minDist * 1.6);
+    // In dense linear transit cities like Mumbai, parallel corridors (e.g. Line 7 on Western Express Highway
+    // and Line 2A on Link Road) are spaced 2.5km to 4.2km apart. If a locality is close to one line (e.g. 1000m),
+    // an overly tight cutoff (e.g. 2500m) would completely starve the locality of the parallel corridor,
+    // forcing single-option routing.
+    // We allow candidate attachments from each distinct line up to 5000m (or minDist + 3000m),
+    // ensuring multi-line corridors (Red Line, Yellow Line, Blue Line, Aqua Line) are available for selection.
+    const maxFeederCutoff = Math.max(5000, minDist + 3000, minDist * 2.5);
 
     const closestPerLine = new Map<
       string,
