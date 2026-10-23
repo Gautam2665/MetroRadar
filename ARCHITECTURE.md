@@ -266,3 +266,40 @@ The SEE generates estimated vehicle positions for metros with no official realti
 - Category I observations (GPS traces, crowdsource) to improve estimates
 
 Output: an **Estimated GTFS-Realtime** feed, clearly labeled as `source: "estimated"`, published alongside official feeds where they exist.
+
+---
+
+## 🧭 9. Computational Journey Routing & Corridor Simulation Engine
+
+TransitOS executes multi-modal corridor evaluation and passenger route simulation through a 4-stage pipeline:
+
+```mermaid
+flowchart LR
+    Origin["Origin Feeder<br/>(Stations / Localities)"] --> Yen["1. Yen's K-Shortest Paths<br/>(Deviation Routing)"]
+    Yen --> IE["2. Micro-Interchange Evaluator<br/>(Physical Built Friction)"]
+    IE --> Pareto["3. Candidate Filter<br/>(Pareto Dominance & Detours)"]
+    Pareto --> Score["4. Scoring & Rank Engine<br/>(Generalized Cost)"]
+    Score --> Output["Top-K Evaluated Corridors"]
+```
+
+### Stage 1: Multi-Attachment Graph Seeding
+When travelers query transit between localities or coordinates rather than fixed stations, the engine queries PostGIS to identify all active feeder stations within dynamic proximity:
+$$\text{FeederCutoff} = \max(d_{\min} + 1500\text{m}, \; d_{\min} \times 1.6)$$
+Yen's $K$-Shortest Path deviation loops are executed across candidate feeder pairs without combinatorial explosion.
+
+### Stage 2: Physical Micro-Interchange Evaluation
+Each transfer leg is evaluated against CTM 3D station geometry:
+- Vertical displacement: $+10\text{s}$ per vertical meter of stair/escalator climb.
+- Turnstiles: $+60\text{s}$ for exiting paid concourses (AFC re-tap).
+- Security: $+300\text{s}$ for security baggage screening perimeters.
+- Weather exposure: $+600\text{s}$ penalty for open-air street-level walking between stations.
+
+### Stage 3: Strict Pareto Dominance & Detour Pruning
+$$\text{Route } B \text{ dominates } A \iff T_B \le T_A \;\land\; \text{Xfer}_B \le \text{Xfer}_A \;\land\; \text{Walk}_B \le \text{Walk}_A$$
+- When terminating at the same station, routes with more transfers that are $> 15\%$ slower or $> 5\text{ mins}$ slower are pruned as inferior detours.
+- When crossing natural or rail infrastructure divides, elevated viaduct transit trips are prioritized over road crossings through congested road overpasses.
+
+### Stage 4: Generalized Cost Scoring Function
+$$\text{RankScore} = 0.6 \cdot T_{\text{duration}} + 120 \cdot N_{\text{transfers}} + 0.2 \cdot T_{\text{walking}} + C_{\text{interchange\_friction}}$$
+This deterministic formulation ensures that simulated routes accurately represent true passenger generalized cost, providing planners with reliable corridor performance comparisons.
+

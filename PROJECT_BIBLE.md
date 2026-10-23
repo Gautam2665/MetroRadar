@@ -42,7 +42,7 @@ TransitOS is an **Urban Intelligence Platform** and **India's GTFS Infrastructur
              │              │              ├── Telegram (Voice Bot Lab)
              │              │              └── WhatsApp (Conversational)
              │              │
-             │              ├── Journey Engine (Dijkstra CTM)
+             │              ├── Journey Engine (Yen's K-SP & CTM Graph)
              │              ├── Prediction Engine (Delays/ETA)
              │              ├── Digital Twin (3D Station Layouts)
              │              ├── Analytics (Line Efficiency/Crowd)

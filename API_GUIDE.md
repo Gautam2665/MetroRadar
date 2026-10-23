@@ -1,251 +1,187 @@
-# MetroRadar API Documentation Guide (v0.5.0)
+# TransitOS Transport Modeling & Analytics API Reference Guide
 
-This guide documents the API contracts exposed by the MetroRadar backend. All endpoints are designed to maintain decoupling; the frontend consumes these GeoJSON layers, composite digital-twin payloads, and journey routing results directly.
-
----
-
-## 🌍 Map Layer Registry
-
-### `GET /map/layers`
--   **Purpose**: Returns the dynamic GIS layer configurations registry. Allows adding overlays on the map from the backend without changes to frontend source code.
--   **Cache Key**: None (Static config resolution)
--   **Response Format**:
-    ```json
-    {
-      "version": "1.0.0",
-      "layers": [
-        {
-          "id": "lines",
-          "name": "Metro Lines",
-          "endpoint": "/map/lines",
-          "defaultVisible": true,
-          "style": { "type": "line", "color": "operator", "width": 4 }
-        },
-        {
-          "id": "stations",
-          "name": "Passenger Stations",
-          "endpoint": "/map/stations",
-          "defaultVisible": true,
-          "style": { "type": "circle", "color": "#06b6d4", "radius": 6 }
-        }
-      ]
-    }
-    ```
+This guide documents the computational REST and GeoJSON API contracts exposed by the TransitOS backend. All endpoints are designed for high throughput, sub-second route planning, spatial catchment inspection, and GTFS-RT telemetry streaming.
 
 ---
 
-## 🗺️ GeoJSON GIS Layers
+## 🗺️ Journey Planning & Simulation API (`/journeys`)
 
-All GeoJSON layers are returned inside a versioned FeatureCollection envelope:
+### `GET /journeys`
+Computes the optimal and alternative transit candidates between stations, multimodal landmarks, or geographic coordinates using **Yen's $K$-Shortest Paths with Multi-Criteria Pareto Dominance Filtering**.
+
+#### Query Parameters
+
+| Parameter | Type | Required | Default | Description |
+| :--- | :--- | :---: | :---: | :--- |
+| `from` | String | **Yes** | — | Origin identifier: Station UUID, Station Gate UUID, or Coordinate String (`"19.1200,72.8494"`). |
+| `to` | String | **Yes** | — | Destination identifier: Station UUID, Station Gate UUID, or Coordinate String (`"19.2104,72.8715"`). |
+| `departureTime` | String | No | Current Clock | Departure time in `HH:mm` format (e.g., `"08:30"`) for schedule-based connection simulation. |
+| `objective` | Enum | No | `FASTEST` | Optimization objective: `FASTEST` (minimum total duration), `MIN_FRICTION` (minimum physical interchange impedance), or `BALANCED`. |
+| `mobility` | Enum | No | `STANDARD` | Mobility profile: `STANDARD` or `REDUCED` (requires verified elevators, eliminates outdoor street transfers). |
+| `luggage` | Enum | No | `NONE` | Luggage constraints: `NONE`, `LIGHT`, or `HEAVY` (applies vertical climb and turnstile bag drag penalties). |
+| `safetyBufferMins` | Number | No | `3` | Connection buffer at interchanges (minutes) to account for passenger boarding queues. |
+| `k` | Number | No | `3` | Maximum number of surviving non-dominated candidate routes to return. |
+
+#### Response Schema (`200 OK`)
 ```json
 {
-  "version": "1.0.0",
-  "generatedAt": "2026-07-21T09:40:00.000Z",
-  "systemId": null,
-  "type": "FeatureCollection",
-  "features": []
+  "from": {
+    "id": "e6f9a0c1-3d2b-4e8a-9f1c-7b8a9c0d1e2f",
+    "name": "Versova",
+    "code": "STN_L1_001",
+    "lat": 19.130278,
+    "lng": 72.821387
+  },
+  "to": {
+    "id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+    "name": "Gundavali",
+    "code": "STN_L7_014",
+    "lat": 19.114439,
+    "lng": 72.855172
+  },
+  "candidates": [
+    {
+      "id": "SPATIAL_GATE_STN_L1_001>STN_L1_001:STN_L7_014>SPATIAL_GATE_STN_L7_014",
+      "rank": 1,
+      "score": 91,
+      "origin": { "id": "...", "name": "Versova", "code": "STN_L1_001" },
+      "destination": { "id": "...", "name": "Gundavali", "code": "STN_L7_014" },
+      "durationSeconds": 1440,
+      "durationMinutes": 24,
+      "inVehicleSeconds": 1080,
+      "walkingSeconds": 180,
+      "waiting": {
+        "total": { "seconds": 180, "source": "schedule", "confidence": 0.95 },
+        "initialWait": { "seconds": 60, "source": "schedule", "confidence": 0.95 },
+        "transferWait": { "seconds": 120, "source": "schedule", "confidence": 0.95 }
+      },
+      "transfers": 1,
+      "walkingDistanceMeters": 210,
+      "isDirect": false,
+      "lines": [
+        "Blue Line (Versova - Ghatkopar)",
+        "Red Line (Kashigaon - Gundavali)"
+      ],
+      "fare": 40,
+      "smartCardFare": 36,
+      "fareBreakdown": [
+        { "line": "Blue Line", "fare": 20, "operator": "MMOPL" },
+        { "line": "Red Line", "fare": 20, "operator": "MMMOCL" }
+      ],
+      "requiresMultipleTickets": true,
+      "transferSafetyBufferSeconds": 180,
+      "transferRiskLevel": "SAFE",
+      "attributes": {
+        "fastest": true,
+        "fewestTransfers": false,
+        "direct": false,
+        "leastWalking": true,
+        "accessibilityFriendly": true
+      },
+      "interchangeFriction": {
+        "level": "LOW",
+        "effectiveCostSeconds": 1500,
+        "frictionSeconds": 60
+      },
+      "legs": [
+        {
+          "type": "TRANSIT",
+          "lineId": "...",
+          "lineName": "Blue Line (Versova - Ghatkopar)",
+          "lineColor": "#00a3e0",
+          "from": "STN_L1_001",
+          "to": "STN_L1_005",
+          "fromStationName": "Versova",
+          "toStationName": "Western Express Highway",
+          "durationSeconds": 720,
+          "hopCount": 4,
+          "direction": "Towards Ghatkopar",
+          "doorOpeningSide": "LEFT",
+          "realtimeEtaMins": 2
+        },
+        {
+          "type": "WALK",
+          "from": "STN_L1_005",
+          "to": "STN_L7_014",
+          "fromStationName": "Western Express Highway",
+          "toStationName": "Gundavali",
+          "durationSeconds": 180,
+          "transferTitle": "Covered Foot Overbridge (FOB)",
+          "transferSummary": "58 m · Climate-controlled walkway",
+          "transferInstructions": [
+            "Exit Concourse Level via Gate 1",
+            "Follow signage across elevated Foot Overbridge directly to Gundavali concourse"
+          ]
+        },
+        {
+          "type": "TRANSIT",
+          "lineId": "...",
+          "lineName": "Red Line (Kashigaon - Gundavali)",
+          "lineColor": "#e11d48",
+          "from": "STN_L7_014",
+          "to": "STN_L7_014",
+          "durationSeconds": 360
+        }
+      ],
+      "geojson": {
+        "type": "FeatureCollection",
+        "features": []
+      }
+    }
+  ]
 }
 ```
 
-### `GET /map/systems`
--   **Purpose**: Returns geographic center points and basic metadata of registered metro systems.
--   **Cache Key**: `geojson:systems` (TTL = 1 hour)
+---
 
-### `GET /map/lines`
--   **Purpose**: Returns reconstructed routes as `LineString` or `MultiLineString` GeoJSON features colored by their official transit color.
--   **Cache Key**: `geojson:lines` (TTL = 1 hour)
+## 🌍 Spatial GIS & Network Topology API (`/map`)
 
-### `GET /map/stations`
--   **Purpose**: Returns the Point features of all active passenger stations, containing array listings of lines served.
--   **Cache Key**: `geojson:stations` (TTL = 1 hour)
+### 1. Dynamic GIS Layer Registry
+`GET /map/layers`
+- Returns active spatial layer configurations (lines, stations, catchments, digital-twin components).
 
-### `GET /map/stations/:id`
--   **Purpose**: Returns a single GeoJSON Feature representing a station.
--   **Cache Key**: `geojson:station:<uuid>` (TTL = 1 hour)
+### 2. Network Line Geometries
+`GET /map/lines?system=<code>`
+- Returns official reconstructed polyline geometries (`LineString` / `MultiLineString`) colored by brand hex color with operational line metadata.
+
+### 3. Passenger Stations
+`GET /map/stations?system=<code>`
+- Returns GeoJSON Point features for all operational stations with served lines, platforms, and accessibility facilities.
+
+### 4. Multi-Criteria Spatial Search
+`GET /map/search?q=<query>&type=<station,line>`
+- **Behavior**:
+  - Searches station names, codes, lines, and regional locality reference centroids.
+  - Dynamically calculates nearest feeder stations per active line using PostGIS spatial geography queries.
+  - Suppresses gate clutter: station physical gates are only returned if the user explicitly includes keywords (`"gate"`, `"exit"`, `"fob"`).
+
+### 5. Station Catchment Spatial Radius
+`GET /map/nearby?lat=<lat>&lon=<lon>&radius=<meters>&types=station,entrance`
+- Queries all transit entities within a geodetic distance buffer (in meters) ordered by physical proximity using PostGIS `ST_DWithin`.
+
+### 6. Station 3D Digital Twin Inspector
+`GET /map/stations/:id/digital-twin`
+- Returns the complete multi-level physical schema of a station:
+  - **Levels ($Z$-levels)**: Street, Concourse, Mezzanine, Platform.
+  - **Platforms**: Track assignments, screen doors (PSDs), wheelchair boarding areas.
+  - **Entrances / Gates**: Precise GPS coordinates, lift/escalator availability, local feeder street links.
+  - **Pathways**: Directional concourse transfer links and travelator corridors.
 
 ---
 
-## 🔍 Geospatial Searches
-
-### `GET /map/search?q=<query>&type=<filters>`
--   **Purpose**: Performs a text query matched against station names, codes, line codes, system names, and cities.
--   **Query Parameters**:
-    -   `q`: Query string (Required).
-    -   `type`: Comma-separated list of entities to search (Optional: `station`, `line`, `system`).
--   **Cache Key**: `search:<query>:<type>` (TTL = 1 hour)
--   **Response**: FeatureCollection of matches.
-
-### `GET /map/nearby?lat=<latitude>&lon=<longitude>&radius=<radius>&types=<types>`
--   **Purpose**: PostGIS spatial queries returning stations or entrances within a radius (meters), ordered nearest first.
--   **Query Parameters**:
-    -   `lat` / `lon`: Numeric coordinates (Required).
-    -   `radius`: Search distance in meters (Optional, default 1000m).
-    -   `types`: Comma-separated list (Optional: `station`, `entrance`).
--   **Cache Key**: `nearby:<lat>:<lon>:<radius>:<types>` (TTL = 1 hour)
--   **Response**: FeatureCollection of elements.
-
----
-
-## 🚇 Station Digital Twin
-
-### `GET /stations/:id/digital-twin`
--   **Purpose**: Returns the composite physical, services, and operational components of a station.
--   **Cache Key**: `digitaltwin:station:<uuid>` (TTL = 1 hour)
--   **Response Format**:
-    ```json
-    {
-      "metadata": {
-        "generatedAt": "2026-07-21T09:40:00.000Z",
-        "version": "1.0.0"
-      },
-      "station": {
-        "id": "...",
-        "code": "...",
-        "name": "...",
-        "latitude": 0.0,
-        "longitude": 0.0,
-        "city": "...",
-        "country": "..."
-      },
-      "physical": {
-        "levels": [{ "id": "...", "name": "Concourse", "levelNumber": 1 }],
-        "platforms": [{ "id": "...", "platformNumber": "1", "line": { "name": "Red Line", "color": "#ff0000" } }],
-        "entrances": [{ "id": "...", "name": "Gate A", "accessible": true }]
-      },
-      "services": {
-        "amenities": [{ "id": "...", "type": "ATM", "name": "HDFC ATM" }],
-        "commercial": {
-          "spaces": [],
-          "outlets": [{ "id": "...", "brand": "Starbucks", "category": "Food" }]
-        }
-      },
-      "operational": {
-        "crowding": {
-          "available": false,
-          "value": null,
-          "reason": "TELEMETRY_NOT_CONFIGURED"
-        },
-        "status": "ACTIVE",
-        "lastUpdated": null
-      }
-    }
-    ```
-
----
-
-## 🧼 Cache Invalidation Policy
-
-All cached keys prefixed with `geojson:*`, `digitaltwin:*`, `search:*`, and `nearby:*` are automatically cleared when a new transit dataset is successfully imported via the `IngestionService`.
-
----
-
-## 🗺️ Journey Planning & Routing
-
-*Added in v0.5.0 — Sprint 5*
-
-### `GET /journeys?from=<stationId>&to=<stationId>`
-- **Purpose**: Computes the optimal transit path between two stations using Dijkstra's algorithm, with multi-line transfer support and interchange walk connections.
-- **Query Parameters**:
-  - `from`: Origin station UUID (Required).
-  - `to`: Destination station UUID (Required).
-  - `systemId`: Restrict routing to a specific transit system UUID (Optional).
-- **Cache Key**: None (computed on-demand from in-memory graph)
-- **Response Format**:
-  ```json
-  {
-    "from": { "id": "...", "name": "Sarojini Nagar", "code": "YL-22" },
-    "to": { "id": "...", "name": "IGI Airport T3", "code": "OL-07" },
-    "totalDurationSeconds": 2820,
-    "totalStops": 14,
-    "transferCount": 2,
-    "legs": [
-      {
-        "type": "TRANSIT",
-        "line": { "name": "Yellow Line", "color": "#facc15" },
-        "from": { "name": "Sarojini Nagar" },
-        "to": { "name": "Durgabai Deshmukh South Campus" },
-        "stops": 3,
-        "durationSeconds": 360
-      },
-      {
-        "type": "WALK",
-        "from": { "name": "Durgabai Deshmukh South Campus" },
-        "to": { "name": "Dhaula Kuan" },
-        "durationSeconds": 300,
-        "distanceMeters": 380
-      },
-      {
-        "type": "TRANSIT",
-        "line": { "name": "Airport Express", "color": "#f97316" },
-        "from": { "name": "Dhaula Kuan" },
-        "to": { "name": "IGI Airport T3" },
-        "stops": 2,
-        "durationSeconds": 720
-      }
-    ],
-    "geojson": {
-      "type": "FeatureCollection",
-      "features": []
-    }
-  }
-  ```
-- **Notes**:
-  - Walking transfer edges are inserted automatically for stations within 1000m of each other on different lines.
-  - Transfer penalty of 180 seconds is applied per interchange to bias routes toward fewer transfers.
-  - Walking weight of `0.8x` is applied to reduce walking leg cost relative to riding.
-  - Returns `404` if no path exists between the given stations.
-
----
-
-## ⚡ Realtime Vehicle Telemetry
+## ⚡ Real-Time Fleet Telemetry API (`/realtime`)
 
 ### `GET /realtime/vehicles?system=<code>`
-- **Purpose**: Returns real-time vehicle positions, active trip updates, and delays decoded from live GTFS-RT Protocol Buffers.
-- **Cache Key**: `realtime:vehicles:<system>` (Redis memory cache, 30s TTL)
-- **Response Format**:
-  ```json
-  {
-    "system": "DMRC",
-    "timestamp": "2026-08-29T12:00:00.000Z",
-    "vehicleCount": 312,
-    "isStale": false,
-    "vehicles": [
-      {
-        "id": "DL-METRO-401",
-        "label": "Train 401",
-        "lineCode": "YELLOW",
-        "latitude": 28.6139,
-        "longitude": 77.2090,
-        "bearing": 180,
-        "speed": 12.5,
-        "currentStatus": "IN_TRANSIT_TO",
-        "nextStopId": "ST_CENTRAL_SEC"
-      }
-    ]
-  }
-  ```
+Decodes live GTFS-RT Protocol Buffer telemetry cached in Redis (< 5ms response time):
+- **Vehicle ID & Fleet Telemetry**: Real-time GPS coordinates, speed, bearing, current status (`IN_TRANSIT_TO`, `STOPPED_AT`).
+- **Schedule Adherence**: Real-time delay propagation (in seconds) against published GTFS timetable baselines.
 
 ---
 
-## 📥 GTFS Ingestion API
+## 📥 GTFS & Canonical Transit Model Ingestion (`/ingestion`)
 
 ### `POST /ingestion/gtfs?systemId=<uuid>&dryRun=<boolean>`
-- **Purpose**: Ingests a static GTFS zip archive into the Canonical Transit Model (CTM v1.0) with transaction-safe validation.
-- **Form Data**: `file` (Multipart zip file)
-- **Response Format**:
-  ```json
-  {
-    "sessionId": "1bf4b4b0-c385-4eae-b937-11465f45a659",
-    "status": "SUCCESS",
-    "dryRun": false,
-    "duration": 4200,
-    "counts": {
-      "agencies": { "processed": 1, "inserted": 1, "updated": 0, "skipped": 0 },
-      "stations": { "processed": 288, "inserted": 288, "updated": 0, "skipped": 0 },
-      "lines": { "processed": 12, "inserted": 12, "updated": 0, "skipped": 0 }
-    },
-    "warnings": [],
-    "errors": []
-  }
-  ```
-
+Transactionally validates and ingests a static GTFS archive into the Canonical Transit Model (CTM v1.0):
+- **Validation**: Checks relational integrity across `routes.txt`, `trips.txt`, `stop_times.txt`, and `pathways.txt`.
+- **Topological Compilation**: Automatically calculates inter-station link distances, average cruise speeds, and station sequences.
+- **Rollback Safety**: Full transactional rollback if structural or kinematic constraints fail.
