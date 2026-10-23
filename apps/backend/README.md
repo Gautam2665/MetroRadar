@@ -1,108 +1,143 @@
-# TransitOS Transport Modeling & Analytics Engine 🚇⚡
-### Backend Services: Graph Routing, Spatial GIS, GTFS Ingestion & Network Simulation
+# TransitOS Backend — NestJS API and Computational Engines
 
-The core computational backend for **TransitOS**, engineered with **NestJS**, **PostgreSQL / PostGIS**, **Prisma ORM**, and **Redis**.
+The backend service for TransitOS. Built on **NestJS 11**, **PostgreSQL 16 / PostGIS**, **Prisma 6.2**, and **Redis 7.2**.
 
-The engine performs deterministic multi-modal routing, corridor accessibility analysis, spatial catchment evaluation, and time-dependent schedule simulation across mass transit networks.
+This service owns the Canonical Transit Model (CTM), the journey pathfinding engine, the GTFS ingestion pipeline, and the realtime vehicle telemetry layer.
 
 ---
 
-## 🏛️ Engineering Architecture & Module Breakdown
-
-The backend follows Domain-Driven Design (DDD), decoupling spatial persistence, graph computation, and real-time synchronization:
+## Module Structure
 
 ```
 apps/backend/src/
-├── config/              # Runtime environment validation & operational flags
-├── database/            # DatabaseService wrapping PrismaClient with PostGIS extensions
-├── health/              # Operational health, DB connectivity, and Redis latency probes (/health)
-├── redis/               # RedisService (high-throughput caching, pub/sub, sub-5ms graph reads)
+├── config/              # Environment validation and configuration service
+├── database/            # DatabaseService (PrismaClient wrapper)
+├── health/              # Health check endpoint (/health)
+├── redis/               # RedisService — cache, pub/sub, graceful degradation
 └── modules/
-    ├── gis/             # Spatial GIS services:
-    │   │                # - PostGIS geodetic queries (ST_Distance, ST_DWithin)
-    │   │                # - Dynamic relative-proximity catchment modeling
-    │   │                # - Station gate spatial attachments & barrier boundary checks
-    │   │                # - Vector GeoJSON feature compilers
-    │   └── controllers/ # MapController (/map/lines, /map/stations, /map/search)
-    ├── ingestion/       # GTFS & CTM Data Pipeline:
-    │   │                # - Transactional GTFS Static zip archive validation
-    │   │                # - Station sequence & kinematic distance/speed normalizers
-    │   │                # - 3D Station Level (Z-level) & platform crosswalk compilers
-    │   └── services/    # IngestionService & GTFS Archive Validators
-    ├── journey/         # Computational Transit Pathfinding:
-    │   ├── graph/       # GraphBuilderService: compiles relational CTM into Directed Multigraph G = (V, E)
-    │   └── routing/     # Core algorithmic routing engine:
-    │                    # - Yen's K-Shortest Paths (Multi-Criteria Dijkstra)
-    │                    # - CandidateFilterService (Strict Pareto Dominance & Detour Caps)
-    │                    # - InterchangeEvaluatorService (Vertical impedance, AFC gates, security lines)
-    │                    # - ScoringService (Generalized cost RankScore formula)
-    └── realtime/        # Telemetry & Operating Simulation:
-                         # - GTFS-RT Protocol Buffer parser (VehiclePositions, TripUpdates)
-                         # - Headway tracking & time-dependent departure simulation
+    ├── gis/             # GeoJSON layers, spatial search, digital twin payloads
+    │   ├── geojson.service.ts         # PostGIS GeoJSON aggregation
+    │   ├── digital-twin.service.ts    # Composite station structure assembly
+    │   └── search.service.ts          # Full-text and spatial proximity search
+    ├── ingestion/       # GTFS static ingestion, parsers, normalizers, validators
+    │   ├── ingestion.service.ts       # Transaction-safe import orchestration
+    │   ├── gtfs-archive.validator.ts  # Checksum, bounding box, referential checks
+    │   └── parsers/                   # Per-file GTFS parsers
+    ├── journey/         # Graph routing engine and scoring
+    │   ├── graph/
+    │   │   └── graph-builder.service.ts    # In-memory multigraph G=(V,E)
+    │   ├── routing/
+    │   │   └── routing.service.ts          # Yen's KSP over Dijkstra
+    │   ├── scoring/
+    │   │   └── scoring.service.ts          # Generalized cost scoring
+    │   ├── interchange-evaluator.service.ts # Built-environment friction model
+    │   ├── candidate-filter.service.ts      # Pareto dominance pruning
+    │   └── locality-routing.service.ts      # Feeder catchment computation
+    └── realtime/        # GTFS-RT feed poller, protobuf decoder, Redis cache
+        ├── feed-poller.service.ts     # Background polling scheduler
+        └── gtfs-rt-parser.service.ts  # Protocol Buffer decoding
 ```
 
 ---
 
-## 🔬 Core Transport Modeling Algorithms
+## API Endpoints
 
-### 1. In-Memory Directed Multigraph Compilation (`GraphBuilderService`)
-The static transit schedule is compiled into an in-memory graph $G = (V, E)$ scoped per transit system:
-- **Station Nodes ($V$)**: Represent station facilities and multi-modal gate attachments with geodetic latitude/longitude.
-- **Typed Edges ($E$)**:
-  - `EdgeType.TRANSIT`: Inter-station revenue runs derived from GTFS arrival/departure differentials or kinematic link models ($T_{ij} = d_{ij} / v_{\text{cruise}} + t_{\text{dwell}}$).
-  - `EdgeType.TRANSFER`: Station-to-station pedestrian interchange corridors (elevated FOBs, concourse walkways).
-  - `EdgeType.WALK`: Concourse vertical ascents/descents ($\Delta Z$), turnstile cross-overs, and last-mile connections.
+### GIS and Spatial (`/map`)
 
-### 2. Multi-Objective Yen's $K$-Shortest Paths
-Rather than computing a single rigid shortest path, the routing engine generates deviation candidates to uncover corridor diversity across alternative lines:
-- Edge weights are penalized dynamically using calibrated journey weights:
-  $$\text{DijkstraWeight} = 1.0 \times T_{\text{in-vehicle}} + 0.8 \times T_{\text{pedestrian\_walk}} + 180\text{s} \times \text{TransferPenalty}$$
+| Endpoint | Description |
+|:---|:---|
+| `GET /map/layers` | Dynamic layer configuration registry |
+| `GET /map/systems` | Registered transit systems (GeoJSON FeatureCollection) |
+| `GET /map/lines?system=<code>` | Reconstructed line route geometries |
+| `GET /map/stations?system=<code>` | All passenger stations with served lines |
+| `GET /map/stations/:id` | Single station GeoJSON feature |
+| `GET /map/search?q=<query>&type=station,line` | Full-text and entity search |
+| `GET /map/nearby?lat=&lon=&radius=&types=` | PostGIS radius proximity query |
 
-### 3. Strict Pareto Dominance & Circuitous Detour Filtering (`CandidateFilterService`)
-Candidate paths are evaluated against strict transport economics principles:
-- **Strict Pareto Dominance**:
-  $$\text{Candidate } B \text{ dominates } A \iff T_B \le T_A \;\land\; \text{Xfer}_B \le \text{Xfer}_A \;\land\; \text{Walk}_B \le \text{Walk}_A$$
-- **Same-Destination Detour Suppression**: When two candidates terminate at the same station, any option with strictly more transfers is pruned if it exceeds the fastest option by $> 15\%$ or $> 5\text{ minutes}$.
-- **Feeder Diversity Preservation**: When traveling to multi-feeder localities, alternative destination stations on different lines are protected from premature dominance to allow multi-corridor comparative evaluation.
+### Station Digital Twin (`/stations`)
 
-### 4. Micro-Interchange Physical Impedance (`InterchangeEvaluatorService`)
-Interchanges factor in physical transit station constraints:
-- **Vertical Displacement ($\Delta Z$)**: $+10\text{ seconds per vertical meter}$ of stair/escalator movement.
-- **Turnstile Control (AFC Re-tap)**: $+60\text{ seconds}$ penalty if exiting paid concourse.
-- **Security Checkpoints**: $+300\text{ seconds}$ (+5 minutes) queue penalty for security baggage-scanning perimeters.
-- **Outdoor Street Walkways**: $+600\text{ seconds}$ penalty for un-sheltered street-level walking between stations.
+| Endpoint | Description |
+|:---|:---|
+| `GET /stations/:id/digital-twin` | Composite station: levels, platforms, entrances, amenities, operational status |
 
----
+### Journey Routing (`/journeys`)
 
-## 📡 Key API Endpoints
+| Endpoint | Description |
+|:---|:---|
+| `GET /journeys?from=<id>&to=<id>` | Multi-candidate Yen's KSP routing with generalized cost scoring, Pareto filtering, and interchange friction |
 
-### 1. Journey Pathfinding & Simulation (`/journeys`)
-`GET /journeys?from=<originId>&to=<destId>&departureTime=<HH:mm>&objective=<FASTEST/MIN_FRICTION>&mobility=<STANDARD/REDUCED>&luggage=<NONE/HEAVY>`
-- Evaluates $K$-shortest candidate paths between stations, multimodal landmarks, or geocoded locality coordinates.
-- Returns timing breakdown ($T_{\text{in-vehicle}}$, $T_{\text{walk}}$, $T_{\text{wait}}$), transfer counts, step-by-step guidance, real-time departure simulation, and GeoJSON route features.
+### Realtime Telemetry (`/realtime`)
 
-### 2. Spatial Catchment & Network GIS (`/map`)
-* `GET /map/lines?system=<code>` — Reconstructed route polylines colored by transit brand color.
-* `GET /map/stations?system=<code>` — Station Point features with served lines, platforms, and accessibility flags.
-* `GET /map/search?q=<query>` — Multi-criteria geocoder searching stations, lines, and regional locality reference centroids with dynamic relative-proximity catchment.
-* `GET /map/stations/:id/digital-twin` — Multi-level 3D station platform layout, vertical levels, and entrance wayfinding.
+| Endpoint | Description |
+|:---|:---|
+| `GET /realtime/vehicles?system=<code>` | Vehicle positions with source/confidence labels; sub-5 ms from Redis cache |
 
-### 3. Real-Time Telemetry (`/realtime`)
-* `GET /realtime/vehicles?system=<code>` — Active vehicle positions with sub-5ms Redis cache response times.
+### GTFS Ingestion (`/ingestion`)
+
+| Endpoint | Description |
+|:---|:---|
+| `POST /ingestion/gtfs?systemId=<id>&dryRun=<bool>` | Transaction-safe GTFS archive import with per-entity counts and audit trail |
 
 ---
 
-## 🧪 Testing & Verification
+## Journey Engine — Technical Summary
 
-The backend is backed by an automated test suite verifying routing determinism, dominance rules, and graph compilation:
+The journey module computes multi-leg transit paths using Yen's K-Shortest Loopless Paths over a modified Dijkstra on an in-memory directed multigraph.
+
+**Graph edges:**
+- `TRANSIT` — in-vehicle movement; weight from GTFS `stop_times.txt` or `StationSequence.travelTimeFromPrevious`
+- `WALK` — pedestrian transfer; weight = geodesic distance ÷ 1.2 m/s (auto-inserted for stations ≤1000 m apart on different lines)
+- `TRANSFER` — line-change at same physical station; weight = interchange friction penalty
+
+**Generalized cost formula:**
+$$\text{RankScore} = w_t \cdot T_{\text{duration}} + P_{\text{transfer}} \cdot N_{\text{transfers}} + w_w \cdot T_{\text{walking}} + C_{\text{friction}}$$
+
+Default weights: `travelTimeWeight: 1.0`, `walkingWeight: 0.8`, `transferPenalty: 120 s equivalent`.
+
+**Interchange friction** (`interchange-evaluator.service.ts`):
+- Level change: +10 s per vertical metre
+- AFC turnstile re-tap: +60 s
+- Security rescreening: +300 s
+- Outdoor street exposure: +600 s
+
+**Candidate filtering** (`candidate-filter.service.ts`):
+- Feasibility filter: removes loops, invalid durations, >6 transfers
+- Pareto dominance filter: prunes candidates strictly inferior across duration, transfers, walking
+- Same-destination pruning: candidates >15% slower or >5 min longer with ≥ transfers pruned
+
+---
+
+## Testing
 
 ```bash
-# Run complete test suite (63 automated assertions)
+# Run unit and integration tests (63 tests, 9 suites)
 npm run test --workspace=apps/backend
 
-# Targeted candidate-filter and dominance tests
-npx jest --config apps/backend/package.json apps/backend/src/modules/journey/routing/candidate-filter.service.spec.ts
+# TypeScript type check
+npx tsc --noEmit --project apps/backend/tsconfig.json
 
-# Production TypeScript compilation
-npm run build --workspace=apps/backend
+# Lint with auto-fix
+npm run lint --workspace=apps/backend
 ```
+
+Test coverage: candidate generation, Pareto filtering, interchange friction evaluation, feeder catchment boundary conditions, barrier-aware corridor routing, GTFS ingestion validation.
+
+---
+
+## Local Development
+
+```bash
+# Start PostgreSQL/PostGIS and Redis
+docker compose -f docker/dev/docker-compose.yml up -d
+
+# Apply database migrations
+npx prisma migrate dev --schema=apps/backend/prisma/schema.prisma
+
+# Seed initial data
+npx prisma db seed --schema=apps/backend/prisma/schema.prisma
+
+# Start backend in watch mode
+npm run dev --workspace=apps/backend
+```
+
+Environment variables required: `DATABASE_URL`, `REDIS_URL`. See `apps/backend/.env.example`.

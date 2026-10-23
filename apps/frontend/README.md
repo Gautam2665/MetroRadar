@@ -1,85 +1,70 @@
-# TransitOS Transport Analytics & Corridor Visualization Dashboard 🚇🗺️
-### Web Application: Multi-Modal Route Planning, Station Catchment & Network Digital Twin
+# TransitOS Frontend — Web Client
 
-The interactive frontend application for **TransitOS**, built on **Next.js 16 (App Router with Turbopack)**, **MapLibre GL JS / WebGL**, **Framer Motion**, and **Tailwind CSS v4**.
+The web client for TransitOS. Built on **Next.js 16 (App Router, Turbopack)**, **MapLibre GL JS**, **Framer Motion**, and **Tailwind CSS**.
 
-Designed for transport planners, consultants, and commuters, the interface renders complex spatial networks, compares alternative transit corridors, inspects 3D station vertical levels, and simulates time-dependent passenger journeys.
+This application renders the transit network map, the station digital twin inspector, the multi-candidate journey planner, and the real-time vehicle telemetry overlay.
 
 ---
 
-## 🏛️ Application Architecture
+## Architecture
 
-The frontend strictly enforces the **Container-Presenter Architecture**, ensuring zero business logic or API leakage into visual presentation components:
+The frontend enforces a strict **Container-Presenter** architecture. This separation is enforced at the code level, not just in convention.
 
 ```
 apps/frontend/src/
-├── app/                 # Next.js 16 App Router pages:
-│   ├── plan/            # Corridor & Journey Planner interface
-│   ├── network/         # Network-wide line & alignment explorer
-│   ├── stations/        # Station directory & multi-modal catchment viewer
-│   └── analytics/       # Operational performance & crowd telemetry dashboard
-├── components/          # Pure Presentational Components (Stateless & Data-Agnostic):
-│   ├── dashboard/       # DigitalTwinInspector, JourneyTimeline, StationCard
-│   ├── map/             # MapContainer (MapLibre GL vector canvas & WebGL layer manager)
-│   └── ui/              # JourneyPlannerView, LegPills, RouteItinerary, TransferSteps
-├── containers/          # Stateful Orchestrators (Manages queries, state & API binding):
-│   └── JourneyPlannerContainer.tsx  # Coordinates origin/destination selection & candidate evaluation
-├── contexts/            # Shared React State (CityContext, StationContext, JourneyContext)
-├── hooks/               # SWR / Custom Data Hooks (useStations, useStationsSearch, useDigitalTwin)
-├── models/              # TypeScript Domain Models & DTO-to-Entity Adapters
-├── services/api/        # Centralized HTTP Clients (ApiClient, StationApi, JourneyApi)
-└── utils/               # Transport Presenters (transitPresenter.ts, itinerary builders)
+├── app/                   # Next.js App Router pages (/plan, /network, /journeys)
+├── components/            # Presentational components — zero data fetching
+│   ├── dashboard/         # DigitalTwinInspector, QualityScoreBadge, JourneyTimeline
+│   ├── map/               # MapContainer (MapLibre GL JS canvas)
+│   └── ui/                # JourneyPlannerView, LegPills, RouteItinerary, StationCard
+├── containers/            # Stateful orchestrators — API calls, state, event handling
+├── contexts/              # React contexts (CityContext, StationContext, JourneyContext)
+├── hooks/                 # Data hooks — useStations, useStationsSearch, useDigitalTwin
+├── models/                # Domain models and DTO-to-model adapters
+├── services/api/          # HTTP API clients — all backend URLs live here
+└── utils/                 # Transit formatters (formatLineName, buildStepByStepItinerary)
 ```
 
----
+### Governance Rules
 
-## 🔬 Key Transport Planning Interfaces
-
-### 1. Multi-Corridor Itinerary & Trade-Off Comparison (`/plan`)
-- **Comparative Route Cards**: Evaluates generated $K$-shortest candidates against four critical transport planning dimensions:
-  - **In-Vehicle Travel Time** ($T_{\text{in-vehicle}}$)
-  - **Walking & Interchange Transfer Distance** ($D_{\text{walk}}$)
-  - **Number of Transfers** ($N_{\text{transfers}}$)
-  - **Fare Breakdown & Multi-Operator Ticketing**
-- **Dynamic Attribute Badges**: Automatically classifies surviving candidate routes:
-  - `FASTEST`: Minimum total elapsed journey time.
-  - `FEWEST TRANSFERS`: Direct runs or minimal interchange friction.
-  - `LEAST WALKING`: Optimized for passenger comfort and heavy luggage.
-- **Micro-Interchange Step-by-Step Directions**: Displays vertical level movements (Concourse $\leftrightarrow$ Platform), Foot Overbridge corridors, door opening sides, and headsign directions.
-
-### 2. Station Digital Twin & Micro-Access Inspector
-- **3D Vertical Level Hierarchy ($Z$-levels)**: Inspects Street Level, Concourse Level, and Platform Level configurations.
-- **Physical Entrances & Feeder Wayfinding**: Maps all GTFS station gates, indicating elevator accessibility, lift availability, and feeder integration with local auto-rickshaws and bus stops.
-- **Interchange Pathway Visualizer**: Details physical transfer pathways connecting intersecting lines (e.g., covered FOBs, concourse walkways, street-level crossings).
-
-### 3. Interactive WebGL Vector Transit Canvas
-- High-performance vector rendering of citywide rail alignments and station nodes using MapLibre GL JS.
-- Smooth polyline geometry rendering colored by official transit operator line codes.
-- Dynamic route highlights: when a planner selects a candidate itinerary, the canvas dynamically highlights active transit links, interchange walk edges, and first/last-mile access paths.
+1. **Components never fetch data.** Presentational components receive data only via `props`.
+2. **Components never know backend URLs.** API endpoint addresses are isolated in `services/api/`.
+3. **Backend DTOs never leak into UI.** Adapters in `models/` convert raw backend responses to clean domain types before they reach components.
+4. **Zero hardcoded data.** All station names, geometries, line colors, and travel times come from the NestJS CTM backend.
 
 ---
 
-## 🔒 Architectural Governance Rules
+## Key Interfaces
 
-1. **Components Never Fetch Data Directly**: Presentational components under `src/components/` receive data strictly via `props`, ensuring full reusability across scenarios.
-2. **Centralized API Contracts**: API URLs and network queries live exclusively inside `services/api/`.
-3. **DTO Separation**: Backend DTOs never leak into React views; dedicated adapter layers normalize backend payloads into typed domain entities.
-4. **Authoritative Ground-Truth Only**: Geometries, station names, transfer paths, and live colors are streamed directly from the NestJS CTM backend with zero artificial mockup data.
+### Network Map
+Vector MapLibre GL rendering of all certified metro networks. Operator line colors from CTM. Station node layer with interactivity. Live animated vehicle position pulses from GTFS-RT or estimated positions.
+
+### Station Digital Twin Inspector
+Slide drawer with composite station data: serving lines, platform configuration, entrance positions, wheelchair accessibility metadata. Data from `GET /stations/:id/digital-twin`.
+
+### Journey Planner
+Multi-candidate journey planner. Submits origin/destination pair to `GET /journeys`. Displays up to K=5 route candidates ranked by generalized cost with attribute badges (fastest, fewest transfers, least walking). Selecting a candidate focuses its GeoJSON geometry on the map.
 
 ---
 
-## 🚀 Development & Build
+## Development
 
 ```bash
-# Install monorepo dependencies
-npm install
-
-# Start local Next.js development server (Turbopack)
+# Start development server with Turbopack
 npm run dev --workspace=apps/frontend
 
-# Verify TypeScript type integrity
-npx tsc --noEmit --project apps/frontend/tsconfig.json
+# Lint
+npm run lint --workspace=apps/frontend
 
-# Execute production build
-npm run build --workspace=apps/frontend
+# TypeScript type check
+npx tsc --noEmit --project apps/frontend/tsconfig.json
 ```
+
+The frontend expects the backend to be running at `http://localhost:3001` by default. Override with `NEXT_PUBLIC_API_URL` environment variable.
+
+---
+
+## Live Deployment
+
+Frontend: [metro-radar-blush.vercel.app](https://metro-radar-blush.vercel.app)  
+Backend API: [transitos-33xk.onrender.com](https://transitos-33xk.onrender.com)

@@ -1,16 +1,23 @@
 ---
-name: Documentation Update
-about: Propose improvements, corrections, or additions to MetroRadar documentation
-title: 'docs: '
+name: Documentation
+about: Report missing, incorrect, or outdated documentation
+title: '[DOCS] '
 labels: documentation
 assignees: ''
 ---
 
-## Description of the Documentation Change
-Describe the documentation change you are proposing.
+## Affected Document
 
-## Section or File Affected
-Provide paths or links to files that need updating (e.g. [PROJECT_BIBLE.md](./PROJECT_BIBLE.md)).
+_Which file or section is incomplete or incorrect? (e.g., ARCHITECTURE.md §7 Interchange Friction, API_GUIDE.md journey scoring formula)_
 
-## Proposed Content
-Draft the new content or describe the changes to be made.
+## Problem
+
+_What is wrong or missing?_
+
+## Suggested Correction
+
+_What should it say instead? Include corrected text, formulas, or code snippets if you have them._
+
+## Additional Context
+
+_Link to related issues, commits, or code files if helpful._

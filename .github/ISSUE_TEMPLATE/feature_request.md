@@ -1,19 +1,34 @@
 ---
-name: Feature Request
-about: Suggest an idea or enhancement for MetroRadar
-title: 'feat: '
-labels: feature
+name: Feature request
+about: Propose a new analytical capability, routing improvement, or data addition
+title: '[FEATURE] '
+labels: enhancement
 assignees: ''
 ---
 
-## Is your feature request related to a problem? Please describe.
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## Problem Statement
 
-## Describe the Solution You'd Like
-A clear and concise description of what you want to happen.
+_What planning or analytical question does this feature help answer? What is currently missing or inadequate?_
 
-## Describe Alternatives You've Considered
-A clear and concise description of any alternative solutions or features you've considered.
+## Proposed Solution
+
+_Describe the capability you would like to see added. Be specific about inputs, outputs, and the analytical method if you have one in mind._
+
+## Transport Engineering Context
+
+_Why is this capability important from a transport planning perspective? Reference relevant concepts (e.g., catchment analysis, generalized cost, OD flow, headway sensitivity) if applicable._
+
+## Affected Layer
+
+- [ ] Layer 0 — Transit Knowledge Platform (TDSE, data synthesis, provenance)
+- [ ] Layer 1 — Transit Data Platform (CTM schema, GTFS ingestion, API)
+- [ ] Layer 2 — Computational Engines (routing, scoring, friction, catchment, prediction)
+- [ ] Layer 3 — Client Interfaces (map, journey planner, inspector, analytics dashboard)
+
+## Alternatives Considered
+
+_What other approaches did you consider? Why is this one preferred?_
 
 ## Additional Context
-Add any other context or screenshots about the feature request here.
+
+_Reference papers, standards, or existing tools if relevant._

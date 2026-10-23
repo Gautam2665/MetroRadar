@@ -1,30 +1,47 @@
 ---
-name: Bug Report
-about: Create a report to help us improve MetroRadar
-title: 'bug: '
+name: Bug report
+about: Report a routing error, data inaccuracy, or system malfunction
+title: '[BUG] '
 labels: bug
 assignees: ''
 ---
 
-## Describe the Bug
-A clear and concise description of what the bug is.
+## Summary
 
-## To Reproduce
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. See error
+_A clear, one-sentence description of the problem._
 
-## Expected Behavior
-A clear and concise description of what you expected to happen.
+## Affected Component
 
-## Screenshots
-If applicable, add screenshots to help explain your problem.
+- [ ] Journey routing engine (incorrect path, missing candidate, wrong transfer)
+- [ ] Interchange friction model (incorrect penalty, wrong frictionLevel)
+- [ ] Feeder catchment (wrong station candidates for a locality)
+- [ ] GIS / map layer (missing line, wrong geometry, station in wrong position)
+- [ ] GTFS ingestion (import failure, wrong entity counts, data corruption)
+- [ ] Realtime telemetry (stale data, wrong vehicle position)
+- [ ] Station digital twin (missing platform, wrong entrance data)
+- [ ] Frontend rendering (map, journey planner, inspector)
+- [ ] Other: ___
 
-## Environment:
-- OS: (e.g. Windows, macOS, Linux)
-- Node version:
-- Docker version:
+## Steps to Reproduce
+
+1. 
+2. 
+3. 
+
+## Expected Behaviour
+
+_What should have happened._
+
+## Actual Behaviour
+
+_What actually happened. Include the API response or UI state if relevant._
+
+## Environment
+
+- API endpoint: `https://transitos-33xk.onrender.com` / local
+- Browser (if frontend): 
+- Relevant station / locality names and IDs:
 
 ## Additional Context
-Add any other context about the problem here.
+
+_Attach screenshots, API response JSON, or relevant log output._
