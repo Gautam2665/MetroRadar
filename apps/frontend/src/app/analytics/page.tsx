@@ -538,19 +538,25 @@ export default function AnalyticsPage() {
                             </span>
                           </div>
                         </div>
-                        {snapStats && (
-                          <span
-                            className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
-                              snapStats.snapped === snapStats.total && snapStats.avgDist <= 5
-                                ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                                : snapStats.snapped === snapStats.total && snapStats.avgDist <= 12
-                                ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
-                                : "bg-rose-500/10 text-rose-400 border-rose-500/20"
-                            }`}
-                          >
-                            {snapStats.snapped}/{snapStats.total} Snapped (avg {snapStats.avgDist}m)
+
+                        <div className="flex flex-col items-end gap-1">
+                          {snapStats && (
+                            <span
+                              className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
+                                snapStats.snapped === snapStats.total && snapStats.avgDist <= 5
+                                  ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                                  : snapStats.snapped === snapStats.total && snapStats.avgDist <= 12
+                                  ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                                  : "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                              }`}
+                            >
+                              Snap: avg {snapStats.avgDist}m (max {snapStats.maxDist}m)
+                            </span>
+                          )}
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded border bg-emerald-500/10 text-emerald-300 border-emerald-500/20">
+                            {catchmentData.station.connectedEntrancesCount ?? snapStats?.snapped ?? 0}/{catchmentData.station.activeEntrancesCount} Connected ({catchmentData.station.connectivityPercent ?? 100}%)
                           </span>
-                        )}
+                        </div>
                       </div>
                     </div>
 
@@ -650,21 +656,33 @@ export default function AnalyticsPage() {
                           </span>
                         )}
                       </div>
-                      <div className="space-y-1.5 max-h-40 overflow-y-auto pr-1">
+                      <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
                         {catchmentData.station.entrances.map((ent) => (
                           <div
                             key={ent.id}
                             className="bg-[#131926] border border-white/5 rounded-lg p-2.5 flex items-center justify-between text-xs"
                           >
-                            <span className="text-slate-200 truncate max-w-[200px]">
-                              {ent.name}
-                            </span>
-                            <span className={`font-mono text-[11px] ${
+                            <div className="flex flex-col min-w-0 pr-2">
+                              <span className="text-slate-200 truncate max-w-[210px] font-medium">
+                                {ent.name}
+                              </span>
+                              <div className="flex items-center gap-1.5 mt-0.5 text-[10px]">
+                                <span className="text-slate-400 font-mono">
+                                  {ent.level === '1' ? 'Level 1 Concourse' : 'Level 0 Street'}
+                                </span>
+                                <span className="text-slate-600">•</span>
+                                <span className={ent.isConnected !== false ? "text-emerald-400 font-mono" : "text-rose-400 font-mono"}>
+                                  {ent.isConnected !== false ? `Connected (${ent.reachableNodesCount ?? 723} nodes)` : "Isolated component"}
+                                </span>
+                              </div>
+                            </div>
+
+                            <span className={`font-mono text-[11px] whitespace-nowrap px-1.5 py-0.5 rounded ${
                               (ent.snapDistanceMeters ?? 0) <= 5
-                                ? "text-emerald-400"
+                                ? "bg-emerald-500/10 text-emerald-400"
                                 : (ent.snapDistanceMeters ?? 0) <= 12
-                                ? "text-amber-400"
-                                : "text-rose-400"
+                                ? "bg-amber-500/10 text-amber-400"
+                                : "bg-rose-500/10 text-rose-400"
                             }`}>
                               {ent.snapDistanceMeters !== null ? `${ent.snapDistanceMeters}m snap` : "Unsnapped"}
                             </span>
@@ -837,16 +855,29 @@ export default function AnalyticsPage() {
               <div>
                 <h4 className="font-semibold text-white mb-1">3. Geometric Isochrone Construction</h4>
                 <p>
-                  Reached street edges within 300 seconds (5-min) and 600 seconds (10-min)
-                  are expanded with a 45m street buffer and dissolved via PostGIS:
+                  To eliminate boundary overshoot and artificial elongated fingers along long road corridors,
+                  boundary edges are dynamically trimmed to their exact reachable fraction using PostGIS:
+                  <code className="block bg-[#131926] p-2 rounded text-[11px] font-mono text-cyan-300 my-1">
+                    ST_LineSubstring(geom, 0, (T - cost) / traversal_time)
+                  </code>
+                  Fully traversed edges and trimmed boundary sub-segments are expanded with a 35m pedestrian street envelope buffer and unioned via PostGIS:
                   <code className="block bg-[#131926] p-2 rounded text-[11px] font-mono text-cyan-300 mt-1">
-                    ST_Multi(ST_Union(ST_Buffer(geom::geography, 45)::geometry))
+                    ST_Multi(ST_Union(ST_Buffer(edge_slice::geography, 35)::geometry))
                   </code>
                 </p>
               </div>
 
               <div>
-                <h4 className="font-semibold text-white mb-1">4. Urban Barrier Severance Ratio</h4>
+                <h4 className="font-semibold text-white mb-1">4. Geometric Snapping vs Graph Connectivity</h4>
+                <p className="text-slate-400 text-[11px]">
+                  • <strong>Geometric Snapping Distance:</strong> Measures spatial proximity from station physical gate coordinates to the nearest street edge (0m to 9.5m).<br />
+                  • <strong>Graph Component Connectivity:</strong> Verifies whether the gate node connects to the active multi-line pedestrian graph (e.g. 723 connected nodes).<br />
+                  • <strong>Vertical Level Compatibility:</strong> Enforces topological level continuity (Ground Level 0 vs Elevated Concourse Level 1).
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-white mb-1">5. Urban Barrier Severance Ratio</h4>
                 <p className="mb-1">
                   Defined mathematically as:
                   <code className="block bg-[#131926] p-2 rounded text-[11px] font-mono text-amber-300 my-1">
@@ -859,7 +890,7 @@ export default function AnalyticsPage() {
               </div>
 
               <div>
-                <h4 className="font-semibold text-white mb-1">5. Data Lineage & Provenance</h4>
+                <h4 className="font-semibold text-white mb-1">6. Data Lineage & Provenance</h4>
                 <p className="text-slate-400 text-[11px]">
                   • <strong>Verified OSM Official:</strong> Solid amber lines; mapped and validated ground-truth walkways from OpenStreetMap 2026.<br />
                   • <strong>Provisional Synthesized:</strong> Dashed orange lines; engineering desk-survey connectors (e.g. MMRDA Line 2A skywalk) pending ground survey validation (85% baseline confidence).

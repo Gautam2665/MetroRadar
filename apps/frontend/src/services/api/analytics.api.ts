@@ -23,6 +23,8 @@ export interface StationCatchmentResult {
     latitude: number;
     longitude: number;
     activeEntrancesCount: number;
+    connectedEntrancesCount?: number;
+    connectivityPercent?: number;
     entrances: Array<{
       id: string;
       name: string;
@@ -30,6 +32,9 @@ export interface StationCatchmentResult {
       longitude: number;
       snappedNodeId: string | null;
       snapDistanceMeters: number | null;
+      isConnected?: boolean;
+      reachableNodesCount?: number;
+      level?: string;
     }>;
   };
   metadata: {

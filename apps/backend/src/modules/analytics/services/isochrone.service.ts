@@ -171,19 +171,24 @@ export class IsochroneService {
       const targetSeconds = m * 60;
       const reachedEdgeIds: string[] = [];
       const reachedFeatures: any[] = [];
-      let totalLengthMeters = 0;
+      const edgeSliceSqlParts: string[] = [];
+      let preciseTraversedLengthMeters = 0;
 
       for (const e of localEdges) {
         const c1 = dist.get(e.from_node);
         const c2 = dist.get(e.to_node);
-        const minCost = Math.min(
-          c1 !== undefined ? c1 : Infinity,
-          c2 !== undefined ? c2 : Infinity,
-        );
+        const w = Number(e.traversal_time_seconds);
+        const len = Number(e.length_meters);
 
-        if (minCost <= targetSeconds) {
+        const hasC1 = c1 !== undefined && c1 <= targetSeconds;
+        const hasC2 = c2 !== undefined && c2 <= targetSeconds;
+
+        if (hasC1 && hasC2) {
           reachedEdgeIds.push(e.id);
-          totalLengthMeters += Number(e.length_meters);
+          preciseTraversedLengthMeters += len;
+          edgeSliceSqlParts.push(
+            `SELECT ST_Buffer(geom::geography, 35)::geometry as g FROM pedestrian_network WHERE id = '${e.id}'`,
+          );
           reachedFeatures.push({
             type: 'Feature',
             geometry: JSON.parse(e.geojson),
@@ -193,8 +198,49 @@ export class IsochroneService {
               surface: e.surface,
               isElevatedFob: e.is_elevated_fob,
               isCrossing: e.is_crossing,
-              lengthMeters: Number(e.length_meters),
-              minAccessSeconds: Math.round(minCost),
+              lengthMeters: len,
+              minAccessSeconds: Math.round(Math.min(c1 ?? Infinity, c2 ?? Infinity)),
+            },
+          });
+        } else if (hasC1 && w > 0) {
+          reachedEdgeIds.push(e.id);
+          const f = Math.max(0.02, Math.min(1.0, (targetSeconds - c1!) / w));
+          preciseTraversedLengthMeters += len * f;
+          edgeSliceSqlParts.push(
+            `SELECT ST_Buffer(ST_LineSubstring(geom, 0, ${f.toFixed(4)})::geography, 35)::geometry as g FROM pedestrian_network WHERE id = '${e.id}'`,
+          );
+          reachedFeatures.push({
+            type: 'Feature',
+            geometry: JSON.parse(e.geojson),
+            properties: {
+              id: e.id,
+              highwayType: e.highway_type,
+              surface: e.surface,
+              isElevatedFob: e.is_elevated_fob,
+              isCrossing: e.is_crossing,
+              lengthMeters: Math.round(len * f * 10) / 10,
+              minAccessSeconds: Math.round(c1!),
+            },
+          });
+        } else if (hasC2 && w > 0) {
+          reachedEdgeIds.push(e.id);
+          const f = Math.max(0.02, Math.min(1.0, (targetSeconds - c2!) / w));
+          const startF = (1 - f).toFixed(4);
+          preciseTraversedLengthMeters += len * f;
+          edgeSliceSqlParts.push(
+            `SELECT ST_Buffer(ST_LineSubstring(geom, ${startF}, 1)::geography, 35)::geometry as g FROM pedestrian_network WHERE id = '${e.id}'`,
+          );
+          reachedFeatures.push({
+            type: 'Feature',
+            geometry: JSON.parse(e.geojson),
+            properties: {
+              id: e.id,
+              highwayType: e.highway_type,
+              surface: e.surface,
+              isElevatedFob: e.is_elevated_fob,
+              isCrossing: e.is_crossing,
+              lengthMeters: Math.round(len * f * 10) / 10,
+              minAccessSeconds: Math.round(c2!),
             },
           });
         }
@@ -203,15 +249,16 @@ export class IsochroneService {
       let polygonGeoJson: any = null;
       let networkAreaSqKm = 0;
 
-      if (reachedEdgeIds.length > 0) {
-        const idListStr = reachedEdgeIds.map((id) => `'${id}'`).join(',');
+      if (edgeSliceSqlParts.length > 0) {
         const queryRes: Array<{ polygon_geojson: string; area_sq_km: number }> =
           await this.prisma.$queryRawUnsafe(`
+            WITH edge_slices AS (
+              ${edgeSliceSqlParts.join('\nUNION ALL\n')}
+            )
             SELECT 
-              ST_AsGeoJSON(ST_Multi(ST_Union(ST_Buffer(geom::geography, 45)::geometry))) as polygon_geojson,
-              ROUND((ST_Area(ST_Union(ST_Buffer(geom::geography, 45)::geometry)::geography) / 1000000.0)::numeric, 4)::float as area_sq_km
-            FROM pedestrian_network
-            WHERE id IN (${idListStr});
+              ST_AsGeoJSON(ST_Multi(ST_Union(g))) as polygon_geojson,
+              ROUND((ST_Area(ST_Union(g)::geography) / 1000000.0)::numeric, 4)::float as area_sq_km
+            FROM edge_slices;
           `);
 
         if (queryRes[0]?.polygon_geojson) {
@@ -236,7 +283,7 @@ export class IsochroneService {
 
       const densityKmPerSqKm =
         euclideanAreaSqKm > 0
-          ? parseFloat(((totalLengthMeters / 1000.0) / euclideanAreaSqKm).toFixed(2))
+          ? parseFloat(((preciseTraversedLengthMeters / 1000.0) / euclideanAreaSqKm).toFixed(2))
           : 0;
 
       const dataCompleteness: 'VALIDATED_URBAN_GRID' | 'LOCAL_STATION_ENVELOPE_ONLY' =
@@ -249,7 +296,7 @@ export class IsochroneService {
         seconds: targetSeconds,
         reachedEdgesCount: reachedEdgeIds.length,
         walkableNetworkLengthKm: parseFloat(
-          (totalLengthMeters / 1000.0).toFixed(3),
+          (preciseTraversedLengthMeters / 1000.0).toFixed(3),
         ),
         networkAreaSqKm,
         euclideanRadiusMeters,
@@ -265,6 +312,42 @@ export class IsochroneService {
       });
     }
 
+    // Graph Connectivity and Level Audit for Entrances
+    const entranceDetails = station.entrances.map((ent) => {
+      const nodeId = ent.snappedNodeId ? ent.snappedNodeId.toString() : null;
+      let reachableNodes = 0;
+      let isConnected = false;
+      if (nodeId && adj.has(nodeId)) {
+        const visited = new Set<string>([nodeId]);
+        const queue = [nodeId];
+        while (queue.length > 0) {
+          const curr = queue.shift()!;
+          for (const nb of adj.get(curr) || []) {
+            if (!visited.has(nb.to)) {
+              visited.add(nb.to);
+              queue.push(nb.to);
+            }
+          }
+        }
+        reachableNodes = visited.size;
+        isConnected = reachableNodes > 10;
+      }
+      const gateExpectedLevel = /concourse|fob|skywalk|bridge/i.test(ent.name) ? '1' : '0';
+      return {
+        id: ent.id,
+        name: ent.name,
+        latitude: ent.latitude,
+        longitude: ent.longitude,
+        snappedNodeId: ent.snappedNodeId ? ent.snappedNodeId.toString() : null,
+        snapDistanceMeters: ent.snapDistanceMeters,
+        isConnected,
+        reachableNodesCount: reachableNodes,
+        level: gateExpectedLevel,
+      };
+    });
+
+    const connectedGatesCount = entranceDetails.filter((e) => e.isConnected).length;
+
     return {
       station: {
         id: station.id,
@@ -273,24 +356,19 @@ export class IsochroneService {
         latitude: station.latitude,
         longitude: station.longitude,
         activeEntrancesCount: station.entrances.length,
-        entrances: station.entrances.map((ent) => ({
-          id: ent.id,
-          name: ent.name,
-          latitude: ent.latitude,
-          longitude: ent.longitude,
-          snappedNodeId: ent.snappedNodeId
-            ? ent.snappedNodeId.toString()
-            : null,
-          snapDistanceMeters: ent.snapDistanceMeters,
-        })),
+        connectedEntrancesCount: connectedGatesCount,
+        connectivityPercent: Math.round(
+          (connectedGatesCount / Math.max(1, station.entrances.length)) * 100,
+        ),
+        entrances: entranceDetails,
       },
       metadata: {
         pedestrianSpeedMs: 1.2,
         impedanceModel:
           't = length / 1.2 m/s (stairs: 0.6 m/s + 15s delay; FOB: +20s elevation transition)',
-        bufferWidthMeters: 45,
+        bufferWidthMeters: 35,
         algorithm:
-          'Multi-Source Bidirectional Dijkstra with PostGIS Geometric Buffer Union (ST_Union + ST_Buffer 45m)',
+          'Multi-Source Dijkstra with Boundary Substring Trimming (ST_LineSubstring) and 35m PostGIS Buffer Union',
         calculationTimestamp: new Date().toISOString(),
       },
       isochrones,

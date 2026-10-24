@@ -61,6 +61,13 @@ async function run() {
     }
   }
 
+  // Force station entrance landing nodes to be recognized as mandatory junctions
+  // so that arterial street ways (like J.P. Road) are cleanly split at entrance attachment points:
+  const mandatoryJunctions = [7157873783, 7157873781, 10287252380, 12319820409, 6249729380, 6249729379];
+  for (const mj of mandatoryJunctions) {
+    nodeCounts.set(mj, 999);
+  }
+
   const edgesToInsert = [];
 
   for (const w of ways) {
