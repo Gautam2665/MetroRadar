@@ -553,22 +553,6 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
     return getServiceStatusInfo(vehicles?.length || 0, realtimeLoading);
   }, [vehicles?.length, realtimeLoading]);
 
-  // Real dynamic punctuality computed from live vehicle telemetry delay distribution
-  const networkPunctuality = useMemo(() => {
-    if (realtimeLoading && (!vehicles || vehicles.length === 0)) return "Syncing...";
-    if (!vehicles || vehicles.length === 0) return "Schedule Norm";
-    const onTimeCount = vehicles.filter((v) => v.status === "On Time" || (v.delayMins ?? 0) <= 3).length;
-    const pct = Math.round((onTimeCount / vehicles.length) * 100);
-    return `${pct}% On-Time`;
-  }, [vehicles, realtimeLoading]);
-
-  // Real dynamic telemetry status
-  const telemetryStatus = useMemo(() => {
-    if (realtimeLoading && (!vehicles || vehicles.length === 0)) return "Connecting...";
-    if (!vehicles || vehicles.length === 0) return "Standby";
-    return `${vehicles.length} Units Active`;
-  }, [vehicles, realtimeLoading]);
-
   // Dynamic Corridors with real fleet telemetry
   const corridors = useMemo(() => {
     return MUMBAI_CORRIDORS.map((c) => {
@@ -1150,24 +1134,6 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
             <span className="text-xs font-semibold text-[#00E5FF]">
               {serviceStatus.displayText}
             </span>
-          </div>
-
-          {/* Real-time Network Metrics dynamically calculated from telemetry stream */}
-          <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/5">
-            <div className="p-2 rounded-lg bg-[#080E18] border border-white/5">
-              <div className="text-[10px] text-slate-400 font-medium">Network Punctuality</div>
-              <div className="text-sm font-bold text-emerald-400 flex items-center gap-1 mt-0.5">
-                <span className="material-symbols-outlined text-xs">verified</span>
-                <span>{networkPunctuality}</span>
-              </div>
-            </div>
-            <div className="p-2 rounded-lg bg-[#080E18] border border-white/5">
-              <div className="text-[10px] text-slate-400 font-medium">Live Telemetry</div>
-              <div className="text-sm font-bold text-[#00E5FF] flex items-center gap-1 mt-0.5">
-                <span className="material-symbols-outlined text-xs">sensors</span>
-                <span>{telemetryStatus}</span>
-              </div>
-            </div>
           </div>
         </div>
 
