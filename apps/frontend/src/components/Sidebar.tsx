@@ -14,6 +14,7 @@ export function Sidebar() {
     { label: "Explore Lines", href: "/lines", icon: "alt_route" },
     { label: "Explore Stations", href: "/stations", icon: "location_city" },
     { label: "Live Radar", href: "/network", icon: "sensors" },
+    { label: "Intelligence", href: "/analytics", icon: "analytics" },
   ];
 
   const mobileNavItems = [
@@ -22,6 +23,7 @@ export function Sidebar() {
     { label: "Lines", href: "/lines", icon: "alt_route" },
     { label: "Stations", href: "/stations", icon: "location_city" },
     { label: "Live", href: "/network", icon: "sensors" },
+    { label: "Analytics", href: "/analytics", icon: "analytics" },
   ];
 
   return (
