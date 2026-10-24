@@ -167,6 +167,7 @@ export default function MapContainer({
   const initialCenterRef = useRef(center || defaultCityConfig.center);
   const initialZoomRef = useRef(zoom !== undefined ? zoom : defaultCityConfig.zoom);
   const onViewportChangeRef = useRef(onViewportChange);
+  const stationsRegistryRef = useRef<Map<string, any>>(new Map());
 
   useEffect(() => {
     onViewportChangeRef.current = onViewportChange;
@@ -238,22 +239,51 @@ export default function MapContainer({
     }
 
     const cachedTwin = digitalTwinCache.current.get(stId);
+    const registeredSt =
+      stationsRegistryRef.current.get(stId) ||
+      (props.code ? stationsRegistryRef.current.get(props.code) : null) ||
+      stationsRegistryRef.current.get(stName.toLowerCase().trim());
+
+    const levelsCount =
+      typeof props.levelsCount === "number" && props.levelsCount > 0
+        ? props.levelsCount
+        : (registeredSt?.levelsCount && registeredSt.levelsCount > 0 ? registeredSt.levelsCount : undefined);
+
+    const exitsCount =
+      typeof props.exitsCount === "number" && props.exitsCount > 0
+        ? props.exitsCount
+        : (cachedTwin?.exits ?? (registeredSt?.exitsCount && registeredSt.exitsCount > 0 ? registeredSt.exitsCount : undefined));
+
+    const platformsCount =
+      typeof props.platformsCount === "number" && props.platformsCount > 0
+        ? props.platformsCount
+        : (registeredSt?.platformsCount && registeredSt.platformsCount > 0 ? registeredSt.platformsCount : undefined);
+
+    const wheelchairAccessible =
+      props.wheelchairAccessible !== undefined
+        ? props.wheelchairAccessible
+        : (registeredSt?.wheelchairAccessible ?? undefined);
+
+    const mergedLines =
+      cleanLines.length > 0
+        ? cleanLines
+        : (registeredSt?.lines ? normalizeStationLines(registeredSt.lines) : []);
 
     const cardData: StationCardData = {
       id: stId,
       name: stName,
-      code: props.code,
+      code: props.code || registeredSt?.code,
       city: activeCity,
-      lines: cleanLines,
-      wheelchairAccessible: props.wheelchairAccessible,
+      lines: mergedLines,
+      wheelchairAccessible,
       isInterchange,
       mode,
-      // P0/P1 counts come from the line-owned station feature. Never replace them
-      // with cached interchange-wide physical totals from a digital twin.
-      levelsCount: typeof props.levelsCount === "number" && props.levelsCount > 0 ? props.levelsCount : undefined,
-      exitsCount: typeof props.exitsCount === "number" && props.exitsCount > 0 ? props.exitsCount : cachedTwin?.exits,
-      platformsCount: typeof props.platformsCount === "number" && props.platformsCount > 0 ? props.platformsCount : undefined,
-      lineInfrastructure: Array.isArray(props.lineInfrastructure) ? props.lineInfrastructure : undefined,
+      levelsCount,
+      exitsCount,
+      platformsCount,
+      lineInfrastructure: Array.isArray(props.lineInfrastructure)
+        ? props.lineInfrastructure
+        : (Array.isArray(registeredSt?.lineInfrastructure) ? registeredSt.lineInfrastructure : undefined),
       journeyContext,
     };
 
@@ -610,6 +640,15 @@ export default function MapContainer({
           const currentMap = getActiveMap();
           if (res.ok && currentMap) {
             const rawGeojson = await res.json();
+            if (rawGeojson?.features && Array.isArray(rawGeojson.features)) {
+              for (const f of rawGeojson.features) {
+                const p = f.properties;
+                if (!p) continue;
+                if (p.id) stationsRegistryRef.current.set(p.id, p);
+                if (p.code) stationsRegistryRef.current.set(p.code, p);
+                if (p.name) stationsRegistryRef.current.set(p.name.toLowerCase().trim(), p);
+              }
+            }
             const mapNow = getActiveMap();
             if (!mapNow) return;
 

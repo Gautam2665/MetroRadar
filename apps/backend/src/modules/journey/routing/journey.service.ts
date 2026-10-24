@@ -910,9 +910,55 @@ export class JourneyService {
         name: true,
         latitude: true,
         longitude: true,
+        wheelchairAccessible: true,
+        entrances: {
+          where: { isActive: true },
+          select: { id: true },
+        },
+        levels: {
+          where: { isActive: true },
+          select: {
+            id: true,
+            platforms: {
+              where: { isActive: true },
+              select: { id: true },
+            },
+          },
+        },
+        sequences: {
+          where: { isActive: true },
+          select: {
+            line: { select: { code: true, name: true, color: true } },
+          },
+        },
       },
     });
-    const stationMap = new Map(stationDetails.map((s) => [s.id, s]));
+    const stationMap = new Map(
+      stationDetails.map((s) => {
+        const platformsCount = s.levels.reduce(
+          (sum, lvl) => sum + (lvl.platforms?.length || 0),
+          0,
+        );
+        const lines = (s.sequences || [])
+          .map((seq) => seq.line)
+          .filter(Boolean);
+        return [
+          s.id,
+          {
+            id: s.id,
+            code: s.code,
+            name: s.name,
+            latitude: s.latitude,
+            longitude: s.longitude,
+            wheelchairAccessible: s.wheelchairAccessible,
+            levelsCount: s.levels?.length || 0,
+            platformsCount,
+            exitsCount: s.entrances?.length || 0,
+            lines,
+          },
+        ];
+      }),
+    );
 
     // ── 5. Priority 1 (Item 3): Time-Dependent Routing & Connection Risk Buffers ──
     // Formula: Interchange Cost = T_walk + (T_next_dep - T_platform_arrival)
@@ -1899,6 +1945,11 @@ export class JourneyService {
         code: string;
         latitude: number;
         longitude: number;
+        wheelchairAccessible?: boolean | null;
+        levelsCount?: number;
+        platformsCount?: number;
+        exitsCount?: number;
+        lines?: any[];
       }
     >,
     lineMap?: Map<
@@ -1999,8 +2050,36 @@ export class JourneyService {
         matchingLeg.transferDetails.pedestrianRoute.geometry.coordinates
           .length > 1
       ) {
-        segmentCoords = matchingLeg.transferDetails.pedestrianRoute.geometry
+        const pedCoords = matchingLeg.transferDetails.pedestrianRoute.geometry
           .coordinates as [number, number][];
+        const fullCoords: [number, number][] = [];
+
+        // Seamlessly attach from the origin station centroid to the first pedestrian waypoint
+        if (
+          getDistanceMeters(
+            fromCoord[1],
+            fromCoord[0],
+            pedCoords[0][1],
+            pedCoords[0][0],
+          ) > 2
+        ) {
+          fullCoords.push(fromCoord);
+        }
+        fullCoords.push(...pedCoords);
+
+        // Seamlessly attach from the final pedestrian concourse landing to the destination station centroid
+        const lastPed = pedCoords[pedCoords.length - 1];
+        if (
+          getDistanceMeters(
+            toCoord[1],
+            toCoord[0],
+            lastPed[1],
+            lastPed[0],
+          ) > 2
+        ) {
+          fullCoords.push(toCoord);
+        }
+        segmentCoords = fullCoords;
       } else if (run.type === EdgeType.TRANSIT && run.lineId) {
         const shapeCoords = await this.getShapeSegmentCoords(
           run.lineId,
@@ -2042,29 +2121,6 @@ export class JourneyService {
       });
     }
 
-    if (stations.length > 0) {
-      const first = stations[0];
-      const last = stations[stations.length - 1];
-      features.push({
-        type: 'Feature',
-        properties: {
-          featureType: 'journey-origin',
-          name: first.name,
-          code: first.code,
-        },
-        geometry: { type: 'Point', coordinates: [first.lng, first.lat] },
-      });
-      features.push({
-        type: 'Feature',
-        properties: {
-          featureType: 'journey-destination',
-          name: last.name,
-          code: last.code,
-        },
-        geometry: { type: 'Point', coordinates: [last.lng, last.lat] },
-      });
-    }
-
     const transferStationIds = new Set<string>();
     for (let i = 1; i < legs.length; i++) {
       const prev = legs[i - 1];
@@ -2087,10 +2143,73 @@ export class JourneyService {
         transferStationIds.add(curr.from);
       }
     }
+
+    if (stations.length > 0) {
+      const first = stations[0];
+      const last = stations[stations.length - 1];
+      const firstSt = stationMap?.get(first.id);
+      const lastSt = stationMap?.get(last.id);
+
+      features.push({
+        type: 'Feature',
+        properties: {
+          featureType: 'journey-origin',
+          id: first.id,
+          name: first.name,
+          code: first.code,
+          wheelchairAccessible: firstSt?.wheelchairAccessible ?? true,
+          levelsCount: firstSt?.levelsCount ?? 2,
+          platformsCount: firstSt?.platformsCount ?? 2,
+          exitsCount: firstSt?.exitsCount ?? 4,
+          lines: firstSt?.lines || [],
+        },
+        geometry: { type: 'Point', coordinates: [first.lng, first.lat] },
+      });
+
+      features.push({
+        type: 'Feature',
+        properties: {
+          featureType: 'journey-destination',
+          id: last.id,
+          name: last.name,
+          code: last.code,
+          wheelchairAccessible: lastSt?.wheelchairAccessible ?? true,
+          levelsCount: lastSt?.levelsCount ?? 2,
+          platformsCount: lastSt?.platformsCount ?? 2,
+          exitsCount: lastSt?.exitsCount ?? 4,
+          lines: lastSt?.lines || [],
+        },
+        geometry: { type: 'Point', coordinates: [last.lng, last.lat] },
+      });
+
+      // Route intermediate stations
+      for (const s of stations) {
+        if (s.id === first.id || s.id === last.id || transferStationIds.has(s.id)) continue;
+        const stInfo = stationMap?.get(s.id);
+        const coord = coordMap.get(s.id) || [s.lng, s.lat];
+        features.push({
+          type: 'Feature',
+          properties: {
+            featureType: 'journey-station',
+            id: s.id,
+            name: s.name,
+            code: s.code,
+            wheelchairAccessible: stInfo?.wheelchairAccessible ?? true,
+            levelsCount: stInfo?.levelsCount ?? 2,
+            platformsCount: stInfo?.platformsCount ?? 2,
+            exitsCount: stInfo?.exitsCount ?? 2,
+            lines: stInfo?.lines || [],
+          },
+          geometry: { type: 'Point', coordinates: coord },
+        });
+      }
+    }
+
     for (const stationId of transferStationIds) {
       const station = stations.find((s) => s.id === stationId);
       if (!station) continue;
       const coord = coordMap.get(stationId) || [station.lng, station.lat];
+      const stInfo = stationMap?.get(stationId);
       features.push({
         type: 'Feature',
         properties: {
@@ -2098,6 +2217,11 @@ export class JourneyService {
           id: station.id,
           name: station.name,
           code: station.code,
+          wheelchairAccessible: stInfo?.wheelchairAccessible ?? true,
+          levelsCount: stInfo?.levelsCount ?? 3,
+          platformsCount: stInfo?.platformsCount ?? 2,
+          exitsCount: stInfo?.exitsCount ?? 5,
+          lines: stInfo?.lines || [],
         },
         geometry: { type: 'Point', coordinates: coord },
       });
@@ -2230,46 +2354,76 @@ export class JourneyService {
     }
   }
 
+  private projectPointOntoPolyline(
+    allCoords: [number, number][],
+    point: [number, number],
+  ): { measure: number; proj: [number, number]; dist: number } {
+    let bestDist = Infinity;
+    let bestMeasure = 0;
+    let bestProj: [number, number] = allCoords[0];
+
+    for (let i = 0; i < allCoords.length - 1; i++) {
+      const p1 = allCoords[i];
+      const p2 = allCoords[i + 1];
+      const dx = p2[0] - p1[0];
+      const dy = p2[1] - p1[1];
+      const lenSq = dx * dx + dy * dy;
+
+      let t = 0;
+      if (lenSq > 0) {
+        t = ((point[0] - p1[0]) * dx + (point[1] - p1[1]) * dy) / lenSq;
+        t = Math.max(0, Math.min(1, t));
+      }
+
+      const projX = p1[0] + t * dx;
+      const projY = p1[1] + t * dy;
+      const distSq =
+        Math.pow(point[0] - projX, 2) + Math.pow(point[1] - projY, 2);
+
+      if (distSq < bestDist) {
+        bestDist = distSq;
+        bestMeasure = i + t;
+        bestProj = [projX, projY];
+      }
+    }
+
+    return { measure: bestMeasure, proj: bestProj, dist: Math.sqrt(bestDist) };
+  }
+
   private sliceCoordinateArray(
     allCoords: [number, number][],
     fromCoord: [number, number],
     toCoord: [number, number],
   ): [number, number][] {
-    let minDistanceToFrom = Infinity;
-    let minDistanceToTo = Infinity;
-    let idxFrom = -1;
-    let idxTo = -1;
-
-    for (let i = 0; i < allCoords.length; i++) {
-      const p = allCoords[i];
-      const dFrom =
-        Math.pow(p[0] - fromCoord[0], 2) + Math.pow(p[1] - fromCoord[1], 2);
-      const dTo =
-        Math.pow(p[0] - toCoord[0], 2) + Math.pow(p[1] - toCoord[1], 2);
-      if (dFrom < minDistanceToFrom) {
-        minDistanceToFrom = dFrom;
-        idxFrom = i;
-      }
-      if (dTo < minDistanceToTo) {
-        minDistanceToTo = dTo;
-        idxTo = i;
-      }
-    }
-
-    if (idxFrom === -1 || idxTo === -1) {
+    if (!allCoords || allCoords.length < 2) {
       return [fromCoord, toCoord];
     }
 
+    const projFrom = this.projectPointOntoPolyline(allCoords, fromCoord);
+    const projTo = this.projectPointOntoPolyline(allCoords, toCoord);
+
     const coords: [number, number][] = [fromCoord];
-    if (idxFrom < idxTo) {
-      for (let i = idxFrom; i <= idxTo; i++) {
-        coords.push(allCoords[i]);
+
+    if (projFrom.measure <= projTo.measure) {
+      // Forward direction
+      const startIdx = Math.ceil(projFrom.measure);
+      const endIdx = Math.floor(projTo.measure);
+      for (let i = startIdx; i <= endIdx; i++) {
+        if (i >= 0 && i < allCoords.length) {
+          coords.push(allCoords[i]);
+        }
       }
-    } else if (idxFrom > idxTo) {
-      for (let i = idxFrom; i >= idxTo; i--) {
-        coords.push(allCoords[i]);
+    } else {
+      // Reverse direction
+      const startIdx = Math.floor(projFrom.measure);
+      const endIdx = Math.ceil(projTo.measure);
+      for (let i = startIdx; i >= endIdx; i--) {
+        if (i >= 0 && i < allCoords.length) {
+          coords.push(allCoords[i]);
+        }
       }
     }
+
     coords.push(toCoord);
     return coords;
   }
