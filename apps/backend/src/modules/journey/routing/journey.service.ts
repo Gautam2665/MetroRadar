@@ -2016,6 +2016,9 @@ export class JourneyService {
       type: EdgeType;
       color: string;
       lineName: string | null;
+      isElevatedFob?: boolean;
+      isProvisional?: boolean;
+      sourceType?: string;
     }> = [];
 
     for (const run of corridorRuns) {
@@ -2050,36 +2053,55 @@ export class JourneyService {
         matchingLeg.transferDetails.pedestrianRoute.geometry.coordinates
           .length > 1
       ) {
-        const pedCoords = matchingLeg.transferDetails.pedestrianRoute.geometry
-          .coordinates as [number, number][];
-        const fullCoords: [number, number][] = [];
+        const pedRoute = matchingLeg.transferDetails.pedestrianRoute;
+        const steps = pedRoute.steps;
 
-        // Seamlessly attach from the origin station centroid to the first pedestrian waypoint
-        if (
-          getDistanceMeters(
-            fromCoord[1],
-            fromCoord[0],
-            pedCoords[0][1],
-            pedCoords[0][0],
-          ) > 2
+        if (steps && steps.length > 0) {
+          for (const step of steps) {
+            if (step.coords && step.coords.length > 1) {
+              const isElevated = Boolean(step.isElevatedFob);
+              const isProvisional = step.sourceType === 'PROVISIONAL_SYNTHESIZED';
+              const segColor = isProvisional
+                ? '#fb923c'
+                : isElevated
+                  ? '#f59e0b'
+                  : '#00e5ff';
+              segments.push({
+                coords: step.coords,
+                lineId: null,
+                type: EdgeType.WALK,
+                color: segColor,
+                lineName: isProvisional
+                  ? 'Provisional Skywalk'
+                  : isElevated
+                    ? 'Elevated Footbridge'
+                    : 'Walkway',
+                isElevatedFob: isElevated,
+                isProvisional,
+                sourceType: step.sourceType,
+              });
+            }
+          }
+          continue;
+        } else if (
+          pedRoute.geometry?.coordinates &&
+          pedRoute.geometry.coordinates.length > 1
         ) {
-          fullCoords.push(fromCoord);
+          const pedCoords = pedRoute.geometry.coordinates as [number, number][];
+          const isProvisional = Boolean(pedRoute.containsProvisionalSegments);
+          segments.push({
+            coords: pedCoords,
+            lineId: null,
+            type: EdgeType.WALK,
+            color: isProvisional ? '#fb923c' : '#f59e0b',
+            lineName: isProvisional
+              ? 'Provisional Skywalk'
+              : 'Elevated Footbridge',
+            isElevatedFob: true,
+            isProvisional,
+          });
+          continue;
         }
-        fullCoords.push(...pedCoords);
-
-        // Seamlessly attach from the final pedestrian concourse landing to the destination station centroid
-        const lastPed = pedCoords[pedCoords.length - 1];
-        if (
-          getDistanceMeters(
-            toCoord[1],
-            toCoord[0],
-            lastPed[1],
-            lastPed[0],
-          ) > 2
-        ) {
-          fullCoords.push(toCoord);
-        }
-        segmentCoords = fullCoords;
       } else if (run.type === EdgeType.TRANSIT && run.lineId) {
         const shapeCoords = await this.getShapeSegmentCoords(
           run.lineId,
@@ -2094,7 +2116,10 @@ export class JourneyService {
         }
       }
 
-      const color = run.lineColor ?? '#94a3b8';
+      const color =
+        run.type === EdgeType.WALK || run.type === EdgeType.TRANSFER
+          ? '#00e5ff'
+          : run.lineColor ?? '#94a3b8';
       // Keep each contiguous corridor run distinct. Color alone is not an
       // identity: separate corridors can share Yellow/Red branding, and a
       // same-color return segment must not be stitched across a transfer.
@@ -2104,6 +2129,8 @@ export class JourneyService {
         type: run.type,
         color,
         lineName: run.lineName,
+        isElevatedFob: false,
+        isProvisional: false,
       });
     }
 
@@ -2116,6 +2143,9 @@ export class JourneyService {
           lineName: seg.lineName,
           color: seg.color,
           mode: seg.type,
+          isElevatedFob: seg.isElevatedFob ?? false,
+          isProvisional: seg.isProvisional ?? false,
+          sourceType: seg.sourceType,
         },
         geometry: { type: 'LineString', coordinates: seg.coords },
       });
@@ -2651,6 +2681,7 @@ export class JourneyService {
               containsProvisionalSegments: containsProvisional,
               sourceTypes: pedRoute.provenance.sourceTypes,
               geometry: pedRoute.geometry,
+              steps: pedRoute.steps,
             },
           };
           return;

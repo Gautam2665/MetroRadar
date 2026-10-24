@@ -129,6 +129,7 @@ export interface TransferDetails {
     containsProvisionalSegments: boolean;
     sourceTypes: string[];
     geometry: GeoJSON.LineString | null;
+    steps?: any[];
   };
 }
 

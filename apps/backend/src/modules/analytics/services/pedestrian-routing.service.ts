@@ -320,6 +320,7 @@ export class PedestrianRoutingService {
           segmentCoords[segmentCoords.length - 1][0],
           segmentCoords[segmentCoords.length - 1][1],
         ],
+        coords: segmentCoords as [number, number][],
       });
     }
 

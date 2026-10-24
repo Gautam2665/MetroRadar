@@ -151,7 +151,7 @@ export class JourneyTrainSimulator {
     let cum = 0;
 
     const lineFeatures = candidate.geojson?.features.filter(
-      (f) => f.geometry.type === "LineString"
+      (f) => f.geometry.type === "LineString" && f.properties?.mode !== "WALK"
     ) || [];
 
     if (lineFeatures.length === 0) return;

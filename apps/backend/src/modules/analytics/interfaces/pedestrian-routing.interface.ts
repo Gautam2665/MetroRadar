@@ -12,6 +12,7 @@ export interface PedestrianRouteStep {
   sourceType: string;
   startCoordinate: [number, number]; // [lon, lat]
   endCoordinate: [number, number];
+  coords?: [number, number][];
 }
 
 export interface PedestrianRouteProvenance {

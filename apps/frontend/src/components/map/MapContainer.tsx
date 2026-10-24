@@ -1141,11 +1141,17 @@ export default function MapContainer({
     const JOURNEY_DEST_LAYER = "journey-dest-layer";
     const JOURNEY_TRANSFER_LAYER = "journey-transfer-layer";
     const JOURNEY_STATIONS_LAYER = "journey-route-stations-layer";
+    const JOURNEY_WALK_LAYER = "journey-walk-layer";
+    const JOURNEY_FOB_LAYER = "journey-fob-layer";
+    const JOURNEY_PROVISIONAL_FOB_LAYER = "journey-provisional-fob-layer";
 
     const cleanupJourneyLayers = () => {
       [
         JOURNEY_LINE_CASING,
         JOURNEY_LINE_LAYER,
+        JOURNEY_WALK_LAYER,
+        JOURNEY_FOB_LAYER,
+        JOURNEY_PROVISIONAL_FOB_LAYER,
         JOURNEY_ORIGIN_LAYER,
         JOURNEY_DEST_LAYER,
         JOURNEY_TRANSFER_LAYER,
@@ -1189,11 +1195,12 @@ export default function MapContainer({
     } else {
       map.addSource(JOURNEY_LINE_SOURCE, { type: "geojson", data: lineCollection });
 
-      // Casing / Halo
+      // Casing / Halo (rail tracks only)
       map.addLayer({
         id: JOURNEY_LINE_CASING,
         type: "line",
         source: JOURNEY_LINE_SOURCE,
+        filter: ["!=", ["get", "mode"], "WALK"],
         paint: {
           "line-color": "#080C14",
           "line-width": ["interpolate", ["linear"], ["zoom"], 10, 7, 14, 10, 18, 15],
@@ -1202,15 +1209,74 @@ export default function MapContainer({
         layout: { "line-join": "round", "line-cap": "round" },
       });
 
-      // Main route line
+      // Main route line (rail tracks only)
       map.addLayer({
         id: JOURNEY_LINE_LAYER,
         type: "line",
         source: JOURNEY_LINE_SOURCE,
+        filter: ["!=", ["get", "mode"], "WALK"],
         paint: {
           "line-color": ["coalesce", ["get", "color"], "#00e5ff"],
           "line-width": ["interpolate", ["linear"], ["zoom"], 10, 5, 14, 8, 18, 12],
           "line-opacity": 1.0,
+        },
+        layout: { "line-join": "round", "line-cap": "round" },
+      });
+
+      // 3. Street Sidewalks & Ground Walkway Legs (Cyan Dashed)
+      map.addLayer({
+        id: JOURNEY_WALK_LAYER,
+        type: "line",
+        source: JOURNEY_LINE_SOURCE,
+        filter: [
+          "all",
+          ["==", ["get", "mode"], "WALK"],
+          ["!=", ["get", "isElevatedFob"], true],
+        ],
+        paint: {
+          "line-color": ["coalesce", ["get", "color"], "#00e5ff"],
+          "line-width": 3.5,
+          "line-dasharray": [2, 2],
+          "line-opacity": 0.95,
+        },
+        layout: { "line-join": "round", "line-cap": "round" },
+      });
+
+      // 4. Verified Official OSM Elevated Footbridge (Solid Amber - matching Mobility Intelligence)
+      map.addLayer({
+        id: JOURNEY_FOB_LAYER,
+        type: "line",
+        source: JOURNEY_LINE_SOURCE,
+        filter: [
+          "all",
+          ["==", ["get", "mode"], "WALK"],
+          ["==", ["get", "isElevatedFob"], true],
+          ["!=", ["get", "isProvisional"], true],
+        ],
+        paint: {
+          "line-color": "#f59e0b",
+          "line-width": 4.5,
+          "line-opacity": 0.95,
+        },
+        layout: { "line-join": "round", "line-cap": "round" },
+      });
+
+      // 5. Provisional Supplementary Skywalk (Dashed Orange - matching Mobility Intelligence)
+      map.addLayer({
+        id: JOURNEY_PROVISIONAL_FOB_LAYER,
+        type: "line",
+        source: JOURNEY_LINE_SOURCE,
+        filter: [
+          "all",
+          ["==", ["get", "mode"], "WALK"],
+          ["==", ["get", "isElevatedFob"], true],
+          ["==", ["get", "isProvisional"], true],
+        ],
+        paint: {
+          "line-color": "#fb923c",
+          "line-width": 4.5,
+          "line-dasharray": [3, 2],
+          "line-opacity": 0.95,
         },
         layout: { "line-join": "round", "line-cap": "round" },
       });
