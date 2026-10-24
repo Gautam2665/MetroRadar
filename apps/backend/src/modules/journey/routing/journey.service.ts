@@ -6,6 +6,7 @@ import {
   Injectable,
   Logger,
   NotFoundException,
+  Optional,
 } from '@nestjs/common';
 import { DatabaseService } from '../../../database/database.service';
 import { GraphProviderService } from '../graph/graph-provider.service';
@@ -19,6 +20,7 @@ import {
   GenericConstraints,
 } from './interchange-evaluator.service';
 import { RealtimePredictionService } from '../../realtime/services/realtime-prediction.service';
+import { PedestrianRoutingService } from '../../analytics/services/pedestrian-routing.service';
 import { JourneyQueryDto } from '../dto/journey-query.dto';
 import { computeJourneyFares } from './policy_v1';
 import {
@@ -191,6 +193,7 @@ export class JourneyService {
     private readonly filter: CandidateFilterService,
     private readonly interchangeEvaluator: InterchangeEvaluatorService,
     private readonly realtimePrediction: RealtimePredictionService,
+    @Optional() private readonly pedestrianRouting?: PedestrianRoutingService,
   ) {}
 
   private async findNearestStation(lat: number, lng: number) {
@@ -1788,32 +1791,7 @@ export class JourneyService {
         legs[i].type === EdgeType.WALK ||
         legs[i].type === EdgeType.TRANSFER
       ) {
-        const transfer = this.interchangeEvaluator.resolveTransferDetails(
-          legs[i].fromStationName,
-          legs[i].toStationName,
-          prev?.lineName,
-          next?.lineName,
-          legs[i].fromStation?.code,
-          legs[i].toStation?.code,
-        );
-        if (transfer) {
-          legs[i].transferDetails = transfer;
-          legs[i].transferTitle = transfer.name;
-          legs[i].transferDurationText = transfer.durationDisplay;
-          legs[i].transferInstructions = transfer.instructions;
-          if (transfer.estimatedDurationSeconds !== null) {
-            legs[i].duration = transfer.estimatedDurationSeconds;
-            legs[i].durationSeconds = transfer.estimatedDurationSeconds;
-            legs[i].durationMinutes = Math.max(
-              1,
-              Math.round(transfer.estimatedDurationSeconds / 60),
-            );
-          }
-          legs[i].transferSummary =
-            transfer.pathwayDistanceMeters !== null
-              ? `${transfer.pathwayDistanceMeters} m · ${transfer.durationDisplay}`
-              : transfer.durationDisplay;
-        }
+        await this.enrichTransferLeg(legs[i], prev, next);
       }
     }
     return legs;
@@ -2001,7 +1979,20 @@ export class JourneyService {
 
       let segmentCoords: [number, number][] = [fromCoord, toCoord];
 
-      if (run.type === EdgeType.TRANSIT && run.lineId) {
+      const matchingLeg = legs.find(
+        (l) =>
+          (l.type === EdgeType.WALK || l.type === EdgeType.TRANSFER) &&
+          l.from === run.from &&
+          l.to === run.to,
+      );
+      if (
+        matchingLeg?.transferDetails?.pedestrianRoute?.geometry?.coordinates &&
+        matchingLeg.transferDetails.pedestrianRoute.geometry.coordinates
+          .length > 1
+      ) {
+        segmentCoords = matchingLeg.transferDetails.pedestrianRoute.geometry
+          .coordinates as [number, number][];
+      } else if (run.type === EdgeType.TRANSIT && run.lineId) {
         const shapeCoords = await this.getShapeSegmentCoords(
           run.lineId,
           run.from,
@@ -2363,51 +2354,178 @@ export class JourneyService {
         }
       }
     } else if (leg.type === EdgeType.WALK || leg.type === EdgeType.TRANSFER) {
-      const transfer = this.interchangeEvaluator.resolveTransferDetails(
-        leg.fromStationName,
-        leg.toStationName,
-        prevLeg?.lineName,
-        nextLeg?.lineName,
-        leg.fromStation?.code,
-        leg.toStation?.code,
-      );
+      await this.enrichTransferLeg(leg, prevLeg, nextLeg);
+    }
+  }
 
-      if (transfer) {
-        leg.transferDetails = transfer;
-        leg.transferTitle = transfer.name;
-        leg.transferDurationText = transfer.durationDisplay;
-        leg.transferInstructions = transfer.instructions;
-        if (transfer.estimatedDurationSeconds !== null) {
-          leg.duration = transfer.estimatedDurationSeconds;
-          leg.durationSeconds = transfer.estimatedDurationSeconds;
-          leg.durationMinutes = Math.max(
+  private async enrichTransferLeg(
+    leg: JourneyLeg,
+    prevLeg?: JourneyLeg | null,
+    nextLeg?: JourneyLeg | null,
+  ): Promise<void> {
+    const fromCode = leg.fromStation?.code || leg.from;
+    const toCode = leg.toStation?.code || leg.to;
+    const fromName = (leg.fromStationName || '').toLowerCase();
+    const toName = (leg.toStationName || '').toLowerCase();
+
+    const isDnToAw =
+      (fromCode === 'STN_L1_002' && toCode === 'STN_L2A_017') ||
+      (fromName.includes('d. n. nagar') && toName.includes('andheri'));
+    const isAwToDn =
+      (fromCode === 'STN_L2A_017' && toCode === 'STN_L1_002') ||
+      (fromName.includes('andheri') && toName.includes('d. n. nagar'));
+
+    // Tightly scoped: only apply the verified pedestrian routing engine to D.N. Nagar <-> Andheri West
+    if ((isDnToAw || isAwToDn) && this.pedestrianRouting) {
+      // Production gate IDs corresponding to the exact concourse sides connecting the elevated footbridge
+      // D. N. Nagar Gate 1 (J.P. Road - North-West Side) -> Node 12319820409
+      // Andheri (West) Gate 1 (New Link Road - West Side North) -> Node 14197852601
+      const DN_NAGAR_GATE_1 = '356a0950-2469-488b-bf25-1af60ff7a854';
+      const ANDHERI_WEST_GATE_1 = '90e8b743-611a-43bc-be89-9927a23ef2a8';
+
+      const originEntId = isDnToAw ? DN_NAGAR_GATE_1 : ANDHERI_WEST_GATE_1;
+      const destEntId = isDnToAw ? ANDHERI_WEST_GATE_1 : DN_NAGAR_GATE_1;
+
+      try {
+        const pedRoute = await this.pedestrianRouting.route(
+          originEntId,
+          destEntId,
+          { allowProvisional: true },
+        );
+
+        if (pedRoute.status === 'SUCCESS') {
+          const walkMins = Math.max(
             1,
-            Math.round(transfer.estimatedDurationSeconds / 60),
+            Math.round(pedRoute.totalDurationSeconds / 60),
           );
+          const containsProvisional =
+            pedRoute.provenance.containsProvisionalSegments;
+
+          leg.duration = pedRoute.totalDurationSeconds;
+          leg.durationSeconds = pedRoute.totalDurationSeconds;
+          leg.durationMinutes = walkMins;
+          leg.distanceMeters = Math.round(pedRoute.distanceMeters);
+
+          const provisionalBadge = containsProvisional
+            ? ' (Provisional connector)'
+            : '';
+          leg.transferTitle = `D.N. Nagar – Andheri West Skywalk${provisionalBadge}`;
+          leg.transferDurationText = `~${walkMins} min`;
+          leg.transferSummary = `${Math.round(pedRoute.distanceMeters)} m · ~${walkMins} min · Elevated Skywalk${provisionalBadge}`;
+
+          // Format step instructions with explicit provisional indicator for unverified links
+          const instructions = pedRoute.steps.map((step) =>
+            step.sourceType === 'PROVISIONAL_SYNTHESIZED'
+              ? `${step.instruction} (Provisional skywalk connection - estimated transfer)`
+              : step.instruction,
+          );
+          leg.transferInstructions = instructions;
+
+          const baseTransfer = this.interchangeEvaluator.resolveTransferDetails(
+            leg.fromStationName,
+            leg.toStationName,
+            prevLeg?.lineName,
+            nextLeg?.lineName,
+            leg.fromStation?.code,
+            leg.toStation?.code,
+          );
+
+          leg.transferDetails = {
+            complexId: baseTransfer?.complexId ?? 'ICX-DN-NAGAR',
+            name:
+              baseTransfer?.name ??
+              'D.N. Nagar (Line 1) / Andheri West (Line 2A) Interchange',
+            pathwayDistanceMeters: Math.round(pedRoute.distanceMeters),
+            estimatedDurationSeconds: pedRoute.totalDurationSeconds,
+            durationDisplay: `~${walkMins} min`,
+            attributes: {
+              ...baseTransfer?.attributes,
+              paidAreaTransfer: false,
+              outdoorStreetExposure: false,
+            },
+            instructions,
+            reasonCodes: [
+              'VALIDATED_PEDESTRIAN_GRAPH',
+              ...(containsProvisional ? ['PROVISIONAL_CONNECTOR'] : []),
+            ],
+            pedestrianRoute: {
+              status: pedRoute.status,
+              distanceMeters: pedRoute.distanceMeters,
+              walkDurationSeconds: pedRoute.walkDurationSeconds,
+              transitionDurationSeconds: pedRoute.transitionDurationSeconds,
+              totalDurationSeconds: pedRoute.totalDurationSeconds,
+              confidenceScore: pedRoute.provenance.confidenceScore,
+              containsProvisionalSegments: containsProvisional,
+              sourceTypes: pedRoute.provenance.sourceTypes,
+              geometry: pedRoute.geometry,
+            },
+          };
+          return;
         } else {
-          const fallbackDuration = Math.max(leg.duration, 180);
-          leg.duration = fallbackDuration;
-          leg.durationSeconds = fallbackDuration;
-          leg.durationMinutes = Math.max(1, Math.round(fallbackDuration / 60));
+          this.logger.warn(
+            `Pedestrian router returned ${pedRoute.status} for D.N. Nagar <-> Andheri West. Falling back to estimated transfer.`,
+          );
         }
-        leg.transferSummary =
-          transfer.pathwayDistanceMeters !== null
-            ? `${transfer.pathwayDistanceMeters} m · ${transfer.durationDisplay}`
-            : transfer.durationDisplay;
-      } else {
-        const durMins = Math.max(1, Math.round(leg.duration / 60));
-        const nextLineLabel = nextLeg?.lineName
-          ? nextLeg.lineName.split('_')[0]
-          : 'connecting line';
-        leg.transferDetails = null;
-        leg.transferTitle = `Transfer to ${nextLineLabel}`;
-        leg.transferDurationText = `~${durMins} min`;
-        leg.transferSummary = `Transfer — ~${durMins} min`;
-        leg.transferInstructions = [
-          `Follow signs to ${leg.toStationName} concourse`,
-          `Proceed to connecting platform`,
-        ];
+      } catch (err) {
+        this.logger.error(
+          `Error running pedestrian routing for D.N. Nagar <-> Andheri West: ${
+            err instanceof Error ? err.message : String(err)
+          }`,
+        );
       }
+    }
+
+    // Fallback: Preserve existing behavior for all other interchanges or if route calculation failed
+    const transfer = this.interchangeEvaluator.resolveTransferDetails(
+      leg.fromStationName,
+      leg.toStationName,
+      prevLeg?.lineName,
+      nextLeg?.lineName,
+      leg.fromStation?.code,
+      leg.toStation?.code,
+    );
+
+    if (transfer) {
+      leg.transferDetails = transfer;
+      leg.transferTitle = transfer.name;
+      leg.transferDurationText = transfer.durationDisplay;
+      leg.transferInstructions =
+        isDnToAw || isAwToDn
+          ? [
+              ...transfer.instructions,
+              '[Estimated Transfer] Precise walking route unavailable — using estimated transfer duration.',
+            ]
+          : transfer.instructions;
+      if (transfer.estimatedDurationSeconds !== null) {
+        leg.duration = transfer.estimatedDurationSeconds;
+        leg.durationSeconds = transfer.estimatedDurationSeconds;
+        leg.durationMinutes = Math.max(
+          1,
+          Math.round(transfer.estimatedDurationSeconds / 60),
+        );
+      } else {
+        const fallbackDuration = Math.max(leg.duration, 180);
+        leg.duration = fallbackDuration;
+        leg.durationSeconds = fallbackDuration;
+        leg.durationMinutes = Math.max(1, Math.round(fallbackDuration / 60));
+      }
+      leg.transferSummary =
+        transfer.pathwayDistanceMeters !== null
+          ? `${transfer.pathwayDistanceMeters} m · ${transfer.durationDisplay}${isDnToAw || isAwToDn ? ' (Estimated transfer)' : ''}`
+          : transfer.durationDisplay;
+    } else {
+      const durMins = Math.max(1, Math.round(leg.duration / 60));
+      const nextLineLabel = nextLeg?.lineName
+        ? nextLeg.lineName.split('_')[0]
+        : 'connecting line';
+      leg.transferDetails = null;
+      leg.transferTitle = `Transfer to ${nextLineLabel}`;
+      leg.transferDurationText = `~${durMins} min`;
+      leg.transferSummary = `Transfer — ~${durMins} min`;
+      leg.transferInstructions = [
+        `Follow signs to ${leg.toStationName} concourse`,
+        `Proceed to connecting platform`,
+      ];
     }
   }
 

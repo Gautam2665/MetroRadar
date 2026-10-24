@@ -119,6 +119,17 @@ export interface TransferDetails {
   }>;
   reasonCodes: string[];
   instructions: string[];
+  pedestrianRoute?: {
+    status: string;
+    distanceMeters: number;
+    walkDurationSeconds: number;
+    transitionDurationSeconds: number;
+    totalDurationSeconds: number;
+    confidenceScore: number;
+    containsProvisionalSegments: boolean;
+    sourceTypes: string[];
+    geometry: GeoJSON.LineString | null;
+  };
 }
 
 // ── Fare Breakdown Structure ───────────────────────────────────────────────
