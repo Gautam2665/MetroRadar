@@ -345,6 +345,10 @@ model Entrance {
   lift        Boolean                  @default(false)
   escalator   Boolean                  @default(false)
   accessible  Boolean                  @default(false)
+  snappedPedestrianEdgeId String?                  @map("snapped_pedestrian_edge_id") @db.Uuid
+  snapDistanceMeters      Float?                   @map("snap_distance_meters")
+  snappedNodeId           BigInt?                  @map("snapped_node_id")
+
   openingTime String?
   closingTime String?
   isActive    Boolean                  @default(true)
@@ -695,3 +699,27 @@ model ImportAudit {
   @@map("import_audits")
 }
 
+
+model PedestrianNetwork {
+  id                   String                                 @id @default(uuid()) @db.Uuid
+  osmId                BigInt?                                @map("osm_id")
+  highwayType          String                                 @default("footway") @map("highway_type") @db.VarChar(64)
+  surface              String?                                @db.VarChar(64)
+  lengthMeters         Float                                  @map("length_meters")
+  traversalTimeSeconds Float                                  @map("traversal_time_seconds")
+  geom                 Unsupported("geometry(LineString, 4326)")?
+  fromNodeId           BigInt?                                @map("from_node_id")
+  toNodeId             BigInt?                                @map("to_node_id")
+  isCrossing           Boolean                                @default(false) @map("is_crossing")
+  isElevatedFob        Boolean                                @default(false) @map("is_elevated_fob")
+  hasTactilePaving     Boolean                                @default(false) @map("has_tactile_paving")
+  lit                  Boolean?
+  city                 String                                 @default("mumbai") @db.VarChar(64)
+  isActive             Boolean                                @default(true) @map("is_active")
+  createdAt            DateTime                               @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt            DateTime                               @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@index([fromNodeId, toNodeId])
+  @@index([city])
+  @@map("pedestrian_network")
+}

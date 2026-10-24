@@ -9,6 +9,7 @@ import { GisModule } from './modules/gis/gis.module';
 import { JourneyModule } from './modules/journey/journey.module';
 import { RealtimeModule } from './modules/realtime/realtime.module';
 import { AssistantModule } from './modules/assistant/assistant.module';
+import { DatasetsModule } from './modules/datasets/datasets.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { validateEnv } from './config/config.validation';
@@ -34,6 +35,7 @@ import { validateEnv } from './config/config.validation';
     JourneyModule,
     RealtimeModule,
     AssistantModule,
+    DatasetsModule,
   ],
   providers: [
     {
