@@ -2354,40 +2354,65 @@ export class JourneyService {
     }
   }
 
-  private projectPointOntoPolyline(
-    allCoords: [number, number][],
-    point: [number, number],
-  ): { measure: number; proj: [number, number]; dist: number } {
-    let bestDist = Infinity;
-    let bestMeasure = 0;
-    let bestProj: [number, number] = allCoords[0];
+  private computeCumulativeLengths(coords: [number, number][]): number[] {
+    const L = [0];
+    for (let i = 1; i < coords.length; i++) {
+      const d = getDistanceMeters(
+        coords[i - 1][1],
+        coords[i - 1][0],
+        coords[i][1],
+        coords[i][0],
+      );
+      L.push(L[i - 1] + d);
+    }
+    return L;
+  }
 
-    for (let i = 0; i < allCoords.length - 1; i++) {
-      const p1 = allCoords[i];
-      const p2 = allCoords[i + 1];
-      const dx = p2[0] - p1[0];
-      const dy = p2[1] - p1[1];
+  private projectPointOntoPolyline(
+    coords: [number, number][],
+    L: number[],
+    point: [number, number],
+  ): { s: number; q: [number, number]; dist: number } {
+    let bestDist = Infinity;
+    let bestS = 0;
+    let bestQ: [number, number] = coords[0];
+
+    for (let i = 0; i < coords.length - 1; i++) {
+      const p1 = coords[i];
+      const p2 = coords[i + 1];
+
+      const latAvg = ((p1[1] + p2[1]) / 2) * (Math.PI / 180);
+      const mPerDegLon = 111320 * Math.cos(latAvg);
+      const mPerDegLat = 110540;
+
+      const dx = (p2[0] - p1[0]) * mPerDegLon;
+      const dy = (p2[1] - p1[1]) * mPerDegLat;
       const lenSq = dx * dx + dy * dy;
 
       let t = 0;
       if (lenSq > 0) {
-        t = ((point[0] - p1[0]) * dx + (point[1] - p1[1]) * dy) / lenSq;
+        const ux = (point[0] - p1[0]) * mPerDegLon;
+        const uy = (point[1] - p1[1]) * mPerDegLat;
+        t = (ux * dx + uy * dy) / lenSq;
         t = Math.max(0, Math.min(1, t));
       }
 
-      const projX = p1[0] + t * dx;
-      const projY = p1[1] + t * dy;
-      const distSq =
-        Math.pow(point[0] - projX, 2) + Math.pow(point[1] - projY, 2);
+      const qLon = p1[0] + t * (p2[0] - p1[0]);
+      const qLat = p1[1] + t * (p2[1] - p1[1]);
+      const q: [number, number] = [
+        parseFloat(qLon.toFixed(7)),
+        parseFloat(qLat.toFixed(7)),
+      ];
 
-      if (distSq < bestDist) {
-        bestDist = distSq;
-        bestMeasure = i + t;
-        bestProj = [projX, projY];
+      const dist = getDistanceMeters(point[1], point[0], q[1], q[0]);
+      if (dist < bestDist) {
+        bestDist = dist;
+        bestS = L[i] + t * (L[i + 1] - L[i]);
+        bestQ = q;
       }
     }
 
-    return { measure: bestMeasure, proj: bestProj, dist: Math.sqrt(bestDist) };
+    return { s: bestS, q: bestQ, dist: bestDist };
   }
 
   private sliceCoordinateArray(
@@ -2399,33 +2424,38 @@ export class JourneyService {
       return [fromCoord, toCoord];
     }
 
-    const projFrom = this.projectPointOntoPolyline(allCoords, fromCoord);
-    const projTo = this.projectPointOntoPolyline(allCoords, toCoord);
+    const L = this.computeCumulativeLengths(allCoords);
+    const projFrom = this.projectPointOntoPolyline(allCoords, L, fromCoord);
+    const projTo = this.projectPointOntoPolyline(allCoords, L, toCoord);
 
-    const coords: [number, number][] = [fromCoord];
-
-    if (projFrom.measure <= projTo.measure) {
-      // Forward direction
-      const startIdx = Math.ceil(projFrom.measure);
-      const endIdx = Math.floor(projTo.measure);
-      for (let i = startIdx; i <= endIdx; i++) {
-        if (i >= 0 && i < allCoords.length) {
-          coords.push(allCoords[i]);
-        }
-      }
-    } else {
-      // Reverse direction
-      const startIdx = Math.floor(projFrom.measure);
-      const endIdx = Math.ceil(projTo.measure);
-      for (let i = startIdx; i >= endIdx; i--) {
-        if (i >= 0 && i < allCoords.length) {
-          coords.push(allCoords[i]);
-        }
-      }
+    // If projection is excessively far (>1.5km), fallback to direct straight line
+    if (projFrom.dist > 1500 || projTo.dist > 1500) {
+      return [fromCoord, toCoord];
     }
 
-    coords.push(toCoord);
-    return coords;
+    const result: [number, number][] = [];
+
+    if (projFrom.s <= projTo.s) {
+      // Forward direction
+      result.push(projFrom.q);
+      for (let i = 0; i < allCoords.length; i++) {
+        if (L[i] > projFrom.s && L[i] < projTo.s) {
+          result.push(allCoords[i]);
+        }
+      }
+      result.push(projTo.q);
+    } else {
+      // Reverse direction
+      result.push(projFrom.q);
+      for (let i = allCoords.length - 1; i >= 0; i--) {
+        if (L[i] < projFrom.s && L[i] > projTo.s) {
+          result.push(allCoords[i]);
+        }
+      }
+      result.push(projTo.q);
+    }
+
+    return result;
   }
 
   private async finalizeLeg(

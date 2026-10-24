@@ -366,4 +366,71 @@ describe('JourneyService - Pedestrian Transfer Integration (Phase 5)', () => {
       );
     });
   });
+
+  describe('Shape Slicing & Arc-Length Parameterization', () => {
+    // Model Line 1: Versova -> D.N. Nagar -> past Bhai Nagar / Azad Nagar
+    const trackShapes: [number, number][] = [
+      [72.82139, 19.130278], // 0: Versova start
+      [72.82132, 19.130287], // 1: Versova curve
+      [72.83463, 19.127296], // 2: East of D.N. Nagar (past Bhai Nagar)
+      [72.83522, 19.1272],   // 3: Azad Nagar
+    ];
+
+    it('should slice forward segment, inserting projected station endpoints and excluding downstream overshoot vertices', () => {
+      const versovaCoord: [number, number] = [72.821387, 19.130278];
+      const dnNagarCoord: [number, number] = [72.830812, 19.128178];
+
+      const sliced = (service as any).sliceCoordinateArray(
+        trackShapes,
+        versovaCoord,
+        dnNagarCoord,
+      );
+
+      expect(sliced.length).toBeGreaterThanOrEqual(2);
+      // First point is projected Versova directly on track
+      expect(sliced[0][0]).toBeCloseTo(72.821387, 4);
+      expect(sliced[0][1]).toBeCloseTo(19.130278, 4);
+      // Last point is projected D.N. Nagar directly on track
+      const last = sliced[sliced.length - 1];
+      expect(last[0]).toBeCloseTo(72.830806, 4);
+      expect(last[1]).toBeCloseTo(19.128155, 4);
+      // MUST NOT contain vertex 2 (east of D.N. Nagar)
+      expect(sliced.some((p: [number, number]) => p[0] === 72.83463)).toBe(false);
+      // MUST NOT overshoot east of D.N. Nagar
+      expect(sliced.some((p: [number, number]) => p[0] > 72.831)).toBe(false);
+    });
+
+    it('should slice reverse direction cleanly using arc-length parameterization', () => {
+      const dnNagarCoord: [number, number] = [72.830812, 19.128178];
+      const versovaCoord: [number, number] = [72.821387, 19.130278];
+
+      const sliced = (service as any).sliceCoordinateArray(
+        trackShapes,
+        dnNagarCoord,
+        versovaCoord,
+      );
+
+      expect(sliced.length).toBeGreaterThanOrEqual(2);
+      // Starts at projected D.N. Nagar
+      expect(sliced[0][0]).toBeCloseTo(72.830806, 4);
+      // Ends at projected Versova
+      const last = sliced[sliced.length - 1];
+      expect(last[0]).toBeCloseTo(72.821387, 4);
+      // MUST NOT contain vertex 2 (east of D.N. Nagar)
+      expect(sliced.some((p: [number, number]) => p[0] === 72.83463)).toBe(false);
+    });
+
+    it('should fall back to straight line if station projection distance exceeds 1500m', () => {
+      const farStation: [number, number] = [73.5, 20.0];
+      const normalStation: [number, number] = [72.82139, 19.130278];
+
+      const sliced = (service as any).sliceCoordinateArray(
+        trackShapes,
+        farStation,
+        normalStation,
+      );
+
+      expect(sliced).toEqual([farStation, normalStation]);
+    });
+  });
 });
