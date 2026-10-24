@@ -975,7 +975,8 @@ export class JourneyService {
       // ── Attach First-Mile Leg if origin is a landmark with direct FOB / access ──
       if (
         fromEndpoint.landmark &&
-        (fromEndpoint.landmark.hasDirectFob || fromEndpoint.landmark.hasDirectAccess) &&
+        (fromEndpoint.landmark.hasDirectFob ||
+          fromEndpoint.landmark.hasDirectAccess) &&
         (originAttachment.gate.walkTimeSeconds > 0 ||
           originAttachment.gate.walkDistanceMeters > 0 ||
           originAttachment.gate.corridorNote)
@@ -1027,7 +1028,8 @@ export class JourneyService {
       // ── Attach Last-Mile Leg if destination is a landmark with direct FOB / access ──
       if (
         toEndpoint.landmark &&
-        (toEndpoint.landmark.hasDirectFob || toEndpoint.landmark.hasDirectAccess) &&
+        (toEndpoint.landmark.hasDirectFob ||
+          toEndpoint.landmark.hasDirectAccess) &&
         (destAttachment.gate.walkTimeSeconds > 0 ||
           destAttachment.gate.walkDistanceMeters > 0 ||
           destAttachment.gate.corridorNote)
@@ -1077,7 +1079,7 @@ export class JourneyService {
       }
 
       // ── Fast In-Memory Interchange & Safety Buffer Estimation ─────────
-      let initialWaitSeconds = 120;
+      const initialWaitSeconds = 120;
       let totalTransferWaitSeconds = 0;
       let hasFirstTransitBoarded = false;
 
@@ -1182,7 +1184,8 @@ export class JourneyService {
       let destinationGuidance: string | null = null;
       if (
         toEndpoint.landmark &&
-        (toEndpoint.landmark.hasDirectFob || toEndpoint.landmark.hasDirectAccess)
+        (toEndpoint.landmark.hasDirectFob ||
+          toEndpoint.landmark.hasDirectAccess)
       ) {
         destinationGuidance = destAttachment.gate?.gateName
           ? `Exit ${destAttachment.gate.gateName} for ${toEndpoint.landmark.name}`
@@ -1198,7 +1201,8 @@ export class JourneyService {
 
       const originRef: StationRef =
         fromEndpoint.landmark &&
-        (fromEndpoint.landmark.hasDirectFob || fromEndpoint.landmark.hasDirectAccess)
+        (fromEndpoint.landmark.hasDirectFob ||
+          fromEndpoint.landmark.hasDirectAccess)
           ? {
               id: fromEndpoint.landmark.id,
               name: fromEndpoint.landmark.name,
@@ -1210,7 +1214,8 @@ export class JourneyService {
 
       const destRef: StationRef =
         toEndpoint.landmark &&
-        (toEndpoint.landmark.hasDirectFob || toEndpoint.landmark.hasDirectAccess)
+        (toEndpoint.landmark.hasDirectFob ||
+          toEndpoint.landmark.hasDirectAccess)
           ? {
               id: toEndpoint.landmark.id,
               name: toEndpoint.landmark.name,
@@ -1389,8 +1394,8 @@ export class JourneyService {
 
         const aDestLng = a.destination.lng ?? 72.851;
         const bDestLng = b.destination.lng ?? 72.851;
-        const aOnDestSide = (aDestLng < RAILWAY_DIVIDE_LNG) === isDestWest;
-        const bOnDestSide = (bDestLng < RAILWAY_DIVIDE_LNG) === isDestWest;
+        const aOnDestSide = aDestLng < RAILWAY_DIVIDE_LNG === isDestWest;
+        const bOnDestSide = bDestLng < RAILWAY_DIVIDE_LNG === isDestWest;
 
         // If candidate 'a' reaches the destination side of the railway divide AND deboards at the closest station,
         // while candidate 'b' terminates on the opposite side of the railway divide, candidate 'a' takes precedence.
@@ -1418,8 +1423,15 @@ export class JourneyService {
       // Finalize transit legs with deterministic direction and platform
       for (let i = 0; i < candidate.legs.length; i++) {
         const prev = i > 0 ? candidate.legs[i - 1] : null;
-        const next = i < candidate.legs.length - 1 ? candidate.legs[i + 1] : null;
-        await this.finalizeLeg(candidate.legs[i], prev, next, stationMap, lineMap);
+        const next =
+          i < candidate.legs.length - 1 ? candidate.legs[i + 1] : null;
+        await this.finalizeLeg(
+          candidate.legs[i],
+          prev,
+          next,
+          stationMap,
+          lineMap,
+        );
       }
 
       // Realtime departure & connection simulation
@@ -1548,7 +1560,9 @@ export class JourneyService {
       candidate.durationMinutes = Math.round(candidate.durationSeconds / 60);
       candidate.duration = candidate.durationMinutes;
 
-      const firstTransitLeg = candidate.legs.find((l) => l.type === EdgeType.TRANSIT);
+      const firstTransitLeg = candidate.legs.find(
+        (l) => l.type === EdgeType.TRANSIT,
+      );
       const originStationId = firstTransitLeg?.from || candidate.origin.id;
       const originLineId = firstTransitLeg?.lineId || '';
 

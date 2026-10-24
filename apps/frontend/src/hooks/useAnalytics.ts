@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   AnalyticsApi,
-  CatchmentIsochrone,
   DatasetAuditReport,
   PedestrianNetworkGeoJson,
   StationCatchmentResult,
@@ -17,6 +16,8 @@ export function useStationCatchment(
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  const minutesKey = useMemo(() => minutes.join(","), [minutes]);
+
   const fetchCatchment = useCallback(async () => {
     if (!stationId) {
       setData(null);
@@ -26,14 +27,15 @@ export function useStationCatchment(
     setLoading(true);
     setError(null);
 
-    const res = await AnalyticsApi.getStationCatchment(stationId, minutes);
+    const parsedMinutes = minutesKey.split(",").map(Number);
+    const res = await AnalyticsApi.getStationCatchment(stationId, parsedMinutes);
     if (res.success) {
       setData(res.data);
     } else {
       setError(res.error);
     }
     setLoading(false);
-  }, [stationId, minutes.join(",")]);
+  }, [stationId, minutesKey]);
 
   useEffect(() => {
     fetchCatchment();

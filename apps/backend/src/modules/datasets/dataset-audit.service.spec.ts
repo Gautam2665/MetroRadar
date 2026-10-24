@@ -101,11 +101,15 @@ describe('DatasetAuditService', () => {
 
     const line1 = report.lineLineage.find((l) => l.code === 'LINE_1');
     expect(line1).toBeDefined();
-    expect(line1?.lineage).toContain('Synthesized MMOPL Static Timetable Tier X');
+    expect(line1?.lineage).toContain(
+      'Synthesized MMOPL Static Timetable Tier X',
+    );
     expect(line1?.tier).toBe('TIER_X');
 
     // Pedestrian network verification
-    expect(report.pedestrianNetwork.source).toBe('OpenStreetMap Pedestrian Extract (OSM 2026-Q1)');
+    expect(report.pedestrianNetwork.source).toBe(
+      'OpenStreetMap Pedestrian Extract (OSM 2026-Q1)',
+    );
     expect(report.pedestrianNetwork.totalWalkableEdges).toBe(1164);
     expect(report.pedestrianNetwork.totalNetworkLengthKm).toBe(53.93);
     expect(report.pedestrianNetwork.traversalSpeedStandardMs).toBe(1.2);

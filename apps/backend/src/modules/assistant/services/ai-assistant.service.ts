@@ -163,10 +163,14 @@ export class AiAssistantService {
     try {
       return await this.processWithRuleFallback(trimmed, cityHint);
     } catch (fallbackErr: unknown) {
-      const errMsg = fallbackErr instanceof Error ? fallbackErr.message : String(fallbackErr);
+      const errMsg =
+        fallbackErr instanceof Error
+          ? fallbackErr.message
+          : String(fallbackErr);
       this.logger.error(`Rule fallback failed: ${errMsg}`);
       return {
-        reply: "I couldn't process your request right now. Please try searching for station names directly.",
+        reply:
+          "I couldn't process your request right now. Please try searching for station names directly.",
         uiPayload: {
           cardType: 'error',
           data: { error: errMsg },

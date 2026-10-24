@@ -30,9 +30,13 @@ export class EntranceSnappingService {
    * Snaps all active station entrances to the nearest pedestrian street edge within maxDistanceMeters (default 100m).
    * Executes high-performance spatial join via PostGIS ST_DWithin and ST_Distance.
    */
-  async snapAllEntrances(maxDistanceMeters = 100): Promise<EntranceSnappingResult> {
+  async snapAllEntrances(
+    maxDistanceMeters = 100,
+  ): Promise<EntranceSnappingResult> {
     const startTime = Date.now();
-    this.logger.log(`Starting entrance snapping pass with max radius ${maxDistanceMeters}m...`);
+    this.logger.log(
+      `Starting entrance snapping pass with max radius ${maxDistanceMeters}m...`,
+    );
 
     const updateSql = `
       UPDATE entrances e
@@ -100,7 +104,9 @@ export class EntranceSnappingService {
     `);
 
     const numSnapped = snappedSummary[0]?.count || 0;
-    const avgDist = snappedSummary[0]?.avg_dist ? Number(snappedSummary[0].avg_dist) : 0;
+    const avgDist = snappedSummary[0]?.avg_dist
+      ? Number(snappedSummary[0].avg_dist)
+      : 0;
     const snapSuccessRatePercent =
       totalEntrancesCount > 0
         ? parseFloat(((numSnapped / totalEntrancesCount) * 100).toFixed(1))

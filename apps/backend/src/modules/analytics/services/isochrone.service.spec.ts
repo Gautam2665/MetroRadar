@@ -26,7 +26,7 @@ describe('IsochroneService', () => {
         id: 'ent-2',
         name: 'Gate 2 (East Side)',
         latitude: 19.1143,
-        longitude: 72.8550,
+        longitude: 72.855,
         snappedNodeId: 5000000002n,
         snapDistanceMeters: 8.0,
       },

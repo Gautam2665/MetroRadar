@@ -16,11 +16,7 @@ import {
   ShieldCheck,
   Layers,
   Info,
-  MapPin,
   RefreshCw,
-  Clock,
-  Compass,
-  AlertTriangle,
   FileText,
 } from "lucide-react";
 import Link from "next/link";
@@ -43,7 +39,6 @@ export default function AnalyticsPage() {
   // Selected Station for Isochrone Catchment
   const [selectedStationQuery, setSelectedStationQuery] = useState<string>("Gundavali");
   const [showNetworkEdges, setShowNetworkEdges] = useState<boolean>(true);
-  const [showFobsOnly, setShowFobsOnly] = useState<boolean>(false);
   const [showMethodologyModal, setShowMethodologyModal] = useState<boolean>(false);
 
   // Data Hooks
@@ -51,13 +46,10 @@ export default function AnalyticsPage() {
   const {
     data: catchmentData,
     loading: catchmentLoading,
-    error: catchmentError,
-    refresh: refreshCatchment,
   } = useStationCatchment(selectedStationQuery, [5, 10]);
 
   const {
     data: networkGeoJson,
-    loading: networkLoading,
   } = usePedestrianNetwork();
 
   const {
@@ -145,7 +137,7 @@ export default function AnalyticsPage() {
       map.setLayoutProperty(
         FOOTWAY_LAYER_ID,
         "visibility",
-        showNetworkEdges && !showFobsOnly ? "visible" : "none"
+        showNetworkEdges ? "visible" : "none"
       );
     }
     if (map.getLayer(FOB_LAYER_ID)) {
@@ -155,7 +147,7 @@ export default function AnalyticsPage() {
         showNetworkEdges ? "visible" : "none"
       );
     }
-  }, [networkGeoJson, showNetworkEdges, showFobsOnly]);
+  }, [networkGeoJson, showNetworkEdges]);
 
   // Render Isochrone Polygons
   useEffect(() => {

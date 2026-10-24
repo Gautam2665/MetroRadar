@@ -426,7 +426,10 @@ export class SearchService {
             const MAX_METRO_CATCHMENT_METERS = 25000; // Expanded to entire MMR so localities are never artificially limited
             const closestDistM = Math.round(sortedStations[0].distance);
 
-            if (!isInsideBoundary && closestDistM > MAX_METRO_CATCHMENT_METERS) {
+            if (
+              !isInsideBoundary &&
+              closestDistM > MAX_METRO_CATCHMENT_METERS
+            ) {
               const placeId = `${lat.toFixed(5)},${lon.toFixed(5)}`;
               // Out of metro network coverage: do not hijack a distant station
               features.push({
@@ -462,7 +465,10 @@ export class SearchService {
               });
             } else {
               // Aggregate serving lines across nearby stations within catchment (for visual pills)
-              const MAX_FEEDER_RADIUS_METERS = Math.max(3800, closestDistM * 1.5);
+              const MAX_FEEDER_RADIUS_METERS = Math.max(
+                3800,
+                closestDistM * 1.5,
+              );
               const nearbyCatchmentStations = sortedStations.filter(
                 (stn) => stn.distance <= MAX_FEEDER_RADIUS_METERS,
               );

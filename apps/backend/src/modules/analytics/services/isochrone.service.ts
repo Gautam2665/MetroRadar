@@ -222,10 +222,7 @@ export class IsochroneService {
 
       const euclideanRadiusMeters = targetSeconds * 1.2;
       const euclideanAreaSqKm = parseFloat(
-        (
-          (Math.PI * Math.pow(euclideanRadiusMeters, 2)) /
-          1000000.0
-        ).toFixed(4),
+        ((Math.PI * Math.pow(euclideanRadiusMeters, 2)) / 1000000.0).toFixed(4),
       );
       const severanceRatio =
         euclideanAreaSqKm > 0
@@ -269,7 +266,9 @@ export class IsochroneService {
           name: ent.name,
           latitude: ent.latitude,
           longitude: ent.longitude,
-          snappedNodeId: ent.snappedNodeId ? ent.snappedNodeId.toString() : null,
+          snappedNodeId: ent.snappedNodeId
+            ? ent.snappedNodeId.toString()
+            : null,
           snapDistanceMeters: ent.snapDistanceMeters,
         })),
       },

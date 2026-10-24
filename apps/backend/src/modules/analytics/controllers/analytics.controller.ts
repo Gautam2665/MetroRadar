@@ -1,7 +1,16 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { IsochroneService } from '../services/isochrone.service';
-import { PedestrianNetworkGeoJson, StationCatchmentResult } from '../interfaces/catchment.interface';
+import {
+  PedestrianNetworkGeoJson,
+  StationCatchmentResult,
+} from '../interfaces/catchment.interface';
 
 @ApiTags('Mobility Analytics & Geospatial Intelligence')
 @Controller(['api/v1/analytics', 'analytics'])
@@ -16,7 +25,8 @@ export class AnalyticsController {
   })
   @ApiParam({
     name: 'id',
-    description: 'Station UUID, code (e.g. STN_L7_014), or name (e.g. Gundavali)',
+    description:
+      'Station UUID, code (e.g. STN_L7_014), or name (e.g. Gundavali)',
     example: 'GUNDAVALI',
   })
   @ApiQuery({
@@ -27,7 +37,8 @@ export class AnalyticsController {
   })
   @ApiResponse({
     status: 200,
-    description: 'Station pedestrian catchment polygons and reachability metrics',
+    description:
+      'Station pedestrian catchment polygons and reachability metrics',
   })
   async getStationCatchment(
     @Param('id') stationId: string,

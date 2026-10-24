@@ -7,8 +7,8 @@ export interface CatchmentIsochrone {
   euclideanRadiusMeters: number;
   euclideanAreaSqKm: number;
   severanceRatio: number;
-  polygonGeoJson: any | null;
-  reachedEdgesGeoJson?: any | null;
+  polygonGeoJson: Record<string, unknown> | null;
+  reachedEdgesGeoJson?: Record<string, unknown> | null;
 }
 
 export interface StationCatchmentResult {
@@ -40,7 +40,7 @@ export interface StationCatchmentResult {
 
 export interface PedestrianEdgeFeature {
   type: 'Feature';
-  geometry: any;
+  geometry: Record<string, unknown>;
   properties: {
     id: string;
     osmId: string | null;

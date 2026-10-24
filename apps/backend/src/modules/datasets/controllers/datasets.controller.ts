@@ -1,7 +1,13 @@
 import { Controller, Get, Post, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { DatasetAuditService, DatasetAuditReport } from '../services/dataset-audit.service';
-import { EntranceSnappingService, EntranceSnappingResult } from '../services/entrance-snapping.service';
+import {
+  DatasetAuditService,
+  DatasetAuditReport,
+} from '../services/dataset-audit.service';
+import {
+  EntranceSnappingService,
+  EntranceSnappingResult,
+} from '../services/entrance-snapping.service';
 
 @ApiTags('Datasets Governance & Audit')
 @Controller(['api/v1/datasets', 'datasets'])
@@ -33,7 +39,8 @@ export class DatasetsController {
   })
   @ApiResponse({
     status: 200,
-    description: 'Entrance snapping execution results and updated audit statistics',
+    description:
+      'Entrance snapping execution results and updated audit statistics',
   })
   async triggerEntranceSnapping(
     @Query('maxDistanceMeters') maxDistanceQuery?: string,
