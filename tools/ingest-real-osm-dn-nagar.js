@@ -92,12 +92,15 @@ async function run() {
 
   // Supplementary MMRDA Interchange Skywalk Connector:
   // Starts exactly at D.N. Nagar Footbridge landing: node 12319820407 [72.8310809, 19.1283359]
-  // Terminates directly at Andheri West Concourse / Gate 1: node 14197852601 [72.8310650, 19.1293390]
+  // Terminates directly at Andheri West Concourse / Gate 1: internal node 9900000002 [72.8310650, 19.1293390]
   // Aligned along the western sidewalk viaduct of New Link Road without northern platform overshoot.
+  // Note: Distinct internal node 9900000002 is used to avoid conflating with OSM node 14197852601
+  // which physically belongs to the northern platform walkway (Way 1408832971) at [72.8313710, 19.1299161].
+  const ANDHERI_WEST_CONCOURSE_NODE_ID = 9900000002n;
   const skywalkCoords = [
     [72.8310809, 19.1283359], // Node 12319820407 (D.N. Nagar Footbridge East Landing at J.P. Rd junction)
     [72.8310700, 19.1288390], // Mid-span FOB passing Andheri West Gate 2 South Entrance
-    [72.8310650, 19.1293390], // Node 14197852601 (Andheri West Concourse Landing at Gate 1)
+    [72.8310650, 19.1293390], // Node 9900000002 (Andheri West Concourse Landing at Gate 1)
   ];
   const skywalkLength = parseFloat(calculateLineLengthMeters(skywalkCoords).toFixed(2));
   const skywalkWalkTime = parseFloat((skywalkLength / 1.2).toFixed(1));
@@ -108,8 +111,8 @@ async function run() {
     surface: 'tiles',
     length_meters: skywalkLength,
     traversal_time_seconds: skywalkWalkTime,
-    from_node_id: 12319820407n, // Exactly joins D.N. Nagar bridge
-    to_node_id: 14197852601n,   // Exactly joins Andheri West concourse
+    from_node_id: 12319820407n,                  // Exactly joins D.N. Nagar bridge
+    to_node_id: ANDHERI_WEST_CONCOURSE_NODE_ID,   // Distinct internal concourse landing node
     is_crossing: false,
     is_elevated_fob: true,
     has_tactile_paving: true,
@@ -124,6 +127,7 @@ async function run() {
       reviewer: 'TransitOS Transport Engineering Team',
       verification_date: '2026-10-24',
       confidence: 0.85,
+      node_identity_audit: 'Node 9900000002 is internal concourse landing; OSM node 14197852601 preserved on Way 1408832971',
     }),
     is_indoor: false,
     level: '1',
