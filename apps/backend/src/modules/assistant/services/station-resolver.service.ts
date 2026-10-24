@@ -155,7 +155,7 @@ export class StationResolverService {
         isActive: true,
         OR: [
           { name: { contains: trimmed, mode: 'insensitive' } },
-          { id: trimmed },
+          ...(isUuid ? [{ id: trimmed }] : []),
         ],
       },
       include: {

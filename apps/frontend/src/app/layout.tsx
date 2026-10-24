@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-page-custom-font */
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { CityProvider } from "../contexts/CityContext";
@@ -18,6 +18,14 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "transitOS — Urban Mobility Intelligence",
   description: "Urban Mobility Intelligence & Transit OS Platform — Real-time Metro Tracking for Indian Cities",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: "cover",
+  themeColor: "#080C14",
 };
 
 export default function RootLayout({

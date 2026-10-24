@@ -64,6 +64,7 @@ export default function ExploreMetroLinesPage() {
   const [selectedLineId, setSelectedLineId] = useState<string>("");
   const [activeTab, setActiveTab] = useState<string>("route");
   const [searchVal, setSearchVal] = useState("");
+  const [mobileView, setMobileView] = useState<"list" | "detail">("list");
 
   // Generate metro line list dynamically from GTFS database
   const linesList: MetroLineData[] = useMemo(() => {
@@ -202,19 +203,19 @@ export default function ExploreMetroLinesPage() {
       <div className="flex-1 flex flex-col md:ml-16 h-full overflow-hidden">
         {/* Top Header */}
         <header
-          className="h-16 border-b border-[#141F30] bg-[#080E18] px-5 flex items-center justify-between shrink-0 z-30"
+          className="h-16 border-b border-[#141F30] bg-[#080E18] px-3 sm:px-5 flex items-center justify-between shrink-0 z-30 gap-2 sm:gap-4 overflow-x-hidden"
           data-purpose="global-header"
         >
           {/* Search Bar */}
-          <div className="w-[380px] max-w-md relative">
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="flex-1 max-w-[200px] sm:max-w-xs md:max-w-md relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
               </svg>
             </div>
             <input
-              className="w-full pl-10 pr-4 py-2 bg-[#0E1726] border border-[#1E2E44] rounded-xl text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-[#00D5E8] focus:ring-1 focus:ring-[#00D5E8] transition-all"
-              placeholder="Search for a line, route or station..."
+              className="w-full pl-8 pr-3 py-1.5 sm:py-2 bg-[#0E1726] border border-[#1E2E44] rounded-xl text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-[#00D5E8] focus:ring-1 focus:ring-[#00D5E8] transition-all"
+              placeholder="Search line, station..."
               type="text"
               value={searchVal}
               onChange={(e) => setSearchVal(e.target.value)}
@@ -222,28 +223,28 @@ export default function ExploreMetroLinesPage() {
           </div>
 
           {/* Right Header Status Widgets */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#0E1726]/60 border border-[#1A283B] text-xs">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#0E1726]/60 border border-[#1A283B] text-xs">
               <span className="material-symbols-outlined text-amber-400 text-sm">wb_sunny</span>
               <span className="font-semibold text-white">33°C</span>
-              <span className="text-[11px] text-slate-400">Mumbai, MH</span>
+              <span className="text-[11px] text-slate-400">Mumbai</span>
             </div>
 
             <button
               onClick={toggleAssistant}
-              className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-[#0E3B4F] to-[#0A2E44] border border-[#00D5E8]/40 hover:border-[#00D5E8] text-[#00D5E8] text-xs font-medium transition shadow-sm cursor-pointer"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-[#0E3B4F] to-[#0A2E44] border border-[#00D5E8]/40 hover:border-[#00D5E8] text-[#00D5E8] text-xs font-medium transition shadow-sm cursor-pointer"
             >
               <span className="material-symbols-outlined text-sm">auto_awesome</span>
-              <span>Transit AI</span>
+              <span className="hidden xs:inline">Transit AI</span>
             </button>
 
             {/* City Indicator */}
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0E1726]/60 border border-[#1A283B] text-xs text-slate-300">
+            <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0E1726]/60 border border-[#1A283B] text-xs text-slate-300">
               <span className="material-symbols-outlined text-[#00D5E8] text-sm">location_on</span>
               <span className="text-white font-medium">Mumbai, MH</span>
             </div>
 
-            <div className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#0E1726]/60 border border-[#1A283B] text-xs text-slate-300">
+            <div className="hidden md:flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#0E1726]/60 border border-[#1A283B] text-xs text-slate-300">
               <span>EN</span>
             </div>
           </div>
@@ -253,7 +254,9 @@ export default function ExploreMetroLinesPage() {
         <main className="flex-1 flex overflow-hidden">
           {/* LEFT COLUMN: Metro Line Directory */}
           <section
-            className="w-[380px] lg:w-[420px] shrink-0 border-r border-[#141F30] bg-[#070B12] flex flex-col justify-between overflow-y-auto p-5 scrollbar-hide"
+            className={`w-full md:w-[380px] lg:w-[420px] shrink-0 border-r border-[#141F30] bg-[#070B12] flex-col justify-between overflow-y-auto p-4 sm:p-5 scrollbar-hide pb-20 md:pb-5 ${
+              mobileView === "detail" ? "hidden md:flex" : "flex"
+            }`}
             data-purpose="lines-directory"
           >
             <div>
@@ -281,7 +284,10 @@ export default function ExploreMetroLinesPage() {
                   return (
                     <div
                       key={line.id}
-                      onClick={() => setSelectedLineId(line.id)}
+                      onClick={() => {
+                        setSelectedLineId(line.id);
+                        setMobileView("detail");
+                      }}
                       className={`p-3.5 rounded-xl cursor-pointer transition relative ${
                         isSelected
                           ? "bg-[#0F1B2B] border-2 border-[#00D5E8] shadow-md shadow-cyan-900/20"
@@ -388,9 +394,22 @@ export default function ExploreMetroLinesPage() {
           {/* RIGHT COLUMN: Line Detail Panel */}
           {selectedLine ? (
             <section
-              className="flex-1 flex flex-col bg-[#070B12] overflow-y-auto p-5 space-y-4 scrollbar-hide"
+              className={`flex-1 flex-col bg-[#070B12] overflow-y-auto p-4 sm:p-5 space-y-4 scrollbar-hide pb-24 md:pb-5 ${
+                mobileView === "list" ? "hidden md:flex" : "flex"
+              }`}
               data-purpose="line-detail-panel"
             >
+              {/* Mobile Back Button to Directory */}
+              <div className="md:hidden flex items-center justify-between pb-2 border-b border-[#18283E]">
+                <button
+                  onClick={() => setMobileView("list")}
+                  className="flex items-center gap-1.5 text-xs text-[#00D5E8] font-semibold py-1.5 px-3 rounded-lg bg-[#0E1B2B] border border-cyan-500/30 hover:bg-[#14263B] transition cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-sm">arrow_back</span>
+                  <span>Back to all lines</span>
+                </button>
+                <span className="text-xs font-bold text-slate-400">{selectedLine.badge}</span>
+              </div>
               {/* Header Banner Card */}
               <div
                 className="bg-[#0D1625] border border-[#18283E] rounded-2xl p-5 shadow-lg relative overflow-hidden"

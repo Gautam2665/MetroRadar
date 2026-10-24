@@ -20,6 +20,7 @@ export function Sidebar() {
     { label: "Explore", href: "/", icon: "explore" },
     { label: "Plan", href: "/plan", icon: "route" },
     { label: "Lines", href: "/lines", icon: "alt_route" },
+    { label: "Stations", href: "/stations", icon: "location_city" },
     { label: "Live", href: "/network", icon: "sensors" },
   ];
 
@@ -86,15 +87,15 @@ export function Sidebar() {
         </div>
       </aside>
 
-      {/* Mobile BottomNavBar: 4 Native Tabs (Map, Plan, Lines, Telemetry) */}
-      <nav className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-[#080E18]/95 backdrop-blur-2xl border-t border-[#141F30] md:hidden shadow-xl pb-safe">
+      {/* Mobile BottomNavBar: 5 Native Tabs with Safe Area Inset Support */}
+      <nav className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center min-h-[64px] bg-[#080E18]/95 backdrop-blur-2xl border-t border-[#141F30] md:hidden shadow-xl pb-safe">
         {mobileNavItems.map((item) => {
           const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
           return (
             <Link
               key={item.label}
               href={item.href}
-              className={`flex flex-col items-center justify-center w-1/4 h-full transition-colors ${
+              className={`flex flex-col items-center justify-center flex-1 h-full py-2 transition-colors ${
                 isActive ? "text-[#00D5E8]" : "text-slate-400 hover:text-slate-200"
               }`}
             >

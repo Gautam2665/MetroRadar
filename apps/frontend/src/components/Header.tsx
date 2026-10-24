@@ -112,7 +112,7 @@ export function Header({ activeCity = "mumbai", onCityChange: _onCityChange, onS
         </div>
       </div>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-2 sm:gap-6 shrink-0">
         {/* Live Weather — 15-minute cache */}
         <div className="flex items-center gap-2 hidden sm:flex">
           <span className="material-symbols-outlined text-[#fec931] text-[20px]">{weather.icon}</span>
@@ -137,7 +137,7 @@ export function Header({ activeCity = "mumbai", onCityChange: _onCityChange, onS
         </button>
 
         {/* City Indicator (Locked to Mumbai, MH) */}
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#c3f5ff] text-[13px] font-semibold">
+        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#c3f5ff] text-[13px] font-semibold">
           <span className="material-symbols-outlined text-sm text-[#00e5ff]">location_on</span>
           <span>Mumbai, MH</span>
         </div>

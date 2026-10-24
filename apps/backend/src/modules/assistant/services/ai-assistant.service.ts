@@ -160,18 +160,30 @@ export class AiAssistantService {
     }
 
     // 2. Deterministic Rule & Regex Fallback (works offline with zero keys)
-    return await this.processWithRuleFallback(trimmed, cityHint);
+    try {
+      return await this.processWithRuleFallback(trimmed, cityHint);
+    } catch (fallbackErr: unknown) {
+      const errMsg = fallbackErr instanceof Error ? fallbackErr.message : String(fallbackErr);
+      this.logger.error(`Rule fallback failed: ${errMsg}`);
+      return {
+        reply: "I couldn't process your request right now. Please try searching for station names directly.",
+        uiPayload: {
+          cardType: 'error',
+          data: { error: errMsg },
+        },
+      };
+    }
   }
 
   /**
-   * Gemini 2.0 Flash Tool-Calling Engine
+   * Gemini Flash Tool-Calling Engine
    */
   private async processWithGemini(
     userMessage: string,
     cityHint?: string,
     history: ChatMessage[] = [],
   ): Promise<AssistantChatResponse> {
-    const model = 'gemini-2.0-flash';
+    const model = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
 
     // Format chat contents
     const contents: Array<{ role: string; parts: Array<{ text?: string }> }> =

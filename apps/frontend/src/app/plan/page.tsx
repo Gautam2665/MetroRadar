@@ -373,17 +373,17 @@ function JourneyPlannerContent() {
       <div className="flex-1 flex flex-col md:ml-16 h-full overflow-hidden relative">
         {/* Top Header — Aligned exactly with /stations and /lines */}
         <header
-          className="h-16 border-b border-[#1F2E43] bg-[#090F19] px-6 flex items-center justify-between shrink-0 gap-6 z-30"
+          className="h-16 border-b border-[#1F2E43] bg-[#090F19] px-3 sm:px-6 flex items-center justify-between shrink-0 gap-2 sm:gap-6 z-30 overflow-x-hidden"
           data-purpose="top-header"
         >
           {/* Search Input */}
-          <div className="relative w-96 max-w-md">
+          <div className="relative flex-1 max-w-[200px] sm:max-w-xs md:w-96">
             <span className="material-symbols-outlined w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">
               search
             </span>
             <input
               className="w-full bg-[#101A27] border border-[#1F2E43] rounded-lg pl-9 pr-4 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-[#00D5E8]/70 focus:ring-1 focus:ring-[#00D5E8] transition"
-              placeholder="Search station name, code or line..."
+              placeholder="Search station or line..."
               type="text"
               value={headerSearch}
               onChange={(e) => setHeaderSearch(e.target.value)}
@@ -397,34 +397,32 @@ function JourneyPlannerContent() {
           </div>
 
           {/* Top Right Controls & Badges */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-[#101A27] border border-[#1F2E43] px-3 py-1.5 rounded-lg text-xs">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <div className="hidden sm:flex items-center gap-2 bg-[#101A27] border border-[#1F2E43] px-3 py-1.5 rounded-lg text-xs">
               <span className="material-symbols-outlined text-amber-400 text-sm">wb_sunny</span>
               <div>
                 <span className="font-bold text-white text-xs">33°C</span>
-                <span className="text-[10px] text-slate-400 ml-1">Mumbai, MH</span>
+                <span className="text-[10px] text-slate-400 ml-1">Mumbai</span>
               </div>
             </div>
 
             <button
               onClick={toggleAssistant}
-              className="flex items-center gap-1.5 bg-[#101A27] hover:bg-[#152335] border border-cyan-500/30 text-[#00D5E8] px-3 py-1.5 rounded-lg text-xs font-semibold shadow-[0_0_10px_rgba(0,229,255,0.15)] transition cursor-pointer"
+              className="flex items-center gap-1.5 bg-[#101A27] hover:bg-[#152335] border border-cyan-500/30 text-[#00D5E8] px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold shadow-[0_0_10px_rgba(0,229,255,0.15)] transition cursor-pointer"
             >
               <span className="material-symbols-outlined text-[15px]">auto_awesome</span>
-              <span>Transit AI</span>
+              <span className="hidden xs:inline">Transit AI</span>
             </button>
 
             {/* City Selector (Locked strictly to Mumbai, MH) */}
-            <div className="flex items-center gap-1.5 bg-[#101A27] border border-[#1F2E43] px-3 py-1.5 rounded-lg text-xs text-slate-200">
+            <div className="hidden md:flex items-center gap-1.5 bg-[#101A27] border border-[#1F2E43] px-3 py-1.5 rounded-lg text-xs text-slate-200">
               <span className="material-symbols-outlined text-[#00D5E8] text-sm">location_on</span>
               <span className="font-medium text-white">Mumbai, MH</span>
             </div>
 
-            <div className="flex items-center gap-1.5 bg-[#101A27] border border-[#1F2E43] px-2.5 py-1.5 rounded-lg text-xs text-slate-200">
+            <div className="hidden md:flex items-center gap-1.5 bg-[#101A27] border border-[#1F2E43] px-2.5 py-1.5 rounded-lg text-xs text-slate-200">
               <span>EN</span>
             </div>
-
-
           </div>
         </header>
 
@@ -455,15 +453,26 @@ function JourneyPlannerContent() {
 
           {/* Top Floating Journey Planner Input Bar — High z-index (z-40 / z-50) so it never gets blocked */}
           <div
-            className={`absolute top-5 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-2 max-w-[95vw] transition-all duration-200 ${
+            className={`absolute top-3 sm:top-5 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-2 w-full max-w-[calc(100vw-20px)] sm:max-w-max px-2 transition-all duration-200 ${
               showOriginSuggestions || showDestSuggestions ? "z-50" : "z-40"
             }`}
           >
-            <div className="flex flex-wrap md:flex-nowrap items-center bg-[#0C1522]/95 backdrop-blur-md border border-[#1E2E44] rounded-2xl p-2 shadow-[0_12px_32px_rgba(0,0,0,0.6)] gap-2.5">
+            {/* Backdrop click-away for mobile suggestions */}
+            {(showOriginSuggestions || showDestSuggestions) && (
+              <div
+                className="fixed inset-0 z-40 md:hidden bg-black/20"
+                onClick={() => {
+                  setShowOriginSuggestions(false);
+                  setShowDestSuggestions(false);
+                }}
+              />
+            )}
+
+            <div className="relative z-50 flex flex-col md:flex-row items-stretch md:items-center bg-[#0C1522]/95 backdrop-blur-md border border-[#1E2E44] rounded-2xl p-2 shadow-[0_12px_32px_rgba(0,0,0,0.6)] gap-2 sm:gap-2.5 w-full">
               {/* Origin Input with Google Places Geocoding */}
               <div
                 ref={originWrapperRef}
-                className="relative flex items-center bg-[#131F2E] border border-[#1F3147] hover:border-slate-500 focus-within:border-[#00D5E8] rounded-xl px-3.5 py-2 w-[280px] sm:w-[320px] space-x-3 transition"
+                className="relative flex items-center bg-[#131F2E] border border-[#1F3147] hover:border-slate-500 focus-within:border-[#00D5E8] rounded-xl px-3.5 py-2 w-full md:w-[260px] lg:w-[300px] space-x-3 transition shrink-0"
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0 shadow-[0_0_8px_rgba(0,230,118,0.7)]" />
                 <div className="flex-1 text-left min-w-0">
@@ -482,7 +491,7 @@ function JourneyPlannerContent() {
                       setShowOriginSuggestions(true);
                       if (originInput.trim().length >= 2) searchOriginPlaces(originInput);
                     }}
-                    placeholder="Station, landmark, street (e.g. Oberoi Mall)..."
+                    placeholder="Station, landmark (e.g. Ghatkopar)..."
                   />
                 </div>
                 {originInput && (
@@ -501,7 +510,7 @@ function JourneyPlannerContent() {
 
                 {/* Autocomplete Suggestions Dropdown — Google Maps Style */}
                 {showOriginSuggestions && (originSearchLoading || originSearchResults.length > 0) && (
-                  <div className="absolute left-0 top-full mt-2 w-full min-w-[380px] sm:min-w-[440px] bg-[#0E1825]/98 backdrop-blur-md border border-[#1E2E44] rounded-2xl shadow-2xl py-1 z-50 max-h-80 overflow-y-auto scrollbar-hide">
+                  <div className="absolute left-0 top-full mt-2 w-full min-w-0 max-w-[calc(100vw-36px)] md:w-[380px] bg-[#0E1825]/98 backdrop-blur-md border border-[#1E2E44] rounded-2xl shadow-2xl py-1 z-50 max-h-60 sm:max-h-80 overflow-y-auto scrollbar-hide">
                     {originSearchLoading ? (
                       <div className="px-4 py-3 text-xs text-slate-400 flex items-center gap-2.5">
                         <span className="w-3.5 h-3.5 border-2 border-[#00E5FF] border-t-transparent rounded-full animate-spin inline-block" />
@@ -526,7 +535,7 @@ function JourneyPlannerContent() {
               {/* Swap Locations Button */}
               <button
                 onClick={handleSwap}
-                className="w-9 h-9 rounded-xl bg-[#142131] border border-[#20344C] hover:bg-[#1A2C42] text-gray-300 flex items-center justify-center transition cursor-pointer"
+                className="self-center md:self-auto w-8 h-8 md:w-9 md:h-9 rounded-xl bg-[#142131] border border-[#20344C] hover:bg-[#1A2C42] text-gray-300 flex items-center justify-center transition cursor-pointer shrink-0"
                 title="Swap stations"
               >
                 <span className="material-symbols-outlined text-sm text-[#00E5FF]">sync_alt</span>
@@ -535,7 +544,7 @@ function JourneyPlannerContent() {
               {/* Destination Input with Google Places Geocoding */}
               <div
                 ref={destWrapperRef}
-                className="relative flex items-center bg-[#131F2E] border border-[#1F3147] hover:border-slate-500 focus-within:border-[#00D5E8] rounded-xl px-3.5 py-2 w-[280px] sm:w-[320px] space-x-3 transition"
+                className="relative flex items-center bg-[#131F2E] border border-[#1F3147] hover:border-slate-500 focus-within:border-[#00D5E8] rounded-xl px-3.5 py-2 w-full md:w-[260px] lg:w-[300px] space-x-3 transition shrink-0"
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-[#FF477E] shrink-0 shadow-[0_0_8px_rgba(255,71,126,0.7)]" />
                 <div className="flex-1 text-left min-w-0">
@@ -554,7 +563,7 @@ function JourneyPlannerContent() {
                       setShowDestSuggestions(true);
                       if (destInput.trim().length >= 2) searchDestPlaces(destInput);
                     }}
-                    placeholder="Station, landmark, street (e.g. BKC, Airport)..."
+                    placeholder="Station, landmark (e.g. Versova)..."
                   />
                 </div>
                 {destInput && (
@@ -573,7 +582,7 @@ function JourneyPlannerContent() {
 
                 {/* Autocomplete Suggestions Dropdown — Google Maps Style */}
                 {showDestSuggestions && (destSearchLoading || destSearchResults.length > 0) && (
-                  <div className="absolute left-0 top-full mt-2 w-full min-w-[380px] sm:min-w-[440px] bg-[#0E1825]/98 backdrop-blur-md border border-[#1E2E44] rounded-2xl shadow-2xl py-1 z-50 max-h-80 overflow-y-auto scrollbar-hide">
+                  <div className="absolute left-0 top-full mt-2 w-full min-w-0 max-w-[calc(100vw-36px)] md:w-[380px] bg-[#0E1825]/98 backdrop-blur-md border border-[#1E2E44] rounded-2xl shadow-2xl py-1 z-50 max-h-60 sm:max-h-80 overflow-y-auto scrollbar-hide">
                     {destSearchLoading ? (
                       <div className="px-4 py-3 text-xs text-slate-400 flex items-center gap-2.5">
                         <span className="w-3.5 h-3.5 border-2 border-[#00E5FF] border-t-transparent rounded-full animate-spin inline-block" />
@@ -599,7 +608,7 @@ function JourneyPlannerContent() {
               <button
                 onClick={planJourney}
                 disabled={loading}
-                className="bg-[#00E5FF] hover:bg-cyan-300 disabled:opacity-50 text-slate-950 px-5 py-3 rounded-xl font-bold text-xs flex items-center space-x-2 transition shadow-[0_0_18px_rgba(0,229,255,0.4)] cursor-pointer"
+                className="w-full md:w-auto bg-[#00E5FF] hover:bg-cyan-300 disabled:opacity-50 text-slate-950 px-5 py-2.5 sm:py-3 rounded-xl font-bold text-xs flex items-center justify-center space-x-2 transition shadow-[0_0_18px_rgba(0,229,255,0.4)] cursor-pointer shrink-0"
               >
                 <span>{loading ? "Planning..." : "Plan journey"}</span>
                 <span className="material-symbols-outlined text-xs">arrow_forward</span>
@@ -616,7 +625,7 @@ function JourneyPlannerContent() {
           {/* Suggested Journeys Floating Panel */}
           {candidates.length > 0 && (
             <div
-              className={`absolute bottom-6 left-6 w-[360px] sm:w-[460px] z-20 flex flex-col justify-end pointer-events-none transition-all duration-300 ${
+              className={`absolute bottom-20 left-3 right-3 md:bottom-6 md:left-6 md:right-auto md:w-[460px] z-30 max-h-[55vh] flex flex-col justify-end pointer-events-none transition-all duration-300 ${
                 showOriginSuggestions || showDestSuggestions
                   ? "opacity-20 pointer-events-none scale-[0.98]"
                   : "opacity-100"

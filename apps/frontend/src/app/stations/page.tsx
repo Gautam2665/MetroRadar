@@ -91,6 +91,7 @@ export default function StationExplorerPage() {
   const [selectedLineFilter, setSelectedLineFilter] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isStarred, setIsStarred] = useState(false);
+  const [mobileView, setMobileView] = useState<"list" | "detail">("list");
 
   // Purely dynamic generation from backend GTFS / database stations
   const mumbaiStations: StationDetail[] = useMemo(() => {
@@ -352,17 +353,17 @@ export default function StationExplorerPage() {
       <div className="flex-1 flex flex-col md:ml-16 h-full overflow-hidden">
         {/* Top Header */}
         <header
-          className="h-16 border-b border-[#1F2E43] bg-[#090F19] px-6 flex items-center justify-between shrink-0 gap-6 z-20"
+          className="h-16 border-b border-[#1F2E43] bg-[#090F19] px-3 sm:px-6 flex items-center justify-between shrink-0 gap-2 sm:gap-6 z-20 overflow-x-hidden"
           data-purpose="top-header"
         >
           {/* Search Input */}
-          <div className="relative w-96 max-w-md">
+          <div className="relative flex-1 max-w-[200px] sm:max-w-xs md:w-96">
             <span className="material-symbols-outlined w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">
               search
             </span>
             <input
               className="w-full bg-[#101A27] border border-[#1F2E43] rounded-lg pl-9 pr-4 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-[#00D5E8]/70 focus:ring-1 focus:ring-[#00D5E8] transition"
-              placeholder="Search station name, code or line..."
+              placeholder="Search station or line..."
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -370,34 +371,32 @@ export default function StationExplorerPage() {
           </div>
 
           {/* Top Right Badges */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-[#101A27] border border-[#1F2E43] px-3 py-1.5 rounded-lg text-xs">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <div className="hidden sm:flex items-center gap-2 bg-[#101A27] border border-[#1F2E43] px-3 py-1.5 rounded-lg text-xs">
               <span className="material-symbols-outlined text-amber-400 text-sm">wb_sunny</span>
               <div>
                 <span className="font-bold text-white text-xs">33°C</span>
-                <span className="text-[10px] text-slate-400 ml-1">Mumbai, MH</span>
+                <span className="text-[10px] text-slate-400 ml-1">Mumbai</span>
               </div>
             </div>
 
             <button
               onClick={toggleAssistant}
-              className="flex items-center gap-1.5 bg-[#101A27] hover:bg-[#152335] border border-cyan-500/30 text-[#00D5E8] px-3 py-1.5 rounded-lg text-xs font-semibold shadow-[0_0_10px_rgba(0,229,255,0.15)] transition cursor-pointer"
+              className="flex items-center gap-1.5 bg-[#101A27] hover:bg-[#152335] border border-cyan-500/30 text-[#00D5E8] px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold shadow-[0_0_10px_rgba(0,229,255,0.15)] transition cursor-pointer"
             >
               <span className="material-symbols-outlined text-[15px]">auto_awesome</span>
-              <span>Transit AI</span>
+              <span className="hidden xs:inline">Transit AI</span>
             </button>
 
             {/* City Selector (Locked to Mumbai, MH) */}
-            <div className="flex items-center gap-1.5 bg-[#101A27] border border-[#1F2E43] px-3 py-1.5 rounded-lg text-xs text-slate-200">
+            <div className="hidden md:flex items-center gap-1.5 bg-[#101A27] border border-[#1F2E43] px-3 py-1.5 rounded-lg text-xs text-slate-200">
               <span className="material-symbols-outlined text-[#00D5E8] text-sm">location_on</span>
               <span className="font-medium text-white">Mumbai, MH</span>
             </div>
 
-            <div className="flex items-center gap-1.5 bg-[#101A27] border border-[#1F2E43] px-2.5 py-1.5 rounded-lg text-xs text-slate-200">
+            <div className="hidden md:flex items-center gap-1.5 bg-[#101A27] border border-[#1F2E43] px-2.5 py-1.5 rounded-lg text-xs text-slate-200">
               <span>EN</span>
             </div>
-
-
           </div>
         </header>
 
@@ -405,7 +404,9 @@ export default function StationExplorerPage() {
         <div className="flex-1 flex overflow-hidden">
           {/* LEFT COLUMN: Station Directory */}
           <section
-            className="w-[380px] lg:w-[430px] border-r border-[#1F2E43] flex flex-col bg-[#070B12] shrink-0"
+            className={`w-full md:w-[380px] lg:w-[430px] border-r border-[#1F2E43] flex-col bg-[#070B12] shrink-0 pb-20 md:pb-0 ${
+              mobileView === "detail" ? "hidden md:flex" : "flex"
+            }`}
             data-purpose="station-directory-column"
           >
             {/* Header & Filters */}
@@ -526,7 +527,10 @@ export default function StationExplorerPage() {
                 return (
                   <div
                     key={station.id}
-                    onClick={() => setSelectedStationId(station.id)}
+                    onClick={() => {
+                      setSelectedStationId(station.id);
+                      setMobileView("detail");
+                    }}
                     className={`p-3 rounded-xl flex items-center justify-between cursor-pointer transition ${
                       isSelected
                         ? "bg-[#111D2D] border-2 border-[#00D5E8]/80 shadow-[0_0_15px_rgba(0,229,255,0.1)]"
@@ -581,9 +585,22 @@ export default function StationExplorerPage() {
           {/* RIGHT COLUMN: Station Inspector */}
           {activeStation ? (
             <main
-              className="flex-1 flex flex-col bg-[#070B12] overflow-y-auto scrollbar-hide"
+              className={`flex-1 flex-col bg-[#070B12] overflow-y-auto scrollbar-hide pb-24 md:pb-0 ${
+                mobileView === "list" ? "hidden md:flex" : "flex"
+              }`}
               data-purpose="station-inspector-details"
             >
+              {/* Mobile Back Button to Directory */}
+              <div className="md:hidden flex items-center justify-between p-3 border-b border-[#1F2E43] bg-[#0A131F] shrink-0">
+                <button
+                  onClick={() => setMobileView("list")}
+                  className="flex items-center gap-1.5 text-xs text-[#00D5E8] font-semibold py-1.5 px-3 rounded-lg bg-[#111D2D] border border-cyan-500/30 hover:bg-[#18283E] transition cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-sm">arrow_back</span>
+                  <span>Back to stations</span>
+                </button>
+                <span className="text-xs font-bold text-slate-300 truncate max-w-[160px]">{activeStation.name}</span>
+              </div>
               {/* Inspector Top Header: Station Title & Badges */}
               <div className="p-6 pb-4 border-b border-[#1F2E43]/60 shrink-0">
                 <div className="flex flex-col lg:flex-row items-start justify-between gap-4">

@@ -18,6 +18,17 @@
   --color-brand-subtext: #8E9EB5;
 }
 
+/* Mobile Safe Area Insets for iOS & Android / Capacitor */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+}
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.mb-safe {
+  margin-bottom: env(safe-area-inset-bottom, 16px);
+}
+
 /* Stitch Visual Effects */
 .hero-glow-text {
   background: linear-gradient(135deg, #00D5E8 0%, #3B82F6 50%, #A855F7 100%);
