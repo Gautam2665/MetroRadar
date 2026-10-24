@@ -312,14 +312,13 @@ export class JourneyService {
     const minDist = nearbyStations[0]?.distanceMeters ?? 0;
 
     // Relative Proximity Feeder Cutoff:
-    // Snaps to candidate stations on distinct transit lines within a reasonable feeder distance
-    // of the closest station. When an immediate feeder exists (<1.5km), limits candidate line reach
-    // to ~1.9km so distant cross-town stations (e.g. Andheri West / D.N. Nagar at 2.6km for Irla)
-    // are not attached when Andheri (1.4km) and Gundavali (1.36km) already serve the locality.
-    const maxFeederCutoff = Math.max(
-      1500,
-      Math.min(minDist + 750, minDist * 1.4),
-    );
+    // When an immediate feeder station is very close (<600m), limit candidate reach so distant
+    // cross-corridor stations (e.g. Andheri West at 1.25km when Versova is right next door at 200m)
+    // are not chosen over immediate neighborhood access.
+    const maxFeederCutoff =
+      minDist < 600
+        ? Math.min(minDist + 400, 800)
+        : Math.max(1200, Math.min(minDist + 750, minDist * 1.4));
 
     const closestPerLine = new Map<
       string,
@@ -975,11 +974,9 @@ export class JourneyService {
 
       const legs = await this.buildLegs(path, lineMap, stationMap, false);
 
-      // ── Attach First-Mile Leg if origin is a landmark with direct FOB / access ──
+      // ── Attach First-Mile Leg if origin is a landmark / POI / coordinate ──
       if (
         fromEndpoint.landmark &&
-        (fromEndpoint.landmark.hasDirectFob ||
-          fromEndpoint.landmark.hasDirectAccess) &&
         (originAttachment.gate.walkTimeSeconds > 0 ||
           originAttachment.gate.walkDistanceMeters > 0 ||
           originAttachment.gate.corridorNote)
@@ -1028,11 +1025,9 @@ export class JourneyService {
         legs.unshift(accessLeg);
       }
 
-      // ── Attach Last-Mile Leg if destination is a landmark with direct FOB / access ──
+      // ── Attach Last-Mile Leg if destination is a landmark / POI / coordinate ──
       if (
         toEndpoint.landmark &&
-        (toEndpoint.landmark.hasDirectFob ||
-          toEndpoint.landmark.hasDirectAccess) &&
         (destAttachment.gate.walkTimeSeconds > 0 ||
           destAttachment.gate.walkDistanceMeters > 0 ||
           destAttachment.gate.corridorNote)
@@ -1230,6 +1225,20 @@ export class JourneyService {
 
       candidateOriginalPaths.set(id, path);
 
+      const totalWalkingMeters =
+        legs
+          .filter(
+            (l) => l.type === EdgeType.WALK || l.type === EdgeType.TRANSFER,
+          )
+          .reduce(
+            (sum, l) =>
+              sum +
+              (l.distanceMeters ||
+                l.transferDetails?.pathwayDistanceMeters ||
+                0),
+            0,
+          ) || totalPathwayMeters;
+
       const candidateObj: EnrichedCandidate = {
         id,
         rank: 0,
@@ -1243,7 +1252,7 @@ export class JourneyService {
         walkingSeconds,
         waiting,
         transfers: journeyScore.transfers,
-        walkingDistanceMeters: totalPathwayMeters,
+        walkingDistanceMeters: totalWalkingMeters,
         legs,
         stations: orderedStations,
         geojson: { type: 'FeatureCollection', features: [] },
