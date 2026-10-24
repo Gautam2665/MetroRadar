@@ -118,10 +118,20 @@ function NetworkContent() {
   // Dynamic Headway calculation based on IST and active fleet size
   const headwayInfo = useMemo(() => {
     if (realtimeLoading && vehicles.length === 0) {
-      return { text: "Estimating Headway...", isClosed: false };
+      return { text: "Synchronizing Telemetry...", isClosed: false };
     }
     if (vehicles.length === 0) {
-      return { text: "Service Resumes ~05:30", isClosed: true };
+      const now = new Date();
+      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      const ist = new Date(utc + 5.5 * 3600000);
+      const hour = ist.getHours();
+      const mins = ist.getMinutes();
+      const currentMins = hour * 60 + mins;
+      const isOffPeak = currentMins >= 23 * 60 + 30 || currentMins < 5 * 60 + 30;
+      if (isOffPeak) {
+        return { text: "Service Resumes ~05:30 AM", isClosed: true };
+      }
+      return { text: "Regular Scheduled Service (~6-8 min)", isClosed: false };
     }
     const now = new Date();
     const utc = now.getTime() + now.getTimezoneOffset() * 60000;
@@ -526,7 +536,9 @@ function NetworkContent() {
                       {realtimeLoading && vehicles.length === 0
                         ? "Contacting transit telemetry ingest service to stream real-time train positions and delays..."
                         : vehicles.length === 0
-                        ? "Revenue passenger service has concluded for the night. Real-time train telemetry and live platform ETAs will resume during morning operating hours (~05:30 IST)."
+                        ? headwayInfo.isClosed
+                          ? "Revenue passenger service has concluded for the day. Regular service resumes during morning operating hours (~05:30 IST)."
+                          : "Regular passenger schedule active. Awaiting real-time telemetry signals from operational train sets."
                         : "Tap any station circle on the map to inspect live platform ETAs, crowd levels, concourse layout, and exit gates."}
                     </p>
                   </div>
@@ -539,7 +551,7 @@ function NetworkContent() {
                       </h3>
                       {vehicles.length === 0 && !realtimeLoading && (
                         <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400/80 border border-amber-500/20">
-                          Night Curfew
+                          Off-Peak Standby
                         </span>
                       )}
                     </div>

@@ -100,7 +100,16 @@ function countVehiclesForCorridor(
   }).length;
 }
 
-function computeMumbaiCurfew() {
+function getServiceStatusInfo(vehiclesCount: number, loading: boolean) {
+  if (loading && vehiclesCount === 0) {
+    return {
+      isOffPeak: false,
+      badgeText: "Connecting",
+      badgeColor: "cyan",
+      displayText: "Synchronizing fleet telemetry...",
+    };
+  }
+
   const now = new Date();
   const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
   const istMs = utcMs + 5.5 * 3600000;
@@ -110,22 +119,47 @@ function computeMumbaiCurfew() {
   const mins = istDate.getMinutes();
   const currentMins = hours * 60 + mins;
 
-  const curfewStart = 23 * 60 + 30; // 23:30
-  const curfewEnd = 5 * 60 + 30;    // 05:30
+  const offPeakStart = 23 * 60 + 30; // 23:30
+  const offPeakEnd = 5 * 60 + 30;    // 05:30
 
-  const isCurfew = currentMins >= curfewStart || currentMins < curfewEnd;
-  let minsLeft = 0;
-  if (currentMins >= curfewStart) {
-    minsLeft = 24 * 60 - currentMins + curfewEnd;
-  } else {
-    minsLeft = curfewEnd - currentMins;
+  const isOffPeak = currentMins >= offPeakStart || currentMins < offPeakEnd;
+
+  if (isOffPeak) {
+    let minsLeft = 0;
+    if (currentMins >= offPeakStart) {
+      minsLeft = 24 * 60 - currentMins + offPeakEnd;
+    } else {
+      minsLeft = offPeakEnd - currentMins;
+    }
+    const h = Math.floor(minsLeft / 60);
+    const m = minsLeft % 60;
+    return {
+      isOffPeak: true,
+      badgeText: "Off-Peak Standby",
+      badgeColor: "amber",
+      displayText: `Service resumes in ${h > 0 ? `${h}h ` : ""}${m}m (~05:30 AM)`,
+    };
   }
 
-  const h = Math.floor(minsLeft / 60);
-  const m = minsLeft % 60;
-  const countdownText = `⏳ First train in ${h > 0 ? `${h}h ` : ""}${m}m (Line 1 Ghatkopar)`;
+  const isPeak =
+    (currentMins >= 8 * 60 + 30 && currentMins <= 11 * 60 + 30) ||
+    (currentMins >= 17 * 60 + 30 && currentMins <= 20 * 60 + 30);
 
-  return { isCurfew, countdownText, hoursLeft: h, minsLeft: m };
+  if (vehiclesCount > 0) {
+    return {
+      isOffPeak: false,
+      badgeText: "Operational",
+      badgeColor: "emerald",
+      displayText: isPeak ? "Peak Headway: ~4–6 min" : "Headway: ~6–8 min",
+    };
+  }
+
+  return {
+    isOffPeak: false,
+    badgeText: "Scheduled",
+    badgeColor: "blue",
+    displayText: isPeak ? "Peak Schedule: ~4–6 min" : "Regular Scheduled Headway (~6–8 min)",
+  };
 }
 
 interface UnifiedTransitWorkspaceProps {
@@ -182,7 +216,6 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
 
   const [mobileSheetState, setMobileSheetState] = useState<"peek" | "mid" | "expanded">("peek");
   const [showProfilePopover, setShowProfilePopover] = useState(false);
-  const [curfewStatus, setCurfewStatus] = useState(computeMumbaiCurfew);
   const [weatherTemp, setWeatherTemp] = useState<number | null>(null);
   const [weatherCode, setWeatherCode] = useState<number | null>(null);
 
@@ -202,12 +235,6 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
     };
   }, []);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurfewStatus(computeMumbaiCurfew());
-    }, 30000);
-    return () => clearInterval(timer);
-  }, []);
 
   const originWrapperRef = useRef<HTMLDivElement>(null);
   const destWrapperRef = useRef<HTMLDivElement>(null);
@@ -521,43 +548,26 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
     }
   }, [searchParams, planJourney]);
 
-  // Dynamic Headway calculation based on IST time-of-day and live telemetry fleet
-  const headwayInfo = useMemo(() => {
-    if (realtimeLoading && (!vehicles || vehicles.length === 0)) {
-      return { text: "Estimating Headway...", isClosed: false };
-    }
-    if (!vehicles || vehicles.length === 0) {
-      return { text: "Service Resumes ~05:30 IST", isClosed: true };
-    }
+  // Dynamic service window & headway calculation based on IST time-of-day and live telemetry fleet
+  const serviceStatus = useMemo(() => {
+    return getServiceStatusInfo(vehicles?.length || 0, realtimeLoading);
+  }, [vehicles?.length, realtimeLoading]);
 
-    // Determine current IST time
-    const now = new Date();
-    const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
-    const istDate = new Date(utcMs + 5.5 * 3600000);
-    const totalMins = istDate.getHours() * 60 + istDate.getMinutes();
+  // Real dynamic punctuality computed from live vehicle telemetry delay distribution
+  const networkPunctuality = useMemo(() => {
+    if (realtimeLoading && (!vehicles || vehicles.length === 0)) return "Syncing...";
+    if (!vehicles || vehicles.length === 0) return "Schedule Norm";
+    const onTimeCount = vehicles.filter((v) => v.status === "On Time" || (v.delayMins ?? 0) <= 3).length;
+    const pct = Math.round((onTimeCount / vehicles.length) * 100);
+    return `${pct}% On-Time`;
+  }, [vehicles, realtimeLoading]);
 
-    // Night Curfew (23:30 - 05:30 IST)
-    if (totalMins >= 23 * 60 + 30 || totalMins < 5 * 60 + 30) {
-      return { text: "Service Resumes ~05:30 IST", isClosed: true };
-    }
-
-    // Morning Peak: 08:30 - 11:30 | Evening Peak: 17:30 - 20:30
-    const isPeak =
-      (totalMins >= 8 * 60 + 30 && totalMins <= 11 * 60 + 30) ||
-      (totalMins >= 17 * 60 + 30 && totalMins <= 20 * 60 + 30);
-
-    if (isPeak) {
-      return { text: "Headway: ~4 - 6 min (Peak)", isClosed: false };
-    }
-
-    // Late Evening (20:30 - 23:30) or Early Morning (05:30 - 08:30)
-    if (totalMins > 20 * 60 + 30 || totalMins < 8 * 60 + 30) {
-      return { text: "Headway: ~6 - 10 min", isClosed: false };
-    }
-
-    // Standard Non-Peak Daytime (11:30 - 17:30)
-    return { text: "Headway: ~6 - 8 min", isClosed: false };
-  }, [realtimeLoading, vehicles]);
+  // Real dynamic telemetry status
+  const telemetryStatus = useMemo(() => {
+    if (realtimeLoading && (!vehicles || vehicles.length === 0)) return "Connecting...";
+    if (!vehicles || vehicles.length === 0) return "Standby";
+    return `${vehicles.length} Units Active`;
+  }, [vehicles, realtimeLoading]);
 
   // Dynamic Corridors with real fleet telemetry
   const corridors = useMemo(() => {
@@ -1138,24 +1148,24 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
               <span className="text-xs text-slate-400 ml-1.5 font-medium">Trains on Track</span>
             </div>
             <span className="text-xs font-semibold text-[#00E5FF]">
-              {!vehicles || vehicles.length === 0 ? curfewStatus.countdownText : headwayInfo.text}
+              {serviceStatus.displayText}
             </span>
           </div>
 
-          {/* Real-time Network Metrics replacing instructional filler copy */}
+          {/* Real-time Network Metrics dynamically calculated from telemetry stream */}
           <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/5">
             <div className="p-2 rounded-lg bg-[#080E18] border border-white/5">
               <div className="text-[10px] text-slate-400 font-medium">Network Punctuality</div>
               <div className="text-sm font-bold text-emerald-400 flex items-center gap-1 mt-0.5">
                 <span className="material-symbols-outlined text-xs">verified</span>
-                <span>98.4%</span>
+                <span>{networkPunctuality}</span>
               </div>
             </div>
             <div className="p-2 rounded-lg bg-[#080E18] border border-white/5">
               <div className="text-[10px] text-slate-400 font-medium">Live Telemetry</div>
               <div className="text-sm font-bold text-[#00E5FF] flex items-center gap-1 mt-0.5">
                 <span className="material-symbols-outlined text-xs">sensors</span>
-                <span>5s Lock</span>
+                <span>{telemetryStatus}</span>
               </div>
             </div>
           </div>
@@ -1618,15 +1628,25 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
                 <span className="text-[11px] font-bold uppercase tracking-wider text-white">
                   Transit Inspector
                 </span>
-                {vehicles && vehicles.length > 0 ? (
+                {realtimeLoading && (!vehicles || vehicles.length === 0) ? (
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-[#00E5FF] border border-cyan-500/30 flex items-center gap-1 shrink-0 ml-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#00E5FF] animate-pulse" />
+                    Connecting
+                  </span>
+                ) : vehicles && vehicles.length > 0 ? (
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1 shrink-0 ml-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
                     Operational
                   </span>
-                ) : (
+                ) : serviceStatus.isOffPeak ? (
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center gap-1 shrink-0 ml-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                    Night Curfew
+                    Off-Peak Standby
+                  </span>
+                ) : (
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 flex items-center gap-1 shrink-0 ml-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                    Scheduled Service
                   </span>
                 )}
               </div>
@@ -1684,15 +1704,25 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
                 <span className="text-xs font-bold text-white uppercase tracking-wider">Fleet Status</span>
               </div>
               <div className="flex items-center gap-2">
-                {vehicles && vehicles.length > 0 ? (
+                {realtimeLoading && (!vehicles || vehicles.length === 0) ? (
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-[#00E5FF] border border-cyan-500/30 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#00E5FF] animate-pulse" />
+                    Connecting Fleet
+                  </span>
+                ) : vehicles && vehicles.length > 0 ? (
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
                     {vehicles.length} Active Trains
                   </span>
-                ) : (
+                ) : serviceStatus.isOffPeak ? (
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                    Night Curfew
+                    Off-Peak Standby
+                  </span>
+                ) : (
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                    Scheduled Service
                   </span>
                 )}
                 <span className="material-symbols-outlined text-slate-400 text-sm">
@@ -1700,14 +1730,14 @@ export function UnifiedTransitWorkspace({ initialMode = "default" }: UnifiedTran
                 </span>
               </div>
             </div>
-            {/* Dynamic Curfew Countdown / Headway Ticker & Crowdsource Pill */}
+            {/* Dynamic Status / Headway Ticker & Telemetry Pill */}
             <div className="mt-1.5 flex items-center justify-between text-[11px]">
               <span className="text-slate-400 truncate">
-                {!vehicles || vehicles.length === 0 ? curfewStatus.countdownText : headwayInfo.text}
+                {serviceStatus.displayText}
               </span>
               <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/10 text-[#00E5FF] border border-cyan-500/30 shrink-0 ml-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#00E5FF] animate-pulse" />
-                Live Telemetry: 5s Pings
+                {realtimeLoading ? "Syncing Fleet" : vehicles && vehicles.length > 0 ? `Live Feed: ${vehicles.length} Trains` : "Telemetry Standby"}
               </span>
             </div>
           </div>
