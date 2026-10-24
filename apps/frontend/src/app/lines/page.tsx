@@ -44,11 +44,12 @@ function getLineBadge(code: string, name?: string): string {
   return code || "Metro";
 }
 
-function formatTimeStr(timeStr?: string, fallback: string = "06:00 AM"): string {
+function formatTimeStr(timeStr?: string, fallback: string = "—"): string {
   if (!timeStr) return fallback;
   const parts = timeStr.split(":");
   if (parts.length < 2) return timeStr;
   let hours = parseInt(parts[0], 10);
+  if (isNaN(hours)) return fallback;
   const minutes = parts[1];
   if (hours >= 24) hours = hours - 24;
   const ampm = hours >= 12 ? "PM" : "AM";
@@ -70,57 +71,67 @@ export default function ExploreMetroLinesPage() {
   const linesList: MetroLineData[] = useMemo(() => {
     if (!apiLines || apiLines.length === 0) return [];
 
-    return apiLines.map((line) => {
-      const code = line.code || line.id;
-      const colorHex = line.color || "#059DB2";
-      const badge = getLineBadge(code, line.name);
-      const rawStations = line.stations || [];
+    return apiLines
+      .filter((line) => (line.stations && line.stations.length > 0) || (line.stationsCount && line.stationsCount > 0))
+      .map((line) => {
+        const code = line.code || line.id;
+        const colorHex = line.color || "#059DB2";
+        const badge = getLineBadge(code, line.name);
+        const rawStations = line.stations || [];
 
-      const firstStation = rawStations[0]?.name || "Origin";
-      const lastStation = rawStations[rawStations.length - 1]?.name || "Destination";
-      const routeTitle = `${firstStation} ↔ ${lastStation}`;
+        const firstStation = rawStations[0]?.name;
+        const lastStation = rawStations[rawStations.length - 1]?.name;
+        const routeTitle =
+          firstStation && lastStation && firstStation !== lastStation
+            ? `${firstStation} ↔ ${lastStation}`
+            : firstStation || line.name;
 
-      const stations: MetroLineStation[] = rawStations.map((st, idx) => {
-        const isTerminal = idx === 0 || idx === rawStations.length - 1;
-        const badges = (st.interchanges || []).map((ic) => ({
-          text: getLineBadge(ic.code, ic.name),
-          bg: ic.color || "#1E293B",
-          color: "#FFFFFF",
-          colorHex: ic.color || "#00D5E8",
-        }));
+        const stations: MetroLineStation[] = rawStations.map((st, idx) => {
+          const isTerminal = idx === 0 || idx === rawStations.length - 1;
+          const badges = (st.interchanges || []).map((ic) => ({
+            text: getLineBadge(ic.code, ic.name),
+            bg: ic.color || "#1E293B",
+            color: "#FFFFFF",
+            colorHex: ic.color || "#00D5E8",
+          }));
+
+          return {
+            name: st.name,
+            isTerminal,
+            interchangeBadges: badges.length > 0 ? badges : undefined,
+          };
+        });
+
+        const lengthKm = line.lengthKm ? `${line.lengthKm} km` : "—";
+        const travelTime = line.travelTimeMinutes ? `~${line.travelTimeMinutes} mins` : "—";
+        const firstTrain = formatTimeStr(line.firstTrain, "05:30 AM");
+        const lastTrain = formatTimeStr(line.lastTrain, "11:30 PM");
+
+        const description =
+          firstStation && lastStation && firstStation !== lastStation
+            ? `${line.name} connects ${firstStation} and ${lastStation} across ${stations.length || line.stationsCount || 0} stations with high-frequency transit.`
+            : `${line.name} serving ${stations.length || line.stationsCount || 0} stations with high-frequency transit.`;
 
         return {
-          name: st.name,
-          isTerminal,
-          interchangeBadges: badges.length > 0 ? badges : undefined,
+          id: line.id || code,
+          code,
+          name: line.name || `Line ${code}`,
+          badge,
+          color: colorHex,
+          status: "Operational",
+          statusColor: "emerald",
+          route: routeTitle,
+          stationsCount: stations.length || line.stationsCount || 0,
+          lengthKm,
+          travelTime,
+          description,
+          firstTrain,
+          lastTrain,
+          peakFrequency: "4–6 mins",
+          offPeakFrequency: "8–12 mins",
+          stations,
         };
       });
-
-      const lengthKm = line.lengthKm ? `${line.lengthKm} km` : "—";
-      const travelTime = line.travelTimeMinutes ? `~${line.travelTimeMinutes} mins` : "—";
-      const firstTrain = formatTimeStr(line.firstTrain, "05:30 AM");
-      const lastTrain = formatTimeStr(line.lastTrain, "11:30 PM");
-
-      return {
-        id: line.id || code,
-        code,
-        name: line.name || `Line ${code}`,
-        badge,
-        color: colorHex,
-        status: "Operational",
-        statusColor: "emerald",
-        route: routeTitle,
-        stationsCount: stations.length || line.stationsCount || 0,
-        lengthKm,
-        travelTime,
-        description: `${line.name} connects ${firstStation} and ${lastStation} across ${stations.length || line.stationsCount || 0} stations with high-frequency transit.`,
-        firstTrain,
-        lastTrain,
-        peakFrequency: "4–6 mins",
-        offPeakFrequency: "8–12 mins",
-        stations,
-      };
-    });
   }, [apiLines]);
 
   // Selected line instance

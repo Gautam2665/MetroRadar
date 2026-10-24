@@ -23,12 +23,12 @@ interface CorridorDef {
 }
 
 const MUMBAI_CORRIDORS: CorridorDef[] = [
-  { code: "LINE1", searchKey: "Line 1", name: "Line 1 (Blue)", route: "Versova ↔ Ghatkopar", color: "#00A3E0", defaultStns: 12 },
-  { code: "LINE2A", searchKey: "Line 2A", name: "Line 2A (Yellow)", route: "Dahisar (E) ↔ Andheri (W)", color: "#F59E0B", defaultStns: 17 },
-  { code: "LINE3", searchKey: "Line 3", name: "Line 3 (Aqua)", route: "Aarey JVLR ↔ BKC", color: "#00C49F", defaultStns: 10 },
-  { code: "LINE7", searchKey: "Line 7", name: "Line 7 (Red)", route: "Dahisar (E) ↔ Gundavali", color: "#EF4444", defaultStns: 14 },
-  { code: "LINE2B", searchKey: "Line 2B", name: "Line 2B (Yellow Phase 2)", route: "Mandale Depot ↔ Chembur", color: "#F0C800", defaultStns: 5 },
-  { code: "MONORAIL", searchKey: "Monorail", name: "Monorail", route: "Chembur ↔ Sant Gadge Maharaj Chowk", color: "#14B8A6", defaultStns: 17 },
+  { code: "LINE1", searchKey: "Line 1", name: "Line 1 (Blue)", route: "Versova ↔ Ghatkopar", color: "#007DC5", defaultStns: 12 },
+  { code: "LINE2A", searchKey: "Line 2A", name: "Line 2A (Yellow)", route: "Dahisar (E) ↔ Andheri (W)", color: "#FACC15", defaultStns: 17 },
+  { code: "LINE3", searchKey: "Line 3", name: "Line 3 (Aqua)", route: "Aarey JVLR ↔ Cuffe Parade", color: "#059DB2", defaultStns: 27 },
+  { code: "LINE7", searchKey: "Line 7", name: "Line 7 (Red)", route: "Kashigaon ↔ Gundavali", color: "#E31E24", defaultStns: 17 },
+  { code: "LINE2B", searchKey: "Line 2B", name: "Line 2B (Yellow Phase 2)", route: "Mandale Depot ↔ Chembur", color: "#F0C800", defaultStns: 6 },
+  { code: "MONORAIL", searchKey: "Monorail", name: "Monorail", route: "Sant Gadge Maharaj Chowk ↔ Chembur", color: "#7C3AED", defaultStns: 17 },
 ];
 
 function countVehiclesForCorridor(
