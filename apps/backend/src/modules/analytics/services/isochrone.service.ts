@@ -234,6 +234,16 @@ export class IsochroneService {
             )
           : 0;
 
+      const densityKmPerSqKm =
+        euclideanAreaSqKm > 0
+          ? parseFloat(((totalLengthMeters / 1000.0) / euclideanAreaSqKm).toFixed(2))
+          : 0;
+
+      const dataCompleteness: 'VALIDATED_URBAN_GRID' | 'LOCAL_STATION_ENVELOPE_ONLY' =
+        reachedEdgeIds.length < 10 || densityKmPerSqKm < 2.0
+          ? 'LOCAL_STATION_ENVELOPE_ONLY'
+          : 'VALIDATED_URBAN_GRID';
+
       isochrones.push({
         minutes: m,
         seconds: targetSeconds,
@@ -245,6 +255,8 @@ export class IsochroneService {
         euclideanRadiusMeters,
         euclideanAreaSqKm,
         severanceRatio,
+        dataCompleteness,
+        densityKmPerSqKm,
         polygonGeoJson,
         reachedEdgesGeoJson: {
           type: 'FeatureCollection',
@@ -313,10 +325,15 @@ export class IsochroneService {
       is_elevated_fob: boolean;
       has_tactile_paving: boolean;
       lit: boolean | null;
+      source_type: string;
+      study_area: string | null;
+      level: string | null;
+      tags: any;
       geojson: string;
     }> = await this.prisma.$queryRawUnsafe(`
       SELECT id, osm_id, highway_type, surface, length_meters, traversal_time_seconds,
              is_crossing, is_elevated_fob, has_tactile_paving, lit,
+             source_type, study_area, level, tags,
              ST_AsGeoJSON(geom) as geojson
       FROM pedestrian_network
       ${whereClause};
@@ -330,6 +347,17 @@ export class IsochroneService {
       totalLengthM += Number(r.length_meters);
       if (r.is_elevated_fob) elevatedFobCount++;
       if (r.is_crossing) crossingsCount++;
+
+      const isProvisional = r.source_type === 'PROVISIONAL_SYNTHESIZED';
+      let confidence = 1.0;
+      if (isProvisional) {
+        try {
+          const parsedTags = typeof r.tags === 'string' ? JSON.parse(r.tags) : r.tags;
+          confidence = parsedTags?.confidence ?? 0.85;
+        } catch {
+          confidence = 0.85;
+        }
+      }
 
       return {
         type: 'Feature' as const,
@@ -345,6 +373,11 @@ export class IsochroneService {
           isElevatedFob: r.is_elevated_fob,
           hasTactilePaving: r.has_tactile_paving,
           lit: r.lit,
+          sourceType: r.source_type,
+          studyArea: r.study_area,
+          isProvisional,
+          confidence,
+          level: r.level,
         },
       };
     });

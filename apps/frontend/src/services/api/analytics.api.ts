@@ -9,6 +9,8 @@ export interface CatchmentIsochrone {
   euclideanRadiusMeters: number;
   euclideanAreaSqKm: number;
   severanceRatio: number;
+  dataCompleteness?: 'VALIDATED_URBAN_GRID' | 'LOCAL_STATION_ENVELOPE_ONLY';
+  densityKmPerSqKm?: number;
   polygonGeoJson: any | null;
   reachedEdgesGeoJson?: any | null;
 }
@@ -56,6 +58,11 @@ export interface PedestrianNetworkGeoJson {
       isElevatedFob: boolean;
       hasTactilePaving: boolean;
       lit: boolean | null;
+      sourceType?: string;
+      studyArea?: string | null;
+      isProvisional?: boolean;
+      confidence?: number;
+      level?: string | null;
     };
   }>;
   metadata: {
