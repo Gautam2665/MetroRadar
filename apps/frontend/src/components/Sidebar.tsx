@@ -14,7 +14,6 @@ export function Sidebar() {
     { label: "Explore Lines", href: "/lines", icon: "alt_route" },
     { label: "Explore Stations", href: "/stations", icon: "location_city" },
     { label: "Live Radar", href: "/network", icon: "sensors" },
-    { label: "Intelligence", href: "/analytics", icon: "analytics" },
   ];
 
   const mobileNavItems = [
@@ -23,7 +22,6 @@ export function Sidebar() {
     { label: "Lines", href: "/lines", icon: "alt_route" },
     { label: "Stations", href: "/stations", icon: "location_city" },
     { label: "Live", href: "/network", icon: "sensors" },
-    { label: "Analytics", href: "/analytics", icon: "analytics" },
   ];
 
   return (
@@ -74,8 +72,23 @@ export function Sidebar() {
           })}
         </nav>
 
-        {/* System Specs & Info Trigger */}
-        <div className="flex flex-col items-center">
+        {/* Bottom Utility: Mobility Intelligence Workbench & System Info */}
+        <div className="flex flex-col items-center space-y-2">
+          <Link
+            href="/analytics"
+            className={`group relative w-10 h-10 rounded-xl flex items-center justify-center transition cursor-pointer ${
+              pathname.startsWith("/analytics")
+                ? "bg-amber-500/10 text-amber-400 border border-amber-500/30"
+                : "text-slate-400 hover:text-amber-400 hover:bg-slate-800/60"
+            }`}
+            title="TransitOS Mobility Intelligence"
+          >
+            <span className="material-symbols-outlined text-[20px]">analytics</span>
+            <span className="absolute left-14 px-2.5 py-1 bg-[#0D1522]/98 border border-[#1F2E44] text-xs font-semibold text-white rounded-lg shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 whitespace-nowrap">
+              TransitOS Mobility Intelligence
+            </span>
+          </Link>
+
           <button
             onClick={openInfoModal}
             className="group relative w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-[#00D5E8] hover:bg-slate-800/60 transition cursor-pointer"
