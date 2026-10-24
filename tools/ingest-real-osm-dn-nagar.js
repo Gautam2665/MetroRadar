@@ -92,12 +92,12 @@ async function run() {
 
   // Supplementary MMRDA Interchange Skywalk Connector:
   // Starts exactly at D.N. Nagar Footbridge landing: node 12319820407 [72.8310809, 19.1283359]
-  // Terminates exactly at Andheri West Concourse Walkway: node 14197852601 [72.831371, 19.1299161]
+  // Terminates directly at Andheri West Concourse / Gate 1: node 14197852601 [72.8310650, 19.1293390]
+  // Aligned along the western sidewalk viaduct of New Link Road without northern platform overshoot.
   const skywalkCoords = [
-    [72.8310809, 19.1283359], // Node 12319820407 (D.N. Nagar Footbridge East Landing)
-    [72.8311500, 19.1288000], // North along western sidewalk viaduct alignment
-    [72.8312800, 19.1294000], // Mid-span FOB
-    [72.8313710, 19.1299161], // Node 14197852601 (Andheri West Concourse Walkway Entry)
+    [72.8310809, 19.1283359], // Node 12319820407 (D.N. Nagar Footbridge East Landing at J.P. Rd junction)
+    [72.8310700, 19.1288390], // Mid-span FOB passing Andheri West Gate 2 South Entrance
+    [72.8310650, 19.1293390], // Node 14197852601 (Andheri West Concourse Landing at Gate 1)
   ];
   const skywalkLength = parseFloat(calculateLineLengthMeters(skywalkCoords).toFixed(2));
   const skywalkWalkTime = parseFloat((skywalkLength / 1.2).toFixed(1));
