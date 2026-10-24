@@ -7,15 +7,20 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { IsochroneService } from '../services/isochrone.service';
+import { PedestrianRoutingService } from '../services/pedestrian-routing.service';
 import {
   PedestrianNetworkGeoJson,
   StationCatchmentResult,
 } from '../interfaces/catchment.interface';
+import { PedestrianRouteResult } from '../interfaces/pedestrian-routing.interface';
 
 @ApiTags('Mobility Analytics & Geospatial Intelligence')
 @Controller(['api/v1/analytics', 'analytics'])
 export class AnalyticsController {
-  constructor(private readonly isochroneService: IsochroneService) {}
+  constructor(
+    private readonly isochroneService: IsochroneService,
+    private readonly routingService: PedestrianRoutingService,
+  ) {}
 
   @Get('stations/:id/catchment')
   @ApiOperation({
@@ -74,5 +79,43 @@ export class AnalyticsController {
     @Query('bbox') bbox?: string,
   ): Promise<PedestrianNetworkGeoJson> {
     return this.isochroneService.getPedestrianNetworkGeoJson(bbox);
+  }
+
+  @Get('pedestrian/route')
+  @ApiOperation({
+    summary: 'Point-to-Point Pedestrian Routing',
+    description:
+      'Calculates shortest walking path between two station entrance gates along verified OSM footways, stairs, and governed supplementary skywalk connections.',
+  })
+  @ApiQuery({
+    name: 'fromEntrance',
+    description: 'Origin entrance ID or name substring',
+    example: 'D. N. Nagar Gate 1',
+  })
+  @ApiQuery({
+    name: 'toEntrance',
+    description: 'Destination entrance ID or name substring',
+    example: 'Andheri (West) Gate 1',
+  })
+  @ApiQuery({
+    name: 'allowProvisional',
+    required: false,
+    description: 'Allow provisional MMRDA supplementary connector links',
+    example: true,
+  })
+  @ApiResponse({
+    status: 200,
+    description:
+      'Detailed point-to-point pedestrian itinerary and GeoJSON LineString',
+  })
+  async getPedestrianRoute(
+    @Query('fromEntrance') fromEntrance: string,
+    @Query('toEntrance') toEntrance: string,
+    @Query('allowProvisional') allowProvisionalQuery?: string,
+  ): Promise<PedestrianRouteResult> {
+    const allowProvisional = allowProvisionalQuery !== 'false';
+    return this.routingService.route(fromEntrance, toEntrance, {
+      allowProvisional,
+    });
   }
 }

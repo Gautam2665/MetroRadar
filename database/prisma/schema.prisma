@@ -714,6 +714,12 @@ model PedestrianNetwork {
   isElevatedFob        Boolean                                @default(false) @map("is_elevated_fob")
   hasTactilePaving     Boolean                                @default(false) @map("has_tactile_paving")
   lit                  Boolean?
+  access               String?                                @default("public") @db.VarChar(32)
+  sourceType           String                                 @default("OSM_OFFICIAL") @map("source_type") @db.VarChar(64)
+  studyArea            String?                                @map("study_area") @db.VarChar(64)
+  tags                 Json?
+  isIndoor             Boolean                                @default(false) @map("is_indoor")
+  level                String?                                @db.VarChar(16)
   city                 String                                 @default("mumbai") @db.VarChar(64)
   isActive             Boolean                                @default(true) @map("is_active")
   createdAt            DateTime                               @default(now()) @map("created_at") @db.Timestamptz
