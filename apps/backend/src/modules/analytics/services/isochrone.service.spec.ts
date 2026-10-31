@@ -112,12 +112,52 @@ describe('IsochroneService', () => {
       );
     });
 
-    it('should compute catchment isochrones with valid network areas and severance ratio', async () => {
+    it('should return precomputed catchment isochrones when available in database', async () => {
       prisma.station.findFirst.mockResolvedValue(mockStation);
 
-      // First query is local pedestrian edges
-      // Subsequent queries are PostGIS polygon unifications for 5 and 10 min
+      prisma.$queryRawUnsafe.mockResolvedValueOnce([
+        {
+          interval_minutes: 5,
+          travel_time_seconds: 300,
+          area_sq_km: 0.035,
+          reached_edges_count: 2,
+          barrier_severance_index: 0.42,
+          polygon_geojson: JSON.stringify({
+            type: 'MultiPolygon',
+            coordinates: [],
+          }),
+        },
+        {
+          interval_minutes: 10,
+          travel_time_seconds: 600,
+          area_sq_km: 0.08,
+          reached_edges_count: 5,
+          barrier_severance_index: 0.35,
+          polygon_geojson: JSON.stringify({
+            type: 'MultiPolygon',
+            coordinates: [],
+          }),
+        },
+      ]);
+
+      const result = await service.getStationCatchment('Gundavali', [5, 10]);
+
+      expect(result).toBeDefined();
+      expect(result.station.name).toBe('Gundavali');
+      expect(result.isochrones).toHaveLength(2);
+      expect(result.isochrones[0].minutes).toBe(5);
+      expect(result.isochrones[0].networkAreaSqKm).toBe(0.035);
+      expect(result.isochrones[0].severanceRatio).toBe(0.42);
+    });
+
+    it('should compute catchment isochrones with valid network areas and severance ratio when not precomputed', async () => {
+      prisma.station.findFirst.mockResolvedValue(mockStation);
+
+      // Call 1: Check precomputed station_isochrones (empty -> fallback)
+      // Call 2: local pedestrian edges
+      // Calls 3 & 4: PostGIS polygon unifications for 5 and 10 min
       prisma.$queryRawUnsafe
+        .mockResolvedValueOnce([])
         .mockResolvedValueOnce(mockLocalEdges)
         .mockResolvedValueOnce([
           {

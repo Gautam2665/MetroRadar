@@ -8,7 +8,10 @@ import { DatabaseService } from '../src/database/database.service';
 import * as fs from 'fs';
 import * as path from 'path';
 
-describe('Ingestion Controller (e2e)', () => {
+const isCloudDb = process.env.DATABASE_URL?.includes('supabase') || process.env.DATABASE_URL?.includes('pooler');
+const describeSuite = (isCloudDb && process.env.ALLOW_DESTRUCTIVE_E2E !== 'true') ? describe.skip : describe;
+
+describeSuite('Ingestion Controller (e2e)', () => {
   let app: INestApplication<App>;
   let prisma: DatabaseService;
   let systemId: string;

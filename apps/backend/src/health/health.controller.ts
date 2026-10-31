@@ -37,23 +37,46 @@ export class HealthController {
   }
 
   private async checkRedis(): Promise<boolean> {
+    const redisUrl = this.configService.get<string>('REDIS_URL');
     const host = this.configService.get<string>('REDIS_HOST', 'localhost');
     const port = this.configService.get<number>('REDIS_PORT', 6379);
 
-    const redis = new Redis({
-      host,
-      port,
-      connectTimeout: 1000,
-      maxRetriesPerRequest: 1,
-    });
-
+    let redis: Redis | null = null;
     try {
+      if (redisUrl) {
+        redis = new Redis(redisUrl, {
+          connectTimeout: 1500,
+          maxRetriesPerRequest: 1,
+          lazyConnect: true,
+          retryStrategy: () => null,
+          tls: redisUrl.startsWith('rediss://')
+            ? { rejectUnauthorized: false }
+            : undefined,
+        });
+      } else {
+        redis = new Redis({
+          host,
+          port,
+          connectTimeout: 1500,
+          maxRetriesPerRequest: 1,
+          lazyConnect: true,
+          retryStrategy: () => null,
+        });
+      }
+
+      await redis.connect();
       const pong = await redis.ping();
       return pong === 'PONG';
     } catch {
       return false;
     } finally {
-      redis.disconnect();
+      if (redis) {
+        try {
+          redis.disconnect();
+        } catch {
+          // ignore disconnect error
+        }
+      }
     }
   }
 }
