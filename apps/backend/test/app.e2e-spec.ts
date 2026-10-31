@@ -20,6 +20,13 @@ describe('AppController (e2e)', () => {
     await app.close();
   });
 
+  it('/ (GET) - should redirect root to /docs Swagger UI', async () => {
+    await request(app.getHttpServer())
+      .get('/')
+      .expect(302)
+      .expect('Location', '/docs');
+  });
+
   it('/health (GET) - should return health status schema', async () => {
     const response = await request(app.getHttpServer()).get('/health');
 
