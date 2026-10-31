@@ -501,9 +501,53 @@ export class SearchService {
 
               const closestStn = sortedStations[0];
               const isWalking = closestDistM <= 1200;
-              const distDisplay = isWalking
-                ? `~${closestDistM}m walk`
-                : `~${(closestDistM / 1000).toFixed(1)} km via Auto/Bus`;
+
+              let isochroneInfo: {
+                intervalMinutes: number;
+                stationName: string;
+                severanceIndex: number | null;
+              } | null = null;
+
+              try {
+                const isochroneMatch = await this.prisma.$queryRawUnsafe<
+                  Array<{
+                    station_id: string;
+                    station_name: string;
+                    interval_minutes: number;
+                    barrier_severance_index: number | null;
+                  }>
+                >(
+                  `
+                  SELECT si.station_id, st.name as station_name, si.interval_minutes, si.barrier_severance_index
+                  FROM station_isochrones si
+                  JOIN stations st ON st.id = si.station_id
+                  WHERE ST_Contains(si.geom, ST_SetSRID(ST_MakePoint($1, $2), 4326))
+                  ORDER BY si.interval_minutes ASC
+                  LIMIT 1;
+                  `,
+                  lon,
+                  lat,
+                );
+                if (isochroneMatch && isochroneMatch.length > 0) {
+                  isochroneInfo = {
+                    intervalMinutes: isochroneMatch[0].interval_minutes,
+                    stationName: isochroneMatch[0].station_name,
+                    severanceIndex: isochroneMatch[0].barrier_severance_index,
+                  };
+                }
+              } catch {
+                // Isochrone spatial check fallback
+              }
+
+              const distDisplay = isochroneInfo
+                ? `~${isochroneInfo.intervalMinutes} min walk (Isochrone Verified)`
+                : isWalking
+                  ? `~${closestDistM}m walk`
+                  : `~${(closestDistM / 1000).toFixed(1)} km via Auto/Bus`;
+
+              const corridorNote = isochroneInfo
+                ? `Within ${isochroneInfo.intervalMinutes}-min pedestrian catchment of ${isochroneInfo.stationName} (BSI: ${isochroneInfo.severanceIndex ?? '0.50'})`
+                : `Multi-corridor transit access (${distDisplay})`;
 
               const placeId = `${lat.toFixed(5)},${lon.toFixed(5)}`;
 
@@ -535,7 +579,13 @@ export class SearchService {
                       name: placeName,
                       address: item.address || 'Mumbai, Maharashtra',
                       walkDistanceMeters: closestDistM,
-                      corridorNote: `Multi-corridor transit access (${distDisplay})`,
+                      walkTimeSeconds: isochroneInfo
+                        ? isochroneInfo.intervalMinutes * 60
+                        : Math.round(closestDistM / 1.2),
+                      isochroneMinutes: isochroneInfo?.intervalMinutes,
+                      isochroneVerified: Boolean(isochroneInfo),
+                      barrierSeveranceIndex: isochroneInfo?.severanceIndex,
+                      corridorNote,
                       indoorLevel: 'Street Level',
                     },
                   },

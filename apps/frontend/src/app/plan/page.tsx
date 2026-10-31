@@ -514,7 +514,7 @@ function JourneyPlannerContent() {
                     {originSearchLoading ? (
                       <div className="px-4 py-3 text-xs text-slate-400 flex items-center gap-2.5">
                         <span className="w-3.5 h-3.5 border-2 border-[#00E5FF] border-t-transparent rounded-full animate-spin inline-block" />
-                        <span>Searching Google Maps & transit index...</span>
+                        <span>Searching TransitOS & city index...</span>
                       </div>
                     ) : (
                       originSearchResults.map((s: StationSearchResult) => {
@@ -586,7 +586,7 @@ function JourneyPlannerContent() {
                     {destSearchLoading ? (
                       <div className="px-4 py-3 text-xs text-slate-400 flex items-center gap-2.5">
                         <span className="w-3.5 h-3.5 border-2 border-[#00E5FF] border-t-transparent rounded-full animate-spin inline-block" />
-                        <span>Searching Google Maps & transit index...</span>
+                        <span>Searching TransitOS & city index...</span>
                       </div>
                     ) : (
                       destSearchResults.map((s: StationSearchResult) => {
