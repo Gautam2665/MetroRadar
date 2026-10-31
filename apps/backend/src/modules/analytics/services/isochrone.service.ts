@@ -73,6 +73,102 @@ export class IsochroneService {
       );
     }
 
+    // 0. Check precomputed isochrones in station_isochrones table
+    try {
+      const storedRows: Array<{
+        interval_minutes: number;
+        travel_time_seconds: number;
+        area_sq_km: number;
+        reached_edges_count: number;
+        barrier_severance_index: number | null;
+        polygon_geojson: string | null;
+      }> = await this.prisma.$queryRawUnsafe(`
+        SELECT interval_minutes, travel_time_seconds, area_sq_km,
+               reached_edges_count, barrier_severance_index,
+               ST_AsGeoJSON(geom) as polygon_geojson
+        FROM station_isochrones
+        WHERE (station_id = '${station.id}' OR station_code = '${station.code}')
+          AND interval_minutes = ANY(ARRAY[${minutesList.join(',')}]::int[])
+        ORDER BY interval_minutes ASC;
+      `);
+
+      if (storedRows && storedRows.length > 0) {
+        const isochrones: CatchmentIsochrone[] = storedRows.map((r) => {
+          const targetSeconds = r.travel_time_seconds || r.interval_minutes * 60;
+          const euclideanRadiusMeters = targetSeconds * 1.2;
+          const euclideanAreaSqKm = parseFloat(
+            ((Math.PI * Math.pow(euclideanRadiusMeters, 2)) / 1000000.0).toFixed(4),
+          );
+          const networkAreaSqKm = Number(r.area_sq_km || 0);
+          const bsi = r.barrier_severance_index !== null ? Number(r.barrier_severance_index) : undefined;
+          const severanceRatio =
+            bsi !== undefined
+              ? bsi
+              : euclideanAreaSqKm > 0
+                ? parseFloat(
+                    Math.max(0, Math.min(1, 1 - networkAreaSqKm / euclideanAreaSqKm)).toFixed(3),
+                  )
+                : 0;
+
+          return {
+            minutes: r.interval_minutes,
+            seconds: targetSeconds,
+            reachedEdgesCount: r.reached_edges_count || 0,
+            walkableNetworkLengthKm: parseFloat(
+              ((r.reached_edges_count || 0) * 0.05).toFixed(2),
+            ),
+            networkAreaSqKm,
+            euclideanRadiusMeters: Math.round(euclideanRadiusMeters),
+            euclideanAreaSqKm,
+            severanceRatio,
+            dataCompleteness: 'VALIDATED_URBAN_GRID',
+            polygonGeoJson: r.polygon_geojson ? JSON.parse(r.polygon_geojson) : null,
+          };
+        });
+
+        return {
+          station: {
+            id: station.id,
+            name: station.name,
+            code: station.code,
+            latitude: station.latitude,
+            longitude: station.longitude,
+            activeEntrancesCount: station.entrances.length,
+            connectedEntrancesCount: station.entrances.filter(
+              (e) => e.snappedNodeId !== null,
+            ).length,
+            connectivityPercent:
+              station.entrances.length > 0
+                ? Math.round(
+                    (station.entrances.filter((e) => e.snappedNodeId !== null).length /
+                      station.entrances.length) *
+                      100,
+                  )
+                : 100,
+            entrances: station.entrances.map((e) => ({
+              id: e.id,
+              name: e.name,
+              latitude: e.latitude,
+              longitude: e.longitude,
+              snappedNodeId: e.snappedNodeId ? e.snappedNodeId.toString() : null,
+              snapDistanceMeters: e.snapDistanceMeters,
+              isConnected: e.snappedNodeId !== null,
+            })),
+          },
+          metadata: {
+            pedestrianSpeedMs: 1.2,
+            impedanceModel: 'PostGIS Precomputed BSI Surface',
+            bufferWidthMeters: 35,
+            algorithm: 'Multi-Source Dijkstra + Alpha Shape / BSI Precomputation',
+            calculationTimestamp: new Date().toISOString(),
+          },
+          isochrones,
+        };
+      }
+    } catch (err) {
+      this.logger.warn(`Failed reading precomputed isochrones for ${station.code}: ${err.message}`);
+    }
+
     // 1. Fetch local pedestrian edges within 1,500 meters of the station centroid
     const localEdges: LocalEdgeRecord[] = await this.prisma.$queryRawUnsafe(`
       SELECT id, osm_id, highway_type, surface, length_meters, traversal_time_seconds,

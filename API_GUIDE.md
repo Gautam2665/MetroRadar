@@ -10,14 +10,15 @@ This document describes the HTTP API exposed by the TransitOS backend. The API i
 ## Table of Contents
 
 1. [Response Conventions](#1-response-conventions)
-2. [Map & GIS Layers](#2-map--gis-layers)
-3. [Spatial Search](#3-spatial-search)
-4. [Station Digital Twin](#4-station-digital-twin)
-5. [Journey Planning & Routing](#5-journey-planning--routing)
-6. [Realtime Vehicle Telemetry](#6-realtime-vehicle-telemetry)
-7. [GTFS Ingestion](#7-gtfs-ingestion)
-8. [Cache Invalidation Policy](#8-cache-invalidation-policy)
-9. [Routing Parameter Sensitivity](#9-routing-parameter-sensitivity)
+2. [Standardized Transit Data API (v1)](#2-standardized-transit-data-api-v1)
+3. [Map & GIS Layers](#3-map--gis-layers)
+4. [Spatial Search](#4-spatial-search)
+5. [Station Digital Twin](#5-station-digital-twin)
+6. [Journey Planning & Routing](#6-journey-planning--routing)
+7. [Realtime Vehicle Telemetry](#7-realtime-vehicle-telemetry)
+8. [GTFS Ingestion](#8-gtfs-ingestion)
+9. [Cache Invalidation Policy](#9-cache-invalidation-policy)
+10. [Routing Parameter Sensitivity](#10-routing-parameter-sensitivity)
 
 ---
 
@@ -65,7 +66,41 @@ All endpoints returning realtime or estimated data include provenance metadata:
 
 ---
 
-## 2. Map & GIS Layers
+## 2. Standardized Transit Data API (v1)
+
+These endpoints provide developers and researchers with direct, versioned access to the Canonical Transit Model (CTM v1.0).
+
+### `GET /api/v1/networks`
+Discovers all active transit operating systems with geographic boundaries, line counts, and Trust Tiers.
+* **Response**: `{ version, count, data: [{ systemCode, name, city, linesCount, stationsCount, trustTier }] }`
+
+### `GET /api/v1/corridors`
+Retrieves metro and rail lines with traction, signalling, length, line color, and ordered station sequences.
+* **Query Params**: `?systemCode=MMRDA` (or `MM`, `PUNE`, `NAGPUR`)
+* **Response**: `{ version, count, data: [{ code, name, color, systemCode, stationsCount, stations: [...] }] }`
+
+### `GET /api/v1/stations`
+Queries station locations and attributes.
+* **Query Params**: `?lineCode=LINE7`, `?systemCode=MMRDA`
+* **Response**: `{ version, count, data: [{ code, name, latitude, longitude, wheelchairAccessible, parking, entranceCount, servingLines: [...] }] }`
+
+### `GET /api/v1/stations/:id`
+Retrieves full composite station layout, multi-level concourses/platforms, calibrated gates, amenities, and commercial spaces.
+* **Params**: `:id` (UUID or Station Code, e.g. `STN_L7_014`)
+* **Response**: Station digital twin record.
+
+### `GET /api/v1/interchanges`
+Returns verified physical platform-to-platform transfer pairs across intersecting transit lines.
+* **Response**: `{ version, count, data: [{ fromStation, toStation, walkingDistanceMeters, walkingTimeSeconds, verticalMovement, accessible }] }`
+* **Example**: Western Express Highway (Line 1) $\leftrightarrow$ Gundavali (Line 7) ($288\text{ m}$ walk, $240\text{ s}$, grade-separated skywalk).
+
+### `GET /api/v1/datasets`
+Searchable transit data catalogue, live data lineage, feed SHA256 hashes, licenses (OGL-India, ODbL, TDSE), and trust tiers.
+* **Response**: `{ version, schemaVersion, rolloutWaves, datasetsCount, datasets: [...], liveLineage: [...], pedestrianNetworkAudit: {...} }`
+
+---
+
+## 3. Map & GIS Layers
 
 ### `GET /map/layers`
 

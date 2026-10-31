@@ -35,9 +35,26 @@ async function bootstrap() {
 
   // Configure Swagger documentation
   const config = new DocumentBuilder()
-    .setTitle('MetroRadar API')
-    .setDescription('Urban Mobility Intelligence Platform API Documentation')
-    .setVersion('0.1.0')
+    .setTitle('TransitOS API')
+    .setDescription(
+      'Urban Transit Data Infrastructure & Mobility Intelligence Platform API.\n' +
+        'Provides standardized access to Canonical Transit Model (CTM v1.0) networks, corridors, stations, ' +
+        'indoor levels, physical interchanges, pedestrian graphs, and spatial accessibility analytics.',
+    )
+    .setVersion('1.0.0')
+    .addTag(
+      'Transit Data Infrastructure (v1)',
+      'Core network, corridor, station, and interchange discovery endpoints',
+    )
+    .addTag(
+      'Mobility Analytics & Geospatial Intelligence',
+      'Catchment isochrones, pedestrian network, and walking routing',
+    )
+    .addTag(
+      'Datasets Governance & Audit',
+      'Data lineage, trust tiers, and entrance snapping governance',
+    )
+    .addTag('Journey', 'Multimodal graph routing and candidate ranking')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
