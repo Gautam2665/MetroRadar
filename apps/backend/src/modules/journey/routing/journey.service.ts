@@ -486,10 +486,15 @@ export class JourneyService {
           .trim()
       : identifier.trim();
 
+    const isEntranceUuid =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+        identifier,
+      );
+
     const dbEntrance = await this.db.entrance.findFirst({
       where: {
         OR: [
-          { id: identifier },
+          ...(isEntranceUuid ? [{ id: identifier }] : []),
           { name: { equals: identifier, mode: 'insensitive' } },
           { name: { contains: rawPlaceName, mode: 'insensitive' } },
         ],
@@ -2045,8 +2050,14 @@ export class JourneyService {
       const matchingLeg = legs.find(
         (l) =>
           (l.type === EdgeType.WALK || l.type === EdgeType.TRANSFER) &&
-          l.from === run.from &&
-          l.to === run.to,
+          (l.from === run.from ||
+            l.fromStation?.id === run.from ||
+            l.fromStation?.code === run.from ||
+            l.fromStation?.name === run.from) &&
+          (l.to === run.to ||
+            l.toStation?.id === run.to ||
+            l.toStation?.code === run.to ||
+            l.toStation?.name === run.to),
       );
       if (
         matchingLeg?.transferDetails?.pedestrianRoute?.geometry?.coordinates &&
@@ -2598,104 +2609,187 @@ export class JourneyService {
       (fromCode === 'STN_L2A_017' && toCode === 'STN_L1_002') ||
       (fromName.includes('andheri') && toName.includes('d. n. nagar'));
 
-    // Tightly scoped: only apply the verified pedestrian routing engine to D.N. Nagar <-> Andheri West
-    if ((isDnToAw || isAwToDn) && this.pedestrianRouting) {
-      // Production gate IDs corresponding to the exact concourse sides connecting the elevated footbridge
-      // D. N. Nagar Gate 1 (J.P. Road - North-West Side) -> Node 12319820409
-      // Andheri (West) Gate 1 (New Link Road - West Side North) -> Node 14197852601
-      const DN_NAGAR_GATE_1 = '356a0950-2469-488b-bf25-1af60ff7a854';
-      const ANDHERI_WEST_GATE_1 = '90e8b743-611a-43bc-be89-9927a23ef2a8';
+    const isWehToGundavali =
+      (fromCode === 'STN_L1_005' && toCode === 'STN_L7_014') ||
+      (fromName.includes('western express') && toName.includes('gundavali'));
+    const isGundavaliToWeh =
+      (fromCode === 'STN_L7_014' && toCode === 'STN_L1_005') ||
+      (fromName.includes('gundavali') && toName.includes('western express'));
 
-      const originEntId = isDnToAw ? DN_NAGAR_GATE_1 : ANDHERI_WEST_GATE_1;
-      const destEntId = isDnToAw ? ANDHERI_WEST_GATE_1 : DN_NAGAR_GATE_1;
+    if (this.pedestrianRouting) {
+      let originEntId: string | null = null;
+      let destEntId: string | null = null;
+      let defaultComplexId = 'ICX-GENERIC';
+      let defaultTransferName = `${leg.fromStationName || 'Station'} – ${leg.toStationName || 'Station'} Interchange`;
+      let isElevatedTransfer = false;
 
-      try {
-        const pedRoute = await this.pedestrianRouting.route(
-          originEntId,
-          destEntId,
-          { allowProvisional: true },
-        );
+      if (isDnToAw) {
+        originEntId = '96ecafc7-2939-41bf-8e95-fcb466236a42';
+        destEntId = 'be8722c6-62f5-4d3a-8974-f9fda96bee5d';
+        defaultComplexId = 'ICX-DN-NAGAR';
+        defaultTransferName = 'D.N. Nagar (Line 1) / Andheri West (Line 2A) Interchange';
+        isElevatedTransfer = true;
+      } else if (isAwToDn) {
+        originEntId = 'be8722c6-62f5-4d3a-8974-f9fda96bee5d';
+        destEntId = '96ecafc7-2939-41bf-8e95-fcb466236a42';
+        defaultComplexId = 'ICX-DN-NAGAR';
+        defaultTransferName = 'Andheri West (Line 2A) / D.N. Nagar (Line 1) Interchange';
+        isElevatedTransfer = true;
+      } else if (isWehToGundavali) {
+        originEntId = '4024196e-9983-4707-89eb-f097b3b1d1fd';
+        destEntId = '60e9041d-22d8-44b7-8075-1b3211537c79';
+        defaultComplexId = 'ICX-WEH-GUNDAVALI';
+        defaultTransferName = 'Western Express Highway (Line 1) / Gundavali (Line 7) Interchange';
+        isElevatedTransfer = true;
+      } else if (isGundavaliToWeh) {
+        originEntId = '60e9041d-22d8-44b7-8075-1b3211537c79';
+        destEntId = '4024196e-9983-4707-89eb-f097b3b1d1fd';
+        defaultComplexId = 'ICX-WEH-GUNDAVALI';
+        defaultTransferName = 'Gundavali (Line 7) / Western Express Highway (Line 1) Interchange';
+        isElevatedTransfer = true;
+      } else {
+        const fromStnId = leg.fromStation?.id || leg.from;
+        const toStnId = leg.toStation?.id || leg.to;
+        if (fromStnId && toStnId) {
+          try {
+            const [fromEnts, toEnts] = await Promise.all([
+              this.db.entrance.findMany({
+                where: { stationId: fromStnId, snappedNodeId: { not: null }, isActive: true },
+                select: { id: true, name: true, latitude: true, longitude: true },
+              }),
+              this.db.entrance.findMany({
+                where: { stationId: toStnId, snappedNodeId: { not: null }, isActive: true },
+                select: { id: true, name: true, latitude: true, longitude: true },
+              }),
+            ]);
 
-        if (pedRoute.status === 'SUCCESS') {
-          const walkMins = Math.max(
-            1,
-            Math.round(pedRoute.totalDurationSeconds / 60),
+          if (fromEnts.length > 0 && toEnts.length > 0) {
+            const fobFrom = fromEnts.find(
+              (e) =>
+                e.name.toLowerCase().includes('interchange') ||
+                e.name.toLowerCase().includes('fob') ||
+                e.name.toLowerCase().includes('skywalk'),
+            );
+            const fobTo = toEnts.find(
+              (e) =>
+                e.name.toLowerCase().includes('interchange') ||
+                e.name.toLowerCase().includes('fob') ||
+                e.name.toLowerCase().includes('skywalk'),
+            );
+            if (fobFrom && fobTo) {
+              originEntId = fobFrom.id;
+              destEntId = fobTo.id;
+              isElevatedTransfer = true;
+            } else {
+              let minDist = Infinity;
+              for (const fe of fromEnts) {
+                for (const te of toEnts) {
+                  const d = Math.hypot(fe.latitude - te.latitude, fe.longitude - te.longitude);
+                  if (d < minDist) {
+                    minDist = d;
+                    originEntId = fe.id;
+                    destEntId = te.id;
+                  }
+                }
+              }
+            }
+          }
+        } catch {
+          // Dynamic lookup fallback
+        }
+      }
+    }
+
+      if (originEntId && destEntId) {
+        try {
+          const pedRoute = await this.pedestrianRouting.route(
+            originEntId,
+            destEntId,
+            { allowProvisional: true },
           );
-          const containsProvisional =
-            pedRoute.provenance.containsProvisionalSegments;
 
-          leg.duration = pedRoute.totalDurationSeconds;
-          leg.durationSeconds = pedRoute.totalDurationSeconds;
-          leg.durationMinutes = walkMins;
-          leg.distanceMeters = Math.round(pedRoute.distanceMeters);
+          if (pedRoute.status === 'SUCCESS' && pedRoute.geometry?.coordinates && pedRoute.geometry.coordinates.length > 1) {
+            const walkMins = Math.max(
+              1,
+              Math.round(pedRoute.totalDurationSeconds / 60),
+            );
+            const containsProvisional =
+              pedRoute.provenance.containsProvisionalSegments;
+            const isFob = isElevatedTransfer || (pedRoute.steps && pedRoute.steps.some((s) => s.isElevatedFob));
 
-          const provisionalBadge = containsProvisional
-            ? ' (Provisional connector)'
-            : '';
-          leg.transferTitle = `D.N. Nagar – Andheri West Skywalk${provisionalBadge}`;
-          leg.transferDurationText = `~${walkMins} min`;
-          leg.transferSummary = `${Math.round(pedRoute.distanceMeters)} m · ~${walkMins} min · Elevated Skywalk${provisionalBadge}`;
+            leg.duration = pedRoute.totalDurationSeconds;
+            leg.durationSeconds = pedRoute.totalDurationSeconds;
+            leg.durationMinutes = walkMins;
+            leg.distanceMeters = Math.round(pedRoute.distanceMeters);
 
-          // Format step instructions with explicit provisional indicator for unverified links
-          const instructions = pedRoute.steps.map((step) =>
-            step.sourceType === 'PROVISIONAL_SYNTHESIZED'
-              ? `${step.instruction} (Provisional skywalk connection - estimated transfer)`
-              : step.instruction,
-          );
-          leg.transferInstructions = instructions;
+            const provisionalBadge = containsProvisional
+              ? ' (Provisional connector)'
+              : '';
+            const typeLabel = isFob ? 'Elevated Skywalk' : 'Walkway';
+            leg.transferTitle = `${leg.fromStationName} – ${leg.toStationName} ${typeLabel}${provisionalBadge}`;
+            leg.transferDurationText = `~${walkMins} min`;
+            leg.transferSummary = `${Math.round(pedRoute.distanceMeters)} m · ~${walkMins} min · ${typeLabel}${provisionalBadge}`;
 
-          const baseTransfer = this.interchangeEvaluator.resolveTransferDetails(
-            leg.fromStationName,
-            leg.toStationName,
-            prevLeg?.lineName,
-            nextLeg?.lineName,
-            leg.fromStation?.code,
-            leg.toStation?.code,
-          );
+            const instructions = pedRoute.steps && pedRoute.steps.length > 0
+              ? pedRoute.steps.map((step) =>
+                  step.sourceType === 'PROVISIONAL_SYNTHESIZED'
+                    ? `${step.instruction} (Provisional skywalk connection - estimated transfer)`
+                    : step.instruction,
+                )
+              : [`Walk via ${typeLabel} to ${leg.toStationName}`];
+            leg.transferInstructions = instructions;
 
-          leg.transferDetails = {
-            complexId: baseTransfer?.complexId ?? 'ICX-DN-NAGAR',
-            name:
-              baseTransfer?.name ??
-              'D.N. Nagar (Line 1) / Andheri West (Line 2A) Interchange',
-            pathwayDistanceMeters: Math.round(pedRoute.distanceMeters),
-            estimatedDurationSeconds: pedRoute.totalDurationSeconds,
-            durationDisplay: `~${walkMins} min`,
-            attributes: {
-              ...baseTransfer?.attributes,
-              paidAreaTransfer: false,
-              outdoorStreetExposure: false,
-            },
-            instructions,
-            reasonCodes: [
-              'VALIDATED_PEDESTRIAN_GRAPH',
-              ...(containsProvisional ? ['PROVISIONAL_CONNECTOR'] : []),
-            ],
-            pedestrianRoute: {
-              status: pedRoute.status,
-              distanceMeters: pedRoute.distanceMeters,
-              walkDurationSeconds: pedRoute.walkDurationSeconds,
-              transitionDurationSeconds: pedRoute.transitionDurationSeconds,
-              totalDurationSeconds: pedRoute.totalDurationSeconds,
-              confidenceScore: pedRoute.provenance.confidenceScore,
-              containsProvisionalSegments: containsProvisional,
-              sourceTypes: pedRoute.provenance.sourceTypes,
-              geometry: pedRoute.geometry,
-              steps: pedRoute.steps,
-            },
-          };
-          return;
-        } else {
-          this.logger.warn(
-            `Pedestrian router returned ${pedRoute.status} for D.N. Nagar <-> Andheri West. Falling back to estimated transfer.`,
+            const baseTransfer = this.interchangeEvaluator.resolveTransferDetails(
+              leg.fromStationName,
+              leg.toStationName,
+              prevLeg?.lineName,
+              nextLeg?.lineName,
+              leg.fromStation?.code,
+              leg.toStation?.code,
+            );
+
+            leg.transferDetails = {
+              complexId: baseTransfer?.complexId ?? defaultComplexId,
+              name: baseTransfer?.name ?? defaultTransferName,
+              pathwayDistanceMeters: Math.round(pedRoute.distanceMeters),
+              estimatedDurationSeconds: pedRoute.totalDurationSeconds,
+              durationDisplay: `~${walkMins} min`,
+              attributes: {
+                ...baseTransfer?.attributes,
+                paidAreaTransfer: false,
+                outdoorStreetExposure: !isFob,
+              },
+              instructions,
+              reasonCodes: [
+                'VALIDATED_PEDESTRIAN_GRAPH',
+                ...(containsProvisional ? ['PROVISIONAL_CONNECTOR'] : []),
+              ],
+              pedestrianRoute: {
+                status: pedRoute.status,
+                distanceMeters: pedRoute.distanceMeters,
+                walkDurationSeconds: pedRoute.walkDurationSeconds,
+                transitionDurationSeconds: pedRoute.transitionDurationSeconds,
+                totalDurationSeconds: pedRoute.totalDurationSeconds,
+                confidenceScore: pedRoute.provenance.confidenceScore,
+                containsProvisionalSegments: containsProvisional,
+                sourceTypes: pedRoute.provenance.sourceTypes,
+                geometry: pedRoute.geometry,
+                steps: pedRoute.steps,
+              },
+            };
+            return;
+          } else {
+            this.logger.warn(
+              `Pedestrian router returned ${pedRoute.status} for ${leg.fromStationName} <-> ${leg.toStationName}. Falling back to estimated transfer.`,
+            );
+          }
+        } catch (err) {
+          this.logger.error(
+            `Error running pedestrian routing for ${leg.fromStationName} <-> ${leg.toStationName}: ${
+              err instanceof Error ? err.message : String(err)
+            }`,
           );
         }
-      } catch (err) {
-        this.logger.error(
-          `Error running pedestrian routing for D.N. Nagar <-> Andheri West: ${
-            err instanceof Error ? err.message : String(err)
-          }`,
-        );
       }
     }
 

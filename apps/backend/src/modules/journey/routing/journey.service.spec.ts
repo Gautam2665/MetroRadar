@@ -175,8 +175,8 @@ describe('JourneyService - Pedestrian Transfer Integration (Phase 5)', () => {
 
       // Verify explicit gate IDs were queried
       expect(pedestrianRouting.route).toHaveBeenCalledWith(
-        '356a0950-2469-488b-bf25-1af60ff7a854', // DN Nagar Gate 1
-        '90e8b743-611a-43bc-be89-9927a23ef2a8', // Andheri West Gate 1
+        '96ecafc7-2939-41bf-8e95-fcb466236a42', // DN Nagar Concourse
+        'be8722c6-62f5-4d3a-8974-f9fda96bee5d', // Andheri West Concourse
         { allowProvisional: true },
       );
 
@@ -245,15 +245,17 @@ describe('JourneyService - Pedestrian Transfer Integration (Phase 5)', () => {
       await (service as any).enrichTransferLeg(leg, null, null);
 
       expect(pedestrianRouting.route).toHaveBeenCalledWith(
-        '90e8b743-611a-43bc-be89-9927a23ef2a8', // Andheri West Gate 1
-        '356a0950-2469-488b-bf25-1af60ff7a854', // DN Nagar Gate 1
+        'be8722c6-62f5-4d3a-8974-f9fda96bee5d', // Andheri West Concourse
+        '96ecafc7-2939-41bf-8e95-fcb466236a42', // DN Nagar Concourse
         { allowProvisional: true },
       );
       expect(leg.distanceMeters).toBe(233);
       expect(leg.durationSeconds).toBe(194);
     });
 
-    it('should preserve existing behavior for other interchanges without invoking pedestrian router', async () => {
+    it('should use PedestrianRoutingService for WEH <-> Gundavali Elevated Skywalk', async () => {
+      pedestrianRouting.route.mockResolvedValueOnce(mockPedRouteResult);
+
       const leg: JourneyLeg = {
         mode: 'TRANSFER',
         type: EdgeType.WALK,
@@ -291,7 +293,54 @@ describe('JourneyService - Pedestrian Transfer Integration (Phase 5)', () => {
 
       await (service as any).enrichTransferLeg(leg, null, null);
 
-      // Must NOT invoke pedestrian router for other interchanges
+      expect(pedestrianRouting.route).toHaveBeenCalledWith(
+        '4024196e-9983-4707-89eb-f097b3b1d1fd',
+        '60e9041d-22d8-44b7-8075-1b3211537c79',
+        { allowProvisional: true },
+      );
+      expect(leg.distanceMeters).toBe(233);
+      expect(leg.durationSeconds).toBe(194);
+    });
+
+    it('should preserve existing behavior for generic interchanges without invoking pedestrian router', async () => {
+      const leg: JourneyLeg = {
+        mode: 'TRANSFER',
+        type: EdgeType.WALK,
+        from: 'stn-generic-a',
+        fromStationName: 'Generic Station A',
+        fromStation: {
+          id: 'stn-generic-a',
+          code: 'STN_GEN_001',
+          name: 'Generic Station A',
+          lat: 19.100,
+          lng: 72.850,
+        },
+        to: 'stn-generic-b',
+        toStationName: 'Generic Station B',
+        toStation: {
+          id: 'stn-generic-b',
+          code: 'STN_GEN_002',
+          name: 'Generic Station B',
+          lat: 19.101,
+          lng: 72.851,
+        },
+        duration: 180,
+        durationSeconds: 180,
+        durationMinutes: 3,
+        lineId: null,
+        lineName: null,
+        lineColor: null,
+        lineCode: null,
+        hopCount: 1,
+        visitedStationCount: 2,
+        stationsCount: 1,
+        stopsCount: 1,
+        stopsText: 'Transfer',
+      };
+
+      await (service as any).enrichTransferLeg(leg, null, null);
+
+      // Must NOT invoke pedestrian router for other interchanges without snapped gates
       expect(pedestrianRouting.route).not.toHaveBeenCalled();
 
       // Must use standard InterchangeEvaluator details

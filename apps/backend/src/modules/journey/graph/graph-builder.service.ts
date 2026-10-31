@@ -422,9 +422,23 @@ export class GraphBuilderService {
           const isSameName =
             from.name.trim().toLowerCase() === to.name.trim().toLowerCase();
 
+          const isWehGundavali =
+            (from.name.toLowerCase().includes('western express') &&
+              to.name.toLowerCase().includes('gundavali')) ||
+            (from.name.toLowerCase().includes('gundavali') &&
+              to.name.toLowerCase().includes('western express'));
+
+          const isDnAndheriWest =
+            (from.name.toLowerCase().includes('d. n. nagar') &&
+              to.name.toLowerCase().includes('andheri')) ||
+            (from.name.toLowerCase().includes('andheri') &&
+              to.name.toLowerCase().includes('d. n. nagar'));
+
           if (
             dist <= MAX_CO_LOCATED_DISTANCE_METERS ||
-            (isSameName && dist <= 300)
+            (isSameName && dist <= 300) ||
+            isWehGundavali ||
+            isDnAndheriWest
           ) {
             addedWalkPairs.add(pairKey);
             const walkSeconds = Math.max(

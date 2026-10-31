@@ -1230,7 +1230,7 @@ export default function MapContainer({
         source: JOURNEY_LINE_SOURCE,
         filter: [
           "all",
-          ["==", ["get", "mode"], "WALK"],
+          ["in", ["get", "mode"], ["literal", ["WALK", "TRANSFER"]]],
           ["!=", ["get", "isElevatedFob"], true],
         ],
         paint: {
@@ -1249,7 +1249,7 @@ export default function MapContainer({
         source: JOURNEY_LINE_SOURCE,
         filter: [
           "all",
-          ["==", ["get", "mode"], "WALK"],
+          ["in", ["get", "mode"], ["literal", ["WALK", "TRANSFER"]]],
           ["==", ["get", "isElevatedFob"], true],
           ["!=", ["get", "isProvisional"], true],
         ],
@@ -1268,7 +1268,7 @@ export default function MapContainer({
         source: JOURNEY_LINE_SOURCE,
         filter: [
           "all",
-          ["==", ["get", "mode"], "WALK"],
+          ["in", ["get", "mode"], ["literal", ["WALK", "TRANSFER"]]],
           ["==", ["get", "isElevatedFob"], true],
           ["==", ["get", "isProvisional"], true],
         ],

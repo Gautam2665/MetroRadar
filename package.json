@@ -20,6 +20,8 @@
     "lint": "npm run lint --workspaces --if-present",
     "build:backend": "npm run build --workspace=apps/backend",
     "build:frontend": "npm run build --workspace=apps/frontend",
+    "build:website": "npm run build --workspace=apps/website",
+    "website:dev": "npm run dev --workspace=apps/website",
     "build": "npm run build:backend && npm run build:frontend",
     "ctm:import:mumbai-line3": "node tools/import-ctm-mumbai-line3.js",
     "test:line3-journeys": "node tools/journey-graph-line3.js",
