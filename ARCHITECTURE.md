@@ -1,441 +1,241 @@
 # TransitOS — System Architecture Reference
 
-This document describes the computational architecture, data model, graph formulation, and spatial engineering decisions underpinning the TransitOS platform. It is intended for transport engineers, software engineers, and feasibility analysts working with or contributing to the system.
-
-> **Architecture revision 2026-08**: Four-layer platform model with Layer 0 (Transit Knowledge Platform) added. See [GTFS_SYNTHESIS.md](./GTFS_SYNTHESIS.md) for the Transit Data Synthesis Engine specification.
+This document describes the computational architecture, data infrastructure, canonical transit model, spatial engineering engines, and application boundaries underpinning the **TransitOS** platform. It is intended for software engineers, transport modelers, GIS specialists, and researchers collaborating on or integrating with the platform.
 
 ---
 
-## Table of Contents
+## 1. System Overview: The Five-Layer Platform Stack
 
-1. [System Overview](#1-system-overview)
-2. [Layer 0 — Transit Knowledge Platform](#2-layer-0--transit-knowledge-platform)
-3. [Layer 1 — Canonical Transit Model (CTM)](#3-layer-1--canonical-transit-model-ctm)
-4. [Layer 2 — Computational Engines](#4-layer-2--computational-engines)
-5. [Journey Graph Formulation](#5-journey-graph-formulation)
-6. [Generalized Cost Scoring](#6-generalized-cost-scoring)
-7. [Interchange Friction Model](#7-interchange-friction-model)
-8. [Dynamic Feeder Catchment](#8-dynamic-feeder-catchment)
-9. [Pareto Dominance and Candidate Filtering](#9-pareto-dominance-and-candidate-filtering)
-10. [Spatial Database Design](#10-spatial-database-design)
-11. [GeoJSON Architecture](#11-geojson-architecture)
-12. [Cache Strategy](#12-cache-strategy)
-13. [Realtime Data Levels](#13-realtime-data-levels)
-14. [Station Digital Twin Model](#14-station-digital-twin-model)
-15. [Technology Stack](#15-technology-stack)
-
----
-
-## 1. System Overview
-
-TransitOS is structured as a four-layer computational platform. Each layer has a strict ownership boundary; higher layers consume only the APIs of layers below.
+TransitOS is structured as a five-layer urban transit data and intelligence stack. Each layer possesses a strict ownership boundary, encapsulating internal complexity and exposing clean interfaces to higher tiers.
 
 ```mermaid
 graph TD
-    subgraph L3["Layer 3 — Client Interfaces"]
-        Web["Web Application (Next.js / MapLibre)"]
-        API_ext["External Developer API"]
+    subgraph Layer5["Layer 5 — Applications & Developer APIs"]
+        App["MetroRadar Web Application (Next.js 16)"]
+        API_ext["Versioned Developer API Gateway"]
+        AnalyticsUI["Mobility Intelligence Workspace"]
     end
 
-    subgraph L2["Layer 2 — Computational Engines"]
-        JE["Journey Intelligence Engine"]
-        SEE["State Estimation Engine"]
-        PE["Prediction Engine"]
-        ICX["Interchange Evaluator"]
-        CF["Candidate Filter (Pareto)"]
+    subgraph Layer4["Layer 4 — Mobility Intelligence"]
+        Router["Multigraph Pathfinding (Dijkstra / Yen's KSP)"]
+        ICX["Interchange Evaluator (Vertical Friction ΔZ)"]
+        CF["Candidate Filter (Pareto Frontier)"]
+        Isochrone["Dynamic Pedestrian Isochrone Generator"]
+        OD["Origin-Destination (OD) Assignment"]
     end
 
-    subgraph L1["Layer 1 — Transit Data Platform"]
-        CTM["Canonical Transit Model (CTM v1.0)\nPostgreSQL + PostGIS"]
-        Redis["Redis — Cache & Pub/Sub"]
-        Gateway["NestJS API Gateway"]
+    subgraph Layer3["Layer 3 — Station & Urban Infrastructure"]
+        CTM_Station["Station Micro-Hierarchy (Levels, Platforms, Gates)"]
+        PedGraph["Station Walking Graph (WalkingEdge: Stairs, Lifts, AFC)"]
+        Snapping["Pedestrian Sidewalk Snapping Engine"]
     end
 
-    subgraph L0["Layer 0 — Transit Knowledge Platform"]
-        TDSE["Transit Data Synthesis Engine (TDSE)"]
-        GTFS_in["GTFS Feeds (Official / Community)"]
-        DPR["DPRs, Timetables, GIS, Rolling Stock"]
-        Provenance["Provenance & Confidence Engine"]
+    subgraph Layer2["Layer 2 — Real-Time Operations"]
+        RT_Engine["Dynamic GTFS-Realtime Server (Protobuf)"]
+        SEE["State Estimation Engine (Kinematic Clock)"]
+        Alerts["Incident & Disruption Engine"]
     end
 
-    DPR --> TDSE
-    GTFS_in --> TDSE
-    TDSE --> Provenance
-    TDSE --> CTM
-    CTM --> Gateway
-    Gateway <--> Redis
-    Gateway --> JE
-    Gateway --> SEE
-    Gateway --> PE
-    JE --> ICX
-    JE --> CF
-    Gateway <--> L3
+    subgraph Layer1["Layer 1 — Transit Data Infrastructure"]
+        CTM["Canonical Transit Model (CTM v1.0)"]
+        SpatialDB["PostgreSQL 16 + PostGIS 3.4"]
+        Validator["Referential & MobilityData GTFS Validator"]
+        Provenance["Data Provenance & Governance Framework"]
+        Redis["Redis 7 Distributed Cache"]
+    end
+
+    Layer1 --> Layer2
+    Layer1 --> Layer3
+    Layer2 & Layer3 --> Layer4
+    Layer4 --> Layer5
+    Layer2 & Layer3 --> Layer5
 ```
 
-**The core design principle**: TransitOS computes. External AI communicates. Routing, generalized cost scoring, interchange friction, and catchment analysis run on deterministic, testable backend engines. AI providers (voice, vision, NLU) sit outside the data dependency chain as interface translation layers only.
+---
+
+## 2. Layer 1 — Transit Data Infrastructure
+
+The foundation of TransitOS is an authoritative, relational, and spatial representation of transit networks.
+
+### 2.1 Canonical Transit Model (CTM v1.0)
+Implemented in PostgreSQL with PostGIS extensions via Prisma ORM, CTM models transit systems as a normalized hierarchy:
+* **`systems`**: Metropolitan regions (e.g. `MUMBAI_METRO`).
+* **`agencies`**: Operating authorities (e.g. `MMMOCL`, `MMOPL`, `MMRCL`).
+* **`lines`**: Physical/service corridors with designated brand colors, text colors, and modes (`METRO`, `MONORAIL`, `SUBURBAN_RAIL`).
+* **`stations`**: Parent complexes grouping all platforms, concourses, and access portals.
+* **`levels`**: Vertical storeys (`Street`, `Concourse`, `Mezzanine`, `Platform`) indexed by relative elevation (-2, -1, 0, 1, 2).
+* **`platforms`**: Track-side boarding areas with platform codes ("1", "2") and wheelchair accessibility flags.
+* **`entrances`**: Physical street access portals with verified gate codes (e.g., `A1`, `B1`), street descriptions, and mobility assets (lift, escalator, stairs).
+* **`amenities`**: Internal station facilities (TVMs, security screening, restrooms).
+
+### 2.2 Discrete Timetable Engine
+Unlike legacy feeds that rely on arbitrary frequency ranges, TransitOS synthesizes and maintains discrete timetables:
+* Every individual train dispatch is assigned a unique `trip_id` bound to a specific `service_id` (`SVC_WEEKDAY`, `SVC_SATURDAY`, `SVC_SUNDAY`).
+* `stop_times` records capture second-level arrival and departure timestamps:
+  $$\text{Dwell Time} = t_{\text{departure}} - t_{\text{arrival}}$$
+* Shapes are stored as true PostGIS 3D/2D `LineString` geometries tracing surveyed track alignments.
+
+### 2.3 Automated Conformance & Validation
+The data pipeline enforces four levels of automated validation:
+1. **Relational Integrity**: Foreign key verification ensuring 0 orphan stops, 0 dangling pathways, and 0 invalid parent stations.
+2. **Spatial Bounding**: Coordinate sanity checks ensuring all features exist within surveyed urban boundaries.
+3. **Graph Reachability**: Solves station walkability, guaranteeing that every platform has a directed pathway to/from street exits.
+4. **Canonical GTFS Validator**: Continuous verification against the Canonical MobilityData GTFS Schedule Validator.
 
 ---
 
-## 2. Layer 0 — Transit Knowledge Platform
+## 3. Layer 2 — Real-Time Operations
 
-Most transit analysis tools are **consumers** of GTFS. TransitOS is a **producer** of GTFS. This is the architectural distinction that enables coverage of networks where operators have not published standards-compliant feeds.
+Real-time operations are managed as an ephemeral, dynamic computation layer decoupled from long-term database storage.
 
-The Transit Data Synthesis Engine (TDSE) ingests documents classified into ten categories (A–I + X) and synthesizes them into a standards-compliant GTFS schedule and CTM records. Every generated value carries a provenance record and a confidence score.
-
+```mermaid
+flowchart LR
+    Schedule["Discrete Timetable<br/>(trips.txt & stop_times.txt)"] --> Engine["mock-gtfsrt-server.js"]
+    Clock["System Epoch Clock<br/>(Date.now() / 1000)"] --> Engine
+    
+    Engine --> PB_Updates["/gtfsrt/updates<br/>(TripUpdate Protobuf)"]
+    Engine --> PB_Vehicles["/gtfsrt/vehicles<br/>(VehiclePosition Protobuf)"]
+    Engine --> PB_Alerts["/gtfsrt/alerts<br/>(Alert Protobuf)"]
+    Engine --> JSON_Diag["/ (Live Diagnostic JSON)"]
 ```
-Document Categories:
-  A — Network Topology      (DPRs, alignment drawings, route maps)
-  B — Station Infrastructure (platform plans, entrance maps, accessibility audits)
-  C — Operations            (timetables, headway tables, first/last train schedules)
-  D — Rolling Stock         (train specs, manufacturer manuals, type approval docs)
-  E — Signalling            (CBTC manuals, block diagrams, speed restrictions)
-  F — GIS & Spatial         (shapefiles, OSM exports, GPS surveys)
-  G — Commercial            (fare charts, amenity directories, parking info)
-  H — Historical Operations (archived timetables, delay reports, community data)
-  I — Live Observations     (GTFS-RT, operator APIs, GPS traces, crowdsource)
-  X — TransitOS Synthesized (generated GTFS, CTM records, ETA predictions — IP)
+
+### 3.1 Kinematic State Estimation
+When official AVL (Automatic Vehicle Location) transponder feeds are unavailable, TransitOS computes expected train positions dynamically:
+1. Reads active service calendar for the current day.
+2. Identifies all trips active within the current time slice $[t_{\text{now}} - \delta, t_{\text{now}} + \delta]$.
+3. Computes progress $\rho \in [0, 1]$ between consecutive stop coordinates:
+   $$\rho = \frac{t_{\text{now}} - t_{\text{dep}, A}}{t_{\text{arr}, B} - t_{\text{dep}, A}}$$
+4. Interpolates the exact $(x, y)$ coordinate and bearing angle along the surveyed 3D track alignment shapefile.
+
+### 3.2 Protocol Buffer Serialization
+Outputs strictly conform to the GTFS-Realtime v2.0 specification using `gtfs-realtime-bindings`. Streams are encoded as `application/x-protobuf` binary payloads, ready for ingestion by standard journey planners (e.g. OpenTripPlanner, Google Maps, Apple Maps).
+
+---
+
+## 4. Layer 3 — Station & Urban Infrastructure
+
+TransitOS treats stations as multi-dimensional architectural structures rather than 2D coordinate points.
+
+### 4.1 Intra-Station Walking Graph (`WalkingEdge`)
+Pedestrian circulation within station complexes is formalized as an explicit directed graph:
+* **Horizontal Walkways (`CORRIDOR`)**: Evaluated at standard commuter walking speed ($v_{\text{walk}} = 1.2\text{ m/s}$).
+* **Vertical Transitions (`STAIRS`, `ESCALATOR`, `ELEVATOR`)**: Modeled with explicit level deltas ($\Delta Z$). Stairs incur an energy expenditure multiplier ($w_z = 2.5$), escalators move at $0.6\text{ m/s}$, and lifts account for door cycle and dispatch latency ($30\text{–}60\text{ s}$).
+* **Fare Boundaries (`AFC_GATE`)**: Automated turnstiles enforce unidirectional flow (`is_bidirectional = 0`) and impose ticket validation time penalties.
+
+### 4.2 Sidewalk Snapping & Street Anchoring
+Station gate coordinates are snapped to navigable sidewalk networks:
+* Gate nodes are tied to pedestrian edges within a strict 30-meter radius.
+* Eliminates "rooftop snapping" or inaccessible arterial highway centroid attachments.
+
+---
+
+## 5. Layer 4 — Mobility Intelligence & Pathfinding
+
+### 5.1 Multi-Corridor Directed Multigraph Formulation
+The network graph is instantiated in memory as $G = (V, E)$:
+* **$V$**: Set of station platforms, concourse nodes, gate portals, and street junction nodes.
+* **$E$**: Directed edges partitioned into:
+  * $E_{\text{transit}}$: Inter-station scheduled rail service.
+  * $E_{\text{transfer}}$: Multi-line interchange corridors and pedestrian FOBs.
+  * $E_{\text{walk}}$: Concourse pathways, stairs, lifts, and street egress links.
+
+### 5.2 Generalized Cost Scoring Function
+Every path $P$ is evaluated using a generalized commuter cost function:
+$$C(P) = w_{\text{ivt}} \cdot t_{\text{ivt}} + w_{\text{wait}} \cdot t_{\text{wait}} + w_{\text{walk}} \cdot t_{\text{walk}} + w_{\text{transfer}} \cdot N_{\text{transfer}} + \text{IFI}(P) + \text{Fare}(P)$$
+
+Where:
+* $t_{\text{ivt}}$: In-vehicle transit time.
+* $t_{\text{wait}}$: Headway-dependent wait time.
+* $t_{\text{walk}}$: Pure horizontal walking time.
+* $N_{\text{transfer}}$: Count of vehicle transfers.
+* $\text{IFI}(P)$: Built-environment Interchange Friction Index.
+
+### 5.3 Interchange Friction Index (IFI)
+Captures the physical impedance of transfers across built environments:
+$$\text{IFI} = \alpha \cdot t_{\text{fob}} + \beta \cdot \sum \Delta Z_{\text{stairs}} + \gamma \cdot N_{\text{turnstiles}}$$
+
+### 5.4 Pareto-Optimal Candidate Filtering (Yen's K-Shortest Paths)
+Instead of returning a single shortest path, the routing engine identifies $K$ alternative candidates using Yen's KSP algorithm, filtering the result set across a strict Pareto frontier:
+$$\text{Path } A \text{ dominates } B \iff \forall m \in \{\text{Time}, \text{Transfers}, \text{Walking}, \text{Fare}\}, \, M_m(A) \le M_m(B) \land \exists m, \, M_m(A) < M_m(B)$$
+
+### 5.5 Dynamic Pedestrian Isochrones
+Computes accessible urban polygons from any station gate across 5, 10, and 15-minute walking thresholds, tracing physical sidewalks, pedestrian bridges, and street crossings while observing natural and infrastructure barriers.
+
+---
+
+## 6. Layer 5 — Applications & Developer APIs
+
+The top tier exposes the platform's data and computational capabilities to end-users and external services:
+
+```mermaid
+flowchart TD
+    subgraph Clients["Consumers"]
+        Web["Commuter Web App (Next.js)"]
+        Research["Research Notebooks (Python / R)"]
+        ThirdParty["Third-Party Transit Apps"]
+    end
+
+    subgraph Gateway["NestJS API Gateway"]
+        Auth["Auth & Rate Limiting Guard"]
+        RestCtrl["REST Controllers (/api/v1)"]
+        RTCtrl["GTFS-RT Controllers (/gtfsrt)"]
+        CacheInter["Redis Cache Interceptor"]
+    end
+
+    Clients --> Gateway
 ```
 
-See [GTFS_SYNTHESIS.md](./GTFS_SYNTHESIS.md) for the complete synthesis pipeline specification.
+* **Commuter Experience**: Door-to-door itinerary search, gate-level exit guidance, and station digital twin floor plans.
+* **Data Explorer**: Vector-based geospatial map interface visualizing routes, operational status, and catchment polygons.
+* **Developer APIs**: High-performance REST endpoints for network topology, itineraries, digital twins, and GTFS archives.
 
 ---
 
-## 3. Layer 1 — Canonical Transit Model (CTM)
+## 7. Spatial Database Design & PostGIS Architecture
 
-The CTM is the normalized relational representation of all transit network data. It is the single source of truth for routing, spatial queries, and corridor analysis.
-
-```
-System
-  └── Agency
-  └── Line  (route)
-        └── StationSequence  (ordered stop list with inter-station distances & travel times)
-        └── Trip             (individual scheduled vehicle journey)
-              └── StopTime   (scheduled arrival/departure per stop)
-  └── Station
-        └── Level            (concourse, platform, street)
-        └── Platform         (boarding berth, direction, screen doors)
-        └── Entrance         (gate position, accessibility, lift/escalator)
-        └── Amenity          (ATM, ticketing, restroom, etc.)
-
-Spatial: every Station and Entrance carries a PostGIS geometry(Point, 4326)
-         indexed with a GIST spatial index for geodesic radius queries.
-```
-
-### Data Governance
-
-- **UUID primary keys** on all entities. No integer sequences.
-- **Soft deletion only** — `isActive` flag + nullable `deletedAt`. Records are never physically removed.
-- **Audit timestamps** — `createdAt`, `updatedAt` (timestamptz) on every table.
-- **Inter-station travel times** — populated from GTFS `stop_times.txt` (source of truth) or `StationSequence.travelTimeFromPrevious` (TDSE-synthesized fallback).
-- **CTM v1.0 schema frozen** — no breaking changes without a migration and version bump.
-
----
-
-## 4. Layer 2 — Computational Engines
-
-The computational layer owns the analytical work. Each engine is a NestJS injectable service with a stable interface; no engine calls another engine's internal implementation directly.
-
-| Engine | Service File | Responsibility |
-|:---|:---|:---|
-| **GraphBuilderService** | `graph/graph-builder.service.ts` | Constructs the in-memory directed multigraph G=(V,E) from CTM data |
-| **RoutingService** | `routing/routing.service.ts` | Yen's K-Shortest Paths over modified Dijkstra; returns K candidate routes |
-| **ScoringService** | `scoring/scoring.service.ts` | Generalized cost computation per candidate |
-| **InterchangeEvaluatorService** | `interchange-evaluator.service.ts` | Built-environment friction model for transfer nodes |
-| **CandidateFilterService** | `candidate-filter.service.ts` | Pareto dominance pruning with same-destination awareness |
-| **LocalityRoutingService** | `locality-routing.service.ts` | Feeder catchment computation; maps localities to candidate deboarding stations |
-
----
-
-## 5. Journey Graph Formulation
-
-The transit network is modeled as a directed multigraph:
-
-$$G = (V, E)$$
-
-where:
-- $V$ = all CTM stations
-- $E$ = typed directed edges:
-  - `TRANSIT` — in-vehicle movement from station $u$ to adjacent station $v$ on line $l$; weight = scheduled travel time from `stop_times.txt`
-  - `WALK` — pedestrian transfer between stations within interchange radius; weight = geodesic distance ÷ 1.2 m/s
-  - `TRANSFER` — logical line-change edge at the same physical station; weight = interchange friction penalty (see §7)
-
-### Yen's K-Shortest Paths
-
-Rather than returning only the shortest path by one metric, the engine generates up to K=5 loopless candidate paths using Yen's algorithm over modified Dijkstra. Candidates differ in transfer count, line used, and deboarding station — providing planners with a Pareto frontier of options rather than a single answer.
-
-**Feasibility pre-filter** (before scoring):
-- Rejects paths with loops (same station visited twice)
-- Rejects paths with total duration > practical threshold
-- Rejects paths with transfer count > 6
-- Rejects paths where feeder distance to destination significantly exceeds direct walking alternative
-
----
-
-## 6. Generalized Cost Scoring
-
-Each candidate path is scored using a generalized cost function. The score is used for Pareto dominance comparison and final ranking.
-
-$$\text{RankScore} = w_t \cdot T_{\text{duration}} + P_{\text{transfer}} \cdot N_{\text{transfers}} + w_w \cdot T_{\text{walking}} + C_{\text{friction}}$$
-
-| Parameter | Default Value | Interpretation |
-|:---|:---|:---|
-| $w_t$ — travel time weight | 1.0 | Base weight for in-vehicle time (seconds) |
-| $w_w$ — walking weight | 0.8 | Walking time is penalized at 0.8× (perceived as less onerous than waiting) |
-| $P_{\text{transfer}}$ — transfer penalty | 120 s equivalent | Added per interchange to reflect disutility of transferring |
-| $C_{\text{friction}}$ — interchange friction | 0–600+ s | Physical barrier and built-environment cost at specific interchange nodes |
-
-Default weights are defined in `scoring.service.ts` as `DEFAULT_WEIGHTS`. They can be overridden per-query via the API to run sensitivity analysis — e.g., testing how a higher transfer penalty shifts route preference toward longer direct services.
-
-### Sensitivity to Parameter Changes
-
-This is one of the core answers to the question *"What changes when we alter a corridor, station location or operating assumption?"*
-
-| Changed Input | Effect on Outputs |
-|:---|:---|
-| Increase `transferPenalty` | Paths with fewer interchanges rise in rank; multi-transfer options drop |
-| Increase `walkingWeight` | Routes with longer feeder walks become less competitive |
-| Remove a station from graph | All paths through that station are eliminated; alternative paths emerge |
-| Change `travelTimeFromPrevious` | Section time change propagates to all paths through that section |
-| Add a new interchange walk edge | Previously disconnected lines become reachable without a vehicle transfer |
-| Shift station coordinates | Feeder catchment radii change; different localities snap to different stations |
-
----
-
-## 7. Interchange Friction Model
-
-Standard transfer penalty (§6) is a flat constant. The interchange friction model adds a **built-environment cost** $C_{\text{friction}}$ that reflects the physical characteristics of a specific interchange node. This is implemented in `interchange-evaluator.service.ts`.
-
-### Friction Components
-
-| Component | Penalty | Trigger |
-|:---|:---|:---|
-| Vertical level change | +10 s per metre Δz | Stations on different levels (subway ↔ elevated) |
-| AFC turnstile re-tap | +60 s | Unpaid-area transfer requiring re-entry through fare gate |
-| Security rescreening | +300 s | Airport-adjacent or security-controlled interchange |
-| Outdoor street exposure | +600 s | Transfer requiring exit to street (luggage / weather penalty) |
-
-### Friction Levels
-
-The evaluator maps total $C_{\text{friction}}$ to a discrete `frictionLevel` label:
-
-| Level | Total Penalty | Example |
-|:---|:---|:---|
-| `MINIMAL` | 0–60 s | Same-platform cross-platform interchange |
-| `LOW` | 60–180 s | Paid-area concourse transfer, short walk |
-| `MODERATE` | 180–360 s | Unpaid-area transfer, level change |
-| `HIGH` | 360–600 s | Street-level transfer, outdoor exposure |
-| `CRITICAL` | >600 s | Security rescreening + street + level change |
-
-The `frictionLevel` field is surfaced in the API response, allowing corridor analysts to flag which interchange nodes create the most passenger deterrence.
-
----
-
-## 8. Dynamic Feeder Catchment
-
-When a locality (named residential or commercial area) is the origin or destination of a journey query rather than a specific station, the engine identifies candidate deboarding stations using a distance-based feeder catchment model.
-
-The catchment cutoff for feeder stations is:
-
-$$d_{\text{feeder\_cutoff}} = \max\left(d_{\min} + 1500\text{ m},\; d_{\min} \times 1.6\right)$$
-
-where $d_{\min}$ is the geodesic distance from the locality centroid to the nearest station.
-
-### Access Mode Assignment
-
-| Feeder Distance | Access Mode | Speed Assumption |
-|:---|:---|:---|
-| ≤ 1,200 m | Pedestrian | 1.2 m/s |
-| > 1,200 m | Vehicular feeder | Treated as road-network dependent |
-
-### Candidate Station Ordering
-
-Stations within the catchment cutoff are ranked by their proximity to the **locality centroid** across all metro lines. This ensures that for a locality served by multiple lines, candidates from each line are considered — the engine selects the best deboarding station per line independently, not just the globally nearest station.
-
-This is implemented in `findSpatialCandidateAttachments()` within `locality-routing.service.ts`.
-
----
-
-## 9. Pareto Dominance and Candidate Filtering
-
-After generating K candidates, the `CandidateFilterService` applies a two-stage filter.
-
-### Stage 1 — Feasibility Filter
-Eliminates paths that are structurally invalid (loops, excessive transfers, implausible durations) regardless of score.
-
-### Stage 2 — Pareto Dominance Filter
-
-A candidate $A$ is **strictly dominated** by candidate $B$ if:
-- $B$ has shorter or equal duration AND
-- $B$ has fewer or equal transfers AND
-- $B$ has shorter or equal walking distance AND
-- $B$ is strictly better in at least one dimension
-
-Dominated candidates are pruned.
-
-### Same-Destination Awareness
-
-For locality queries where multiple candidates deboard at the same physical station, additional pruning applies: a candidate deboarding at the same station is pruned if it is >15% slower or >5 minutes longer than the best candidate to that station with equal or fewer transfers.
-
-Candidates routing to **different** destination stations (serving different parts of a catchment) are preserved even if one is slower overall — because they are not alternatives, they are corridor diversity.
-
-This is implemented in `CandidateFilterService` using the `FilterableCandidate` interface which carries `destination.id` and `destFeederDistanceMeters`.
-
----
-
-## 10. Spatial Database Design
-
-All geographic data is stored in PostgreSQL 16 with the PostGIS extension.
-
-### Coordinate Storage Pattern
-
-Each `Station` and `Entrance` record stores coordinates in two forms:
-
-1. **Float columns** (`latitude`, `longitude`) — used by Prisma ORM for seeding and reading.
-2. **PostGIS geometry column** (`geom Unsupported("geometry")`) — binary `geometry(Point, 4326)` used for spatial queries.
-
-A database trigger keeps the `geom` column synchronized:
-
+All spatial entities utilize standard PostGIS geometry columns:
 ```sql
-CREATE OR REPLACE FUNCTION sync_station_geom()
+-- Geometry columns use SRID 4326 (WGS 84)
+ALTER TABLE stations ADD COLUMN geom geometry(Point, 4326);
+ALTER TABLE entrances ADD COLUMN geom geometry(Point, 4326);
+ALTER TABLE shapes ADD COLUMN geom geometry(LineString, 4326);
+ALTER TABLE isochrones ADD COLUMN geom geometry(Polygon, 4326);
+
+-- Spatial GIST indexes for ultra-fast spatial querying
+CREATE INDEX idx_stations_geom ON stations USING GIST(geom);
+CREATE INDEX idx_entrances_geom ON entrances USING GIST(geom);
+CREATE INDEX idx_shapes_geom ON shapes USING GIST(geom);
+CREATE INDEX idx_isochrones_geom ON isochrones USING GIST(geom);
+```
+
+### Trigger-Based Spatial Synchronization
+PostgreSQL triggers automatically update `geom` columns whenever `latitude` or `longitude` coordinates are inserted or modified:
+```sql
+CREATE OR REPLACE FUNCTION sync_geom_from_latlon()
 RETURNS TRIGGER AS $$
 BEGIN
-  NEW.geom = ST_SetSRID(ST_MakePoint(NEW.longitude, NEW.latitude), 4326);
-  RETURN NEW;
+    IF NEW.latitude IS NOT NULL AND NEW.longitude IS NOT NULL THEN
+        NEW.geom := ST_SetSRID(ST_MakePoint(NEW.longitude, NEW.latitude), 4326);
+    END IF;
+    RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 ```
 
-A GIST spatial index on `geom` accelerates all radius queries (`ST_DistanceSphere`, `ST_DWithin`).
-
-### Geodesic Distance
-
-All distance calculations use geodesic (great-circle) distance via PostGIS `geography` type or `ST_DistanceSphere`, not planar Euclidean approximations. This matters for catchment analysis: at Mumbai's latitude (~19°N), planar distortion is approximately 0.05% per kilometre — acceptable for station-to-station queries but compounding over city-scale OD analysis.
-
 ---
 
-## 11. GeoJSON Architecture
+## 8. Technology Stack Reference
 
-All spatial features served to clients are serialized as GeoJSON directly by the database, not by application-layer code.
-
-**Key principles:**
-- PostGIS functions (`ST_AsGeoJSON`, `ST_MakePoint`, `ST_MakeLine`) aggregate geometry in SQL.
-- The NestJS service layer wraps the result in a versioned FeatureCollection envelope and adds metadata.
-- The client receives render-ready GeoJSON and passes it directly to MapLibre GL — zero client-side coordinate transformation.
-
-**Versioned envelope format:**
-```json
-{
-  "version": "1.0.0",
-  "generatedAt": "ISO-8601-timestamp",
-  "systemId": "MMRDA",
-  "type": "FeatureCollection",
-  "features": [...]
-}
-```
-
-### Dynamic Layer Registry
-
-The map layer configuration (`GET /map/layers`) is served from the backend, not hardcoded on the client. Adding a new analytical overlay (e.g., catchment radius circles, OD flow lines, corridor heatmap) requires only registering the new layer in `geojson.service.ts`. The frontend discovers and renders it automatically.
-
----
-
-## 12. Cache Strategy
-
-The Redis cache is partitioned by namespace with TTL-based expiry and active invalidation on data import.
-
-| Namespace | Content | TTL |
-|:---|:---|:---|
-| `geojson:*` | Compiled GeoJSON layers (lines, stations, systems) | 3600 s |
-| `digitaltwin:*` | Station digital twin composite payloads | 3600 s |
-| `search:*` | Autocomplete / text search results | 3600 s |
-| `nearby:*` | Spatial radius query results | 3600 s |
-| `realtime:vehicles:*` | Decoded GTFS-RT vehicle positions | 30 s |
-| `transit:graph:*` | In-memory routing graph (serialized) | Session |
-
-On successful GTFS import, `redisService.delByPattern('geojson:*')` purges all stale geographic layers. The routing graph is rebuilt on next request.
-
----
-
-## 13. Realtime Data Levels
-
-TransitOS defines three levels of realtime data quality. Every API response carrying realtime information includes `source` and `confidence` fields.
-
-| Level | Label | Source | Confidence | Current Examples |
-|:---|:---|:---|:---|:---|
-| 1 | `official` | Operator GTFS-Realtime feed | 95–99% | Kochi Metro (KMRL) |
-| 2 | `enhanced` | Official feed + validation/filtering | 85–99% | Delhi Metro (DMRC, DTC false-positive removal) |
-| 3 | `estimated` | State Estimation Engine (schedule + observations) | 60–90% | Mumbai, Pune, Nagpur |
-
-The State Estimation Engine (SEE) maintains a probabilistic model of vehicle positions for networks without official feeds. It uses the synthesized GTFS schedule as the baseline and refines estimates using historical dwell time distributions (Category H) and any available live observations (Category I).
-
----
-
-## 14. Station Digital Twin Model
-
-Each station is modeled as a composite, nested structure representing physical, operational, and service-layer properties.
-
-```mermaid
-classDiagram
-    class Station {
-        +UUID id
-        +String code
-        +String name
-        +Float latitude
-        +Float longitude
-        +geometry geom
-    }
-    class Level {
-        +UUID id
-        +String name
-        +Int levelNumber
-        +LevelType type
-    }
-    class Platform {
-        +UUID id
-        +String platformNumber
-        +Boolean screenDoors
-        +Boolean wheelchairBoarding
-        +String direction
-    }
-    class Entrance {
-        +UUID id
-        +String name
-        +Boolean accessible
-        +Boolean escalator
-        +Boolean lift
-        +Float latitude
-        +Float longitude
-    }
-    class Amenity {
-        +UUID id
-        +AmenityType type
-        +String name
-    }
-
-    Station "1" *-- "many" Level
-    Station "1" *-- "many" Entrance
-    Level "1" *-- "many" Platform
-    Level "1" *-- "many" Amenity
-```
-
-The `GET /stations/:id/digital-twin` response organizes these into three namespaces: **physical** (levels, platforms, entrances), **services** (amenities, commercial), and **operational** (crowding telemetry, service status). This structure supports interchange walk time estimation from Category B data (platform-to-platform distances) and accessibility routing flags.
-
----
-
-## 15. Technology Stack
-
-| Component | Technology | Version |
-|:---|:---|:---|
-| Backend framework | NestJS | 11 |
-| Language | TypeScript | 5.7 |
-| Runtime | Node.js | 22 |
-| ORM | Prisma | 6.2 |
-| Relational database | PostgreSQL | 16 |
-| Spatial extension | PostGIS | 3.x |
-| Cache / pub-sub | Redis | 7.2 |
-| Frontend framework | Next.js (App Router) | 16 |
-| Map rendering | MapLibre GL JS / Mapbox GL | — |
-| Test framework | Jest | — |
-| Monorepo tooling | npm workspaces | — |
-
-The backend and frontend share no code at runtime. Types are shared through the TypeScript workspace. The frontend calls the NestJS backend exclusively through a versioned REST API defined in `services/api/`.
+| Component | Technology | Version | Architectural Role |
+| :--- | :--- | :--- | :--- |
+| **Backend Framework** | NestJS | 11.x | Modular API gateway, microservices, dependency injection. |
+| **Language** | TypeScript | 5.7+ | Full-stack type safety across backend and frontend. |
+| **Runtime** | Node.js | 22 LTS | High-performance asynchronous execution engine. |
+| **ORM** | Prisma | 6.x | Type-safe schema migrations, queries, and relations. |
+| **Relational Database** | PostgreSQL | 16.x | Relational storage for schedules, CTM, and system metadata. |
+| **Spatial Engine** | PostGIS | 3.4+ | Geospatial indexing, buffers, isochrones, and vector processing. |
+| **Distributed Cache** | Redis | 7.x | Graph serialization, route candidate caching, live vehicle state. |
+| **Frontend Framework** | Next.js (App Router) | 16.x | Server-rendered commuter UI with Turbopack and React 19. |
+| **Map Rendering** | MapLibre GL JS | 4.x | WebGL client-side vector tile and GeoJSON visualization. |
+| **Realtime Protocol** | Protocol Buffers | 2.0 | High-efficiency binary serialization for GTFS-RT feeds. |
+| **Styling** | Tailwind CSS + shadcn/ui | 3.x | Modern, responsive, accessible UI design system. |

@@ -1,0 +1,718 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "3ff32f5c-295d-44e9-8ff4-727cc385fe38",
+      "properties": {
+        "id": "3ff32f5c-295d-44e9-8ff4-727cc385fe38",
+        "ref": "STN_L2A_001",
+        "name": "Dahisar (East)",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 2A (Yellow Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.867264,
+          19.250954
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "d0071950-0717-4237-9d08-2afe00237ca2",
+      "properties": {
+        "id": "d0071950-0717-4237-9d08-2afe00237ca2",
+        "ref": "STN_L2A_002",
+        "name": "Anand Nagar",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 2A (Yellow Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.866134,
+          19.257219
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "c0034ee5-eed1-41e7-8cea-a8b167418ca4",
+      "properties": {
+        "id": "c0034ee5-eed1-41e7-8cea-a8b167418ca4",
+        "ref": "STN_L2A_003",
+        "name": "Kandarpada",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 2A (Yellow Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.850678,
+          19.256646
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "b3a1c2fb-24d7-4970-bce1-ec9fe442e769",
+      "properties": {
+        "id": "b3a1c2fb-24d7-4970-bce1-ec9fe442e769",
+        "ref": "STN_L2A_004",
+        "name": "Mandapeshwar",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 2A (Yellow Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.845677,
+          19.249261
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ab20465c-45c6-4f3e-8c7d-e11c714180a3",
+      "properties": {
+        "id": "ab20465c-45c6-4f3e-8c7d-e11c714180a3",
+        "ref": "STN_L2A_005",
+        "name": "Eksar",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 2A (Yellow Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.843438,
+          19.240323
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "f55b0a14-16c9-4842-8dba-e66c45d897c0",
+      "properties": {
+        "id": "f55b0a14-16c9-4842-8dba-e66c45d897c0",
+        "ref": "STN_L2A_006",
+        "name": "Borivali (West)",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 2A (Yellow Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.840865,
+          19.231194
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "23ca4da4-40a5-4e77-8b98-d4a82de1fa44",
+      "properties": {
+        "id": "23ca4da4-40a5-4e77-8b98-d4a82de1fa44",
+        "ref": "STN_L2A_007",
+        "name": "Shimpoli",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 2A (Yellow Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.840918,
+          19.222769
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "f69ddab6-b2ed-462c-9651-129fa3723aec",
+      "properties": {
+        "id": "f69ddab6-b2ed-462c-9651-129fa3723aec",
+        "ref": "STN_L2A_008",
+        "name": "Kandivali (West)",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 2A (Yellow Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.837355,
+          19.214005
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "a4f6f97b-48a6-4306-ad81-d780d962fba0",
+      "properties": {
+        "id": "a4f6f97b-48a6-4306-ad81-d780d962fba0",
+        "ref": "STN_L2A_009",
+        "name": "Dahanukarwadi",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 2A (Yellow Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.834717,
+          19.205772
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "700ad736-6832-4176-9daa-2c7cd208307d",
+      "properties": {
+        "id": "700ad736-6832-4176-9daa-2c7cd208307d",
+        "ref": "STN_L2A_010",
+        "name": "Valnai - Meeth Chowky",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 2A (Yellow Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.833786,
+          19.196621
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "a5c8405e-dc4c-4433-8499-a0543ad3ab9b",
+      "properties": {
+        "id": "a5c8405e-dc4c-4433-8499-a0543ad3ab9b",
+        "ref": "STN_L2A_011",
+        "name": "Malad (West)",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 2A (Yellow Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.83585,
+          19.1852
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "8573814b-a751-4397-978d-ae3f3f7ac4ca",
+      "properties": {
+        "id": "8573814b-a751-4397-978d-ae3f3f7ac4ca",
+        "ref": "STN_L2A_012",
+        "name": "Lower Malad",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 2A (Yellow Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.836423,
+          19.172953
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "9f35e1a3-4009-4ee8-aaf7-089343b33cd5",
+      "properties": {
+        "id": "9f35e1a3-4009-4ee8-aaf7-089343b33cd5",
+        "ref": "STN_L2A_013",
+        "name": "Bangur Nagar",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 2A (Yellow Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.834844,
+          19.162259
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ea4ba219-8e2c-4739-9211-8a804e346a39",
+      "properties": {
+        "id": "ea4ba219-8e2c-4739-9211-8a804e346a39",
+        "ref": "STN_L2A_014",
+        "name": "Goregaon (West)",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 2A (Yellow Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.835685,
+          19.153138
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "a7db6581-b2a2-44c6-83e1-33282e0f0829",
+      "properties": {
+        "id": "a7db6581-b2a2-44c6-83e1-33282e0f0829",
+        "ref": "STN_L2A_015",
+        "name": "Oshiwara",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 2A (Yellow Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.833752,
+          19.145979
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fef75ace-9f9e-4a11-86a3-464d3a97f2fa",
+      "properties": {
+        "id": "fef75ace-9f9e-4a11-86a3-464d3a97f2fa",
+        "ref": "STN_L2A_016",
+        "name": "Lower Oshiwara",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 2A (Yellow Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.831717,
+          19.140455
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "7fb67d32-536c-48c0-88bd-d6e541b547d1",
+      "properties": {
+        "id": "7fb67d32-536c-48c0-88bd-d6e541b547d1",
+        "ref": "STN_L2A_017",
+        "name": "Andheri (West)",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 2A (Yellow Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.831415,
+          19.129089
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "b076e0d0-b15e-4787-ac9d-cf50deed03ab",
+      "properties": {
+        "id": "b076e0d0-b15e-4787-ac9d-cf50deed03ab",
+        "ref": "STN_L7_001",
+        "name": "Dahisar (East)",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 7 (Red Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.867264,
+          19.250954
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "980e9520-3154-4cd5-b27a-4762280c612b",
+      "properties": {
+        "id": "980e9520-3154-4cd5-b27a-4762280c612b",
+        "ref": "STN_L7_002",
+        "name": "Ovaripada",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 7 (Red Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.864248,
+          19.243411
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3cf59b5b-73ea-4d6c-a1b4-93e8c1243cf8",
+      "properties": {
+        "id": "3cf59b5b-73ea-4d6c-a1b4-93e8c1243cf8",
+        "ref": "STN_L7_003",
+        "name": "Rashtriya Udyan",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 7 (Red Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.863161,
+          19.234671
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "e2bd7190-0d52-4908-8ed6-962c58971709",
+      "properties": {
+        "id": "e2bd7190-0d52-4908-8ed6-962c58971709",
+        "ref": "STN_L7_004",
+        "name": "Devipada",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 7 (Red Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.86422,
+          19.224332
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "2ea88130-c1e0-4df0-8006-c5043c10a3d2",
+      "properties": {
+        "id": "2ea88130-c1e0-4df0-8006-c5043c10a3d2",
+        "ref": "STN_L7_005",
+        "name": "Magathane",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 7 (Red Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.866728,
+          19.217203
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "b19014a6-7d86-42e3-ac32-26f26bc0a086",
+      "properties": {
+        "id": "b19014a6-7d86-42e3-ac32-26f26bc0a086",
+        "ref": "STN_L7_006",
+        "name": "Poisar",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 7 (Red Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.863499,
+          19.203938
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "e72af378-397c-4c69-ad41-d1fddaffbd71",
+      "properties": {
+        "id": "e72af378-397c-4c69-ad41-d1fddaffbd71",
+        "ref": "STN_L7_007",
+        "name": "Akurli",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 7 (Red Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.860646,
+          19.198115
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "a972e155-af03-4898-8091-8a0c136a39d7",
+      "properties": {
+        "id": "a972e155-af03-4898-8091-8a0c136a39d7",
+        "ref": "STN_L7_008",
+        "name": "Kurar",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 7 (Red Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.858512,
+          19.187264
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecf9f67f-58f3-4e23-a28f-728b6af2cf9f",
+      "properties": {
+        "id": "ecf9f67f-58f3-4e23-a28f-728b6af2cf9f",
+        "ref": "STN_L7_009",
+        "name": "Dindoshi",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 7 (Red Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8583,
+          19.17972
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "750af880-15a8-426c-b5db-69c4c9c3c983",
+      "properties": {
+        "id": "750af880-15a8-426c-b5db-69c4c9c3c983",
+        "ref": "STN_L7_010",
+        "name": "Aarey",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 7 (Red Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.858801,
+          19.169506
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "17629914-a9b9-4cd7-a3d1-e21b4c5947cb",
+      "properties": {
+        "id": "17629914-a9b9-4cd7-a3d1-e21b4c5947cb",
+        "ref": "STN_L7_011",
+        "name": "Goregaon (East)",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 7 (Red Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.856573,
+          19.152442
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ba8fb666-683a-4019-ac3c-6527d2bc8fa2",
+      "properties": {
+        "id": "ba8fb666-683a-4019-ac3c-6527d2bc8fa2",
+        "ref": "STN_L7_012",
+        "name": "Jogeshwari (East)",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 7 (Red Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.855166,
+          19.142928
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "9d787674-9b7b-40a0-8313-7e42304602bc",
+      "properties": {
+        "id": "9d787674-9b7b-40a0-8313-7e42304602bc",
+        "ref": "STN_L7_013",
+        "name": "Mogra",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 7 (Red Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.855452,
+          19.128677
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "cad14c55-8824-4546-b733-d46887e94264",
+      "properties": {
+        "id": "cad14c55-8824-4546-b733-d46887e94264",
+        "ref": "STN_L7_014",
+        "name": "Gundavali",
+        "railway": "station",
+        "station": "subway",
+        "subway": "yes",
+        "network": "Mumbai Metro",
+        "line": "Line 7 (Red Line)",
+        "operator": "MMMOCL",
+        "layer": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.855172,
+          19.114439
+        ]
+      }
+    }
+  ]
+}

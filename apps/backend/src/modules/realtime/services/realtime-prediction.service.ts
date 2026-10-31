@@ -93,12 +93,14 @@ export class RealtimePredictionService {
 
         // 3. Compute wait time AT THE INTERCHANGE PLATFORM
         const actualDepartureSecs = prediction.actualDepartureSecs;
-        const connectionWaitMins = Math.max(
+        const rawWaitMins = Math.max(
           0,
           Math.round((actualDepartureSecs - arrivalAtPlatformSecs) / 60),
         );
+        const isOvernightWait = rawWaitMins > 30;
+        const connectionWaitMins = isOvernightWait ? 5 : rawWaitMins;
 
-        // 4. Compute overall elapsed time from CURRENT CLOCK NOW
+        // 4. Compute overall elapsed time from reference time
         const totalEtaFromNowMins = Math.max(
           0,
           Math.round((actualDepartureSecs - nowSecs) / 60),
@@ -111,7 +113,9 @@ export class RealtimePredictionService {
 
         // Cumulative progress: actual departure + in-vehicle duration
         const inVehicleDuration = leg.durationSeconds || leg.duration || 180;
-        cumulativeSecs = prediction.actualDepartureSecs + inVehicleDuration;
+        cumulativeSecs = isOvernightWait
+          ? cumulativeSecs + 300 + inVehicleDuration
+          : prediction.actualDepartureSecs + inVehicleDuration;
       } else if (
         leg.type === 'TRANSIT' &&
         leg.throughServiceContinuationFromPrevious
@@ -334,18 +338,13 @@ export class RealtimePredictionService {
         const actualDepartureSecs = scheduledDepSecs + delaySeconds;
         const actualArrivalSecs = scheduledArrSecs + delaySeconds;
 
-        const secsUntilDeparture = actualDepartureSecs - nowSecs;
-        const secsUntilArrival = actualArrivalSecs - nowSecs;
-
-        // Skip trains that have already cleared the platform (> 15s after departure)
-        if (secsUntilDeparture < -15) {
-          continue;
-        }
-
         // Require train to be at or after earliest departure request
         if (actualDepartureSecs < earliestDepartureSecs) {
           continue;
         }
+
+        const secsUntilDeparture = actualDepartureSecs - nowSecs;
+        const secsUntilArrival = actualArrivalSecs - nowSecs;
 
         let isArriving = false;
         let isBoarding = false;

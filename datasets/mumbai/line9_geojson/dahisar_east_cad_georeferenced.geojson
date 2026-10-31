@@ -1,0 +1,253 @@
+{
+  "type": "FeatureCollection",
+  "name": "Dahisar East Station Wayfinding Assets (CAD Georeferenced)",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Dahisar East",
+        "name": "Dahisar East LIFT-1",
+        "element_type": "LIFT",
+        "accessible": true,
+        "marker-color": "#06b6d4",
+        "marker-size": "medium",
+        "label": "LIFT-1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8672263,
+          19.2510249
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Dahisar East",
+        "name": "Dahisar East ENTRY",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "ENTRY"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8670399,
+          19.2507091
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Dahisar East",
+        "name": "Dahisar East EXIT",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "EXIT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8671554,
+          19.2507619
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Dahisar East",
+        "name": "Dahisar East LIFT-2",
+        "element_type": "LIFT",
+        "accessible": true,
+        "marker-color": "#06b6d4",
+        "marker-size": "medium",
+        "label": "LIFT-2"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.867324,
+          19.2509652
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Dahisar East",
+        "name": "Dahisar East ESC.-01",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "ESC.-01"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8671237,
+          19.250854
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Dahisar East",
+        "name": "Dahisar East ESC.-02",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "ESC.-02"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8673486,
+          19.2511833
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Dahisar East",
+        "name": "Dahisar East ESC.-03",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "ESC.-03"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8674314,
+          19.2511346
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Dahisar East",
+        "name": "Dahisar East ESC.-04",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "ESC.-04"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8672134,
+          19.2508179
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Dahisar East",
+        "name": "Dahisar East LIFT",
+        "element_type": "LIFT",
+        "accessible": true,
+        "marker-color": "#06b6d4",
+        "marker-size": "medium",
+        "label": "LIFT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8670015,
+          19.2504545
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Dahisar East",
+        "name": "Dahisar East ESC.-06",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "ESC.-06"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8668509,
+          19.2503408
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Dahisar East",
+        "name": "Dahisar East EXIT",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "EXIT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.86744,
+          19.2512929
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Dahisar East",
+        "name": "Dahisar East ENTRY",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "ENTRY"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8675805,
+          19.2513815
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Dahisar East",
+        "name": "Dahisar East LIFT",
+        "element_type": "LIFT",
+        "accessible": true,
+        "marker-color": "#06b6d4",
+        "marker-size": "medium",
+        "label": "LIFT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8676909,
+          19.2514865
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,2777 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "0f12673d-c41e-4610-a062-2447624378d4",
+      "properties": {
+        "id": "0f12673d-c41e-4610-a062-2447624378d4",
+        "name": "Dahisar (East) Gate 1 (New Link Road - West Side North)",
+        "station_code": "STN_L2A_001",
+        "station_name": "Dahisar (East)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.867691,
+          19.251486
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "50782ae7-5724-4329-8200-5d9a96a0f38c",
+      "properties": {
+        "id": "50782ae7-5724-4329-8200-5d9a96a0f38c",
+        "name": "Dahisar (East) Gate 2 (New Link Road - West Side South)",
+        "station_code": "STN_L2A_001",
+        "station_name": "Dahisar (East)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.867581,
+          19.251382
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "295f2126-7e2a-4601-9e4c-c0771c84ed54",
+      "properties": {
+        "id": "295f2126-7e2a-4601-9e4c-c0771c84ed54",
+        "name": "Dahisar (East) Gate 3 (New Link Road - East Side North)",
+        "station_code": "STN_L2A_001",
+        "station_name": "Dahisar (East)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.867002,
+          19.250455
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "5260430c-36a6-4b7b-8be0-4f8a13bb1512",
+      "properties": {
+        "id": "5260430c-36a6-4b7b-8be0-4f8a13bb1512",
+        "name": "Dahisar (East) Gate 4 (New Link Road - East Side South)",
+        "station_code": "STN_L2A_001",
+        "station_name": "Dahisar (East)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.866851,
+          19.250341
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "38c5a5af-779f-4ba9-9f7f-989849f7b34b",
+      "properties": {
+        "id": "38c5a5af-779f-4ba9-9f7f-989849f7b34b",
+        "name": "Anand Nagar Gate 1 (New Link Road - West Side North)",
+        "station_code": "STN_L2A_002",
+        "station_name": "Anand Nagar",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8659547,
+          19.2576367
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "930ac257-451b-44ee-8ba8-f0dbe2929764",
+      "properties": {
+        "id": "930ac257-451b-44ee-8ba8-f0dbe2929764",
+        "name": "Anand Nagar Gate 2 (New Link Road - West Side South)",
+        "station_code": "STN_L2A_002",
+        "station_name": "Anand Nagar",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8658949,
+          19.2568289
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "eb8bd9b6-ea61-41d8-b0f9-3f302b6df32d",
+      "properties": {
+        "id": "eb8bd9b6-ea61-41d8-b0f9-3f302b6df32d",
+        "name": "Anand Nagar Gate 3 (New Link Road - East Side North)",
+        "station_code": "STN_L2A_002",
+        "station_name": "Anand Nagar",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8663731,
+          19.2576091
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1268c336-f28e-40f7-ab39-bb6aebd5367f",
+      "properties": {
+        "id": "1268c336-f28e-40f7-ab39-bb6aebd5367f",
+        "name": "Anand Nagar Gate 4 (New Link Road - East Side South)",
+        "station_code": "STN_L2A_002",
+        "station_name": "Anand Nagar",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8663133,
+          19.2568013
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "7bc099aa-7256-4b90-96a5-a8e38bc9165b",
+      "properties": {
+        "id": "7bc099aa-7256-4b90-96a5-a8e38bc9165b",
+        "name": "Kandarpada Gate 1 (New Link Road - West Side North)",
+        "station_code": "STN_L2A_003",
+        "station_name": "Kandarpada",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8505637,
+          19.2570836
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "d5d684b8-0c6e-431a-972e-66c0def63c21",
+      "properties": {
+        "id": "d5d684b8-0c6e-431a-972e-66c0def63c21",
+        "name": "Kandarpada Gate 2 (New Link Road - West Side South)",
+        "station_code": "STN_L2A_003",
+        "station_name": "Kandarpada",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8503824,
+          19.2562921
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "73cf0056-b1c9-4baa-b1e4-b315ce1a3340",
+      "properties": {
+        "id": "73cf0056-b1c9-4baa-b1e4-b315ce1a3340",
+        "name": "Kandarpada Gate 3 (New Link Road - East Side North)",
+        "station_code": "STN_L2A_003",
+        "station_name": "Kandarpada",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8509736,
+          19.2569999
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "c7a126e1-0a01-432c-9b8a-16660699c24f",
+      "properties": {
+        "id": "c7a126e1-0a01-432c-9b8a-16660699c24f",
+        "name": "Kandarpada Gate 4 (New Link Road - East Side South)",
+        "station_code": "STN_L2A_003",
+        "station_name": "Kandarpada",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8507923,
+          19.2562084
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "6159966b-5abb-4893-8840-aedb1ae70e6e",
+      "properties": {
+        "id": "6159966b-5abb-4893-8840-aedb1ae70e6e",
+        "name": "Mandapeshwar Gate 1 (New Link Road - West Side North)",
+        "station_code": "STN_L2A_004",
+        "station_name": "Mandapeshwar",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8455196,
+          19.2496865
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "4c70cebc-a8e0-4d79-897f-04ccffc26970",
+      "properties": {
+        "id": "4c70cebc-a8e0-4d79-897f-04ccffc26970",
+        "name": "Mandapeshwar Gate 2 (New Link Road - West Side South)",
+        "station_code": "STN_L2A_004",
+        "station_name": "Mandapeshwar",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.845418,
+          19.2488824
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "5d820732-828d-45b2-8ea3-8b7d1bfabd36",
+      "properties": {
+        "id": "5d820732-828d-45b2-8ea3-8b7d1bfabd36",
+        "name": "Mandapeshwar Gate 3 (New Link Road - East Side North)",
+        "station_code": "STN_L2A_004",
+        "station_name": "Mandapeshwar",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.845936,
+          19.2496396
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "67403a3d-f301-4ad4-9010-6df0f4ab17e2",
+      "properties": {
+        "id": "67403a3d-f301-4ad4-9010-6df0f4ab17e2",
+        "name": "Mandapeshwar Gate 4 (New Link Road - East Side South)",
+        "station_code": "STN_L2A_004",
+        "station_name": "Mandapeshwar",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8458344,
+          19.2488355
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "2624ed88-fa40-4626-ab95-01b6db391e38",
+      "properties": {
+        "id": "2624ed88-fa40-4626-ab95-01b6db391e38",
+        "name": "Eksar Gate 1 (New Link Road - West Side North)",
+        "station_code": "STN_L2A_005",
+        "station_name": "Eksar",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8432806,
+          19.2407485
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "8e35b0b9-9f62-4de4-b28c-1c7694d56bfa",
+      "properties": {
+        "id": "8e35b0b9-9f62-4de4-b28c-1c7694d56bfa",
+        "name": "Eksar Gate 2 (New Link Road - West Side South)",
+        "station_code": "STN_L2A_005",
+        "station_name": "Eksar",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.843179,
+          19.2399444
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "0a94abfa-49ff-46c7-890f-6f303e60d4a7",
+      "properties": {
+        "id": "0a94abfa-49ff-46c7-890f-6f303e60d4a7",
+        "name": "Eksar Gate 3 (New Link Road - East Side North)",
+        "station_code": "STN_L2A_005",
+        "station_name": "Eksar",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.843697,
+          19.2407016
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "a9162bb0-8ddb-464d-8fbe-f2899619616a",
+      "properties": {
+        "id": "a9162bb0-8ddb-464d-8fbe-f2899619616a",
+        "name": "Eksar Gate 4 (New Link Road - East Side South)",
+        "station_code": "STN_L2A_005",
+        "station_name": "Eksar",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8435954,
+          19.2398975
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "8d1ba2d5-3759-4c20-aa8e-b95640855ea4",
+      "properties": {
+        "id": "8d1ba2d5-3759-4c20-aa8e-b95640855ea4",
+        "name": "Borivali (West) Gate 1 (New Link Road - West Side North)",
+        "station_code": "STN_L2A_006",
+        "station_name": "Borivali (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8407076,
+          19.2316195
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "be19dc78-fde4-4856-afa0-e0b679ab0e41",
+      "properties": {
+        "id": "be19dc78-fde4-4856-afa0-e0b679ab0e41",
+        "name": "Borivali (West) Gate 2 (New Link Road - West Side South)",
+        "station_code": "STN_L2A_006",
+        "station_name": "Borivali (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8406061,
+          19.2308154
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3ca2def1-bba2-4f6c-bcfc-8d38dde7c9d1",
+      "properties": {
+        "id": "3ca2def1-bba2-4f6c-bcfc-8d38dde7c9d1",
+        "name": "Borivali (West) Gate 3 (New Link Road - East Side North)",
+        "station_code": "STN_L2A_006",
+        "station_name": "Borivali (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8411239,
+          19.2315726
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "63532d7c-95ad-47c1-b7c4-afad95aa8702",
+      "properties": {
+        "id": "63532d7c-95ad-47c1-b7c4-afad95aa8702",
+        "name": "Borivali (West) Gate 4 (New Link Road - East Side South)",
+        "station_code": "STN_L2A_006",
+        "station_name": "Borivali (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8410224,
+          19.2307685
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "b4fc6ce0-6265-4f4b-9114-690830a515e1",
+      "properties": {
+        "id": "b4fc6ce0-6265-4f4b-9114-690830a515e1",
+        "name": "Shimpoli Gate 1 (New Link Road - West Side North)",
+        "station_code": "STN_L2A_007",
+        "station_name": "Shimpoli",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8408037,
+          19.2232066
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "59233c45-e737-44cc-9489-65235251fc90",
+      "properties": {
+        "id": "59233c45-e737-44cc-9489-65235251fc90",
+        "name": "Shimpoli Gate 2 (New Link Road - West Side South)",
+        "station_code": "STN_L2A_007",
+        "station_name": "Shimpoli",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8406225,
+          19.2224151
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "7e2ad7e7-0635-4c6f-8cee-a33056c1aefa",
+      "properties": {
+        "id": "7e2ad7e7-0635-4c6f-8cee-a33056c1aefa",
+        "name": "Shimpoli Gate 3 (New Link Road - East Side North)",
+        "station_code": "STN_L2A_007",
+        "station_name": "Shimpoli",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8412135,
+          19.2231229
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "881f5e37-33d3-443a-9fbf-8ced6601c5cf",
+      "properties": {
+        "id": "881f5e37-33d3-443a-9fbf-8ced6601c5cf",
+        "name": "Shimpoli Gate 4 (New Link Road - East Side South)",
+        "station_code": "STN_L2A_007",
+        "station_name": "Shimpoli",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8410323,
+          19.2223314
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "070c45d5-e141-4f19-ba1e-371d99dea78b",
+      "properties": {
+        "id": "070c45d5-e141-4f19-ba1e-371d99dea78b",
+        "name": "Kandivali (West) Gate 1 (New Link Road - West Side North)",
+        "station_code": "STN_L2A_008",
+        "station_name": "Kandivali (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8372407,
+          19.2144426
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "104748ed-c87f-4b34-b166-f1d7f4d623bd",
+      "properties": {
+        "id": "104748ed-c87f-4b34-b166-f1d7f4d623bd",
+        "name": "Kandivali (West) Gate 2 (New Link Road - West Side South)",
+        "station_code": "STN_L2A_008",
+        "station_name": "Kandivali (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8370595,
+          19.2136511
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "42ba4b3f-1793-41e6-943a-b8f4f5b2ec9d",
+      "properties": {
+        "id": "42ba4b3f-1793-41e6-943a-b8f4f5b2ec9d",
+        "name": "Kandivali (West) Gate 3 (New Link Road - East Side North)",
+        "station_code": "STN_L2A_008",
+        "station_name": "Kandivali (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8376505,
+          19.2143589
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bb0d0e20-76eb-4318-9ba3-325e8ec64f2e",
+      "properties": {
+        "id": "bb0d0e20-76eb-4318-9ba3-325e8ec64f2e",
+        "name": "Kandivali (West) Gate 4 (New Link Road - East Side South)",
+        "station_code": "STN_L2A_008",
+        "station_name": "Kandivali (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8374693,
+          19.2135674
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "83fe2b1e-745c-47c6-9f61-3b28f10ad85f",
+      "properties": {
+        "id": "83fe2b1e-745c-47c6-9f61-3b28f10ad85f",
+        "name": "Dahanukarwadi Gate 1 (New Link Road - West Side North)",
+        "station_code": "STN_L2A_009",
+        "station_name": "Dahanukarwadi",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.834581,
+          19.206204
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12ca351f-5f00-4f73-81d2-d175fe898a6c",
+      "properties": {
+        "id": "12ca351f-5f00-4f73-81d2-d175fe898a6c",
+        "name": "Dahanukarwadi Gate 2 (New Link Road - West Side South)",
+        "station_code": "STN_L2A_009",
+        "station_name": "Dahanukarwadi",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8344395,
+          19.2054053
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "e148d679-4f06-47d0-8698-b88f0ee14ebf",
+      "properties": {
+        "id": "e148d679-4f06-47d0-8698-b88f0ee14ebf",
+        "name": "Dahanukarwadi Gate 3 (New Link Road - East Side North)",
+        "station_code": "STN_L2A_009",
+        "station_name": "Dahanukarwadi",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8349945,
+          19.2061387
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "a7ecce47-dc97-4844-ab05-f09b0aaf55b4",
+      "properties": {
+        "id": "a7ecce47-dc97-4844-ab05-f09b0aaf55b4",
+        "name": "Dahanukarwadi Gate 4 (New Link Road - East Side South)",
+        "station_code": "STN_L2A_009",
+        "station_name": "Dahanukarwadi",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.834853,
+          19.20534
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "d6b3e7d5-2377-4e82-b58d-1d9cbfb8abca",
+      "properties": {
+        "id": "d6b3e7d5-2377-4e82-b58d-1d9cbfb8abca",
+        "name": "Valnai - Meeth Chowky Gate 1 (New Link Road - West Side North)",
+        "station_code": "STN_L2A_010",
+        "station_name": "Valnai - Meeth Chowky",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8336263,
+          19.1970457
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "9ccf64f7-4701-4e79-9ce8-51d6f1c84938",
+      "properties": {
+        "id": "9ccf64f7-4701-4e79-9ce8-51d6f1c84938",
+        "name": "Valnai - Meeth Chowky Gate 2 (New Link Road - West Side South)",
+        "station_code": "STN_L2A_010",
+        "station_name": "Valnai - Meeth Chowky",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8335292,
+          19.1962411
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3bf637bf-20ab-4b28-872d-ea906dde8718",
+      "properties": {
+        "id": "3bf637bf-20ab-4b28-872d-ea906dde8718",
+        "name": "Valnai - Meeth Chowky Gate 3 (New Link Road - East Side North)",
+        "station_code": "STN_L2A_010",
+        "station_name": "Valnai - Meeth Chowky",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8340428,
+          19.1970009
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "5f748270-6e40-4180-b9cc-8720cbb2a2cb",
+      "properties": {
+        "id": "5f748270-6e40-4180-b9cc-8720cbb2a2cb",
+        "name": "Valnai - Meeth Chowky Gate 4 (New Link Road - East Side South)",
+        "station_code": "STN_L2A_010",
+        "station_name": "Valnai - Meeth Chowky",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8339457,
+          19.1961963
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "d2659346-2ca8-4995-8d3b-f1471b9535fb",
+      "properties": {
+        "id": "d2659346-2ca8-4995-8d3b-f1471b9535fb",
+        "name": "Malad (West) Gate 1 (New Link Road - West Side North)",
+        "station_code": "STN_L2A_011",
+        "station_name": "Malad (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8357618,
+          19.1856429
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "aec46a9c-de73-4e27-bf34-048bba876495",
+      "properties": {
+        "id": "aec46a9c-de73-4e27-bf34-048bba876495",
+        "name": "Malad (West) Gate 2 (New Link Road - West Side South)",
+        "station_code": "STN_L2A_011",
+        "station_name": "Malad (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8355341,
+          19.1848622
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "4c42538e-db5e-49dd-af05-23eea4818864",
+      "properties": {
+        "id": "4c42538e-db5e-49dd-af05-23eea4818864",
+        "name": "Malad (West) Gate 3 (New Link Road - East Side North)",
+        "station_code": "STN_L2A_011",
+        "station_name": "Malad (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8361659,
+          19.1855378
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bb87d910-cf63-4554-80b0-c24b83e268fe",
+      "properties": {
+        "id": "bb87d910-cf63-4554-80b0-c24b83e268fe",
+        "name": "Malad (West) Gate 4 (New Link Road - East Side South)",
+        "station_code": "STN_L2A_011",
+        "station_name": "Malad (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8359382,
+          19.1847571
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "e4ec38d2-3e6c-4851-8b75-4444be52fe26",
+      "properties": {
+        "id": "e4ec38d2-3e6c-4851-8b75-4444be52fe26",
+        "name": "Lower Malad Gate 1 (New Link Road - West Side North)",
+        "station_code": "STN_L2A_012",
+        "station_name": "Lower Malad",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8363348,
+          19.1733959
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "5d344c88-001c-442e-86d8-22b1f93843f3",
+      "properties": {
+        "id": "5d344c88-001c-442e-86d8-22b1f93843f3",
+        "name": "Lower Malad Gate 2 (New Link Road - West Side South)",
+        "station_code": "STN_L2A_012",
+        "station_name": "Lower Malad",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8361071,
+          19.1726152
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "02ea0827-f6c6-4b37-b2c5-edb6c11c1cef",
+      "properties": {
+        "id": "02ea0827-f6c6-4b37-b2c5-edb6c11c1cef",
+        "name": "Lower Malad Gate 3 (New Link Road - East Side North)",
+        "station_code": "STN_L2A_012",
+        "station_name": "Lower Malad",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8367389,
+          19.1732908
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "550ce500-bde3-48f5-8f65-18d8b600b6da",
+      "properties": {
+        "id": "550ce500-bde3-48f5-8f65-18d8b600b6da",
+        "name": "Lower Malad Gate 4 (New Link Road - East Side South)",
+        "station_code": "STN_L2A_012",
+        "station_name": "Lower Malad",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8365112,
+          19.1725101
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "95644b3c-a642-4074-8756-cda4a84679ce",
+      "properties": {
+        "id": "95644b3c-a642-4074-8756-cda4a84679ce",
+        "name": "Bangur Nagar Gate 1 (New Link Road - West Side North)",
+        "station_code": "STN_L2A_013",
+        "station_name": "Bangur Nagar",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8347558,
+          19.1627019
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "4944acd1-8edb-49fe-a9c6-2bc352c06308",
+      "properties": {
+        "id": "4944acd1-8edb-49fe-a9c6-2bc352c06308",
+        "name": "Bangur Nagar Gate 2 (New Link Road - West Side South)",
+        "station_code": "STN_L2A_013",
+        "station_name": "Bangur Nagar",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8345281,
+          19.1619212
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "7b087300-4abe-40b9-84a4-c5d6a0b8eb93",
+      "properties": {
+        "id": "7b087300-4abe-40b9-84a4-c5d6a0b8eb93",
+        "name": "Bangur Nagar Gate 3 (New Link Road - East Side North)",
+        "station_code": "STN_L2A_013",
+        "station_name": "Bangur Nagar",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8351599,
+          19.1625968
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "6904636b-8c18-482e-9589-b6a33a63c902",
+      "properties": {
+        "id": "6904636b-8c18-482e-9589-b6a33a63c902",
+        "name": "Bangur Nagar Gate 4 (New Link Road - East Side South)",
+        "station_code": "STN_L2A_013",
+        "station_name": "Bangur Nagar",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8349322,
+          19.1618161
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "44525742-50e4-497f-b9f5-41796f22069d",
+      "properties": {
+        "id": "44525742-50e4-497f-b9f5-41796f22069d",
+        "name": "Goregaon (West) Gate 1 (New Link Road - West Side North)",
+        "station_code": "STN_L2A_014",
+        "station_name": "Goregaon (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8355968,
+          19.1535809
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "64239e4b-c419-4fa4-b561-771bd32b5fa2",
+      "properties": {
+        "id": "64239e4b-c419-4fa4-b561-771bd32b5fa2",
+        "name": "Goregaon (West) Gate 2 (New Link Road - West Side South)",
+        "station_code": "STN_L2A_014",
+        "station_name": "Goregaon (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8353691,
+          19.1528002
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "6735d43d-4ba3-4b7a-9097-8e2f4e3d165b",
+      "properties": {
+        "id": "6735d43d-4ba3-4b7a-9097-8e2f4e3d165b",
+        "name": "Goregaon (West) Gate 3 (New Link Road - East Side North)",
+        "station_code": "STN_L2A_014",
+        "station_name": "Goregaon (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8360009,
+          19.1534758
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "f3eddb21-ec10-44af-a7c5-c3ebece2ea11",
+      "properties": {
+        "id": "f3eddb21-ec10-44af-a7c5-c3ebece2ea11",
+        "name": "Goregaon (West) Gate 4 (New Link Road - East Side South)",
+        "station_code": "STN_L2A_014",
+        "station_name": "Goregaon (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8357732,
+          19.1526951
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "15448f2c-4ff4-4e6a-ba3d-28029b10191e",
+      "properties": {
+        "id": "15448f2c-4ff4-4e6a-ba3d-28029b10191e",
+        "name": "Oshiwara Gate 1 (New Link Road - West Side North)",
+        "station_code": "STN_L2A_015",
+        "station_name": "Oshiwara",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8336638,
+          19.1464219
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "f81d3c12-4d34-4594-a0e1-a36eb819313a",
+      "properties": {
+        "id": "f81d3c12-4d34-4594-a0e1-a36eb819313a",
+        "name": "Oshiwara Gate 2 (New Link Road - West Side South)",
+        "station_code": "STN_L2A_015",
+        "station_name": "Oshiwara",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8334362,
+          19.1456412
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "627d1114-0ac4-4e09-833c-6e4556f00d85",
+      "properties": {
+        "id": "627d1114-0ac4-4e09-833c-6e4556f00d85",
+        "name": "Oshiwara Gate 3 (New Link Road - East Side North)",
+        "station_code": "STN_L2A_015",
+        "station_name": "Oshiwara",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8340678,
+          19.1463168
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "63449ff4-0885-497c-98e1-3a1db0233842",
+      "properties": {
+        "id": "63449ff4-0885-497c-98e1-3a1db0233842",
+        "name": "Oshiwara Gate 4 (New Link Road - East Side South)",
+        "station_code": "STN_L2A_015",
+        "station_name": "Oshiwara",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8338402,
+          19.1455361
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "8e82307b-d613-498a-820e-73cb9b85d8d3",
+      "properties": {
+        "id": "8e82307b-d613-498a-820e-73cb9b85d8d3",
+        "name": "Lower Oshiwara Gate 1 (New Link Road - West Side North)",
+        "station_code": "STN_L2A_016",
+        "station_name": "Lower Oshiwara",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8316288,
+          19.1408979
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "e49d326d-6a3d-4dc5-afb8-71cd49ca03d3",
+      "properties": {
+        "id": "e49d326d-6a3d-4dc5-afb8-71cd49ca03d3",
+        "name": "Lower Oshiwara Gate 2 (New Link Road - West Side South)",
+        "station_code": "STN_L2A_016",
+        "station_name": "Lower Oshiwara",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8314012,
+          19.1401172
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "b0b8bf98-afad-4442-bc61-47b7c8a3fb4a",
+      "properties": {
+        "id": "b0b8bf98-afad-4442-bc61-47b7c8a3fb4a",
+        "name": "Lower Oshiwara Gate 3 (New Link Road - East Side North)",
+        "station_code": "STN_L2A_016",
+        "station_name": "Lower Oshiwara",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8320328,
+          19.1407928
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "09416dbf-f7cf-4d1b-a367-e77bb3c1df05",
+      "properties": {
+        "id": "09416dbf-f7cf-4d1b-a367-e77bb3c1df05",
+        "name": "Lower Oshiwara Gate 4 (New Link Road - East Side South)",
+        "station_code": "STN_L2A_016",
+        "station_name": "Lower Oshiwara",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8318052,
+          19.1400121
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "90e8b743-611a-43bc-be89-9927a23ef2a8",
+      "properties": {
+        "id": "90e8b743-611a-43bc-be89-9927a23ef2a8",
+        "name": "Andheri (West) Gate 1 (New Link Road - West Side North)",
+        "station_code": "STN_L2A_017",
+        "station_name": "Andheri (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8313268,
+          19.1295319
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "5d8540ca-a383-4bff-97e6-53ebb012345f",
+      "properties": {
+        "id": "5d8540ca-a383-4bff-97e6-53ebb012345f",
+        "name": "Andheri (West) Gate 2 (New Link Road - West Side South)",
+        "station_code": "STN_L2A_017",
+        "station_name": "Andheri (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8310992,
+          19.1287512
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "966b0d75-ff3f-4814-a31a-8d607baf4fa0",
+      "properties": {
+        "id": "966b0d75-ff3f-4814-a31a-8d607baf4fa0",
+        "name": "Andheri (West) Gate 3 (New Link Road - East Side North)",
+        "station_code": "STN_L2A_017",
+        "station_name": "Andheri (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8317308,
+          19.1294268
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "5630f73f-51c1-41b2-a1d1-2dca4cdb7089",
+      "properties": {
+        "id": "5630f73f-51c1-41b2-a1d1-2dca4cdb7089",
+        "name": "Andheri (West) Gate 4 (New Link Road - East Side South)",
+        "station_code": "STN_L2A_017",
+        "station_name": "Andheri (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8315032,
+          19.1286461
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "c1628fe6-e407-4bac-bd50-761499869cc3",
+      "properties": {
+        "id": "c1628fe6-e407-4bac-bd50-761499869cc3",
+        "name": "Andheri (West) Interchange Concourse Link (Line 1)",
+        "station_code": "STN_L2A_017",
+        "station_name": "Andheri (West)",
+        "line": "Line 2A",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8316696,
+          19.1297505
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "2f7eea29-8e1f-4bd4-8972-1d91d76c94ba",
+      "properties": {
+        "id": "2f7eea29-8e1f-4bd4-8972-1d91d76c94ba",
+        "name": "Dahisar (East) Gate 1 (Western Express Highway - West Side North)",
+        "station_code": "STN_L7_001",
+        "station_name": "Dahisar (East)",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.867691,
+          19.251486
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "d5f9df74-93e5-47fe-8269-6c0b456ef971",
+      "properties": {
+        "id": "d5f9df74-93e5-47fe-8269-6c0b456ef971",
+        "name": "Dahisar (East) Gate 2 (Western Express Highway - West Side South)",
+        "station_code": "STN_L7_001",
+        "station_name": "Dahisar (East)",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.867581,
+          19.251382
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "c6400b61-42be-48cc-8fbd-22769d0caf69",
+      "properties": {
+        "id": "c6400b61-42be-48cc-8fbd-22769d0caf69",
+        "name": "Dahisar (East) Gate 3 (Western Express Highway - East Side North)",
+        "station_code": "STN_L7_001",
+        "station_name": "Dahisar (East)",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.867002,
+          19.250455
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "74d38b9e-85b7-482a-89e4-00bd6e251ff4",
+      "properties": {
+        "id": "74d38b9e-85b7-482a-89e4-00bd6e251ff4",
+        "name": "Dahisar (East) Gate 4 (Western Express Highway - East Side South)",
+        "station_code": "STN_L7_001",
+        "station_name": "Dahisar (East)",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.866851,
+          19.250341
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "aee87e76-7528-4de0-b2e9-b13145bbf6ae",
+      "properties": {
+        "id": "aee87e76-7528-4de0-b2e9-b13145bbf6ae",
+        "name": "Ovaripada Gate 1 (Western Express Highway - West Side North)",
+        "station_code": "STN_L7_002",
+        "station_name": "Ovaripada",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8640867,
+          19.2438352
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "e7f4cfd8-7d36-4c17-b717-a86ab250031c",
+      "properties": {
+        "id": "e7f4cfd8-7d36-4c17-b717-a86ab250031c",
+        "name": "Ovaripada Gate 2 (Western Express Highway - West Side South)",
+        "station_code": "STN_L7_002",
+        "station_name": "Ovaripada",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8639925,
+          19.2430303
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "61ec6a3a-1c65-4af0-9950-565a71b2f45e",
+      "properties": {
+        "id": "61ec6a3a-1c65-4af0-9950-565a71b2f45e",
+        "name": "Ovaripada Gate 3 (Western Express Highway - East Side North)",
+        "station_code": "STN_L7_002",
+        "station_name": "Ovaripada",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8645035,
+          19.2437917
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "2ff9c27a-cb7e-46fb-b226-dd1f7ddeeefb",
+      "properties": {
+        "id": "2ff9c27a-cb7e-46fb-b226-dd1f7ddeeefb",
+        "name": "Ovaripada Gate 4 (Western Express Highway - East Side South)",
+        "station_code": "STN_L7_002",
+        "station_name": "Ovaripada",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8644093,
+          19.2429868
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "344e6308-3c03-4a82-84de-1a82edbcef4b",
+      "properties": {
+        "id": "344e6308-3c03-4a82-84de-1a82edbcef4b",
+        "name": "Rashtriya Udyan Gate 1 (Western Express Highway - West Side North)",
+        "station_code": "STN_L7_003",
+        "station_name": "Rashtriya Udyan",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8629446,
+          19.2350727
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "6751dc81-8302-49fd-81e9-0e69d9c14eb2",
+      "properties": {
+        "id": "6751dc81-8302-49fd-81e9-0e69d9c14eb2",
+        "name": "Rashtriya Udyan Gate 2 (Western Express Highway - West Side South)",
+        "station_code": "STN_L7_003",
+        "station_name": "Rashtriya Udyan",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8629581,
+          19.234263
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "5f9ec4a3-92ac-49ca-8cf8-28a1c41cdfc8",
+      "properties": {
+        "id": "5f9ec4a3-92ac-49ca-8cf8-28a1c41cdfc8",
+        "name": "Rashtriya Udyan Gate 3 (Western Express Highway - East Side North)",
+        "station_code": "STN_L7_003",
+        "station_name": "Rashtriya Udyan",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8633639,
+          19.235079
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "db6b720e-3667-4a4a-91da-e26448889f25",
+      "properties": {
+        "id": "db6b720e-3667-4a4a-91da-e26448889f25",
+        "name": "Rashtriya Udyan Gate 4 (Western Express Highway - East Side South)",
+        "station_code": "STN_L7_003",
+        "station_name": "Rashtriya Udyan",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8633774,
+          19.2342693
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bfb98316-81e3-4ce1-b81f-81e55003e35d",
+      "properties": {
+        "id": "bfb98316-81e3-4ce1-b81f-81e55003e35d",
+        "name": "Devipada Gate 1 (Western Express Highway - West Side North)",
+        "station_code": "STN_L7_004",
+        "station_name": "Devipada",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8638881,
+          19.2246559
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "c4bafcd7-03c3-475b-85b5-3a485cde8816",
+      "properties": {
+        "id": "c4bafcd7-03c3-475b-85b5-3a485cde8816",
+        "name": "Devipada Gate 2 (Western Express Highway - West Side South)",
+        "station_code": "STN_L7_004",
+        "station_name": "Devipada",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8641531,
+          19.2238857
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "f3b1b484-4179-40d5-b82b-fbdc102edf98",
+      "properties": {
+        "id": "f3b1b484-4179-40d5-b82b-fbdc102edf98",
+        "name": "Devipada Gate 3 (Western Express Highway - East Side North)",
+        "station_code": "STN_L7_004",
+        "station_name": "Devipada",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8642869,
+          19.2247783
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "31302900-6902-4b8d-bc0b-239cdac7b228",
+      "properties": {
+        "id": "31302900-6902-4b8d-bc0b-239cdac7b228",
+        "name": "Devipada Gate 4 (Western Express Highway - East Side South)",
+        "station_code": "STN_L7_004",
+        "station_name": "Devipada",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8645519,
+          19.2240081
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "b786a050-d667-4a3d-880b-475e21b51d95",
+      "properties": {
+        "id": "b786a050-d667-4a3d-880b-475e21b51d95",
+        "name": "Magathane Gate 1 (Western Express Highway - West Side North)",
+        "station_code": "STN_L7_005",
+        "station_name": "Magathane",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8663955,
+          19.2175264
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "a64d65df-edbd-4a60-b7bf-8d38d8d561e4",
+      "properties": {
+        "id": "a64d65df-edbd-4a60-b7bf-8d38d8d561e4",
+        "name": "Magathane Gate 2 (Western Express Highway - West Side South)",
+        "station_code": "STN_L7_005",
+        "station_name": "Magathane",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.866662,
+          19.2167566
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "85cc6ed6-9e39-4cff-b044-eb791b637f34",
+      "properties": {
+        "id": "85cc6ed6-9e39-4cff-b044-eb791b637f34",
+        "name": "Magathane Gate 3 (Western Express Highway - East Side North)",
+        "station_code": "STN_L7_005",
+        "station_name": "Magathane",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.866794,
+          19.2176494
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "280517c9-59cc-4cd7-b01f-31e0f34e8bc9",
+      "properties": {
+        "id": "280517c9-59cc-4cd7-b01f-31e0f34e8bc9",
+        "name": "Magathane Gate 4 (Western Express Highway - East Side South)",
+        "station_code": "STN_L7_005",
+        "station_name": "Magathane",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8670605,
+          19.2168796
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "c4c03cc9-8d93-4b5a-8897-f85f93560e4a",
+      "properties": {
+        "id": "c4c03cc9-8d93-4b5a-8897-f85f93560e4a",
+        "name": "Poisar Gate 1 (Western Express Highway - West Side North)",
+        "station_code": "STN_L7_006",
+        "station_name": "Poisar",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8632894,
+          19.2043429
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "23783d2a-8107-47df-9a4a-3175a7333483",
+      "properties": {
+        "id": "23783d2a-8107-47df-9a4a-3175a7333483",
+        "name": "Poisar Gate 2 (Western Express Highway - West Side South)",
+        "station_code": "STN_L7_006",
+        "station_name": "Poisar",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8632894,
+          19.2035331
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fe275c8f-bae7-4098-b580-bf9465779c57",
+      "properties": {
+        "id": "fe275c8f-bae7-4098-b580-bf9465779c57",
+        "name": "Poisar Gate 3 (Western Express Highway - East Side North)",
+        "station_code": "STN_L7_006",
+        "station_name": "Poisar",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8637086,
+          19.2043429
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "f8ed4dff-49be-49e1-8ed0-d4e362c7c9d3",
+      "properties": {
+        "id": "f8ed4dff-49be-49e1-8ed0-d4e362c7c9d3",
+        "name": "Poisar Gate 4 (Western Express Highway - East Side South)",
+        "station_code": "STN_L7_006",
+        "station_name": "Poisar",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8637086,
+          19.2035331
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "757a6633-4efb-4796-bb86-6408626bce05",
+      "properties": {
+        "id": "757a6633-4efb-4796-bb86-6408626bce05",
+        "name": "Akurli Gate 1 (Western Express Highway - West Side North)",
+        "station_code": "STN_L7_007",
+        "station_name": "Akurli",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.860535,
+          19.1985533
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "839eca97-4852-4f99-96c5-d66ed8709702",
+      "properties": {
+        "id": "839eca97-4852-4f99-96c5-d66ed8709702",
+        "name": "Akurli Gate 2 (Western Express Highway - West Side South)",
+        "station_code": "STN_L7_007",
+        "station_name": "Akurli",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8603479,
+          19.197763
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "7b655281-1d74-4027-9cc0-fd4112652725",
+      "properties": {
+        "id": "7b655281-1d74-4027-9cc0-fd4112652725",
+        "name": "Akurli Gate 3 (Western Express Highway - East Side North)",
+        "station_code": "STN_L7_007",
+        "station_name": "Akurli",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8609441,
+          19.198467
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "339147cd-43da-4ab1-8f52-e4b461875333",
+      "properties": {
+        "id": "339147cd-43da-4ab1-8f52-e4b461875333",
+        "name": "Akurli Gate 4 (Western Express Highway - East Side South)",
+        "station_code": "STN_L7_007",
+        "station_name": "Akurli",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.860757,
+          19.1976767
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "34a59129-c9b2-496a-9e9c-c7f2c7533335",
+      "properties": {
+        "id": "34a59129-c9b2-496a-9e9c-c7f2c7533335",
+        "name": "Kurar Gate 1 (Western Express Highway - West Side North)",
+        "station_code": "STN_L7_008",
+        "station_name": "Kurar",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8583024,
+          19.1876689
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "6306ab8c-e505-4d7c-a626-faed6bd6c02e",
+      "properties": {
+        "id": "6306ab8c-e505-4d7c-a626-faed6bd6c02e",
+        "name": "Kurar Gate 2 (Western Express Highway - West Side South)",
+        "station_code": "STN_L7_008",
+        "station_name": "Kurar",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8583024,
+          19.1868591
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fb622774-fbd5-41d9-8517-9c4c2e6221c8",
+      "properties": {
+        "id": "fb622774-fbd5-41d9-8517-9c4c2e6221c8",
+        "name": "Kurar Gate 3 (Western Express Highway - East Side North)",
+        "station_code": "STN_L7_008",
+        "station_name": "Kurar",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8587216,
+          19.1876689
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "d51854e2-8189-425c-b533-c8509c6bc7b5",
+      "properties": {
+        "id": "d51854e2-8189-425c-b533-c8509c6bc7b5",
+        "name": "Kurar Gate 4 (Western Express Highway - East Side South)",
+        "station_code": "STN_L7_008",
+        "station_name": "Kurar",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8587216,
+          19.1868591
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "40597ead-ab52-4ab5-a98d-330a7b2de584",
+      "properties": {
+        "id": "40597ead-ab52-4ab5-a98d-330a7b2de584",
+        "name": "Dindoshi Gate 1 (Western Express Highway - West Side North)",
+        "station_code": "STN_L7_009",
+        "station_name": "Dindoshi",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8580859,
+          19.1801228
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1855167b-f3d4-47fc-b0a7-727e29b1aa69",
+      "properties": {
+        "id": "1855167b-f3d4-47fc-b0a7-727e29b1aa69",
+        "name": "Dindoshi Gate 2 (Western Express Highway - West Side South)",
+        "station_code": "STN_L7_009",
+        "station_name": "Dindoshi",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8580949,
+          19.1793131
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3f188175-5f50-4cab-8a97-b731ee92247e",
+      "properties": {
+        "id": "3f188175-5f50-4cab-8a97-b731ee92247e",
+        "name": "Dindoshi Gate 3 (Western Express Highway - East Side North)",
+        "station_code": "STN_L7_009",
+        "station_name": "Dindoshi",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8585051,
+          19.1801269
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "8e82f904-6357-4559-bcce-2aa553213ca7",
+      "properties": {
+        "id": "8e82f904-6357-4559-bcce-2aa553213ca7",
+        "name": "Dindoshi Gate 4 (Western Express Highway - East Side South)",
+        "station_code": "STN_L7_009",
+        "station_name": "Dindoshi",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8585141,
+          19.1793172
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "c39abdca-698e-4039-af7c-771cd97ef51d",
+      "properties": {
+        "id": "c39abdca-698e-4039-af7c-771cd97ef51d",
+        "name": "Aarey Gate 1 (Western Express Highway - West Side North)",
+        "station_code": "STN_L7_010",
+        "station_name": "Aarey",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8586413,
+          19.1699307
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "497e5af2-2722-45c4-b8f5-6cc85f7d0822",
+      "properties": {
+        "id": "497e5af2-2722-45c4-b8f5-6cc85f7d0822",
+        "name": "Aarey Gate 2 (Western Express Highway - West Side South)",
+        "station_code": "STN_L7_010",
+        "station_name": "Aarey",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8585442,
+          19.1691261
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "35ca9ad6-e9c9-4572-a42e-51002a9e4fc9",
+      "properties": {
+        "id": "35ca9ad6-e9c9-4572-a42e-51002a9e4fc9",
+        "name": "Aarey Gate 3 (Western Express Highway - East Side North)",
+        "station_code": "STN_L7_010",
+        "station_name": "Aarey",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8590578,
+          19.1698859
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "e28dd894-8575-42b2-9de5-911675124203",
+      "properties": {
+        "id": "e28dd894-8575-42b2-9de5-911675124203",
+        "name": "Aarey Gate 4 (Western Express Highway - East Side South)",
+        "station_code": "STN_L7_010",
+        "station_name": "Aarey",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8589607,
+          19.1690813
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "38d5e1a4-4d33-4139-a1ae-eb5dfee91125",
+      "properties": {
+        "id": "38d5e1a4-4d33-4139-a1ae-eb5dfee91125",
+        "name": "Goregaon (East) Gate 1 (Western Express Highway - West Side North)",
+        "station_code": "STN_L7_011",
+        "station_name": "Goregaon (East)",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8563993,
+          19.1528618
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "062b3746-f5e1-44eb-9944-6a7194df6228",
+      "properties": {
+        "id": "062b3746-f5e1-44eb-9944-6a7194df6228",
+        "name": "Goregaon (East) Gate 2 (Western Express Highway - West Side South)",
+        "station_code": "STN_L7_011",
+        "station_name": "Goregaon (East)",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.856329,
+          19.1520547
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "b0eae310-9db4-4196-a2ae-df7d11a5bb54",
+      "properties": {
+        "id": "b0eae310-9db4-4196-a2ae-df7d11a5bb54",
+        "name": "Goregaon (East) Gate 3 (Western Express Highway - East Side North)",
+        "station_code": "STN_L7_011",
+        "station_name": "Goregaon (East)",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.856817,
+          19.1528293
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "c29a38ee-60ee-4697-a020-3978f29b8ad2",
+      "properties": {
+        "id": "c29a38ee-60ee-4697-a020-3978f29b8ad2",
+        "name": "Goregaon (East) Gate 4 (Western Express Highway - East Side South)",
+        "station_code": "STN_L7_011",
+        "station_name": "Goregaon (East)",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8567467,
+          19.1520222
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "7c450eca-4c6f-40ea-a7fb-fb24d4c4f61c",
+      "properties": {
+        "id": "7c450eca-4c6f-40ea-a7fb-fb24d4c4f61c",
+        "name": "Jogeshwari (East) Gate 1 (Western Express Highway - West Side North)",
+        "station_code": "STN_L7_012",
+        "station_name": "Jogeshwari (East)",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8550893,
+          19.1433728
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "f213a26b-0c81-45c0-a541-ea02eb84376f",
+      "properties": {
+        "id": "f213a26b-0c81-45c0-a541-ea02eb84376f",
+        "name": "Jogeshwari (East) Gate 2 (Western Express Highway - West Side South)",
+        "station_code": "STN_L7_012",
+        "station_name": "Jogeshwari (East)",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8548415,
+          19.1425976
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ed512654-50a4-48cc-9ac1-828f45d21fb7",
+      "properties": {
+        "id": "ed512654-50a4-48cc-9ac1-828f45d21fb7",
+        "name": "Jogeshwari (East) Gate 3 (Western Express Highway - East Side North)",
+        "station_code": "STN_L7_012",
+        "station_name": "Jogeshwari (East)",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8554905,
+          19.1432584
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "48e704d3-b082-4e9f-acc6-580762c18db6",
+      "properties": {
+        "id": "48e704d3-b082-4e9f-acc6-580762c18db6",
+        "name": "Jogeshwari (East) Gate 4 (Western Express Highway - East Side South)",
+        "station_code": "STN_L7_012",
+        "station_name": "Jogeshwari (East)",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8552427,
+          19.1424832
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "76136abd-ba2d-4578-a427-9e7987123a1e",
+      "properties": {
+        "id": "76136abd-ba2d-4578-a427-9e7987123a1e",
+        "name": "Mogra Gate 1 (Western Express Highway - West Side North)",
+        "station_code": "STN_L7_013",
+        "station_name": "Mogra",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8552425,
+          19.1290819
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "6c3fd265-2047-42ec-901b-c57435c26d1b",
+      "properties": {
+        "id": "6c3fd265-2047-42ec-901b-c57435c26d1b",
+        "name": "Mogra Gate 2 (Western Express Highway - West Side South)",
+        "station_code": "STN_L7_013",
+        "station_name": "Mogra",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8552425,
+          19.1282721
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "35558911-d08e-467c-9a47-d6bd7aca943c",
+      "properties": {
+        "id": "35558911-d08e-467c-9a47-d6bd7aca943c",
+        "name": "Mogra Gate 3 (Western Express Highway - East Side North)",
+        "station_code": "STN_L7_013",
+        "station_name": "Mogra",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8556615,
+          19.1290819
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "093629d3-689f-4b5c-b4ea-9abac1bad71e",
+      "properties": {
+        "id": "093629d3-689f-4b5c-b4ea-9abac1bad71e",
+        "name": "Mogra Gate 4 (Western Express Highway - East Side South)",
+        "station_code": "STN_L7_013",
+        "station_name": "Mogra",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8556615,
+          19.1282721
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "2fd827f4-8be7-4b9c-9815-11cfd2c80aa0",
+      "properties": {
+        "id": "2fd827f4-8be7-4b9c-9815-11cfd2c80aa0",
+        "name": "Gundavali Gate 1 (Western Express Highway - West Side North)",
+        "station_code": "STN_L7_014",
+        "station_name": "Gundavali",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8550179,
+          19.1148655
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "727ddead-d413-45f2-8663-29a2ab59f24b",
+      "properties": {
+        "id": "727ddead-d413-45f2-8663-29a2ab59f24b",
+        "name": "Gundavali Gate 2 (Western Express Highway - West Side South)",
+        "station_code": "STN_L7_014",
+        "station_name": "Gundavali",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8549104,
+          19.1140621
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "01457138-a813-42e0-a53e-0c3daceeb1ae",
+      "properties": {
+        "id": "01457138-a813-42e0-a53e-0c3daceeb1ae",
+        "name": "Gundavali Gate 3 (Western Express Highway - East Side North)",
+        "station_code": "STN_L7_014",
+        "station_name": "Gundavali",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8554336,
+          19.1148159
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "073682db-497e-4432-b737-8339c6b1da90",
+      "properties": {
+        "id": "073682db-497e-4432-b737-8339c6b1da90",
+        "name": "Gundavali Gate 4 (Western Express Highway - East Side South)",
+        "station_code": "STN_L7_014",
+        "station_name": "Gundavali",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8553261,
+          19.1140125
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "7b9295e2-210b-4bd9-aa6a-3eb22cca47cc",
+      "properties": {
+        "id": "7b9295e2-210b-4bd9-aa6a-3eb22cca47cc",
+        "name": "Gundavali Interchange FOB (Line 1 WEH Link)",
+        "station_code": "STN_L7_014",
+        "station_name": "Gundavali",
+        "line": "Line 7",
+        "railway": "subway_entrance",
+        "entrance": "yes",
+        "operator": "MMMOCL",
+        "layer": "0"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.855472,
+          19.114589
+        ]
+      }
+    }
+  ]
+}

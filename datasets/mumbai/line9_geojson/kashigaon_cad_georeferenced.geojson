@@ -1,0 +1,423 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon ESC.-05",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "ESC.-05"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8807414,
+          19.2773933
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon ESC.-06",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "ESC.-06"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8795034,
+          19.2780765
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon ENTRY-EXIT-1",
+        "element_type": "GATE",
+        "accessible": true,
+        "marker-color": "#22c55e",
+        "marker-size": "medium",
+        "label": "ENTRY-EXIT-1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8798357,
+          19.2782779
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon ENTRY-EXIT-2",
+        "element_type": "GATE",
+        "accessible": true,
+        "marker-color": "#22c55e",
+        "marker-size": "medium",
+        "label": "ENTRY-EXIT-2"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8807917,
+          19.2773983
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon ENTRY-EXIT-3",
+        "element_type": "GATE",
+        "accessible": true,
+        "marker-color": "#22c55e",
+        "marker-size": "medium",
+        "label": "ENTRY-EXIT-3"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8804722,
+          19.2770967
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon ENTRY-EXIT-4",
+        "element_type": "GATE",
+        "accessible": true,
+        "marker-color": "#22c55e",
+        "marker-size": "medium",
+        "label": "ENTRY-EXIT-4"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8795807,
+          19.2779431
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon EXIT",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "EXIT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8804485,
+          19.2773608
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon LIFT-1",
+        "element_type": "LIFT",
+        "accessible": true,
+        "marker-color": "#06b6d4",
+        "marker-size": "medium",
+        "label": "LIFT-1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8802305,
+          19.277733
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon ENTRY",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "ENTRY"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8797552,
+          19.2780061
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon EXIT",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "EXIT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8798961,
+          19.2780042
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon ENTRY",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "ENTRY"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8805367,
+          19.2773987
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon LIFT-2",
+        "element_type": "LIFT",
+        "accessible": true,
+        "marker-color": "#06b6d4",
+        "marker-size": "medium",
+        "label": "LIFT-2"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8801195,
+          19.277628
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon ST-2",
+        "element_type": "STAIRS",
+        "accessible": false,
+        "marker-color": "#f97316",
+        "marker-size": "medium",
+        "label": "ST-2"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8801333,
+          19.2776116
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon ENTRY/",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "ENTRY/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8807648,
+          19.2772897
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon EXIT-2",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "EXIT-2"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8807618,
+          19.2772851
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon ST-1",
+        "element_type": "STAIRS",
+        "accessible": false,
+        "marker-color": "#f97316",
+        "marker-size": "medium",
+        "label": "ST-1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8802429,
+          19.2777151
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon ESC.-01",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "ESC.-01"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8800143,
+          19.2779154
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon ESC.-02",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "ESC.-02"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8804262,
+          19.2775281
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon ESC.-03",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "ESC.-03"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8803324,
+          19.2774362
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon ESC.-04",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "ESC.-04"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8799346,
+          19.2778128
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon ENTRY-EXIT-1",
+        "element_type": "GATE",
+        "accessible": true,
+        "marker-color": "#22c55e",
+        "marker-size": "medium",
+        "label": "ENTRY-EXIT-1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8798357,
+          19.2782779
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Kashigaon",
+        "name": "Kashigaon DESCRIPTION",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "DESCRIPTION"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8804787,
+          19.2767975
+        ]
+      }
+    }
+  ]
+}

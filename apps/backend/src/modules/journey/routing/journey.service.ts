@@ -1197,7 +1197,7 @@ export class JourneyService {
       }, 0);
 
       const totalDurationSeconds =
-        inVehicleSeconds + walkingSeconds + waiting.total.seconds;
+        inVehicleSeconds + walkingSeconds + totalTransferWaitSeconds;
 
       const isDirect = journeyScore.transfers === 0;
       const lineNames = [
@@ -1553,14 +1553,19 @@ export class JourneyService {
                 nextTransitLeg?.lineId ?? null,
                 nextTransitLeg?.towards ?? null,
                 earliestFeasibleDep,
-                this.getNowSecondsOfDay(),
+                baseDepartureSecs,
               );
 
             const actualConnectingDep = Math.max(
               earliestFeasibleDep,
               connectingPrediction.actualDepartureSecs,
             );
-            const waitSecs = actualConnectingDep - connectingPlatformArrival;
+            const rawWaitSecs = actualConnectingDep - connectingPlatformArrival;
+            const isOvernightConnection = rawWaitSecs > 1800;
+            // Cap transfer wait for elapsed travel duration to standard nominal transfer headway (~4-6m)
+            const waitSecs = isOvernightConnection
+              ? Math.min(safetyBufferSeconds + 120, 360)
+              : rawWaitSecs;
             totalTransferWaitSeconds += waitSecs;
 
             const waitMins = Math.max(1, Math.round(waitSecs / 60));
@@ -1570,23 +1575,33 @@ export class JourneyService {
               Math.max(60, Math.round(walkSecs * 1.2));
 
             leg.connectionWaitMins = waitMins;
-            leg.transferDurationText = `${walkMins} min transfer · Next train ${connectingPrediction.realtimeTimeStr}`;
-            leg.transferSummary = `${pathwayMeters} m · ${walkMins} min transfer · Next train ${connectingPrediction.realtimeTimeStr}`;
+            if (isOvernightConnection) {
+              leg.transferDurationText = `${walkMins} min transfer · Connecting line closed tonight (Resumes ${connectingPrediction.realtimeTimeStr})`;
+              leg.transferSummary = `${pathwayMeters} m · ${walkMins} min transfer · Connecting line closed tonight (First train ${connectingPrediction.realtimeTimeStr})`;
+              const notice = `⚠️ Connecting service on ${nextTransitLeg?.lineName || 'connecting line'} is closed for tonight (first train resumes ${connectingPrediction.realtimeTimeStr}).`;
+              candidate.humanSummary = candidate.humanSummary
+                ? `${candidate.humanSummary} • ${notice}`
+                : notice;
+            } else {
+              leg.transferDurationText = `${walkMins} min transfer · Next train ${connectingPrediction.realtimeTimeStr}`;
+              leg.transferSummary = `${pathwayMeters} m · ${walkMins} min transfer · Next train ${connectingPrediction.realtimeTimeStr}`;
+            }
 
             if (nextTransitLeg && nextTransitLeg.type === EdgeType.TRANSIT) {
-              const nowSecs = this.getNowSecondsOfDay();
-              const minsFromNow = Math.max(
+              const minsFromDeparture = Math.max(
                 1,
-                Math.round((actualConnectingDep - nowSecs) / 60),
+                Math.round((actualConnectingDep - baseDepartureSecs) / 60),
               );
               nextTransitLeg.realtimeTimeStr =
                 connectingPrediction.realtimeTimeStr;
-              nextTransitLeg.realtimeEtaMins = minsFromNow;
+              nextTransitLeg.realtimeEtaMins = minsFromDeparture;
               nextTransitLeg.connectionWaitMins = waitMins;
               nextTransitLeg.delaySeconds = connectingPrediction.delaySeconds;
             }
 
-            currentClockSecs = actualConnectingDep;
+            currentClockSecs = isOvernightConnection
+              ? connectingPlatformArrival + waitSecs
+              : actualConnectingDep;
           }
         }
       }
@@ -1618,9 +1633,15 @@ export class JourneyService {
 
       candidate.inVehicleSeconds = inVehSecs;
       candidate.walkingSeconds = walkSecs;
+      // Duration of a transit journey is active travel time (in-vehicle + walking + transfer waits).
+      // Pre-trip initial waiting (waiting at origin station before first train) is tracked in waiting.initialWait,
+      // but NOT added into candidate.durationSeconds / candidate.durationMinutes.
       candidate.durationSeconds =
-        inVehSecs + walkSecs + candidate.waiting.total.seconds;
-      candidate.durationMinutes = Math.round(candidate.durationSeconds / 60);
+        inVehSecs + walkSecs + totalTransferWaitSeconds;
+      candidate.durationMinutes = Math.max(
+        1,
+        Math.round(candidate.durationSeconds / 60),
+      );
       candidate.duration = candidate.durationMinutes;
 
       const firstTransitLeg = candidate.legs.find(

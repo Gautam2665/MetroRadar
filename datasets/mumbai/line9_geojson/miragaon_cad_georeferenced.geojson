@@ -1,0 +1,367 @@
+{
+  "type": "FeatureCollection",
+  "name": "Miragaon Station Wayfinding Assets (CAD Georeferenced)",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon ENTRY",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "ENTRY"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.880214,
+          19.2706301
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon EXIT",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "EXIT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.880317,
+          19.2707758
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon ENTRY/",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "ENTRY/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8811025,
+          19.2713768
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon EXIT-2",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "EXIT-2"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8811071,
+          19.2713733
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon EXIT",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "EXIT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8809091,
+          19.2711979
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon ENTRY",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "ENTRY"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8810871,
+          19.2712287
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon ENTRY/",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "ENTRY/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8813708,
+          19.2715327
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon EXIT-2",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "EXIT-2"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8813754,
+          19.2715291
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon ESC. 05",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "ESC. 05"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8811249,
+          19.2713943
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon ESC. 01",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "ESC. 01"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8803708,
+          19.2708553
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon ESC. 02",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "ESC. 02"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8807973,
+          19.2711549
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon ESC. 03",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "ESC. 03"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8808668,
+          19.2710598
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon ESC. 04",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "ESC. 04"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.88045,
+          19.2707606
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon BE CONSTRUCTED BY L-10.",
+        "element_type": "STAIRS",
+        "accessible": false,
+        "marker-color": "#f97316",
+        "marker-size": "medium",
+        "label": "BE CONSTRUCTED BY L-10."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8800031,
+          19.2704129
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon ESC. 05",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "ESC. 05"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8801993,
+          19.2707397
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon STAIRCASE",
+        "element_type": "STAIRS",
+        "accessible": false,
+        "marker-color": "#f97316",
+        "marker-size": "medium",
+        "label": "STAIRCASE"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8800499,
+          19.2706978
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon LIFT",
+        "element_type": "LIFT",
+        "accessible": true,
+        "marker-color": "#06b6d4",
+        "marker-size": "medium",
+        "label": "LIFT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8801095,
+          19.270696
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon ENTRY",
+        "element_type": "AFC_GATE",
+        "accessible": true,
+        "marker-color": "#3b82f6",
+        "marker-size": "medium",
+        "label": "ENTRY"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8801679,
+          19.2706899
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station": "Miragaon",
+        "name": "Miragaon ESCALATOR CUTOUT",
+        "element_type": "ESCALATOR",
+        "accessible": false,
+        "marker-color": "#a855f7",
+        "marker-size": "medium",
+        "label": "ESCALATOR CUTOUT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8801751,
+          19.2707193
+        ]
+      }
+    }
+  ]
+}

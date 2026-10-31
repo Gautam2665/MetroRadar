@@ -203,8 +203,12 @@ function parseTimeStringToEpoch(
       const isAm = match[4]?.toUpperCase() === "AM";
       if (isPm && hours < 12) hours += 12;
       if (isAm && hours === 12) hours = 0;
-      const d = new Date(ref > 0 ? ref : 0);
+      const d = new Date(ref > 0 ? ref : Date.now());
       d.setHours(hours, minutes, 0, 0);
+      // Roll over to next calendar day if parsed time is earlier than reference timestamp (e.g. overnight transition)
+      if (ref > 0 && d.getTime() < ref - 60000) {
+        d.setDate(d.getDate() + 1);
+      }
       return d.getTime();
     }
   }

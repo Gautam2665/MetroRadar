@@ -1,0 +1,7 @@
+{
+  "routingDefaults": {
+    "walkSpeed": 1.2,
+    "transferSlack": 120,
+    "maxWalkDistance": 2000
+  }
+}

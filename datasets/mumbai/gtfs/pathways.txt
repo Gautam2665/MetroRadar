@@ -179,10 +179,6 @@ PW_ENT_STN_L2A_001_1_STAIRS,ENT_STN_L2A_001_1,NODE_STN_L2A_001_UNPAID,2,1,16,30,
 PW_ENT_STN_L2A_001_1_LIFT,ENT_STN_L2A_001_1,NODE_STN_L2A_001_UNPAID,5,1,12,25,Street Lift to Concourse (Dahisar (East) Gate 1 (New Link Road - West Side North)),Lift to Street (Dahisar (East) Gate 1 (New Link Road - West Side North))
 PW_ENT_STN_L2A_001_2_STAIRS,ENT_STN_L2A_001_2,NODE_STN_L2A_001_UNPAID,2,1,16,30,Dahisar (East) Gate 2 (New Link Road - West Side South) to Concourse,Exit to Dahisar (East) Gate 2 (New Link Road - West Side South)
 PW_ENT_STN_L2A_001_2_LIFT,ENT_STN_L2A_001_2,NODE_STN_L2A_001_UNPAID,5,1,12,25,Street Lift to Concourse (Dahisar (East) Gate 2 (New Link Road - West Side South)),Lift to Street (Dahisar (East) Gate 2 (New Link Road - West Side South))
-PW_ENT_STN_L2A_001_3_STAIRS,ENT_STN_L2A_001_3,NODE_STN_L2A_001_UNPAID,2,1,16,30,Dahisar (East) Gate 3 (New Link Road - East Side North) to Concourse,Exit to Dahisar (East) Gate 3 (New Link Road - East Side North)
-PW_ENT_STN_L2A_001_3_LIFT,ENT_STN_L2A_001_3,NODE_STN_L2A_001_UNPAID,5,1,12,25,Street Lift to Concourse (Dahisar (East) Gate 3 (New Link Road - East Side North)),Lift to Street (Dahisar (East) Gate 3 (New Link Road - East Side North))
-PW_ENT_STN_L2A_001_4_STAIRS,ENT_STN_L2A_001_4,NODE_STN_L2A_001_UNPAID,2,1,16,30,Dahisar (East) Gate 4 (New Link Road - East Side South) to Concourse,Exit to Dahisar (East) Gate 4 (New Link Road - East Side South)
-PW_ENT_STN_L2A_001_4_LIFT,ENT_STN_L2A_001_4,NODE_STN_L2A_001_UNPAID,5,1,12,25,Street Lift to Concourse (Dahisar (East) Gate 4 (New Link Road - East Side South)),Lift to Street (Dahisar (East) Gate 4 (New Link Road - East Side South))
 PW_STN_L2A_001_AFC_IN,NODE_STN_L2A_001_UNPAID,NODE_STN_L2A_001_PAID,6,0,5,15,Dahisar (East) Metro Entry Turnstiles (Tap Smart Card / QR),
 PW_STN_L2A_001_AFC_OUT,NODE_STN_L2A_001_PAID,NODE_STN_L2A_001_UNPAID,6,0,5,15,Dahisar (East) Metro Exit Turnstiles (Tap to Exit),
 PW_PF_STN_L2A_001_1_STAIRS,NODE_STN_L2A_001_PAID,PF_STN_L2A_001_1,2,1,16,30,Stairs to Dahisar (East) Platform 1,Stairs to Concourse / Exit
@@ -961,10 +957,6 @@ PW_ENT_STN_L7_001_1_STAIRS,ENT_STN_L7_001_1,NODE_STN_L7_001_UNPAID,2,1,16,30,Dah
 PW_ENT_STN_L7_001_1_LIFT,ENT_STN_L7_001_1,NODE_STN_L7_001_UNPAID,5,1,12,25,Street Lift to Concourse (Dahisar (East) Gate 1 (Western Express Highway - West Side North)),Lift to Street (Dahisar (East) Gate 1 (Western Express Highway - West Side North))
 PW_ENT_STN_L7_001_2_STAIRS,ENT_STN_L7_001_2,NODE_STN_L7_001_UNPAID,2,1,16,30,Dahisar (East) Gate 2 (Western Express Highway - West Side South) to Concourse,Exit to Dahisar (East) Gate 2 (Western Express Highway - West Side South)
 PW_ENT_STN_L7_001_2_LIFT,ENT_STN_L7_001_2,NODE_STN_L7_001_UNPAID,5,1,12,25,Street Lift to Concourse (Dahisar (East) Gate 2 (Western Express Highway - West Side South)),Lift to Street (Dahisar (East) Gate 2 (Western Express Highway - West Side South))
-PW_ENT_STN_L7_001_3_STAIRS,ENT_STN_L7_001_3,NODE_STN_L7_001_UNPAID,2,1,16,30,Dahisar (East) Gate 3 (Western Express Highway - East Side North) to Concourse,Exit to Dahisar (East) Gate 3 (Western Express Highway - East Side North)
-PW_ENT_STN_L7_001_3_LIFT,ENT_STN_L7_001_3,NODE_STN_L7_001_UNPAID,5,1,12,25,Street Lift to Concourse (Dahisar (East) Gate 3 (Western Express Highway - East Side North)),Lift to Street (Dahisar (East) Gate 3 (Western Express Highway - East Side North))
-PW_ENT_STN_L7_001_4_STAIRS,ENT_STN_L7_001_4,NODE_STN_L7_001_UNPAID,2,1,16,30,Dahisar (East) Gate 4 (Western Express Highway - East Side South) to Concourse,Exit to Dahisar (East) Gate 4 (Western Express Highway - East Side South)
-PW_ENT_STN_L7_001_4_LIFT,ENT_STN_L7_001_4,NODE_STN_L7_001_UNPAID,5,1,12,25,Street Lift to Concourse (Dahisar (East) Gate 4 (Western Express Highway - East Side South)),Lift to Street (Dahisar (East) Gate 4 (Western Express Highway - East Side South))
 PW_STN_L7_001_AFC_IN,NODE_STN_L7_001_UNPAID,NODE_STN_L7_001_PAID,6,0,5,15,Dahisar (East) Metro Entry Turnstiles (Tap Smart Card / QR),
 PW_STN_L7_001_AFC_OUT,NODE_STN_L7_001_PAID,NODE_STN_L7_001_UNPAID,6,0,5,15,Dahisar (East) Metro Exit Turnstiles (Tap to Exit),
 PW_PF_STN_L7_001_1_STAIRS,NODE_STN_L7_001_PAID,PF_STN_L7_001_1,2,1,16,30,Stairs to Dahisar (East) Platform 1,Stairs to Concourse / Exit
@@ -973,10 +965,6 @@ PW_PF_STN_L7_001_2_STAIRS,NODE_STN_L7_001_PAID,PF_STN_L7_001_2,2,1,16,30,Stairs 
 PW_PF_STN_L7_001_2_LIFT,NODE_STN_L7_001_PAID,PF_STN_L7_001_2,5,1,12,25,Platform Lift to Dahisar (East) Platform 2,Platform Lift to Concourse / Exit
 PW_ENT_STN_L7_002_1_STAIRS,ENT_STN_L7_002_1,NODE_STN_L7_002_UNPAID,2,1,16,30,Ovaripada Gate 1 (Western Express Highway - West Side North) to Concourse,Exit to Ovaripada Gate 1 (Western Express Highway - West Side North)
 PW_ENT_STN_L7_002_1_LIFT,ENT_STN_L7_002_1,NODE_STN_L7_002_UNPAID,5,1,12,25,Street Lift to Concourse (Ovaripada Gate 1 (Western Express Highway - West Side North)),Lift to Street (Ovaripada Gate 1 (Western Express Highway - West Side North))
-PW_ENT_STN_L7_002_2_STAIRS,ENT_STN_L7_002_2,NODE_STN_L7_002_UNPAID,2,1,16,30,Ovaripada Gate 2 (Western Express Highway - West Side South) to Concourse,Exit to Ovaripada Gate 2 (Western Express Highway - West Side South)
-PW_ENT_STN_L7_002_2_LIFT,ENT_STN_L7_002_2,NODE_STN_L7_002_UNPAID,5,1,12,25,Street Lift to Concourse (Ovaripada Gate 2 (Western Express Highway - West Side South)),Lift to Street (Ovaripada Gate 2 (Western Express Highway - West Side South))
-PW_ENT_STN_L7_002_3_STAIRS,ENT_STN_L7_002_3,NODE_STN_L7_002_UNPAID,2,1,16,30,Ovaripada Gate 3 (Western Express Highway - East Side North) to Concourse,Exit to Ovaripada Gate 3 (Western Express Highway - East Side North)
-PW_ENT_STN_L7_002_3_LIFT,ENT_STN_L7_002_3,NODE_STN_L7_002_UNPAID,5,1,12,25,Street Lift to Concourse (Ovaripada Gate 3 (Western Express Highway - East Side North)),Lift to Street (Ovaripada Gate 3 (Western Express Highway - East Side North))
 PW_ENT_STN_L7_002_4_STAIRS,ENT_STN_L7_002_4,NODE_STN_L7_002_UNPAID,2,1,16,30,Ovaripada Gate 4 (Western Express Highway - East Side South) to Concourse,Exit to Ovaripada Gate 4 (Western Express Highway - East Side South)
 PW_ENT_STN_L7_002_4_LIFT,ENT_STN_L7_002_4,NODE_STN_L7_002_UNPAID,5,1,12,25,Street Lift to Concourse (Ovaripada Gate 4 (Western Express Highway - East Side South)),Lift to Street (Ovaripada Gate 4 (Western Express Highway - East Side South))
 PW_STN_L7_002_AFC_IN,NODE_STN_L7_002_UNPAID,NODE_STN_L7_002_PAID,6,0,5,15,Ovaripada Metro Entry Turnstiles (Tap Smart Card / QR),
@@ -987,10 +975,6 @@ PW_PF_STN_L7_002_2_STAIRS,NODE_STN_L7_002_PAID,PF_STN_L7_002_2,2,1,16,30,Stairs 
 PW_PF_STN_L7_002_2_LIFT,NODE_STN_L7_002_PAID,PF_STN_L7_002_2,5,1,12,25,Platform Lift to Ovaripada Platform 2,Platform Lift to Concourse / Exit
 PW_ENT_STN_L7_003_1_STAIRS,ENT_STN_L7_003_1,NODE_STN_L7_003_UNPAID,2,1,16,30,Rashtriya Udyan Gate 1 (Western Express Highway - West Side North) to Concourse,Exit to Rashtriya Udyan Gate 1 (Western Express Highway - West Side North)
 PW_ENT_STN_L7_003_1_LIFT,ENT_STN_L7_003_1,NODE_STN_L7_003_UNPAID,5,1,12,25,Street Lift to Concourse (Rashtriya Udyan Gate 1 (Western Express Highway - West Side North)),Lift to Street (Rashtriya Udyan Gate 1 (Western Express Highway - West Side North))
-PW_ENT_STN_L7_003_2_STAIRS,ENT_STN_L7_003_2,NODE_STN_L7_003_UNPAID,2,1,16,30,Rashtriya Udyan Gate 2 (Western Express Highway - West Side South) to Concourse,Exit to Rashtriya Udyan Gate 2 (Western Express Highway - West Side South)
-PW_ENT_STN_L7_003_2_LIFT,ENT_STN_L7_003_2,NODE_STN_L7_003_UNPAID,5,1,12,25,Street Lift to Concourse (Rashtriya Udyan Gate 2 (Western Express Highway - West Side South)),Lift to Street (Rashtriya Udyan Gate 2 (Western Express Highway - West Side South))
-PW_ENT_STN_L7_003_3_STAIRS,ENT_STN_L7_003_3,NODE_STN_L7_003_UNPAID,2,1,16,30,Rashtriya Udyan Gate 3 (Western Express Highway - East Side North) to Concourse,Exit to Rashtriya Udyan Gate 3 (Western Express Highway - East Side North)
-PW_ENT_STN_L7_003_3_LIFT,ENT_STN_L7_003_3,NODE_STN_L7_003_UNPAID,5,1,12,25,Street Lift to Concourse (Rashtriya Udyan Gate 3 (Western Express Highway - East Side North)),Lift to Street (Rashtriya Udyan Gate 3 (Western Express Highway - East Side North))
 PW_ENT_STN_L7_003_4_STAIRS,ENT_STN_L7_003_4,NODE_STN_L7_003_UNPAID,2,1,16,30,Rashtriya Udyan Gate 4 (Western Express Highway - East Side South) to Concourse,Exit to Rashtriya Udyan Gate 4 (Western Express Highway - East Side South)
 PW_ENT_STN_L7_003_4_LIFT,ENT_STN_L7_003_4,NODE_STN_L7_003_UNPAID,5,1,12,25,Street Lift to Concourse (Rashtriya Udyan Gate 4 (Western Express Highway - East Side South)),Lift to Street (Rashtriya Udyan Gate 4 (Western Express Highway - East Side South))
 PW_STN_L7_003_AFC_IN,NODE_STN_L7_003_UNPAID,NODE_STN_L7_003_PAID,6,0,5,15,Rashtriya Udyan Metro Entry Turnstiles (Tap Smart Card / QR),
@@ -1001,10 +985,6 @@ PW_PF_STN_L7_003_2_STAIRS,NODE_STN_L7_003_PAID,PF_STN_L7_003_2,2,1,16,30,Stairs 
 PW_PF_STN_L7_003_2_LIFT,NODE_STN_L7_003_PAID,PF_STN_L7_003_2,5,1,12,25,Platform Lift to Rashtriya Udyan Platform 2,Platform Lift to Concourse / Exit
 PW_ENT_STN_L7_004_1_STAIRS,ENT_STN_L7_004_1,NODE_STN_L7_004_UNPAID,2,1,16,30,Devipada Gate 1 (Western Express Highway - West Side North) to Concourse,Exit to Devipada Gate 1 (Western Express Highway - West Side North)
 PW_ENT_STN_L7_004_1_LIFT,ENT_STN_L7_004_1,NODE_STN_L7_004_UNPAID,5,1,12,25,Street Lift to Concourse (Devipada Gate 1 (Western Express Highway - West Side North)),Lift to Street (Devipada Gate 1 (Western Express Highway - West Side North))
-PW_ENT_STN_L7_004_2_STAIRS,ENT_STN_L7_004_2,NODE_STN_L7_004_UNPAID,2,1,16,30,Devipada Gate 2 (Western Express Highway - West Side South) to Concourse,Exit to Devipada Gate 2 (Western Express Highway - West Side South)
-PW_ENT_STN_L7_004_2_LIFT,ENT_STN_L7_004_2,NODE_STN_L7_004_UNPAID,5,1,12,25,Street Lift to Concourse (Devipada Gate 2 (Western Express Highway - West Side South)),Lift to Street (Devipada Gate 2 (Western Express Highway - West Side South))
-PW_ENT_STN_L7_004_3_STAIRS,ENT_STN_L7_004_3,NODE_STN_L7_004_UNPAID,2,1,16,30,Devipada Gate 3 (Western Express Highway - East Side North) to Concourse,Exit to Devipada Gate 3 (Western Express Highway - East Side North)
-PW_ENT_STN_L7_004_3_LIFT,ENT_STN_L7_004_3,NODE_STN_L7_004_UNPAID,5,1,12,25,Street Lift to Concourse (Devipada Gate 3 (Western Express Highway - East Side North)),Lift to Street (Devipada Gate 3 (Western Express Highway - East Side North))
 PW_ENT_STN_L7_004_4_STAIRS,ENT_STN_L7_004_4,NODE_STN_L7_004_UNPAID,2,1,16,30,Devipada Gate 4 (Western Express Highway - East Side South) to Concourse,Exit to Devipada Gate 4 (Western Express Highway - East Side South)
 PW_ENT_STN_L7_004_4_LIFT,ENT_STN_L7_004_4,NODE_STN_L7_004_UNPAID,5,1,12,25,Street Lift to Concourse (Devipada Gate 4 (Western Express Highway - East Side South)),Lift to Street (Devipada Gate 4 (Western Express Highway - East Side South))
 PW_STN_L7_004_AFC_IN,NODE_STN_L7_004_UNPAID,NODE_STN_L7_004_PAID,6,0,5,15,Devipada Metro Entry Turnstiles (Tap Smart Card / QR),
@@ -1017,8 +997,6 @@ PW_ENT_STN_L7_005_1_STAIRS,ENT_STN_L7_005_1,NODE_STN_L7_005_UNPAID,2,1,16,30,Mag
 PW_ENT_STN_L7_005_1_LIFT,ENT_STN_L7_005_1,NODE_STN_L7_005_UNPAID,5,1,12,25,Street Lift to Concourse (Magathane Gate 1 (Western Express Highway - West Side North)),Lift to Street (Magathane Gate 1 (Western Express Highway - West Side North))
 PW_ENT_STN_L7_005_2_STAIRS,ENT_STN_L7_005_2,NODE_STN_L7_005_UNPAID,2,1,16,30,Magathane Gate 2 (Western Express Highway - West Side South) to Concourse,Exit to Magathane Gate 2 (Western Express Highway - West Side South)
 PW_ENT_STN_L7_005_2_LIFT,ENT_STN_L7_005_2,NODE_STN_L7_005_UNPAID,5,1,12,25,Street Lift to Concourse (Magathane Gate 2 (Western Express Highway - West Side South)),Lift to Street (Magathane Gate 2 (Western Express Highway - West Side South))
-PW_ENT_STN_L7_005_3_STAIRS,ENT_STN_L7_005_3,NODE_STN_L7_005_UNPAID,2,1,16,30,Magathane Gate 3 (Western Express Highway - East Side North) to Concourse,Exit to Magathane Gate 3 (Western Express Highway - East Side North)
-PW_ENT_STN_L7_005_3_LIFT,ENT_STN_L7_005_3,NODE_STN_L7_005_UNPAID,5,1,12,25,Street Lift to Concourse (Magathane Gate 3 (Western Express Highway - East Side North)),Lift to Street (Magathane Gate 3 (Western Express Highway - East Side North))
 PW_ENT_STN_L7_005_4_STAIRS,ENT_STN_L7_005_4,NODE_STN_L7_005_UNPAID,2,1,16,30,Magathane Gate 4 (Western Express Highway - East Side South) to Concourse,Exit to Magathane Gate 4 (Western Express Highway - East Side South)
 PW_ENT_STN_L7_005_4_LIFT,ENT_STN_L7_005_4,NODE_STN_L7_005_UNPAID,5,1,12,25,Street Lift to Concourse (Magathane Gate 4 (Western Express Highway - East Side South)),Lift to Street (Magathane Gate 4 (Western Express Highway - East Side South))
 PW_STN_L7_005_AFC_IN,NODE_STN_L7_005_UNPAID,NODE_STN_L7_005_PAID,6,0,5,15,Magathane Metro Entry Turnstiles (Tap Smart Card / QR),
@@ -1029,10 +1007,6 @@ PW_PF_STN_L7_005_2_STAIRS,NODE_STN_L7_005_PAID,PF_STN_L7_005_2,2,1,16,30,Stairs 
 PW_PF_STN_L7_005_2_LIFT,NODE_STN_L7_005_PAID,PF_STN_L7_005_2,5,1,12,25,Platform Lift to Magathane Platform 2,Platform Lift to Concourse / Exit
 PW_ENT_STN_L7_006_1_STAIRS,ENT_STN_L7_006_1,NODE_STN_L7_006_UNPAID,2,1,16,30,Poisar Gate 1 (Western Express Highway - West Side North) to Concourse,Exit to Poisar Gate 1 (Western Express Highway - West Side North)
 PW_ENT_STN_L7_006_1_LIFT,ENT_STN_L7_006_1,NODE_STN_L7_006_UNPAID,5,1,12,25,Street Lift to Concourse (Poisar Gate 1 (Western Express Highway - West Side North)),Lift to Street (Poisar Gate 1 (Western Express Highway - West Side North))
-PW_ENT_STN_L7_006_2_STAIRS,ENT_STN_L7_006_2,NODE_STN_L7_006_UNPAID,2,1,16,30,Poisar Gate 2 (Western Express Highway - West Side South) to Concourse,Exit to Poisar Gate 2 (Western Express Highway - West Side South)
-PW_ENT_STN_L7_006_2_LIFT,ENT_STN_L7_006_2,NODE_STN_L7_006_UNPAID,5,1,12,25,Street Lift to Concourse (Poisar Gate 2 (Western Express Highway - West Side South)),Lift to Street (Poisar Gate 2 (Western Express Highway - West Side South))
-PW_ENT_STN_L7_006_3_STAIRS,ENT_STN_L7_006_3,NODE_STN_L7_006_UNPAID,2,1,16,30,Poisar Gate 3 (Western Express Highway - East Side North) to Concourse,Exit to Poisar Gate 3 (Western Express Highway - East Side North)
-PW_ENT_STN_L7_006_3_LIFT,ENT_STN_L7_006_3,NODE_STN_L7_006_UNPAID,5,1,12,25,Street Lift to Concourse (Poisar Gate 3 (Western Express Highway - East Side North)),Lift to Street (Poisar Gate 3 (Western Express Highway - East Side North))
 PW_ENT_STN_L7_006_4_STAIRS,ENT_STN_L7_006_4,NODE_STN_L7_006_UNPAID,2,1,16,30,Poisar Gate 4 (Western Express Highway - East Side South) to Concourse,Exit to Poisar Gate 4 (Western Express Highway - East Side South)
 PW_ENT_STN_L7_006_4_LIFT,ENT_STN_L7_006_4,NODE_STN_L7_006_UNPAID,5,1,12,25,Street Lift to Concourse (Poisar Gate 4 (Western Express Highway - East Side South)),Lift to Street (Poisar Gate 4 (Western Express Highway - East Side South))
 PW_STN_L7_006_AFC_IN,NODE_STN_L7_006_UNPAID,NODE_STN_L7_006_PAID,6,0,5,15,Poisar Metro Entry Turnstiles (Tap Smart Card / QR),
@@ -1043,10 +1017,6 @@ PW_PF_STN_L7_006_2_STAIRS,NODE_STN_L7_006_PAID,PF_STN_L7_006_2,2,1,16,30,Stairs 
 PW_PF_STN_L7_006_2_LIFT,NODE_STN_L7_006_PAID,PF_STN_L7_006_2,5,1,12,25,Platform Lift to Poisar Platform 2,Platform Lift to Concourse / Exit
 PW_ENT_STN_L7_007_1_STAIRS,ENT_STN_L7_007_1,NODE_STN_L7_007_UNPAID,2,1,16,30,Akurli Gate 1 (Western Express Highway - West Side North) to Concourse,Exit to Akurli Gate 1 (Western Express Highway - West Side North)
 PW_ENT_STN_L7_007_1_LIFT,ENT_STN_L7_007_1,NODE_STN_L7_007_UNPAID,5,1,12,25,Street Lift to Concourse (Akurli Gate 1 (Western Express Highway - West Side North)),Lift to Street (Akurli Gate 1 (Western Express Highway - West Side North))
-PW_ENT_STN_L7_007_2_STAIRS,ENT_STN_L7_007_2,NODE_STN_L7_007_UNPAID,2,1,16,30,Akurli Gate 2 (Western Express Highway - West Side South) to Concourse,Exit to Akurli Gate 2 (Western Express Highway - West Side South)
-PW_ENT_STN_L7_007_2_LIFT,ENT_STN_L7_007_2,NODE_STN_L7_007_UNPAID,5,1,12,25,Street Lift to Concourse (Akurli Gate 2 (Western Express Highway - West Side South)),Lift to Street (Akurli Gate 2 (Western Express Highway - West Side South))
-PW_ENT_STN_L7_007_3_STAIRS,ENT_STN_L7_007_3,NODE_STN_L7_007_UNPAID,2,1,16,30,Akurli Gate 3 (Western Express Highway - East Side North) to Concourse,Exit to Akurli Gate 3 (Western Express Highway - East Side North)
-PW_ENT_STN_L7_007_3_LIFT,ENT_STN_L7_007_3,NODE_STN_L7_007_UNPAID,5,1,12,25,Street Lift to Concourse (Akurli Gate 3 (Western Express Highway - East Side North)),Lift to Street (Akurli Gate 3 (Western Express Highway - East Side North))
 PW_ENT_STN_L7_007_4_STAIRS,ENT_STN_L7_007_4,NODE_STN_L7_007_UNPAID,2,1,16,30,Akurli Gate 4 (Western Express Highway - East Side South) to Concourse,Exit to Akurli Gate 4 (Western Express Highway - East Side South)
 PW_ENT_STN_L7_007_4_LIFT,ENT_STN_L7_007_4,NODE_STN_L7_007_UNPAID,5,1,12,25,Street Lift to Concourse (Akurli Gate 4 (Western Express Highway - East Side South)),Lift to Street (Akurli Gate 4 (Western Express Highway - East Side South))
 PW_STN_L7_007_AFC_IN,NODE_STN_L7_007_UNPAID,NODE_STN_L7_007_PAID,6,0,5,15,Akurli Metro Entry Turnstiles (Tap Smart Card / QR),
@@ -1057,10 +1027,6 @@ PW_PF_STN_L7_007_2_STAIRS,NODE_STN_L7_007_PAID,PF_STN_L7_007_2,2,1,16,30,Stairs 
 PW_PF_STN_L7_007_2_LIFT,NODE_STN_L7_007_PAID,PF_STN_L7_007_2,5,1,12,25,Platform Lift to Akurli Platform 2,Platform Lift to Concourse / Exit
 PW_ENT_STN_L7_008_1_STAIRS,ENT_STN_L7_008_1,NODE_STN_L7_008_UNPAID,2,1,16,30,Kurar Gate 1 (Western Express Highway - West Side North) to Concourse,Exit to Kurar Gate 1 (Western Express Highway - West Side North)
 PW_ENT_STN_L7_008_1_LIFT,ENT_STN_L7_008_1,NODE_STN_L7_008_UNPAID,5,1,12,25,Street Lift to Concourse (Kurar Gate 1 (Western Express Highway - West Side North)),Lift to Street (Kurar Gate 1 (Western Express Highway - West Side North))
-PW_ENT_STN_L7_008_2_STAIRS,ENT_STN_L7_008_2,NODE_STN_L7_008_UNPAID,2,1,16,30,Kurar Gate 2 (Western Express Highway - West Side South) to Concourse,Exit to Kurar Gate 2 (Western Express Highway - West Side South)
-PW_ENT_STN_L7_008_2_LIFT,ENT_STN_L7_008_2,NODE_STN_L7_008_UNPAID,5,1,12,25,Street Lift to Concourse (Kurar Gate 2 (Western Express Highway - West Side South)),Lift to Street (Kurar Gate 2 (Western Express Highway - West Side South))
-PW_ENT_STN_L7_008_3_STAIRS,ENT_STN_L7_008_3,NODE_STN_L7_008_UNPAID,2,1,16,30,Kurar Gate 3 (Western Express Highway - East Side North) to Concourse,Exit to Kurar Gate 3 (Western Express Highway - East Side North)
-PW_ENT_STN_L7_008_3_LIFT,ENT_STN_L7_008_3,NODE_STN_L7_008_UNPAID,5,1,12,25,Street Lift to Concourse (Kurar Gate 3 (Western Express Highway - East Side North)),Lift to Street (Kurar Gate 3 (Western Express Highway - East Side North))
 PW_ENT_STN_L7_008_4_STAIRS,ENT_STN_L7_008_4,NODE_STN_L7_008_UNPAID,2,1,16,30,Kurar Gate 4 (Western Express Highway - East Side South) to Concourse,Exit to Kurar Gate 4 (Western Express Highway - East Side South)
 PW_ENT_STN_L7_008_4_LIFT,ENT_STN_L7_008_4,NODE_STN_L7_008_UNPAID,5,1,12,25,Street Lift to Concourse (Kurar Gate 4 (Western Express Highway - East Side South)),Lift to Street (Kurar Gate 4 (Western Express Highway - East Side South))
 PW_STN_L7_008_AFC_IN,NODE_STN_L7_008_UNPAID,NODE_STN_L7_008_PAID,6,0,5,15,Kurar Metro Entry Turnstiles (Tap Smart Card / QR),
@@ -1071,10 +1037,6 @@ PW_PF_STN_L7_008_2_STAIRS,NODE_STN_L7_008_PAID,PF_STN_L7_008_2,2,1,16,30,Stairs 
 PW_PF_STN_L7_008_2_LIFT,NODE_STN_L7_008_PAID,PF_STN_L7_008_2,5,1,12,25,Platform Lift to Kurar Platform 2,Platform Lift to Concourse / Exit
 PW_ENT_STN_L7_009_1_STAIRS,ENT_STN_L7_009_1,NODE_STN_L7_009_UNPAID,2,1,16,30,Dindoshi Gate 1 (Western Express Highway - West Side North) to Concourse,Exit to Dindoshi Gate 1 (Western Express Highway - West Side North)
 PW_ENT_STN_L7_009_1_LIFT,ENT_STN_L7_009_1,NODE_STN_L7_009_UNPAID,5,1,12,25,Street Lift to Concourse (Dindoshi Gate 1 (Western Express Highway - West Side North)),Lift to Street (Dindoshi Gate 1 (Western Express Highway - West Side North))
-PW_ENT_STN_L7_009_2_STAIRS,ENT_STN_L7_009_2,NODE_STN_L7_009_UNPAID,2,1,16,30,Dindoshi Gate 2 (Western Express Highway - West Side South) to Concourse,Exit to Dindoshi Gate 2 (Western Express Highway - West Side South)
-PW_ENT_STN_L7_009_2_LIFT,ENT_STN_L7_009_2,NODE_STN_L7_009_UNPAID,5,1,12,25,Street Lift to Concourse (Dindoshi Gate 2 (Western Express Highway - West Side South)),Lift to Street (Dindoshi Gate 2 (Western Express Highway - West Side South))
-PW_ENT_STN_L7_009_3_STAIRS,ENT_STN_L7_009_3,NODE_STN_L7_009_UNPAID,2,1,16,30,Dindoshi Gate 3 (Western Express Highway - East Side North) to Concourse,Exit to Dindoshi Gate 3 (Western Express Highway - East Side North)
-PW_ENT_STN_L7_009_3_LIFT,ENT_STN_L7_009_3,NODE_STN_L7_009_UNPAID,5,1,12,25,Street Lift to Concourse (Dindoshi Gate 3 (Western Express Highway - East Side North)),Lift to Street (Dindoshi Gate 3 (Western Express Highway - East Side North))
 PW_ENT_STN_L7_009_4_STAIRS,ENT_STN_L7_009_4,NODE_STN_L7_009_UNPAID,2,1,16,30,Dindoshi Gate 4 (Western Express Highway - East Side South) to Concourse,Exit to Dindoshi Gate 4 (Western Express Highway - East Side South)
 PW_ENT_STN_L7_009_4_LIFT,ENT_STN_L7_009_4,NODE_STN_L7_009_UNPAID,5,1,12,25,Street Lift to Concourse (Dindoshi Gate 4 (Western Express Highway - East Side South)),Lift to Street (Dindoshi Gate 4 (Western Express Highway - East Side South))
 PW_STN_L7_009_AFC_IN,NODE_STN_L7_009_UNPAID,NODE_STN_L7_009_PAID,6,0,5,15,Dindoshi Metro Entry Turnstiles (Tap Smart Card / QR),
@@ -1085,10 +1047,6 @@ PW_PF_STN_L7_009_2_STAIRS,NODE_STN_L7_009_PAID,PF_STN_L7_009_2,2,1,16,30,Stairs 
 PW_PF_STN_L7_009_2_LIFT,NODE_STN_L7_009_PAID,PF_STN_L7_009_2,5,1,12,25,Platform Lift to Dindoshi Platform 2,Platform Lift to Concourse / Exit
 PW_ENT_STN_L7_010_1_STAIRS,ENT_STN_L7_010_1,NODE_STN_L7_010_UNPAID,2,1,16,30,Aarey Gate 1 (Western Express Highway - West Side North) to Concourse,Exit to Aarey Gate 1 (Western Express Highway - West Side North)
 PW_ENT_STN_L7_010_1_LIFT,ENT_STN_L7_010_1,NODE_STN_L7_010_UNPAID,5,1,12,25,Street Lift to Concourse (Aarey Gate 1 (Western Express Highway - West Side North)),Lift to Street (Aarey Gate 1 (Western Express Highway - West Side North))
-PW_ENT_STN_L7_010_2_STAIRS,ENT_STN_L7_010_2,NODE_STN_L7_010_UNPAID,2,1,16,30,Aarey Gate 2 (Western Express Highway - West Side South) to Concourse,Exit to Aarey Gate 2 (Western Express Highway - West Side South)
-PW_ENT_STN_L7_010_2_LIFT,ENT_STN_L7_010_2,NODE_STN_L7_010_UNPAID,5,1,12,25,Street Lift to Concourse (Aarey Gate 2 (Western Express Highway - West Side South)),Lift to Street (Aarey Gate 2 (Western Express Highway - West Side South))
-PW_ENT_STN_L7_010_3_STAIRS,ENT_STN_L7_010_3,NODE_STN_L7_010_UNPAID,2,1,16,30,Aarey Gate 3 (Western Express Highway - East Side North) to Concourse,Exit to Aarey Gate 3 (Western Express Highway - East Side North)
-PW_ENT_STN_L7_010_3_LIFT,ENT_STN_L7_010_3,NODE_STN_L7_010_UNPAID,5,1,12,25,Street Lift to Concourse (Aarey Gate 3 (Western Express Highway - East Side North)),Lift to Street (Aarey Gate 3 (Western Express Highway - East Side North))
 PW_ENT_STN_L7_010_4_STAIRS,ENT_STN_L7_010_4,NODE_STN_L7_010_UNPAID,2,1,16,30,Aarey Gate 4 (Western Express Highway - East Side South) to Concourse,Exit to Aarey Gate 4 (Western Express Highway - East Side South)
 PW_ENT_STN_L7_010_4_LIFT,ENT_STN_L7_010_4,NODE_STN_L7_010_UNPAID,5,1,12,25,Street Lift to Concourse (Aarey Gate 4 (Western Express Highway - East Side South)),Lift to Street (Aarey Gate 4 (Western Express Highway - East Side South))
 PW_STN_L7_010_AFC_IN,NODE_STN_L7_010_UNPAID,NODE_STN_L7_010_PAID,6,0,5,15,Aarey Metro Entry Turnstiles (Tap Smart Card / QR),
@@ -1103,8 +1061,6 @@ PW_ENT_STN_L7_011_2_STAIRS,ENT_STN_L7_011_2,NODE_STN_L7_011_UNPAID,2,1,16,30,Gor
 PW_ENT_STN_L7_011_2_LIFT,ENT_STN_L7_011_2,NODE_STN_L7_011_UNPAID,5,1,12,25,Street Lift to Concourse (Goregaon (East) Gate 2 (Western Express Highway - West Side South)),Lift to Street (Goregaon (East) Gate 2 (Western Express Highway - West Side South))
 PW_ENT_STN_L7_011_3_STAIRS,ENT_STN_L7_011_3,NODE_STN_L7_011_UNPAID,2,1,16,30,Goregaon (East) Gate 3 (Western Express Highway - East Side North) to Concourse,Exit to Goregaon (East) Gate 3 (Western Express Highway - East Side North)
 PW_ENT_STN_L7_011_3_LIFT,ENT_STN_L7_011_3,NODE_STN_L7_011_UNPAID,5,1,12,25,Street Lift to Concourse (Goregaon (East) Gate 3 (Western Express Highway - East Side North)),Lift to Street (Goregaon (East) Gate 3 (Western Express Highway - East Side North))
-PW_ENT_STN_L7_011_4_STAIRS,ENT_STN_L7_011_4,NODE_STN_L7_011_UNPAID,2,1,16,30,Goregaon (East) Gate 4 (Western Express Highway - East Side South) to Concourse,Exit to Goregaon (East) Gate 4 (Western Express Highway - East Side South)
-PW_ENT_STN_L7_011_4_LIFT,ENT_STN_L7_011_4,NODE_STN_L7_011_UNPAID,5,1,12,25,Street Lift to Concourse (Goregaon (East) Gate 4 (Western Express Highway - East Side South)),Lift to Street (Goregaon (East) Gate 4 (Western Express Highway - East Side South))
 PW_STN_L7_011_AFC_IN,NODE_STN_L7_011_UNPAID,NODE_STN_L7_011_PAID,6,0,5,15,Goregaon (East) Metro Entry Turnstiles (Tap Smart Card / QR),
 PW_STN_L7_011_AFC_OUT,NODE_STN_L7_011_PAID,NODE_STN_L7_011_UNPAID,6,0,5,15,Goregaon (East) Metro Exit Turnstiles (Tap to Exit),
 PW_PF_STN_L7_011_1_STAIRS,NODE_STN_L7_011_PAID,PF_STN_L7_011_1,2,1,16,30,Stairs to Goregaon (East) Platform 1,Stairs to Concourse / Exit
@@ -1113,10 +1069,6 @@ PW_PF_STN_L7_011_2_STAIRS,NODE_STN_L7_011_PAID,PF_STN_L7_011_2,2,1,16,30,Stairs 
 PW_PF_STN_L7_011_2_LIFT,NODE_STN_L7_011_PAID,PF_STN_L7_011_2,5,1,12,25,Platform Lift to Goregaon (East) Platform 2,Platform Lift to Concourse / Exit
 PW_ENT_STN_L7_012_1_STAIRS,ENT_STN_L7_012_1,NODE_STN_L7_012_UNPAID,2,1,16,30,Jogeshwari (East) Gate 1 (Western Express Highway - West Side North) to Concourse,Exit to Jogeshwari (East) Gate 1 (Western Express Highway - West Side North)
 PW_ENT_STN_L7_012_1_LIFT,ENT_STN_L7_012_1,NODE_STN_L7_012_UNPAID,5,1,12,25,Street Lift to Concourse (Jogeshwari (East) Gate 1 (Western Express Highway - West Side North)),Lift to Street (Jogeshwari (East) Gate 1 (Western Express Highway - West Side North))
-PW_ENT_STN_L7_012_2_STAIRS,ENT_STN_L7_012_2,NODE_STN_L7_012_UNPAID,2,1,16,30,Jogeshwari (East) Gate 2 (Western Express Highway - West Side South) to Concourse,Exit to Jogeshwari (East) Gate 2 (Western Express Highway - West Side South)
-PW_ENT_STN_L7_012_2_LIFT,ENT_STN_L7_012_2,NODE_STN_L7_012_UNPAID,5,1,12,25,Street Lift to Concourse (Jogeshwari (East) Gate 2 (Western Express Highway - West Side South)),Lift to Street (Jogeshwari (East) Gate 2 (Western Express Highway - West Side South))
-PW_ENT_STN_L7_012_3_STAIRS,ENT_STN_L7_012_3,NODE_STN_L7_012_UNPAID,2,1,16,30,Jogeshwari (East) Gate 3 (Western Express Highway - East Side North) to Concourse,Exit to Jogeshwari (East) Gate 3 (Western Express Highway - East Side North)
-PW_ENT_STN_L7_012_3_LIFT,ENT_STN_L7_012_3,NODE_STN_L7_012_UNPAID,5,1,12,25,Street Lift to Concourse (Jogeshwari (East) Gate 3 (Western Express Highway - East Side North)),Lift to Street (Jogeshwari (East) Gate 3 (Western Express Highway - East Side North))
 PW_ENT_STN_L7_012_4_STAIRS,ENT_STN_L7_012_4,NODE_STN_L7_012_UNPAID,2,1,16,30,Jogeshwari (East) Gate 4 (Western Express Highway - East Side South) to Concourse,Exit to Jogeshwari (East) Gate 4 (Western Express Highway - East Side South)
 PW_ENT_STN_L7_012_4_LIFT,ENT_STN_L7_012_4,NODE_STN_L7_012_UNPAID,5,1,12,25,Street Lift to Concourse (Jogeshwari (East) Gate 4 (Western Express Highway - East Side South)),Lift to Street (Jogeshwari (East) Gate 4 (Western Express Highway - East Side South))
 PW_STN_L7_012_AFC_IN,NODE_STN_L7_012_UNPAID,NODE_STN_L7_012_PAID,6,0,5,15,Jogeshwari (East) Metro Entry Turnstiles (Tap Smart Card / QR),
@@ -1127,10 +1079,6 @@ PW_PF_STN_L7_012_2_STAIRS,NODE_STN_L7_012_PAID,PF_STN_L7_012_2,2,1,16,30,Stairs 
 PW_PF_STN_L7_012_2_LIFT,NODE_STN_L7_012_PAID,PF_STN_L7_012_2,5,1,12,25,Platform Lift to Jogeshwari (East) Platform 2,Platform Lift to Concourse / Exit
 PW_ENT_STN_L7_013_1_STAIRS,ENT_STN_L7_013_1,NODE_STN_L7_013_UNPAID,2,1,16,30,Mogra Gate 1 (Western Express Highway - West Side North) to Concourse,Exit to Mogra Gate 1 (Western Express Highway - West Side North)
 PW_ENT_STN_L7_013_1_LIFT,ENT_STN_L7_013_1,NODE_STN_L7_013_UNPAID,5,1,12,25,Street Lift to Concourse (Mogra Gate 1 (Western Express Highway - West Side North)),Lift to Street (Mogra Gate 1 (Western Express Highway - West Side North))
-PW_ENT_STN_L7_013_2_STAIRS,ENT_STN_L7_013_2,NODE_STN_L7_013_UNPAID,2,1,16,30,Mogra Gate 2 (Western Express Highway - West Side South) to Concourse,Exit to Mogra Gate 2 (Western Express Highway - West Side South)
-PW_ENT_STN_L7_013_2_LIFT,ENT_STN_L7_013_2,NODE_STN_L7_013_UNPAID,5,1,12,25,Street Lift to Concourse (Mogra Gate 2 (Western Express Highway - West Side South)),Lift to Street (Mogra Gate 2 (Western Express Highway - West Side South))
-PW_ENT_STN_L7_013_3_STAIRS,ENT_STN_L7_013_3,NODE_STN_L7_013_UNPAID,2,1,16,30,Mogra Gate 3 (Western Express Highway - East Side North) to Concourse,Exit to Mogra Gate 3 (Western Express Highway - East Side North)
-PW_ENT_STN_L7_013_3_LIFT,ENT_STN_L7_013_3,NODE_STN_L7_013_UNPAID,5,1,12,25,Street Lift to Concourse (Mogra Gate 3 (Western Express Highway - East Side North)),Lift to Street (Mogra Gate 3 (Western Express Highway - East Side North))
 PW_ENT_STN_L7_013_4_STAIRS,ENT_STN_L7_013_4,NODE_STN_L7_013_UNPAID,2,1,16,30,Mogra Gate 4 (Western Express Highway - East Side South) to Concourse,Exit to Mogra Gate 4 (Western Express Highway - East Side South)
 PW_ENT_STN_L7_013_4_LIFT,ENT_STN_L7_013_4,NODE_STN_L7_013_UNPAID,5,1,12,25,Street Lift to Concourse (Mogra Gate 4 (Western Express Highway - East Side South)),Lift to Street (Mogra Gate 4 (Western Express Highway - East Side South))
 PW_STN_L7_013_AFC_IN,NODE_STN_L7_013_UNPAID,NODE_STN_L7_013_PAID,6,0,5,15,Mogra Metro Entry Turnstiles (Tap Smart Card / QR),
@@ -1157,8 +1105,6 @@ PW_PF_STN_L7_014_2_STAIRS,NODE_STN_L7_014_PAID,PF_STN_L7_014_2,2,1,16,30,Stairs 
 PW_PF_STN_L7_014_2_LIFT,NODE_STN_L7_014_PAID,PF_STN_L7_014_2,5,1,12,25,Platform Lift to Gundavali Platform 2,Platform Lift to Concourse / Exit
 PW_ENT_STN_L9_001_1_STAIRS,ENT_STN_L9_001_1,NODE_STN_L9_001_UNPAID,2,1,16,30,Pandhurang Wadi Gate 1 (West Side - North) to Concourse,Exit to Pandhurang Wadi Gate 1 (West Side - North)
 PW_ENT_STN_L9_001_1_LIFT,ENT_STN_L9_001_1,NODE_STN_L9_001_UNPAID,5,1,12,25,Street Lift to Concourse (Pandhurang Wadi Gate 1 (West Side - North)),Lift to Street (Pandhurang Wadi Gate 1 (West Side - North))
-PW_ENT_STN_L9_001_2_STAIRS,ENT_STN_L9_001_2,NODE_STN_L9_001_UNPAID,2,1,16,30,Pandhurang Wadi Gate 2 (West Side - South) to Concourse,Exit to Pandhurang Wadi Gate 2 (West Side - South)
-PW_ENT_STN_L9_001_2_LIFT,ENT_STN_L9_001_2,NODE_STN_L9_001_UNPAID,5,1,12,25,Street Lift to Concourse (Pandhurang Wadi Gate 2 (West Side - South)),Lift to Street (Pandhurang Wadi Gate 2 (West Side - South))
 PW_ENT_STN_L9_001_3_STAIRS,ENT_STN_L9_001_3,NODE_STN_L9_001_UNPAID,2,1,16,30,Pandhurang Wadi Gate 3 (East Side - North) to Concourse,Exit to Pandhurang Wadi Gate 3 (East Side - North)
 PW_ENT_STN_L9_001_3_LIFT,ENT_STN_L9_001_3,NODE_STN_L9_001_UNPAID,5,1,12,25,Street Lift to Concourse (Pandhurang Wadi Gate 3 (East Side - North)),Lift to Street (Pandhurang Wadi Gate 3 (East Side - North))
 PW_ENT_STN_L9_001_4_STAIRS,ENT_STN_L9_001_4,NODE_STN_L9_001_UNPAID,2,1,16,30,Pandhurang Wadi Gate 4 (East Side - South) to Concourse,Exit to Pandhurang Wadi Gate 4 (East Side - South)
@@ -1445,3 +1391,4 @@ PW_MUM_CENTRAL_FORECOURT,NODE_STN_L3_019_UNPAID,PF_WR_MUMBAI_CENTRAL,1,1,140,100
 PW_CHURCHGATE_WALK,NODE_STN_L3_025_UNPAID,PF_WR_CHURCHGATE,1,1,160,120,Walkway to Churchgate Railway Station - 160m,Walkway to Metro Line 3 Aqua Line - 160m
 PW_CHEMBUR_MONO_SKYWALK,NODE_STN_L2B_015_UNPAID,NODE_STN_MONO_001_UNPAID,1,1,190,140,Skywalk to Chembur Monorail Station - 190m,Skywalk to Metro Line 2B (Yellow Line) - 190m
 PW_STN_L2A_017_MEZZ_CONC,NODE_STN_L2A_017_MEZZ,NODE_STN_L2A_017_UNPAID,2,1,12,25,"Concourse / Ticketing","Mezzanine / FOB"
+PW_DAHISAR_CONCOURSE_TRANSFER,NODE_STN_L2A_001_PAID,NODE_STN_L7_001_PAID,1,1,25,30,"Line 2A <-> Line 7 Paid Concourse Transfer","Line 7 <-> Line 2A Paid Concourse Transfer"

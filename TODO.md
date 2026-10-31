@@ -1,169 +1,97 @@
-# TransitOS — Development Backlog
+# TransitOS — Implementation Backlog & Priorities
 
-This file tracks milestone completion status and active/planned work items across all platform phases.
+This backlog reflects the current implementation sequence for **TransitOS (Project MetroRadar)**, organized by service capability tiers (**P0 Foundation**, **P1 Core Services**, **P2 Mobility Intelligence & Multi-City**, and **P3 Institutional/Operator Systems**).
 
-For full milestone descriptions, see [ROADMAP.md](./ROADMAP.md).  
-For architecture context, see [ARCHITECTURE.md](./ARCHITECTURE.md).
-
----
-
-## Sprint and Version Status
-
-| Version | Milestone | Status |
-|:---|:---|:---:|
-| v0.1 | Infrastructure and monorepo foundation | Complete |
-| v0.2 | Spatial database and CTM schema | Complete |
-| v0.3 | GTFS static ingestion engine | Complete |
-| v0.4 | Dataset validation CLI and city imports | Complete |
-| v0.4.5 | GIS map engine and digital twin inspector | Complete |
-| v0.5 | Journey pathfinding engine | Complete |
-| v0.5.1 | Realtime GTFS-RT ingestion and Redis pipeline | Complete |
-| v0.5.5 | National GTFS certification and CTM v1.0 freeze | Complete |
-| v0.6 | Multi-candidate routing, Pareto filtering, interchange friction | Complete |
-| v0.6.5 | National transit expansion and calibration baseline | **Active** |
-| v0.7 | Prediction engine and operational intelligence | Planned |
-| v0.8 | Network analytics and operator intelligence | Planned |
-| v0.9 | AI interface gateway and voice prototype | Planned |
-| v1.0 | Fare engine and booking platform | Planned |
-| v1.1+ | Ambient computing and multi-client interfaces | Planned |
+For strategic context, see [ROADMAP.md](./ROADMAP.md).  
+For architectural specifications, see [ARCHITECTURE.md](./ARCHITECTURE.md) and [docs/](./docs/).
 
 ---
 
-## Completed Milestones
+## 🚦 Priority Overview
 
-### v0.1 — Infrastructure Foundation
-- [x] Configure monorepo (`npm` workspaces, root `package.json`, shared `packages/config`)
-- [x] Docker Compose for local PostgreSQL/PostGIS and Redis
-- [x] NestJS backend and Next.js frontend scaffold
-
-### v0.2 — Spatial Database and Canonical Transit Model
-- [x] Enable PostGIS extension; verify spatial queries
-- [x] Prisma CTM schema (Systems, Agencies, Lines, Stations, Levels, Platforms, Entrances, Amenities, Trips, StopTimes, Shapes, Calendars, Frequencies)
-- [x] GIST spatial indexes on geometry columns
-- [x] Trigger-based `geom` sync from `latitude`/`longitude` floats
-
-### v0.3 — GTFS Static Ingestion Engine
-- [x] Transaction-safe GTFS zip archive importer (`apps/backend/src/modules/ingestion`)
-- [x] Archive validator (`gtfs-archive.validator.ts`) — checksum, bounding box, referential integrity
-- [x] `IngestionSession` tracking with per-entity counts, warnings, errors
-
-### v0.4 — Dataset Validation CLI and City Imports
-- [x] GTFS dataset validation CLI
-- [x] 5-stage governance lifecycle: `DISCOVERED → ACQUIRED → VALIDATED → CERTIFIED → IMPORTED`
-- [x] Delhi (DMRC, Tier A) and Kochi (KMRL, Tier A) imported and certified
-
-### v0.4.5 — GIS Map Engine and Digital Twin Inspector
-- [x] MapLibre GL vector map with CartoDB dark-matter base style
-- [x] Dynamic layer registry (`GET /map/layers`)
-- [x] `GeojsonService`: database-level GeoJSON aggregation via PostGIS
-- [x] `DigitalTwinService` and `GET /stations/:id/digital-twin`
-- [x] `SearchService`: full-text search and spatial proximity (`GET /map/search`, `GET /map/nearby`)
-
-### v0.5 — Journey Intelligence Engine
-- [x] In-memory directed multigraph G=(V,E) with TRANSIT, WALK, TRANSFER edge types
-- [x] `GraphBuilderService`: graph construction from CTM, walk edge insertion, Redis graph caching
-- [x] `RoutingService`: Dijkstra pathfinding with configurable weights
-- [x] `ScoringService`: generalized cost scoring (`RankScore = w_t × T + P × N_transfers + w_w × T_walk + C_friction`)
-- [x] `GET /journeys` endpoint with leg itinerary, GeoJSON route geometry
-- [x] Dhaula Kuan travelator routing fix
-
-### v0.5.1 — Realtime GTFS-RT Telemetry
-- [x] `FeedPollerService` background scheduler
-- [x] `GtfsRtParserService` Protocol Buffer decoder
-- [x] Redis 30-second TTL cache with stale fallback (`isStale: true`)
-- [x] `GET /realtime/vehicles` endpoint
-
-### v0.5.5 — National GTFS Certification and CTM v1.0 Freeze
-- [x] Trust Tier system (Tier A official, Tier B community, Tier X synthesized)
-- [x] GTFS Quality Scorer — 5-dimension 100-point score
-- [x] 6 networks certified and imported (Delhi, Kochi, Hyderabad, Bengaluru, Chennai, Ahmedabad)
-- [x] National Transit Status Dashboard (`datasets/reports/INDIA_TRANSIT_STATUS.md`)
-- [x] Individual system audit reports (`CERTIFICATION_*.md`)
-- [x] **CTM v1.0 schema frozen**
-
-### v0.6 — Multi-Candidate Routing and Interchange Analysis
-- [x] Yen's K-Shortest Loopless Paths (K=5)
-- [x] Feasibility filter (loops, invalid durations, excessive transfers)
-- [x] Pareto dominance filter (duration, transfers, walking)
-- [x] Same-destination pruning: candidates >15% slower or >5 min longer with ≥ transfers pruned
-- [x] Corridor diversity preservation: different deboarding stations retained
-- [x] `InterchangeEvaluatorService`: built-environment friction (level change, AFC re-tap, security, outdoor)
-- [x] `frictionLevel` label (MINIMAL | LOW | MODERATE | HIGH | CRITICAL)
-- [x] Barrier-aware routing (infrastructure divide detection and prioritization)
-- [x] Dynamic feeder catchment (`max(d_min + 1500m, d_min × 1.6)`)
-- [x] GIS search: stations and localities ranked above physical gates
-- [x] `RouteCandidate` attribute flags (`fastest`, `fewestTransfers`, `direct`, `leastWalking`, `accessibilityFriendly`)
-- [x] 63 automated tests passing (9 test suites)
+```
+P0 — Foundation (Data Platform & Conformance)         [COMPLETED BASELINE]
+P1 — Core Services (APIs, Realtime & Wayfinding)      [ACTIVE SPRINT]
+P2 — Mobility Intelligence & Regional Expansion       [NEXT UP]
+P3 — Operator Systems & Institutional Integration     [PLANNED]
+```
 
 ---
 
-## Active: v0.6.5 — National Transit Expansion and Calibration Baseline
+## 🟢 P0 — Foundation: Transit Data Platform & Validation
 
-### Mumbai Metro CTM Baseline (TDSE Synthesis)
-- [ ] Line 1 (Blue): Versova ↔ Andheri ↔ Ghatkopar — synthesize from DPR + timetables + OSM
-- [ ] Line 2A (Yellow): Dahisar East ↔ Andheri West (DN Nagar) — synthesize
-- [ ] Line 7 (Red): Dahisar East ↔ Gundavali (Andheri East) — synthesize
-- [ ] Line 3 (Aqua): Underground Aarey JVLR ↔ BKC ↔ Cuffe Parade — synthesize
-- [ ] Suburban railway interchange walk paths (Ghatkopar, Andheri, Dadar)
+*Objective: Establish an authoritative, 100% compliant transit data repository and automated validation pipeline.*
 
-### Tier-2 Networks
-- [ ] Pune Metro — ingest and model
-- [ ] Nagpur Metro — ingest and model
-
-### Calibration and Observation Platform
-- [ ] Observation data schema (station run times, dwell times, transfer walk times, headways, GPS traces)
-- [ ] Field telemetry ingestion pipeline
-- [ ] Calibration Data Warehouse tables in PostgreSQL
-- [ ] Confidence elevation workflow: modeled → learned on calibration data ingestion
-
-### Data Provenance
-- [ ] Attach `sourceType` and `confidence` to all CTM entities
-- [ ] Provenance record API exposure (per-field confidence accessible to analytical tools)
-
-### Frontend
-- [ ] Dynamic multi-city switcher (Delhi, Mumbai, Kochi, Bengaluru, Chennai, Hyderabad, Ahmedabad)
+- [x] **Canonical Transit Model (CTM v1.0)**: Relational schema implemented in PostgreSQL 16 + PostGIS 3.4 (`systems`, `agencies`, `lines`, `stations`, `levels`, `platforms`, `entrances`, `amenities`, `trips`, `stop_times`, `shapes`, `calendars`).
+- [x] **PostGIS Spatial Indexing**: GIST spatial indexes and automatic coordinate-to-geometry trigger synchronization.
+- [x] **Discrete Timetable Synthesis**: Complete individual dispatches for Mumbai Metro Lines 1, 2A, 3, 7, 9, and Monorail with second-level arrival/departure precision.
+- [x] **Canonical MobilityData Validator Conformance**:
+  - [x] Resolve `pathway_unreachable_location` errors across all stations (0 errors).
+  - [x] Correct gate regex parsing bug preventing Churchgate (`STN_L3_025`) street entrances from linking to concourses.
+  - [x] Full referential integrity verification (0 orphan stops, 0 dangling pathways, 0 invalid transfer pairs).
+- [x] **Packaging of Canonical GTFS Archives**: Automated build pipeline generating `mumbai_discrete_ready.zip` and `mumbai-operational-gtfs.zip`.
+- [x] **Data Categorization Framework**: Explicit classification of public, restricted, independently curated, and operational data tiers.
 
 ---
 
-## Planned: v0.7 — Prediction Engine and Operational Intelligence
+## 🟡 P1 — Core Services: APIs, Real-Time & Station Intelligence
 
-- [ ] Prediction Engine consuming CTM schedule + calibration warehouse + historical distributions
-- [ ] Live delay propagation model: delay at station n propagates to stops n+1…N
-- [ ] Empirical dwell time and headway distributions replacing physics model defaults
-- [ ] Estimated fleet-state digital twins (all modeled networks)
-- [ ] Push notification service for service interruptions
+*Objective: Power passenger journey planning, developer access, and live service monitoring.*
 
----
-
-## Planned: v0.8 — Network Analytics and Operator Intelligence
-
-- [ ] Line efficiency metrics and transfer friction heatmaps
-- [ ] Station crowding index and capacity utilization forecasting
-- [ ] Network bottleneck identification by delay frequency and magnitude
-- [ ] Operator analytics dashboard
-
----
-
-## Planned: v0.9 — AI Interface Gateway
-
-- [ ] Intelligence Gateway routing (classify: can TransitOS answer directly vs. requires LLM)
-- [ ] AI capability registry (provider, fallback, purpose per capability)
-- [ ] Sarvam AI speech recognition and TTS integration
-- [ ] Telegram Voice Bot laboratory prototype
+- [x] **Multi-Modal Directed Multigraph Routing Engine**: In-memory graph ($G=(V,E)$) evaluating transit trips, pedestrian FOBs, and vertical level changes.
+- [x] **Built-Environment Interchange Friction Modeling**: Horizontal walking distance + vertical stair penalty ($w_z=2.5$) + escalator speeds + elevator cycle times + ticket barriers.
+- [x] **Pareto-Optimal Candidate Filtering**: Yen's K-Shortest Paths filtering out sub-optimal routes across in-vehicle time, walking distance, transfers, and fares.
+- [x] **Dynamic GTFS-Realtime (GTFS-RT) Server**:
+  - [x] `mock-gtfsrt-server.js` binding directly to `mumbai_discrete_ready.zip`.
+  - [x] `/gtfsrt/updates` (TripUpdate Protobuf stream).
+  - [x] `/gtfsrt/vehicles` (VehiclePosition Protobuf stream).
+  - [x] `/gtfsrt/alerts` (ServiceAlert Protobuf stream).
+- [ ] **Developer Portal & API Surface**:
+  - [ ] Implement OpenAPI / Swagger UI on `/api/docs`.
+  - [ ] Public dataset download endpoints for verified GTFS archives and GeoJSON layers.
+  - [ ] API key provisioning and rate-limiting middleware in NestJS gateway.
+- [ ] **MetroRadar Commuter Web App Polish**:
+  - [ ] Gate-specific exit navigation in route result cards (e.g., "Exit via Gate A3 for West Pavilion").
+  - [ ] Digital twin station floorplan viewer visualizing multi-level platforms and amenities.
+  - [ ] Real-time vehicle marker animation on MapLibre GL canvas.
 
 ---
 
-## Planned: v1.0 — Fare Engine and Booking Platform
+## 🔵 P2 — Mobility Intelligence & Multi-City Expansion
 
-- [ ] Fare Intelligence Engine (zone pricing, flat rates, transfer discounts, fare capping, pass optimization)
-- [ ] Booking Engine with provider adapter pattern
-- [ ] Payment Abstraction Layer (UPI, Card, NCMC, partner wallets)
-- [ ] Standardized QR ticket representation and verification
+*Objective: Deliver research-grade spatial analytics and expand beyond Mumbai to Pune and Nagpur.*
+
+- [ ] **Dynamic Pedestrian Catchment Isochrones**:
+  - [ ] PostGIS spatial query engine generating 5, 10, and 15-minute walking catchment polygons from station gates along actual sidewalks.
+  - [ ] Natural and infrastructure barrier avoidance (railway tracks, rivers, expressways).
+  - [ ] Export isochrones as GeoJSON for GIS and urban planning workflows.
+- [ ] **Interchange Friction Index (IFI) Audit**:
+  - [ ] Automated benchmark reports for all major Mumbai interchange complexes (D.N. Nagar / Andheri West, Gundavali / WEH, Dadar, Kurla).
+  - [ ] Empirical ranking of transfer friction across lines.
+- [ ] **Multi-City Rollout: Stage 1 — Pune**:
+  - [ ] Ingest Pune Metro (Purple & Aqua lines) static geometry and timetables into CTM.
+  - [ ] Ground-truth Pune Metro station entrances and multi-modal integration with PMPML bus terminals.
+  - [ ] Generate verified GTFS Schedule feeds for Pune.
+- [ ] **Multi-City Rollout: Stage 2 — Nagpur**:
+  - [ ] Ingest Maha Metro Nagpur Orange and Aqua lines.
+  - [ ] Validate station access points and feeder catchments.
+- [ ] **Station Parking & Multi-Modal Access**:
+  - [ ] Model parking facility locations, vehicle capacities, EV charging bays, and auto/cab feeder stands.
 
 ---
 
-## Planned: v1.1+ — Multi-Client Interfaces
+## 🟣 P3 — Operator Systems & Institutional Collaboration
 
-- [ ] WhatsApp Business conversational ticketing interface
-- [ ] Wear OS smartwatch client (next train ETAs, platform guidance, transfer steps)
-- [ ] Proactive calendar-to-transit recommendations
+*Objective: Formalize academic research partnerships and work toward public-sector transport stack adoption.*
+
+- [ ] **Academic Research Collaboration (IIT Bombay TSE)**:
+  - [ ] Prepare standardized research dataset bundles and mathematical methodology whitepapers.
+  - [ ] Explore formal industry–academia interaction via IIT Bombay IRCC / SINE pathways.
+  - [ ] Pilot collaborative study on multi-modal transfer impedance and pedestrian accessibility in Mumbai.
+- [ ] **Transit Operator Dashboards & Collaboration**:
+  - [ ] Operator-facing GTFS health audit and digital twin verification portal.
+  - [ ] Engage MMRCL / MMMOCL / Maha Metro regarding official AVL GPS transponder ingestion.
+  - [ ] Station commercial space (kiosk/retail) spatial analytics.
+- [ ] **Government Open Transport Stack Alignment**:
+  - [ ] Align data schemas with national public mobility initiatives and open transport data standards (inspired by the Delhi Transport Stack).
+  - [ ] Evaluate participation in government innovation programs (e.g. Atal New India Challenge).

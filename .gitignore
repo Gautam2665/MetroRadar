@@ -39,3 +39,12 @@ datasets/mumbai/manual-gtfsrt/
 .agents/
 skills-lock.json
 .playwright-mcp/
+
+**/.next/
+otp_test/
+*.tif
+*.tiff
+
+*.aux.xml
+*.points
+apps/website/
