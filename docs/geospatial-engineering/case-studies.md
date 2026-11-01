@@ -61,7 +61,7 @@ These drawings contained high-precision CAD geometry of platform screen doors, c
 ```
 
 ### Data Acquisition & Engineering Approach
-1. **Script Development**: Developed a dedicated Python transformation script: [`datasets/mumbai/extract_line7_cad_to_qgis.py`](file:///c:/Users/HP/OneDrive/Desktop/MetroRadar/datasets/mumbai/extract_line7_cad_to_qgis.py).
+1. **Script Development**: Developed a dedicated Python transformation script: [`tools/extract_line7_cad_to_qgis.py`](file:///c:/Users/HP/OneDrive/Desktop/MetroRadar/tools/extract_line7_cad_to_qgis.py).
 2. **Vector Primitive Extraction**: Using PyMuPDF (`fitz`), the script parsed CAD vector shapes, identifying bounding boxes for ticket counters, security turnstiles, and stairways on $2384 \times 1684\text{ pt}$ layout sheets.
 3. **Rigid-Body Helmert Transformation**:
    * **Scale Factor**: Calculated from the sheet drawing scale ($1\text{ pt} = 1/72\text{ in} \approx 0.35\text{ m/pt}$ on $1:200$ engineering sheets).
@@ -109,12 +109,13 @@ A naive single-point transit model would treat Marol Naka as a zero-second, zero
 ```
 
 ### Engineering Approach
-1. **Blueprint Georeferencing**: Georeferenced station blueprints for Line 1 stations (`datasets/mumbai/line1_station_blueprints/`) to determine exact concourse dimensions and vertical stair locations.
-2. **Explicit Transfer Edge Modeling**: In the Canonical Transit Model, the interchange is structured as a typed `WALK` transfer edge:
+1. **Desktop GIS Layer Auditing in QGIS (`mumbai.qgz`)**: Candidate coordinates for Line 1 elevated piers and Line 3 underground shafts were loaded into QGIS and overlaid against high-resolution aerial imagery. Visual inspection revealed that relying on automated centroid snapping would miss the physical $180\text{ m}$ street-level plaza walk and place the transfer node inside a private commercial compound. Planners manually traced and snapped the walking pathway across the Andheri-Kurla Road pedestrian crossing.
+2. **Blueprint Georeferencing**: Georeferenced station blueprints for Line 1 stations to determine exact concourse dimensions and vertical stair locations.
+3. **Explicit Transfer Edge Modeling**: In the Canonical Transit Model, the interchange is structured as a typed `WALK` transfer edge:
    * Distance: $450\text{ meters}$ (total walking path including concourses).
    * Duration: $8\text{ minutes}$ ($450\text{ seconds}$).
    * Security / Re-ticketing penalty: Explicitly accounted for in transfer wait calculation.
-3. **Isochrone Verification**: Computed 5, 10, and 15-minute pedestrian street catchments around both stations (`stn_l1_008_walking_isochrones.geojson` and `stn_l3_008_walking_isochrones.geojson`) to assess street accessibility.
+4. **Isochrone Verification**: Computed 5, 10, and 15-minute pedestrian street catchments around both stations to assess street accessibility.
 
 ### Outcome
 Commuters receive realistic transfer guidance:

@@ -26,11 +26,12 @@ Identify available datasets across diverse tiers:
 
 Each source is logged with capture date, URL/origin, licensing terms, and geographical boundary.
 
-### 2. Geometric & Attribute Inspection
-Before any automated processing, source files are manually audited in QGIS or inspected programmatically:
+### 2. Geometric & Attribute Inspection (Desktop GIS Staging)
+Before any automated processing, candidate database coordinates and raw source files are loaded directly into **QGIS** for cartographic inspection against high-resolution satellite basemaps and georeferenced civil drawings:
 * **Coverage Analysis**: Checking whether all revenue stations and active lines are present.
 * **Attribute Consistency**: Confirming station naming variants across languages (English, Marathi, Hindi) and verifying operational line codes (e.g., Line 2A vs Line 7).
 * **Topological Sanity**: Detecting self-intersecting polygons, disconnected line segments, and inverted coordinate pairs (e.g. latitude/longitude reversals).
+* **Ground-Truth Cross-Check**: Visually identifying misplaced station points (e.g. centroids placed inside highway medians or private property) prior to automated processing.
 
 ### 3. Coordinate Reference System (CRS) Normalization
 Geographic transit calculations require switching between angular spherical coordinates and metric Euclidean projections:
@@ -38,11 +39,16 @@ Geographic transit calculations require switching between angular spherical coor
 * **Metric Calculation (EPSG:32643 / UTM Zone 43N)**: Applied when measuring physical distances, walking isochrones, buffer radiuses, and pedestrian walking network lengths in Mumbai and Pune.
 * **CAD Local Space**: 2D Cartesian sheet coordinates (measured in PostScript points or millimeters) with an arbitrary local origin `(0, 0)`.
 
-### 4. Missing Infrastructure Reconstruction
-When detailed station-level information or pedestrian access routes are absent from official mapping feeds:
-* OpenStreetMap data is exported and brought into JOSM for topology auditing.
-* Station footprints, mezzanine concourses, and access portals are identified from satellite imagery, contractor drawings, or on-site inspections.
-* Mapped geometry is aligned with surrounding street networks to establish walkable pedestrian connections.
+### 4. Desktop GIS Reconstruction & Micro-Topology (The 80% Work)
+Programmatic algorithms can automate database storage, but **80% of spatial accuracy is won inside desktop GIS (QGIS and JOSM)** where transport planners manually reconstruct real-world urban access:
+* **QGIS Cartographic Editing (`mumbai.qgz`)**:
+  - Transport planners manually drag and snap entrance gates from arbitrary road centroids to physical sidewalk kerbs and Foot Overbridge (FOB) landing staircases.
+  - Viaduct alignments are manually digitized to trace physical metro pier columns rather than adjacent vehicular flyovers.
+  - Complex multi-level interchange complexes (such as Gundavali L7 $\leftrightarrow$ Western Express Highway L1 and D.N. Nagar L1 $\leftrightarrow$ Andheri West L2A) are unraveled in QGIS to reflect true vertical elevation drops and enclosed skywalk geometry.
+* **JOSM Pedestrian Topology Auditing**:
+  - OpenStreetMap street and pathway layers are loaded into the **Java OpenStreetMap Editor (JOSM)**.
+  - Missing pedestrian crosswalks, sidewalk links, and station access ways are micro-mapped and snapped directly to station entrance nodes.
+  - OpenStreetMap standard transit tags (`railway=subway_entrance`, `highway=footway`, `footway=crossing`, `level=*`, `tactile_paving=*`) are audited to ensure flawless routing graph traversability.
 
 ### 5. Georeferencing & Transformation
 For architectural CAD drawings and station layout blueprints that lack spatial reference:

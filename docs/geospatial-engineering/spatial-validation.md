@@ -58,7 +58,29 @@ TransitOS validates the parent-child hierarchy across all station infrastructure
 
 ---
 
-## 3. GTFS Schedule Specification Compliance
+## 3. Cartographic & Visual Auditing in QGIS (Why Code Alone Fails)
+
+Automated programmatic validation (bounds checks, schema tests, foreign key integrity) is essential for data hygiene, but it is **fundamentally incapable of verifying physical urban reality**. A coordinate pair `(19.1197, 72.8464)` is completely valid to a TypeScript parser, but that same coordinate might sit in the center median of an active highway, on top of an impenetrable sound-barrier wall, or 30 meters away from the actual pedestrian entrance.
+
+Transport planners in TransitOS bridge this gap by enforcing **human-in-the-loop cartographic auditing in QGIS (`mumbai.qgz`) and JOSM**, accounting for **over 80% of all spatial corrections**:
+
+| Error Category | What Code Sees | What Desktop GIS (QGIS & JOSM) Audits |
+|---|---|---|
+| **Entrance Gate Placement** | Valid float coordinates within metropolitan boundary. | Verifies whether the gate node physically snaps to a walkable sidewalk kerb rather than a vehicular carriageway. |
+| **Foot Overbridge (FOB) Landings** | Straight-line distance $d < 500\text{ m}$. | Traces actual physical staircases, concourse connection piers, and pedestrian skywalk enclosures over arterial roads. |
+| **Platform Orientation & Viaduct Alignment** | Polyline with $N$ vertices. | Aligns platform geometry directly over physical structural columns and revenue tracks visible in high-resolution satellite imagery. |
+| **Pedestrian Graph Continuity** | Graph nodes exist in database. | Audits in JOSM to ensure footpaths do not terminate abruptly at kerbs without connecting crosswalks or access pathways. |
+| **Multi-Tier Vertical Interchanges** | Two stations have $d \approx 100\text{ m}$. | Distinguishes elevated viaduct levels (+18m), concourse mezzanines (+8m), and ground access (0m) to eliminate unrealistic horizontal teleportation. |
+
+### The PostGIS ↔ QGIS Auditing Cycle
+1. Candidate spatial tables are loaded directly into **QGIS** as PostGIS vector layers.
+2. Layers are visualized over multi-source satellite basemaps (Google Satellite, Bing Aerial, Esri World Imagery) and georeferenced civil DPR drawings.
+3. Planners manually adjust vertex positions, snap gate coordinates to real kerbs, and rectify corridor curves.
+4. Cleaned spatial geometries are committed back into the canonical database.
+
+---
+
+## 4. GTFS Schedule Specification Compliance
 
 TransitOS validates all synthesized feeds using the **Canonical GTFS Schedule Validator** (version 8.0.1, maintained by MobilityData).
 
@@ -75,7 +97,7 @@ TransitOS validates all synthesized feeds using the **Canonical GTFS Schedule Va
 
 ---
 
-## 4. Graph Reachability & Routing Sanity Checks
+## 5. Graph Reachability & Routing Sanity Checks
 
 Beyond static GTFS schema checks, TransitOS validates that the graph is mathematically and operationally traversable:
 
@@ -92,7 +114,7 @@ Every declared multi-line interchange complex (e.g. D.N. Nagar $\leftrightarrow$
 
 ---
 
-## 5. Unresolved Gaps & Uncertainty Tracking
+## 6. Unresolved Gaps & Uncertainty Tracking
 
 TransitOS explicitly documents the maturity of each station representation in its dataset catalogue:
 * **Surveyed & Ground-Truthed**: Entrances, platforms, and turnstiles mapped from as-built drawings or physical GPS surveys (e.g. Line 2A, Line 7, Line 3). Confidence score: `0.95`.

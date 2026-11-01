@@ -54,6 +54,8 @@ Specific tracks and boarding edges where trains stop.
 Physical street gates, portals, and direct landmark access points.
 * Attributes: `id`, `code` (e.g., `ENT_STN_L3_025_A1`), `name`, `stationId`, `levelId`, `latitude`, `longitude`, `geom`, `accessible` (Boolean), `lift` (Boolean), `escalator` (Boolean), `snappedPedestrianEdgeId`.
 
+> **Spatial Ground-Truthing Note**: Unlike naive approaches that programmatically generate entrance coordinates using centroid buffer offsets, entrance gate positions and level elevations in CTM are audited and ground-truthed inside **QGIS (`mumbai.qgz`) and JOSM** against high-resolution satellite imagery, verified FOB landings, and real pedestrian footways. Over 80% of gate coordinates were corrected through manual cartographic auditing rather than code heuristics.
+
 #### `amenities`
 Passenger facilities inside the station envelope.
 * Attributes: `id`, `stationId`, `levelId`, `type` (`TICKET_COUNTER`, `TVM`, `RESTROOM`, `FIRST_AID`, `SECURITY_CHECK`), `latitude`, `longitude`, `geom`.

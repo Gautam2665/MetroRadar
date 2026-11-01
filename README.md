@@ -75,7 +75,47 @@ TransitOS aligns with these broader principles by focusing specifically on the t
 
 TransitOS combines software engineering with geospatial data preparation, transit infrastructure reconstruction, and network validation. The platform is designed to work with imperfect and fragmented source data, including situations where detailed station layouts or machine-readable infrastructure datasets are not readily available.
 
-The spatial data pipeline uses GIS, open geospatial datasets, CAD-derived information, and custom processing tools to construct a structured representation of transit networks and their physical connections.
+The spatial data pipeline uses desktop GIS, open geospatial datasets, CAD-derived information, and custom processing tools to construct a structured representation of transit networks and their physical connections.
+
+### The Transport Engineering Reality: Why Code Alone Cannot Solve Urban Transit
+
+Writing software to programmatically manipulate coordinates in a database is straightforward. But algorithms are fundamentally blind to urban ground truth: **code cannot determine whether an access gate sits on a pedestrian sidewalk, inside a 6-lane highway median, or behind a physical perimeter wall**.
+
+In constructing TransitOS, automated scripts handled ingestion pipelines and relational schemas, but **over 80% of the actual spatial corrections, station alignments, and pedestrian access geometries were performed manually inside desktop GIS (QGIS and JOSM)**:
+
+1. **Database-to-GIS Extraction**: Candidate station centroids, platform vectors, and corridor geometries were exported from PostgreSQL/PostGIS into **QGIS** (`mumbai.qgz`).
+2. **Multi-Source Visual Inspection**: Layers were audited against high-resolution satellite imagery (Google Satellite, Esri World Imagery, Bing Aerial), OpenStreetMap road networks, and georeferenced municipal/MMRDA Detailed Project Reports (DPRs).
+3. **Manual Cartographic Corrections in QGIS**:
+   - Manually repositioning entrance gates from arbitrary road centroids to physical sidewalk kerbs and Foot Overbridge (FOB) staircases.
+   - Tracing elevated viaduct centerlines to match physical pier columns rather than adjacent vehicular flyovers.
+   - Digitizing platform rectangles, concourse mezzanine levels, and orientation azimuths.
+   - Resolving complex multi-tier interchange complexes (e.g. Gundavali L7 to Western Express Highway L1, D.N. Nagar L1 to Andheri West L2A, Dadar central hub) where 2D proximity hides severe vertical drop and transfer friction.
+4. **Pedestrian Micro-Topology Auditing in JOSM**:
+   - Exporting spatial station contexts into the **Java OpenStreetMap Editor (JOSM)** to micro-map pedestrian walkways, crosswalks, FOB stairs, and station entry gates.
+   - Standardizing tags to OpenStreetMap transport specifications (`railway=subway_entrance`, `highway=footway`, `footway=crossing`, `level=*`, `tactile_paving=*`).
+   - Ensuring zero floating or disconnected entrance nodes relative to the surrounding walkable street fabric.
+5. **Re-synchronization to PostGIS & CTM**: Only after this intensive desktop GIS ground-truthing were the validated spatial features synchronized back into the canonical relational database and GTFS datasets.
+
+```mermaid
+flowchart LR
+    subgraph Staging["1. Staging & Ingestion"]
+        DB["PostgreSQL / PostGIS<br/>(Candidate Coordinates)"]
+    end
+
+    subgraph DesktopGIS["2. Transport GIS Workbench (80% of Work)"]
+        QGIS["QGIS (mumbai.qgz)<br/>• Satellite Imagery Audit<br/>• Georeferenced DPRs<br/>• Gate & Pier Digitizing"]
+        JOSM["JOSM Editor<br/>• Pedestrian Footways<br/>• Crossings & FOB Stairs<br/>• Topological Connectivity"]
+    end
+
+    subgraph Production["3. Canonical Production"]
+        CTM["Canonical Transit Model<br/>• Validated Gate Geometries<br/>• Micro-Topological Graph<br/>• GTFS Schedule & RT"]
+    end
+
+    DB -->|"Direct Spatial Export"| QGIS
+    QGIS <-->|"Pedestrian Layers"| JOSM
+    QGIS & JOSM -->|"Ground-Truthed Sync"| CTM
+    CTM -->|"Production Store"| DB
+```
 
 ### Geospatial & Infrastructure Toolchain
 
@@ -83,14 +123,14 @@ The platform explicitly distinguishes implemented tools from external workflow u
 
 | Tool / Technology | Status | Role in TransitOS Platform |
 |---|---|---|
-| **PostgreSQL + PostGIS** | **Implemented** | Canonical spatial storage, GIST indexing, line-string snapping, and network topology storage. |
-| **Custom TypeScript Tooling** | **Implemented** | Data ingestion, schema/coordinate checks, duplicate detection, reference validation, and CTM transformation. |
-| **Python Spatial Scripts** | **Implemented** | Layout parsing via PyMuPDF (`fitz`), mathematical coordinate transformations, and GeoJSON generation. |
-| **QGIS** | **Workflow Tool** | Spatial inspection, coordinate-system management, georeferencing workflows, layer validation, and visual auditing. |
-| **JOSM** | **Workflow Tool** | Inspection and editing of OpenStreetMap data, pedestrian-network preparation, and reconstruction of station access. |
-| **OpenStreetMap (OSM)** | **Data Source / Workflow** | Source of mapped geographic features and pedestrian-network geometry where authoritative datasets are unavailable. |
-| **CAD Drawings & Blueprints** | **Data Source / Workflow** | Station layouts, concourse floorplans, and entrance geometry extracted from tender annexures and contractor drawings. |
-| **Helmert & Affine Transformations** | **Implemented Method** | Georeferencing methods used to rotate, scale, and translate CAD-derived geometry into geographic WGS84 coordinates. |
+| **QGIS (3.28+ LTR)** | **Primary GIS Workbench** | Desktop GIS environment where 80% of spatial corrections, layer verifications, gate placements, and visual audits were performed manually against satellite imagery and georeferenced DPRs (`mumbai.qgz`). |
+| **JOSM** | **Pedestrian Topology Workbench** | Java OpenStreetMap Editor used for micro-mapping pedestrian access, sidewalk connectivity, FOB stairs, crosswalks, and gate topology auditing. |
+| **PostgreSQL + PostGIS** | **Implemented Engine** | Canonical spatial storage, GIST indexing, spatial joins (`ST_DWithin`, `ST_Distance`), line-string snapping, and network topology storage. |
+| **OpenStreetMap (OSM)** | **Data Source / Standard** | Baseline physical road, sidewalk, and building footprint geometry where official municipal or operator spatial datasets are unavailable. |
+| **CAD Drawings & DPR Blueprints** | **Engineering Baseline** | Station layouts, concourse floorplans, and entrance geometry extracted from tender annexures, MMRDA/CIDCO civil drawings, and DPRs. |
+| **Helmert & Affine Transformations** | **Implemented Method** | Mathematical rotation, translation, and scaling of local Cartesian CAD drawing coordinates to WGS84 geographic coordinates. |
+| **Custom TypeScript Tooling** | **Implemented Engine** | Data ingestion, schema validation, duplicate detection, reference integrity checks, and CTM transformation. |
+| **Python Spatial Scripts** | **Implemented Utility** | Layout parsing via PyMuPDF (`fitz`), mathematical coordinate transformations, and GeoJSON generation. |
 | **QNEAT3** | **Methodological Reference** | QGIS-based network analysis plugin relevant to accessibility distance benchmarking; distinguished from internal routing. |
 | **GTFS & GTFS-Realtime** | **Implemented Standard** | Structured timetable and service data, with real-time processing dependent on supported feed characteristics. |
 

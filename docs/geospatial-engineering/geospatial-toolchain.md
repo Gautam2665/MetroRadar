@@ -13,16 +13,33 @@ This document classifies every tool, framework, and technique used in the platfo
 
 | Tool / Technology | Status | Role in TransitOS Platform | Primary Repository Evidence |
 |---|---|---|---|
-| **PostgreSQL 16 + PostGIS 3.4** | **Implemented** | Canonical spatial storage, GIST indexing, spatial joins (`ST_DWithin`, `ST_Distance`), line-string snapping, and network topology storage. | `database/prisma/schema.prisma`, `apps/backend/src/modules/gis/` |
-| **Custom TypeScript Processing Engine** | **Implemented** | Ingestion pipelines, GTFS timetable synthesis, coordinate bounds checking, topological validation, and Pareto routing multigraph construction. | `apps/backend/src/modules/journey/`, `scripts/` |
-| **Python Spatial Scripts** | **Implemented** | Layout parsing via PyMuPDF (`fitz`), mathematical coordinate transformations, and GeoJSON generation. | `datasets/mumbai/extract_line7_cad_to_qgis.py` |
-| **QGIS (3.28+ LTR)** | **Workflow Tool** | Visual spatial auditing, layer verification, coordinate reference system (CRS) transformations, inspection of station polygons, and project workspace. | `mumbai.qgz`, QGIS Python console scripts |
-| **JOSM (Java OpenStreetMap Editor)** | **Workflow Tool** | Granular inspection and editing of OSM pedestrian ways, tag validation (`railway=station`, `highway=footway`), topological splitting, and gate connectivity auditing. | `scripts/export_l2a_l7_for_josm.js`, `datasets/mumbai/exports/` |
-| **OpenStreetMap (OSM)** | **Data Source / Workflow** | Baseline physical road, sidewalk, and building footprint geometry where official municipal or operator spatial datasets are unavailable. | `scripts/export_l2a_l7_for_josm.js`, `datasets/pune/` |
-| **CAD Layout Sheets & Blueprints** | **Data Source / Workflow** | Architectural station layouts, kiosk plans, concourse floorplans, and station entrance locations extracted from public agency tender annexures. | `datasets/mumbai/Annexure_*_cad_extracted.json`, `datasets/mumbai/line1_station_blueprints/` |
-| **Helmert & Affine Transformations** | **Implemented Method** | Mathematical rotation, translation, and scaling of local Cartesian CAD drawing coordinates to WGS84 geographic coordinates. | `datasets/mumbai/extract_line7_cad_to_qgis.py` |
+| **QGIS (3.28+ LTR)** | **Primary GIS Workbench** | Desktop GIS environment where 80% of spatial corrections, layer verifications, gate placements, and visual audits were performed manually against satellite imagery and georeferenced DPRs (`mumbai.qgz`). | `mumbai.qgz`, QGIS Python console scripts |
+| **JOSM (Java OpenStreetMap Editor)** | **Pedestrian Topology Workbench** | Granular inspection and manual micro-editing of OSM pedestrian ways, tag validation (`railway=station`, `highway=footway`), topological splitting, and gate connectivity auditing. | `scripts/export_l2a_l7_for_josm.js`, `datasets/mumbai/exports/` |
+| **PostgreSQL 16 + PostGIS 3.4** | **Implemented Engine** | Canonical spatial storage, GIST indexing, spatial joins (`ST_DWithin`, `ST_Distance`), line-string snapping, and network topology storage. | `database/prisma/schema.prisma`, `apps/backend/src/modules/gis/` |
+| **Custom TypeScript Processing Engine** | **Implemented Engine** | Ingestion pipelines, GTFS timetable synthesis, coordinate bounds checking, topological validation, and Pareto routing multigraph construction. | `apps/backend/src/modules/journey/`, `scripts/` |
+| **Python Spatial Scripts** | **Implemented Utility** | Layout parsing via PyMuPDF (`fitz`), mathematical coordinate transformations, and GeoJSON generation. | `tools/`, QGIS console workflows |
+| **OpenStreetMap (OSM)** | **Data Source / Standard** | Baseline physical road, sidewalk, and building footprint geometry where official municipal or operator spatial datasets are unavailable. | `scripts/export_l2a_l7_for_josm.js`, `datasets/pune/` |
+| **CAD Layout Sheets & Blueprints** | **Engineering Baseline** | Architectural station layouts, kiosk plans, concourse floorplans, and station entrance locations extracted from public agency tender annexures. | Historical DPR annexures, civil tender layouts |
+| **Helmert & Affine Transformations** | **Implemented Method** | Mathematical rotation, translation, and scaling of local Cartesian CAD drawing coordinates to WGS84 geographic coordinates. | Math models documented in `cad-georeferencing.md` |
 | **QNEAT3 (QGIS Network Analysis)** | **Methodological Reference** | External QGIS network distance and catchment plugin. Relevant as an external benchmarking reference for walking accessibility, distinct from TransitOS's internal Dijkstra/Pareto engine. | Mentioned in accessibility benchmarking |
-| **GTFS Schedule & GTFS-RT** | **Implemented Standard** | Authoritative schedule representation (stops, stop_times, pathways, levels) and live telemetry bindings. | `datasets/mumbai/mumbai_discrete_ready.zip`, `apps/backend/src/modules/realtime/` |
+| **GTFS Schedule & GTFS-RT** | **Implemented Standard** | Authoritative schedule representation (stops, stop_times, pathways, levels) and live telemetry bindings. | `datasets/mumbai/`, `apps/backend/src/modules/realtime/` |
+
+---
+
+## The 80% Principle: Why Desktop GIS Forged the Spatial Network
+
+A central reality of urban transport engineering is that **software code alone cannot solve spatial ground-truth**. 
+
+While automated scripts and PostGIS queries efficiently execute mathematical translations and schema migrations, programmatic heuristics are blind to real-world physical obstructions. An algorithm cannot recognize whether an entrance coordinate lands on a continuous pedestrian sidewalk, inside an impenetrable boundary wall, or in the center median of an active expressway.
+
+In TransitOS:
+* **Code Handled the Pipes (20%)**: Programmatic ingestion, relational database constraints, GTFS export pipelines, and API routing services.
+* **Desktop GIS Handled the Reality (80%)**: Candidate station points, corridor polylines, and gate locations were loaded into **QGIS** (`mumbai.qgz`) and **JOSM** for exhaustive manual cartographic correction:
+  1. **Visual Layer Cross-Auditing**: Overlaying candidate coordinates against high-resolution satellite imagery (Google Satellite, Esri World Imagery, Bing Aerial) and georeferenced civil DPR drawings.
+  2. **Manual Digitization & Snapping**: Transport planners manually dragged and snapped entrance gates from arbitrary road centroids to physical sidewalk kerbs and Foot Overbridge (FOB) staircases.
+  3. **Viaduct & Track Centering**: Re-aligning elevated corridor centerlines to strictly follow structural metro pier columns rather than adjacent vehicular flyovers.
+  4. **Micro-Topological Editing in JOSM**: Tracing real pedestrian walkways, crosswalks, FOB stairs, and station entry gates to guarantee seamless mathematical reachability from the surrounding street grid.
+  5. **Bidirectional Synchronization**: Re-exporting the ground-truthed geometries from QGIS back into the PostGIS database and canonical transit model.
 
 ---
 

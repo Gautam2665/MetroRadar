@@ -32,7 +32,7 @@ Parameters $a, b, c, d, e, f$ are estimated using ordinary least squares (OLS) r
 ## Implementation in TransitOS: Mumbai Line 7 & Line 9
 
 The platform repository includes an operational Python transformation script designed to run standalone or directly inside the **QGIS Python Console**:
-[`datasets/mumbai/extract_line7_cad_to_qgis.py`](file:///c:/Users/HP/OneDrive/Desktop/MetroRadar/datasets/mumbai/extract_line7_cad_to_qgis.py)
+[`tools/extract_line7_cad_to_qgis.py`](file:///c:/Users/HP/OneDrive/Desktop/MetroRadar/tools/extract_line7_cad_to_qgis.py)
 
 ### Technical Workflow
 1. **Vector Primitive Extraction**: PyMuPDF (`fitz`) parses the PDF layout sheet (`Annexure_C_Station_layout_with_kiosk_layout_of_Metro_Line_7.pdf`), extracting drawing paths, bounding rectangles, text labels, and facility icons.
