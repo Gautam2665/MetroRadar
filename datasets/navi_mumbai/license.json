@@ -1,0 +1,8 @@
+{
+  "name": "TransitOS Data Access License — Navi Mumbai Metro",
+  "sourceUrl": "https://cidco.maharashtra.gov.in",
+  "allowsCommercialUse": true,
+  "requiresAttribution": true,
+  "allowsRedistribution": false,
+  "notes": "Data derived from official CIDCO alignment drawings and field surveys. Raw schedules are protected and accessible via the TransitOS Developer APIs."
+}

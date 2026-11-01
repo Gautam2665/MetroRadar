@@ -1,0 +1,8 @@
+{
+  "name": "TransitOS Data Access License — Nagpur Metro",
+  "sourceUrl": "https://www.metrorailnagpur.com",
+  "allowsCommercialUse": true,
+  "requiresAttribution": true,
+  "allowsRedistribution": false,
+  "notes": "Data derived from official Maha Metro alignments, public GIS features, and validated station topologies. Raw schedules are protected and made available via the TransitOS Developer APIs."
+}

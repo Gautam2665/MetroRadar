@@ -1,0 +1,38 @@
+{
+  "city": "Nagpur",
+  "operator": "Maha Metro",
+  "network": "Nagpur Metro Rail Network",
+  "source": "Maha Metro Official Portals and GIS Feature Registries",
+  "sourceUrl": "https://www.metrorailnagpur.com",
+  "format": "GTFS_STATIC",
+  "trustTier": "TIER_B",
+  "licenseFile": "datasets/nagpur/license.json",
+  "status": "VALIDATED",
+  "ctmMappingStatus": "VALIDATED",
+  "importStatus": "IMPORTED",
+  "lines": [
+    {
+      "id": "NAGPUR_L1",
+      "name": "Orange Line",
+      "route": "Automotive Square ↔ Khapri",
+      "status": "OPERATIONAL"
+    },
+    {
+      "id": "NAGPUR_L2",
+      "name": "Aqua Line",
+      "route": "Prajapati Nagar ↔ Lokmanya Nagar",
+      "status": "OPERATIONAL"
+    }
+  ],
+  "capabilities": {
+    "static": true,
+    "pathways": true,
+    "realtimeOfficial": false,
+    "realtimeEstimated": true
+  },
+  "apiEndpoints": {
+    "stations": "/api/v1/stations?city=nagpur",
+    "corridors": "/api/v1/corridors?system=NAGPUR",
+    "journeyPlanning": "/api/v1/journeys/plan"
+  }
+}

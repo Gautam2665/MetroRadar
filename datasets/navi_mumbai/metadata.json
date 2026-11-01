@@ -1,0 +1,32 @@
+{
+  "city": "Navi Mumbai",
+  "operator": "CIDCO / Maha Mumbai Metro Operations",
+  "network": "Navi Mumbai Metro Line 1",
+  "source": "CIDCO Official Portals and GIS Corridor Alignments",
+  "sourceUrl": "https://cidco.maharashtra.gov.in",
+  "format": "GTFS_STATIC",
+  "trustTier": "TIER_B",
+  "licenseFile": "datasets/navi_mumbai/license.json",
+  "status": "VALIDATED",
+  "ctmMappingStatus": "VALIDATED",
+  "importStatus": "IMPORTED",
+  "lines": [
+    {
+      "id": "NAVI_MUMBAI_L1",
+      "name": "Line 1",
+      "route": "Belapur ↔ Pendhar",
+      "status": "OPERATIONAL"
+    }
+  ],
+  "capabilities": {
+    "static": true,
+    "pathways": true,
+    "realtimeOfficial": false,
+    "realtimeEstimated": true
+  },
+  "apiEndpoints": {
+    "stations": "/api/v1/stations?city=navi_mumbai",
+    "corridors": "/api/v1/corridors?system=CIDCO",
+    "journeyPlanning": "/api/v1/journeys/plan"
+  }
+}

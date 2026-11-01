@@ -1,0 +1,44 @@
+{
+  "city": "Pune",
+  "operator": "Maha Metro / PMRDA",
+  "network": "Pune Metro Rail Network",
+  "source": "Maha Metro Official DPRs, Esri ArcGIS, and JOSM Field Topologies",
+  "sourceUrl": "https://www.punemetrorail.org",
+  "format": "GTFS_STATIC",
+  "trustTier": "TIER_B",
+  "licenseFile": "datasets/pune/license.json",
+  "status": "VALIDATED",
+  "ctmMappingStatus": "VALIDATED",
+  "importStatus": "IMPORTED",
+  "lines": [
+    {
+      "id": "PUNE_L1",
+      "name": "Purple Line",
+      "route": "PCMC ↔ Swargate",
+      "status": "OPERATIONAL"
+    },
+    {
+      "id": "PUNE_L2",
+      "name": "Aqua Line",
+      "route": "Vanaz ↔ Ramwadi",
+      "status": "OPERATIONAL"
+    },
+    {
+      "id": "PUNE_L3",
+      "name": "Line 3",
+      "route": "Hinjawadi ↔ Shivajinagar",
+      "status": "UNDER_CONSTRUCTION"
+    }
+  ],
+  "capabilities": {
+    "static": true,
+    "pathways": true,
+    "realtimeOfficial": false,
+    "realtimeEstimated": true
+  },
+  "apiEndpoints": {
+    "stations": "/api/v1/stations?city=pune",
+    "corridors": "/api/v1/corridors?system=PUNE",
+    "journeyPlanning": "/api/v1/journeys/plan"
+  }
+}

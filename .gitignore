@@ -11,12 +11,32 @@ coverage/
 .prisma/client
 .DS_Store
 
-# Real operator GTFS datasets — large ZIPs never committed (served via TransitOS APIs & object storage)
-# Use datasets/{city}/source.md for download instructions
+# Real operator GTFS datasets & raw archives (served via TransitOS APIs & object storage, never committed to Git)
 datasets/*/raw/
 datasets/*/raw/**
 datasets/**/*.zip
 !sample-data/**/*.zip
+
+# GTFS operational data tables (served via TransitOS APIs)
+datasets/**/*.txt
+datasets/**/*.csv
+datasets/**/gtfs/
+datasets/**/gtfs_master/
+
+# Station blueprints, CAD layouts, isochrones, and spatial exports
+datasets/**/line1_station_blueprints/
+datasets/**/line9_geojson/
+datasets/**/exports/
+datasets/**/pedestrian/
+datasets/**/sources/
+datasets/**/source/
+datasets/**/*.geojson
+datasets/*.geojson
+datasets/**/Annexure_*
+
+# Internal dataset generation and conversion scripts
+datasets/**/*.py
+datasets/*.py
 
 # QGIS project workspaces
 *.qgz

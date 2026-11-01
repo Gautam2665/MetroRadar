@@ -1,0 +1,8 @@
+{
+  "name": "TransitOS Data Access License — Pune Metro",
+  "sourceUrl": "https://www.punemetrorail.org",
+  "allowsCommercialUse": true,
+  "requiresAttribution": true,
+  "allowsRedistribution": false,
+  "notes": "Data derived from official Maha Metro alignments, DPR documentation, and OpenStreetMap spatial topologies. Raw GTFS tables and CAD drawings are not redistributed via public Git. Access is provided through TransitOS Developer APIs."
+}
