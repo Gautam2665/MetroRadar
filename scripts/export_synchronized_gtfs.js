@@ -247,13 +247,9 @@ Maha Mumbai Metro Operation Corporation Limited,https://mmmocl.co.in/,en,2024010
   });
 
   const discreteZipPath = path.join(MUMBAI_DIR, 'mumbai_discrete_ready.zip');
-  const operationalZipPath = path.join(MUMBAI_DIR, 'mumbai-operational-gtfs.zip');
 
   zip.writeZip(discreteZipPath);
   console.log(`\n   🎉 Generated: ${discreteZipPath} (${(fs.statSync(discreteZipPath).size / 1024).toFixed(1)} KB)`);
-
-  zip.writeZip(operationalZipPath);
-  console.log(`   🎉 Generated: ${operationalZipPath} (${(fs.statSync(operationalZipPath).size / 1024).toFixed(1)} KB)`);
 
   console.log('\n=================================================================');
   console.log('=== GTFS EXPORT COMPLETED WITH 100% PASSING INTEGRITY ===');

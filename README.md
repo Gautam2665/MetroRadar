@@ -26,6 +26,33 @@ TransitOS addresses this challenge by connecting these datasets within a structu
 
 The objective is not simply to display transit routes. It is to make transport networks machine-readable, spatially connected, discoverable, and usable by multiple applications and analytical tools.
 
+### Three Connected Engineering Layers
+
+TransitOS addresses the complete path from raw infrastructure data to actionable mobility intelligence through three integrated layers:
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│             Layer A: Data Acquisition & Geospatial Engineering          │
+│   QGIS · JOSM · OSM Extraction · CAD Georeferencing · Network Repair   │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                Layer B: Transit Data Infrastructure                    │
+│    Canonical Transit Model (CTM) · PostGIS · GTFS Ingestion · APIs     │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│             Layer C: Mobility Intelligence & Applications              │
+│    Passenger Routing · Station Accessibility · Interchange Analytics   │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+1. **Data Acquisition & Geospatial Engineering**: Inspecting, extracting, georeferencing, and reconstructing station access and pedestrian connectivity from fragmented GIS, CAD, and community sources.
+2. **Transit Data Infrastructure**: Structuring transit information into a canonical relational model, validating schedules against transit standards, and serving data through versioned APIs.
+3. **Mobility Intelligence & Applications**: Powering passenger-facing navigation, pedestrian isochrone evaluation, transfer impedance analysis, and research-oriented spatial modeling.
+
 ### Core Principles
 
 * **Interoperability**: Structure transit information around consistent data models, standard transit formats (GTFS), and documented APIs.
@@ -41,6 +68,53 @@ Initiatives such as the **India Urban Data Exchange (IUDX)** and the **National 
 TransitOS aligns with these broader principles by focusing specifically on the transit and spatial mobility domain: structuring, validating, and exposing multi-agency transit network data through developer-friendly interfaces.
 
 > *Note: TransitOS is an independently developed open platform designed around digital public infrastructure principles. References to public initiatives describe shared design philosophies and do not imply official affiliation, endorsement, or formal integration.*
+
+---
+
+## Geospatial Engineering & Data Acquisition
+
+TransitOS combines software engineering with geospatial data preparation, transit infrastructure reconstruction, and network validation. The platform is designed to work with imperfect and fragmented source data, including situations where detailed station layouts or machine-readable infrastructure datasets are not readily available.
+
+The spatial data pipeline uses GIS, open geospatial datasets, CAD-derived information, and custom processing tools to construct a structured representation of transit networks and their physical connections.
+
+### Geospatial & Infrastructure Toolchain
+
+The platform explicitly distinguishes implemented tools from external workflow utilities and planned analytical references:
+
+| Tool / Technology | Status | Role in TransitOS Platform |
+|---|---|---|
+| **PostgreSQL + PostGIS** | **Implemented** | Canonical spatial storage, GIST indexing, line-string snapping, and network topology storage. |
+| **Custom TypeScript Tooling** | **Implemented** | Data ingestion, schema/coordinate checks, duplicate detection, reference validation, and CTM transformation. |
+| **Python Spatial Scripts** | **Implemented** | Layout parsing via PyMuPDF (`fitz`), mathematical coordinate transformations, and GeoJSON generation. |
+| **QGIS** | **Workflow Tool** | Spatial inspection, coordinate-system management, georeferencing workflows, layer validation, and visual auditing. |
+| **JOSM** | **Workflow Tool** | Inspection and editing of OpenStreetMap data, pedestrian-network preparation, and reconstruction of station access. |
+| **OpenStreetMap (OSM)** | **Data Source / Workflow** | Source of mapped geographic features and pedestrian-network geometry where authoritative datasets are unavailable. |
+| **CAD Drawings & Blueprints** | **Data Source / Workflow** | Station layouts, concourse floorplans, and entrance geometry extracted from tender annexures and contractor drawings. |
+| **Helmert & Affine Transformations** | **Implemented Method** | Georeferencing methods used to rotate, scale, and translate CAD-derived geometry into geographic WGS84 coordinates. |
+| **QNEAT3** | **Methodological Reference** | QGIS-based network analysis plugin relevant to accessibility distance benchmarking; distinguished from internal routing. |
+| **GTFS & GTFS-Realtime** | **Implemented Standard** | Structured timetable and service data, with real-time processing dependent on supported feed characteristics. |
+
+### Working with Incomplete Infrastructure Data
+
+TransitOS does not assume that a complete, machine-readable station model is available from a single source. Depending on the corridor and available evidence, the workflow follows eight disciplined steps:
+
+1. **Source Identification**: Identify available operator publications, engineering DPRs, community-mapped data, or contractor drawings.
+2. **Inspection & Auditing**: Inspect source geometry, attributes, coordinate systems, coverage, and licensing terms.
+3. **CRS Normalization**: Project metric features between local UTM grids (EPSG:32643) and geographic coordinates (EPSG:4326).
+4. **Infrastructure Reconstruction**: Reconstruct missing station-access or pedestrian-network links where supported by evidence.
+5. **CAD Georeferencing**: Apply Helmert similarity transformations to CAD drawings using verified physical ground control points (GCPs).
+6. **Canonical Transformation**: Transform prepared spatial data into consistent relational entities (Stations, Platforms, Gates, Pathways).
+7. **Spatial & Network Validation**: Validate geometry, entrance-to-platform connectivity, referential integrity, and GTFS compliance.
+8. **Provenance Logging**: Record source tier, transformation parameters, assumptions, and known remaining gaps.
+
+### Case Study: Pune Metro Line 3 — Spatial Data Preparation
+
+* **Problem**: Detailed station-level spatial information and pedestrian access for Pune Metro Line 3 (Hinjawadi to Shivajinagar) were not available through official mapping feeds. A usable station representation could not be obtained from an off-the-shelf dataset.
+* **Data Acquisition**: OpenStreetMap data was exported and inspected using **JOSM**. Available street geometry and station markers served as the foundation for modeling station footprints.
+* **Engineering Approach**: The work involved examining available spatial evidence, identifying gaps between raw OSM tags and required transit models, reconstructing missing pedestrian access links across arterial roads, and compiling the resulting geometry into `datasets/pune/pune_pathways_network.geojson`.
+* **Why it Matters**: A transit-routing system is only as reliable as the physical network it represents. Where station layouts or access gates are missing, the challenge is not solved by routing algorithms alone—it requires rigorous geospatial data reconstruction.
+
+*For complete methodologies, mathematical formulas, and error analyses, see our dedicated [Geospatial Engineering Guide](./docs/geospatial-engineering/geospatial-toolchain.md).*
 
 ---
 
@@ -183,13 +257,6 @@ A reliable transit data platform must communicate where data originates, how it 
 
 TransitOS structures its data pipeline around a transparent lifecycle:
 
-1. **Discovery**: Identify authoritative operator sources, open spatial registries, and official publications.
-2. **Ingestion**: Parse source formats into structured relational representations.
-3. **Validation**: Enforce schema constraints, coordinate bounds, duplicate detection, and referential integrity checks.
-4. **Provenance**: Record source attribution, date of capture, processing scripts, and licensing conditions.
-5. **Publication**: Expose validated data via versioned APIs and documented feeds.
-6. **Maintenance**: Document known limitations and update datasets as physical infrastructure evolves.
-
 ```
 Authoritative Sources       Open Registries        Survey & Geometry
   (Timetables / DMRC)      (OSM / Municipal)       (Station Entrances)
@@ -254,15 +321,17 @@ MetroRadar/
 │   └── frontend/         # Next.js commuter application and transit workspace
 ├── database/             # Prisma schema, migrations, and seed scripts
 ├── datasets/             # Canonical GTFS feeds, station blueprints, and GIS layers
-│   └── mumbai/           # Mumbai network assets, schedules, and interchange data
+│   ├── mumbai/           # Mumbai network assets, schedules, and interchange data
+│   └── pune/             # Pune Metro network data, pathways, and schedule feeds
 ├── docs/                 # Platform, architecture, and governance documentation
+│   ├── geospatial-engineering/ # GIS toolchain, CAD georeferencing, and case studies
 │   ├── vision/           # Product overview and strategic framework
 │   ├── architecture/     # System architecture and Canonical Transit Model specs
 │   ├── data/             # Data catalogue, quality pipelines, and provenance
 │   ├── api/              # Developer API reference and integration guides
 │   ├── mobility-intelligence/ # Accessibility isochrones and analytical models
 │   └── governance/       # Research limitations, licensing, and integrity
-├── scripts/              # Synchronization, GTFS export, and GIS conversion tools
+├── scripts/              # Synchronization, GTFS export, JOSM export, and GIS tools
 ├── tools/                # Network certification and geometry enrichment utilities
 ├── CONTRIBUTING.md       # Contribution guidelines and development workflow
 ├── LICENSE               # Software license (MIT)
@@ -325,6 +394,13 @@ npm run build
 
 Explore the comprehensive platform documentation:
 
+* **Geospatial Engineering & Data Acquisition**:
+  * [Geospatial Toolchain](./docs/geospatial-engineering/geospatial-toolchain.md) — Classified toolchain matrix (QGIS, JOSM, OSM, CAD, PostGIS).
+  * [Data Acquisition Workflow](./docs/geospatial-engineering/data-acquisition-workflow.md) — 8-stage spatial data preparation lifecycle.
+  * [CAD Georeferencing](./docs/geospatial-engineering/cad-georeferencing.md) — Helmert & affine transformations, scale factors, and GCPs.
+  * [Pedestrian Network Construction](./docs/geospatial-engineering/pedestrian-network-construction.md) — Modeling physical walkways, FOBs, stairs, and turnstiles.
+  * [Spatial Validation Framework](./docs/geospatial-engineering/spatial-validation.md) — Boundary audits, topological integrity, and GTFS QA.
+  * [Case Studies](./docs/geospatial-engineering/case-studies.md) — Pune Metro Line 3, Mumbai Line 7/9 CAD, and Marol Naka interchange.
 * **Platform Vision & Strategy**:
   * [Product Overview](./docs/vision/product-overview.md) — Strategic purpose, user segments, and core capabilities.
   * [Product Strategy](./docs/vision/product-strategy.md) — Phased milestones and public value framework.
