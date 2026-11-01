@@ -8,7 +8,7 @@ assignees: ''
 
 ## Affected Document
 
-_Which file or section is incomplete or incorrect? (e.g., ARCHITECTURE.md §7 Interchange Friction, API_GUIDE.md journey scoring formula)_
+_Which file or section is incomplete or incorrect? (e.g., ARCHITECTURE.md §7 Interchange Friction, docs/api/api-overview.md journey scoring formula)_
 
 ## Problem
 

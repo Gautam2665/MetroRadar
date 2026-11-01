@@ -11,10 +11,16 @@ coverage/
 .prisma/client
 .DS_Store
 
-# Real operator GTFS datasets — large ZIPs never committed
+# Real operator GTFS datasets — large ZIPs never committed (served via TransitOS APIs & object storage)
 # Use datasets/{city}/source.md for download instructions
 datasets/*/raw/
 datasets/*/raw/**
+datasets/**/*.zip
+!sample-data/**/*.zip
+
+# QGIS project workspaces
+*.qgz
+*.qgs
 
 # Temp extraction folders created by the ingestion engine
 temp_extracts/
