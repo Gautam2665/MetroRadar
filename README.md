@@ -1,181 +1,286 @@
-# TransitOS 🚇📡
+# TransitOS
+
 ### Transit Data Infrastructure & Mobility Intelligence
-*(Project MetroRadar)*
+*Building a connected, data-driven foundation for urban mobility in India.*
 
 [![Web Application](https://img.shields.io/badge/Production_Platform-metro--radar.vercel.app-000000.svg?style=flat-square&logo=vercel)](https://metro-radar-blush.vercel.app)
 [![API Gateway](https://img.shields.io/badge/API_Gateway-transitos--33xk.onrender.com-46E3B7.svg?style=flat-square&logo=render)](https://transitos-33xk.onrender.com/health)
-[![Backend Engine](https://img.shields.io/badge/Engine-NestJS_11-E0234E.svg?style=flat-square&logo=nestjs)](https://nestjs.com/)
-[![Spatial Database](https://img.shields.io/badge/Spatial_DB-PostgreSQL_16_/_PostGIS_3.4-336791.svg?style=flat-square&logo=postgresql)](https://www.postgresql.org/)
-[![Network Cache](https://img.shields.io/badge/Graph_Cache-Redis_7-DC382D.svg?style=flat-square&logo=redis)](https://redis.io/)
-[![Frontend](https://img.shields.io/badge/Frontend-Next.js_16_Turbopack-000000.svg?style=flat-square&logo=next.js)](https://nextjs.org/)
-[![GTFS Validation](https://img.shields.io/badge/GTFS_Validator-100%25_Passing-brightgreen.svg?style=flat-square)](https://gtfs-validator.mobilitydata.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
+[![API Documentation](https://img.shields.io/badge/OpenAPI-Swagger_Docs-85EA2D.svg?style=flat-square&logo=swagger)](https://transitos-33xk.onrender.com/docs)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](./LICENSE)
 
-> **TransitOS** is a geospatial transit data platform that transforms fragmented urban transit information into a connected, validated, and queryable digital representation of transit networks.
-> 
-> It combines a canonical transit data model, spatial infrastructure, pedestrian connectivity, transit routing, and versioned developer APIs to support passenger applications, transit data exploration, and mobility research.
-> 
-> Built initially around Mumbai's urban transit networks, TransitOS aims to provide a reusable technical foundation for developers, researchers, transit operators, and public-sector mobility initiatives across Indian metropolitan regions.
+TransitOS is a geospatial transit data platform designed to transform fragmented transport information into structured, validated, interoperable data that can power passenger applications, developer services, and mobility research.
+
+The platform brings together transit network data, station infrastructure, pedestrian connectivity, routing services, and spatial analytics through a shared data model and versioned APIs.
+
+Beginning with Mumbai, TransitOS aims to establish a reusable technical foundation for understanding, navigating, and analysing urban transit networks across Indian metropolitan regions.
+
+[Explore the Platform](https://metro-radar-blush.vercel.app) · [API Documentation](https://transitos-33xk.onrender.com/docs) · [GitHub Repository](https://github.com/Gautam2665/MetroRadar)
 
 ---
 
-## 🌐 Live Services & Platform Endpoints
+## Why TransitOS?
 
-* **Interactive Commuter & Data Explorer Platform:** [https://metro-radar-blush.vercel.app](https://metro-radar-blush.vercel.app)
-* **REST API Gateway:** [https://transitos-33xk.onrender.com/api/v1](https://transitos-33xk.onrender.com)
-* **Health & Operational Telemetry Probe:** [https://transitos-33xk.onrender.com/health](https://transitos-33xk.onrender.com/health)
-* **GTFS Realtime (Protobuf Stream):** `https://transitos-33xk.onrender.com/gtfsrt/updates`
+Urban mobility data is often distributed across different agencies, operators, formats, and systems. Timetables, station layouts, pedestrian access, interchange connections, and operational information are typically maintained in silos, making it difficult to build applications that understand the complete passenger journey.
+
+TransitOS addresses this challenge by connecting these datasets within a structured transit data infrastructure.
+
+The objective is not simply to display transit routes. It is to make transport networks machine-readable, spatially connected, discoverable, and usable by multiple applications and analytical tools.
+
+### Core Principles
+
+* **Interoperability**: Structure transit information around consistent data models, standard transit formats (GTFS), and documented APIs.
+* **Spatial Accuracy**: Represent stations, entrances, platforms, and pedestrian connections as meaningful physical infrastructure rather than dimensionless points.
+* **Data Provenance**: Preserve source information, licensing, validation results, and known limitations across every dataset tier.
+* **Reusable Infrastructure**: Build shared services that can support passenger applications, developers, researchers, and public operators.
+* **Public Value**: Make reliable transport information more useful for accessibility evaluation, mobility analysis, and better-informed transit planning.
+
+### Positioning in India's Urban Data Ecosystem
+
+Initiatives such as the **India Urban Data Exchange (IUDX)** and the **National Urban Digital Mission (NUDM)** have established the importance of open standards, shared data models, and responsible data exchange for Indian cities. 
+
+TransitOS aligns with these broader principles by focusing specifically on the transit and spatial mobility domain: structuring, validating, and exposing multi-agency transit network data through developer-friendly interfaces.
+
+> *Note: TransitOS is an independently developed open platform designed around digital public infrastructure principles. References to public initiatives describe shared design philosophies and do not imply official affiliation, endorsement, or formal integration.*
 
 ---
 
-## 🏛️ The Five-Layer Platform Stack
+## The Platform
 
-TransitOS organizes transit data and services into five modular, interoperable layers. Rather than treating transit data as disjointed files, each layer builds directly upon the validated foundation below:
+TransitOS combines five complementary capabilities:
 
 ```mermaid
 flowchart TD
-    subgraph L5["5. Applications & APIs"]
-        A1["MetroRadar Commuter Web & Mobile App"]
-        A2["Versioned Developer REST & Streaming APIs"]
-        A3["Mobility Intelligence Research Workspace"]
+    subgraph S1["1. Transit Data Infrastructure"]
+        D1["Canonical Transit Model (CTM)"]
+        D2["GTFS Ingestion & Schedule Storage"]
+        D3["Validation, Provenance & Catalogue"]
     end
 
-    subgraph L4["4. Mobility Intelligence"]
-        M1["Interchange Friction Index (IFI) Modeling"]
-        M2["Dynamic 5/10/15-min Pedestrian Catchment Isochrones"]
-        M3["Corridor Sensitivity & Scenario Simulation"]
+    subgraph S2["2. Station & Physical Infrastructure"]
+        I1["Station Entrances & Gates"]
+        I2["Platforms, Levels & Facilities"]
+        I3["Pedestrian Pathways & Interchanges"]
     end
 
-    subgraph L3["3. Station & Urban Infrastructure"]
-        S1["Verified Gate & Entrance Coordinates (A1–B2)"]
-        S2["Station Digital Twins (Concourses, Platforms, Levels)"]
-        S3["Pedestrian Walking Graph (FOBs, Stairs, Lifts, AFC Turnstiles)"]
+    subgraph S3["3. Routing & Real-Time Services"]
+        R1["Multimodal Transit Graph"]
+        R2["Alternative Route Evaluation"]
+        R3["Schedule-Based & Real-Time Predictions"]
     end
 
-    subgraph L2["2. Real-Time Operations"]
-        R1["Dynamic GTFS-Realtime Engine (Protobuf)"]
-        R2["Live Vehicle Position Kinematics & Delay Calculation"]
-        R3["Operational Service Alerts & Incident Bulletins"]
+    subgraph S4["4. Mobility Intelligence"]
+        M1["Pedestrian Isochrones & Catchments"]
+        M2["Interchange Friction Analysis"]
+        M3["Planned: Accessibility & Corridor Analytics"]
     end
 
-    subgraph L1["1. Transit Data Infrastructure"]
-        D1["Canonical Transit Model (CTM v1.0) in PostgreSQL/PostGIS"]
-        D2["Discrete Timetable Synthesis Engine"]
-        D3["Automated MobilityData GTFS Conformance Pipeline"]
-        D4["Data Provenance, Trust & Licensing Framework"]
+    subgraph S5["5. Applications & Developer APIs"]
+        A1["Commuter Application"]
+        A2["Transit Data Explorer"]
+        A3["Versioned Developer APIs"]
     end
 
-    L1 --> L2
-    L1 --> L3
-    L2 & L3 --> L4
-    L4 --> L5
-    L2 & L3 --> L5
+    S1 --> S2
+    S1 --> S3
+    S2 --> S3
+    S2 & S3 --> S4
+    S3 & S4 --> S5
 ```
 
 ### 1. Transit Data Infrastructure
-* **Canonical Relational Modeling**: Centralized in PostgreSQL 16 with PostGIS 3.4 spatial types and GIST indexing.
-* **Authoritative GTFS Schedule Synthesis**: Verified discrete schedules (`datasets/mumbai/mumbai_discrete_ready.zip`) compliant with Canonical MobilityData validator standards (0 errors).
-* **Data Provenance & Governance**: Explicit tracking of public, restricted, independently curated, and operational data tiers.
+A structured foundation for collecting, validating, storing, and serving transit information.
+* Canonical relational transit data model implemented in PostgreSQL and PostGIS.
+* Automated GTFS ingestion, timetable synthesis, and validation workflows.
+* Dataset catalogue maintaining provenance, licensing metadata, and data-quality scores.
+* Relational management of transit agencies, lines, stations, stop sequences, and service calendars.
 
-### 2. Real-Time Operations
-* **Dynamic GTFS-RT Protobuf Streaming**: Live serialization of `FeedMessage` objects providing `/gtfsrt/updates`, `/gtfsrt/vehicles`, and `/gtfsrt/alerts`.
-* **State Estimation & Kinematic Progression**: Dynamic headway tracking and arrival predictions matched to active service calendars.
+The goal is to maintain a single consistent representation of transit networks rather than requiring every application to interpret fragmented source files independently.
 
-### 3. Station & Urban Infrastructure
-* **Sub-Station Micro-Spatial Geometry**: Complete vertical hierarchy modeling `System → Agency → Line → Station → Level → Platform / Entrance / Amenity`.
-* **Gate-Level Precision**: Exact ground-truthed street access coordinates (e.g. Churchgate Gates A1–A5, B1–B2) snapped directly onto pedestrian sidewalk networks.
-* **Physical Interchange Links**: Intra-station walking edges with explicit impedance values for Foot Overbridges (FOBs), subterranean passages, escalators, and accessible lifts.
+### 2. Transit Network & Station Infrastructure
+A spatial representation of the physical and operational elements that shape a passenger journey.
+* Transit systems, corridors, and station sequences.
+* Ground-truthed station entrances and access gates.
+* Platforms, vertical levels, and station facilities.
+* Pedestrian access networks, foot overbridges (FOBs), and physical interchange walkways.
+* Walking catchments and spatial relationships to surrounding neighbourhoods.
+
+By representing station access and interchange connectivity explicitly, TransitOS supports more realistic passenger routing than models that collapse entire multi-line stations into a single coordinate point.
+
+### 3. Routing & Real-Time Services
+Network and journey services built on top of the shared data foundation.
+* Multimodal transit graph construction combining revenue transit runs with pedestrian walk links.
+* Alternative journey planning with Pareto-optimal ranking across travel time, transfers, and walking distance.
+* Physical walking connections and realistic interchange transfer impedances.
+* Gate-to-gate and station-to-station navigation guidance.
+* Real-time departure predictions and delay tracking, with GTFS-Realtime telemetry ingestion where supported by operator feeds.
 
 ### 4. Mobility Intelligence
-* **Pedestrian Catchment Isochrones**: 5, 10, and 15-minute walking polygons computed along physical street networks rather than simple radial circles.
-* **Interchange Friction Index (IFI)**: Empirical mathematical modeling of passenger impedance across vertical level changes ($\Delta Z$), turnstiles (AFC), and long corridors.
-* **Network Scenario Simulation**: Corridor modification, headway sensitivity, and resilience testing for transport researchers and planners.
+Analytical tools that use transit networks and spatial data to investigate urban mobility.
+* **Current Capabilities**:
+  * Pedestrian catchment polygons (5, 10, and 15-minute isochrones) along real street networks.
+  * Station and interchange connectivity analysis.
+  * Network coverage and spatial overlap assessments.
+  * Dataset quality, completeness, and validation audits.
+  * Realized travel duration and transfer friction characteristics.
+* **Planned Research Modules**:
+  * Opportunity-weighted accessibility to employment and civic amenities.
+  * Origin–destination passenger assignment models.
+  * Corridor scenario simulation and network resilience evaluation.
+
+*These planned capabilities are introduced as their underlying datasets, empirical methodologies, and peer validations mature.*
 
 ### 5. Applications & Developer APIs
-* **MetroRadar Commuter Interface**: Clean, accessible passenger journey planning with door-to-door itineraries and gate navigation.
-* **Data Explorer**: Spatial map interface visualizing multi-line transit layers, transfer hubs, and digital twin layouts.
-* **Developer APIs**: Versioned REST and streaming endpoints powering third-party mobile apps, research notebooks, and operational tools.
+TransitOS exposes its shared data and services through purpose-built interfaces:
+* **Commuter Platform**: A passenger-facing experience for journey planning, transit exploration, and entrance-specific navigation.
+* **Transit Data Explorer**: A spatial workspace for exploring lines, stations, interchanges, and dataset coverage.
+* **Developer Platform**: Versioned REST APIs and OpenAPI documentation for external applications and research workflows.
+* **Mobility Intelligence Workspace**: An evolving interface for accessibility analysis and transit planning research.
 
 ---
 
-## 🔬 Core Engineering & Routing Capabilities
+## Technology Stack
 
-While TransitOS serves as a complete data platform, its underlying mathematical and spatial routing engines remain foundational engineering achievements:
-
-### Multi-Corridor Directed Multigraph ($G = (V, E)$)
-The transit network is compiled into an in-memory directed multigraph where:
-* **Vertices ($V$)**: Represent station concourses, platforms, and street gates with high-precision coordinates and level identifiers.
-* **Edges ($E$)**: Categorized into discrete, typed segments:
-  * `EdgeType.TRANSIT`: Inter-station revenue service derived from timetable arrival/departure differentials or kinematic profiles:
-    $$T_{ij} = \frac{d_{ij}}{v_{\text{cruise}}} + t_{\text{accel/decel}} + t_{\text{dwell}}$$
-  * `EdgeType.TRANSFER`: Station-to-station pedestrian transfer corridors (elevated FOBs, subterranean walkways).
-  * `EdgeType.WALK`: Concourse vertical ascents/descents, platform cross-overs, and egress links.
-
-### Built-Environment Interchange Friction Modeling
-Interchanges are not treated as instantaneous node jumps. Our `InterchangeEvaluatorService` calculates realistic impedance:
-$$\text{Cost}_{\text{transfer}} = \alpha \cdot t_{\text{walk}} + \beta \cdot \Delta Z_{\text{up}} + \gamma \cdot \Delta Z_{\text{down}} + \delta \cdot N_{\text{turnstiles}} + \epsilon \cdot t_{\text{wait}}$$
-Where vertical stairs carry high energy impedance ($w_z = 2.5$), mechanized escalators move at $0.6\text{ m/s}$, and accessible lifts account for door cycle wait times.
-
-### Pareto-Optimal Alternative Routing (Yen's K-Shortest Paths)
-Rather than returning a single deterministic path, TransitOS computes $K$-alternative candidate itineraries filtered across Pareto frontiers (In-Vehicle Time vs. Physical Transfer Walking vs. Fares).
+| Component | Technology | Role |
+|---|---|---|
+| **Backend & Services** | NestJS, TypeScript, Node.js | Microservice APIs, graph compilers, and routing engine |
+| **Spatial Database** | PostgreSQL 16, PostGIS 3.4 | Canonical relational store, spatial indexing (GIST), geometric analysis |
+| **Data Access** | Prisma ORM | Typed database schema, migrations, and query execution |
+| **In-Memory Cache** | Redis | Transit graph caching and fast session state |
+| **Web Applications** | Next.js 16, React 19, Tailwind CSS | Passenger interface, Data Explorer, and admin tools |
+| **Geospatial Visualisation** | MapLibre GL, GeoJSON | Vector map rendering, isochrones, and digital twin layouts |
+| **Transit Specifications** | GTFS Schedule & GTFS-Realtime | Canonical timetable definitions and vehicle telemetry |
+| **Validation** | MobilityData GTFS Validator & Jest | Standards conformance and comprehensive test coverage |
 
 ---
 
-## 🗺️ Multi-City Regional Roadmap
+## TransitOS API
 
-Inspired by the [Delhi Transport Stack](https://delhi.transportstack.in/) and [Chartr](https://www.chartr.in/), TransitOS follows a disciplined, repeatable process across metropolitan regions:
+The TransitOS API exposes structured transit data and routing capabilities through versioned HTTP endpoints.
+
+* **Base URL:** `https://transitos-33xk.onrender.com/api/v1`
+* **Interactive Documentation:** [OpenAPI / Swagger Explorer](https://transitos-33xk.onrender.com/docs)
+* **System Health:** `https://transitos-33xk.onrender.com/health`
+
+### Key Endpoints
+
+| Resource | Method & Path | Description |
+|---|---|---|
+| **Networks** | `GET /networks` | Discover supported transit systems and coverage areas |
+| **Corridors** | `GET /corridors` | Retrieve transit corridors, lines, codes, and metadata |
+| **Stations** | `GET /stations` | Query stations, search by coordinates, and explore lines |
+| **Station Detail** | `GET /stations/:id` | Retrieve station infrastructure, platforms, and verified gates |
+| **Interchanges** | `GET /interchanges` | Inspect physical interchange hubs and transfer corridors |
+| **Datasets** | `GET /datasets` | Discover registered transit datasets, versions, and provenance |
+| **Journey Planning** | `GET /journeys` | Generate multi-criteria transit routes with leg breakdown |
+
+*Refer to the [API Documentation](https://transitos-33xk.onrender.com/docs) for schema definitions, query parameters, and response structures.*
+
+---
+
+## Data Quality & Governance
+
+A reliable transit data platform must communicate where data originates, how it is processed, and what assumptions are applied.
+
+TransitOS structures its data pipeline around a transparent lifecycle:
+
+1. **Discovery**: Identify authoritative operator sources, open spatial registries, and official publications.
+2. **Ingestion**: Parse source formats into structured relational representations.
+3. **Validation**: Enforce schema constraints, coordinate bounds, duplicate detection, and referential integrity checks.
+4. **Provenance**: Record source attribution, date of capture, processing scripts, and licensing conditions.
+5. **Publication**: Expose validated data via versioned APIs and documented feeds.
+6. **Maintenance**: Document known limitations and update datasets as physical infrastructure evolves.
 
 ```
-Stage 1: Mumbai (Active Baseline)
-├── Metro Lines 1, 2A, 2B, 3, 7, 9 & Monorail
-├── Western & Central Railway Suburban Rail Interchange FOBs
-└── Verified Gate Coordinates & 100% GTFS Conformance
+Authoritative Sources       Open Registries        Survey & Geometry
+  (Timetables / DMRC)      (OSM / Municipal)       (Station Entrances)
+           │                       │                        │
+           └───────────────────────┼────────────────────────┘
+                                   ▼
+                    ┌──────────────────────────────┐
+                    │ Data Quality & Validation    │
+                    │ Schema · Topology · GTFS QA  │
+                    └──────────────┬───────────────┘
+                                   ▼
+                    ┌──────────────────────────────┐
+                    │ Provenance & Trust Tiers     │
+                    │ P0 (Auth) · P1 (Curated)     │
+                    └──────────────┬───────────────┘
+```
 
-Stage 2: Pune (Phase 2)
-├── Pune Metro Purple & Aqua Lines
-└── PMPML Bus Network Integration & Shared Interchange Nodes
+> **Data Integrity Notice**: Schema compliance does not imply complete real-world coverage. Official operator data, open geographic datasets, and independent field surveys have different precision levels. Known limitations and licensing conditions are documented in our [Data Quality & Provenance Guide](./docs/data/provenance-and-trust.md).
 
-Stage 3: Nagpur (Phase 3)
-├── Maha Metro Orange & Aqua Lines
-└── Station Access & Feeder Catchment Pipelines
+---
 
-Stage 4: Cross-City Intelligence
-└── Comparative Network Accessibility & Transfer Benchmarking
+## Regional Scope
+
+TransitOS is deployed initially around the **Mumbai Metropolitan Region (MMR)** transit network:
+* Metro Lines 1, 2A, 2B, 3, 7, 9, and Monorail.
+* Key interchange hubs connecting Metro corridors to Western and Central Suburban Rail networks.
+* Ground-truthed entrance gate coordinates and physical FOB connections.
+
+### Regional Expansion Framework
+Rather than assuming operational conditions are uniform across Indian cities, TransitOS uses a repeatable deployment framework:
+1. Identify primary transit authorities and available timetable/spatial sources.
+2. Structure network topology into the Canonical Transit Model.
+3. Survey and validate key station entrances and interchange corridors.
+4. Deploy versioned regional endpoints and validate routing behavior against ground realities.
+
+Future expansion to additional metropolitan regions (such as Pune and Nagpur) will follow this verified methodology based on data availability and validation readiness.
+
+---
+
+## Research & Public Value
+
+TransitOS aims to support evidence-based transport planning, academic research, and open-source civic technology.
+
+### Areas of Inquiry
+* **First-and-Last-Mile Accessibility**: Measuring pedestrian catchment equity using physical street networks rather than simple Euclidean buffers.
+* **Interchange Friction**: Quantifying the impact of vertical level changes, long walking corridors, and security checkpoints on transfer choice.
+* **Network Coverage & Equity**: Assessing public transport accessibility to employment centres, healthcare facilities, and educational hubs.
+* **Data Interoperability**: Developing reusable patterns for harmonising multi-agency transit feeds across Indian cities.
+
+Academic and research inquiries are welcomed. For collaboration pathways (including student research and institutional studies), consult our [Research Integrity & Guidelines](./docs/governance/research-and-limitations.md).
+
+---
+
+## Repository Organisation
+
+The repository is structured as a TypeScript monorepo:
+
+```
+MetroRadar/
+├── apps/
+│   ├── backend/          # NestJS API, routing engines, CTM models, and GTFS pipelines
+│   └── frontend/         # Next.js commuter application and transit workspace
+├── database/             # Prisma schema, migrations, and seed scripts
+├── datasets/             # Canonical GTFS feeds, station blueprints, and GIS layers
+│   └── mumbai/           # Mumbai network assets, schedules, and interchange data
+├── docs/                 # Platform, architecture, and governance documentation
+│   ├── vision/           # Product overview and strategic framework
+│   ├── architecture/     # System architecture and Canonical Transit Model specs
+│   ├── data/             # Data catalogue, quality pipelines, and provenance
+│   ├── api/              # Developer API reference and integration guides
+│   ├── mobility-intelligence/ # Accessibility isochrones and analytical models
+│   └── governance/       # Research limitations, licensing, and integrity
+├── scripts/              # Synchronization, GTFS export, and GIS conversion tools
+├── tools/                # Network certification and geometry enrichment utilities
+├── CONTRIBUTING.md       # Contribution guidelines and development workflow
+├── LICENSE               # Software license (MIT)
+└── README.md
 ```
 
 ---
 
-## 📚 Project Documentation & References
-
-Explore our detailed engineering and product documentation:
-
-* **Platform Vision & Strategy**:
-  * [Product Overview](./docs/vision/product-overview.md) — Platform vision, core products, and stakeholder use cases.
-  * [Product & Growth Strategy](./docs/vision/product-strategy.md) — Strategic roadmap, reference models, and academic collaboration.
-* **Architecture & Data Models**:
-  * [Platform Architecture](./docs/architecture/platform-architecture.md) — Comprehensive 5-layer system design and tech stack.
-  * [Canonical Transit Model (CTM v1.0)](./docs/architecture/canonical-transit-model.md) — Relational PostGIS schema and walking graph specification.
-* **Data, Quality & Provenance**:
-  * [Data & Service Catalogue](./docs/data/data-catalogue.md) — Complete capabilities matrix (P0–P3) and regional coverage.
-  * [Data Quality & Validation](./docs/data/data-quality.md) — 4-stage validation pipeline and MobilityData conformance.
-  * [Provenance, Licensing & Trust](./docs/data/provenance-and-trust.md) — 4-tier data categorization and confidence scoring.
-* **APIs & Mobility Intelligence**:
-  * [Developer API Reference](./docs/api/api-overview.md) — REST endpoints, GTFS-RT streaming feeds, and OpenAPI specs.
-  * [Station Accessibility & Micro-Mobility](./docs/mobility-intelligence/accessibility.md) — Step-free routing, elevators, and street isochrones.
-  * [Mobility Intelligence Analytics](./docs/mobility-intelligence/future-analytics.md) — Interchange Friction Index, OD modeling, and research tracks.
-* **Governance**:
-  * [Research Integrity & Limitations](./docs/governance/research-and-limitations.md) — Ground truth standards, simulation boundaries, and institutional engagement.
-
----
-
-## 🚀 Quickstart for Developers
+## Getting Started
 
 ### Prerequisites
-* Node.js 22 LTS
-* Docker & Docker Compose (for PostgreSQL/PostGIS and Redis)
-* npm 10+
+* **Node.js**: `v20.x` or `v22.x` (LTS)
+* **npm**: `v10.x` or newer
+* **PostgreSQL / PostGIS**: PostgreSQL 16+ with PostGIS 3.4+ extension
+* **Redis**: Redis 7+ (optional for local dev; in-memory fallback available)
+* **Docker & Docker Compose**: Optional, for containerised database setup
 
-### 1. Clone & Install Dependencies
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/Gautam2665/MetroRadar.git
 cd MetroRadar
@@ -183,43 +288,82 @@ npm install
 ```
 
 ### 2. Environment Configuration
-Copy `.env.example` to `.env` and set your database connection strings:
+Create a `.env` file in the project root based on your local database credentials:
 ```bash
-cp .env.example .env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/metroradar?schema=public"
+DIRECT_URL="postgresql://postgres:postgres@localhost:5432/metroradar?schema=public"
+PORT=3001
 ```
 
-### 3. Start Local Database & Infrastructure
+### 3. Database Setup & Prisma Generation
 ```bash
-docker-compose up -d
+# Generate the Prisma Client
+npm run db:generate
+
+# Push schema to local database
+npm run db:push
 ```
 
-### 4. Database Setup & Migrations
-```bash
-npm run db:migrate --workspace=apps/backend
-npm run db:generate --workspace=apps/backend
-```
-
-### 5. Start Development Servers
+### 4. Run Development Servers
 ```bash
 # Start backend API (NestJS on port 3001)
-npm run start:dev --workspace=apps/backend
+npm run backend:dev
 
-# Start frontend (Next.js on port 3000)
-npm run dev --workspace=apps/frontend
+# In a separate terminal, start frontend (Next.js on port 3000)
+npm run frontend:dev
 ```
 
-### 6. Export Canonical GTFS Archives
-To regenerate the 100% compliant GTFS Schedule feeds and repackage zip archives:
+### 5. Build for Production
 ```bash
-node scripts/export_synchronized_gtfs.js
+# Build both backend and frontend applications
+npm run build
 ```
 
 ---
 
-## 🤝 Research Collaboration & Institutional Inquiries
+## Documentation Index
 
-TransitOS actively seeks research partnerships with academic institutions, transport planning departments, and public mobility organizations.
+Explore the comprehensive platform documentation:
 
-* **Academic Partnerships**: Collaborative research on pedestrian transfer friction, accessibility equity, and multi-modal network modeling (e.g. via **IIT Bombay Transportation Systems Engineering / IRCC / SINE** pathways).
-* **Open Data Contributors**: See [CONTRIBUTING.md](./CONTRIBUTING.md) for instructions on submitting gate survey data, correcting station geometry, or improving pedestrian sidewalk networks.
-* **Licensing**: Core software is released under the [MIT License](LICENSE). Curated spatial datasets are published under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/).
+* **Platform Vision & Strategy**:
+  * [Product Overview](./docs/vision/product-overview.md) — Strategic purpose, user segments, and core capabilities.
+  * [Product Strategy](./docs/vision/product-strategy.md) — Phased milestones and public value framework.
+* **Architecture & Data Models**:
+  * [Platform Architecture](./docs/architecture/platform-architecture.md) — Detailed five-layer technical architecture and data flows.
+  * [Canonical Transit Model (CTM)](./docs/architecture/canonical-transit-model.md) — Entity relationships, spatial schema, and walking graph specs.
+* **Data, Quality & Provenance**:
+  * [Data Catalogue](./docs/data/data-catalogue.md) — Complete capabilities matrix and data asset index.
+  * [Data Quality Framework](./docs/data/data-quality.md) — Validation pipelines, automated audits, and schema integrity.
+  * [Provenance, Licensing & Trust](./docs/data/provenance-and-trust.md) — Source attribution, trust tiers, and licensing boundaries.
+* **APIs & Mobility Intelligence**:
+  * [API Overview & Reference](./docs/api/api-overview.md) — REST endpoint specifications, authentication, and examples.
+  * [Station Accessibility](./docs/mobility-intelligence/accessibility.md) — Step-free access, station entrances, and pedestrian reach.
+  * [Mobility Intelligence Analytics](./docs/mobility-intelligence/future-analytics.md) — Interchange friction, catchment modeling, and future research tracks.
+* **Governance**:
+  * [Research Integrity & Limitations](./docs/governance/research-and-limitations.md) — Scope of claims, ground truth standards, and research disclaimers.
+* **Project Roadmap & Tasks**:
+  * [Architecture Blueprint](./ARCHITECTURE.md)
+  * [Development Roadmap](./ROADMAP.md)
+  * [Implementation Tracker](./TODO.md)
+  * [Contributing Guide](./CONTRIBUTING.md)
+
+---
+
+## Contributing
+
+We welcome technical contributions that improve data quality, spatial accuracy, API functionality, and documentation.
+
+Areas where contributors can get involved:
+* Ground-truthing station entrance and gate coordinates.
+* Enhancing pedestrian sidewalk connectivity and barrier descriptions.
+* Expanding automated validation checks and tests.
+* Improving documentation, tutorials, and API examples.
+
+Please read our [Contributing Guide](./CONTRIBUTING.md) for details on code style, commit standards, and the pull request process. Contributions involving external datasets must include explicit source attribution and licensing terms.
+
+---
+
+## License
+
+* **Software**: The code in this repository is licensed under the [MIT License](./LICENSE).
+* **Datasets**: Individual datasets may be subject to specific operator, public record, or open database licenses. Consult individual dataset metadata in [`datasets/`](./datasets) for applicable attribution, redistribution, and usage conditions before redistributing data.
