@@ -269,11 +269,21 @@ TransitOS exposes its shared data and services through purpose-built interfaces:
 
 ## TransitOS API
 
-The TransitOS API exposes structured transit data and routing capabilities through versioned HTTP endpoints.
+The TransitOS API exposes structured transit data, real-time telemetry, and routing capabilities through versioned HTTP endpoints.
 
 * **Base URL:** `https://transitos-33xk.onrender.com/api/v1`
 * **Interactive Documentation:** [OpenAPI / Swagger Explorer](https://transitos-33xk.onrender.com/docs)
 * **System Health:** `https://transitos-33xk.onrender.com/health`
+
+### Quick-Test in Terminal (3 Seconds)
+
+```bash
+# Query active transit networks and line metadata from live production
+curl -s https://transitos-33xk.onrender.com/api/v1/networks | jq
+```
+
+[![TransitOS Interactive Swagger OpenAPI Explorer](./docs/assets/swagger-ui.png)](https://transitos-33xk.onrender.com/docs)
+*Interactive OpenAPI documentation, request builders, and schema definitions available at [/docs](https://transitos-33xk.onrender.com/docs).*
 
 ### Key Endpoints
 
@@ -286,6 +296,21 @@ The TransitOS API exposes structured transit data and routing capabilities throu
 | **Interchanges** | `GET /interchanges` | Inspect physical interchange hubs and transfer corridors |
 | **Datasets** | `GET /datasets` | Discover registered transit datasets, versions, and provenance |
 | **Journey Planning** | `GET /journeys` | Generate multi-criteria transit routes with leg breakdown |
+
+### Real-Time Telemetry & GTFS-Realtime (GTFS-RT) Architecture
+
+While public transit agencies in India rarely publish open public GTFS-RT Protobuf feeds for independent developers, TransitOS implements a hybrid ingestion and state estimation engine capable of decoding external binary `.pb` feeds and synthesizing real-time vehicle telemetry:
+
+* **GTFS-RT Entity Types Supported**:
+  1. **`VehiclePositions`**: Real-time vehicle fleet tracking with geographic coordinates (`latitude`, `longitude`), vehicle identifiers (`vehicleId`, `tripId`), instantaneous bearing/heading, speed, and stop sequence progress (`IN_TRANSIT_TO`, `ARRIVED_AT`, `STOPPED_AT`).
+  2. **`TripUpdates`**: Headway and delay tracking with stop-time arrival and departure delay predictions (`delaySeconds`, `etaMinutes`), headway variance calculations, and terminal arrival estimations.
+  3. **`ServiceAlerts`**: Corridor-level and station-level disruption notices, maintenance alerts, and line status flags.
+* **Serialization & Protocol Support**:
+  * **Protocol Buffers (`.pb`)**: Decoded via `gtfs-realtime-bindings` for upstream feed compliance.
+  * **REST / JSON Streams**: Enriched with spatial attributes (line color, destination headsigns, coach layout, and next-station metadata) served directly to the commuter frontend via high-speed Redis-backed endpoints.
+* **Live Telemetry Endpoints**:
+  * `GET /realtime/vehicles?system=MM&line=LINE1` — Query live vehicle fleet positions and spatial status across a transit line.
+  * `GET /realtime/station/:stationId` — Query live platform countdown boards (`etaMinutes`, incoming train IDs, terminal directions, and coach crowding predictions).
 
 *Refer to the [API Documentation](https://transitos-33xk.onrender.com/docs) for schema definitions, query parameters, and response structures.*
 
@@ -313,6 +338,18 @@ Authoritative Sources       Open Registries        Survey & Geometry
                     │ P0 (Auth) · P1 (Curated)     │
                     └──────────────┬───────────────┘
 ```
+
+### Official MobilityData Standards Compliance (0 Specification Errors)
+
+TransitOS validates all regional GTFS static archives against the industry standard **Canonical GTFS Schedule Validator (v8.0.1)** maintained by [MobilityData](https://mobilitydata.org).
+
+![Canonical GTFS Schedule Validation Report](./docs/assets/gtfs-validator-report.png)
+
+* **Specification Errors**: **0 Errors** verified across all 19 relational tables.
+* **Scope Validated**: **4 Transit Agencies**, **6 Metro & Monorail Corridors**, **891 Physical Stops & Wayfinding Nodes**, and **4,139 Scheduled Trips**.
+* **Modern Transit Extensions**:
+  * **GTFS-Pathways & Levels**: Full indoor graph representation (`pathways.txt`, `levels.txt`) covering accessible turnstiles, elevators, escalators, and stairs.
+  * **GTFS-Fares v2**: Rule-based fare products (`fare_leg_rules.txt`, `fare_transfer_rules.txt`, `fare_products.txt`, `fare_media.txt`) powering automated multi-tier fare computation.
 
 > **Data Integrity Notice**: Schema compliance does not imply complete real-world coverage. Official operator data, open geographic datasets, and independent field surveys have different precision levels. Known limitations and licensing conditions are documented in our [Data Quality & Provenance Guide](./docs/data/provenance-and-trust.md).
 
