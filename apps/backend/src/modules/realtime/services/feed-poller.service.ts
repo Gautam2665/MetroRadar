@@ -4,8 +4,8 @@ import { FeedDownloaderService } from './feed-downloader.service';
 import { GtfsRtParserService } from './gtfs-rt-parser.service';
 import { VehiclePositionService } from './vehicle-position.service';
 
-const PROVIDER = 'OTD';
-const SYSTEM_CODE = 'DMRC';
+const PROVIDER = 'TRANSITOS_TELEMETRY';
+const SYSTEM_CODE = 'MM';
 
 @Injectable()
 export class FeedPollerService implements OnModuleInit {

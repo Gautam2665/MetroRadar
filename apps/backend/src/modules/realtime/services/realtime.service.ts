@@ -7,8 +7,8 @@ import {
   RealtimeFeedResponse,
 } from '../interfaces/gtfs-realtime.interface';
 
-const PROVIDER = 'OTD';
-const SYSTEM_CODE = 'DMRC';
+const PROVIDER = 'TRANSITOS_TELEMETRY';
+const SYSTEM_CODE = 'MM';
 
 interface ShapeVertex {
   lng: number;
