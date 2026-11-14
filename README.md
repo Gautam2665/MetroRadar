@@ -271,14 +271,17 @@ TransitOS exposes its shared data and services through purpose-built interfaces:
 
 The TransitOS API exposes structured transit data, real-time telemetry, and routing capabilities through versioned HTTP endpoints.
 
-* **Base URL:** `https://transitos-33xk.onrender.com/api/v1`
-* **Interactive Documentation:** [OpenAPI / Swagger Explorer](https://transitos-33xk.onrender.com/docs)
-* **System Health:** `https://transitos-33xk.onrender.com/health`
+* **Interactive Documentation (Swagger UI):** [https://transitos-33xk.onrender.com/docs](https://transitos-33xk.onrender.com/docs)
+* **API Gateway Base URL:** `https://transitos-33xk.onrender.com/api/v1`
+* **System Health:** [https://transitos-33xk.onrender.com/health](https://transitos-33xk.onrender.com/health)
 
 ### Quick-Test in Terminal (3 Seconds)
 
 ```bash
-# Query active transit networks and line metadata from live production
+# 1. Query the live API Gateway Service Discovery Index
+curl -s https://transitos-33xk.onrender.com/api/v1 | jq
+
+# 2. Query active transit networks and line metadata
 curl -s https://transitos-33xk.onrender.com/api/v1/networks | jq
 ```
 
@@ -289,12 +292,14 @@ curl -s https://transitos-33xk.onrender.com/api/v1/networks | jq
 
 | Resource | Method & Path | Description |
 |---|---|---|
-| **Networks** | `GET /networks` | Discover supported transit systems and coverage areas |
-| **Corridors** | `GET /corridors` | Retrieve transit corridors, lines, codes, and metadata |
-| **Stations** | `GET /stations` | Query stations, search by coordinates, and explore lines |
-| **Station Detail** | `GET /stations/:id` | Retrieve station infrastructure, platforms, and verified gates |
-| **Interchanges** | `GET /interchanges` | Inspect physical interchange hubs and transfer corridors |
-| **Datasets** | `GET /datasets` | Discover registered transit datasets, versions, and provenance |
+| **API Index** | `GET /api/v1` | Service discovery catalogue and endpoint index |
+| **Networks** | `GET /api/v1/networks` | Discover supported transit systems and coverage areas |
+| **Corridors** | `GET /api/v1/corridors` | Retrieve transit corridors, lines, codes, and metadata |
+| **Stations** | `GET /api/v1/stations` | Query stations, search by coordinates, and explore lines |
+| **Station Detail** | `GET /api/v1/stations/:id` | Retrieve station infrastructure, platforms, and verified gates |
+| **Digital Twin** | `GET /stations/:id/digital-twin` | Full multi-level station indoor graph (levels, gates, amenities) |
+| **Interchanges** | `GET /api/v1/interchanges` | Inspect physical interchange hubs and transfer corridors |
+| **Datasets** | `GET /api/v1/datasets` | Discover registered transit datasets, versions, and provenance |
 | **Journey Planning** | `GET /journeys` | Generate multi-criteria transit routes with leg breakdown |
 
 ### Real-Time Telemetry & GTFS-Realtime (GTFS-RT) Architecture

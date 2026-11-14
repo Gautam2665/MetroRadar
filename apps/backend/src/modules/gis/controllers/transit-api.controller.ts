@@ -17,6 +17,39 @@ export class TransitApiController {
     private readonly auditService: DatasetAuditService,
   ) {}
 
+  @Get()
+  @ApiOperation({
+    summary: 'TransitOS API Gateway Root & Service Discovery Index',
+    description:
+      'Returns API gateway version, status, OpenAPI documentation link, and registered endpoint catalogue.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'TransitOS Service Discovery Index.',
+  })
+  getApiIndex() {
+    return {
+      platform: 'TransitOS API Gateway',
+      version: '1.0.0',
+      status: 'OPERATIONAL',
+      documentation: 'https://transitos-33xk.onrender.com/docs',
+      openapiJson: 'https://transitos-33xk.onrender.com/api-json',
+      health: 'https://transitos-33xk.onrender.com/health',
+      endpoints: {
+        networks: '/api/v1/networks',
+        corridors: '/api/v1/corridors',
+        stations: '/api/v1/stations',
+        stationDetail: '/api/v1/stations/:id',
+        digitalTwin: '/stations/:id/digital-twin',
+        interchanges: '/api/v1/interchanges',
+        datasets: '/api/v1/datasets',
+        journeys: '/journeys',
+        realtimeVehicles: '/realtime/vehicles',
+        realtimeStation: '/realtime/station/:stationId',
+      },
+    };
+  }
+
   @Get('networks')
   @ApiOperation({
     summary: 'Discover transit networks and operating systems',
