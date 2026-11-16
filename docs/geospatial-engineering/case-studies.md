@@ -76,14 +76,14 @@ The reconstruction was structured into four systematic engineering phases:
 
 ---
 
-### Why Your Pune Modeling Details Will Impress Transportation Faculty
+### Key Spatial Modeling Innovations & Routing Rigor
 
-When demonstrating the Pune transit model to transportation engineering researchers and GIS faculty, three distinct spatial modeling decisions showcase professional rigor:
+The micro-topological reconstruction of the Pune Metro network implements three critical spatial modeling decisions that address structural failure modes in conventional transit routing graphs:
 
 #### 1. Unpaid Concourse Cross-Street Traversal vs. Paid Zone Isolation
-Elevated metro stations in Indian metropolitan areas frequently act as safe, grade-separated pedestrian overpasses across chaotic arterial highways. 
-* By modeling the Street-to-Concourse vertical path (Level 0 $\rightarrow$ Level 1) as **unpaid public space**, local pedestrians can safely enter Gate 1, traverse the mezzanine above highway traffic, and exit via Gate 2 on the opposite sidewalk without paying a fare.
-* By placing explicit Automated Fare Collection (AFC) barriers (`barrier=turnstile`) strictly on the access links between Level 1 (Concourse) and Level 2 (Platforms), we prevent a notorious routing bug in OpenTripPlanner and GraphHopper: routers will **never** falsely path non-transit pedestrians through paid platform areas as an ordinary pedestrian shortcut.
+Elevated metro stations along major urban corridors function as grade-separated pedestrian overpasses across multi-lane arterial highways.
+* **Unpaid Mezzanine Overpasses**: Modeling the street-to-concourse vertical path (Level 0 $\rightarrow$ Level 1) as unpaid public space allows routing engines to navigate pedestrians safely across wide carriageways via opposing station portals without incurring transit fare penalties.
+* **Paid Zone Boundary Enforcement**: Placing explicit Automated Fare Collection (AFC) barriers (`barrier=turnstile`) on the access links connecting Level 1 (Concourse) to Level 2 (Platforms) enforces strict topological access constraints, preventing journey planners (e.g., OpenTripPlanner, GraphHopper) from routing non-transit pedestrians through paid platform enclosures as an artificial shortcut.
 
 #### 2. Real-World Directional Platform & Accessibility-Constrained Vertical Asset Attribution
 Typical GTFS feeds collapse stations into a single centroid point, destroying accessibility intelligence.
@@ -91,8 +91,9 @@ Typical GTFS feeds collapse stations into a single centroid point, destroying ac
 * Directional platform attribution (`platform 1` vs `platform 2`, `towards=*`) linked inside the unified PTv2 `stop_area` relation enables genuine wheelchair-accessible journey planning. An accessibility-impaired commuter is routed exclusively through verified elevator portals directly to their directional boarding platform, eliminating ambiguous platform snapping.
 
 #### 3. Topological Snapping to Street Footway Graphs (No Floating Gates & Zero Synthetic Bias)
-* In standard open feeds, entrance coordinates often float 20–50 meters off the road network. When loaded into multimodal routers, the router must project or "snap" the entrance to the nearest street edge, frequently snapping onto high-speed vehicle carriageways rather than pedestrian sidewalks.
-* Every entrance and elevator in the Pune dataset is coincidentally snapped to the pedestrian footway graph, backed by 100% verified OSM ground truth without artificial synthetic gate offsets.
+* Standard transit feeds frequently supply station coordinates that float 20–50 meters away from physical rights-of-way. When ingested into multimodal routers, generic projection algorithms snap entrances to the nearest motor vehicle carriageway rather than pedestrian sidewalks.
+* In the Pune network model, every subway entrance and elevator portal is topologically coincident with the pedestrian footway graph (`footway=sidewalk`).
+* All spatial entities are anchored directly to verified OpenStreetMap surveyor geometry, purging synthetic or copy-pasted entrance coordinates to eliminate spatial hallucination and coordinate drift.
 
 ---
 
