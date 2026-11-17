@@ -10,7 +10,7 @@ import {
 } from '../services/entrance-snapping.service';
 
 @ApiTags('Datasets Governance & Audit')
-@Controller(['api/v1/datasets', 'datasets'])
+@Controller('api/v1/datasets')
 export class DatasetsController {
   constructor(
     private readonly auditService: DatasetAuditService,

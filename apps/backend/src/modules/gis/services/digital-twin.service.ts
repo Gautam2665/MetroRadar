@@ -43,7 +43,15 @@ export class DigitalTwinService {
         id,
       );
     const station = await this.prisma.station.findFirst({
-      where: isUuid ? { id, isActive: true } : { code: id, isActive: true },
+      where: isUuid
+        ? { id, isActive: true }
+        : {
+            OR: [
+              { code: { equals: id, mode: 'insensitive' } },
+              { name: { contains: id, mode: 'insensitive' } },
+            ],
+            isActive: true,
+          },
       include: {
         levels: {
           where: { isActive: true },

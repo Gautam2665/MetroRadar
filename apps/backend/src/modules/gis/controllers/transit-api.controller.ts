@@ -43,6 +43,10 @@ export class TransitApiController {
         digitalTwin: '/stations/:id/digital-twin',
         interchanges: '/api/v1/interchanges',
         datasets: '/api/v1/datasets',
+        datasetsAudit: '/api/v1/datasets/audit',
+        pedestrianNetwork: '/api/v1/analytics/pedestrian-network',
+        stationCatchment: '/api/v1/analytics/stations/:id/catchment',
+        pedestrianRoute: '/api/v1/analytics/pedestrian/route',
         journeys: '/journeys',
         realtimeVehicles: '/realtime/vehicles',
         realtimeStation: '/realtime/station/:stationId',
@@ -374,13 +378,24 @@ export class TransitApiController {
     if (cached) return cached;
 
     let catalog: any = { datasets: [] };
-    const catalogPath = path.join(process.cwd(), 'datasets/catalog.json');
-    if (fs.existsSync(catalogPath)) {
-      try {
-        const raw = fs.readFileSync(catalogPath, 'utf8');
-        catalog = JSON.parse(raw);
-      } catch (err) {
-        // fallback
+    const candidatePaths = [
+      path.join(process.cwd(), 'datasets/catalog.json'),
+      path.join(process.cwd(), '../datasets/catalog.json'),
+      path.join(process.cwd(), '../../datasets/catalog.json'),
+      path.resolve(__dirname, '../../../../datasets/catalog.json'),
+      path.resolve(__dirname, '../../../../../datasets/catalog.json'),
+      path.resolve(__dirname, '../../../../../../datasets/catalog.json'),
+    ];
+
+    for (const p of candidatePaths) {
+      if (fs.existsSync(p)) {
+        try {
+          const raw = fs.readFileSync(p, 'utf8');
+          catalog = JSON.parse(raw);
+          break;
+        } catch (err) {
+          // ignore error and try next candidate
+        }
       }
     }
 

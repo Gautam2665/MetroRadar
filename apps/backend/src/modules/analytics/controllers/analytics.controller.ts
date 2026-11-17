@@ -15,7 +15,7 @@ import {
 import { PedestrianRouteResult } from '../interfaces/pedestrian-routing.interface';
 
 @ApiTags('Mobility Analytics & Geospatial Intelligence')
-@Controller(['api/v1/analytics', 'analytics'])
+@Controller('api/v1/analytics')
 export class AnalyticsController {
   constructor(
     private readonly isochroneService: IsochroneService,

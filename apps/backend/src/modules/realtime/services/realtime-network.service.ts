@@ -88,6 +88,18 @@ export class RealtimeNetworkService {
       }
     }
 
+    if (!targetStation) {
+      targetStation = await this.prisma.station.findFirst({
+        where: {
+          OR: [
+            { code: { equals: stationId, mode: 'insensitive' } },
+            { name: { contains: stationId, mode: 'insensitive' } },
+          ],
+          isActive: true,
+        },
+      });
+    }
+
     if (!targetStation && stationId.startsWith('PF_')) {
       const derivedCode = stationId.replace(/^PF_/, '').replace(/_\d+$/, '');
       const derivedStation = await this.prisma.station.findFirst({
