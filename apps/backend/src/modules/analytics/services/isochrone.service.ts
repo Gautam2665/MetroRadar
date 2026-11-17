@@ -126,6 +126,10 @@ export class IsochroneService {
           };
         });
 
+        const isEntranceConnected = (e: any) =>
+          e.snappedNodeId !== null ||
+          (e.snappedPedestrianEdgeId !== null && (e.snapDistanceMeters ?? 0) <= 50);
+
         return {
           station: {
             id: station.id,
@@ -134,13 +138,11 @@ export class IsochroneService {
             latitude: station.latitude,
             longitude: station.longitude,
             activeEntrancesCount: station.entrances.length,
-            connectedEntrancesCount: station.entrances.filter(
-              (e) => e.snappedNodeId !== null,
-            ).length,
+            connectedEntrancesCount: station.entrances.filter(isEntranceConnected).length,
             connectivityPercent:
               station.entrances.length > 0
                 ? Math.round(
-                    (station.entrances.filter((e) => e.snappedNodeId !== null).length /
+                    (station.entrances.filter(isEntranceConnected).length /
                       station.entrances.length) *
                       100,
                   )
@@ -150,9 +152,11 @@ export class IsochroneService {
               name: e.name,
               latitude: e.latitude,
               longitude: e.longitude,
-              snappedNodeId: e.snappedNodeId ? e.snappedNodeId.toString() : null,
-              snapDistanceMeters: e.snapDistanceMeters,
-              isConnected: e.snappedNodeId !== null,
+              snappedNodeId: e.snappedNodeId
+                ? e.snappedNodeId.toString()
+                : e.snappedPedestrianEdgeId ?? null,
+              snapDistanceMeters: e.snapDistanceMeters ?? 0,
+              isConnected: isEntranceConnected(e),
             })),
           },
           metadata: {
@@ -428,14 +432,19 @@ export class IsochroneService {
         reachableNodes = visited.size;
         isConnected = reachableNodes > 10;
       }
+      if (!isConnected && ent.snappedPedestrianEdgeId !== null && (ent.snapDistanceMeters ?? 0) <= 50) {
+        isConnected = true;
+      }
       const gateExpectedLevel = /concourse|fob|skywalk|bridge/i.test(ent.name) ? '1' : '0';
       return {
         id: ent.id,
         name: ent.name,
         latitude: ent.latitude,
         longitude: ent.longitude,
-        snappedNodeId: ent.snappedNodeId ? ent.snappedNodeId.toString() : null,
-        snapDistanceMeters: ent.snapDistanceMeters,
+        snappedNodeId: ent.snappedNodeId
+          ? ent.snappedNodeId.toString()
+          : ent.snappedPedestrianEdgeId ?? null,
+        snapDistanceMeters: ent.snapDistanceMeters ?? 0,
         isConnected,
         reachableNodesCount: reachableNodes,
         level: gateExpectedLevel,
